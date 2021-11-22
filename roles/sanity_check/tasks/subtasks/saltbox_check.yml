@@ -1,0 +1,18 @@
+#########################################################################
+# Title:         Sandbox: Sanity Check | Saltbox Check                  #
+# Author(s):     desimaniac, salty                                      #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Check if 'saltbox' folder is present"
+  stat:
+    path: "/srv/git/saltbox"
+  register: saltbox_path
+
+- name: "Fail when 'saltbox' folder does not exist"
+  fail:
+    msg: "Saltbox installation is required before running the Saltbox Community roles."
+  when: not saltbox_path.stat.exists

@@ -1,2 +1,3 @@
 ---
-
+role:
+  role_var: "test"

@@ -1,0 +1,20 @@
+#########################################################################
+# Title:         Sandbox: Sanity Check                                  #
+# Author(s):     desimaniac, salty                                      #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Saltbox Check"
+  import_tasks: "subtasks/saltbox_check.yml"
+
+- name: "Ansible Check"
+  import_tasks: "subtasks/ansible_check.yml"
+
+- name: "Backup Check"
+  import_tasks: "subtasks/backup_check.yml"
+
+- name: "Tags Check"
+  import_tasks: "subtasks/tags_check.yml"

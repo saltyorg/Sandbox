@@ -1,0 +1,37 @@
+#########################################################################
+# Title:         Sandbox: Settings                                      #
+# Author(s):     l3uddz, desimaniac, Migz93, salty                      #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Install ruamel.yaml"
+  pip:
+    name: ruamel.yaml
+    executable: pip3
+
+- name: "Get 'sandbox.yml' info."
+  stat:
+    path: "{{ playbook_dir }}/sandbox.yml"
+  register: sandbox_yml
+
+- name: "Settings: Ansible Config"
+  include_tasks: "ansible_config.yml"
+  with_items:
+    - "ansible.cfg"
+
+- name: Initialize empty lists and vars
+  set_fact:
+    files_updated_successfully: []
+    files_updated_unsuccessfully: []
+    exit_is_necessary: false
+
+- name: "Setting: Settings Updater"
+  include_tasks: "settings_updater.yml"
+  with_items:
+    - "settings.yml"
+
+- name: "Settings: Exit After Changes"
+  include_tasks: "exit.yml"
