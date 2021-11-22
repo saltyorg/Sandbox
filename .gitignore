@@ -1,0 +1,17 @@
+# MacOS
+.DS_Store
+
+# Python
+*.pyc
+
+# VSCode
+.vscode/
+
+# Ansible
+/*.retry
+
+# Community
+/ansible.cfg
+/*.yml
+!/sandbox.yml
+/*.log
