@@ -1,9 +1,8 @@
-# Saltbox Community Repo
+# Saltbox Sandbox Repo
 [![Discord](https://img.shields.io/discord/853755447970758686)](https://discord.gg/ugfKXpFND8)
-[![Docs:](https://img.shields.io/badge/docs-docs.saltbox.dev-blue)](https://docs.saltbox.dev)
-[![CI](https://github.com/saltyorg/Community/actions/workflows/community.yml/badge.svg)](https://github.com/saltyorg/Community/actions/workflows/community.yml)
-[![Ansible Lint](https://github.com/saltyorg/Community/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/saltyorg/Community/actions/workflows/ansible-lint.yml)
-[![License:](https://img.shields.io/github/license/saltyorg/Community)](LICENSE.md)
+[![CI](https://github.com/saltyorg/Sandbox/actions/workflows/sandbox.yml/badge.svg)](https://github.com/saltyorg/Sandbox/actions/workflows/sandbox.yml)
+[![Ansible Lint](https://github.com/saltyorg/Sandbox/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/saltyorg/Sandbox/actions/workflows/ansible-lint.yml)
+[![License:](https://img.shields.io/github/license/saltyorg/Sandbox)](LICENSE.md)
 
 Community Repository for Unofficial Saltbox Add-ons
 
@@ -13,13 +12,13 @@ Community Repository for Unofficial Saltbox Add-ons
 
 ### Documentation
 
-- [Docs](https://docs.saltbox.dev) (WIP)
+- Undetermined
 
 ### Roles
 
 List of roles can be found by running
 ```
-cd /opt/community && sudo ansible-playbook community.yml --list-tags 2>&1 | grep "TASK TAGS" | cut -d":" -f2 | awk '{sub(/\[/, "")sub(/\]/, "")}1' | sed -e 's/,//g' | xargs -n 1 | sort -u
+cd /opt/sandbox && sudo ansible-playbook sandbox.yml --list-tags 2>&1 | grep "TASK TAGS" | cut -d":" -f2 | awk '{sub(/\[/, "")sub(/\]/, "")}1' | sed -e 's/,//g' | xargs -n 1 | sort -u
 ```
 
 ### Contributors
