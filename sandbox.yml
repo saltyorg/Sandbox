@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  vars_files:
+    - ['settings.yml', 'defaults/settings.yml.default']
+    - ['/srv/git/saltbox/accounts.yml', '/srv/git/saltbox/defaults/accounts.yml.default']
+    - ['/srv/git/saltbox/settings.yml', '/srv/git/saltbox/defaults/settings.yml.default']
+    - ['/srv/git/saltbox/adv_settings.yml', '/srv/git/saltbox/defaults/adv_settings.yml.default']
+  roles:
+    # Reqs
+    - { role: settings, tags: ['settings'] }
+    - { role: sanity_check, tags: ['always', 'sanity_check'] }
+    - { role: pre_tasks, tags: ['pre_tasks'] }
+    # Apps
+    - { role: role, tags: ['roletag'] }
