@@ -10,7 +10,7 @@
 # Ansible
 /*.retry
 
-# Community
+# Sandbox
 /ansible.cfg
 /*.yml
 !/sandbox.yml
