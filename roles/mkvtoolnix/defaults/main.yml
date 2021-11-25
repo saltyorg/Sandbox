@@ -1,0 +1,152 @@
+
+#########################################################################
+# Title:         Sandbox: MKVToolNix | Default Variables                #
+# Author(s):     sevos                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+mkvtoolnix_name: mkvtoolnix
+
+################################
+# Paths
+################################
+
+mkvtoolnix_paths_folder: "{{ mkvtoolnix_name }}"
+mkvtoolnix_paths_location: "{{ server_appdata_path }}/{{ mkvtoolnix_paths_folder }}"
+mkvtoolnix_paths_folders_list:
+  - "{{ mkvtoolnix_paths_location }}"
+
+################################
+# Web
+################################
+
+mkvtoolnix_web_subdomain: "{{ mkvtoolnix_name }}"
+mkvtoolnix_web_domain: "{{ user.domain }}"
+mkvtoolnix_web_port: "5800"
+mkvtoolnix_web_url: "{{ 'https://' + mkvtoolnix_web_subdomain + '.' + mkvtoolnix_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + mkvtoolnix_web_port }}"
+
+################################
+# DNS
+################################
+
+mkvtoolnix_dns_record: "{{ mkvtoolnix_web_subdomain }}"
+mkvtoolnix_dns_zone: "{{ mkvtoolnix_web_domain }}"
+
+################################
+# Traefik
+################################
+
+mkvtoolnix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+mkvtoolnix_traefik_middleware: "{{ traefik_default_middleware + ',' + mkvtoolnix_traefik_sso_middleware
+                                if (mkvtoolnix_traefik_sso_middleware | length > 0)
+                                else traefik_default_middleware }}"
+mkvtoolnix_traefik_certresolver: "{{ traefik_default_certresolver }}"
+mkvtoolnix_traefik_enabled: true
+mkvtoolnix_traefik_api_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+mkvtoolnix_docker_container: "{{ mkvtoolnix_name }}"
+
+# Image
+mkvtoolnix_docker_image_pull: true
+mkvtoolnix_docker_image_tag: "latest"
+mkvtoolnix_docker_image: "jlesage/mkvtoolnix:{{ mkvtoolnix_docker_image_tag }}"
+
+# Ports
+mkvtoolnix_docker_ports_defaults:
+  - "{{ mkvtoolnix_web_port }}"
+mkvtoolnix_docker_ports_custom: []
+mkvtoolnix_docker_ports: "{{ mkvtoolnix_docker_ports_defaults
+                             + mkvtoolnix_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + mkvtoolnix_docker_ports_custom }}"
+
+# Envs
+mkvtoolnix_docker_envs_default:
+  USER_ID: "{{ uid }}"
+  GROUP_ID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  DISPLAY_WIDTH: "1280"
+  DISPLAY_HEIGHT: "768"
+  CLEAN_TMP_DIR: "1"
+  UMASK: "000"
+  ENABLE_CJK_FONT: "1"
+mkvtoolnix_docker_envs_custom: {}
+mkvtoolnix_docker_envs: "{{ mkvtoolnix_docker_envs_default
+                            | combine(mkvtoolnix_docker_envs_custom) }}"
+
+# Commands
+mkvtoolnix_docker_commands_default: []
+mkvtoolnix_docker_commands_custom: []
+mkvtoolnix_docker_commands: "{{ mkvtoolnix_docker_commands_default
+                                + mkvtoolnix_docker_commands_custom }}"
+
+# Volumes
+mkvtoolnix_docker_volumes_default:
+  - "{{ mkvtoolnix_paths_location }}:/config:rw"
+  - "/mnt/unionfs:/storage"
+  - "/mnt:/mnt"
+mkvtoolnix_docker_volumes_custom: []
+mkvtoolnix_docker_volumes: "{{ mkvtoolnix_docker_volumes_default }}"
+
+# Devices
+mkvtoolnix_docker_devices_default: []
+mkvtoolnix_docker_devices_custom: []
+mkvtoolnix_docker_devices: "{{ mkvtoolnix_docker_devices_default
+                               + mkvtoolnix_docker_devices_custom }}"
+
+# Hosts
+mkvtoolnix_docker_hosts_default: []
+mkvtoolnix_docker_hosts_custom: []
+mkvtoolnix_docker_hosts: "{{ docker_hosts_common
+                             | combine(mkvtoolnix_docker_hosts_default)
+                             | combine(mkvtoolnix_docker_hosts_custom) }}"
+
+# Labels
+mkvtoolnix_docker_labels_default: {}
+mkvtoolnix_docker_labels_custom: {}
+mkvtoolnix_docker_labels: "{{ docker_labels_common
+                              | combine(mkvtoolnix_docker_labels_default)
+                              | combine(mkvtoolnix_docker_labels_custom) }}"
+
+# Hostname
+mkvtoolnix_docker_hostname: "{{ mkvtoolnix_name }}"
+
+# Networks
+mkvtoolnix_docker_networks_alias: "{{ mkvtoolnix_name }}"
+mkvtoolnix_docker_networks_default: []
+mkvtoolnix_docker_networks_custom: []
+mkvtoolnix_docker_networks: "{{ docker_networks_common
+                                + mkvtoolnix_docker_networks_default
+                                + mkvtoolnix_docker_networks_custom }}"
+
+# Capabilities
+mkvtoolnix_docker_capabilities_default: []
+mkvtoolnix_docker_capabilities_custom: []
+mkvtoolnix_docker_capabilities: "{{ mkvtoolnix_docker_capabilities_default
+                                    + mkvtoolnix_docker_capabilities_custom }}"
+
+# Security Opts
+mkvtoolnix_docker_security_opts_default: []
+mkvtoolnix_docker_security_opts_custom: []
+mkvtoolnix_docker_security_opts: "{{ mkvtoolnix_docker_security_opts_default
+                                     + mkvtoolnix_docker_security_opts_custom }}"
+
+# Restart Policy
+mkvtoolnix_docker_restart_policy: unless-stopped
+
+# State
+mkvtoolnix_docker_state: started

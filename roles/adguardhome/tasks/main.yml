@@ -1,0 +1,48 @@
+#########################################################################
+# Title:         Sandbox: AdGuard Home                                  #
+# Author(s):     sevos                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+- name: "Settings | Check if AdGuardHome.yaml exists"
+  stat:
+    path: "{{ adguardhome_config_path }}"
+  register: adguardhome_config
+
+- name: "Settings | New AdGuardHome.yaml tasks"
+  block:
+
+    - name: "Settings | Import AdGuardHome.yaml.js2"
+      template:
+        src: AdGuardHome.yaml.js2
+        dest: '{{ adguardhome_config_path }}'
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+        force: yes
+
+  when: not adguardhome_config.stat.exists
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
