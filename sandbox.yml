@@ -15,3 +15,4 @@
     # Apps
     - { role: adguardhome, tags: ['adguardhome'] }
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
+    - { role: notifiarr, tags: ['notifiarr'] }
