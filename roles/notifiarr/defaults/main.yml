@@ -1,0 +1,141 @@
+##########################################################################
+# Title:            sandbox: Notifiarr Client | Default Variables        #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+notifiarr_name: notifiarr
+
+################################
+# Paths
+################################
+
+notifiarr_paths_folder: "{{ notifiarr_name }}"
+notifiarr_paths_location: "{{ server_appdata_path }}/{{ notifiarr_paths_folder }}"
+notifiarr_paths_folders_list:
+  - "{{ notifiarr_paths_location }}"
+notifiarr_paths_config_location: "{{ notifiarr_paths_location }}/notifiarr.conf"
+
+################################
+# Web
+################################
+
+notifiarr_web_subdomain: "{{ notifiarr_name }}"
+notifiarr_web_domain: "{{ user.domain }}"
+notifiarr_web_port: "5454"
+notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + notifiarr_web_port }}"
+
+################################
+# DNS
+################################
+
+notifiarr_dns_record: "{{ notifiarr_web_subdomain }}"
+notifiarr_dns_zone: "{{ notifiarr_web_domain }}"
+
+################################
+# Traefik
+################################
+
+notifiarr_traefik_middleware: "{{ traefik_default_middleware }}"
+notifiarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+notifiarr_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+notifiarr_docker_container: "{{ notifiarr_name }}"
+
+# Image
+notifiarr_docker_image_pull: true
+notifiarr_docker_image_tag: "latest"
+notifiarr_docker_image: "golift/notifiarr:{{ notifiarr_docker_image_tag }}"
+
+# Ports
+notifiarr_docker_ports_defaults:
+  - "{{ notifiarr_web_port }}"
+notifiarr_docker_ports_custom: []
+notifiarr_docker_ports: "{{ notifiarr_docker_ports_defaults
+                            + notifiarr_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + notifiarr_docker_ports_custom }}"
+
+# Envs
+notifiarr_docker_envs_default: {}
+notifiarr_docker_envs_custom: {}
+notifiarr_docker_envs: "{{ notifiarr_docker_envs_default
+                           | combine(notifiarr_docker_envs_custom) }}"
+
+# Commands
+notifiarr_docker_commands_default: []
+notifiarr_docker_commands_custom: []
+notifiarr_docker_commands: "{{ notifiarr_docker_commands_default
+                               + notifiarr_docker_commands_custom }}"
+
+# Volumes
+notifiarr_docker_volumes_default:
+  - "{{ notifiarr_paths_config_location }}:/config/notifiarr.conf"
+  - "/var/run/utmp:/var/run/utmp"
+notifiarr_docker_volumes_custom: []
+notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
+                              + notifiarr_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+notifiarr_docker_devices_default: []
+notifiarr_docker_devices_custom: []
+notifiarr_docker_devices: "{{ notifiarr_docker_devices_default
+                              + notifiarr_docker_devices_custom }}"
+
+# Hosts
+notifiarr_docker_hosts_default: []
+notifiarr_docker_hosts_custom: []
+notifiarr_docker_hosts: "{{ docker_hosts_common
+                            | combine(notifiarr_docker_hosts_default)
+                            | combine(notifiarr_docker_hosts_custom) }}"
+
+# Labels
+notifiarr_docker_labels_default: {}
+notifiarr_docker_labels_custom: {}
+notifiarr_docker_labels: "{{ docker_labels_common
+                             | combine(notifiarr_docker_labels_default)
+                             | combine(notifiarr_docker_labels_custom) }}"
+
+# Hostname
+notifiarr_docker_hostname: "{{ notifiarr_name }}"
+
+# Networks
+notifiarr_docker_networks_alias: "{{ notifiarr_name }}"
+notifiarr_docker_networks_default: []
+notifiarr_docker_networks_custom: []
+notifiarr_docker_networks: "{{ docker_networks_common
+                               + notifiarr_docker_networks_default
+                               + notifiarr_docker_networks_custom }}"
+
+# Capabilities
+notifiarr_docker_capabilities_default: []
+notifiarr_docker_capabilities_custom: []
+notifiarr_docker_capabilities: "{{ notifiarr_docker_capabilities_default
+                                   + notifiarr_docker_capabilities_custom }}"
+
+# Security Opts
+notifiarr_docker_security_opts_default: []
+notifiarr_docker_security_opts_custom: []
+notifiarr_docker_security_opts: "{{ notifiarr_docker_security_opts_default
+                                    + notifiarr_docker_security_opts_custom }}"
+
+# Restart Policy
+notifiarr_docker_restart_policy: unless-stopped
+
+# State
+notifiarr_docker_state: started

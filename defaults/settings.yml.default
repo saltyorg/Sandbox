@@ -1,3 +1,5 @@
 ---
 role:
   role_var: "test"
+notifiarr:
+  api_key: "api-key-from-notifiarr.com"

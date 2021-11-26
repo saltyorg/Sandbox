@@ -1,0 +1,26 @@
+##########################################################################
+# Title:            Sandbox: Notifiarr                                   #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Settings | Check if `{{ notifiarr_paths_config_location | basename }}` exists
+  stat:
+    path: "{{ notifiarr_paths_config_location }}"
+  register: notifiarr_config
+
+- name: Settings | New `{{ notifiarr_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ notifiarr_paths_config_location | basename }}`
+      template:
+        src: notifiarr.conf.j2
+        dest: "{{ notifiarr_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not notifiarr_config.stat.exists
