@@ -1,0 +1,197 @@
+###############################################
+# Notifiarr Client Example Configuration File #
+# Created by Notifiarr v0.2.1   @ 212910T0624 #
+###############################################
+
+# This API key must be copied from your notifiarr.com account.
+api_key = "{{ notifiarr.api_key }}"
+
+## The ip:port to listen on for incoming HTTP requests. 0.0.0.0 means all/any IP and is recommended!
+## You may use "127.0.0.1:5454" to listen only on localhost; good if using a local proxy.
+## This is used to receive Plex webhooks and Media Request commands.
+##
+bind_addr = "0.0.0.0:5454"
+
+## This application can update itself on Windows systems.
+## Set this to "daily" to check GitHub every day for updates.
+## You may also set it to a Go duration like "12h" or "72h".
+## THIS ONLY WORKS ON WINDOWS
+auto_update = "off"
+
+## Quiet makes the app not log anything to output.
+## Recommend setting log files if you make the app quiet.
+## This is always true on Windows and macOS app.
+## Log files are automatically written on those platforms.
+##
+quiet = false
+
+## All API paths start with /api. This does not affect incoming /plex webhooks.
+## Change it to /somethingelse/api by setting urlbase to "/somethingelse"
+##
+urlbase = "/"
+
+## Allowed upstream networks. The networks here are allowed to send x-forwarded-for.
+## Set this to your reverse proxy server's IP or network. If you leave off the mask,
+## then /32 or /128 is assumed depending on IP version. Empty by default. Example:
+##
+#upstreams = [ "127.0.0.1/32", "::1/128" ]
+
+## If you provide a cert and key file (pem) paths, this app will listen with SSL/TLS.
+## Uncomment both lines and add valid file paths. Make sure this app can read them.
+##
+#ssl_key_file  = '/path/to/cert.key'
+#ssl_cert_file = '/path/to/cert.key'
+
+## If you set these, logs will be written to these files.
+## If blank on windows or macOS, log file paths are chosen for you.
+log_file = '/config/notifiarr.log'
+http_log = '/config/notifiarr.http.log'
+##
+## Set this to the number of megabytes to rotate files.
+log_file_mb = 100
+##
+## How many files to keep? 0 = all.
+log_files = 5
+##
+## Unix file mode for new log files. Umask also affects this.
+## Missing, blank or 0 uses default of 0600. Permissive is 0644. Ignored by Windows.
+file_mode = "0600"
+
+## Web server and application timeouts.
+##
+timeout = "1m0s"
+
+
+##################
+# Starr Settings #
+##################
+
+## The API keys are specific to the app. Get it from Settings -> General.
+## Configurations for unused apps are harmless. Set URL and API key for
+## apps you have and want to make requests to using Media Bot.
+## See the Service Checks section below for information about setting the names.
+##
+## Examples follow. UNCOMMENT (REMOVE #), AT MINIMUM: [[header]], url, api_key
+
+#[[lidarr]]
+#name     = "lidarr" # Set a name to enable checks of your service.
+#url      = "http://lidarr:8989/"
+#api_key  = " lidarr_api_key "
+
+[[radarr]]
+{% if radarr_api_key is defined %}
+name      = "radarr" # Set a name to enable checks of your service.
+url       = "http://radarr:7878/radarr"
+api_key   = "{{ radarr_api_key }}"
+{% endif %}
+
+#[[readarr]]
+#name      = "readarr" # Set a name to enable checks of your service.
+#url       = "http://readarr:8787/readarr"
+#api_key   = " readarr_api_key "
+
+[[sonarr]]
+{% if sonarr_api_key is defined %}
+name      = "sonarr"  # Set a name to enable checks of your service.
+url       = "http://sonarr:8989"
+api_key   = "{{ sonarr_api_key }}"
+{% endif %}
+
+# Download Client Configs (below) are used for dashboard state and service checks.
+
+#[[deluge]]
+#name     = ""  # Set a name to enable checks of your service.
+#url      = "http://deluge:8112/"
+#password = ""
+
+
+#[[qbit]]
+#name     = "qbittorrent"  # Set a name to enable checks of your service.
+#url      = "http://qbittorrent:8080/"
+#user     = ""
+#pass     = ""
+
+
+#[[sabnzbd]]
+#name     = "sabnzbd"  # Set a name to enable checks of this application.
+#url      = "http://sabnzbd:8080/"
+#api_key  = ""
+
+
+#################
+# Plex Settings #
+#################
+
+## Find your token: https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/
+##
+[plex]
+{% if plex_auth_token is defined %}
+  url     = "{{ plex_web_url }}"     # Your plex URL
+  token   = "{{ plex_auth_token }}"  # your plex token; get this from a web inspector
+{% endif %}
+
+#####################
+# Tautulli Settings #
+#####################
+
+# Enables email=>username map. Set a name to enable service checks.
+# Must uncomment [tautulli], 'api_key' and 'url' at a minimum.
+
+[tautulli]
+{% if tautulli_api_key is defined %}
+  name    = "tautulli" # only set a name to enable service checks.
+  url     = "{{ tautulli_web_url }}" # Your Tautulli URL
+  api_key = "{{ tautulli_api_key }}" # your tautulli api key; get this from settings
+{% endif %}
+
+##################
+# MySQL Snapshot #
+##################
+
+# Enables MySQL process list in snapshot output.
+# Adding a name to a server enables TCP service checks.
+# Example Grant:
+# GRANT PROCESS ON *.* to 'notifiarr'@'localhost'
+
+#[[snapshot.mysql]]
+#name = "" # only set a name to enable service checks.
+#host = "localhost:3306"
+#user = "notifiarr"
+#pass = "password"
+
+##################
+# Service Checks #
+##################
+
+## This application performs service checks on configured services at the specified interval.
+## The service states are sent to Notifiarr.com. Failed services generate a notification.
+## Setting names on Starr apps (above) enables service checks for that app.
+## Use the [[service]] directive to add more service checks. Example below.
+
+[services]
+  disabled = false   # Setting this to true disables all service checking routines.
+  parallel = 1       # How many services to check concurrently. 1 should be enough.
+  interval = "10m0s" # How often to send service states to Notifiarr.com. Minimum = 5m.
+  log_file = ''      # Service Check logs go to the app log by default. Change that by setting a services.log file here.
+
+## Uncomment the following section to create a service check on a URL or IP:port.
+## You may include as many [[service]] sections as you have services to check.
+## Do not add Radarr, Sonarr, Readarr or Lidarr here! Add a name to enable their checks.
+##
+## Example with comments follows.
+#[[service]]
+#  name     = "MyServer"          # name must be unique
+#  type     = "http"              # type can be "http" or "tcp"
+#  check    = 'http://127.0.0.1'  # url for 'http', host/IP:port for 'tcp'
+#  expect   = "200"               # return code to expect (for http only)
+#  timeout  = "10s"               # how long to wait for tcp or http checks.
+#  interval = "5m"                # how often to check this service.
+
+## Another example. Remember to uncomment [[service]] if you use this!
+##
+#[[service]]
+#  name    = "Bazarr"
+#  type    = "http"
+#  check   = 'http://10.1.1.2:6767/series/'
+#  expect  = "200"
+#  timeout = "10s"
