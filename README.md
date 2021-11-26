@@ -12,9 +12,16 @@ Roles may get moved to the Community or main repo if they become maintained.
 
 - [Saltbox](https://github.com/saltyorg/Saltbox/)
 
+### Install
+
+Install Sandbox using the Saltbox installer.
+```
+saltbox install sandbox
+```
+
 ### Documentation
 
-- Undetermined
+- [Sandbox](https://docs.saltbox.dev/sandbox/basics/)
 
 ### Roles
 

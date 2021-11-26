@@ -1,0 +1,106 @@
+##########################################################################
+# Title:            Sandbox: Notifiarr                                   #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Import Default Tautulli variables
+  include_vars: /srv/git/saltbox/roles/tautulli/defaults/main.yml
+
+- name: Import Default Sonarr variables
+  include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
+
+- name: Import Default Radarr variables
+  include_vars: /srv/git/saltbox/roles/radarr/defaults/main.yml
+
+- name: Import Default Plex variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+# Tautulli Tasks
+- name: "Check if tautulli exists"
+  stat:
+    path: "{{ notifiarr_tautulli_config }}"
+  register: tautulli_config
+
+# Sonarr Tasks
+- name: "Check if sonarr exists"
+  stat:
+    path: "{{ notifiarr_sonarr_config }}"
+  register: sonarr_config
+
+- name: Pull sonarr api key
+  xml:
+    path: "{{ notifiarr_sonarr_config }}"
+    xpath: /Config/ApiKey
+    content: text
+  register: xmlresp
+  when: sonarr_config.stat.exists
+
+- name: Set 'sonarr_api_key'
+  set_fact:
+    sonarr_api_key: "{{ xmlresp.matches[0].ApiKey if sonarr_config.stat.exists else '' }}"
+
+# Radarr Tasks
+- name: "Check if radarr exists"
+  stat:
+    path: "{{ notifiarr_radarr_config }}"
+  register: radarr_config
+
+- name: Pull radarr api key
+  xml:
+    path: "{{ notifiarr_radarr_config }}"
+    xpath: /Config/ApiKey
+    content: text
+  register: xmlresp
+  when: radarr_config.stat.exists
+
+- name: Set 'radarr_api_key'
+  set_fact:
+    radarr_api_key: "{{ xmlresp.matches[0].ApiKey if radarr_config.stat.exists else '' }}"
+
+# Plex Tasks
+- name: Import Plex variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+- name: "Settings | Check if '{{ plex_paths_config_location | basename }}' exists"
+  stat:
+    path: "{{ plex_paths_config_location }}"
+  register: preferences_xml
+
+- name: Settings | {{ plex_name }} auth token tasks
+  block:
+
+    - name: Settings | Fetch {{ plex_name }} auth token
+      xml:
+        path: "{{ plex_paths_config_location }}"
+        xpath: /Preferences
+        content: attribute
+      register: preferences_xml_resp
+      ignore_errors: true
+
+    - name: Settings | Register {{ plex_name }} auth token value
+      set_fact:
+        plex_auth_token: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineToken }}"
+
+  when: preferences_xml.stat.exists
+
+- name: Settings | Check if `{{ notifiarr_paths_config_location | basename }}` exists
+  stat:
+    path: "{{ notifiarr_paths_config_location }}"
+  register: notifiarr_config
+
+- name: Settings | New `{{ notifiarr_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ notifiarr_paths_config_location | basename }}`
+      template:
+        src: notifiarr.conf.j2
+        dest: "{{ notifiarr_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not notifiarr_config.stat.exists
