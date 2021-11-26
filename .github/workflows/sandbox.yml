@@ -33,6 +33,9 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Disable TCP/UDP offload
+        run: sudo ethtool -K eth0 tso off gso off gro off tx off rx off lro off
+
       - uses: actions/checkout@v2
 
       - name: Install Dependencies
