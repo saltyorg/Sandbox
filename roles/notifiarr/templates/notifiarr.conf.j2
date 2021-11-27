@@ -81,13 +81,13 @@ timeout = "1m0s"
 [[radarr]]
 {% if radarr_api_key is defined %}
 name      = "radarr" # Set a name to enable checks of your service.
-url       = "http://radarr:7878/radarr"
+url       = "http://radarr:7878/"
 api_key   = "{{ radarr_api_key }}"
 {% endif %}
 
 #[[readarr]]
 #name      = "readarr" # Set a name to enable checks of your service.
-#url       = "http://readarr:8787/readarr"
+#url       = "http://readarr:8787/"
 #api_key   = " readarr_api_key "
 
 [[sonarr]]
