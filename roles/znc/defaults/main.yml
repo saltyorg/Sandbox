@@ -92,8 +92,7 @@ znc_docker_volumes_default:
   - "{{ znc_paths_location }}:/config"
 znc_docker_volumes_custom: []
 znc_docker_volumes: "{{ znc_docker_volumes_default
-                        + znc_docker_volumes_custom
-                        + docker_volumes_downloads_common }}"
+                        + znc_docker_volumes_custom }}"
 
 # Devices
 znc_docker_devices_default: []
