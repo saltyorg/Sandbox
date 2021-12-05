@@ -87,7 +87,7 @@ plexwrapped_docker_commands: "{{ plexwrapped_docker_commands_default
 
 # Volumes
 plexwrapped_docker_volumes_default:
-  - "{{ plexwrapped_paths_location }}:/config"
+  - "{{ plexwrapped_paths_location }}:/var/www/html/config"
 plexwrapped_docker_volumes_custom: []
 plexwrapped_docker_volumes: "{{ plexwrapped_docker_volumes_default
                                 + plexwrapped_docker_volumes_custom
