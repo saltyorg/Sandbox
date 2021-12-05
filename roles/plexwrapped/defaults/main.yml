@@ -50,7 +50,6 @@ plexwrapped_traefik_middleware: "{{ traefik_default_middleware + ',' + plexwrapp
                                  else traefik_default_middleware }}"
 plexwrapped_traefik_certresolver: "{{ traefik_default_certresolver }}"
 plexwrapped_traefik_enabled: true
-plexwrapped_traefik_api_enabled: true
 
 ################################
 # Docker
@@ -90,8 +89,7 @@ plexwrapped_docker_volumes_default:
   - "{{ plexwrapped_paths_location }}:/var/www/html/config"
 plexwrapped_docker_volumes_custom: []
 plexwrapped_docker_volumes: "{{ plexwrapped_docker_volumes_default
-                                + plexwrapped_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + plexwrapped_docker_volumes_custom}}"
 
 # Devices
 plexwrapped_docker_devices_default: []
