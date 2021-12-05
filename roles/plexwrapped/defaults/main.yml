@@ -1,0 +1,141 @@
+##########################################################################
+# Title:            Sandbox: Plex Wrapped   | Default Variables          #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+plexwrapped_name: plexwrapped
+
+################################
+# Paths
+################################
+
+plexwrapped_paths_folder: "{{ plexwrapped_name }}"
+plexwrapped_paths_location: "{{ server_appdata_path }}/{{ plexwrapped_paths_folder }}"
+plexwrapped_paths_folders_list:
+  - "{{ plexwrapped_paths_location }}"
+
+################################
+# Web
+################################
+
+plexwrapped_web_subdomain: "{{ plexwrapped_name }}"
+plexwrapped_web_domain: "{{ user.domain }}"
+plexwrapped_web_port: "80"
+plexwrapped_web_url: "{{ 'https://' + plexwrapped_web_subdomain + dns_record_suffix + '.' + plexwrapped_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + plexwrapped_web_port }}"
+
+################################
+# DNS
+################################
+
+plexwrapped_dns_record: "{{ plexwrapped_web_subdomain }}"
+plexwrapped_dns_zone: "{{ plexwrapped_web_domain }}"
+
+################################
+# Traefik
+################################
+
+plexwrapped_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+plexwrapped_traefik_middleware: "{{ traefik_default_middleware + ',' + plexwrapped_traefik_sso_middleware
+                                 if (plexwrapped_traefik_sso_middleware | length > 0)
+                                 else traefik_default_middleware }}"
+plexwrapped_traefik_certresolver: "{{ traefik_default_certresolver }}"
+plexwrapped_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+plexwrapped_docker_container: "{{ plexwrapped_name }}"
+
+# Image
+plexwrapped_docker_image_pull: true
+plexwrapped_docker_image_tag: "latest"
+plexwrapped_docker_image: "aunefyren/plex-wrapped:{{ plexwrapped_docker_image_tag }}"
+
+# Ports
+plexwrapped_docker_ports_defaults:
+  - "{{ plexwrapped_web_port }}"
+plexwrapped_docker_ports_custom: []
+plexwrapped_docker_ports: "{{ plexwrapped_docker_ports_defaults
+                               + plexwrapped_docker_ports_custom
+                           if (not reverse_proxy_is_enabled)
+                           else [] + plexwrapped_docker_ports_custom }}"
+
+# Envs
+plexwrapped_docker_envs_default: {}
+plexwrapped_docker_envs_custom: {}
+plexwrapped_docker_envs: "{{ plexwrapped_docker_envs_default
+                       | combine(plexwrapped_docker_envs_custom) }}"
+
+# Commands
+plexwrapped_docker_commands_default: []
+plexwrapped_docker_commands_custom: []
+plexwrapped_docker_commands: "{{ plexwrapped_docker_commands_default
+                                 + plexwrapped_docker_commands_custom}}"
+
+# Volumes
+plexwrapped_docker_volumes_default:
+  - "{{ plexwrapped_paths_location }}:/var/www/html/config"
+plexwrapped_docker_volumes_custom: []
+plexwrapped_docker_volumes: "{{ plexwrapped_docker_volumes_default
+                                + plexwrapped_docker_volumes_custom}}"
+
+# Devices
+plexwrapped_docker_devices_default: []
+plexwrapped_docker_devices_custom: []
+plexwrapped_docker_devices: "{{ plexwrapped_docker_devices_default
+                                + plexwrapped_docker_devices_custom }}"
+
+# Hosts
+plexwrapped_docker_hosts_default: []
+plexwrapped_docker_hosts_custom: []
+plexwrapped_docker_hosts: "{{ docker_hosts_common
+                              | combine(plexwrapped_docker_hosts_default)
+                              | combine(plexwrapped_docker_hosts_custom) }}"
+
+# Labels
+plexwrapped_docker_labels_default: {}
+plexwrapped_docker_labels_custom: {}
+plexwrapped_docker_labels: "{{ docker_labels_common
+                               | combine(plexwrapped_docker_labels_default)
+                               | combine(plexwrapped_docker_labels_custom) }}"
+
+# Hostname
+plexwrapped_docker_hostname: "{{ plexwrapped_name }}"
+
+# Networks
+plexwrapped_docker_networks_alias: "{{ plexwrapped_name }}"
+plexwrapped_docker_networks_default: []
+plexwrapped_docker_networks_custom: []
+plexwrapped_docker_networks: "{{ docker_networks_common
+                                 + plexwrapped_docker_networks_default
+                                 + plexwrapped_docker_networks_custom }}"
+
+# Capabilities
+plexwrapped_docker_capabilities_default: []
+plexwrapped_docker_capabilities_custom: []
+plexwrapped_docker_capabilities: "{{ plexwrapped_docker_capabilities_default
+                                     + plexwrapped_docker_capabilities_custom }}"
+
+# Security Opts
+plexwrapped_docker_security_opts_default: []
+plexwrapped_docker_security_opts_custom: []
+plexwrapped_docker_security_opts: "{{ plexwrapped_docker_security_opts_default
+                                      + plexwrapped_docker_security_opts_custom }}"
+
+# Restart Policy
+plexwrapped_docker_restart_policy: unless-stopped
+
+# State
+plexwrapped_docker_state: started

@@ -51,7 +51,6 @@ mkvtoolnix_traefik_middleware: "{{ traefik_default_middleware + ',' + mkvtoolnix
                                 else traefik_default_middleware }}"
 mkvtoolnix_traefik_certresolver: "{{ traefik_default_certresolver }}"
 mkvtoolnix_traefik_enabled: true
-mkvtoolnix_traefik_api_enabled: true
 
 ################################
 # Docker
