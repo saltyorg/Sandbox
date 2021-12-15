@@ -58,7 +58,7 @@ znc_docker_container: "{{ znc_name }}"
 # Image
 znc_docker_image_pull: true
 znc_docker_image_tag: "latest"
-znc_docker_image: "lscr.io/lscr.io/linuxserver/znc:{{ znc_docker_image_tag }}"
+znc_docker_image: "lscr.io/linuxserver/znc:{{ znc_docker_image_tag }}"
 
 # Ports
 znc_docker_ports_defaults:
