@@ -15,3 +15,4 @@
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: notifiarr, tags: ['notifiarr'] }
     - { role: wrapperr, tags: ['wrapperr'] }
+    - { role: znc, tags: ['znc'] }
