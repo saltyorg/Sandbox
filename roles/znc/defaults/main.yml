@@ -63,9 +63,9 @@ znc_docker_image: "lscr.io/linuxserver/znc:{{ znc_docker_image_tag }}"
 # Ports
 znc_docker_ports_defaults:
   - "{{ znc_web_port }}"
-  - "6502:6502"
-  - "6667:6667"
-  - "6697:6697"
+  - "0.0.0.0:6502:6502"
+  - "0.0.0.0:6667:6667"
+  - "0.0.0.0:6697:6697"
 znc_docker_ports_custom: []
 znc_docker_ports: "{{ znc_docker_ports_defaults
                       + znc_docker_ports_custom
