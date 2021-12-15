@@ -63,14 +63,17 @@ znc_docker_image: "lscr.io/linuxserver/znc:{{ znc_docker_image_tag }}"
 # Ports
 znc_docker_ports_defaults:
   - "{{ znc_web_port }}"
-  - "0.0.0.0:6502:6502"
-  - "0.0.0.0:6667:6667"
-  - "0.0.0.0:6697:6697"
+znc_docker_ports_bouncer:
+  - "6502:6502"
+  - "6667:6667"
+  - "6697:6697"
 znc_docker_ports_custom: []
 znc_docker_ports: "{{ znc_docker_ports_defaults
+                      + znc_docker_ports_bouncer
                       + znc_docker_ports_custom
                    if (not reverse_proxy_is_enabled)
-                   else [] + znc_docker_ports_custom }}"
+                   else znc_docker_ports_bouncer
+                   + znc_docker_ports_custom }}"
 
 # Envs
 znc_docker_envs_default:
