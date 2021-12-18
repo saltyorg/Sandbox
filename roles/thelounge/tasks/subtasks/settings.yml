@@ -1,0 +1,26 @@
+##########################################################################
+# Title:            Community: TheLounge                                 #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Community                #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+# - name: Settings | Check if `{{ thelounge_paths_config_location | basename }}` exists
+#   stat:
+#     path: "{{ thelounge_paths_config_location }}"
+#   register: thelounge_config
+
+# - name: Settings | New `{{ thelounge_paths_config_location | basename }}` tasks
+#   block:
+
+#     - name: Settings | Import default `{{ thelounge_paths_config_location | basename }}`
+#       template:
+#         src: config.js.j2
+#         dest: "{{ thelounge_paths_config_location }}"
+#         owner: "{{ user.name }}"
+#         group: "{{ user.name }}"
+#         mode: 0775
+
+#   when: not thelounge_config.stat.exists

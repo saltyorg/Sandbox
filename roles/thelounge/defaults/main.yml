@@ -1,0 +1,142 @@
+##########################################################################
+# Title:            Sandbox: TheLounge   | Default Variables             #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+thelounge_name: thelounge
+
+################################
+# Paths
+################################
+
+thelounge_paths_folder: "{{ thelounge_name }}"
+thelounge_paths_location: "{{ server_appdata_path }}/{{ thelounge_paths_folder }}"
+thelounge_paths_folders_list:
+  - "{{ thelounge_paths_location }}"
+# thelounge_paths_config_location: "{{ thelounge_paths_location }}/config.js"
+
+################################
+# Web
+################################
+
+thelounge_web_subdomain: "{{ thelounge_name }}"
+thelounge_web_domain: "{{ user.domain }}"
+thelounge_web_port: "9000"
+thelounge_web_url: "{{ 'https://' + thelounge_web_subdomain + '.' + thelounge_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + thelounge_web_port }}"
+
+################################
+# DNS
+################################
+
+thelounge_dns_record: "{{ thelounge_web_subdomain }}"
+thelounge_dns_zone: "{{ thelounge_web_domain }}"
+
+################################
+# Traefik
+################################
+
+thelounge_traefik_middleware: "{{ traefik_default_middleware }}"
+thelounge_traefik_certresolver: "{{ traefik_default_certresolver }}"
+thelounge_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+thelounge_docker_container: "{{ thelounge_name }}"
+
+# Image
+thelounge_docker_image_pull: true
+thelounge_docker_image_tag: "latest"
+thelounge_docker_image: "lscr.io/linuxserver/thelounge:{{ thelounge_docker_image_tag }}"
+
+# Ports
+thelounge_docker_ports_defaults:
+  - "{{ thelounge_web_port }}"
+thelounge_docker_ports_custom: []
+thelounge_docker_ports: "{{ thelounge_docker_ports_defaults
+                            + thelounge_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + thelounge_docker_ports_custom }}"
+
+# Envs
+thelounge_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+thelounge_docker_envs_custom: {}
+thelounge_docker_envs: "{{ thelounge_docker_envs_default
+                         | combine(thelounge_docker_envs_custom) }}"
+
+# Commands
+thelounge_docker_commands_default: []
+thelounge_docker_commands_custom: []
+thelounge_docker_commands: "{{ thelounge_docker_commands_default
+                             + thelounge_docker_commands_custom }}"
+
+# Volumes
+thelounge_docker_volumes_default:
+  - "{{ thelounge_paths_location }}:/config"
+thelounge_docker_volumes_custom: []
+thelounge_docker_volumes: "{{ thelounge_docker_volumes_default
+                              + thelounge_docker_volumes_custom}}"
+
+# Devices
+thelounge_docker_devices_default: []
+thelounge_docker_devices_custom: []
+thelounge_docker_devices: "{{ thelounge_docker_devices_default
+                              + thelounge_docker_devices_custom }}"
+
+# Hosts
+thelounge_docker_hosts_default: []
+thelounge_docker_hosts_custom: []
+thelounge_docker_hosts: "{{ docker_hosts_common
+                            | combine(thelounge_docker_hosts_default)
+                            | combine(thelounge_docker_hosts_custom) }}"
+
+# Labels
+thelounge_docker_labels_default: {}
+thelounge_docker_labels_custom: {}
+thelounge_docker_labels: "{{ docker_labels_common
+                             | combine(thelounge_docker_labels_default)
+                             | combine(thelounge_docker_labels_custom) }}"
+
+# Hostname
+thelounge_docker_hostname: "{{ thelounge_name }}"
+
+# Networks
+thelounge_docker_networks_alias: "{{ thelounge_name }}"
+thelounge_docker_networks_default: []
+thelounge_docker_networks_custom: []
+thelounge_docker_networks: "{{ docker_networks_common
+                               + thelounge_docker_networks_default
+                               + thelounge_docker_networks_custom }}"
+
+# Capabilities
+thelounge_docker_capabilities_default: []
+thelounge_docker_capabilities_custom: []
+thelounge_docker_capabilities: "{{ thelounge_docker_capabilities_default
+                                   + thelounge_docker_capabilities_custom }}"
+
+# Security Opts
+thelounge_docker_security_opts_default: []
+thelounge_docker_security_opts_custom: []
+thelounge_docker_security_opts: "{{ thelounge_docker_security_opts_default
+                                    + thelounge_docker_security_opts_custom }}"
+
+# Restart Policy
+thelounge_docker_restart_policy: unless-stopped
+
+# State
+thelounge_docker_state: started

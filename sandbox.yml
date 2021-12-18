@@ -14,5 +14,6 @@
     - { role: adguardhome, tags: ['adguardhome'] }
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: notifiarr, tags: ['notifiarr'] }
+    - { role: thelounge, tags: ['thelounge'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: znc, tags: ['znc'] }
