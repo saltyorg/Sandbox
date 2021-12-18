@@ -48,7 +48,7 @@ qbit_manage_docker_ports: "{{ qbit_manage_docker_ports_defaults
 qbit_manage_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  UMASK: 002
+  UMASK: "002"
   TZ: "{{ tz }}"
 qbit_manage_docker_envs_custom: {}
 qbit_manage_docker_envs: "{{ qbit_manage_docker_envs_default
