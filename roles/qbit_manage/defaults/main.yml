@@ -32,7 +32,7 @@ qbit_manage_docker_container: "{{ qbit_manage_name }}"
 
 # Image
 qbit_manage_docker_image_pull: true
-qbit_manage_docker_image_tag: "release"
+qbit_manage_docker_image_tag: "nightly"
 qbit_manage_docker_image: "cr.hotio.dev/hotio/qbitmanage:{{ qbit_manage_docker_image_tag }}"
 
 # Ports
@@ -50,6 +50,25 @@ qbit_manage_docker_envs_default:
   PGID: "{{ gid }}"
   UMASK: "002"
   TZ: "{{ tz }}"
+  QBT_RUN: "{{ qbit_manage.qbt_run }}"
+  QBT_SCHEDULE: "{{ qbit_manage.qbt_schedule }}"
+  QBT_CONFIG: "{{ qbit_manage.qbt_config }}"
+  QBT_LOGFILE: "{{ qbit_manage.qbt_logfile }}"
+  QBT_CROSS_SEED: "{{ qbit_manage.qbt_cross_seed }}"
+  QBT_RECHECK: "{{ qbit_manage.qbt_recheck }}"
+  QBT_CAT_UPDATE: "{{ qbit_manage.qbt_cat_update }}"
+  QBT_TAG_UPDATE: "{{ qbit_manage.qbt_tag_update }}"
+  QBT_REM_UNREGISTERED: "{{ qbit_manage.qbt_rem_unregistered }}"
+  QBT_REM_ORPHANED: "{{ qbit_manage.qbt_rem_orphaned }}"
+  QBT_TAG_NOHARDLINKS: "{{ qbit_manage.qbt_tag_nohardlinks }}"
+  QBT_SKIP_RECYCLE: "{{ qbit_manage.qbt_skip_recycle }}"
+  QBT_DRY_RUN: "{{ qbit_manage.qbt_dry_run }}"
+  QBT_LOG_LEVEL: "{{ qbit_manage.qbt_log_level }}"
+  QBT_DIVIDER: "{{ qbit_manage.qbt_divider }}"
+  QBT_WIDTH: "{{ qbit_manage.qbt_width }}"
+  QBT_DEBUG: "{{ qbit_manage.qbt_debug }}"
+  QBT_TRACE: "{{ qbit_manage.qbt_trace }}"
+
 qbit_manage_docker_envs_custom: {}
 qbit_manage_docker_envs: "{{ qbit_manage_docker_envs_default
                              | combine(qbit_manage_docker_envs_custom) }}"

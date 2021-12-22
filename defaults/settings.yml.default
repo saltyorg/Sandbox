@@ -3,3 +3,22 @@ role:
   role_var: "test"
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
+qbit_manage:
+  qbt_run: "false" # Run without scheduler. Script exits on completion.
+  qbt_schedule: "30" # Schedule to run every X minutes.
+  qbt_config: "config.yml" # To use a different name for your config file.
+  qbt_logfile: "activity.log" # To use a different name for your log file.
+  qbt_cross_seed: "false" # Can be used to add torrents after running cross-seed script.
+  qbt_recheck: "false" # Recheck paused torrents sorted by lowest size. Resume if Completed.
+  qbt_cat_update: "false" # Use this if you would like to update your categories.
+  qbt_tag_update: "false" # Use this if you would like to update your tags. (Only adds tags to untagged torrents)
+  qbt_rem_unregistered: "false" # Use this if you would like to remove unregistered torrents. (It will delete data & torrents)
+  qbt_rem_orphaned: "false" # Use this if you would like to remove files from root_dir that are not referenced by any torrents.
+  qbt_tag_nohardlinks: "false" # Use this to tag any torrents that do not have any hard links associated.
+  qbt_skip_recycle: "false" # Use this to skip emptying the Reycle Bin folder (/root_dir/.RecycleBin).
+  qbt_dry_run: "true" # If you would like to test what is going to happen without risk.
+  qbt_log_level: "INFO" #  Change the ouput log level.
+  qbt_divider: "=" # Character that divides the sections (Default: '=')
+  qbt_width: "100" # Screen Width (Default: 100)
+  qbt_debug: "true" # Develop branch - maybe not needed. Force debug mode.
+  qbt_trace: "true" # Develop branch - maybe not needed. Force debug mode.
