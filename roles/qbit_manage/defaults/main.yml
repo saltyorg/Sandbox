@@ -21,7 +21,6 @@ qbit_manage_paths_folder: "{{ qbit_manage_name }}"
 qbit_manage_paths_location: "{{ server_appdata_path }}/{{ qbit_manage_paths_folder }}"
 qbit_manage_paths_folders_list:
   - "{{ qbit_manage_paths_location }}"
-# qbit_manage_paths_config_location: "{{ qbit_manage_paths_location }}/configfile.yml"
 
 ################################
 # Docker
@@ -32,7 +31,7 @@ qbit_manage_docker_container: "{{ qbit_manage_name }}"
 
 # Image
 qbit_manage_docker_image_pull: true
-qbit_manage_docker_image_tag: "nightly"
+qbit_manage_docker_image_tag: "release"
 qbit_manage_docker_image: "cr.hotio.dev/hotio/qbitmanage:{{ qbit_manage_docker_image_tag }}"
 
 # Ports
