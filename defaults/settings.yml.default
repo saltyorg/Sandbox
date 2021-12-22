@@ -1,5 +1,22 @@
 ---
-role:
-  role_var: "test"
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
+qbit_manage:
+  qbt_run: "false" # Default is "false"
+  qbt_schedule: "30" # Default is "30"
+  qbt_config: "config.yml" # Default is "config.yml"
+  qbt_logfile: "activity.log" # Default is "activity.log"
+  qbt_cross_seed: "false" # Default is "false"
+  qbt_recheck: "false" # Default is "false"
+  qbt_cat_update: "false" # Default is "false"
+  qbt_tag_update: "false" # Default is "false"
+  qbt_rem_unregistered: "false" # Default is "false"
+  qbt_rem_orphaned: "false" # Default is "false"
+  qbt_tag_nohardlinks: "false" # Default is "false"
+  qbt_skip_recycle: "false" # Default is "false"
+  qbt_dry_run: "true" # Default is "false"
+  qbt_log_level: "INFO" # Default is "INFO"
+  qbt_divider: "=" # Default is "="
+  qbt_width: "100" # Default is "100"
+  qbt_debug: "false"
+  qbt_trace: "false"
