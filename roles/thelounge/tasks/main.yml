@@ -25,8 +25,5 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-# - name: Import Settings task
-#   import_tasks: "subtasks/settings.yml"
-
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

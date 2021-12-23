@@ -21,7 +21,6 @@ thelounge_paths_folder: "{{ thelounge_name }}"
 thelounge_paths_location: "{{ server_appdata_path }}/{{ thelounge_paths_folder }}"
 thelounge_paths_folders_list:
   - "{{ thelounge_paths_location }}"
-# thelounge_paths_config_location: "{{ thelounge_paths_location }}/config.js"
 
 ################################
 # Web
@@ -77,13 +76,13 @@ thelounge_docker_envs_default:
   TZ: "{{ tz }}"
 thelounge_docker_envs_custom: {}
 thelounge_docker_envs: "{{ thelounge_docker_envs_default
-                         | combine(thelounge_docker_envs_custom) }}"
+                           | combine(thelounge_docker_envs_custom) }}"
 
 # Commands
 thelounge_docker_commands_default: []
 thelounge_docker_commands_custom: []
 thelounge_docker_commands: "{{ thelounge_docker_commands_default
-                             + thelounge_docker_commands_custom }}"
+                               + thelounge_docker_commands_custom }}"
 
 # Volumes
 thelounge_docker_volumes_default:
