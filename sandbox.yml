@@ -15,5 +15,6 @@
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: notifiarr, tags: ['notifiarr'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
+    - { role: thelounge, tags: ['thelounge'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: znc, tags: ['znc'] }
