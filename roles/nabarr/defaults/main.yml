@@ -1,0 +1,108 @@
+##########################################################################
+# Title:            Sandbox: Nabarr   | Default Variables                #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+nabarr_name: nabarr
+
+################################
+# Paths
+################################
+
+nabarr_paths_folder: "{{ nabarr_name }}"
+nabarr_paths_location: "{{ server_appdata_path }}/{{ nabarr_paths_folder }}"
+nabarr_paths_folders_list:
+  - "{{ nabarr_paths_location }}"
+nabarr_paths_config_location: "{{ nabarr_paths_location }}/config.yml"
+
+################################
+# Docker
+################################
+
+# Container
+nabarr_docker_container: "{{ nabarr_name }}"
+
+# Image
+nabarr_docker_image_pull: true
+nabarr_docker_image_tag: "latest"
+nabarr_docker_image: "cloudb0x/nabarr:{{ nabarr_docker_image_tag }}"
+
+# Envs
+nabarr_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  APP_VERBOSITY: "0"
+nabarr_docker_envs_custom: {}
+nabarr_docker_envs: "{{ nabarr_docker_envs_default
+                        | combine(nabarr_docker_envs_custom) }}"
+
+# Commands
+nabarr_docker_commands_default: []
+nabarr_docker_commands_custom: []
+nabarr_docker_commands: "{{ nabarr_docker_commands_default
+                            + nabarr_docker_commands_custom }}"
+
+# Volumes
+nabarr_docker_volumes_default:
+  - "{{ nabarr_paths_location }}:/config"
+nabarr_docker_volumes_custom: []
+nabarr_docker_volumes: "{{ nabarr_docker_volumes_default
+                           + nabarr_docker_volumes_custom
+                           + docker_volumes_downloads_common }}"
+
+# Devices
+nabarr_docker_devices_default: []
+nabarr_docker_devices_custom: []
+nabarr_docker_devices: "{{ nabarr_docker_devices_default
+                           + nabarr_docker_devices_custom }}"
+
+# Hosts
+nabarr_docker_hosts_default: []
+nabarr_docker_hosts_custom: []
+nabarr_docker_hosts: "{{ docker_hosts_common
+                         | combine(nabarr_docker_hosts_default)
+                         | combine(nabarr_docker_hosts_custom) }}"
+
+# Labels
+nabarr_docker_labels_default: {}
+nabarr_docker_labels_custom: {}
+nabarr_docker_labels: "{{ docker_labels_common
+                          | combine(nabarr_docker_labels_default)
+                          | combine(nabarr_docker_labels_custom) }}"
+
+# Hostname
+nabarr_docker_hostname: "{{ nabarr_name }}"
+
+# Networks
+nabarr_docker_networks_alias: "{{ nabarr_name }}"
+nabarr_docker_networks_default: []
+nabarr_docker_networks_custom: []
+nabarr_docker_networks: "{{ docker_networks_common
+                            + nabarr_docker_networks_default
+                            + nabarr_docker_networks_custom }}"
+
+# Capabilities
+nabarr_docker_capabilities_default: []
+nabarr_docker_capabilities_custom: []
+nabarr_docker_capabilities: "{{ nabarr_docker_capabilities_default
+                                + nabarr_docker_capabilities_custom }}"
+
+# Security Opts
+nabarr_docker_security_opts_default: []
+nabarr_docker_security_opts_custom: []
+nabarr_docker_security_opts: "{{ nabarr_docker_security_opts_default
+                                 + nabarr_docker_security_opts_custom }}"
+
+# Restart Policy
+nabarr_docker_restart_policy: unless-stopped
+
+# State
+nabarr_docker_state: started
