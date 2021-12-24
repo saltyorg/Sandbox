@@ -1,0 +1,68 @@
+media:
+  trakt:
+    client_id: trakt-client-id
+  omdb:
+    api_key: omdb-api-key
+  tvdb:
+    api_key: tvdb-legacy-api-key
+pvrs:
+  - name: sonarr
+    type: sonarr
+    url: http://sonarr:8989
+    api_key: sonarr-api-key
+    quality_profile: WEBDL-1080p
+    language_profile: English
+    root_folder: /mnt/unionfs/Media/TV
+    filters:
+      ignores:
+        - 'not (FeedTitle matches "(?i)S\\d\\d?E?\\d?\\d?")'
+        - 'FeedTitle matches "(?i)\\d\\d\\d\\d\\s?[\\s\\.\\-]\\d\\d?\\s?[\\s\\.\\-]\\d\\d?"'
+        - 'not (any(Country, {# in ["us", "gb", "au", "ca", "nz"]})) && not (any(["USA", "UK", "Australia", "Canada", "New Zealand"], {Omdb.Country == #}))'
+        - 'len(Languages) > 0 && not (any(Languages, {# in ["en", ""]}))'
+        - 'Omdb.Language != "" && Omdb.Language != "English"'
+        - 'Tvdb.Language != "" && Tvdb.Language != "en"'
+        - 'not (any(Languages, {# in ["en", ""]})) && Omdb.Language == "" && Tvdb.Language == ""'
+        - 'Runtime < 10 || Runtime > 70'
+        - 'Network == ""'
+        - 'any (["Hallmark Movies"], {Network contains #})'
+        - 'Year < 2000'
+        - 'Year < 2021 && Omdb.ImdbRating < 7.5'
+        - 'AiredEpisodes > 100'
+        - 'Year > (Now().Year() + 1)'
+        - 'any (["WWE", "AEW", "WWF", "NXT", "Live:", "Concert", "Musical", " Edition", "Wrestling"], {Title contains #})'
+        - 'len(Genres) == 0'
+        - 'any (Genres, {# in ["anime", "talk-show", "news"]})'
+        - 'Network in ["Twitch", "Xbox Video", "YouTube"]'
+        - 'any (["harry", "potter", "horrid", "henry", "minions", "WWE", "WWF"], {Summary contains #})'
+        - 'Title matches "(?i)ru ?wwe.+events.+"'
+        - 'Title contains "My 600"'
+        - 'TvdbId in ["248783"]'
+  - name: radarr
+    type: radarr
+    url: http://radarr:7878
+    api_key: radarr-api-key
+    quality_profile: Remux
+    root_folder: /mnt/unionfs/Media/Movies
+    filters:
+      ignores:
+        - 'not (any(Country, {# in ["us", "gb", "au", "ca", "nz"]})) && not (any(["USA", "UK", "Australia", "Canada", "New Zealand"], {Omdb.Country == #}))'
+        - 'not (any(Languages, {# in ["en"]})) && Omdb.Language != "English"'
+        - 'Runtime < 60'
+        - 'len(Genres) == 0'
+        - '("music" in Genres || "documentary" in Genres)'
+        - 'Year > (Now().Year() + 1)'
+        - 'Year < 1980'
+        - 'Year < 2021 && (Omdb.Metascore < 55 || Omdb.RottenTomatoes < 55)'
+        - 'Title startsWith "Untitled"'
+        - 'any (["WWE", "AEW", "WWF", "NXT", "Live:", "Concert", "Musical", " Edition", "Paglaki Ko", "Wrestling ", "UFC on"], {Title contains #})'
+        - 'any (["harry", "potter", "horrid", "henry", "minions", "WWE", "WWF"], {Summary contains #})'
+        - 'Title matches "^UFC.?\\d.+\\:"'
+        - 'ImdbId in ["tt0765458", "tt0892255"]'
+        - 'TmdbId in ["11910", "8881"]'
+rss:
+  feeds:
+    - name: series premiere
+      url: https://rss.indexer.me/rss-search.php?catid=19,20&user=your-username&api=your-api-key&search=S01E01&langs=11&nuke=1&pw=2&nodupe=1&limit=200
+      cron: '*/10 * * * *'
+      pvrs:
+        - sonarr
