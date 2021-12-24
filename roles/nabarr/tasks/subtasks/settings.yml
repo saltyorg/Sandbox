@@ -1,0 +1,26 @@
+##########################################################################
+# Title:            Sandbox: Nabarr                                      #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Settings | Check if `{{ nabarr_paths_config_location | basename }}` exists
+  stat:
+    path: "{{ nabarr_paths_config_location }}"
+  register: nabarr_config
+
+- name: Settings | New `{{ nabarr_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ nabarr_paths_config_location | basename }}`
+      template:
+        src: nabarr.config.yml.j2
+        dest: "{{ nabarr_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not nabarr_config.stat.exists
