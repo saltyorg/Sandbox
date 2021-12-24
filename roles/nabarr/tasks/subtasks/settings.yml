@@ -15,10 +15,10 @@
 - name: Settings | New `{{ nabarr_paths_config_location | basename }}` tasks
   block:
 
-    - name: Settings | Import default `{{ nabarr_paths_config_location | basename }}`
-      template:
-        src: nabarr.config.yml.j2
-        dest: "{{ nabarr_paths_config_location }}"
+    - name: Settings | Import default `{{ nabarr_paths_location | basename }}`
+      copy:
+        src: config.yml.sample
+        dest: "{{ nabarr_paths_location }}/config.yml.sample"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775

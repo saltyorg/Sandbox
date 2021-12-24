@@ -21,7 +21,7 @@ nabarr_paths_folder: "{{ nabarr_name }}"
 nabarr_paths_location: "{{ server_appdata_path }}/{{ nabarr_paths_folder }}"
 nabarr_paths_folders_list:
   - "{{ nabarr_paths_location }}"
-# nabarr_paths_config_location: "{{ nabarr_paths_location }}/config.yml"
+nabarr_paths_config_location: "{{ nabarr_paths_location }}/config.yml"
 
 ################################
 # Docker
