@@ -1,0 +1,144 @@
+##########################################################################
+# Title:            Sandbox: Heimdall | Default Variables                #
+# Author(s):        TheBradz, desimaniac, kowalski                       #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+heimdall_name: heimdall
+
+################################
+# Paths
+################################
+
+heimdall_paths_folder: "{{ heimdall_name }}"
+heimdall_paths_location: "{{ server_appdata_path }}/{{ heimdall_paths_folder }}"
+heimdall_paths_folders_list:
+  - "{{ heimdall_paths_location }}"
+
+################################
+# Web
+################################
+
+heimdall_web_subdomain: "{{ heimdall_name }}"
+heimdall_web_domain: "{{ user.domain }}"
+heimdall_web_port: "80"
+heimdall_web_url: "{{ 'https://' + heimdall_web_subdomain + '.' + heimdall_web_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + heimdall_web_port }}"
+
+################################
+# DNS
+################################
+
+heimdall_dns_record: "{{ heimdall_web_subdomain }}"
+heimdall_dns_zone: "{{ heimdall_web_domain }}"
+
+################################
+# Traefik
+################################
+
+heimdall_traefik_middleware: "secureHeaders@file,gzip,heimdall-auth"
+heimdall_traefik_certresolver: "{{ traefik_default_certresolver }}"
+heimdall_traefik_enabled: true
+heimdall_auth: "/etc/traefik/auth"
+
+################################
+# Docker
+################################
+
+# Container
+heimdall_docker_container: "{{ heimdall_name }}"
+
+# Image
+heimdall_docker_image_pull: true
+heimdall_docker_image_tag: "latest"
+heimdall_docker_image: "lscr.io/linuxserver/heimdall:{{ heimdall_docker_image_tag }}"
+
+# Ports
+heimdall_docker_ports_defaults:
+  - "{{ heimdall_web_port }}"
+heimdall_docker_ports_custom: []
+heimdall_docker_ports: "{{ heimdall_docker_ports_defaults
+                           + heimdall_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else [] + heimdall_docker_ports_custom }}"
+
+# Envs
+heimdall_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+heimdall_docker_envs_custom: {}
+heimdall_docker_envs: "{{ heimdall_docker_envs_default
+                          | combine(heimdall_docker_envs_custom) }}"
+
+# Commands
+heimdall_docker_commands_default: []
+heimdall_docker_commands_custom: []
+heimdall_docker_commands: "{{ heimdall_docker_commands_default
+                              + heimdall_docker_commands_custom }}"
+
+# Volumes
+heimdall_docker_volumes_default:
+  - "{{ heimdall_paths_location }}:/config"
+heimdall_docker_volumes_custom: []
+heimdall_docker_volumes: "{{ heimdall_docker_volumes_default
+                             + heimdall_docker_volumes_custom
+                             + docker_volumes_downloads_common }}"
+
+# Devices
+heimdall_docker_devices_default: []
+heimdall_docker_devices_custom: []
+heimdall_docker_devices: "{{ heimdall_docker_devices_default
+                             + heimdall_docker_devices_custom }}"
+
+# Hosts
+heimdall_docker_hosts_default: []
+heimdall_docker_hosts_custom: []
+heimdall_docker_hosts: "{{ docker_hosts_common
+                           | combine(heimdall_docker_hosts_default)
+                           | combine(heimdall_docker_hosts_custom) }}"
+
+# Labels
+heimdall_docker_labels_default:
+  traefik.http.middlewares.heimdall-auth.basicauth.usersfile: "{{ heimdall_auth }}"
+heimdall_docker_labels_custom: {}
+heimdall_docker_labels: "{{ docker_labels_common
+                            | combine(heimdall_docker_labels_default)
+                            | combine(heimdall_docker_labels_custom) }}"
+
+# Hostname
+heimdall_docker_hostname: "{{ heimdall_name }}"
+
+# Networks
+heimdall_docker_networks_alias: "{{ heimdall_name }}"
+heimdall_docker_networks_default: []
+heimdall_docker_networks_custom: []
+heimdall_docker_networks: "{{ docker_networks_common
+                              + heimdall_docker_networks_default
+                              + heimdall_docker_networks_custom }}"
+
+# Capabilities
+heimdall_docker_capabilities_default: []
+heimdall_docker_capabilities_custom: []
+heimdall_docker_capabilities: "{{ heimdall_docker_capabilities_default
+                                  + heimdall_docker_capabilities_custom }}"
+
+# Security Opts
+heimdall_docker_security_opts_default: []
+heimdall_docker_security_opts_custom: []
+heimdall_docker_security_opts: "{{ heimdall_docker_security_opts_default
+                                   + heimdall_docker_security_opts_custom }}"
+
+# Restart Policy
+heimdall_docker_restart_policy: unless-stopped
+
+# State
+heimdall_docker_state: started

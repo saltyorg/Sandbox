@@ -1,0 +1,152 @@
+##########################################################################
+# Title:         Sandbox: FileBot | Default Variables                    #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+filebot_name: filebot
+
+################################
+# Paths
+################################
+
+filebot_paths_folder: "{{ filebot_name }}"
+filebot_paths_location: "{{ server_appdata_path }}/{{ filebot_paths_folder }}"
+filebot_paths_folders_list:
+  - "{{ filebot_paths_location }}"
+filebot_paths_config_location: "{{ filebot_paths_location }}/config.yml"
+
+################################
+# Web
+################################
+
+filebot_web_subdomain: "{{ filebot_name }}"
+filebot_web_domain: "{{ user.domain }}"
+filebot_web_port: "5800"
+filebot_web_url: "{{ 'https://' + filebot_web_subdomain + '.' + filebot_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + filebot_web_port }}"
+
+################################
+# DNS
+################################
+
+filebot_dns_record: "{{ filebot_web_subdomain }}"
+filebot_dns_zone: "{{ filebot_web_domain }}"
+
+################################
+# Traefik
+################################
+
+filebot_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+filebot_traefik_middleware: "{{ traefik_default_middleware + ',' + filebot_traefik_sso_middleware
+                             if (filebot_traefik_sso_middleware | length > 0)
+                             else traefik_default_middleware }}"
+filebot_traefik_certresolver: "{{ traefik_default_certresolver }}"
+filebot_traefik_enabled: true
+filebot_traefik_api_enabled: true
+filebot_traefik_api_endpoint: "`/websockify`"
+
+################################
+# Docker
+################################
+
+# Container
+filebot_docker_container: "{{ filebot_name }}"
+
+# Image
+filebot_docker_image_pull: true
+filebot_docker_image_tag: "latest"
+filebot_docker_image: "jlesage/filebot:{{ filebot_docker_image_tag }}"
+
+# Ports
+filebot_docker_ports_defaults:
+  - "{{ filebot_web_port }}"
+filebot_docker_ports_custom: []
+filebot_docker_ports: "{{ filebot_docker_ports_defaults
+                          + filebot_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else [] + filebot_docker_ports_custom }}"
+
+# Envs
+filebot_docker_envs_default:
+  TZ: "{{ tz }}"
+  USER_ID: "{{ uid }}"
+  GROUP_ID: "{{ gid }}"
+  UMASK: "022"
+filebot_docker_envs_custom: {}
+filebot_docker_envs: "{{ filebot_docker_envs_default
+                         | combine(filebot_docker_envs_custom) }}"
+
+# Commands
+filebot_docker_commands_default: []
+filebot_docker_commands_custom: []
+filebot_docker_commands: "{{ filebot_docker_commands_default
+                             + filebot_docker_commands_custom }}"
+
+# Volumes
+filebot_docker_volumes_default:
+  - "{{ filebot_paths_location }}:/config"
+  - "/mnt:/mnt"
+  - "/mnt/unionfs/Media/:/storage/Media/"
+  - "/mnt/local/downloads:/storage/downloads"
+filebot_docker_volumes_custom: []
+filebot_docker_volumes: "{{ filebot_docker_volumes_default
+                            + filebot_docker_volumes_custom
+                            + docker_volumes_downloads_common }}"
+
+# Devices
+filebot_docker_devices_default: []
+filebot_docker_devices_custom: []
+filebot_docker_devices: "{{ filebot_docker_devices_default
+                            + filebot_docker_devices_custom }}"
+
+# Hosts
+filebot_docker_hosts_default: []
+filebot_docker_hosts_custom: []
+filebot_docker_hosts: "{{ docker_hosts_common
+                          | combine(filebot_docker_hosts_default)
+                          | combine(filebot_docker_hosts_custom) }}"
+
+# Labels
+filebot_docker_labels_default: {}
+filebot_docker_labels_custom: {}
+filebot_docker_labels: "{{ docker_labels_common
+                           | combine(filebot_docker_labels_default)
+                           | combine(filebot_docker_labels_custom) }}"
+
+# Hostname
+filebot_docker_hostname: "{{ filebot_name }}"
+
+# Networks
+filebot_docker_networks_alias: "{{ filebot_name }}"
+filebot_docker_networks_default: []
+filebot_docker_networks_custom: []
+filebot_docker_networks: "{{ docker_networks_common
+                             + filebot_docker_networks_default
+                             + filebot_docker_networks_custom }}"
+
+# Capabilities
+filebot_docker_capabilities_default: []
+filebot_docker_capabilities_custom: []
+filebot_docker_capabilities: "{{ filebot_docker_capabilities_default
+                                 + filebot_docker_capabilities_custom }}"
+
+# Security Opts
+filebot_docker_security_opts_default: []
+filebot_docker_security_opts_custom: []
+filebot_docker_security_opts: "{{ filebot_docker_security_opts_default
+                                  + filebot_docker_security_opts_custom }}"
+
+# Restart Policy
+filebot_docker_restart_policy: unless-stopped
+
+# State
+filebot_docker_state: started

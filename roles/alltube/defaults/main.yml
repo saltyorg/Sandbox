@@ -1,0 +1,141 @@
+##########################################################################
+# Title:         Sandbox: AllTube | Default Variables                    #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+alltube_name: alltube
+
+################################
+# Paths
+################################
+
+alltube_paths_folder: "{{ alltube_name }}"
+alltube_paths_location: "{{ server_appdata_path }}/{{ alltube_paths_folder }}"
+alltube_paths_folders_list:
+  - "{{ alltube_paths_location }}"
+
+################################
+# Web
+################################
+
+alltube_web_subdomain: "{{ alltube_name }}"
+alltube_web_domain: "{{ user.domain }}"
+alltube_web_port: "80"
+alltube_web_url: "{{ 'https://' + alltube_web_subdomain + '.' + alltube_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + alltube_web_port }}"
+
+################################
+# DNS
+################################
+
+alltube_dns_record: "{{ alltube_web_subdomain }}"
+alltube_dns_zone: "{{ alltube_web_domain }}"
+
+################################
+# Traefik
+################################
+
+alltube_traefik_middleware: "{{ traefik_default_middleware }}"
+alltube_traefik_certresolver: "{{ traefik_default_certresolver }}"
+alltube_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+alltube_docker_container: "{{ alltube_name }}"
+
+# Image
+alltube_docker_image_pull: true
+alltube_docker_image_tag: "latest"
+alltube_docker_image: "rudloff/alltube:{{ alltube_docker_image_tag }}"
+
+# Ports
+alltube_docker_ports_defaults: []
+alltube_docker_ports_custom: []
+alltube_docker_ports: "{{ alltube_docker_ports_defaults
+                          + alltube_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else [] + alltube_docker_ports_custom }}"
+
+# Envs
+alltube_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+alltube_docker_envs_custom: {}
+alltube_docker_envs: "{{ alltube_docker_envs_default
+                         | combine(alltube_docker_envs_custom) }}"
+
+# Commands
+alltube_docker_commands_default: []
+alltube_docker_commands_custom: []
+alltube_docker_commands: "{{ alltube_docker_commands_default
+                             + alltube_docker_commands_custom }}"
+
+# Volumes
+alltube_docker_volumes_default:
+  - "{{ alltube_paths_location }}:/var/www/html/config"
+alltube_docker_volumes_custom: []
+alltube_docker_volumes: "{{ alltube_docker_volumes_default
+                            + alltube_docker_volumes_custom
+                            + docker_volumes_downloads_common }}"
+
+# Devices
+alltube_docker_devices_default: []
+alltube_docker_devices_custom: []
+alltube_docker_devices: "{{ alltube_docker_devices_default
+                            + alltube_docker_devices_custom }}"
+
+# Hosts
+alltube_docker_hosts_default: []
+alltube_docker_hosts_custom: []
+alltube_docker_hosts: "{{ docker_hosts_common
+                          | combine(alltube_docker_hosts_default)
+                          | combine(alltube_docker_hosts_custom) }}"
+
+# Labels
+alltube_docker_labels_default: {}
+alltube_docker_labels_custom: {}
+alltube_docker_labels: "{{ docker_labels_common
+                           | combine(alltube_docker_labels_default)
+                           | combine(alltube_docker_labels_custom) }}"
+
+# Hostname
+alltube_docker_hostname: "{{ alltube_name }}"
+
+# Networks
+alltube_docker_networks_alias: "{{ alltube_name }}"
+alltube_docker_networks_default: []
+alltube_docker_networks_custom: []
+alltube_docker_networks: "{{ docker_networks_common
+                             + alltube_docker_networks_default
+                             + alltube_docker_networks_custom }}"
+
+# Capabilities
+alltube_docker_capabilities_default: []
+alltube_docker_capabilities_custom: []
+alltube_docker_capabilities: "{{ alltube_docker_capabilities_default
+                                 + alltube_docker_capabilities_custom }}"
+
+# Security Opts
+alltube_docker_security_opts_default: []
+alltube_docker_security_opts_custom: []
+alltube_docker_security_opts: "{{ alltube_docker_security_opts_default
+                                  + alltube_docker_security_opts_custom }}"
+
+# Restart Policy
+alltube_docker_restart_policy: unless-stopped
+
+# State
+alltube_docker_state: started

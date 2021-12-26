@@ -1,0 +1,143 @@
+##########################################################################
+# Title:         Sandbox: speedtest | Default Variables                  #
+# Author(s):     salty, kowalski                                         #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+speedtest_name: speedtest
+
+################################
+# Paths
+################################
+
+speedtest_paths_folder: "{{ speedtest_name }}"
+speedtest_paths_location: "{{ server_appdata_path }}/{{ speedtest_paths_folder }}"
+speedtest_paths_folders_list:
+  - "{{ speedtest_paths_location }}"
+
+################################
+# Web
+################################
+
+speedtest_web_subdomain: "{{ speedtest_name }}"
+speedtest_web_domain: "{{ user.domain }}"
+speedtest_web_port: "80"
+speedtest_web_url: "{{ 'https://' + speedtest_web_subdomain + '.' + speedtest_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + speedtest_web_port }}"
+
+################################
+# DNS
+################################
+
+speedtest_dns_record: "{{ speedtest_web_subdomain }}"
+speedtest_dns_zone: "{{ speedtest_web_domain }}"
+
+################################
+# Traefik
+################################
+
+speedtest_traefik_middleware: "{{ traefik_default_middleware }}"
+speedtest_traefik_certresolver: "{{ traefik_default_certresolver }}"
+speedtest_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+speedtest_docker_container: "{{ speedtest_name }}"
+
+# Image
+speedtest_docker_image_pull: true
+speedtest_docker_image_tag: "latest"
+speedtest_docker_image: "satzisa/html5-speedtest:{{ speedtest_docker_image_tag }}"
+
+# Ports
+speedtest_docker_ports_defaults:
+  - "{{ speedtest_web_port }}:{{ speedtest_web_port }}"
+speedtest_docker_ports_custom: []
+speedtest_docker_ports: "{{ speedtest_docker_ports_defaults
+                            + speedtest_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + speedtest_docker_ports_custom }}"
+
+# Envs
+speedtest_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  UMASK: "002"
+  TZ: "{{ tz }}"
+speedtest_docker_envs_custom: {}
+speedtest_docker_envs: "{{ speedtest_docker_envs_default
+                           | combine(speedtest_docker_envs_custom) }}"
+
+# Commands
+speedtest_docker_commands_default: []
+speedtest_docker_commands_custom: []
+speedtest_docker_commands: "{{ speedtest_docker_commands_default
+                               + speedtest_docker_commands_custom }}"
+
+# Volumes
+speedtest_docker_volumes_default:
+  - "{{ speedtest_paths_location }}:/var/www/html:rw"
+speedtest_docker_volumes_custom: []
+speedtest_docker_volumes: "{{ speedtest_docker_volumes_default
+                              + speedtest_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+speedtest_docker_devices_default: []
+speedtest_docker_devices_custom: []
+speedtest_docker_devices: "{{ speedtest_docker_devices_default
+                              + speedtest_docker_devices_custom }}"
+
+# Hosts
+speedtest_docker_hosts_default: []
+speedtest_docker_hosts_custom: []
+speedtest_docker_hosts: "{{ docker_hosts_common
+                            | combine(speedtest_docker_hosts_default)
+                            | combine(speedtest_docker_hosts_custom) }}"
+
+# Labels
+speedtest_docker_labels_default: {}
+speedtest_docker_labels_custom: {}
+speedtest_docker_labels: "{{ docker_labels_common
+                             | combine(speedtest_docker_labels_default)
+                             | combine(speedtest_docker_labels_custom) }}"
+
+# Hostname
+speedtest_docker_hostname: "{{ speedtest_name }}"
+
+# Networks
+speedtest_docker_networks_alias: "{{ speedtest_name }}"
+speedtest_docker_networks_default: []
+speedtest_docker_networks_custom: []
+speedtest_docker_networks: "{{ docker_networks_common
+                               + speedtest_docker_networks_default
+                               + speedtest_docker_networks_custom }}"
+
+# Capabilities
+speedtest_docker_capabilities_default: []
+speedtest_docker_capabilities_custom: []
+speedtest_docker_capabilities: "{{ speedtest_docker_capabilities_default
+                                   + speedtest_docker_capabilities_custom }}"
+
+# Security Opts
+speedtest_docker_security_opts_default: []
+speedtest_docker_security_opts_custom: []
+speedtest_docker_security_opts: "{{ speedtest_docker_security_opts_default
+                                    + speedtest_docker_security_opts_custom }}"
+
+# Restart Policy
+speedtest_docker_restart_policy: unless-stopped
+
+# State
+speedtest_docker_state: started

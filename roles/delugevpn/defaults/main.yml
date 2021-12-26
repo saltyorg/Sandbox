@@ -1,0 +1,185 @@
+##########################################################################
+# Title:         Sandbox: Deluge VPN | Default Variables                 #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+delugevpn_name: delugevpn
+
+################################
+# Paths
+################################
+
+delugevpn_paths_folder: "{{ delugevpn_name }}"
+delugevpn_paths_location: "{{ server_appdata_path }}/{{ delugevpn_paths_folder }}"
+delugevpn_paths_folders_list:
+  - "{{ delugevpn_paths_location }}"
+  - "{{ delugevpn_paths_location }}/wireguard"
+  - "{{ downloads.torrents }}"
+  - "{{ downloads.torrents }}/deluge"
+  - "{{ downloads.torrents }}/deluge/completed"
+  - "{{ downloads.torrents }}/deluge/incoming"
+  - "{{ downloads.torrents }}/deluge/watched"
+
+################################
+# Web
+################################
+
+delugevpn_web_subdomain: "{{ delugevpn_name }}"
+delugevpn_web_domain: "{{ user.domain }}"
+delugevpn_web_port: "8112"
+delugevpn_web_url: "{{ 'https://' + delugevpn_web_subdomain + '.' + delugevpn_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + delugevpn_web_port }}"
+
+################################
+# DNS
+################################
+
+delugevpn_dns_record: "{{ delugevpn_web_subdomain }}"
+delugevpn_dns_zone: "{{ delugevpn_web_domain }}"
+
+################################
+# Traefik
+################################
+
+delugevpn_traefik_middleware: "{{ traefik_default_middleware }}"
+delugevpn_traefik_certresolver: "{{ traefik_default_certresolver }}"
+delugevpn_traefik_enabled: true
+
+################################
+# Settings
+################################
+
+delugevpn_log_level_daemon: info
+delugevpn_log_level_web: info
+delugevpn_name_servers: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
+delugevpn_lan_network: "172.19.0.0/16"
+
+################################
+# Docker
+################################
+
+# Container
+delugevpn_docker_container: "{{ delugevpn_name }}"
+
+# Image
+delugevpn_docker_image_pull: true
+delugevpn_docker_image_tag: "latest"
+delugevpn_docker_image: "binhex/arch-delugevpn:{{ delugevpn_docker_image_tag }}"
+
+# Ports
+delugevpn_docker_ports_defaults:
+  - "{{ delugevpn_web_port }}"
+delugevpn_docker_ports_torrents:
+  - "58112:58112"
+  - "58846:58846"
+delugevpn_docker_ports_custom: []
+delugevpn_docker_ports: "{{ delugevpn_docker_ports_defaults
+                            + delugevpn_docker_ports_torrents
+                            + delugevpn_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + delugevpn_docker_ports_torrents
+                            + delugevpn_docker_ports_custom }}"
+
+# Envs
+delugevpn_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  VPN_ENABLED: "yes"
+  VPN_USER: "{{ delugevpn.vpn_user|default('username',true) }}"
+  VPN_PASS: "{{ delugevpn.vpn_pass|default('password',true) }}"
+  VPN_PROV: "{{ delugevpn.vpn_prov|default('pia',true) }}"
+  VPN_CLIENT: "{{ delugevpn.vpn_client|default('wireguard',true) }}"
+  STRICT_PORT_FORWARD: "yes"
+  ENABLE_PRIVOXY: "no"
+  LAN_NETWORK: "{{ delugevpn_lan_network }}"
+  NAME_SERVERS: "{{ delugevpn_name_servers }}"
+  DELUGE_DAEMON_LOG_LEVEL: "{{ delugevpn_log_level_daemon }}"
+  DELUGE_WEB_LOG_LEVEL: "{{ delugevpn_log_level_web }}"
+  DEBUG: "false"
+  UMASK: "022"
+delugevpn_docker_envs_custom: {}
+delugevpn_docker_envs: "{{ delugevpn_docker_envs_default
+                           | combine(delugevpn_docker_envs_custom) }}"
+
+# Commands
+delugevpn_docker_commands_default: []
+delugevpn_docker_commands_custom: []
+delugevpn_docker_commands: "{{ delugevpn_docker_commands_default
+                               + delugevpn_docker_commands_custom }}"
+
+# Volumes
+delugevpn_docker_volumes_default:
+  - "{{ delugevpn_paths_location }}:/config"
+  - "/opt/scripts:/scripts"
+  - "/mnt:/mnt"
+delugevpn_docker_volumes_custom: []
+delugevpn_docker_volumes: "{{ delugevpn_docker_volumes_default
+                              + delugevpn_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+delugevpn_docker_devices_default: []
+delugevpn_docker_devices_custom: []
+delugevpn_docker_devices: "{{ delugevpn_docker_devices_default
+                              + delugevpn_docker_devices_custom }}"
+
+# Hosts
+delugevpn_docker_hosts_default: []
+delugevpn_docker_hosts_custom: []
+delugevpn_docker_hosts: "{{ docker_hosts_common
+                            | combine(delugevpn_docker_hosts_default)
+                            | combine(delugevpn_docker_hosts_custom) }}"
+
+# Labels
+delugevpn_docker_labels_default: {}
+delugevpn_docker_labels_custom: {}
+delugevpn_docker_labels: "{{ docker_labels_common
+                             | combine(delugevpn_docker_labels_default)
+                             | combine(delugevpn_docker_labels_custom) }}"
+
+# Hostname
+delugevpn_docker_hostname: "{{ delugevpn_name }}"
+
+# Networks
+delugevpn_docker_networks_alias: "{{ delugevpn_name }}"
+delugevpn_docker_networks_default: []
+delugevpn_docker_networks_custom: []
+delugevpn_docker_networks: "{{ docker_networks_common
+                               + delugevpn_docker_networks_default
+                               + delugevpn_docker_networks_custom }}"
+
+# Capabilities
+delugevpn_docker_capabilities_default:
+  - NET_ADMIN
+delugevpn_docker_capabilities_custom: []
+delugevpn_docker_capabilities: "{{ delugevpn_docker_capabilities_default
+                                   + delugevpn_docker_capabilities_custom }}"
+
+# Security Opts
+delugevpn_docker_security_opts_default: []
+delugevpn_docker_security_opts_custom: []
+delugevpn_docker_security_opts: "{{ delugevpn_docker_security_opts_default
+                                    + delugevpn_docker_security_opts_custom }}"
+
+# Restart Policy
+delugevpn_docker_restart_policy: unless-stopped
+
+# State
+delugevpn_docker_state: started
+
+# Sysctls
+delugevpn_docker_sysctls:
+  net.ipv4.conf.all.src_valid_mark: "1"
+
+# Privledged
+delugevpn_docker_privileged: "yes"

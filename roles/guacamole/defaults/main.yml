@@ -1,0 +1,142 @@
+##########################################################################
+# Title:            Sandbox: Guacamole                                   #
+# Author(s):        RXWatcher, kowalski                                  #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+
+################################
+# Basics
+################################
+
+guacamole_name: guacamole
+
+################################
+# Paths
+################################
+
+guacamole_paths_folder: "{{ guacamole_name }}"
+guacamole_paths_location: "{{ server_appdata_path }}/{{ guacamole_paths_folder }}"
+guacamole_paths_folders_list:
+  - "{{ guacamole_paths_location }}"
+  - "{{ guacamole_paths_location }}/config"
+
+################################
+# Web
+################################
+
+guacamole_web_subdomain: "{{ guacamole_name }}"
+guacamole_web_domain: "{{ user.domain }}"
+guacamole_web_port: "8080"
+guacamole_web_url: "{{ 'https://' + guacamole_web_subdomain + '.' + guacamole_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + guacamole_web_port }}"
+
+################################
+# DNS
+################################
+
+guacamole_dns_record: "{{ guacamole_web_subdomain }}"
+guacamole_dns_zone: "{{ guacamole_web_domain }}"
+
+################################
+# Traefik
+################################
+
+guacamole_traefik_middleware: "{{ traefik_default_middleware }}"
+guacamole_traefik_certresolver: "{{ traefik_default_certresolver }}"
+guacamole_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+guacamole_docker_container: "{{ guacamole_name }}"
+
+# Image
+guacamole_docker_image_pull: true
+guacamole_docker_image_tag: "latest"
+guacamole_docker_image: "jasonbean/guacamole:{{ guacamole_docker_image_tag }}"
+
+# Ports
+guacamole_docker_ports_defaults:
+  - "{{ guacamole_web_port }}"
+guacamole_docker_ports_custom: []
+guacamole_docker_ports: "{{ guacamole_docker_ports_defaults
+                            + guacamole_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + guacamole_docker_ports_custom }}"
+
+# Envs
+guacamole_docker_envs_default:
+  OPT_MYSQL: "Y"
+guacamole_docker_envs_custom: {}
+guacamole_docker_envs: "{{ guacamole_docker_envs_default
+                           | combine(guacamole_docker_envs_custom) }}"
+
+# Commands
+guacamole_docker_commands_default: []
+guacamole_docker_commands_custom: []
+guacamole_docker_commands: "{{ guacamole_docker_commands_default
+                               + guacamole_docker_commands_custom }}"
+
+# Volumes
+guacamole_docker_volumes_default:
+  - "{{ guacamole_paths_location }}/config:/config"
+guacamole_docker_volumes_custom: []
+guacamole_docker_volumes: "{{ guacamole_docker_volumes_default
+                              + guacamole_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+guacamole_docker_devices_default: []
+guacamole_docker_devices_custom: []
+guacamole_docker_devices: "{{ guacamole_docker_devices_default
+                              + guacamole_docker_devices_custom }}"
+
+# Hosts
+guacamole_docker_hosts_default: []
+guacamole_docker_hosts_custom: []
+guacamole_docker_hosts: "{{ docker_hosts_common
+                            | combine(guacamole_docker_hosts_default)
+                            | combine(guacamole_docker_hosts_custom) }}"
+
+# Labels
+guacamole_docker_labels_default: {}
+guacamole_docker_labels_custom: {}
+guacamole_docker_labels: "{{ docker_labels_common
+                             | combine(guacamole_docker_labels_default)
+                             | combine(guacamole_docker_labels_custom) }}"
+
+# Hostname
+guacamole_docker_hostname: "{{ guacamole_name }}"
+
+# Networks
+guacamole_docker_networks_alias: "{{ guacamole_name }}"
+guacamole_docker_networks_default: []
+guacamole_docker_networks_custom: []
+guacamole_docker_networks: "{{ docker_networks_common
+                               + guacamole_docker_networks_default
+                               + guacamole_docker_networks_custom }}"
+
+# Capabilities
+guacamole_docker_capabilities_default: []
+guacamole_docker_capabilities_custom: []
+guacamole_docker_capabilities: "{{ guacamole_docker_capabilities_default
+                                   + guacamole_docker_capabilities_custom }}"
+
+# Security Opts
+guacamole_docker_security_opts_default: []
+guacamole_docker_security_opts_custom: []
+guacamole_docker_security_opts: "{{ guacamole_docker_security_opts_default
+                                    + guacamole_docker_security_opts_custom }}"
+
+# Restart Policy
+guacamole_docker_restart_policy: unless-stopped
+
+# State
+guacamole_docker_state: started

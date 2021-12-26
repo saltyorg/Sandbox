@@ -1,0 +1,144 @@
+#########################################################################
+# Title:            Sandbox: Gotify-server                              #
+# Author(s):        Bas, kowalski                                       #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+gotify_name: gotify
+
+################################
+# Paths
+################################
+
+gotify_paths_folder: "{{ gotify_name }}"
+gotify_paths_location: "{{ server_appdata_path }}/{{ gotify_paths_folder }}"
+gotify_paths_folders_list:
+  - "{{ gotify_paths_location }}"
+
+################################
+# Web
+################################
+
+gotify_web_subdomain: "{{ gotify_name }}"
+gotify_web_domain: "{{ user.domain }}"
+gotify_web_port: "80"
+gotify_web_url: "{{ 'https://' + gotify_web_subdomain + '.' + gotify_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + gotify_web_port }}"
+
+################################
+# DNS
+################################
+
+gotify_dns_record: "{{ gotify_web_subdomain }}"
+gotify_dns_zone: "{{ gotify_web_domain }}"
+
+################################
+# Traefik
+################################
+
+gotify_traefik_middleware: "{{ traefik_default_middleware }}"
+gotify_traefik_certresolver: "{{ traefik_default_certresolver }}"
+gotify_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+gotify_docker_container: "{{ gotify_name }}"
+
+# Image
+gotify_docker_image_pull: true
+gotify_docker_image_tag: "latest"
+gotify_docker_image: "gotify/server:{{ gotify_docker_image_tag }}"
+
+# Ports
+gotify_docker_ports_defaults:
+  - "{{ gotify_web_port }}"
+gotify_docker_ports_custom: []
+gotify_docker_ports: "{{ gotify_docker_ports_defaults
+                         + gotify_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else [] + gotify_docker_ports_custom }}"
+
+# Envs
+gotify_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  GOTIFY_DEFAULTUSER_NAME: "{{ user.name }}"
+  GOTIFY_DEFAULTUSER_PASS: "{{ user.pass }}"
+gotify_docker_envs_custom: {}
+gotify_docker_envs: "{{ gotify_docker_envs_default
+                        | combine(gotify_docker_envs_custom) }}"
+
+# Commands
+gotify_docker_commands_default: []
+gotify_docker_commands_custom: []
+gotify_docker_commands: "{{ gotify_docker_commands_default
+                            + gotify_docker_commands_custom }}"
+
+# Volumes
+gotify_docker_volumes_default:
+  - "{{ gotify_paths_location }}:/app/data"
+gotify_docker_volumes_custom: []
+gotify_docker_volumes: "{{ gotify_docker_volumes_default
+                           + gotify_docker_volumes_custom
+                           + docker_volumes_downloads_common }}"
+
+# Devices
+gotify_docker_devices_default: []
+gotify_docker_devices_custom: []
+gotify_docker_devices: "{{ gotify_docker_devices_default
+                           + gotify_docker_devices_custom }}"
+
+# Hosts
+gotify_docker_hosts_default: []
+gotify_docker_hosts_custom: []
+gotify_docker_hosts: "{{ docker_hosts_common
+                         | combine(gotify_docker_hosts_default)
+                         | combine(gotify_docker_hosts_custom) }}"
+
+# Labels
+gotify_docker_labels_default: {}
+gotify_docker_labels_custom: {}
+gotify_docker_labels: "{{ docker_labels_common
+                          | combine(gotify_docker_labels_default)
+                          | combine(gotify_docker_labels_custom) }}"
+
+# Hostname
+gotify_docker_hostname: "{{ gotify_name }}"
+
+# Networks
+gotify_docker_networks_alias: "{{ gotify_name }}"
+gotify_docker_networks_default: []
+gotify_docker_networks_custom: []
+gotify_docker_networks: "{{ docker_networks_common
+                            + gotify_docker_networks_default
+                            + gotify_docker_networks_custom }}"
+
+# Capabilities
+gotify_docker_capabilities_default: []
+gotify_docker_capabilities_custom: []
+gotify_docker_capabilities: "{{ gotify_docker_capabilities_default
+                                + gotify_docker_capabilities_custom }}"
+
+# Security Opts
+gotify_docker_security_opts_default: []
+gotify_docker_security_opts_custom: []
+gotify_docker_security_opts: "{{ gotify_docker_security_opts_default
+                                 + gotify_docker_security_opts_custom }}"
+
+# Restart Policy
+gotify_docker_restart_policy: unless-stopped
+
+# State
+gotify_docker_state: started

@@ -1,0 +1,155 @@
+##########################################################################
+# Title:            Sandbox: JDownloader2 | Default Variables            #
+# Author(s):        kowalski, desimaniac                                 #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+jdownloader2_name: jdownloader2
+
+################################
+# Paths
+################################
+
+jdownloader2_paths_folder: "{{ jdownloader2_name }}"
+jdownloader2_paths_location: "{{ server_appdata_path }}/{{ jdownloader2_paths_folder }}"
+jdownloader2_paths_downloads_location: "/mnt/local/downloads/{{ jdownloader2_name }}/output"
+jdownloader2_paths_tools_location: "{{ jdownloader2_paths_location }}/config/libs"
+jdownloader2_paths_folders_list:
+  - "{{ jdownloader2_paths_location }}"
+  - "{{ jdownloader2_paths_location }}/config"
+  - "{{ jdownloader2_paths_tools_location }}"
+  - "{{ jdownloader2_paths_downloads_location }}"
+
+################################
+# Web
+################################
+
+jdownloader2_web_subdomain: "{{ jdownloader2_name }}"
+jdownloader2_web_domain: "{{ user.domain }}"
+jdownloader2_web_port: "5800"
+jdownloader2_web_url: "{{ 'https://' + jdownloader2_web_subdomain + '.' + jdownloader2_web_domain
+                       if (reverse_proxy_is_enabled)
+                       else 'http://localhost:' + jdownloader2_web_port }}"
+
+################################
+# DNS
+################################
+
+jdownloader2_dns_record: "{{ jdownloader2_web_subdomain }}"
+jdownloader2_dns_zone: "{{ jdownloader2_web_domain }}"
+
+################################
+# Traefik
+################################
+
+jdownloader2_traefik_middleware: "{{ traefik_default_middleware }}"
+jdownloader2_traefik_certresolver: "{{ traefik_default_certresolver }}"
+jdownloader2_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+jdownloader2_docker_container: "{{ jdownloader2_name }}"
+
+# Image
+jdownloader2_docker_image_pull: true
+jdownloader2_docker_image_tag: "latest"
+jdownloader2_docker_image: "jlesage/jdownloader-2:{{ jdownloader2_docker_image_tag }}"
+
+# Ports
+jdownloader2_docker_ports_defaults:
+  - "{{ jdownloader2_web_port }}"
+jdownloader2_docker_ports_custom: []
+jdownloader2_docker_ports: "{{ jdownloader2_docker_ports_defaults
+                               + jdownloader2_docker_ports_custom
+                            if (not reverse_proxy_is_enabled)
+                            else [] + jdownloader2_docker_ports_custom }}"
+
+# Envs
+jdownloader2_docker_envs_default:
+  USER_ID: "{{ uid }}"
+  GROUP_ID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  DISPLAY_WIDTH: "1280"
+  DISPLAY_HEIGHT: "768"
+  VNC_PASSWORD: "{{ user.pass }}"
+  CLEAN_TMP_DIR: "1"
+  UMASK: "000"
+  ENABLE_CJK_FONT: "1"
+jdownloader2_docker_envs_custom: {}
+jdownloader2_docker_envs: "{{ jdownloader2_docker_envs_default
+                              | combine(jdownloader2_docker_envs_custom) }}"
+
+# Commands
+jdownloader2_docker_commands_default: []
+jdownloader2_docker_commands_custom: []
+jdownloader2_docker_commands: "{{ jdownloader2_docker_commands_default
+                                  + jdownloader2_docker_commands_custom }}"
+
+# Volumes
+jdownloader2_docker_volumes_default:
+  - "{{ jdownloader2_paths_location }}/config:/config:rw"
+  - "{{ jdownloader2_paths_downloads_location }}:/output:rw"
+  - "/mnt:/mnt:rw"
+jdownloader2_docker_volumes_custom: []
+jdownloader2_docker_volumes: "{{ jdownloader2_docker_volumes_default
+                                 + jdownloader2_docker_volumes_custom
+                                 + docker_volumes_downloads_common }}"
+
+# Devices
+jdownloader2_docker_devices_default: []
+jdownloader2_docker_devices_custom: []
+jdownloader2_docker_devices: "{{ jdownloader2_docker_devices_default
+                                 + jdownloader2_docker_devices_custom }}"
+
+# Hosts
+jdownloader2_docker_hosts_default: []
+jdownloader2_docker_hosts_custom: []
+jdownloader2_docker_hosts: "{{ docker_hosts_common
+                               | combine(jdownloader2_docker_hosts_default)
+                               | combine(jdownloader2_docker_hosts_custom) }}"
+
+# Labels
+jdownloader2_docker_labels_default: {}
+jdownloader2_docker_labels_custom: {}
+jdownloader2_docker_labels: "{{ docker_labels_common
+                                | combine(jdownloader2_docker_labels_default)
+                                | combine(jdownloader2_docker_labels_custom) }}"
+
+# Hostname
+jdownloader2_docker_hostname: "{{ jdownloader2_name }}"
+
+# Networks
+jdownloader2_docker_networks_alias: "{{ jdownloader2_name }}"
+jdownloader2_docker_networks_default: []
+jdownloader2_docker_networks_custom: []
+jdownloader2_docker_networks: "{{ docker_networks_common
+                                  + jdownloader2_docker_networks_default
+                                  + jdownloader2_docker_networks_custom }}"
+
+# Capabilities
+jdownloader2_docker_capabilities_default: []
+jdownloader2_docker_capabilities_custom: []
+jdownloader2_docker_capabilities: "{{ jdownloader2_docker_capabilities_default
+                                      + jdownloader2_docker_capabilities_custom }}"
+
+# Security Opts
+jdownloader2_docker_security_opts_default: []
+jdownloader2_docker_security_opts_custom: []
+jdownloader2_docker_security_opts: "{{ jdownloader2_docker_security_opts_default
+                                       + jdownloader2_docker_security_opts_custom }}"
+
+# Restart Policy
+jdownloader2_docker_restart_policy: unless-stopped
+
+# State
+jdownloader2_docker_state: started

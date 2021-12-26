@@ -1,0 +1,142 @@
+#########################################################################
+# Title:            Sandbox: Archive Box                                #
+# Author(s):        4everfun, kowalski                                  #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+archivebox_name: archivebox
+
+################################
+# Paths
+################################
+
+archivebox_paths_folder: "{{ archivebox_name }}"
+archivebox_paths_location: "{{ server_appdata_path }}/{{ archivebox_paths_folder }}"
+archivebox_paths_folders_list:
+  - "{{ archivebox_paths_location }}"
+
+################################
+# Web
+################################
+
+archivebox_web_subdomain: "{{ archivebox_name }}"
+archivebox_web_domain: "{{ user.domain }}"
+archivebox_web_port: "8000"
+archivebox_web_url: "{{ 'https://' + archivebox_web_subdomain + '.' + archivebox_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + archivebox_web_port }}"
+
+################################
+# DNS
+################################
+
+archivebox_dns_record: "{{ archivebox_web_subdomain }}"
+archivebox_dns_zone: "{{ archivebox_web_domain }}"
+
+################################
+# Traefik
+################################
+
+archivebox_traefik_middleware: "{{ traefik_default_middleware }}"
+archivebox_traefik_certresolver: "{{ traefik_default_certresolver }}"
+archivebox_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+archivebox_docker_container: "{{ archivebox_name }}"
+
+# Image
+archivebox_docker_image_pull: true
+archivebox_docker_image_tag: "latest"
+archivebox_docker_image: "archivebox/archivebox:{{ archivebox_docker_image_tag }}"
+
+# Ports
+archivebox_docker_ports_defaults:
+  - "{{ archivebox_web_port }}"
+archivebox_docker_ports_custom: []
+archivebox_docker_ports: "{{ archivebox_docker_ports_defaults
+                             + archivebox_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + archivebox_docker_ports_custom }}"
+
+# Envs
+archivebox_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+archivebox_docker_envs_custom: {}
+archivebox_docker_envs: "{{ archivebox_docker_envs_default
+                            | combine(archivebox_docker_envs_custom) }}"
+
+# Commands
+archivebox_docker_commands_default: []
+archivebox_docker_commands_custom: []
+archivebox_docker_commands: "{{ archivebox_docker_commands_default
+                                + archivebox_docker_commands_custom }}"
+
+# Volumes
+archivebox_docker_volumes_default:
+  - "{{ archivebox_paths_location }}:/data"
+archivebox_docker_volumes_custom: []
+archivebox_docker_volumes: "{{ archivebox_docker_volumes_default
+                               + archivebox_docker_volumes_custom
+                               + docker_volumes_downloads_common }}"
+
+# Devices
+archivebox_docker_devices_default: []
+archivebox_docker_devices_custom: []
+archivebox_docker_devices: "{{ archivebox_docker_devices_default
+                               + archivebox_docker_devices_custom }}"
+
+# Hosts
+archivebox_docker_hosts_default: []
+archivebox_docker_hosts_custom: []
+archivebox_docker_hosts: "{{ docker_hosts_common
+                             | combine(archivebox_docker_hosts_default)
+                             | combine(archivebox_docker_hosts_custom) }}"
+
+# Labels
+archivebox_docker_labels_default: {}
+archivebox_docker_labels_custom: {}
+archivebox_docker_labels: "{{ docker_labels_common
+                              | combine(archivebox_docker_labels_default)
+                              | combine(archivebox_docker_labels_custom) }}"
+
+# Hostname
+archivebox_docker_hostname: "{{ archivebox_name }}"
+
+# Networks
+archivebox_docker_networks_alias: "{{ archivebox_name }}"
+archivebox_docker_networks_default: []
+archivebox_docker_networks_custom: []
+archivebox_docker_networks: "{{ docker_networks_common
+                                + archivebox_docker_networks_default
+                                + archivebox_docker_networks_custom }}"
+
+# Capabilities
+archivebox_docker_capabilities_default: []
+archivebox_docker_capabilities_custom: []
+archivebox_docker_capabilities: "{{ archivebox_docker_capabilities_default
+                                    + archivebox_docker_capabilities_custom }}"
+
+# Security Opts
+archivebox_docker_security_opts_default: []
+archivebox_docker_security_opts_custom: []
+archivebox_docker_security_opts: "{{ archivebox_docker_security_opts_default
+                                     + archivebox_docker_security_opts_custom }}"
+
+# Restart Policy
+archivebox_docker_restart_policy: unless-stopped
+
+# State
+archivebox_docker_state: started

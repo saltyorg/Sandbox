@@ -1,0 +1,148 @@
+#########################################################################
+# Title:            Sandbox: BookStack                                  #
+# Author(s):        Thomvh, kowalski                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+bookstack_name: bookstack
+
+################################
+# Paths
+################################
+
+bookstack_paths_folder: "{{ bookstack_name }}"
+bookstack_paths_location: "{{ server_appdata_path }}/{{ bookstack_paths_folder }}"
+bookstack_paths_folders_list:
+  - "{{ bookstack_paths_location }}"
+
+################################
+# Web
+################################
+
+bookstack_web_subdomain: "{{ bookstack_name }}"
+bookstack_web_domain: "{{ user.domain }}"
+bookstack_web_port: "80"
+bookstack_web_url: "{{ 'https://' + bookstack_web_subdomain + '.' + bookstack_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + bookstack_web_port }}"
+
+################################
+# DNS
+################################
+
+bookstack_dns_record: "{{ bookstack_web_subdomain }}"
+bookstack_dns_zone: "{{ bookstack_web_domain }}"
+
+################################
+# Traefik
+################################
+
+bookstack_traefik_middleware: "{{ traefik_default_middleware }}"
+bookstack_traefik_certresolver: "{{ traefik_default_certresolver }}"
+bookstack_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+bookstack_docker_container: "{{ bookstack_name }}"
+
+# Image
+bookstack_docker_image_pull: true
+bookstack_docker_image_tag: "latest"
+bookstack_docker_image: "ghcr.io/lscr.io/linuxserver/bookstack:{{ bookstack_docker_image_tag }}"
+
+# Ports
+bookstack_docker_ports_defaults:
+  - "{{ bookstack_web_port }}"
+bookstack_docker_ports_custom: []
+bookstack_docker_ports: "{{ bookstack_docker_ports_defaults
+                            + bookstack_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + bookstack_docker_ports_custom }}"
+
+# Envs
+bookstack_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  APP_URL: "https://{{ bookstack_web_subdomain + '.' + bookstack_web_domain }}"
+  DB_HOST: "mariadb:3306"
+  DB_USER: root
+  DB_PASS: password321
+  DB_DATABASE: bookstackapp
+bookstack_docker_envs_custom: {}
+bookstack_docker_envs: "{{ bookstack_docker_envs_default
+                           | combine(bookstack_docker_envs_custom) }}"
+
+# Commands
+bookstack_docker_commands_default: []
+bookstack_docker_commands_custom: []
+bookstack_docker_commands: "{{ bookstack_docker_commands_default
+                               + bookstack_docker_commands_custom }}"
+
+# Volumes
+bookstack_docker_volumes_default:
+  - "{{ bookstack_paths_location }}:/config"
+  - "/mnt:/mnt"
+bookstack_docker_volumes_custom: []
+bookstack_docker_volumes: "{{ bookstack_docker_volumes_default
+                              + bookstack_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"  # CHECK IF NEEDED
+
+# Devices
+bookstack_docker_devices_default: []
+bookstack_docker_devices_custom: []
+bookstack_docker_devices: "{{ bookstack_docker_devices_default
+                              + bookstack_docker_devices_custom }}"
+
+# Hosts
+bookstack_docker_hosts_default: []
+bookstack_docker_hosts_custom: []
+bookstack_docker_hosts: "{{ docker_hosts_common
+                            | combine(bookstack_docker_hosts_default)
+                            | combine(bookstack_docker_hosts_custom) }}"
+
+# Labels
+bookstack_docker_labels_default: {}
+bookstack_docker_labels_custom: {}
+bookstack_docker_labels: "{{ docker_labels_common
+                             | combine(bookstack_docker_labels_default)
+                             | combine(bookstack_docker_labels_custom) }}"
+
+# Hostname
+bookstack_docker_hostname: "{{ bookstack_name }}"
+
+# Networks
+bookstack_docker_networks_alias: "{{ bookstack_name }}"
+bookstack_docker_networks_default: []
+bookstack_docker_networks_custom: []
+bookstack_docker_networks: "{{ docker_networks_common
+                               + bookstack_docker_networks_default
+                               + bookstack_docker_networks_custom }}"
+
+# Capabilities
+bookstack_docker_capabilities_default: []
+bookstack_docker_capabilities_custom: []
+bookstack_docker_capabilities: "{{ bookstack_docker_capabilities_default
+                                   + bookstack_docker_capabilities_custom }}"
+
+# Security Opts
+bookstack_docker_security_opts_default: []
+bookstack_docker_security_opts_custom: []
+bookstack_docker_security_opts: "{{ bookstack_docker_security_opts_default
+                                    + bookstack_docker_security_opts_custom }}"
+
+# Restart Policy
+bookstack_docker_restart_policy: unless-stopped
+
+# State
+bookstack_docker_state: started

@@ -1,0 +1,111 @@
+##########################################################################
+# Title:            Sandbox: Ouroboros Role | Default Variables          #
+# Author(s):        owine, kowalski                                      #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+ouroboros_name: ouroboros
+
+################################
+# Paths
+################################
+
+ouroboros_paths_folder: "{{ ouroboros_name }}"
+ouroboros_paths_location: "{{ server_appdata_path }}/{{ ouroboros_paths_folder }}"
+ouroboros_paths_folders_list:
+  - "{{ ouroboros_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+ouroboros_docker_container: "{{ ouroboros_name }}"
+
+# Image
+ouroboros_docker_image_pull: true
+ouroboros_docker_image_tag: "latest"
+ouroboros_docker_image: "pyouroboros/ouroboros:{{ ouroboros_docker_image_tag }}"
+
+# Envs
+ouroboros_docker_envs_default:
+  TZ: "{{ tz }}"
+  SELF_UPDATE: "true"
+  CLEANUP: "true"
+  INTERVAL: "86400"
+  LOG_LEVEL: "info"
+  IGNORE: "mongo influxdb postgres mariadb"
+
+ouroboros_docker_envs_custom: {}
+ouroboros_docker_envs: "{{ ouroboros_docker_envs_default
+                           | combine(ouroboros_docker_envs_custom) }}"
+
+# Commands
+ouroboros_docker_commands_default: []
+ouroboros_docker_commands_custom: []
+ouroboros_docker_commands: "{{ ouroboros_docker_commands_default
+                               + ouroboros_docker_commands_custom }}"
+
+# Volumes
+ouroboros_docker_volumes_default:
+  - "/var/run/docker.sock:/var/run/docker.sock:ro"
+ouroboros_docker_volumes_custom: []
+ouroboros_docker_volumes: "{{ ouroboros_docker_volumes_default
+                              + ouroboros_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+ouroboros_docker_devices_default: []
+ouroboros_docker_devices_custom: []
+ouroboros_docker_devices: "{{ ouroboros_docker_devices_default
+                              + ouroboros_docker_devices_custom }}"
+
+# Hosts
+ouroboros_docker_hosts_default: []
+ouroboros_docker_hosts_custom: []
+ouroboros_docker_hosts: "{{ docker_hosts_common
+                            | combine(ouroboros_docker_hosts_default)
+                            | combine(ouroboros_docker_hosts_custom) }}"
+
+# Labels
+ouroboros_docker_labels_default: {}
+ouroboros_docker_labels_custom: {}
+ouroboros_docker_labels: "{{ docker_labels_common
+                             | combine(ouroboros_docker_labels_default)
+                             | combine(ouroboros_docker_labels_custom) }}"
+
+# Hostname
+ouroboros_docker_hostname: "{{ ouroboros_name }}"
+
+# Networks
+ouroboros_docker_networks_alias: "{{ ouroboros_name }}"
+ouroboros_docker_networks_default: []
+ouroboros_docker_networks_custom: []
+ouroboros_docker_networks: "{{ docker_networks_common
+                               + ouroboros_docker_networks_default
+                               + ouroboros_docker_networks_custom }}"
+
+# Capabilities
+ouroboros_docker_capabilities_default: []
+ouroboros_docker_capabilities_custom: []
+ouroboros_docker_capabilities: "{{ ouroboros_docker_capabilities_default
+                                   + ouroboros_docker_capabilities_custom }}"
+
+# Security Opts
+ouroboros_docker_security_opts_default: []
+ouroboros_docker_security_opts_custom: []
+ouroboros_docker_security_opts: "{{ ouroboros_docker_security_opts_default
+                                    + ouroboros_docker_security_opts_custom }}"
+
+# Restart Policy
+ouroboros_docker_restart_policy: unless-stopped
+
+# State
+ouroboros_docker_state: started

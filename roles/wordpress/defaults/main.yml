@@ -1,0 +1,144 @@
+##########################################################################
+# Title:         Sandbox: Wordpress | Default Variables                  #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+wordpress_name: wordpress
+
+################################
+# Paths
+################################
+
+wordpress_paths_folder: "{{ wordpress_name }}"
+wordpress_paths_location: "{{ server_appdata_path }}/{{ wordpress_paths_folder }}"
+wordpress_paths_folders_list:
+  - "{{ wordpress_paths_location }}"
+
+################################
+# Web
+################################
+
+wordpress_web_subdomain: "{{ wordpress_name }}"
+wordpress_web_domain: "{{ user.domain }}"
+wordpress_web_port: "80"
+wordpress_web_url: "{{ 'https://' + wordpress_web_subdomain + '.' + wordpress_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + wordpress_web_port }}"
+
+################################
+# DNS
+################################
+
+wordpress_dns_record: "{{ wordpress_web_subdomain }}"
+wordpress_dns_zone: "{{ wordpress_web_domain }}"
+
+################################
+# Traefik
+################################
+
+wordpress_traefik_middleware: "{{ traefik_default_middleware }}"
+wordpress_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wordpress_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+wordpress_docker_container: "{{ wordpress_name }}"
+
+# Image
+wordpress_docker_image_pull: true
+wordpress_docker_image_tag: "latest"
+wordpress_docker_image: "wordpress:{{ wordpress_docker_image_tag }}"
+
+# Ports
+wordpress_docker_ports_defaults:
+  - "{{ wordpress_web_port }}"
+wordpress_docker_ports_custom: []
+wordpress_docker_ports: "{{ wordpress_docker_ports_defaults
+                            + wordpress_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + wordpress_docker_ports_custom }}"
+
+# Envs
+wordpress_docker_envs_default:
+  TZ: "{{ tz }}"
+  WORDPRESS_DB_HOST: "mariadb:3306"
+  WORDPRESS_DB_USER: "root"
+  WORDPRESS_DB_PASSWORD: "password321"
+  WORDPRESS_DB_NAME: "wordpress"
+wordpress_docker_envs_custom: {}
+wordpress_docker_envs: "{{ wordpress_docker_envs_default
+                           | combine(wordpress_docker_envs_custom) }}"
+
+# Commands
+wordpress_docker_commands_default: []
+wordpress_docker_commands_custom: []
+wordpress_docker_commands: "{{ wordpress_docker_commands_default
+                               + wordpress_docker_commands_custom }}"
+
+# Volumes
+wordpress_docker_volumes_default:
+  - "{{ wordpress_paths_location }}:/var/www/html"
+wordpress_docker_volumes_custom: []
+wordpress_docker_volumes: "{{ wordpress_docker_volumes_default
+                              + wordpress_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+wordpress_docker_devices_default: []
+wordpress_docker_devices_custom: []
+wordpress_docker_devices: "{{ wordpress_docker_devices_default
+                              + wordpress_docker_devices_custom }}"
+
+# Hosts
+wordpress_docker_hosts_default: []
+wordpress_docker_hosts_custom: []
+wordpress_docker_hosts: "{{ docker_hosts_common
+                            | combine(wordpress_docker_hosts_default)
+                            | combine(wordpress_docker_hosts_custom) }}"
+
+# Labels
+wordpress_docker_labels_default: {}
+wordpress_docker_labels_custom: {}
+wordpress_docker_labels: "{{ docker_labels_common
+                             | combine(wordpress_docker_labels_default)
+                             | combine(wordpress_docker_labels_custom) }}"
+
+# Hostname
+wordpress_docker_hostname: "{{ wordpress_name }}"
+
+# Networks
+wordpress_docker_networks_alias: "{{ wordpress_name }}"
+wordpress_docker_networks_default: []
+wordpress_docker_networks_custom: []
+wordpress_docker_networks: "{{ docker_networks_common
+                               + wordpress_docker_networks_default
+                               + wordpress_docker_networks_custom }}"
+
+# Capabilities
+wordpress_docker_capabilities_default: []
+wordpress_docker_capabilities_custom: []
+wordpress_docker_capabilities: "{{ wordpress_docker_capabilities_default
+                                   + wordpress_docker_capabilities_custom }}"
+
+# Security Opts
+wordpress_docker_security_opts_default: []
+wordpress_docker_security_opts_custom: []
+wordpress_docker_security_opts: "{{ wordpress_docker_security_opts_default
+                                    + wordpress_docker_security_opts_custom }}"
+
+# Restart Policy
+wordpress_docker_restart_policy: unless-stopped
+
+# State
+wordpress_docker_state: started

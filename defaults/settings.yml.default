@@ -1,6 +1,24 @@
 ---
+alternatrrx:
+  roles: ["1080webdl", "1080remux"]
+delugevpn:
+  vpn_endpoint: netherlands.ovpn
+  vpn_pass: your_vpn_password
+  vpn_prov: pia
+  vpn_user: your_vpn_username
+  vpn_client: wireguard # 'wireguard' or 'openvpn'
+goplaxt:
+  trakt_id: ~
+  trakt_secret: ~
+handbrake:
+  handbrake_pass: saltbox # must be less than eight characters
+moviematch:
+  libraries: Movies
+  plex_url: http://plex:32400
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
+plex_meta_manager:
+  time: "03:00"
 qbit_manage:
   qbt_run: "false" # Default is "false"
   qbt_schedule: "30" # Default is "30"

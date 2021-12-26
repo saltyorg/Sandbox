@@ -1,0 +1,146 @@
+#########################################################################
+# Title:            Sandbox: Medusa                                     #
+# Author(s):        javi11, kowalski                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+medusa_name: medusa
+
+################################
+# Paths
+################################
+
+medusa_paths_folder: "{{ medusa_name }}"
+medusa_paths_location: "{{ server_appdata_path }}/{{ medusa_paths_folder }}"
+medusa_paths_folders_list:
+  - "{{ medusa_paths_location }}"
+
+################################
+# Web
+################################
+
+medusa_web_subdomain: "{{ medusa_name }}"
+medusa_web_domain: "{{ user.domain }}"
+medusa_web_port: "8081"
+medusa_web_url: "{{ 'https://' + medusa_web_subdomain + '.' + medusa_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + medusa_web_port }}"
+
+################################
+# DNS
+################################
+
+medusa_dns_record: "{{ medusa_web_subdomain }}"
+medusa_dns_zone: "{{ medusa_web_domain }}"
+
+################################
+# Traefik
+################################
+
+medusa_traefik_middleware: "{{ traefik_default_middleware }}"
+medusa_traefik_certresolver: "{{ traefik_default_certresolver }}"
+medusa_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+medusa_docker_container: "{{ medusa_name }}"
+
+# Image
+medusa_docker_image_pull: true
+medusa_docker_image_tag: "latest"
+medusa_docker_image: "ghcr.io/lscr.io/linuxserver/medusa:{{ medusa_docker_image_tag }}"
+
+# Ports
+medusa_docker_ports_defaults:
+  - "{{ medusa_web_port }}"
+medusa_docker_ports_custom: []
+medusa_docker_ports: "{{ medusa_docker_ports_defaults
+                         + medusa_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else [] + medusa_docker_ports_custom }}"
+
+# Envs
+medusa_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  UMASK: "002"
+medusa_docker_envs_custom: {}
+medusa_docker_envs: "{{ medusa_docker_envs_default
+                        | combine(medusa_docker_envs_custom) }}"
+
+# Commands
+medusa_docker_commands_default: []
+medusa_docker_commands_custom: []
+medusa_docker_commands: "{{ medusa_docker_commands_default
+                            + medusa_docker_commands_custom }}"
+
+# Volumes
+medusa_docker_volumes_default:
+  - "{{ medusa_paths_location }}:/config"
+  - "/opt/scripts:/scripts"
+  - "/mnt:/mnt"
+  - "/mnt/unionfs/Media/TV:/tv"
+medusa_docker_volumes_custom: []
+medusa_docker_volumes: "{{ medusa_docker_volumes_default
+                           + medusa_docker_volumes_custom
+                           + docker_volumes_downloads_common }}"
+
+# Devices
+medusa_docker_devices_default: []
+medusa_docker_devices_custom: []
+medusa_docker_devices: "{{ medusa_docker_devices_default
+                           + medusa_docker_devices_custom }}"
+
+# Hosts
+medusa_docker_hosts_default: []
+medusa_docker_hosts_custom: []
+medusa_docker_hosts: "{{ docker_hosts_common
+                         | combine(medusa_docker_hosts_default)
+                         | combine(medusa_docker_hosts_custom) }}"
+
+# Labels
+medusa_docker_labels_default: {}
+medusa_docker_labels_custom: {}
+medusa_docker_labels: "{{ docker_labels_common
+                          | combine(medusa_docker_labels_default)
+                          | combine(medusa_docker_labels_custom) }}"
+
+# Hostname
+medusa_docker_hostname: "{{ medusa_name }}"
+
+# Networks
+medusa_docker_networks_alias: "{{ medusa_name }}"
+medusa_docker_networks_default: []
+medusa_docker_networks_custom: []
+medusa_docker_networks: "{{ docker_networks_common
+                            + medusa_docker_networks_default
+                            + medusa_docker_networks_custom }}"
+
+# Capabilities
+medusa_docker_capabilities_default: []
+medusa_docker_capabilities_custom: []
+medusa_docker_capabilities: "{{ medusa_docker_capabilities_default
+                                + medusa_docker_capabilities_custom }}"
+
+# Security Opts
+medusa_docker_security_opts_default: []
+medusa_docker_security_opts_custom: []
+medusa_docker_security_opts: "{{ medusa_docker_security_opts_default
+                                 + medusa_docker_security_opts_custom }}"
+
+# Restart Policy
+medusa_docker_restart_policy: unless-stopped
+
+# State
+medusa_docker_state: started

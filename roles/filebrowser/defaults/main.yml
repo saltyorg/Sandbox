@@ -1,0 +1,152 @@
+#########################################################################
+# Title:            Sandbox: File Browser                               #
+# Author(s):        RXWatcher, kowalski                                 #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+filebrowser_name: filebrowser
+
+################################
+# Paths
+################################
+
+filebrowser_paths_folder: "{{ filebrowser_name }}"
+filebrowser_paths_location: "{{ server_appdata_path }}/{{ filebrowser_paths_folder }}"
+filebrowser_paths_folders_list:
+  - "{{ filebrowser_paths_location }}"
+filebrowser_paths_config_location: "{{ filebrowser_paths_location }}/filebrowser.json"
+filebrowser_paths_db_location: "{{ filebrowser_paths_location }}/filebrowser.db"
+
+################################
+# Web
+################################
+
+filebrowser_web_subdomain: "{{ filebrowser_name }}"
+filebrowser_web_domain: "{{ user.domain }}"
+filebrowser_web_port: "80"
+filebrowser_web_url: "{{ 'https://' + filebrowser_web_subdomain + '.' + filebrowser_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + filebrowser_web_port }}"
+
+################################
+# DNS
+################################
+
+filebrowser_dns_record: "{{ filebrowser_web_subdomain }}"
+filebrowser_dns_zone: "{{ filebrowser_web_domain }}"
+
+################################
+# Traefik
+################################
+
+filebrowser_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+filebrowser_traefik_middleware: "{{ traefik_default_middleware + ',' + filebrowser_traefik_sso_middleware
+                                 if (filebrowser_traefik_sso_middleware | length > 0)
+                                 else traefik_default_middleware }}"
+filebrowser_traefik_certresolver: "{{ traefik_default_certresolver }}"
+filebrowser_traefik_enabled: true
+filebrowser_traefik_api_enabled: true
+filebrowser_traefik_api_endpoint: "`/api/public`,`/share`,`/static`"
+
+################################
+# Docker
+################################
+
+# Container
+filebrowser_docker_container: "{{ filebrowser_name }}"
+
+# Image
+filebrowser_docker_image_pull: true
+filebrowser_docker_image_tag: "latest"
+filebrowser_docker_image: "filebrowser/filebrowser:{{ filebrowser_docker_image_tag }}"
+
+# Ports
+filebrowser_docker_ports_defaults:
+  - "{{ filebrowser_web_port }}"
+filebrowser_docker_ports_custom: []
+filebrowser_docker_ports: "{{ filebrowser_docker_ports_defaults
+                              + filebrowser_docker_ports_custom
+                           if (not reverse_proxy_is_enabled)
+                           else [] + filebrowser_docker_ports_custom }}"
+
+# Envs
+filebrowser_docker_envs_default:
+  TZ: "{{ tz }}"
+filebrowser_docker_envs_custom: {}
+filebrowser_docker_envs: "{{ filebrowser_docker_envs_default
+                             | combine(filebrowser_docker_envs_custom) }}"
+
+# Commands
+filebrowser_docker_commands_default: []
+filebrowser_docker_commands_custom: []
+filebrowser_docker_commands: "{{ filebrowser_docker_commands_default
+                                 + filebrowser_docker_commands_custom }}"
+
+# Volumes
+filebrowser_docker_volumes_default:
+  - "{{ filebrowser_paths_db_location }}:/database.db"
+  - "{{ filebrowser_paths_config_location }}:/.filebrowser.json"
+  - "/mnt/unionfs:/srv"
+filebrowser_docker_volumes_custom: []
+filebrowser_docker_volumes: "{{ filebrowser_docker_volumes_default
+                                + filebrowser_docker_volumes_custom
+                                + docker_volumes_downloads_common }}"
+
+# Devices
+filebrowser_docker_devices_default: []
+filebrowser_docker_devices_custom: []
+filebrowser_docker_devices: "{{ filebrowser_docker_devices_default
+                                + filebrowser_docker_devices_custom }}"
+
+# Hosts
+filebrowser_docker_hosts_default: []
+filebrowser_docker_hosts_custom: []
+filebrowser_docker_hosts: "{{ docker_hosts_common
+                              | combine(filebrowser_docker_hosts_default)
+                              | combine(filebrowser_docker_hosts_custom) }}"
+
+# Labels
+filebrowser_docker_labels_default: {}
+filebrowser_docker_labels_custom: {}
+filebrowser_docker_labels: "{{ docker_labels_common
+                               | combine(filebrowser_docker_labels_default)
+                               | combine(filebrowser_docker_labels_custom) }}"
+
+# Hostname
+filebrowser_docker_hostname: "{{ filebrowser_name }}"
+
+# Networks
+filebrowser_docker_networks_alias: "{{ filebrowser_name }}"
+filebrowser_docker_networks_default: []
+filebrowser_docker_networks_custom: []
+filebrowser_docker_networks: "{{ docker_networks_common
+                                 + filebrowser_docker_networks_default
+                                 + filebrowser_docker_networks_custom }}"
+
+# Capabilities
+filebrowser_docker_capabilities_default: []
+filebrowser_docker_capabilities_custom: []
+filebrowser_docker_capabilities: "{{ filebrowser_docker_capabilities_default
+                                     + filebrowser_docker_capabilities_custom }}"
+
+# Security Opts
+filebrowser_docker_security_opts_default: []
+filebrowser_docker_security_opts_custom: []
+filebrowser_docker_security_opts: "{{ filebrowser_docker_security_opts_default
+                                      + filebrowser_docker_security_opts_custom }}"
+
+# Restart Policy
+filebrowser_docker_restart_policy: unless-stopped
+
+# State
+filebrowser_docker_state: started
+
+# User
+filebrowser_docker_user: "{{ uid }}:{{ gid }}"
