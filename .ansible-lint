@@ -8,3 +8,5 @@ skip_list:
   - no-handler
   - command-instead-of-module
   - command-instead-of-shell
+  - truthy
+  - line-length

@@ -1,0 +1,98 @@
+##########################################################################
+# Title:            Sandbox: Flaresolverr                                #
+# Author(s):        Grostim, kowalski                                    #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+flaresolverr_name: flaresolverr
+
+################################
+# Docker
+################################
+
+# Container
+flaresolverr_docker_container: "{{ flaresolverr_name }}"
+
+# Image
+flaresolverr_docker_image_pull: true
+flaresolverr_docker_image_tag: "latest"
+flaresolverr_docker_image: "ghcr.io/flaresolverr/flaresolverr:{{ flaresolverr_docker_image_tag }}"
+
+# Envs
+flaresolverr_docker_envs_default:
+  LOG_LEVEL: "info"
+  LOG_HTML: "false"
+  CAPTCHA_SOLVER: "hcaptcha-solver"
+  TZ: "{{ tz }}"
+flaresolverr_docker_envs_custom: {}
+flaresolverr_docker_envs: "{{ flaresolverr_docker_envs_default
+                              | combine(flaresolverr_docker_envs_custom) }}"
+
+# Commands
+flaresolverr_docker_commands_default: []
+flaresolverr_docker_commands_custom: []
+flaresolverr_docker_commands: "{{ flaresolverr_docker_commands_default
+                                  + flaresolverr_docker_commands_custom }}"
+
+# Volumes
+flaresolverr_docker_volumes_default: []
+flaresolverr_docker_volumes_custom: []
+flaresolverr_docker_volumes: "{{ flaresolverr_docker_volumes_default
+                                 + flaresolverr_docker_volumes_custom
+                                 + docker_volumes_downloads_common }}"
+
+# Devices
+flaresolverr_docker_devices_default: []
+flaresolverr_docker_devices_custom: []
+flaresolverr_docker_devices: "{{ flaresolverr_docker_devices_default
+                                 + flaresolverr_docker_devices_custom }}"
+
+# Hosts
+flaresolverr_docker_hosts_default: []
+flaresolverr_docker_hosts_custom: []
+flaresolverr_docker_hosts: "{{ docker_hosts_common
+                               | combine(flaresolverr_docker_hosts_default)
+                               | combine(flaresolverr_docker_hosts_custom) }}"
+
+# Labels
+flaresolverr_docker_labels_default: {}
+flaresolverr_docker_labels_custom: {}
+flaresolverr_docker_labels: "{{ docker_labels_common
+                                | combine(flaresolverr_docker_labels_default)
+                                | combine(flaresolverr_docker_labels_custom) }}"
+
+# Hostname
+flaresolverr_docker_hostname: "{{ flaresolverr_name }}"
+
+# Networks
+flaresolverr_docker_networks_alias: "{{ flaresolverr_name }}"
+flaresolverr_docker_networks_default: []
+flaresolverr_docker_networks_custom: []
+flaresolverr_docker_networks: "{{ docker_networks_common
+                                  + flaresolverr_docker_networks_default
+                                  + flaresolverr_docker_networks_custom }}"
+
+# Capabilities
+flaresolverr_docker_capabilities_default: []
+flaresolverr_docker_capabilities_custom: []
+flaresolverr_docker_capabilities: "{{ flaresolverr_docker_capabilities_default
+                                      + flaresolverr_docker_capabilities_custom }}"
+
+# Security Opts
+flaresolverr_docker_security_opts_default: []
+flaresolverr_docker_security_opts_custom: []
+flaresolverr_docker_security_opts: "{{ flaresolverr_docker_security_opts_default
+                                       + flaresolverr_docker_security_opts_custom }}"
+
+# Restart Policy
+flaresolverr_docker_restart_policy: unless-stopped
+
+# State
+flaresolverr_docker_state: started

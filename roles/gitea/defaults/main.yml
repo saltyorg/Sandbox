@@ -1,0 +1,151 @@
+##########################################################################
+# Title:            Sandbox: Gitea                                       #
+# Author(s):        Thomvh, kowalski                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+gitea_name: gitea
+
+################################
+# Paths
+################################
+
+gitea_paths_folder: "{{ gitea_name }}"
+gitea_paths_location: "{{ server_appdata_path }}/{{ gitea_paths_folder }}"
+gitea_paths_folders_list:
+  - "{{ gitea_paths_location }}"
+
+################################
+# Web
+################################
+
+gitea_web_subdomain: "{{ gitea_name }}"
+gitea_web_domain: "{{ user.domain }}"
+gitea_web_port: "3000"
+gitea_web_url: "{{ 'https://' + gitea_web_subdomain + '.' + gitea_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + gitea_web_port }}"
+
+################################
+# DNS
+################################
+
+gitea_dns_record: "{{ gitea_web_subdomain }}"
+gitea_dns_zone: "{{ gitea_web_domain }}"
+
+################################
+# Traefik
+################################
+
+gitea_traefik_middleware: "{{ traefik_default_middleware }}"
+gitea_traefik_certresolver: "{{ traefik_default_certresolver }}"
+gitea_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+gitea_docker_container: "{{ gitea_name }}"
+
+# Image
+gitea_docker_image_pull: true
+gitea_docker_image_tag: "latest"
+gitea_docker_image: "gitea/gitea:{{ gitea_docker_image_tag }}"
+
+# Ports
+gitea_docker_ports_defaults:
+  - "{{ gitea_web_port }}"
+gitea_docker_ports_custom: []
+gitea_docker_ports: "{{ gitea_docker_ports_defaults
+                        + gitea_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else [] + gitea_docker_ports_custom }}"
+
+# Envs
+gitea_docker_envs_default:
+  USER_UID: "{{ uid }}"
+  USER_GID: "{{ gid }}"
+  DB_TYPE: "mysql"
+  DB_HOST: "mariadb:3306"
+  DB_USER: "root"
+  DB_PASS: "password321"
+  DB_DATABASE: "gitea"
+  DISABLE_SSH: "true"
+  RUN_MODE: "prod"
+  ROOT_URL: "{{ gitea_web_url }}/"
+gitea_docker_envs_custom: {}
+gitea_docker_envs: "{{ gitea_docker_envs_default
+                       | combine(gitea_docker_envs_custom) }}"
+
+# Commands
+gitea_docker_commands_default: []
+gitea_docker_commands_custom: []
+gitea_docker_commands: "{{ gitea_docker_commands_default
+                           + gitea_docker_commands_custom }}"
+
+# Volumes
+gitea_docker_volumes_default:
+  - "{{ gitea_paths_location }}:/data"
+  - /etc/timezone:/etc/timezone:ro
+  - /etc/localtime:/etc/localtime:ro
+gitea_docker_volumes_custom: []
+gitea_docker_volumes: "{{ gitea_docker_volumes_default
+                          + gitea_docker_volumes_custom
+                          + docker_volumes_downloads_common }}"
+
+# Devices
+gitea_docker_devices_default: []
+gitea_docker_devices_custom: []
+gitea_docker_devices: "{{ gitea_docker_devices_default
+                          + gitea_docker_devices_custom }}"
+
+# Hosts
+gitea_docker_hosts_default: []
+gitea_docker_hosts_custom: []
+gitea_docker_hosts: "{{ docker_hosts_common
+                        | combine(gitea_docker_hosts_default)
+                        | combine(gitea_docker_hosts_custom) }}"
+
+# Labels
+gitea_docker_labels_default: {}
+gitea_docker_labels_custom: {}
+gitea_docker_labels: "{{ docker_labels_common
+                         | combine(gitea_docker_labels_default)
+                         | combine(gitea_docker_labels_custom) }}"
+
+# Hostname
+gitea_docker_hostname: "{{ gitea_name }}"
+
+# Networks
+gitea_docker_networks_alias: "{{ gitea_name }}"
+gitea_docker_networks_default: []
+gitea_docker_networks_custom: []
+gitea_docker_networks: "{{ docker_networks_common
+                           + gitea_docker_networks_default
+                           + gitea_docker_networks_custom }}"
+
+# Capabilities
+gitea_docker_capabilities_default: []
+gitea_docker_capabilities_custom: []
+gitea_docker_capabilities: "{{ gitea_docker_capabilities_default
+                               + gitea_docker_capabilities_custom }}"
+
+# Security Opts
+gitea_docker_security_opts_default: []
+gitea_docker_security_opts_custom: []
+gitea_docker_security_opts: "{{ gitea_docker_security_opts_default
+                                + gitea_docker_security_opts_custom }}"
+
+# Restart Policy
+gitea_docker_restart_policy: unless-stopped
+
+# State
+gitea_docker_state: started

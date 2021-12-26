@@ -1,0 +1,141 @@
+##########################################################################
+# Title:         Sandbox: Kavita | Default Variables                     #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+kavita_name: kavita
+
+################################
+# Paths
+################################
+
+kavita_paths_folder: "{{ kavita_name }}"
+kavita_paths_location: "{{ server_appdata_path }}/{{ kavita_paths_folder }}"
+kavita_paths_folders_list:
+  - "{{ kavita_paths_location }}"
+
+################################
+# Web
+################################
+
+kavita_web_subdomain: "{{ kavita_name }}"
+kavita_web_domain: "{{ user.domain }}"
+kavita_web_port: "5000"
+kavita_web_url: "{{ 'https://' + kavita_web_subdomain + '.' + kavita_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + kavita_web_port }}"
+
+################################
+# DNS
+################################
+
+kavita_dns_record: "{{ kavita_web_subdomain }}"
+kavita_dns_zone: "{{ kavita_web_domain }}"
+
+################################
+# Traefik
+################################
+
+kavita_traefik_middleware: "{{ traefik_default_middleware }}"
+kavita_traefik_certresolver: "{{ traefik_default_certresolver }}"
+kavita_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+kavita_docker_container: "{{ kavita_name }}"
+
+# Image
+kavita_docker_image_pull: true
+kavita_docker_image_tag: "latest"
+kavita_docker_image: "kizaing/kavita:{{ kavita_docker_image_tag }}"
+
+# Ports
+kavita_docker_ports_defaults:
+  - "{{ kavita_web_port }}"
+kavita_docker_ports_custom: []
+kavita_docker_ports: "{{ kavita_docker_ports_defaults
+                         + kavita_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else [] + kavita_docker_ports_custom }}"
+
+# Envs
+kavita_docker_envs_default:
+  TZ: "{{ tz }}"
+kavita_docker_envs_custom: {}
+kavita_docker_envs: "{{ kavita_docker_envs_default
+                        | combine(kavita_docker_envs_custom) }}"
+
+# Commands
+kavita_docker_commands_default: []
+kavita_docker_commands_custom: []
+kavita_docker_commands: "{{ kavita_docker_commands_default
+                            + kavita_docker_commands_custom }}"
+
+# Volumes
+kavita_docker_volumes_default:
+  - "{{ kavita_paths_location }}:/kavita/config"
+  - "/mnt:/mnt"
+kavita_docker_volumes_custom: []
+kavita_docker_volumes: "{{ kavita_docker_volumes_default
+                           + kavita_docker_volumes_custom
+                           + docker_volumes_downloads_common }}"
+
+# Devices
+kavita_docker_devices_default: []
+kavita_docker_devices_custom: []
+kavita_docker_devices: "{{ kavita_docker_devices_default
+                           + kavita_docker_devices_custom }}"
+
+# Hosts
+kavita_docker_hosts_default: []
+kavita_docker_hosts_custom: []
+kavita_docker_hosts: "{{ docker_hosts_common
+                         | combine(kavita_docker_hosts_default)
+                         | combine(kavita_docker_hosts_custom) }}"
+
+# Labels
+kavita_docker_labels_default: {}
+kavita_docker_labels_custom: {}
+kavita_docker_labels: "{{ docker_labels_common
+                          | combine(kavita_docker_labels_default)
+                          | combine(kavita_docker_labels_custom) }}"
+
+# Hostname
+kavita_docker_hostname: "{{ kavita_name }}"
+
+# Networks
+kavita_docker_networks_alias: "{{ kavita_name }}"
+kavita_docker_networks_default: []
+kavita_docker_networks_custom: []
+kavita_docker_networks: "{{ docker_networks_common
+                            + kavita_docker_networks_default
+                            + kavita_docker_networks_custom }}"
+
+# Capabilities
+kavita_docker_capabilities_default: []
+kavita_docker_capabilities_custom: []
+kavita_docker_capabilities: "{{ kavita_docker_capabilities_default
+                                + kavita_docker_capabilities_custom }}"
+
+# Security Opts
+kavita_docker_security_opts_default: []
+kavita_docker_security_opts_custom: []
+kavita_docker_security_opts: "{{ kavita_docker_security_opts_default
+                                 + kavita_docker_security_opts_custom }}"
+
+# Restart Policy
+kavita_docker_restart_policy: unless-stopped
+
+# State
+kavita_docker_state: started

@@ -1,0 +1,163 @@
+#########################################################################
+# Title:            Sandbox: Calibre                                    #
+# Author(s):        Andrew Johnson, -SK, kowalski                       #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+calibre_name: calibre
+
+################################
+# Paths
+################################
+
+calibre_paths_folder: "{{ calibre_name }}"
+calibre_paths_location: "{{ server_appdata_path }}/{{ calibre_paths_folder }}"
+calibre_paths_folders_list:
+  - "{{ calibre_paths_location }}"
+  - /mnt/local/Media/Books
+
+################################
+# Web
+################################
+
+calibre_web_subdomain: "{{ calibre_name }}"
+calibre_web_domain: "{{ user.domain }}"
+calibre_web_port: "8080"
+calibre_web_url: "{{ 'https://' + calibre_web_subdomain + '.' + calibre_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + calibre_web_port }}"
+
+calibre_web2_subdomain: "calibrebooks"
+calibre_web2_domain: "{{ user.domain }}"
+calibre_web2_port: "8081"
+calibre_web2_url: "{{ 'https://' + calibre_web2_subdomain + '.' + calibre_web2_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + calibre_web2_port }}"
+
+################################
+# DNS
+################################
+
+calibre_dns_record: "{{ calibre_web_subdomain }}"
+calibre_dns_zone: "{{ calibre_web_domain }}"
+calibre_dns2_record: "{{ calibre_web2_subdomain }}"
+calibre_dns2_zone: "{{ calibre_web2_domain }}"
+
+################################
+# Traefik
+################################
+
+calibre_traefik_middleware: "{{ traefik_default_middleware }}"
+calibre_traefik_certresolver: "{{ traefik_default_certresolver }}"
+calibre_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+calibre_docker_container: "{{ calibre_name }}"
+
+# Image
+calibre_docker_image_pull: true
+calibre_docker_image_tag: "latest"
+calibre_docker_image: "ghcr.io/lscr.io/linuxserver/calibre:{{ calibre_docker_image_tag }}"
+
+# Ports
+calibre_docker_ports_defaults:
+  - "{{ calibre_web_port }}"
+calibre_docker_ports_custom: []
+calibre_docker_ports: "{{ calibre_docker_ports_defaults
+                          + calibre_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else [] + calibre_docker_ports_custom }}"
+
+# Envs
+calibre_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  PASSWORD: "{{ user.pass }}"
+  LIBRARYINTERNALPATH: "/library"
+calibre_docker_envs_custom: {}
+calibre_docker_envs: "{{ calibre_docker_envs_default
+                         | combine(calibre_docker_envs_custom) }}"
+
+# Commands
+calibre_docker_commands_default: []
+calibre_docker_commands_custom: []
+calibre_docker_commands: "{{ calibre_docker_commands_default
+                             + calibre_docker_commands_custom }}"
+
+# Volumes
+calibre_docker_volumes_default:
+  - "{{ calibre_paths_location }}:/config"
+  - "/mnt/unionfs/Media/Books:/library"
+  - "/mnt:/mnt"
+calibre_docker_volumes_custom: []
+calibre_docker_volumes: "{{ calibre_docker_volumes_default
+                            + calibre_docker_volumes_custom
+                            + docker_volumes_downloads_common }}"
+
+# Devices
+calibre_docker_devices_default: []
+calibre_docker_devices_custom: []
+calibre_docker_devices: "{{ calibre_docker_devices_default
+                            + calibre_docker_devices_custom }}"
+
+# Hosts
+calibre_docker_hosts_default: []
+calibre_docker_hosts_custom: []
+calibre_docker_hosts: "{{ docker_hosts_common
+                          | combine(calibre_docker_hosts_default)
+                          | combine(calibre_docker_hosts_custom) }}"
+
+# Labels
+calibre_docker_labels_default:
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.entrypoints": "websecure" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.service": "{{ calibre_web2_subdomain }}" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.rule": "Host(`{{ calibre_web2_subdomain + "." + calibre_web2_domain }}`)" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.tls.options": "securetls@file" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.tls.certresolver": "{{ calibre_traefik_certresolver }}" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.middlewares": "{{ calibre_traefik_middleware }}" }'
+  - '{ "traefik.http.services.{{ calibre_web2_subdomain }}.loadbalancer.server.port": "{{ calibre_web2_port }}" }'
+calibre_docker_labels_custom: {}
+calibre_docker_labels: "{{ docker_labels_common
+                           | combine(calibre_docker_labels_default)
+                           | combine(calibre_docker_labels_custom) }}"
+
+# Hostname
+calibre_docker_hostname: "{{ calibre_name }}"
+
+# Networks
+calibre_docker_networks_alias: "{{ calibre_name }}"
+calibre_docker_networks_default: []
+calibre_docker_networks_custom: []
+calibre_docker_networks: "{{ docker_networks_common
+                             + calibre_docker_networks_default
+                             + calibre_docker_networks_custom }}"
+
+# Capabilities
+calibre_docker_capabilities_default: []
+calibre_docker_capabilities_custom: []
+calibre_docker_capabilities: "{{ calibre_docker_capabilities_default
+                                 + calibre_docker_capabilities_custom }}"
+
+# Security Opts
+calibre_docker_security_opts_default: []
+calibre_docker_security_opts_custom: []
+calibre_docker_security_opts: "{{ calibre_docker_security_opts_default
+                                  + calibre_docker_security_opts_custom }}"
+
+# Restart Policy
+calibre_docker_restart_policy: unless-stopped
+
+# State
+calibre_docker_state: started

@@ -1,0 +1,145 @@
+#########################################################################
+# Title:            Sandbox: Sshwifty                                   #
+# Author(s):        astromd, kowalski                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+sshwifty_name: sshwifty
+
+################################
+# Paths
+################################
+
+sshwifty_paths_folder: "{{ sshwifty_name }}"
+sshwifty_paths_location: "{{ server_appdata_path }}/{{ sshwifty_paths_folder }}"
+sshwifty_paths_folders_list:
+  - "{{ sshwifty_paths_location }}"
+  - "{{ sshwifty_paths_location }}/config"
+sshwifty_paths_config_location: "{{ sshwifty_paths_location }}/config/sshwifty.conf.json"
+
+################################
+# Web
+################################
+
+sshwifty_web_subdomain: "{{ sshwifty_name }}"
+sshwifty_web_domain: "{{ user.domain }}"
+sshwifty_web_port: "8182"
+sshwifty_web_url: "{{ 'https://' + sshwifty_web_subdomain + '.' + sshwifty_web_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + sshwifty_web_port }}"
+
+################################
+# DNS
+################################
+
+sshwifty_dns_record: "{{ sshwifty_web_subdomain }}"
+sshwifty_dns_zone: "{{ sshwifty_web_domain }}"
+
+################################
+# Traefik
+################################
+
+sshwifty_traefik_middleware: "{{ traefik_default_middleware }}"
+sshwifty_traefik_certresolver: "{{ traefik_default_certresolver }}"
+sshwifty_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+sshwifty_docker_container: "{{ sshwifty_name }}"
+
+# Image
+sshwifty_docker_image_pull: true
+sshwifty_docker_image_tag: "latest"
+sshwifty_docker_image: "niruix/sshwifty:{{ sshwifty_docker_image_tag }}"
+
+# Ports
+sshwifty_docker_ports_defaults:
+  - "{{ sshwifty_web_port }}"
+sshwifty_docker_ports_custom: []
+sshwifty_docker_ports: "{{ sshwifty_docker_ports_defaults
+                           + sshwifty_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else [] + sshwifty_docker_ports_custom }}"
+
+# Envs
+sshwifty_docker_envs_default:
+  SSHWIFTY_CONFIG: "/config/sshwifty.conf.json"
+sshwifty_docker_envs_custom: {}
+sshwifty_docker_envs: "{{ sshwifty_docker_envs_default
+                          | combine(sshwifty_docker_envs_custom) }}"
+
+# Commands
+sshwifty_docker_commands_default: []
+sshwifty_docker_commands_custom: []
+sshwifty_docker_commands: "{{ sshwifty_docker_commands_default
+                              + sshwifty_docker_commands_custom }}"
+
+# Volumes
+sshwifty_docker_volumes_default:
+  - "{{ sshwifty_paths_location }}/config:/config"
+  - "/mnt:/mnt"
+sshwifty_docker_volumes_custom: []
+sshwifty_docker_volumes: "{{ sshwifty_docker_volumes_default
+                             + sshwifty_docker_volumes_custom }}"
+
+# Devices
+sshwifty_docker_devices_default: []
+sshwifty_docker_devices_custom: []
+sshwifty_docker_devices: "{{ sshwifty_docker_devices_default
+                             + sshwifty_docker_devices_custom }}"
+
+# Hosts
+sshwifty_docker_hosts_default: []
+sshwifty_docker_hosts_custom: []
+sshwifty_docker_hosts: "{{ docker_hosts_common
+                           | combine(sshwifty_docker_hosts_default)
+                           | combine(sshwifty_docker_hosts_custom) }}"
+
+# Labels
+sshwifty_docker_labels_default: {}
+sshwifty_docker_labels_custom: {}
+sshwifty_docker_labels: "{{ docker_labels_common
+                            | combine(sshwifty_docker_labels_default)
+                            | combine(sshwifty_docker_labels_custom) }}"
+
+# Hostname
+sshwifty_docker_hostname: "{{ sshwifty_name }}"
+
+# Networks
+sshwifty_docker_networks_alias: "{{ sshwifty_name }}"
+sshwifty_docker_networks_default: []
+sshwifty_docker_networks_custom: []
+sshwifty_docker_networks: "{{ docker_networks_common
+                              + sshwifty_docker_networks_default
+                              + sshwifty_docker_networks_custom }}"
+
+# Capabilities
+sshwifty_docker_capabilities_default: []
+sshwifty_docker_capabilities_custom: []
+sshwifty_docker_capabilities: "{{ sshwifty_docker_capabilities_default
+                                  + sshwifty_docker_capabilities_custom }}"
+
+# Security Opts
+sshwifty_docker_security_opts_default: []
+sshwifty_docker_security_opts_custom: []
+sshwifty_docker_security_opts: "{{ sshwifty_docker_security_opts_default
+                                   + sshwifty_docker_security_opts_custom }}"
+
+# Restart Policy
+sshwifty_docker_restart_policy: unless-stopped
+
+# State
+sshwifty_docker_state: started
+
+# User
+sshwifty_docker_user: "{{ uid }}:{{ gid }}"

@@ -1,0 +1,149 @@
+##########################################################################
+# Title:         Sandbox: xTeve | Default Variables                      #
+# Author(s):     Satz, Migz, salty                                       #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+xteve_name: xteve
+
+################################
+# Paths
+################################
+
+xteve_paths_folder: "{{ xteve_name }}"
+xteve_paths_location: "{{ server_appdata_path }}/{{ xteve_paths_folder }}"
+xteve_paths_folders_list:
+  - "{{ xteve_paths_location }}"
+
+################################
+# Web
+################################
+
+xteve_web_subdomain: "{{ xteve_name }}"
+xteve_web_domain: "{{ user.domain }}"
+xteve_web_port: "34400"
+xteve_web_url: "{{ 'https://' + xteve_web_subdomain + '.' + xteve_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + xteve_web_port }}"
+
+################################
+# DNS
+################################
+
+xteve_dns_record: "{{ xteve_web_subdomain }}"
+xteve_dns_zone: "{{ xteve_web_domain }}"
+
+################################
+# Traefik
+################################
+
+xteve_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+xteve_traefik_middleware: "{{ traefik_default_middleware + ',' + xteve_traefik_sso_middleware
+                           if (xteve_traefik_sso_middleware | length > 0)
+                           else traefik_default_middleware }}"
+xteve_traefik_certresolver: "{{ traefik_default_certresolver }}"
+xteve_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+xteve_docker_container: "{{ xteve_name }}"
+
+# Image
+xteve_docker_image_pull: true
+xteve_docker_image_tag: "latest"
+xteve_docker_image: "dnsforge/xteve:{{ xteve_docker_image_tag }}"
+
+# Ports
+xteve_docker_ports_defaults:
+  - "{{ xteve_web_port }}"
+xteve_docker_ports_custom: []
+xteve_docker_ports: "{{ xteve_docker_ports_defaults
+                        + xteve_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else [] + xteve_docker_ports_custom }}"
+
+# Envs
+xteve_docker_envs_default:
+  TZ: "{{ tz }}"
+  XTEVE_BRANCH: "beta"
+  XTEVE_UID: "{{ uid }}"
+  XTEVE_GID: "{{ gid }}"
+  XTEVE_API: "1"
+xteve_docker_envs_custom: {}
+xteve_docker_envs: "{{ xteve_docker_envs_default
+                       | combine(xteve_docker_envs_custom) }}"
+
+# Commands
+xteve_docker_commands_default: []
+xteve_docker_commands_custom: []
+xteve_docker_commands: "{{ xteve_docker_commands_default
+                           + xteve_docker_commands_custom }}"
+
+# Volumes
+xteve_docker_volumes_default:
+  - "{{ xteve_paths_location }}/app/config:/home/xteve/conf:rw"
+  - "{{ xteve_paths_location }}/app/tmp:/tmp/xteve:rw"
+  - "{{ xteve_paths_location }}/app/guide2go:/home/xteve/guide2go/conf:rw"
+xteve_docker_volumes_custom: []
+xteve_docker_volumes: "{{ xteve_docker_volumes_default
+                          + xteve_docker_volumes_custom
+                          + docker_volumes_downloads_common }}"
+
+# Devices
+xteve_docker_devices_default: []
+xteve_docker_devices_custom: []
+xteve_docker_devices: "{{ xteve_docker_devices_default
+                          + xteve_docker_devices_custom }}"
+
+# Hosts
+xteve_docker_hosts_default: []
+xteve_docker_hosts_custom: []
+xteve_docker_hosts: "{{ docker_hosts_common
+                        | combine(xteve_docker_hosts_default)
+                        | combine(xteve_docker_hosts_custom) }}"
+
+# Labels
+xteve_docker_labels_default: {}
+xteve_docker_labels_custom: {}
+xteve_docker_labels: "{{ docker_labels_common
+                         | combine(xteve_docker_labels_default)
+                         | combine(xteve_docker_labels_custom) }}"
+
+# Hostname
+xteve_docker_hostname: "{{ xteve_name }}"
+
+# Networks
+xteve_docker_networks_alias: "{{ xteve_name }}"
+xteve_docker_networks_default: []
+xteve_docker_networks_custom: []
+xteve_docker_networks: "{{ docker_networks_common
+                           + xteve_docker_networks_default
+                           + xteve_docker_networks_custom }}"
+
+# Capabilities
+xteve_docker_capabilities_default: []
+xteve_docker_capabilities_custom: []
+xteve_docker_capabilities: "{{ xteve_docker_capabilities_default
+                               + xteve_docker_capabilities_custom }}"
+
+# Security Opts
+xteve_docker_security_opts_default: []
+xteve_docker_security_opts_custom: []
+xteve_docker_security_opts: "{{ xteve_docker_security_opts_default
+                                + xteve_docker_security_opts_custom }}"
+
+# Restart Policy
+xteve_docker_restart_policy: unless-stopped
+
+# State
+xteve_docker_state: started

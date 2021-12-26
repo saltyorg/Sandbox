@@ -13,10 +13,65 @@
     # Apps
     - { role: adguardhome, tags: ['adguardhome'] }
     - { role: airdcpp, tags: ['airdcpp'] }
+    - { role: airsonic, tags: ['airsonic'] }
+    - { role: alltube, tags: ['alltube'] }
+    - { role: alternatrr, tags: ['alternatrr'] }
+    - { role: alternatrrx, tags: ['alternatrrx'] }
+    - { role: apprise, tags: ['apprise'] }
+    - { role: archivebox, tags: ['archivebox'] }
+    - { role: beets, tags: ['beets'] }
+    - { role: booksonic, tags: ['booksonic'] }
+    - { role: bookstack, tags: ['bookstack'] }
+    - { role: calibre, tags: ['calibre'] }
+    - { role: calibre_web, tags: ['calibre-web'] }
+    - { role: coder, tags: ['coder'] }
+    - { role: comicstreamer, tags: ['comicstreamer'] }
+    - { role: comixed, tags: ['comixed'] }
+    - { role: deemix, tags: ['deemix'] }
+    - { role: delugevpn, tags: ['delugevpn'] }
+    - { role: embystat, tags: ['embystat'] }
+    - { role: epms, tags: ['epms'] }
+    - { role: filebot, tags: ['filebot'] }
+    - { role: filebrowser, tags: ['filebrowser'] }
+    - { role: filezilla, tags: ['filezilla'] }
+    - { role: flaresolverr, tags: ['flaresolverr'] }
+    - { role: funkwhale, tags: ['funkwhale'] }
+    - { role: gitea, tags: ['gitea'] }
+    - { role: glances_web, tags: ['glances-web'] }
+    - { role: goplaxt, tags: ['goplaxt'] }
+    - { role: gotify, tags: ['gotify'] }
+    - { role: guacamole, tags: ['guacamole'] }
+    - { role: handbrake, tags: ['handbrake'] }
+    - { role: heimdall, tags: ['heimdall'] }
+    - { role: jdownloader2, tags: ['jdownloader2'] }
+    - { role: jirafeau, tags: ['jirafeau'] }
+    - { role: kavita, tags: ['kavita'] }
+    - { role: kcptun_client, tags: ['kcptun-client'] }
+    - { role: kcptun_server, tags: ['kcptun-server'] }
+    - { role: kitana, tags: ['kitana'] }
+    - { role: komga, tags: ['komga'] }
+    - { role: lazylibrarian, tags: ['lazylibrarian'] }
+    - { role: logarr, tags: ['logarr'] }
+    - { role: medusa, tags: ['medusa'] }
+    - { role: monitorr, tags: ['monitorr'] }
+    - { role: moviematch, tags: ['moviematch'] }
+    - { role: mylar3, tags: ['mylar3'] }
+    - { role: navidrome, tags: ['navidrome'] }
+    - { role: nextcloud, tags: ['nextcloud'] }
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
     - { role: notifiarr, tags: ['notifiarr'] }
+    - { role: ouroboros, tags: ['ouroboros'] }
+    - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
+    - { role: speedtest, tags: ['speedtest'] }
+    - { role: sshwifty, tags: ['sshwifty'] }
+    - { role: stash, tags: ['stash'] }
     - { role: thelounge, tags: ['thelounge'] }
+    - { role: unmanic, tags: ['unmanic'] }
+    - { role: vaultwarden, tags: ['vaultwarden'] }
+    - { role: watchtower, tags: ['watchtower'] }
+    - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
+    - { role: xteve, tags: ['xteve'] }
     - { role: znc, tags: ['znc'] }

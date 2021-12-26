@@ -1,0 +1,145 @@
+#########################################################################
+# Title:            Sandbox: komga                                      #
+# Author(s):        theotocopulitos, crowquill                          #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+komga_name: komga
+
+################################
+# Paths
+################################
+
+komga_paths_folder: "{{ komga_name }}"
+komga_paths_location: "{{ server_appdata_path }}/{{ komga_paths_folder }}"
+komga_paths_folders_list:
+  - "{{ komga_paths_location }}"
+  - "/mnt/local/Media/Comics"
+
+################################
+# Web
+################################
+
+komga_web_subdomain: "{{ komga_name }}"
+komga_web_domain: "{{ user.domain }}"
+komga_web_port: "8080"
+komga_web_url: "{{ 'https://' + komga_web_subdomain + '.' + komga_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + komga_web_port }}"
+
+################################
+# DNS
+################################
+
+komga_dns_record: "{{ komga_web_subdomain }}"
+komga_dns_zone: "{{ komga_web_domain }}"
+
+################################
+# Traefik
+################################
+
+komga_traefik_middleware: "{{ traefik_default_middleware }}"
+komga_traefik_certresolver: "{{ traefik_default_certresolver }}"
+komga_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+komga_docker_container: "{{ komga_name }}"
+
+# Image
+komga_docker_image_pull: true
+komga_docker_image_tag: "latest"
+komga_docker_image: "gotson/komga:{{ komga_docker_image_tag }}"
+
+# Ports
+komga_docker_ports_defaults:
+  - "{{ komga_web_port }}"
+komga_docker_ports_custom: []
+komga_docker_ports: "{{ komga_docker_ports_defaults
+                        + komga_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else [] + komga_docker_ports_custom }}"
+
+# Envs
+komga_docker_envs_default: {}
+komga_docker_envs_custom: {}
+komga_docker_envs: "{{ komga_docker_envs_default
+                       | combine(komga_docker_envs_custom) }}"
+
+# Commands
+komga_docker_commands_default: []
+komga_docker_commands_custom: []
+komga_docker_commands: "{{ komga_docker_commands_default
+                           + komga_docker_commands_custom }}"
+
+# Volumes
+komga_docker_volumes_default:
+  - "{{ komga_paths_location }}:/config"
+  - "/mnt/unionfs/Media/Comics:/comics"
+  - "/mnt:/mnt"
+komga_docker_volumes_custom: []
+komga_docker_volumes: "{{ komga_docker_volumes_default
+                          + komga_docker_volumes_custom
+                          + docker_volumes_downloads_common }}"
+
+# Devices
+komga_docker_devices_default: []
+komga_docker_devices_custom: []
+komga_docker_devices: "{{ komga_docker_devices_default
+                          + komga_docker_devices_custom }}"
+
+# Hosts
+komga_docker_hosts_default: []
+komga_docker_hosts_custom: []
+komga_docker_hosts: "{{ docker_hosts_common
+                        | combine(komga_docker_hosts_default)
+                        | combine(komga_docker_hosts_custom) }}"
+
+# Labels
+komga_docker_labels_default: {}
+komga_docker_labels_custom: {}
+komga_docker_labels: "{{ docker_labels_common
+                         | combine(komga_docker_labels_default)
+                         | combine(komga_docker_labels_custom) }}"
+
+# Hostname
+komga_docker_hostname: "{{ komga_name }}"
+
+# Networks
+komga_docker_networks_alias: "{{ komga_name }}"
+komga_docker_networks_default: []
+komga_docker_networks_custom: []
+komga_docker_networks: "{{ docker_networks_common
+                           + komga_docker_networks_default
+                           + komga_docker_networks_custom }}"
+
+# Capabilities
+komga_docker_capabilities_default: []
+komga_docker_capabilities_custom: []
+komga_docker_capabilities: "{{ komga_docker_capabilities_default
+                               + komga_docker_capabilities_custom }}"
+
+# Security Opts
+komga_docker_security_opts_default: []
+komga_docker_security_opts_custom: []
+komga_docker_security_opts: "{{ komga_docker_security_opts_default
+                                + komga_docker_security_opts_custom }}"
+
+# Restart Policy
+komga_docker_restart_policy: unless-stopped
+
+# State
+komga_docker_state: started
+
+# User
+komga_docker_user: "{{ uid }}:{{ gid }}"

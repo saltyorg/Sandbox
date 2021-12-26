@@ -1,0 +1,119 @@
+##########################################################################
+# Title:         Sandbox: Plex Meta Manager | Default Variables          #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+plex_meta_manager_name: plex-meta-manager
+
+################################
+# Paths
+################################
+
+plex_meta_manager_paths_folder: "{{ plex_meta_manager_name }}"
+plex_meta_manager_paths_location: "{{ server_appdata_path }}/{{ plex_meta_manager_paths_folder }}"
+plex_meta_manager_paths_folders_list:
+  - "{{ plex_meta_manager_paths_location }}"
+  - "{{ plex_meta_manager_paths_location }}/config"
+
+################################
+# Docker
+################################
+
+# Container
+plex_meta_manager_docker_container: "{{ plex_meta_manager_name }}"
+
+# Image
+plex_meta_manager_docker_image_pull: true
+plex_meta_manager_docker_image_tag: "latest"
+plex_meta_manager_docker_image: "meisnate12/plex-meta-manager:{{ plex_meta_manager_docker_image_tag }}"
+
+# Ports
+plex_meta_manager_docker_ports_defaults:
+  - "{{ plex_meta_manager_web_port }}:{{ plex_meta_manager_web_port }}"
+plex_meta_manager_docker_ports_custom: []
+plex_meta_manager_docker_ports: "{{ plex_meta_manager_docker_ports_defaults
+                                    + plex_meta_manager_docker_ports_custom
+                                 if (not reverse_proxy_is_enabled)
+                                 else [] + plex_meta_manager_docker_ports_custom }}"
+
+# Envs
+plex_meta_manager_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  LOG_LEVEL: "DEBUG"
+  PMM_TIME: "{{ plex_meta_manager.time }}"
+plex_meta_manager_docker_envs_custom: {}
+plex_meta_manager_docker_envs: "{{ plex_meta_manager_docker_envs_default
+                                   | combine(plex_meta_manager_docker_envs_custom) }}"
+
+# Commands
+plex_meta_manager_docker_commands_default: []
+plex_meta_manager_docker_commands_custom: []
+plex_meta_manager_docker_commands: "{{ plex_meta_manager_docker_commands_default
+                                       + plex_meta_manager_docker_commands_custom }}"
+
+# Volumes
+plex_meta_manager_docker_volumes_default:
+  - "{{ plex_meta_manager_paths_location }}:/config"
+plex_meta_manager_docker_volumes_custom: []
+plex_meta_manager_docker_volumes: "{{ plex_meta_manager_docker_volumes_default
+                                      + plex_meta_manager_docker_volumes_custom
+                                      + docker_volumes_downloads_common }}"
+
+# Devices
+plex_meta_manager_docker_devices_default: []
+plex_meta_manager_docker_devices_custom: []
+plex_meta_manager_docker_devices: "{{ plex_meta_manager_docker_devices_default
+                                   + plex_meta_manager_docker_devices_custom }}"
+
+# Hosts
+plex_meta_manager_docker_hosts_default: []
+plex_meta_manager_docker_hosts_custom: []
+plex_meta_manager_docker_hosts: "{{ docker_hosts_common
+                                    | combine(plex_meta_manager_docker_hosts_default)
+                                    | combine(plex_meta_manager_docker_hosts_custom) }}"
+
+# Labels
+plex_meta_manager_docker_labels_default: {}
+plex_meta_manager_docker_labels_custom: {}
+plex_meta_manager_docker_labels: "{{ docker_labels_common
+                                     | combine(plex_meta_manager_docker_labels_default)
+                                     | combine(plex_meta_manager_docker_labels_custom) }}"
+
+# Hostname
+plex_meta_manager_docker_hostname: "{{ plex_meta_manager_name }}"
+
+# Networks
+plex_meta_manager_docker_networks_alias: "{{ plex_meta_manager_name }}"
+plex_meta_manager_docker_networks_default: []
+plex_meta_manager_docker_networks_custom: []
+plex_meta_manager_docker_networks: "{{ docker_networks_common
+                                       + plex_meta_manager_docker_networks_default
+                                       + plex_meta_manager_docker_networks_custom }}"
+
+# Capabilities
+plex_meta_manager_docker_capabilities_default: []
+plex_meta_manager_docker_capabilities_custom: []
+plex_meta_manager_docker_capabilities: "{{ plex_meta_manager_docker_capabilities_default
+                                           + plex_meta_manager_docker_capabilities_custom }}"
+
+# Security Opts
+plex_meta_manager_docker_security_opts_default: []
+plex_meta_manager_docker_security_opts_custom: []
+plex_meta_manager_docker_security_opts: "{{ plex_meta_manager_docker_security_opts_default
+                                            + plex_meta_manager_docker_security_opts_custom }}"
+
+# Restart Policy
+plex_meta_manager_docker_restart_policy: unless-stopped
+
+# State
+plex_meta_manager_docker_state: started

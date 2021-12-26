@@ -1,0 +1,147 @@
+##########################################################################
+# Title:         Sandbox: Nextcloud | Default Variables                  #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+nextcloud_name: nextcloud
+
+################################
+# Paths
+################################
+
+nextcloud_paths_folder: "{{ nextcloud_name }}"
+nextcloud_paths_location: "{{ server_appdata_path }}/{{ nextcloud_paths_folder }}"
+nextcloud_paths_folders_list:
+  - "{{ nextcloud_paths_location }}"
+
+################################
+# Web
+################################
+
+nextcloud_web_subdomain: "{{ nextcloud_name }}"
+nextcloud_web_domain: "{{ user.domain }}"
+nextcloud_web_port: "80"
+nextcloud_web_url: "{{ 'https://' + nextcloud_web_subdomain + '.' + nextcloud_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + nextcloud_web_port }}"
+
+################################
+# DNS
+################################
+
+nextcloud_dns_record: "{{ nextcloud_web_subdomain }}"
+nextcloud_dns_zone: "{{ nextcloud_web_domain }}"
+
+################################
+# Traefik
+################################
+
+nextcloud_traefik_middleware: "{{ traefik_default_middleware }},nextcloud-caldav"
+nextcloud_traefik_certresolver: "{{ traefik_default_certresolver }}"
+nextcloud_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+nextcloud_docker_container: "{{ nextcloud_name }}"
+
+# Image
+nextcloud_docker_image_pull: true
+nextcloud_docker_image_tag: "latest"
+nextcloud_docker_image: "nextcloud:{{ nextcloud_docker_image_tag }}"
+
+# Ports
+nextcloud_docker_ports_defaults:
+  - "{{ nextcloud_web_port }}"
+nextcloud_docker_ports_custom: []
+nextcloud_docker_ports: "{{ nextcloud_docker_ports_defaults
+                            + nextcloud_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + nextcloud_docker_ports_custom }}"
+
+# Envs
+nextcloud_docker_envs_default:
+  TZ: "{{ tz }}"
+nextcloud_docker_envs_custom: {}
+nextcloud_docker_envs: "{{ nextcloud_docker_envs_default
+                           | combine(nextcloud_docker_envs_custom) }}"
+
+# Commands
+nextcloud_docker_commands_default: []
+nextcloud_docker_commands_custom: []
+nextcloud_docker_commands: "{{ nextcloud_docker_commands_default
+                               + nextcloud_docker_commands_custom }}"
+
+# Volumes
+nextcloud_docker_volumes_default:
+  - "{{ nextcloud_paths_location }}:/var/www/html"
+  - "/mnt:/mnt"
+nextcloud_docker_volumes_custom: []
+nextcloud_docker_volumes: "{{ nextcloud_docker_volumes_default
+                              + nextcloud_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+nextcloud_docker_devices_default: []
+nextcloud_docker_devices_custom: []
+nextcloud_docker_devices: "{{ nextcloud_docker_devices_default
+                              + nextcloud_docker_devices_custom }}"
+
+# Hosts
+nextcloud_docker_hosts_default: []
+nextcloud_docker_hosts_custom: []
+nextcloud_docker_hosts: "{{ docker_hosts_common
+                            | combine(nextcloud_docker_hosts_default)
+                            | combine(nextcloud_docker_hosts_custom) }}"
+
+# Labels
+nextcloud_docker_labels_default:
+  traefik.http.middlewares.nextcloud-caldav.redirectregex.permanent: "true"
+  traefik.http.middlewares.nextcloud-caldav.redirectregex.regex: "^https://(.*)/.well-known/(card|cal)dav"
+  traefik.http.middlewares.nextcloud-caldav.redirectregex.replacement: "https://$${1}/remote.php/dav/"
+nextcloud_docker_labels_custom: {}
+nextcloud_docker_labels: "{{ docker_labels_common
+                             | combine(nextcloud_docker_labels_default)
+                             | combine(nextcloud_docker_labels_custom) }}"
+
+# Hostname
+nextcloud_docker_hostname: "{{ nextcloud_name }}"
+
+# Networks
+nextcloud_docker_networks_alias: "{{ nextcloud_name }}"
+nextcloud_docker_networks_default: []
+nextcloud_docker_networks_custom: []
+nextcloud_docker_networks: "{{ docker_networks_common
+                               + nextcloud_docker_networks_default
+                               + nextcloud_docker_networks_custom }}"
+
+# Capabilities
+nextcloud_docker_capabilities_default: []
+nextcloud_docker_capabilities_custom: []
+nextcloud_docker_capabilities: "{{ nextcloud_docker_capabilities_default
+                                   + nextcloud_docker_capabilities_custom }}"
+
+# Security Opts
+nextcloud_docker_security_opts_default: []
+nextcloud_docker_security_opts_custom: []
+nextcloud_docker_security_opts: "{{ nextcloud_docker_security_opts_default
+                                    + nextcloud_docker_security_opts_custom }}"
+
+# Restart Policy
+nextcloud_docker_restart_policy: unless-stopped
+
+# State
+nextcloud_docker_state: started
+
+# User
+nextcloud_docker_user: "{{ uid }}:{{ gid }}"

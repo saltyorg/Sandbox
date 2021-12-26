@@ -1,0 +1,24 @@
+#########################################################################
+# Title:            Sandbox: Glances                                    #
+# Author(s):        Satz, kowalski                                      #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Settings | Check if `{{ glances_web_paths_config_location | basename }}` exists
+  stat:
+    path: "{{ glances_web_paths_config_location }}"
+  register: glances_web_config
+
+- name: Settings | New `{{ glances_web_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ glances_web_paths_config_location | basename }}`
+      copy:
+        src: glances.conf
+        dest: "{{ glances_web_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not glances_web_config.stat.exists
