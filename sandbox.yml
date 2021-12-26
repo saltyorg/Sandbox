@@ -12,6 +12,7 @@
     - { role: pre_tasks, tags: ['pre_tasks'] }
     # Apps
     - { role: adguardhome, tags: ['adguardhome'] }
+    - { role: airdcpp, tags: ['airdcpp'] }
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
     - { role: notifiarr, tags: ['notifiarr'] }
