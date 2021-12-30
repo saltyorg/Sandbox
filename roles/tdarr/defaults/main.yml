@@ -127,8 +127,7 @@ tdarr_docker_hosts: "{{ docker_hosts_common
                         | combine(tdarr_docker_hosts_custom) }}"
 
 # Labels
-tdarr_docker_labels_default:
-  traefik.http.middlewares.tdarr-auth.basicauth.usersfile: "{{ tdarr_auth }}"
+tdarr_docker_labels_default: {}
 tdarr_docker_labels_custom: {}
 tdarr_docker_labels: "{{ docker_labels_common
                          | combine(tdarr_docker_labels_default)
