@@ -67,6 +67,7 @@
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
+    - { role: tdarr, tags: ['tdarr'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: vaultwarden, tags: ['vaultwarden'] }
