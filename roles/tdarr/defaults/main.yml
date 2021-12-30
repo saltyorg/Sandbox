@@ -55,7 +55,6 @@ tdarr_traefik_middleware: "{{ traefik_default_middleware + ',' + tdarr_traefik_s
                            else traefik_default_middleware }}"
 tdarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 tdarr_traefik_enabled: true
-tdarr_traefik_api_enabled: true
 
 ################################
 # Docker
