@@ -38,7 +38,7 @@
 
     - name: "Finish | Exit so that user can check updated config files"
       debug:
-        msg: "Community Installer will now exit."
+        msg: "Sandbox Installer will now exit."
 
     - name: "Finish | Exit"
       meta: end_play
