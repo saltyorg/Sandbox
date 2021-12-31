@@ -22,9 +22,9 @@
     name: yyq
   when: (not yyq_binary.stat.exists)
 
-- name: "Start | Get 'community.yml' info"
+- name: "Start | Get 'sandbox.yml' info"
   stat:
-    path: "{{ playbook_dir }}/community.yml"
+    path: "{{ playbook_dir }}/sandbox.yml"
   register: sandbox_yml
 
 - name: "Start | Create list of config files"
