@@ -1,0 +1,166 @@
+##########################################################################
+# Title:            Sandbox: Tdarr   | Default Variables                 #
+# Author(s):        kowalski                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+tdarr_name: tdarr
+
+################################
+# Paths
+################################
+
+tdarr_paths_folder: "{{ tdarr_name }}"
+tdarr_paths_location: "{{ server_appdata_path }}/{{ tdarr_paths_folder }}"
+tdarr_paths_server_location: "{{ tdarr_paths_location }}/server"
+tdarr_paths_configs_location: "{{ tdarr_paths_location }}/configs"
+tdarr_paths_logs_location: "{{ tdarr_paths_location }}/logs"
+tdarr_paths_transcodes_location: "{{ transcodes_path }}/{{ tdarr_paths_folder }}"
+tdarr_paths_folders_list:
+  - "{{ tdarr_paths_location }}"
+  - "{{ tdarr_paths_server_location }}"
+  - "{{ tdarr_paths_configs_location }}"
+  - "{{ tdarr_paths_logs_location }}"
+  - "{{ tdarr_paths_transcodes_location }}"
+
+################################
+# Web
+################################
+
+tdarr_web_subdomain: "{{ tdarr_name }}"
+tdarr_web_domain: "{{ user.domain }}"
+tdarr_web_port: "8265"
+tdarr_web_url: "{{ 'https://' + tdarr_web_subdomain + dns_record_suffix + '.' + tdarr_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + tdarr_web_port }}"
+
+################################
+# DNS
+################################
+
+tdarr_dns_record: "{{ tdarr_web_subdomain }}"
+tdarr_dns_zone: "{{ tdarr_web_domain }}"
+
+################################
+# Traefik
+################################
+
+tdarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tdarr_traefik_middleware: "{{ traefik_default_middleware + ',' + tdarr_traefik_sso_middleware
+                           if (tdarr_traefik_sso_middleware | length > 0)
+                           else traefik_default_middleware }}"
+tdarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tdarr_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+tdarr_docker_container: "{{ tdarr_name }}"
+
+# Image
+tdarr_docker_image_pull: true
+tdarr_docker_image_tag: "latest"
+tdarr_docker_image: "haveagitgat/tdarr:{{ tdarr_docker_image_tag }}"
+
+# Ports
+tdarr_docker_ports_defaults:
+  - "{{ tdarr_web_port }}"
+tdarr_docker_ports_custom: []
+tdarr_docker_ports: "{{ tdarr_docker_ports_defaults
+                        + tdarr_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else [] + tdarr_docker_ports_custom }}"
+
+# Envs
+tdarr_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  UMASK: "002"
+  serverIP: "tdarr"
+  webUIPort: "8265"
+  serverPort: "8266"
+tdarr_docker_envs_custom: {}
+tdarr_docker_envs: "{{ tdarr_docker_envs_default
+                       | combine(tdarr_docker_envs_custom) }}"
+
+# Commands
+tdarr_docker_commands_default: []
+tdarr_docker_commands_custom: []
+tdarr_docker_commands: "{{ tdarr_docker_commands_default
+                           + tdarr_docker_commands_custom}}"
+
+# Volumes
+tdarr_docker_volumes_default:
+  - "{{ tdarr_paths_configs_location }}:/app/configs"
+  - "{{ tdarr_paths_server_location }}:/app/server"
+  - "{{ tdarr_paths_logs_location }}:/app/logs"
+  - "{{ tdarr_paths_transcodes_location }}:/temp"
+  - "/mnt/unionfs/Media:/media"
+  - "/mnt/unionfs/Media/Movies:/movies"
+  - "/mnt/unionfs/Media/TV:/tv"
+  - "/mnt:/mnt"
+  - "/dev/shm:/dev/shm"
+
+tdarr_docker_volumes_custom: []
+tdarr_docker_volumes: "{{ tdarr_docker_volumes_default
+                          + tdarr_docker_volumes_custom
+                          + docker_volumes_downloads_common }}"
+
+# Devices
+tdarr_docker_devices_default: []
+tdarr_docker_devices_custom: []
+tdarr_docker_devices: "{{ tdarr_docker_devices_default
+                          + tdarr_docker_devices_custom }}"
+
+# Hosts
+tdarr_docker_hosts_default: []
+tdarr_docker_hosts_custom: []
+tdarr_docker_hosts: "{{ docker_hosts_common
+                        | combine(tdarr_docker_hosts_default)
+                        | combine(tdarr_docker_hosts_custom) }}"
+
+# Labels
+tdarr_docker_labels_default: {}
+tdarr_docker_labels_custom: {}
+tdarr_docker_labels: "{{ docker_labels_common
+                         | combine(tdarr_docker_labels_default)
+                         | combine(tdarr_docker_labels_custom) }}"
+
+# Hostname
+tdarr_docker_hostname: "{{ tdarr_name }}"
+
+# Networks
+tdarr_docker_networks_alias: "{{ tdarr_name }}"
+tdarr_docker_networks_default: []
+tdarr_docker_networks_custom: []
+tdarr_docker_networks: "{{ docker_networks_common
+                           + tdarr_docker_networks_default
+                           + tdarr_docker_networks_custom }}"
+
+# Capabilities
+tdarr_docker_capabilities_default: []
+tdarr_docker_capabilities_custom: []
+tdarr_docker_capabilities: "{{ tdarr_docker_capabilities_default
+                               + tdarr_docker_capabilities_custom }}"
+
+# Security Opts
+tdarr_docker_security_opts_default: []
+tdarr_docker_security_opts_custom: []
+tdarr_docker_security_opts: "{{ tdarr_docker_security_opts_default
+                                + tdarr_docker_security_opts_custom }}"
+
+# Restart Policy
+tdarr_docker_restart_policy: unless-stopped
+
+# State
+tdarr_docker_state: started
