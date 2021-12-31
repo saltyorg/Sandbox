@@ -1,18 +1,14 @@
 #########################################################################
-# Title:         Sandbox: Settings | Ansible Config                     #
-# Author(s):     l3uddz, desimaniac, Migz93, salty                      #
+# Title:         Sandbox: Settings | Re-encrypt                         #
+# Author(s):     desimaniac, salty                                      #
 # URL:           https://github.com/saltyorg/Sandbox                    #
 # --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: "Settings Role updated 'ansible.cfg'."
-  debug:
-    msg:
-      - "Settings Role updated 'ansible.cfg'"
-      - "You will need to re-run your previous tag to continue."
-
-- name: Set 'exit_is_necessary' variable
-  set_fact:
-    exit_is_necessary: true
+- name: "Re-encrypt | Re-encrypt '{{ file }}' if previously encrypted"
+  shell: "ansible-vault encrypt {{ playbook_dir }}/{{ file }}"
+  become: true
+  become_user: "{{ sandbox_yml.stat.pw_name }}"
+  when: file_is_encrypted
