@@ -1,5 +1,5 @@
 #########################################################################
-# Title:         Sandbox: Settings Role                                 #
+# Title:         Sandbox: Settings | Migrator                           #
 # Author(s):     desimaniac, salty                                      #
 # URL:           https://github.com/saltyorg/Sandbox                    #
 # --                                                                    #
@@ -7,14 +7,19 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: "Settings | Start"
-  include_tasks: "subtasks/start.yml"
+- name: Migrator | Migrations for all config files
+  block:
 
-- name: "Settings | Main 2"
-  include_tasks: "main2.yml"
-  loop: "{{ config_files }}"
-  loop_control:
-    loop_var: outer_item
+    - name: Migrator | All | Migration 01
+      include_tasks: "migrator/all/migration_01.yml"
+      when: (file != "backup_config.yml")
 
-- name: "Settings | Finish"
-  include_tasks: "subtasks/finish.yml"
+  when: (file != "ansible.cfg")
+
+- name: Migrator | Migrations for 'ansible.cfg'
+  block:
+
+    - name: Migrator | 'ansible.cfg' | Migration 01
+      include_tasks: "migrator/ansible_cfg/migration_01.yml"
+
+  when: (file == "ansible.cfg")
