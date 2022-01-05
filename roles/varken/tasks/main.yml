@@ -1,0 +1,80 @@
+#########################################################################
+# Title:            Community: Varken Role                              #
+# Author(s):        desimaniac, salty                                   #
+# URL:              https://github.com/saltyorg/Community               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Import Default Sonarr variables
+  include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
+
+- name: Import Default Radarr variables
+  include_vars: /srv/git/saltbox/roles/radarr/defaults/main.yml
+
+- name: Import Default Tautulli variables
+  include_vars: /srv/git/saltbox/roles/tautulli/defaults/main.yml
+
+- name: InfluxDB Role
+  include_role:
+    name: influxdb
+
+- name: Telegraf Role
+  include_role:
+    name: telegraf
+
+- name: Grafana Role
+  include_role:
+    name: grafana
+
+- name: Stop and remove any existing containers
+  docker_container:
+    name: varken
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+    state: absent
+
+- name: Create required directories
+  file:
+    path: "/opt/varken"
+    state: directory
+    mode: "0775"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+
+- name: Check if varken config exists
+  stat:
+    path: "/opt/varken/varken.ini"
+  register: varken_config
+
+- name: Import config tasks
+  import_tasks: config.yml
+  when: not varken_config.stat.exists
+
+- name: Create and start varken container
+  docker_container:
+    name: varken
+    image: "boerderij/varken"
+    pull: yes
+    command_handling: compatibility
+    container_default_behavior: compatibility
+    default_host_ip: ""
+    env:
+      PUID: "{{ uid }}"
+      PGID: "{{ gid }}"
+      TZ: "{{ tz }}"
+    volumes:
+      - "/opt/varken:/config"
+    labels:
+      "com.github.saltbox.saltbox_managed": "true"
+    networks:
+      - name: saltbox
+        aliases:
+          - varken
+    network_mode: "saltbox"
+    networks_cli_compatible: true
+    purge_networks: yes
+    tls_hostname: localhost
+    restart_policy: unless-stopped
+    state: started

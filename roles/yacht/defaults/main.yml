@@ -1,0 +1,148 @@
+##########################################################################
+# Title:         Community: Yacht | Default Variables                    #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Community                   #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+yacht_name: yacht
+
+################################
+# Paths
+################################
+
+yacht_paths_folder: "{{ yacht_name }}"
+yacht_paths_location: "{{ server_appdata_path }}/{{ yacht_paths_folder }}"
+yacht_paths_folders_list:
+  - "{{ yacht_paths_location }}"
+  - "{{ yacht_paths_location }}/config"
+  - "{{ yacht_paths_location }}/storage"
+
+################################
+# Web
+################################
+
+yacht_web_subdomain: "{{ yacht_name }}"
+yacht_web_domain: "{{ user.domain }}"
+yacht_web_port: "8000"
+yacht_web_url: "{{ 'https://' + yacht_web_subdomain + '.' + yacht_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + yacht_web_port }}"
+
+################################
+# DNS
+################################
+
+yacht_dns_record: "{{ yacht_web_subdomain }}"
+yacht_dns_zone: "{{ yacht_web_domain }}"
+
+################################
+# Traefik
+################################
+
+yacht_traefik_middleware: "{{ traefik_default_middleware }}"
+yacht_traefik_certresolver: "{{ traefik_default_certresolver }}"
+yacht_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+yacht_docker_container: "{{ yacht_name }}"
+
+# Image
+yacht_docker_image_pull: true
+yacht_docker_image_tag: "latest"
+yacht_docker_image: "selfhostedpro/yacht:{{ yacht_docker_image_tag }}"
+
+# Ports
+yacht_docker_ports_defaults:
+  - "{{ yacht_web_port }}:{{ yacht_web_port }}"
+yacht_docker_ports_custom: []
+yacht_docker_ports: "{{ yacht_docker_ports_defaults
+                        + yacht_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else [] + yacht_docker_ports_custom }}"
+
+# Envs
+yacht_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  ADMIN_EMAIL: "{{ user.email }}"
+  SECRET_KEY: "{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=16') }}"
+yacht_docker_envs_custom: {}
+yacht_docker_envs: "{{ yacht_docker_envs_default
+                       | combine(yacht_docker_envs_custom) }}"
+
+# Commands
+yacht_docker_commands_default: []
+yacht_docker_commands_custom: []
+yacht_docker_commands: "{{ yacht_docker_commands_default
+                           + yacht_docker_commands_custom }}"
+
+# Volumes
+yacht_docker_volumes_default:
+  - "/var/run/docker.sock:/var/run/docker.sock"
+  - "{{ yacht_paths_location }}/config:/config"
+  - "{{ yacht_paths_location }}/storage:/storage"
+yacht_docker_volumes_custom: []
+yacht_docker_volumes: "{{ yacht_docker_volumes_default
+                          + yacht_docker_volumes_custom
+                          + docker_volumes_downloads_common }}"
+
+# Devices
+yacht_docker_devices_default: []
+yacht_docker_devices_custom: []
+yacht_docker_devices: "{{ yacht_docker_devices_default
+                          + yacht_docker_devices_custom }}"
+
+# Hosts
+yacht_docker_hosts_default: []
+yacht_docker_hosts_custom: []
+yacht_docker_hosts: "{{ docker_hosts_common
+                        | combine(yacht_docker_hosts_default)
+                        | combine(yacht_docker_hosts_custom) }}"
+
+# Labels
+yacht_docker_labels_default: {}
+yacht_docker_labels_custom: {}
+yacht_docker_labels: "{{ docker_labels_common
+                         | combine(yacht_docker_labels_default)
+                         | combine(yacht_docker_labels_custom) }}"
+
+# Hostname
+yacht_docker_hostname: "{{ yacht_name }}"
+
+# Networks
+yacht_docker_networks_alias: "{{ yacht_name }}"
+yacht_docker_networks_default: []
+yacht_docker_networks_custom: []
+yacht_docker_networks: "{{ docker_networks_common
+                           + yacht_docker_networks_default
+                           + yacht_docker_networks_custom }}"
+
+# Capabilities
+yacht_docker_capabilities_default: []
+yacht_docker_capabilities_custom: []
+yacht_docker_capabilities: "{{ yacht_docker_capabilities_default
+                               + yacht_docker_capabilities_custom }}"
+
+# Security Opts
+yacht_docker_security_opts_default: []
+yacht_docker_security_opts_custom: []
+yacht_docker_security_opts: "{{ yacht_docker_security_opts_default
+                                + yacht_docker_security_opts_custom }}"
+
+# Restart Policy
+yacht_docker_restart_policy: unless-stopped
+
+# State
+yacht_docker_state: started

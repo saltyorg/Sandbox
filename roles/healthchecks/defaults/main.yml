@@ -1,0 +1,150 @@
+##########################################################################
+# Title:            Community: healthchecks | Default Variables          #
+# Author(s):        danqbudz, kowalski, salty                            #
+# URL:              https://github.com/saltyorg/Community                #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+healthchecks_name: healthchecks
+
+################################
+# Paths
+################################
+
+healthchecks_paths_folder: "{{ healthchecks_name }}"
+healthchecks_paths_location: "{{ server_appdata_path }}/{{ healthchecks_paths_folder }}"
+healthchecks_paths_folders_list:
+  - "{{ healthchecks_paths_location }}"
+healthchecks_paths_config_location: "{{ healthchecks_paths_location }}/local_settings.py"
+
+################################
+# Web
+################################
+
+healthchecks_web_subdomain: "{{ healthchecks_name }}"
+healthchecks_web_domain: "{{ user.domain }}"
+healthchecks_web_port: "8000"
+healthchecks_web_url: "{{ 'https://' + healthchecks_web_subdomain + '.' + healthchecks_web_domain
+                       if (reverse_proxy_is_enabled)
+                       else 'http://localhost:' + healthchecks_web_port }}"
+
+################################
+# DNS
+################################
+
+healthchecks_dns_record: "{{ healthchecks_web_subdomain }}"
+healthchecks_dns_zone: "{{ healthchecks_web_domain }}"
+
+################################
+# Traefik
+################################
+
+healthchecks_traefik_middleware: "{{ traefik_default_middleware }}"
+healthchecks_traefik_certresolver: "{{ traefik_default_certresolver }}"
+healthchecks_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+healthchecks_docker_container: "{{ healthchecks_name }}"
+
+# Image
+healthchecks_docker_image_pull: true
+healthchecks_docker_image_tag: "latest"
+healthchecks_docker_image: "ghcr.io/lscr.io/linuxserver/healthchecks:{{ healthchecks_docker_image_tag }}"
+
+# Ports
+healthchecks_docker_ports_defaults:
+  - "{{ healthchecks_web_port }}"
+healthchecks_docker_ports_custom: []
+healthchecks_docker_ports: "{{ healthchecks_docker_ports_defaults
+                               + healthchecks_docker_ports_custom
+                            if (not reverse_proxy_is_enabled)
+                            else [] + healthchecks_docker_ports_custom }}"
+
+# Envs
+healthchecks_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  DEBUG: "False"
+  SITE_ROOT: "{{ healthchecks_web_url }}"
+  SITE_NAME: "{{ healthchecks_name }}"
+  SUPERUSER_EMAIL: "{{ user.email }}"
+  SUPERUSER_PASSWORD: "{{ user.pass }}"
+  SECRET_KEY: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=16') }}"
+healthchecks_docker_envs_custom: {}
+healthchecks_docker_envs: "{{ healthchecks_docker_envs_default
+                              | combine(healthchecks_docker_envs_custom) }}"
+
+# Commands
+healthchecks_docker_commands_default: []
+healthchecks_docker_commands_custom: []
+healthchecks_docker_commands: "{{ healthchecks_docker_commands_default
+                                  + healthchecks_docker_commands_custom }}"
+
+# Volumes
+healthchecks_docker_volumes_default:
+  - "{{ healthchecks_paths_location }}:/config"
+healthchecks_docker_volumes_custom: []
+healthchecks_docker_volumes: "{{ healthchecks_docker_volumes_default
+                                 + healthchecks_docker_volumes_custom }}"
+
+# Devices
+healthchecks_docker_devices_default: []
+healthchecks_docker_devices_custom: []
+healthchecks_docker_devices: "{{ healthchecks_docker_devices_default
+                                 + healthchecks_docker_devices_custom }}"
+
+# Hosts
+healthchecks_docker_hosts_default: []
+healthchecks_docker_hosts_custom: []
+healthchecks_docker_hosts: "{{ docker_hosts_common
+                               | combine(healthchecks_docker_hosts_default)
+                               | combine(healthchecks_docker_hosts_custom) }}"
+
+# Labels
+healthchecks_docker_labels_default: {}
+healthchecks_docker_labels_custom: {}
+healthchecks_docker_labels: "{{ docker_labels_common
+                                | combine(healthchecks_docker_labels_default)
+                                | combine(healthchecks_docker_labels_custom) }}"
+
+# Hostname
+healthchecks_docker_hostname: "{{ healthchecks_name }}"
+
+# Networks
+healthchecks_docker_networks_alias: "{{ healthchecks_name }}"
+healthchecks_docker_networks_default: []
+healthchecks_docker_networks_custom: []
+healthchecks_docker_networks: "{{ docker_networks_common
+                                  + healthchecks_docker_networks_default
+                                  + healthchecks_docker_networks_custom }}"
+
+# Capabilities
+healthchecks_docker_capabilities_default: []
+healthchecks_docker_capabilities_custom: []
+healthchecks_docker_capabilities: "{{ healthchecks_docker_capabilities_default
+                                      + healthchecks_docker_capabilities_custom }}"
+
+# Security Opts
+healthchecks_docker_security_opts_default: []
+healthchecks_docker_security_opts_custom: []
+healthchecks_docker_security_opts: "{{ healthchecks_docker_security_opts_default
+                                       + healthchecks_docker_security_opts_custom }}"
+
+# Restart Policy
+healthchecks_docker_restart_policy: unless-stopped
+
+# State
+healthchecks_docker_state: started
+
+# Force Kill
+healthchecks_docker_force_kill: yes

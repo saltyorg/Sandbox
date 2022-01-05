@@ -1,0 +1,144 @@
+##########################################################################
+# Title:         Community: Requestrr | Default Variables                #
+# Author(s):     nostyle, TABLE272, salty                                #
+# URL:           https://github.com/saltyorg/Community                   #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+requestrr_name: requestrr
+
+################################
+# Paths
+################################
+
+requestrr_paths_folder: "{{ requestrr_name }}"
+requestrr_paths_location: "{{ server_appdata_path }}/{{ requestrr_paths_folder }}"
+requestrr_paths_folders_list:
+  - "{{ requestrr_paths_location }}"
+
+################################
+# Web
+################################
+
+requestrr_web_subdomain: "{{ requestrr_name }}"
+requestrr_web_domain: "{{ user.domain }}"
+requestrr_web_port: "4545"
+requestrr_web_url: "{{ 'https://' + requestrr_web_subdomain + '.' + requestrr_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + requestrr_web_port }}"
+
+################################
+# DNS
+################################
+
+requestrr_dns_record: "{{ requestrr_web_subdomain }}"
+requestrr_dns_zone: "{{ requestrr_web_domain }}"
+
+################################
+# Traefik
+################################
+
+requestrr_traefik_middleware: "{{ traefik_default_middleware }}"
+requestrr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+requestrr_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+requestrr_docker_container: "{{ requestrr_name }}"
+
+# Image
+requestrr_docker_image_pull: true
+requestrr_docker_image_tag: "latest"
+requestrr_docker_image: "cr.hotio.dev/hotio/requestrr:{{ requestrr_docker_image_tag }}"
+
+# Ports
+requestrr_docker_ports_defaults:
+  - "{{ requestrr_web_port }}"
+requestrr_docker_ports_custom: []
+requestrr_docker_ports: "{{ requestrr_docker_ports_defaults
+                            + requestrr_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + requestrr_docker_ports_custom }}"
+
+# Envs
+requestrr_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  UMASK: "002"
+requestrr_docker_envs_custom: {}
+requestrr_docker_envs: "{{ requestrr_docker_envs_default
+                           | combine(requestrr_docker_envs_custom) }}"
+
+# Commands
+requestrr_docker_commands_default: []
+requestrr_docker_commands_custom: []
+requestrr_docker_commands: "{{ requestrr_docker_commands_default
+                               + requestrr_docker_commands_custom }}"
+
+# Volumes
+requestrr_docker_volumes_default:
+  - "{{ requestrr_paths_location }}:/config"
+  - "/mnt:/mnt"
+requestrr_docker_volumes_custom: []
+requestrr_docker_volumes: "{{ requestrr_docker_volumes_default
+                              + requestrr_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+requestrr_docker_devices_default: []
+requestrr_docker_devices_custom: []
+requestrr_docker_devices: "{{ requestrr_docker_devices_default
+                              + requestrr_docker_devices_custom }}"
+
+# Hosts
+requestrr_docker_hosts_default: []
+requestrr_docker_hosts_custom: []
+requestrr_docker_hosts: "{{ docker_hosts_common
+                            | combine(requestrr_docker_hosts_default)
+                            | combine(requestrr_docker_hosts_custom) }}"
+
+# Labels
+requestrr_docker_labels_default: {}
+requestrr_docker_labels_custom: {}
+requestrr_docker_labels: "{{ docker_labels_common
+                             | combine(requestrr_docker_labels_default)
+                             | combine(requestrr_docker_labels_custom) }}"
+
+# Hostname
+requestrr_docker_hostname: "{{ requestrr_name }}"
+
+# Networks
+requestrr_docker_networks_alias: "{{ requestrr_name }}"
+requestrr_docker_networks_default: []
+requestrr_docker_networks_custom: []
+requestrr_docker_networks: "{{ docker_networks_common
+                               + requestrr_docker_networks_default
+                               + requestrr_docker_networks_custom }}"
+
+# Capabilities
+requestrr_docker_capabilities_default: []
+requestrr_docker_capabilities_custom: []
+requestrr_docker_capabilities: "{{ requestrr_docker_capabilities_default
+                                   + requestrr_docker_capabilities_custom }}"
+
+# Security Opts
+requestrr_docker_security_opts_default: []
+requestrr_docker_security_opts_custom: []
+requestrr_docker_security_opts: "{{ requestrr_docker_security_opts_default
+                                    + requestrr_docker_security_opts_custom }}"
+
+# Restart Policy
+requestrr_docker_restart_policy: unless-stopped
+
+# State
+requestrr_docker_state: started

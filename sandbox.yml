@@ -29,6 +29,7 @@
     - { role: comixed, tags: ['comixed'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
+    - { role: dozzle, tags: ['dozzle'] }
     - { role: embystat, tags: ['embystat'] }
     - { role: epms, tags: ['epms'] }
     - { role: filebot, tags: ['filebot'] }
@@ -36,12 +37,15 @@
     - { role: filezilla, tags: ['filezilla'] }
     - { role: flaresolverr, tags: ['flaresolverr'] }
     - { role: funkwhale, tags: ['funkwhale'] }
+    - { role: goaccess, tags: ['goaccess'] }
     - { role: gitea, tags: ['gitea'] }
     - { role: glances_web, tags: ['glances-web'] }
     - { role: goplaxt, tags: ['goplaxt'] }
     - { role: gotify, tags: ['gotify'] }
+    - { role: grafana, tags: ['grafana'] }
     - { role: guacamole, tags: ['guacamole'] }
     - { role: handbrake, tags: ['handbrake'] }
+    - { role: healthchecks, tags: ['healthchecks'] }
     - { role: heimdall, tags: ['heimdall'] }
     - { role: jdownloader2, tags: ['jdownloader2'] }
     - { role: jirafeau, tags: ['jirafeau'] }
@@ -64,16 +68,22 @@
     - { role: ouroboros, tags: ['ouroboros'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
+    - { role: requestrr, tags: ['requestrr'] }
+    - { role: requestrrx, tags: ['requestrrx'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
     - { role: tdarr, tags: ['tdarr'] }
     - { role: tdarr_node, tags: ['tdarr_node'] }
+    - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: unmanic, tags: ['unmanic'] }
+    - { role: uptime_kuma, tags: ['uptime-kuma'] }
+    - { role: varken, tags: ['varken'] }
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: watchtower, tags: ['watchtower'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: xteve, tags: ['xteve'] }
+    - { role: yacht, tags: ['yacht'] }
     - { role: znc, tags: ['znc'] }
