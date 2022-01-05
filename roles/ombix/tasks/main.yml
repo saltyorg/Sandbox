@@ -1,0 +1,17 @@
+#########################################################################
+# Title:            Community: OmbiX                                    #
+# Author(s):        FML128, salty                                       #
+# URL:              https://github.com/saltyorg/Community               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute OmbiX roles"
+  include_role:
+    name: ombi
+  vars:
+    ombi_name: "ombi{{ role }}"
+  with_items: "{{ ombix.roles }}"
+  loop_control:
+    loop_var: role
