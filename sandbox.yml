@@ -66,6 +66,8 @@
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
     - { role: notifiarr, tags: ['notifiarr'] }
+    - { role: ombi, tags: ['ombi'] }
+    - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }

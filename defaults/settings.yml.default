@@ -17,6 +17,8 @@ moviematch:
   plex_url: http://plex:32400
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
+ombix:
+  roles: ["4k"]
 plex_meta_manager:
   time: "03:00"
 qbit_manage:
