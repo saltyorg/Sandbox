@@ -1,0 +1,140 @@
+##########################################################################
+# Title:         Community: Uptime Kuma | Default Variables              #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Community                   #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+uptime_kuma_name: uptime
+
+################################
+# Paths
+################################
+
+uptime_kuma_paths_folder: "{{ uptime_kuma_name }}"
+uptime_kuma_paths_location: "{{ server_appdata_path }}/{{ uptime_kuma_paths_folder }}"
+uptime_kuma_paths_folders_list:
+  - "{{ uptime_kuma_paths_location }}"
+
+################################
+# Web
+################################
+
+uptime_kuma_web_subdomain: "{{ uptime_kuma_name }}"
+uptime_kuma_web_domain: "{{ user.domain }}"
+uptime_kuma_web_port: "3001"
+uptime_kuma_web_url: "{{ 'https://' + uptime_kuma_web_subdomain + '.' + uptime_kuma_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + uptime_kuma_web_port }}"
+
+################################
+# DNS
+################################
+
+uptime_kuma_dns_record: "{{ uptime_kuma_web_subdomain }}"
+uptime_kuma_dns_zone: "{{ uptime_kuma_web_domain }}"
+
+################################
+# Traefik
+################################
+
+uptime_kuma_traefik_middleware: "{{ traefik_default_middleware }}"
+uptime_kuma_traefik_certresolver: "{{ traefik_default_certresolver }}"
+uptime_kuma_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+uptime_kuma_docker_container: "{{ uptime_kuma_name }}"
+
+# Image
+uptime_kuma_docker_image_pull: true
+uptime_kuma_docker_image_tag: "latest"
+uptime_kuma_docker_image: "louislam/uptime-kuma:{{ uptime_kuma_docker_image_tag }}"
+
+# Ports
+uptime_kuma_docker_ports_defaults:
+  - "{{ uptime_kuma_web_port }}:{{ uptime_kuma_web_port }}"
+uptime_kuma_docker_ports_custom: []
+uptime_kuma_docker_ports: "{{ uptime_kuma_docker_ports_defaults
+                              + uptime_kuma_docker_ports_custom
+                           if (not reverse_proxy_is_enabled)
+                           else [] + uptime_kuma_docker_ports_custom }}"
+
+# Envs
+uptime_kuma_docker_envs_default:
+  TZ: "{{ tz }}"
+uptime_kuma_docker_envs_custom: {}
+uptime_kuma_docker_envs: "{{ uptime_kuma_docker_envs_default
+                             | combine(uptime_kuma_docker_envs_custom) }}"
+
+# Commands
+uptime_kuma_docker_commands_default: []
+uptime_kuma_docker_commands_custom: []
+uptime_kuma_docker_commands: "{{ uptime_kuma_docker_commands_default
+                                 + uptime_kuma_docker_commands_custom }}"
+
+# Volumes
+uptime_kuma_docker_volumes_default:
+  - "{{ uptime_kuma_paths_location }}:/app/data"
+uptime_kuma_docker_volumes_custom: []
+uptime_kuma_docker_volumes: "{{ uptime_kuma_docker_volumes_default
+                                + uptime_kuma_docker_volumes_custom
+                                + docker_volumes_downloads_common }}"
+
+# Devices
+uptime_kuma_docker_devices_default: []
+uptime_kuma_docker_devices_custom: []
+uptime_kuma_docker_devices: "{{ uptime_kuma_docker_devices_default
+                                + uptime_kuma_docker_devices_custom }}"
+
+# Hosts
+uptime_kuma_docker_hosts_default: []
+uptime_kuma_docker_hosts_custom: []
+uptime_kuma_docker_hosts: "{{ docker_hosts_common
+                              | combine(uptime_kuma_docker_hosts_default)
+                              | combine(uptime_kuma_docker_hosts_custom) }}"
+
+# Labels
+uptime_kuma_docker_labels_default: {}
+uptime_kuma_docker_labels_custom: {}
+uptime_kuma_docker_labels: "{{ docker_labels_common
+                               | combine(uptime_kuma_docker_labels_default)
+                               | combine(uptime_kuma_docker_labels_custom) }}"
+
+# Hostname
+uptime_kuma_docker_hostname: "{{ uptime_kuma_name }}"
+
+# Networks
+uptime_kuma_docker_networks_alias: "{{ uptime_kuma_name }}"
+uptime_kuma_docker_networks_default: []
+uptime_kuma_docker_networks_custom: []
+uptime_kuma_docker_networks: "{{ docker_networks_common
+                                 + uptime_kuma_docker_networks_default
+                                 + uptime_kuma_docker_networks_custom }}"
+
+# Capabilities
+uptime_kuma_docker_capabilities_default: []
+uptime_kuma_docker_capabilities_custom: []
+uptime_kuma_docker_capabilities: "{{ uptime_kuma_docker_capabilities_default
+                                     + uptime_kuma_docker_capabilities_custom }}"
+
+# Security Opts
+uptime_kuma_docker_security_opts_default: []
+uptime_kuma_docker_security_opts_custom: []
+uptime_kuma_docker_security_opts: "{{ uptime_kuma_docker_security_opts_default
+                                      + uptime_kuma_docker_security_opts_custom }}"
+
+# Restart Policy
+uptime_kuma_docker_restart_policy: unless-stopped
+
+# State
+uptime_kuma_docker_state: started

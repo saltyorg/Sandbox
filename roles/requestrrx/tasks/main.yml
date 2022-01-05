@@ -1,0 +1,17 @@
+#########################################################################
+# Title:            Community: RequestrrX                               #
+# Author(s):        Kalroth, Migz93, no5tyle, Mbryde, salty             #
+# URL:              https://github.com/saltyorg/Community               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute RequestrrX roles"
+  include_role:
+    name: requestrr
+  vars:
+    requestrr_name: "requestrr{{ role }}"
+  with_items: "{{ requestrrx.roles }}"
+  loop_control:
+    loop_var: role

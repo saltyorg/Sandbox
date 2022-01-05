@@ -1,0 +1,69 @@
+#########################################################################
+# Title:            Community: Telegraf Role                            #
+# Author(s):        desimaniac, salty                                   #
+# URL:              https://github.com/saltyorg/Community               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Stop and remove any existing containers
+  docker_container:
+    name: telegraf
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+    state: absent
+
+- name: Create required directories
+  file:
+    path: "/opt/telegraf"
+    state: "directory"
+    mode: "0775"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+
+- name: Check if telegraf config exists
+  stat:
+    path: "/opt/telegraf/telegraf.conf"
+  register: telegraf_conf
+
+- name: Import telegraf config if needed
+  copy:
+    src: "telegraf.conf"
+    dest: "/opt/telegraf/telegraf.conf"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+    mode: 0775
+  when: not telegraf_conf.stat.exists
+
+- name: Create and start telegraf container
+  docker_container:
+    name: telegraf
+    image: "telegraf"
+    pull: yes
+    command_handling: compatibility
+    container_default_behavior: compatibility
+    default_host_ip: ""
+    env:
+      PUID: "{{ uid }}"
+      PGID: "{{ gid }}"
+    volumes:
+      - "/opt/telegraf:/etc/telegraf:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/var/run/utmp:/var/run/utmp"
+      - "/:/host:ro"
+      - "/sys:/host/sys:ro"
+      - "/proc:/host/proc:ro"
+      - "/etc:/host/etc:ro"
+    labels:
+      "com.github.saltbox.saltbox_managed": "true"
+    networks:
+      - name: saltbox
+        aliases:
+          - telegraf
+    network_mode: "saltbox"
+    networks_cli_compatible: true
+    purge_networks: yes
+    tls_hostname: localhost
+    restart_policy: unless-stopped
+    state: started
