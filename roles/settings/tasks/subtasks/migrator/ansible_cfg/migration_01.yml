@@ -25,7 +25,7 @@
     - { section: 'defaults', option: 'fact_path', value: '/srv/git/saltbox/ansible_facts.d' }
     - { section: 'defaults', option: 'filter_plugins', value: '/srv/git/saltbox/filter_plugins' }
     - { section: 'defaults', option: 'interpreter_python', value: '/usr/bin/python3' }
-    - { section: 'defaults', option: 'log_path', value: './community.log' }
+    - { section: 'defaults', option: 'log_path', value: './sandbox.log' }
     - { section: 'defaults', option: 'callbacks_enabled', value: 'profile_tasks' }
     - { section: 'defaults', option: 'callback_whitelist', state: 'absent' }
     - { section: 'defaults', option: 'command_warnings', state: 'absent' }
