@@ -14,5 +14,5 @@
 
 - name: "Fail when 'saltbox' folder does not exist"
   fail:
-    msg: "Saltbox installation is required before running the Saltbox Community roles."
+    msg: "Saltbox installation is required before running the Sandbox roles."
   when: not saltbox_path.stat.exists
