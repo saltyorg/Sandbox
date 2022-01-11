@@ -6,7 +6,7 @@
 
 Sandbox Repository for Unofficial Saltbox Add-ons
 
-Roles may get moved to the Community or main repo if they become maintained.
+Roles may get moved to the main repo if they become officially maintained.
 
 ### Requirements
 
