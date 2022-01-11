@@ -45,6 +45,7 @@ airdcpp_web_url: "{{ 'https://' + airdcpp_web_subdomain + '.' + airdcpp_web_doma
 
 airdcpp_dns_record: "{{ airdcpp_web_subdomain }}"
 airdcpp_dns_zone: "{{ airdcpp_web_domain }}"
+airdcpp_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

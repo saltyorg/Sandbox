@@ -40,6 +40,7 @@ goplaxt_web_url: "{{ 'https://' + goplaxt_web_subdomain + '.' + goplaxt_web_doma
 
 goplaxt_dns_record: "{{ goplaxt_web_subdomain }}"
 goplaxt_dns_zone: "{{ goplaxt_web_domain }}"
+goplaxt_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

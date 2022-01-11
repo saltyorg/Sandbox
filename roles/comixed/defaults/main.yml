@@ -41,6 +41,7 @@ comixed_web_url: "{{ 'https://' + comixed_web_subdomain + '.' + comixed_web_doma
 
 comixed_dns_record: "{{ comixed_web_subdomain }}"
 comixed_dns_zone: "{{ comixed_web_domain }}"
+comixed_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

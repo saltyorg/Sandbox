@@ -41,6 +41,7 @@ filebrowser_web_url: "{{ 'https://' + filebrowser_web_subdomain + '.' + filebrow
 
 filebrowser_dns_record: "{{ filebrowser_web_subdomain }}"
 filebrowser_dns_zone: "{{ filebrowser_web_domain }}"
+filebrowser_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

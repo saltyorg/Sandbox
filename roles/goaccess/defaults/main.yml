@@ -39,6 +39,7 @@ goaccess_web_url: "{{ 'https://' + goaccess_web_subdomain + '.' + goaccess_web_d
 
 goaccess_dns_record: "{{ goaccess_web_subdomain }}"
 goaccess_dns_zone: "{{ goaccess_web_domain }}"
+goaccess_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

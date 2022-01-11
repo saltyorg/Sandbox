@@ -44,6 +44,7 @@ notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_we
 
 notifiarr_dns_record: "{{ notifiarr_web_subdomain }}"
 notifiarr_dns_zone: "{{ notifiarr_web_domain }}"
+notifiarr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

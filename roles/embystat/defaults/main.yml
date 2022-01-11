@@ -40,6 +40,7 @@ embystat_web_url: "{{ 'https://' + embystat_web_subdomain + '.' + embystat_web_d
 
 embystat_dns_record: "{{ embystat_web_subdomain }}"
 embystat_dns_zone: "{{ embystat_web_domain }}"
+embystat_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

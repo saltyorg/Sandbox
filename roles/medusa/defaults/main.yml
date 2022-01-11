@@ -39,6 +39,7 @@ medusa_web_url: "{{ 'https://' + medusa_web_subdomain + '.' + medusa_web_domain
 
 medusa_dns_record: "{{ medusa_web_subdomain }}"
 medusa_dns_zone: "{{ medusa_web_domain }}"
+medusa_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

@@ -39,6 +39,7 @@ heimdall_web_url: "{{ 'https://' + heimdall_web_subdomain + '.' + heimdall_web_d
 
 heimdall_dns_record: "{{ heimdall_web_subdomain }}"
 heimdall_dns_zone: "{{ heimdall_web_domain }}"
+heimdall_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

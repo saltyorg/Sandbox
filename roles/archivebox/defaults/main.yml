@@ -39,6 +39,7 @@ archivebox_web_url: "{{ 'https://' + archivebox_web_subdomain + '.' + archivebox
 
 archivebox_dns_record: "{{ archivebox_web_subdomain }}"
 archivebox_dns_zone: "{{ archivebox_web_domain }}"
+archivebox_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

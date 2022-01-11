@@ -40,6 +40,7 @@ vaultwarden_web_url: "{{ 'https://' + vaultwarden_web_subdomain + '.' + vaultwar
 
 vaultwarden_dns_record: "{{ vaultwarden_web_subdomain }}"
 vaultwarden_dns_zone: "{{ vaultwarden_web_domain }}"
+vaultwarden_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: Mylar3                                     #
-# Author(s):        theotocopulitos,owine, salty                        #
+# Author(s):        theotocopulitos, owine, salty                       #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 #                   GNU General Public License v3.0                     #
 #########################################################################
@@ -10,6 +10,7 @@
   vars:
     dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

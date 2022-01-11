@@ -41,6 +41,7 @@ logarr_web_url: "{{ 'https://' + logarr_web_subdomain + '.' + logarr_web_domain
 
 logarr_dns_record: "{{ logarr_web_subdomain }}"
 logarr_dns_zone: "{{ logarr_web_domain }}"
+logarr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

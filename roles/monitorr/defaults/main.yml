@@ -39,6 +39,7 @@ monitorr_web_url: "{{ 'https://' + monitorr_web_subdomain + '.' + monitorr_web_d
 
 monitorr_dns_record: "{{ monitorr_web_subdomain }}"
 monitorr_dns_zone: "{{ monitorr_web_domain }}"
+monitorr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

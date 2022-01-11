@@ -39,6 +39,7 @@ navidrome_web_url: "{{ 'https://' + navidrome_web_subdomain + '.' + navidrome_we
 
 navidrome_dns_record: "{{ navidrome_web_subdomain }}"
 navidrome_dns_zone: "{{ navidrome_web_domain }}"
+navidrome_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

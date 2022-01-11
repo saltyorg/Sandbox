@@ -44,6 +44,7 @@ adguardhome_web_url: "{{ 'https://' + adguardhome_web_subdomain + '.' + adguardh
 
 adguardhome_dns_record: "{{ adguardhome_web_subdomain }}"
 adguardhome_dns_zone: "{{ adguardhome_web_domain }}"
+adguardhome_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

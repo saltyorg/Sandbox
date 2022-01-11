@@ -39,6 +39,7 @@ airsonic_web_url: "{{ 'https://' + airsonic_web_subdomain + '.' + airsonic_web_d
 
 airsonic_dns_record: "{{ airsonic_web_subdomain }}"
 airsonic_dns_zone: "{{ airsonic_web_domain }}"
+airsonic_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

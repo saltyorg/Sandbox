@@ -40,6 +40,7 @@ glances_web_web_url: "{{ 'https://' + glances_web_web_subdomain + '.' + glances_
 
 glances_web_dns_record: "{{ glances_web_web_subdomain }}"
 glances_web_dns_zone: "{{ glances_web_web_domain }}"
+glances_web_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

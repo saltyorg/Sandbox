@@ -45,6 +45,7 @@ delugevpn_web_url: "{{ 'https://' + delugevpn_web_subdomain + '.' + delugevpn_we
 
 delugevpn_dns_record: "{{ delugevpn_web_subdomain }}"
 delugevpn_dns_zone: "{{ delugevpn_web_domain }}"
+delugevpn_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
