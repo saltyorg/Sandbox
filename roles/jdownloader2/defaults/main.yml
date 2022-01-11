@@ -44,6 +44,7 @@ jdownloader2_web_url: "{{ 'https://' + jdownloader2_web_subdomain + '.' + jdownl
 
 jdownloader2_dns_record: "{{ jdownloader2_web_subdomain }}"
 jdownloader2_dns_zone: "{{ jdownloader2_web_domain }}"
+jdownloader2_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

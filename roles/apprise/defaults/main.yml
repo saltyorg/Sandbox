@@ -39,6 +39,7 @@ apprise_web_url: "{{ 'https://' + apprise_web_subdomain + '.' + apprise_web_doma
 
 apprise_dns_record: "{{ apprise_web_subdomain }}"
 apprise_dns_zone: "{{ apprise_web_domain }}"
+apprise_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

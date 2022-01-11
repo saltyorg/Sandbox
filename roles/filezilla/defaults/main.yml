@@ -40,6 +40,7 @@ filezilla_web_url: "{{ 'https://' + filezilla_web_subdomain + '.' + filezilla_we
 
 filezilla_dns_record: "{{ filezilla_web_subdomain }}"
 filezilla_dns_zone: "{{ filezilla_web_domain }}"
+filezilla_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

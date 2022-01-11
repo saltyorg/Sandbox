@@ -41,6 +41,7 @@ jirafeau_web_url: "{{ 'https://' + jirafeau_web_subdomain + '.' + jirafeau_web_d
 
 jirafeau_dns_record: "{{ jirafeau_web_subdomain }}"
 jirafeau_dns_zone: "{{ jirafeau_web_domain }}"
+jirafeau_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

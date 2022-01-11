@@ -39,6 +39,7 @@ uptime_kuma_web_url: "{{ 'https://' + uptime_kuma_web_subdomain + '.' + uptime_k
 
 uptime_kuma_dns_record: "{{ uptime_kuma_web_subdomain }}"
 uptime_kuma_dns_zone: "{{ uptime_kuma_web_domain }}"
+uptime_kuma_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

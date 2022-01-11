@@ -39,6 +39,7 @@ alltube_web_url: "{{ 'https://' + alltube_web_subdomain + '.' + alltube_web_doma
 
 alltube_dns_record: "{{ alltube_web_subdomain }}"
 alltube_dns_zone: "{{ alltube_web_domain }}"
+alltube_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

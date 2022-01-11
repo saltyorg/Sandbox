@@ -41,6 +41,7 @@ unmanic_web_url: "{{ 'https://' + unmanic_web_subdomain + '.' + unmanic_web_doma
 
 unmanic_dns_record: "{{ unmanic_web_subdomain }}"
 unmanic_dns_zone: "{{ unmanic_web_domain }}"
+unmanic_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

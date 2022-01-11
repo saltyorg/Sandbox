@@ -39,6 +39,7 @@ requestrr_web_url: "{{ 'https://' + requestrr_web_subdomain + '.' + requestrr_we
 
 requestrr_dns_record: "{{ requestrr_web_subdomain }}"
 requestrr_dns_zone: "{{ requestrr_web_domain }}"
+requestrr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

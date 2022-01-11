@@ -39,6 +39,7 @@ ombi_web_url: "{{ 'https://' + ombi_web_subdomain + '.' + ombi_web_domain
 
 ombi_dns_record: "{{ ombi_web_subdomain }}"
 ombi_dns_zone: "{{ ombi_web_domain }}"
+ombi_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

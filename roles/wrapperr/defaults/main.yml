@@ -39,6 +39,7 @@ wrapperr_web_url: "{{ 'https://' + wrapperr_web_subdomain + dns_record_suffix + 
 
 wrapperr_dns_record: "{{ wrapperr_web_subdomain }}"
 wrapperr_dns_zone: "{{ wrapperr_web_domain }}"
+wrapperr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

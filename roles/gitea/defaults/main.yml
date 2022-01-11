@@ -39,6 +39,7 @@ gitea_web_url: "{{ 'https://' + gitea_web_subdomain + '.' + gitea_web_domain
 
 gitea_dns_record: "{{ gitea_web_subdomain }}"
 gitea_dns_zone: "{{ gitea_web_domain }}"
+gitea_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

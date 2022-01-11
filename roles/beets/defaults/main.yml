@@ -40,6 +40,7 @@ beets_web_url: "{{ 'https://' + beets_web_subdomain + '.' + beets_web_domain
 
 beets_dns_record: "{{ beets_web_subdomain }}"
 beets_dns_zone: "{{ beets_web_domain }}"
+beets_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

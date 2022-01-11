@@ -40,6 +40,7 @@ healthchecks_web_url: "{{ 'https://' + healthchecks_web_subdomain + '.' + health
 
 healthchecks_dns_record: "{{ healthchecks_web_subdomain }}"
 healthchecks_dns_zone: "{{ healthchecks_web_domain }}"
+healthchecks_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

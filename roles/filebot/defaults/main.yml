@@ -40,6 +40,7 @@ filebot_web_url: "{{ 'https://' + filebot_web_subdomain + '.' + filebot_web_doma
 
 filebot_dns_record: "{{ filebot_web_subdomain }}"
 filebot_dns_zone: "{{ filebot_web_domain }}"
+filebot_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

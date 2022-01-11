@@ -40,6 +40,7 @@ kitana_web_url: "{{ 'https://' + kitana_web_subdomain + '.' + kitana_web_domain
 
 kitana_dns_record: "{{ kitana_web_subdomain }}"
 kitana_dns_zone: "{{ kitana_web_domain }}"
+kitana_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

@@ -41,6 +41,7 @@ coder_web_url: "{{ 'https://' + coder_web_subdomain + '.' + coder_web_domain
 
 coder_dns_record: "{{ coder_web_subdomain }}"
 coder_dns_zone: "{{ coder_web_domain }}"
+coder_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

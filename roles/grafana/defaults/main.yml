@@ -38,6 +38,7 @@ grafana_web_url: "{{ 'https://' + grafana_web_subdomain + '.' + grafana_web_doma
 
 grafana_dns_record: "{{ grafana_web_subdomain }}"
 grafana_dns_zone: "{{ grafana_web_domain }}"
+grafana_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

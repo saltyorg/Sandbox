@@ -39,6 +39,7 @@ deemix_web_url: "{{ 'https://' + deemix_web_subdomain + '.' + deemix_web_domain
 
 deemix_dns_record: "{{ deemix_web_subdomain }}"
 deemix_dns_zone: "{{ deemix_web_domain }}"
+deemix_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

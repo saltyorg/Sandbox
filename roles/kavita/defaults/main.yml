@@ -39,6 +39,7 @@ kavita_web_url: "{{ 'https://' + kavita_web_subdomain + '.' + kavita_web_domain
 
 kavita_dns_record: "{{ kavita_web_subdomain }}"
 kavita_dns_zone: "{{ kavita_web_domain }}"
+kavita_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

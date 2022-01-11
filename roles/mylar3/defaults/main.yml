@@ -40,6 +40,7 @@ mylar3_web_url: "{{ 'https://' + mylar3_web_subdomain + '.' + mylar3_web_domain
 
 mylar3_dns_record: "{{ mylar3_web_subdomain }}"
 mylar3_dns_zone: "{{ mylar3_web_domain }}"
+mylar3_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
