@@ -41,6 +41,7 @@ guacamole_web_url: "{{ 'https://' + guacamole_web_subdomain + '.' + guacamole_we
 
 guacamole_dns_record: "{{ guacamole_web_subdomain }}"
 guacamole_dns_zone: "{{ guacamole_web_domain }}"
+guacamole_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

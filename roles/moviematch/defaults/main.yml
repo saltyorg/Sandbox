@@ -39,6 +39,7 @@ moviematch_web_url: "{{ 'https://' + moviematch_web_subdomain + '.' + moviematch
 
 moviematch_dns_record: "{{ moviematch_web_subdomain }}"
 moviematch_dns_zone: "{{ moviematch_web_domain }}"
+moviematch_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

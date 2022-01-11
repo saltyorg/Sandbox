@@ -39,6 +39,7 @@ bookstack_web_url: "{{ 'https://' + bookstack_web_subdomain + '.' + bookstack_we
 
 bookstack_dns_record: "{{ bookstack_web_subdomain }}"
 bookstack_dns_zone: "{{ bookstack_web_domain }}"
+bookstack_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

@@ -39,6 +39,7 @@ dozzle_web_url: "{{ 'https://' + dozzle_web_subdomain + '.' + dozzle_web_domain
 
 dozzle_dns_record: "{{ dozzle_web_subdomain }}"
 dozzle_dns_zone: "{{ dozzle_web_domain }}"
+dozzle_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

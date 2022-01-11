@@ -39,6 +39,7 @@ nextcloud_web_url: "{{ 'https://' + nextcloud_web_subdomain + '.' + nextcloud_we
 
 nextcloud_dns_record: "{{ nextcloud_web_subdomain }}"
 nextcloud_dns_zone: "{{ nextcloud_web_domain }}"
+nextcloud_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

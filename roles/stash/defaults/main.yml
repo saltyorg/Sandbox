@@ -44,6 +44,7 @@ stash_web_url: "{{ 'https://' + stash_web_subdomain + '.' + stash_web_domain
 
 stash_dns_record: "{{ stash_web_subdomain }}"
 stash_dns_zone: "{{ stash_web_domain }}"
+stash_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

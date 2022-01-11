@@ -39,6 +39,7 @@ znc_web_url: "{{ 'https://' + znc_web_subdomain + '.' + znc_web_domain
 
 znc_dns_record: "{{ znc_web_subdomain }}"
 znc_dns_zone: "{{ znc_web_domain }}"
+znc_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

@@ -39,6 +39,7 @@ lazylibrarian_web_url: "{{ 'https://' + lazylibrarian_web_subdomain + '.' + lazy
 
 lazylibrarian_dns_record: "{{ lazylibrarian_web_subdomain }}"
 lazylibrarian_dns_zone: "{{ lazylibrarian_web_domain }}"
+lazylibrarian_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

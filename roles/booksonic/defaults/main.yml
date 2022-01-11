@@ -39,6 +39,7 @@ booksonic_web_url: "{{ 'https://' + booksonic_web_subdomain + '.' + booksonic_we
 
 booksonic_dns_record: "{{ booksonic_web_subdomain }}"
 booksonic_dns_zone: "{{ booksonic_web_domain }}"
+booksonic_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

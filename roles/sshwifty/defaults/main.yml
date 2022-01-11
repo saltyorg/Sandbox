@@ -41,6 +41,7 @@ sshwifty_web_url: "{{ 'https://' + sshwifty_web_subdomain + '.' + sshwifty_web_d
 
 sshwifty_dns_record: "{{ sshwifty_web_subdomain }}"
 sshwifty_dns_zone: "{{ sshwifty_web_domain }}"
+sshwifty_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

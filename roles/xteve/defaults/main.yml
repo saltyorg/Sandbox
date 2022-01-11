@@ -39,6 +39,7 @@ xteve_web_url: "{{ 'https://' + xteve_web_subdomain + '.' + xteve_web_domain
 
 xteve_dns_record: "{{ xteve_web_subdomain }}"
 xteve_dns_zone: "{{ xteve_web_domain }}"
+xteve_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

@@ -39,6 +39,7 @@ mkvtoolnix_web_url: "{{ 'https://' + mkvtoolnix_web_subdomain + '.' + mkvtoolnix
 
 mkvtoolnix_dns_record: "{{ mkvtoolnix_web_subdomain }}"
 mkvtoolnix_dns_zone: "{{ mkvtoolnix_web_domain }}"
+mkvtoolnix_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

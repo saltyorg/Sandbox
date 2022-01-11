@@ -39,6 +39,7 @@ gotify_web_url: "{{ 'https://' + gotify_web_subdomain + '.' + gotify_web_domain
 
 gotify_dns_record: "{{ gotify_web_subdomain }}"
 gotify_dns_zone: "{{ gotify_web_domain }}"
+gotify_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

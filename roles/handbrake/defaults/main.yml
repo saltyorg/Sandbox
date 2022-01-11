@@ -41,6 +41,7 @@ handbrake_web_url: "{{ 'https://' + handbrake_web_subdomain + '.' + handbrake_we
 
 handbrake_dns_record: "{{ handbrake_web_subdomain }}"
 handbrake_dns_zone: "{{ handbrake_web_domain }}"
+handbrake_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

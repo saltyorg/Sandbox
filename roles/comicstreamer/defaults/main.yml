@@ -41,6 +41,7 @@ comicstreamer_web_url: "{{ 'https://' + comicstreamer_web_subdomain + '.' + comi
 
 comicstreamer_dns_record: "{{ comicstreamer_web_subdomain }}"
 comicstreamer_dns_zone: "{{ comicstreamer_web_domain }}"
+comicstreamer_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

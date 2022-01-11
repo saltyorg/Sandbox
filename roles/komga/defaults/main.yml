@@ -40,6 +40,7 @@ komga_web_url: "{{ 'https://' + komga_web_subdomain + '.' + komga_web_domain
 
 komga_dns_record: "{{ komga_web_subdomain }}"
 komga_dns_zone: "{{ komga_web_domain }}"
+komga_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

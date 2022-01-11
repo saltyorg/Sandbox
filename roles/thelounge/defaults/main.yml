@@ -39,6 +39,7 @@ thelounge_web_url: "{{ 'https://' + thelounge_web_subdomain + '.' + thelounge_we
 
 thelounge_dns_record: "{{ thelounge_web_subdomain }}"
 thelounge_dns_zone: "{{ thelounge_web_domain }}"
+thelounge_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

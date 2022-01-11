@@ -40,6 +40,7 @@ alternatrr_web_url: "{{ 'https://' + alternatrr_web_subdomain + '.' + alternatrr
 
 alternatrr_dns_record: "{{ alternatrr_web_subdomain }}"
 alternatrr_dns_zone: "{{ alternatrr_web_domain }}"
+alternatrr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

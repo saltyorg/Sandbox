@@ -47,6 +47,7 @@ tdarr_web_url: "{{ 'https://' + tdarr_web_subdomain + dns_record_suffix + '.' + 
 
 tdarr_dns_record: "{{ tdarr_web_subdomain }}"
 tdarr_dns_zone: "{{ tdarr_web_domain }}"
+tdarr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

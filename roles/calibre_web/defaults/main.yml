@@ -39,6 +39,7 @@ calibre_web_web_url: "{{ 'https://' + calibre_web_web_subdomain + '.' + calibre_
 
 calibre_web_dns_record: "{{ calibre_web_web_subdomain }}"
 calibre_web_dns_zone: "{{ calibre_web_web_domain }}"
+calibre_web_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
