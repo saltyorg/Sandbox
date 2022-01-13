@@ -74,10 +74,6 @@ resiliosync_docker_ports: "{{ resiliosync_docker_ports_defaults
 
 # Envs
 resiliosync_docker_envs_default:
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
-  TZ: "{{ tz }}"
-  LC_ALL: "en_US.UTF-8"
 resiliosync_docker_envs_custom: {}
 resiliosync_docker_envs: "{{ resiliosync_docker_envs_default
                              | combine(resiliosync_docker_envs_custom) }}"
