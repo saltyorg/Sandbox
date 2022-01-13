@@ -73,7 +73,7 @@ resiliosync_docker_ports: "{{ resiliosync_docker_ports_defaults
                            else [] + resiliosync_docker_ports_custom }}" #not sure if this is right
 
 # Envs
-resiliosync_docker_envs_default:
+resiliosync_docker_envs_default: {}
 resiliosync_docker_envs_custom: {}
 resiliosync_docker_envs: "{{ resiliosync_docker_envs_default
                              | combine(resiliosync_docker_envs_custom) }}"
