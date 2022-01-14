@@ -42,3 +42,7 @@ qbit_manage:
   qbt_trace: "false"
 requestrrx:
   roles: ["1080p", "4k"]
+rfloodx:
+  roles: [""]
+transmissionx:
+  roles: [""]

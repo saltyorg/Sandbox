@@ -74,6 +74,8 @@
     - { role: requestrr, tags: ['requestrr'] }
     - { role: requestrrx, tags: ['requestrrx'] }
     - { role: resiliosync, tags: ['resiliosync'] }
+    - { role: rflood, tags: ['rflood'] }
+    - { role: rfloodx, tags: ['rfloodx'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
@@ -81,7 +83,10 @@
     - { role: tdarr_node, tags: ['tdarr_node'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
+    - { role: transmission, tags: ['transmission'] }
+    - { role: transmissionx, tags: ['transmissionx'] }
     - { role: unmanic, tags: ['unmanic'] }
+    - { role: unpackerr, tags: ['unpackerr'] }
     - { role: uptime_kuma, tags: ['uptime-kuma'] }
     - { role: varken, tags: ['varken'] }
     - { role: vaultwarden, tags: ['vaultwarden'] }

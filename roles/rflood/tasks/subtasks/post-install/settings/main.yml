@@ -1,0 +1,21 @@
+####################################################################################
+# Title:         Sandbox: rflood | Post-Install | Settings | Existing Installs     #
+# Author(s):     salty                                                             #
+# URL:           https://github.com/saltyorg/Sandbox                               #
+# --                                                                               #
+####################################################################################
+#                   GNU General Public License v3.0                                #
+####################################################################################
+---
+- name: Post-Install | Settings | Update 'rtorrent.rc' config settings
+  ini_file:
+    path: "{{ rflood_paths_rtorrent_rc_location }}"
+    section: null
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: false
+    state: present
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  loop: "{{ rflood_config_rflood_rc_settings_list }}"

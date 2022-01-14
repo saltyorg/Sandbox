@@ -1,0 +1,26 @@
+#########################################################################
+# Title:         Sandbox: unpackerr Role - Settings                     #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Settings | Check if `{{ unpackerr_config_location | basename }}` exists
+  stat:
+    path: "{{ unpackerr_config_location }}"
+  register: unpackerr_config
+
+- name: Settings | New `{{ unpackerr_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ unpackerr_config_location | basename }}`
+      template:
+        src: unpackerr.conf.j2
+        dest: "{{ unpackerr_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not unpackerr_config.stat.exists
