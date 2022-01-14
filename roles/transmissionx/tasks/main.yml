@@ -1,0 +1,17 @@
+#########################################################################
+# Title:            Sandbox: TransmissionX                              #
+# Author(s):        giosann,salty                                       #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute transmissionX roles"
+  include_role:
+    name: transmission
+  vars:
+    transmission_name: "transmission{{ role }}"
+  with_items: "{{ transmissionx.roles }}"
+  loop_control:
+    loop_var: role

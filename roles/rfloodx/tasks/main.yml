@@ -1,0 +1,17 @@
+#########################################################################
+# Title:            Sandbox: rfloodX                                    #
+# Author(s):        salty                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute rfloodX roles"
+  include_role:
+    name: rflood
+  vars:
+    rflood_name: "rflood{{ role }}"
+  with_items: "{{ rfloodx.roles }}"
+  loop_control:
+    loop_var: role

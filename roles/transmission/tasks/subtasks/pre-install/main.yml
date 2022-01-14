@@ -1,0 +1,15 @@
+#########################################################################
+# Title:         Sandbox: Transmission | Pre-Install Tasks              #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Pre-Install | Get next available port within the range of '51413-51433'
+  find_next_open_port:
+    low_bound: 51413
+    high_bound: 51433
+  register: port_lookup_51413
+  ignore_errors: true
