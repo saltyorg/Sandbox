@@ -73,6 +73,7 @@
     - { role: qbit_manage, tags: ['qbit_manage'] }
     - { role: requestrr, tags: ['requestrr'] }
     - { role: requestrrx, tags: ['requestrrx'] }
+    - { role: resiliosync, tags: ['resiliosync'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
