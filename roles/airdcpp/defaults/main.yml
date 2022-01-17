@@ -74,22 +74,20 @@ airdcpp_docker_ports_defaults:
   - "21249:21249"
 airdcpp_docker_ports_custom: []
 airdcpp_docker_ports: "{{ airdcpp_docker_ports_defaults
-                          + airdcpp_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else [] + airdcpp_docker_ports_custom }}"
+                          + airdcpp_docker_ports_custom }}"
 
 # Envs
 airdcpp_docker_envs_default:
   TZ: "{{ tz }}"
 airdcpp_docker_envs_custom: {}
 airdcpp_docker_envs: "{{ airdcpp_docker_envs_default
-                          | combine(airdcpp_docker_envs_custom) }}"
+                         | combine(airdcpp_docker_envs_custom) }}"
 
 # Commands
 airdcpp_docker_commands_default: []
 airdcpp_docker_commands_custom: []
 airdcpp_docker_commands: "{{ airdcpp_docker_commands_default
-                              + airdcpp_docker_commands_custom }}"
+                             + airdcpp_docker_commands_custom }}"
 
 # Volumes
 airdcpp_docker_volumes_default:
@@ -118,8 +116,8 @@ airdcpp_docker_hosts: "{{ docker_hosts_common
 airdcpp_docker_labels_default: {}
 airdcpp_docker_labels_custom: {}
 airdcpp_docker_labels: "{{ docker_labels_common
-                            | combine(airdcpp_docker_labels_default)
-                            | combine(airdcpp_docker_labels_custom) }}"
+                           | combine(airdcpp_docker_labels_default)
+                           | combine(airdcpp_docker_labels_custom) }}"
 
 # Hostname
 airdcpp_docker_hostname: "{{ airdcpp_name }}"
@@ -129,8 +127,8 @@ airdcpp_docker_networks_alias: "{{ airdcpp_name }}"
 airdcpp_docker_networks_default: []
 airdcpp_docker_networks_custom: []
 airdcpp_docker_networks: "{{ docker_networks_common
-                              + airdcpp_docker_networks_default
-                              + airdcpp_docker_networks_custom }}"
+                             + airdcpp_docker_networks_default
+                             + airdcpp_docker_networks_custom }}"
 
 # Capabilities
 airdcpp_docker_capabilities_default: []
