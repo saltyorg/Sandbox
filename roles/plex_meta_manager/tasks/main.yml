@@ -22,17 +22,17 @@
 - name: Download config.yml.template
   get_url:
     url: https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager/master/config/config.yml.template
-    dest: "{{ plex_meta_manager_paths_location }}/config/config.yml.template"
+    dest: "{{ plex_meta_manager_paths_location }}/config.yml.template"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: 0775
     force: yes
     validate_certs: no
-  ignore_errors: yes
+  ignore_errors: true
 
-- name: "Look for 'config.yml' file in plex-meta-manager/config folder"
+- name: "Checking if 'config.yml' exists in {{ plex_meta_manager_paths_location }}"
   stat:
-    path: "{{ plex_meta_manager_paths_location }}/config/config.yml"
+    path: "{{ plex_meta_manager_paths_location }}/config.yml"
   register: meta_config
 
 - name: "Fail when 'config.yml' is not present"
