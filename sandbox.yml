@@ -5,7 +5,7 @@
     - ['/srv/git/saltbox/accounts.yml', '/srv/git/saltbox/defaults/accounts.yml.default']
     - ['/srv/git/saltbox/settings.yml', '/srv/git/saltbox/defaults/settings.yml.default']
     - ['/srv/git/saltbox/adv_settings.yml', '/srv/git/saltbox/defaults/adv_settings.yml.default']
-    - ['/srv/git/saltbox/providers.yml', '/srv/git/saltbox/defaults/providers.default']
+    - ['/srv/git/saltbox/providers.yml', '/srv/git/saltbox/defaults/providers.yml.default']
   roles:
     # Reqs
     - { role: settings, tags: ['settings'] }
