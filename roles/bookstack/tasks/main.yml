@@ -19,7 +19,7 @@
     name: mariadb
 
 - name: MariaDB | Create bookstackapp database
-  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create schema bookstackapp DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
+  command: "docker exec mariadb mysql -u root -password321 -e 'create schema bookstackapp DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
   ignore_errors: yes
 
 - name: Remove existing Docker container
