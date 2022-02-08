@@ -70,6 +70,7 @@
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
+    - { role: photoprism, tags: ['photoprism'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
     - { role: requestrr, tags: ['requestrr'] }

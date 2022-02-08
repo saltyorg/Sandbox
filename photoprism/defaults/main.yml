@@ -1,0 +1,192 @@
+#########################################################################
+# Title:            Sandbox: PhotoPrism                                 #
+# Author(s):        Thomvh, kowalski, YozoraXCII                        #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+photoprism_name: photoprism
+
+################################
+# Paths
+################################
+
+photoprism_paths_folder: "{{ photoprism_name }}"
+photoprism_paths_location: "{{ server_appdata_path }}/{{ photoprism_paths_folder }}"
+photoprism_paths_folders_list:
+  - "{{ photoprism_paths_location }}"
+
+################################
+# Web
+################################
+
+photoprism_web_subdomain: "{{ photoprism_name }}"
+photoprism_web_domain: "{{ user.domain }}"
+photoprism_web_port: "2342"
+photoprism_web_url: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + photoprism_web_port }}"
+
+################################
+# DNS
+################################
+
+photoprism_dns_record: "{{ photoprism_web_subdomain }}"
+photoprism_dns_zone: "{{ photoprism_web_domain }}"
+photoprism_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+photoprism_traefik_middleware: "{{ traefik_default_middleware }}"
+photoprism_traefik_certresolver: "{{ traefik_default_certresolver }}"
+photoprism_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+photoprism_docker_container: "{{ photoprism_name }}"
+
+# Image
+photoprism_docker_image_pull: true
+photoprism_docker_image_tag: "latest"
+photoprism_docker_image: "photoprism/photoprism:{{ photoprism_docker_image_tag }}"
+
+# Ports
+photoprism_docker_ports_defaults:
+  - "{{ photoprism_web_port }}"
+photoprism_docker_ports_custom: []
+photoprism_docker_ports: "{{ photoprism_docker_ports_defaults
+                            + photoprism_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else [] + photoprism_docker_ports_custom }}"
+
+# Envs
+photoprism_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  APP_URL: "https://{{ photoprism_web_subdomain + '.' + photoprism_web_domain }}"
+photoprism_docker_envs_custom:
+  PHOTOPRISM_ADMIN_PASSWORD: "{{ user.pass }}"
+  PHOTOPRISM_SITE_URL: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + photoprism_web_port }}"
+  PHOTOPRISM_ORIGINALS_LIMIT: "5000"              # File size limit for originals in MB (increase for high-res video)
+  PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # Improves transfer speed and bandwidth utilization (none or gzip)
+  PHOTOPRISM_DEBUG: "false"                      # Run in debug mode (shows additional log messages)
+  PHOTOPRISM_PUBLIC: "false"                     # No authentication required (disables password protection)
+  PHOTOPRISM_READONLY: "false"                   # Don't modify originals directory (reduced functionality)
+  PHOTOPRISM_EXPERIMENTAL: "false"               # Enables experimental features
+  PHOTOPRISM_DISABLE_CHOWN: "false"              # Disables storage permission updates on startup
+  PHOTOPRISM_DISABLE_WEBDAV: "false"             # Disables built-in WebDAV server
+  PHOTOPRISM_DISABLE_SETTINGS: "false"           # Disables Settings in Web UI
+  PHOTOPRISM_DISABLE_TENSORFLOW: "false"         # Disables all features depending on TensorFlow
+  PHOTOPRISM_DISABLE_FACES: "false"              # Disables facial recognition
+  PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # Disables image classification
+  PHOTOPRISM_DARKTABLE_PRESETS: "false"          # Enables Darktable presets and disables concurrent RAW conversion
+  PHOTOPRISM_DETECT_NSFW: "false"                # Flag photos as private that MAY be offensive (requires TensorFlow)
+  PHOTOPRISM_UPLOAD_NSFW: "true"                 # Allow uploads that MAY be offensive
+#  PHOTOPRISM_DATABASE_DRIVER: "sqlite"         # SQLite is an embedded database that doesn't require a server
+  PHOTOPRISM_DATABASE_DRIVER: "mysql"            # Use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
+  PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"     # MariaDB or MySQL database server (hostname:port)
+  PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB or MySQL database schema name
+  PHOTOPRISM_DATABASE_USER: "root"         # MariaDB or MySQL database user name
+  PHOTOPRISM_DATABASE_PASSWORD: "password321"       # MariaDB or MySQL database user password
+  PHOTOPRISM_SITE_TITLE: "PhotoPrism"
+  PHOTOPRISM_SITE_CAPTION: "Browse Your Life"
+  PHOTOPRISM_SITE_DESCRIPTION: ""
+  PHOTOPRISM_SITE_AUTHOR: ""
+# Hardware video transcoding config (optional)
+#  PHOTOPRISM_FFMPEG_BUFFERS: "64"              # FFmpeg capture buffers (default: 32)
+#  PHOTOPRISM_FFMPEG_BITRATE: "32"              # FFmpeg encoding bitrate limit in Mbit/s (default: 50)
+#  PHOTOPRISM_FFMPEG_ENCODER: "h264_v4l2m2m"    # Use Video4Linux for AVC transcoding (default: libx264)
+#  PHOTOPRISM_FFMPEG_ENCODER: "h264_qsv"        # Use Intel Quick Sync Video for AVC transcoding (default: libx264)
+#  PHOTOPRISM_INIT: "intel-graphics tensorflow-amd64-avx2" # Enable TensorFlow AVX2 & Intel Graphics support
+# Enable TensorFlow AVX2 support for modern Intel CPUs (requires starting the container as root)
+#  PHOTOPRISM_INIT: "tensorflow-amd64-avx2"
+# Run as a specific user, group, or with a custom umask (does not work together with "user:")
+#  PHOTOPRISM_UID: 1000
+#  PHOTOPRISM_GID: 1000
+#  PHOTOPRISM_UMASK: 0000
+  HOME: "/photoprism"
+# Hardware devices for video transcoding and machine learning (optional)
+  working_dir: "/opt/photoprism"
+
+photoprism_docker_envs: "{{ photoprism_docker_envs_default
+                           | combine(photoprism_docker_envs_custom) }}"
+
+# Commands
+photoprism_docker_commands_default: []
+photoprism_docker_commands_custom: []
+photoprism_docker_commands: "{{ photoprism_docker_commands_default
+                               + photoprism_docker_commands_custom }}"
+
+# Volumes
+photoprism_docker_volumes_default:
+  - "{{ photoprism_paths_location }}:/photoprism/storage"
+photoprism_docker_volumes_custom:
+  - "/mnt/local/Media/Photos:/protoprism/originals"
+#  - "/example/family:/photoprism/originals/family" # *additional* media folders can be mounted like this
+#  - "~/Import:/photoprism/import"                  # *optional* base folder from which files can be imported to originals
+# photoprism_docker_volumes: "{{ photoprism_docker_volumes_default
+#                               + photoprism_docker_volumes_custom
+#                               + docker_volumes_downloads_common }}"  # CHECK IF NEEDED
+
+# Devices
+photoprism_docker_devices_default: []
+photoprism_docker_devices_custom: []
+photoprism_docker_devices: "{{ photoprism_docker_devices_default
+                              + photoprism_docker_devices_custom }}"
+
+# Hosts
+photoprism_docker_hosts_default: []
+photoprism_docker_hosts_custom: []
+photoprism_docker_hosts: "{{ docker_hosts_common
+                            | combine(photoprism_docker_hosts_default)
+                            | combine(photoprism_docker_hosts_custom) }}"
+
+# Labels
+photoprism_docker_labels_default: {}
+photoprism_docker_labels_custom: {}
+photoprism_docker_labels: "{{ docker_labels_common
+                             | combine(photoprism_docker_labels_default)
+                             | combine(photoprism_docker_labels_custom) }}"
+
+# Hostname
+photoprism_docker_hostname: "{{ photoprism_name }}"
+
+# Networks
+photoprism_docker_networks_alias: "{{ photoprism_name }}"
+photoprism_docker_networks_default: []
+photoprism_docker_networks_custom: []
+photoprism_docker_networks: "{{ docker_networks_common
+                               + photoprism_docker_networks_default
+                               + photoprism_docker_networks_custom }}"
+
+# Capabilities
+photoprism_docker_capabilities_default: []
+photoprism_docker_capabilities_custom: []
+photoprism_docker_capabilities: "{{ photoprism_docker_capabilities_default
+                                   + photoprism_docker_capabilities_custom }}"
+
+# Security Opts
+photoprism_docker_security_opts_default: []
+photoprism_docker_security_opts_custom: []
+photoprism_docker_security_opts: "{{ photoprism_docker_security_opts_default
+                                    + photoprism_docker_security_opts_custom }}"
+
+# Restart Policy
+photoprism_docker_restart_policy: unless-stopped
+
+# State
+photoprism_docker_state: started
