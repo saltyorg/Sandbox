@@ -60,7 +60,7 @@ apprise_docker_container: "{{ apprise_name }}"
 # Image
 apprise_docker_image_pull: true
 apprise_docker_image_tag: "latest"
-apprise_docker_image: "caronc/apprise:{{ apprise_docker_image_tag }}"
+apprise_docker_image: "lscr.io/linuxserver/apprise-api:{{ apprise_docker_image_tag }}"
 
 # Ports
 apprise_docker_ports_defaults:
@@ -73,7 +73,9 @@ apprise_docker_ports: "{{ apprise_docker_ports_defaults
 
 # Envs
 apprise_docker_envs_default:
-  HTTPS_METHOD: "nohttps"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
 apprise_docker_envs_custom: {}
 apprise_docker_envs: "{{ apprise_docker_envs_default
                          | combine(apprise_docker_envs_custom) }}"
