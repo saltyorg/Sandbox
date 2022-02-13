@@ -66,15 +66,10 @@ unifi_docker_image: "lscr.io/linuxserver/unifi-controller:{{ unifi_docker_image_
 # Ports
 unifi_docker_ports_defaults:
   - "{{ unifi_web_port }}:{{ unifi_web_port }}/tcp"  #Unifi web admin port
-unifi_docker_ports_custom:
-  - "3478:3478/udp" #Unifi STUN port
-#  - "10001:10001/udp" #Required for AP discovery
+unifi_docker_ports_custom: 
   - "8080:8080/tcp" #Required for device communication
-#  - "1900:1900/udp" #Required for Make controller discoverable on L2 network option
-  - "8843:8843/tcp" #Unifi guest portal HTTPS redirect port
-  - "8880:8880/tcp" #Unifi guest portal HTTP redirect port
-  - "6789:6789/tcp" #For mobile throughput test
-#  - "5514:5514/udp" #Remote syslog port
+# Only the minimum necessary port is listed here. Additionals ports may be required according to your needs.
+# See https://github.com/linuxserver/docker-unifi-controller#parameters for reference.
 unifi_docker_ports: "{{ unifi_docker_ports_defaults
                               + unifi_docker_ports_custom
                            if (not reverse_proxy_is_enabled)
