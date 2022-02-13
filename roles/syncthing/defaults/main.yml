@@ -1,0 +1,143 @@
+##########################################################################
+# Title:         Sandbox: Syncthing   | Default Variables                #
+# Author(s):     Turbo                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+syncthing_name: syncthing
+
+################################
+# Paths
+################################
+
+syncthing_paths_folder: "{{ syncthing_name }}"
+syncthing_paths_location: "{{ server_appdata_path }}/{{ syncthing_paths_folder }}"
+syncthing_paths_folders_list:
+  - "{{ syncthing_paths_location }}"
+
+################################
+# Web
+################################
+
+syncthing_web_subdomain: "{{ syncthing_name }}"
+syncthing_web_domain: "{{ user.domain }}"
+syncthing_web_port: "8384"
+syncthing_web_url: "{{ 'https://' + syncthing_web_subdomain + '.' + syncthing_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + syncthing_web_port }}"
+
+################################
+# DNS
+################################
+
+syncthing_dns_record: "{{ syncthing_web_subdomain }}"
+syncthing_dns_zone: "{{ syncthing_web_domain }}"
+syncthing_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+syncthing_traefik_middleware: "{{ traefik_default_middleware }}"
+syncthing_traefik_certresolver: "{{ traefik_default_certresolver }}"
+syncthing_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+syncthing_docker_container: "{{ syncthing_name }}"
+
+# Image
+syncthing_docker_image_pull: true
+syncthing_docker_image_tag: "latest"
+syncthing_docker_image: "ghcr.io/linuxserver/syncthing:{{ syncthing_docker_image_tag }}"
+
+# Ports
+syncthing_docker_ports_defaults:
+  - "{{ syncthing_web_port }}:{{ syncthing_web_port }}"
+syncthing_docker_ports_custom: ["22000/tcp", "22000/udp", "21027/udp"]
+syncthing_docker_ports: "{{ syncthing_docker_ports_defaults
+                              + syncthing_docker_ports_custom
+                           if (not reverse_proxy_is_enabled)
+                           else [] + syncthing_docker_ports_custom }}"
+
+# Envs
+syncthing_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+syncthing_docker_envs_custom: {}
+syncthing_docker_envs: "{{ syncthing_docker_envs_default
+                             | combine(syncthing_docker_envs_custom) }}"
+
+# Commands
+syncthing_docker_commands_default: []
+syncthing_docker_commands_custom: []
+syncthing_docker_commands: "{{ syncthing_docker_commands_default
+                                 + syncthing_docker_commands_custom }}"
+
+# Volumes
+syncthing_docker_volumes_default:
+  - "{{ syncthing_paths_location }}:/config"
+syncthing_docker_volumes_custom: []
+syncthing_docker_volumes: "{{ syncthing_docker_volumes_default
+                                + syncthing_docker_volumes_custom
+                                + docker_volumes_downloads_common }}"
+
+# Devices
+syncthing_docker_devices_default: []
+syncthing_docker_devices_custom: []
+syncthing_docker_devices: "{{ syncthing_docker_devices_default
+                                + syncthing_docker_devices_custom }}"
+
+# Hosts
+syncthing_docker_hosts_default: []
+syncthing_docker_hosts_custom: []
+syncthing_docker_hosts: "{{ docker_hosts_common
+                              | combine(syncthing_docker_hosts_default)
+                              | combine(syncthing_docker_hosts_custom) }}"
+
+# Labels
+syncthing_docker_labels_default: {}
+syncthing_docker_labels_custom: {}
+syncthing_docker_labels: "{{ docker_labels_common
+                               | combine(syncthing_docker_labels_default)
+                               | combine(syncthing_docker_labels_custom) }}"
+
+# Hostname
+syncthing_docker_hostname: "{{ syncthing_name }}"
+
+# Networks
+syncthing_docker_networks_alias: "{{ syncthing_name }}"
+syncthing_docker_networks_default: []
+syncthing_docker_networks_custom: []
+syncthing_docker_networks: "{{ docker_networks_common
+                                 + syncthing_docker_networks_default
+                                 + syncthing_docker_networks_custom }}"
+
+# Capabilities
+syncthing_docker_capabilities_default: []
+syncthing_docker_capabilities_custom: []
+syncthing_docker_capabilities: "{{ syncthing_docker_capabilities_default
+                                     + syncthing_docker_capabilities_custom }}"
+
+# Security Opts
+syncthing_docker_security_opts_default: []
+syncthing_docker_security_opts_custom: []
+syncthing_docker_security_opts: "{{ syncthing_docker_security_opts_default
+                                      + syncthing_docker_security_opts_custom }}"
+
+# Restart Policy
+syncthing_docker_restart_policy: unless-stopped
+
+# State
+syncthing_docker_state: started
