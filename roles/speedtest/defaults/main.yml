@@ -59,7 +59,7 @@ speedtest_docker_container: "{{ speedtest_name }}"
 # Image
 speedtest_docker_image_pull: true
 speedtest_docker_image_tag: "latest"
-speedtest_docker_image: "ghcr.io/linuxserver/librespeed:{{ speedtest_docker_image_tag }}"
+speedtest_docker_image: "lscr.io/linuxserver/librespeed:{{ speedtest_docker_image_tag }}"
 
 # Ports
 speedtest_docker_ports_defaults:
