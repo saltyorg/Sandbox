@@ -12,7 +12,7 @@
   when: doplarr.discord_token == 'your_discord_bot_token'
 
 - name: Fail when default doplarr.overseerr_api is specified
-  fail: msg="You must specify ayour Overeerr API key in the settings under doplarr.overseerr_api ."
+  fail: msg="You must specify your Overeerr API key in the settings under doplarr.overseerr_api ."
   when: doplarr.overseerr_api == 'your_overseerr_api_key'
 
 - name: Remove existing Docker container
