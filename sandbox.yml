@@ -30,6 +30,7 @@
     - { role: comixed, tags: ['comixed'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
+    - { role: doplarr, tags: ['doplarr'] }
     - { role: dozzle, tags: ['dozzle'] }
     - { role: embystat, tags: ['embystat'] }
     - { role: epms, tags: ['epms'] }
