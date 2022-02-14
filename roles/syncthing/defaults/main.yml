@@ -59,7 +59,7 @@ syncthing_docker_container: "{{ syncthing_name }}"
 # Image
 syncthing_docker_image_pull: true
 syncthing_docker_image_tag: "latest"
-syncthing_docker_image: "ghcr.io/linuxserver/syncthing:{{ syncthing_docker_image_tag }}"
+syncthing_docker_image: "lscr.io/linuxserver/syncthing:{{ syncthing_docker_image_tag }}"
 
 # Ports
 syncthing_docker_ports_defaults:
@@ -88,6 +88,7 @@ syncthing_docker_commands: "{{ syncthing_docker_commands_default
 # Volumes
 syncthing_docker_volumes_default:
   - "{{ syncthing_paths_location }}:/config"
+  - "/mnt:/mnt"
 syncthing_docker_volumes_custom: []
 syncthing_docker_volumes: "{{ syncthing_docker_volumes_default
                                 + syncthing_docker_volumes_custom
