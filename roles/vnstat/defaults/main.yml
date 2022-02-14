@@ -1,0 +1,150 @@
+##########################################################################
+# Title:         Sandbox: vnstat | Default Variables                     #
+# Author(s):     turbo                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+vnstat_name: vnstat
+
+################################
+# Paths
+################################
+
+vnstat_paths_folder: "{{ vnstat_name }}"
+vnstat_paths_location: "{{ server_appdata_path }}/{{ vnstat_paths_folder }}"
+vnstat_paths_folders_list:
+  - "{{ vnstat_paths_location }}"
+
+################################
+# Web
+################################
+
+vnstat_web_subdomain: "{{ vnstat_name }}"
+vnstat_web_domain: "{{ user.domain }}"
+vnstat_web_port: "80"
+vnstat_web_url: "{{ 'https://' + vnstat_web_subdomain + '.' + vnstat_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + vnstat_web_port }}"
+
+################################
+# DNS
+################################
+
+vnstat_dns_record: "{{ vnstat_web_subdomain }}"
+vnstat_dns_zone: "{{ vnstat_web_domain }}"
+vnstat_dns_proxy: false # defeats the purpose if proxied
+
+################################
+# Traefik
+################################
+
+vnstat_traefik_middleware: "{{ traefik_default_middleware }}"
+vnstat_traefik_certresolver: "{{ traefik_default_certresolver }}"
+vnstat_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+vnstat_docker_container: "{{ vnstat_name }}"
+
+# Image
+vnstat_docker_image_pull: true
+vnstat_docker_image_tag: "latest"
+vnstat_docker_image: "amarston/vnstat-dashboard:{{ vnstat_docker_image_tag }}"
+
+# Ports
+vnstat_docker_ports_defaults:
+  - "{{ vnstat_web_port }}:{{ vnstat_web_port }}"
+vnstat_docker_ports_custom: []
+vnstat_docker_ports: "{{ vnstat_docker_ports_defaults
+                            + vnstat_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + vnstat_docker_ports_custom }}"
+
+# Envs
+vnstat_docker_envs_default:
+  TZ: "{{ tz }}"
+  PASSWORD: "{{ user.pass }}"
+  DB_TYPE: "sqlite"
+vnstat_docker_envs_custom: {}
+vnstat_docker_envs: "{{ vnstat_docker_envs_default
+                           | combine(vnstat_docker_envs_custom) }}"
+
+# Commands
+vnstat_docker_commands_default: []
+vnstat_docker_commands_custom: []
+vnstat_docker_commands: "{{ vnstat_docker_commands_default
+                               + vnstat_docker_commands_custom }}"
+
+# Volumes
+vnstat_docker_volumes_default:
+  - "/usr/bin/vnstat:/usr/bin/vnstat:ro"
+  - "/var/lib/vnstat:/var/lib/vnstat:ro"
+vnstat_docker_volumes_custom: []
+vnstat_docker_volumes: "{{ vnstat_docker_volumes_default
+                              + vnstat_docker_volumes_custom
+                              + docker_volumes_downloads_common }}"
+
+# Devices
+vnstat_docker_devices_default: []
+vnstat_docker_devices_custom: []
+vnstat_docker_devices: "{{ vnstat_docker_devices_default
+                              + vnstat_docker_devices_custom }}"
+
+# Hosts
+vnstat_docker_hosts_default: []
+vnstat_docker_hosts_custom: []
+vnstat_docker_hosts: "{{ docker_hosts_common
+                            | combine(vnstat_docker_hosts_default)
+                            | combine(vnstat_docker_hosts_custom) }}"
+
+# Labels
+vnstat_docker_labels_default: {}
+vnstat_docker_labels_custom: {}
+vnstat_docker_labels: "{{ docker_labels_common
+                             | combine(vnstat_docker_labels_default)
+                             | combine(vnstat_docker_labels_custom) }}"
+
+# Hostname
+vnstat_docker_hostname: "{{ vnstat_name }}"
+
+# Networks
+vnstat_docker_networks_alias: "{{ vnstat_name }}"
+vnstat_docker_networks_default: []
+vnstat_docker_networks_custom: []
+vnstat_docker_networks: "{{ docker_networks_common
+                               + vnstat_docker_networks_default
+                               + vnstat_docker_networks_custom }}"
+
+# Capabilities
+vnstat_docker_capabilities_default: []
+vnstat_docker_capabilities_custom: []
+vnstat_docker_capabilities: "{{ vnstat_docker_capabilities_default
+                                   + vnstat_docker_capabilities_custom }}"
+
+# Security Opts
+vnstat_docker_security_opts_default: []
+vnstat_docker_security_opts_custom: []
+vnstat_docker_security_opts: "{{ vnstat_docker_security_opts_default
+                                    + vnstat_docker_security_opts_custom }}"
+
+# Restart Policy
+vnstat_docker_restart_policy: unless-stopped
+
+# State
+vnstat_docker_state: started
+
+# Force Kill
+vnstat_docker_force_kill: yes
+
+# Stop Timeout
+vnstat_docker_stop_timeout: 10
