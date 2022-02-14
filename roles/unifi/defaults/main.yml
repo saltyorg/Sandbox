@@ -1,0 +1,148 @@
+#########################################################################
+# Title:            Sandbox: Unifi | Default Variables                  #
+# Author(s):        Grostim                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+unifi_name: unifi
+
+################################
+# Paths
+################################
+
+unifi_paths_folder: "{{ unifi_name }}"
+unifi_paths_location: "{{ server_appdata_path }}/{{ unifi_paths_folder }}"
+unifi_paths_folders_list:
+  - "{{ unifi_paths_location }}"
+
+################################
+# Web
+################################
+
+unifi_web_subdomain: "{{ unifi_name }}"
+unifi_web_domain: "{{ user.domain }}"
+unifi_web_port: "8443"
+unifi_web_scheme: "https"
+unifi_web_serverstransport: "skipverify@file"
+unifi_web_url: "{{ 'https://' + unifi_web_subdomain + '.' + unifi_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + unifi_web_port }}"
+
+################################
+# DNS
+################################
+
+unifi_dns_record: "{{ unifi_web_subdomain }}"
+unifi_dns_zone: "{{ unifi_web_domain }}"
+unifi_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+unifi_traefik_middleware: "{{ traefik_default_middleware }}"
+unifi_traefik_certresolver: "{{ traefik_default_certresolver }}"
+unifi_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+unifi_docker_container: "{{ unifi_name }}"
+
+# Image
+unifi_docker_image_pull: true
+unifi_docker_image_tag: "latest"
+unifi_docker_image: "lscr.io/linuxserver/unifi-controller:{{ unifi_docker_image_tag }}"
+
+# Ports
+unifi_docker_ports_defaults:
+  - "{{ unifi_web_port }}:{{ unifi_web_port }}/tcp"
+  - "8080:8080/tcp"
+  - "3478:3478/udp"
+  - "10001:10001/udp"
+unifi_docker_ports_custom: []
+unifi_docker_ports: "{{ unifi_docker_ports_defaults
+                        + unifi_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else [] + unifi_docker_ports_custom }}"
+
+# Envs
+unifi_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+unifi_docker_envs_custom: {}
+unifi_docker_envs: "{{ unifi_docker_envs_default
+                       | combine(unifi_docker_envs_custom) }}"
+
+# Commands
+unifi_docker_commands_default: []
+unifi_docker_commands_custom: []
+unifi_docker_commands: "{{ unifi_docker_commands_default
+                           + unifi_docker_commands_custom }}"
+
+# Volumes
+unifi_docker_volumes_default:
+  - "{{ unifi_paths_location }}:/config"
+unifi_docker_volumes_custom: []
+unifi_docker_volumes: "{{ unifi_docker_volumes_default
+                          + unifi_docker_volumes_custom }}"
+
+# Devices
+unifi_docker_devices_default: []
+unifi_docker_devices_custom: []
+unifi_docker_devices: "{{ unifi_docker_devices_default
+                          + unifi_docker_devices_custom }}"
+
+# Hosts
+unifi_docker_hosts_default: []
+unifi_docker_hosts_custom: []
+unifi_docker_hosts: "{{ docker_hosts_common
+                        | combine(unifi_docker_hosts_default)
+                        | combine(unifi_docker_hosts_custom) }}"
+
+# Labels
+unifi_docker_labels_default: {}
+unifi_docker_labels_custom: {}
+
+unifi_docker_labels: "{{ docker_labels_common
+                         | combine(unifi_docker_labels_default)
+                         | combine(unifi_docker_labels_custom) }}"
+
+# Hostname
+unifi_docker_hostname: "{{ unifi_name }}"
+
+# Networks
+unifi_docker_networks_alias: "{{ unifi_name }}"
+unifi_docker_networks_default: []
+unifi_docker_networks_custom: []
+unifi_docker_networks: "{{ docker_networks_common
+                           + unifi_docker_networks_default
+                           + unifi_docker_networks_custom }}"
+
+# Capabilities
+unifi_docker_capabilities_default: []
+unifi_docker_capabilities_custom: []
+unifi_docker_capabilities: "{{ unifi_docker_capabilities_default
+                               + unifi_docker_capabilities_custom }}"
+
+# Security Opts
+unifi_docker_security_opts_default: []
+unifi_docker_security_opts_custom: []
+unifi_docker_security_opts: "{{ unifi_docker_security_opts_default
+                                + unifi_docker_security_opts_custom }}"
+
+# Restart Policy
+unifi_docker_restart_policy: unless-stopped
+
+# State
+unifi_docker_state: started
