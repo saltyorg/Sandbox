@@ -1,6 +1,6 @@
 ##########################################################################
 # Title:         Sandbox: speedtest | Default Variables                  #
-# Author(s):     salty, kowalski                                         #
+# Author(s):     salty, kowalski, turbo                                  #
 # URL:           https://github.com/saltyorg/Sandbox                     #
 # --                                                                     #
 ##########################################################################
@@ -39,7 +39,7 @@ speedtest_web_url: "{{ 'https://' + speedtest_web_subdomain + '.' + speedtest_we
 
 speedtest_dns_record: "{{ speedtest_web_subdomain }}"
 speedtest_dns_zone: "{{ speedtest_web_domain }}"
-speedtest_dns_proxy: "{{ dns.proxied }}"
+speedtest_dns_proxy: false # defeats the purpose if proxied
 
 ################################
 # Traefik
@@ -59,7 +59,7 @@ speedtest_docker_container: "{{ speedtest_name }}"
 # Image
 speedtest_docker_image_pull: true
 speedtest_docker_image_tag: "latest"
-speedtest_docker_image: "satzisa/html5-speedtest:{{ speedtest_docker_image_tag }}"
+speedtest_docker_image: "ghcr.io/linuxserver/librespeed:{{ speedtest_docker_image_tag }}"
 
 # Ports
 speedtest_docker_ports_defaults:
@@ -74,8 +74,9 @@ speedtest_docker_ports: "{{ speedtest_docker_ports_defaults
 speedtest_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  UMASK: "002"
   TZ: "{{ tz }}"
+  PASSWORD: "{{ user.pass }}"
+  DB_TYPE: "sqlite"
 speedtest_docker_envs_custom: {}
 speedtest_docker_envs: "{{ speedtest_docker_envs_default
                            | combine(speedtest_docker_envs_custom) }}"
@@ -88,7 +89,7 @@ speedtest_docker_commands: "{{ speedtest_docker_commands_default
 
 # Volumes
 speedtest_docker_volumes_default:
-  - "{{ speedtest_paths_location }}:/var/www/html:rw"
+  - "{{ speedtest_paths_location }}:/config"
 speedtest_docker_volumes_custom: []
 speedtest_docker_volumes: "{{ speedtest_docker_volumes_default
                               + speedtest_docker_volumes_custom
