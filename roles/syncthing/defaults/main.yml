@@ -64,7 +64,7 @@ syncthing_docker_image: "lscr.io/linuxserver/syncthing:{{ syncthing_docker_image
 # Ports
 syncthing_docker_ports_defaults:
   - "{{ syncthing_web_port }}:{{ syncthing_web_port }}"
-  - "8080:8080/tcp" 
+  - "22000:22000/tcp" 
   - "22000:22000/udp"
   - "21027:21027/udp"
 syncthing_docker_ports_custom: []
