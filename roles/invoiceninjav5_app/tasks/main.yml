@@ -1,5 +1,5 @@
 #########################################################################
-# Title:            Sandbox: InvoiceNinja v5 app      #
+# Title:            Sandbox: InvoiceNinja v5 app                        #
 # Author(s):        Thomvh, kowalski                                    #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
@@ -8,9 +8,9 @@
 #########################################################################
 ---
 
-#- name: MariaDB Role
-#  include_role:
-#    name: mariadb
+- name: MariaDB Role
+  include_role:
+    name: mariadb
 
 - name: MariaDB | Create ninja database
   command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database ninja;'"
@@ -28,29 +28,10 @@
     mode: "0777"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-#- name: Print the env list
-#  debug:
-#    msg: "{{ invoiceninjav5_app_docker_envs_default }}"
-
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: InvoiceNinja | Install DB Migration
   command: "docker exec {{invoiceninjav5_app_docker_container}} /usr/local/bin/php /var/www/app/artisan migrate:install"
   ignore_errors: yes
-
-#- name: InvoiceNinja | Run DB Migration
-#  command: "docker exec {{invoiceninjav5_app_docker_container}} /usr/local/bin/php /var/www/app/artisan migrate --force"
-#  ignore_errors: yes
-
-#- name: Stop Docker container
-#  include_tasks: "{{ resources_tasks_path }}/docker/stop_docker_container.yml"
-
-#- name: Remove .env 
-#  command: "rm {{invoiceninjav5_app_paths_location}}/public/.env"
-#  ignore_errors: yes  
-
-#- name: Start Docker container
-#  include_tasks: "{{ resources_tasks_path }}/docker/start_docker_container.yml"
-
 
