@@ -1,0 +1,24 @@
+#########################################################################
+# Title:            Sandbox: Doplarr                                    #
+# Author(s):        Grostim                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Fail when default doplarr.discord_token is specified
+  fail: msg="You must specify a Discord bot token in the settings under doplarr.discord_token ."
+  when: (doplarr.discord_token == 'your_discord_bot_token') and
+        (not continuous_integration)
+
+- name: Fail when default doplarr.overseerr_api is specified
+  fail: msg="You must specify ayour Overeerr API key in the settings under doplarr.overseerr_api ."
+  when: (doplarr.overseerr_api == 'your_overseerr_api_key') and
+        (not continuous_integration)
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
