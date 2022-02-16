@@ -59,7 +59,7 @@ bookstack_docker_container: "{{ bookstack_name }}"
 # Image
 bookstack_docker_image_pull: true
 bookstack_docker_image_tag: "latest"
-bookstack_docker_image: "ghcr.io/lscr.io/linuxserver/bookstack:{{ bookstack_docker_image_tag }}"
+bookstack_docker_image: "lscr.io/linuxserver/bookstack:{{ bookstack_docker_image_tag }}"
 
 # Ports
 bookstack_docker_ports_defaults:
