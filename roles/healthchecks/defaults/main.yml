@@ -60,7 +60,7 @@ healthchecks_docker_container: "{{ healthchecks_name }}"
 # Image
 healthchecks_docker_image_pull: true
 healthchecks_docker_image_tag: "latest"
-healthchecks_docker_image: "ghcr.io/lscr.io/linuxserver/healthchecks:{{ healthchecks_docker_image_tag }}"
+healthchecks_docker_image: "lscr.io/linuxserver/healthchecks:{{ healthchecks_docker_image_tag }}"
 
 # Ports
 healthchecks_docker_ports_defaults:
