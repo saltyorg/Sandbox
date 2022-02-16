@@ -1,0 +1,48 @@
+#########################################################################
+# Title:         Saltbox: InvoiceNinja v5 Nginx Role                    #
+# Author(s):     addbee, salty                                          #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0777"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+
+- name: "Settings | Check if in-vhost.conf exists"
+  stat:
+    path: "{{ invoiceninjav5_nginx_conf_path }}"
+  register: invoiceninjav5_nginx_config
+
+- name: "Settings | in-vhost.conf tasks"
+  block:
+    - name: "Settings | Import in-vhost.conf"
+      template:
+        src: in-vhost.conf.j2
+        dest: '{{ invoiceninjav5_nginx_conf_path }}'
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0777
+        force: yes
+  when: not invoiceninjav5_nginx_config.stat.exists
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
