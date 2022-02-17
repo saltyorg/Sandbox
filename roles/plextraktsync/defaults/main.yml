@@ -42,7 +42,7 @@ plextraktsync_docker_envs_default:
   PGID: "{{ gid }}"
   PLEX_BASEURL: "{{ plextraktsync.plex_url|d('http://' + plex_docker_networks_alias + ':' + plex_web_port,true) }}"
   PLEX_TOKEN: "{{ plextraktsync.plex_token|d(plex_auth_token,true) }}"
-  PLEX_USERNAME: "{{ plextraktsync.plex_username|d(omit,true) if plex.user is search('@') else plextraktsync.plex_username|d(plex.user,true) }}"
+  PLEX_USERNAME: "{{ plextraktsync.plex_user|d(omit,true) if plex.user is search('@') else plextraktsync.plex_user|d(plex.user,true) }}"
 plextraktsync_docker_envs_custom: {}
 plextraktsync_docker_envs: "{{ plextraktsync_docker_envs_default
                            | combine(plextraktsync_docker_envs_custom) }}"
