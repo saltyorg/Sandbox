@@ -72,6 +72,7 @@
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
+    - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
     - { role: requestrr, tags: ['requestrr'] }
     - { role: requestrrx, tags: ['requestrrx'] }
