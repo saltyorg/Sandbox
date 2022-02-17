@@ -10,29 +10,25 @@
 - name: Import Default Plex variables
   include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
-- name: Run Role
-  block:
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-    - name: Remove existing Docker container
-      include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-    - name: Create directories
-      file:
-        path: "{{ item }}"
-        state: directory
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: "0775"
-      with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
-
-    - name: Import Plex Auth Token role
-      import_role:
-        name: plex_auth_token
-
-    - name: Create Docker container
-      include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
+- name: Import Plex Auth Token role
+  import_role:
+    name: plex_auth_token
   when: plex_account_is_enabled
+   
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: Display post-install message
   pause:
