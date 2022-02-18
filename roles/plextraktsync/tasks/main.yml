@@ -26,7 +26,7 @@
   import_role:
     name: plex_auth_token
   when: plex_account_is_enabled
-   
+
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
@@ -34,7 +34,7 @@
   pause:
     seconds: 1
     prompt: |
-    
+
       ##### First install? #############################################
       #                                                                #
       #                        TO FINISH SETUP:                        #
