@@ -7,6 +7,9 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Import Default Plex variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
 - name: Create python-plexlibrary directories
   file:
     path: "{{ item }}"
