@@ -88,7 +88,7 @@
     dest: "/opt/python-plexlibrary/{{ item }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: 0775,a+x
+    mode: "0775"
     force: true
   loop:
     - "plexlibrary.sh"
