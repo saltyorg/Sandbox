@@ -38,8 +38,6 @@ plextraktsync_docker_image: "ghcr.io/taxel/plextraktsync:{{ plextraktsync_docker
 # Envs
 plextraktsync_docker_envs_default:
   TZ: "{{ tz }}"
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
   PLEX_BASEURL: "{{ plextraktsync.plex_url|d('http://' + plex_docker_networks_alias + ':' + plex_web_port,true) }}"
   PLEX_TOKEN: "{{ plextraktsync.plex_token|d(plex_auth_token,true) }}"
   PLEX_USERNAME: "{{ plextraktsync.plex_user|d(omit,true) if plex.user is search('@') else plextraktsync.plex_user|d(plex.user,true) }}"
