@@ -1,0 +1,48 @@
+##########################################################################
+# Title:            Sandbox: PlexTraktSync Role                          #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Import Default Plex variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+- name: Import Plex Auth Token role
+  import_role:
+    name: plex_auth_token
+  when: plex_account_is_enabled
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Display post-install message
+  pause:
+    seconds: 1
+    prompt: |
+
+      ##### First install? #############################################
+      #                                                                #
+      #                        TO FINISH SETUP:                        #
+      #                                                                #
+      #  1. Set your preferences in {{ plextraktsync_config_location }}     #
+      #                                                                #
+      #  2. Run the following command (and follow the instructions):   #
+      #                                                                #
+      #  docker exec -it {{ plextraktsync_name }} python3 -m plextraktsync login  #
+      #                                                                #
+      ##################################################################
