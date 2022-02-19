@@ -74,6 +74,7 @@
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: plex_patrol, tags: ['plex_patrol'] }
+    - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
     - { role: requestrr, tags: ['requestrr'] }
