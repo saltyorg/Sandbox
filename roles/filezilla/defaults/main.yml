@@ -46,7 +46,7 @@ filezilla_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-filezilla_traefik_middleware: "{{ traefik_default_middleware }},filezilla-auth"
+filezilla_traefik_middleware: "filezilla-auth,{{ traefik_default_middleware }}"
 filezilla_traefik_certresolver: "{{ traefik_default_certresolver }}"
 filezilla_traefik_enabled: true
 filezilla_auth: "/etc/traefik/auth"
