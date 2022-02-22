@@ -45,7 +45,7 @@ heimdall_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-heimdall_traefik_middleware: "secureHeaders@file,gzip,heimdall-auth"
+heimdall_traefik_middleware: "heimdall-auth,{{ traefik_default_middleware }}"
 heimdall_traefik_certresolver: "{{ traefik_default_certresolver }}"
 heimdall_traefik_enabled: true
 heimdall_auth: "/etc/traefik/auth"
