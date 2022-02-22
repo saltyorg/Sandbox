@@ -53,7 +53,7 @@ rflood_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-rflood_traefik_middleware: "{{ traefik_default_middleware }},rflood-auth"
+rflood_traefik_middleware: "rflood-auth,{{ traefik_default_middleware }}"
 rflood_traefik_certresolver: "{{ traefik_default_certresolver }}"
 rflood_traefik_enabled: true
 rflood_auth: "/etc/traefik/auth"
