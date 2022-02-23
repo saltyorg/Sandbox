@@ -7,9 +7,6 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-- name: Import Default Plex variables
-  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
-
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
@@ -26,6 +23,24 @@
   import_role:
     name: plex_auth_token
   when: plex_account_is_enabled
+
+- name: Plex tasks
+  include_tasks: subtasks/plex.yml
+    
+- name: Create default .env file
+  copy:
+    content: "# This is .env file for PlexTraktSync\n
+              PLEX_BASEURL={{ plex_web_url }}\n
+              PLEX_FALLBACKURL={{ 'http://localhost:' + plex_web_port }}\n
+              PLEX_LOCALURL={{ plex_docker_url }}\n
+              PLEX_TOKEN={{ plex_auth_token }}\n
+              PLEX_USERNAME={{ plex_admin_username }}\n
+              TRAKT_USERNAME="
+    dest: "{{ plextraktsync_paths_location }}/.env"
+    force: no
+    group: "{{ user.name }}"
+    owner: "{{ user.name }}"
+    mode: 0664
 
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
