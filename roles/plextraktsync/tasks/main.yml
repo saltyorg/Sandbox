@@ -26,7 +26,7 @@
 
 - name: Plex tasks
   include_tasks: subtasks/plex.yml
-    
+
 - name: Create default .env file
   copy:
     content: "# This is .env file for PlexTraktSync\n
