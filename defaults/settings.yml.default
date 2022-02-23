@@ -25,10 +25,6 @@ ombix:
   roles: ["4k"]
 plex_meta_manager:
   time: "03:00"
-plextraktsync: # overrides only
-  plex_url:
-  plex_token:
-  plex_user:
 qbit_manage:
   qbt_run: "false" # Default is "false"
   qbt_schedule: "30" # Default is "30"
