@@ -1,0 +1,38 @@
+##########################################################################
+# Title:            Sandbox: PlexTraktSync Role                          #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Plex | Import default variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+- name: Plex | Set plex_docker_url variable
+  set_fact:
+    plex_docker_url: "{{ 'http://' + plex_docker_networks_alias + ':' + plex_web_port }}"
+
+- name: Plex | Check if '{{ plex_paths_config_location | basename }}' exists
+  stat:
+    path: "{{ plex_paths_config_location }}"
+  register: preferences_xml
+
+- name: Plex | '{{ plex_paths_config_location | basename }}' Tasks
+  block:
+
+    - name: Plex | Get '{{ plex_paths_config_location | basename }}' XML data
+      xml:
+        path: "{{ plex_paths_config_location }}"
+        xpath: /Preferences
+        content: attribute
+      register: preferences_xml_resp
+
+    - name: Plex | Set plex_admin_username variable
+      set_fact:
+        plex_admin_username: "{{ (preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername) }}"
+
+  ignore_errors: true    
+  when:
+    - (preferences_xml.stat.exists)
