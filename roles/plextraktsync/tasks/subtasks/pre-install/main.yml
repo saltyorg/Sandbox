@@ -1,0 +1,51 @@
+##########################################################################
+# Title:            Sandbox: PlexTraktSync Role                          #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Pre-Install | Import Default Plex variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+- name: Pre-Install | Check if {{ plex_paths_config_location | basename }} exists
+  stat:
+    path: "{{ plex_paths_config_location }}"
+  register: preferences_xml
+
+- name: Pre-Install | {{ plex_paths_config_location | basename }} Tasks
+  block:
+    - name: Pre-Install | Get {{ plex_paths_config_location | basename }} XML data
+      xml:
+        path: "{{ plex_paths_config_location }}"
+        xpath: /Preferences
+        content: attribute
+      register: preferences_xml_resp
+
+    - name: Pre-Install | Set plex_admin_username variable
+      set_fact:
+        plex_admin_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
+
+  ignore_errors: true
+  when: preferences_xml.stat.exists
+
+- name: Pre-Install | Plex Auth Token tasks
+  import_role:
+    name: plex_auth_token
+
+- name: Pre-Install | Create {{ plextraktsync_paths_config_location | basename }}
+  copy:
+    content: |
+      # This is .env file for PlexTraktSync
+      PLEX_BASEURL=
+      PLEX_FALLBACKURL={{ 'http://localhost:' + plex_web_port }}
+      PLEX_LOCALURL={{ 'http://' + plex_docker_networks_alias + ':' + plex_web_port }}
+      PLEX_TOKEN={{ plex_auth_token | d('') }}
+      PLEX_USERNAME={{ plex_admin_username | d('') | escape }}
+      TRAKT_USERNAME=
+    dest: "{{ plextraktsync_paths_config_location }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: 0664
