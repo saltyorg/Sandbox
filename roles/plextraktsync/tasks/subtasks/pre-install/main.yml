@@ -34,6 +34,7 @@
 - name: Pre-Install | Plex Auth Token tasks
   import_role:
     name: plex_auth_token
+  when: plex_account_is_enabled
 
 - name: Pre-Install | Create {{ plextraktsync_paths_config_location | basename }}
   copy:
