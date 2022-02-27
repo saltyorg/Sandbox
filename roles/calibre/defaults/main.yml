@@ -70,7 +70,7 @@ calibre_docker_container: "{{ calibre_name }}"
 # Image
 calibre_docker_image_pull: true
 calibre_docker_image_tag: "latest"
-calibre_docker_image: "ghcr.io/lscr.io/linuxserver/calibre:{{ calibre_docker_image_tag }}"
+calibre_docker_image: "lscr.io/linuxserver/calibre:{{ calibre_docker_image_tag }}"
 
 # Ports
 calibre_docker_ports_defaults:

@@ -7,6 +7,10 @@ delugevpn:
   vpn_prov: pia
   vpn_user: your_vpn_username
   vpn_client: wireguard # 'wireguard' or 'openvpn'
+doplarr:
+  discord_token: your_discord_bot_token
+  overseerr_url: "http://overseerr:5055"
+  overseerr_api: your_overseer_api_key
 goplaxt:
   trakt_id: ~
   trakt_secret: ~
@@ -21,6 +25,10 @@ ombix:
   roles: ["4k"]
 plex_meta_manager:
   time: "03:00"
+plextraktsync: # overrides only
+  plex_url:
+  plex_token:
+  plex_user:
 qbit_manage:
   qbt_run: "false" # Default is "false"
   qbt_schedule: "30" # Default is "30"

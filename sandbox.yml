@@ -30,6 +30,7 @@
     - { role: comixed, tags: ['comixed'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
+    - { role: doplarr, tags: ['doplarr'] }
     - { role: dozzle, tags: ['dozzle'] }
     - { role: embystat, tags: ['embystat'] }
     - { role: epms, tags: ['epms'] }
@@ -72,7 +73,11 @@
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
+    - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
+    - { role: plex_patrol, tags: ['plex_patrol'] }
+    - { role: plextraktsync, tags: ['plextraktsync'] }
+    - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
     - { role: requestrr, tags: ['requestrr'] }
     - { role: requestrrx, tags: ['requestrrx'] }
@@ -82,6 +87,7 @@
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
+    - { role: syncthing, tags: ['syncthing'] }
     - { role: tdarr, tags: ['tdarr'] }
     - { role: tdarr_node, tags: ['tdarr_node'] }
     - { role: telegraf, tags: ['telegraf'] }
@@ -94,6 +100,7 @@
     - { role: uptime_kuma, tags: ['uptime-kuma'] }
     - { role: varken, tags: ['varken'] }
     - { role: vaultwarden, tags: ['vaultwarden'] }
+    - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }

@@ -68,7 +68,7 @@ calibre_web_docker_container: "{{ calibre_web_name }}"
 # Image
 calibre_web_docker_image_pull: true
 calibre_web_docker_image_tag: "latest"
-calibre_web_docker_image: "ghcr.io/lscr.io/linuxserver/calibre-web:{{ calibre_web_docker_image_tag }}"
+calibre_web_docker_image: "lscr.io/linuxserver/calibre-web:{{ calibre_web_docker_image_tag }}"
 
 # Ports
 calibre_web_docker_ports_defaults:

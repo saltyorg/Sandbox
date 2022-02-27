@@ -59,7 +59,7 @@ booksonic_docker_container: "{{ booksonic_name }}"
 # Image
 booksonic_docker_image_pull: true
 booksonic_docker_image_tag: "latest"
-booksonic_docker_image: "ghcr.io/lscr.io/linuxserver/booksonic-air:{{ booksonic_docker_image_tag }}"
+booksonic_docker_image: "lscr.io/linuxserver/booksonic-air:{{ booksonic_docker_image_tag }}"
 
 # Ports
 booksonic_docker_ports_defaults:
