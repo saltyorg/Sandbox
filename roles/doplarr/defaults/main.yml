@@ -44,7 +44,7 @@ doplarr_docker_envs_default:
   RADARR__QUALITY_PROFILE: "{{ doplarr.radarr_quality_profile |default('',true) }}"
   SONARR__LANGUAGE_PROFILE: "{{ doplarr.sonarr_language_profile |default('',true) }}"
   OVERSEERR__DEFAULT_ID: "{{ doplarr.overseer_default_id |default('',true) }}"
-  PARTIAL_SEASONS: "{{ doplarr.partials_seasons |default('true' ,true) }}"
+  PARTIAL_SEASONS: "{{ doplarr.partial_seasons |default('true' ,true) }}"
   LOG_LEVEL: "{{ doplarr.log_level |default(':info' ,true) }}"
 doplarr_docker_envs_custom: []
 doplarr_docker_envs: "{{ doplarr_docker_envs_default
