@@ -11,6 +11,7 @@ doplarr:
   discord_token: your_discord_bot_token
   overseerr_url: "http://overseerr:5055"
   overseerr_api: your_overseer_api_key
+  partial_season: "true" # Default is "true"
 goplaxt:
   trakt_id: ~
   trakt_secret: ~
