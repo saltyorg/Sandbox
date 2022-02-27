@@ -1,0 +1,88 @@
+#########################################################################
+# Title:            Sandbox: InvoiceNinja v5 app                        #
+# Author(s):        Thomvh, kowalski                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+#- name: MariaDB Role
+#  include_role:
+#    name: mariadb
+
+#- name: MariaDB | Create ninja database
+#  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database ninjadb;'"
+#  ignore_errors: yes
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "1500"
+    group: "1500"
+    mode: "0777"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+
+- name: "Settings | Check if in-vhost.conf exists"
+  stat:
+    path: "{{ invoiceninjav5_conf_path }}"
+  register: invoiceninjav5_config
+
+- name: "Settings | in-vhost.conf tasks"
+  block:
+    - name: "Settings | Import in-vhost.conf"
+      template:
+        src: in-vhost.conf.j2
+        dest: '{{ invoiceninjav5_conf_path }}'
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0777
+        force: yes
+  when: not invoiceninjav5_config.stat.exists
+
+- name: "Execute nginx role"
+  include_role:
+    name: nginx
+  vars:
+    nginx_paths_folder: ""
+    nginx_paths_folders_list: []
+    nginx_web_subdomain: "{{ invoiceninjav5_nginx_web_subdomain }}"
+    nginx_web_domain: "{{ invoiceninjav5_nginx_web_domain }}"
+    nginx_dns_record: "{{ invoiceninjav5_nginx_dns_record }}"
+    nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
+    nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
+    nginx_name: "invoiceninja-nginx"
+    nginx_docker_volumes_default:
+      - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default:ro"
+      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public" 
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: "Debug Print"
+  ansible.builtin.debug:
+    msg:
+#    - "var_prefix: {{ var_prefix }}"
+    - "role_name: {{ role_name }}"
+    - "invoiceninjav5_docker_envs: {{ invoiceninjav5_docker_envs }}"
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+#  vars:
+#    invoiceninjav5_docker_envs: "{{ invoiceninjav5_docker_envs }}"
+
+
+- name: "Debug Print"
+  ansible.builtin.debug:
+    msg:
+#    - "var_prefix: {{ var_prefix }}"
+    - "role_name: {{ role_name }}"
+    - "invoiceninjav5_docker_envs: {{ invoiceninjav5_docker_envs }}"
+
+#- name: InvoiceNinja | Install DB Migration
+#  command: "docker exec {{invoiceninjav5_docker_container}} /usr/local/bin/php /var/www/app/artisan migrate:install"
+#  ignore_errors: yes
+
