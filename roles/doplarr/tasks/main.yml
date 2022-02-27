@@ -12,12 +12,6 @@
   when: (doplarr.discord_token == 'your_discord_bot_token') and
         (not continuous_integration)
 
-- name: Fail when the overseer or radarr/sonarr are not properly set
-  fail: msg="You must specify your Overeerr api/url  OR  your Sonarr AND Radarr api/url in the settings.yaml file ."
-  when: ((doplarr.overseerr_api == '') or (doplarr.overseerr_url == '')) and 
-        ((doplarr.radarr_api == '') or (doplarr.sonarr_api == '') or (doplarr.radarr_url == '') or (doplarr.sonarr_url == ''))  and
-        (not continuous_integration)
-
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
