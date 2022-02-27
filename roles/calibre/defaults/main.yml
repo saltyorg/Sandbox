@@ -70,7 +70,7 @@ calibre_docker_container: "{{ calibre_name }}"
 # Image
 calibre_docker_image_pull: true
 calibre_docker_image_tag: "latest"
-calibre_docker_image: "ghcr.io/lscr.io/linuxserver/calibre:{{ calibre_docker_image_tag }}"
+calibre_docker_image: "lscr.io/linuxserver/calibre:{{ calibre_docker_image_tag }}"
 
 # Ports
 calibre_docker_ports_defaults:
@@ -127,13 +127,14 @@ calibre_docker_labels_default:
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}-http.service": "{{ calibre_web2_subdomain }}" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}-http.rule": "Host(`{{ calibre_web2_subdomain + "." + calibre_web2_domain }}`)" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}-http.middlewares": "{{ traefik_default_middleware_http }}" }'
-  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}-http.priority": "1" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}-http.priority": "20" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.entrypoints": "websecure" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.service": "{{ calibre_web2_subdomain }}" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.rule": "Host(`{{ calibre_web2_subdomain + "." + calibre_web2_domain }}`)" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.tls.options": "securetls@file" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.tls.certresolver": "{{ calibre_traefik_certresolver }}" }'
   - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.middlewares": "{{ calibre_traefik_middleware }}" }'
+  - '{ "traefik.http.routers.{{ calibre_web2_subdomain }}.priority": "20" }'
   - '{ "traefik.http.services.{{ calibre_web2_subdomain }}.loadbalancer.server.port": "{{ calibre_web2_port }}" }'
 calibre_docker_labels_custom: {}
 calibre_docker_labels: "{{ docker_labels_common

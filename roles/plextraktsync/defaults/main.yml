@@ -1,0 +1,112 @@
+##########################################################################
+# Title:         Sandbox: PlexTraktSync | Default Variables              #
+# Author(s):     keldian                                                 #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+plextraktsync_name: plextraktsync
+
+################################
+# Paths
+################################
+
+plextraktsync_paths_folder: "{{ plextraktsync_name }}"
+plextraktsync_paths_location: "{{ server_appdata_path }}/{{ plextraktsync_paths_folder }}"
+plextraktsync_config_location: "{{ plextraktsync_paths_location }}/config.json"
+plextraktsync_paths_folders_list:
+  - "{{ plextraktsync_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+plextraktsync_docker_container: "{{ plextraktsync_name }}"
+
+# Image
+plextraktsync_docker_image_pull: true
+plextraktsync_docker_image_tag: "latest"
+plextraktsync_docker_image: "ghcr.io/taxel/plextraktsync:{{ plextraktsync_docker_image_tag }}"
+
+# Envs
+plextraktsync_docker_envs_default:
+  TZ: "{{ tz }}"
+  PLEX_BASEURL: "{{ plextraktsync.plex_url|d('http://' + plex_docker_networks_alias + ':' + plex_web_port,true) }}"
+  PLEX_TOKEN: "{{ plextraktsync.plex_token|d(plex_auth_token,true) }}"
+  PLEX_USERNAME: "{{ plextraktsync.plex_user|d(omit,true) if plex.user is search('@') else plextraktsync.plex_user|d(plex.user,true) }}"
+plextraktsync_docker_envs_custom: {}
+plextraktsync_docker_envs: "{{ plextraktsync_docker_envs_default
+                               | combine(plextraktsync_docker_envs_custom) }}"
+
+# Commands
+plextraktsync_docker_commands_default: 
+  - "watch"
+plextraktsync_docker_commands_custom: []
+plextraktsync_docker_commands: "{{ plextraktsync_docker_commands_default
+                                   + plextraktsync_docker_commands_custom }}"
+
+# Volumes
+plextraktsync_docker_volumes_default:
+  - "{{ plextraktsync_paths_location }}:/app/config"
+plextraktsync_docker_volumes_custom: []
+plextraktsync_docker_volumes: "{{ plextraktsync_docker_volumes_default
+                                  + plextraktsync_docker_volumes_custom }}"
+
+# Devices
+plextraktsync_docker_devices_default: []
+plextraktsync_docker_devices_custom: []
+plextraktsync_docker_devices: "{{ plextraktsync_docker_devices_default
+                                  + plextraktsync_docker_devices_custom }}"
+
+# Hosts
+plextraktsync_docker_hosts_default: []
+plextraktsync_docker_hosts_custom: []
+plextraktsync_docker_hosts: "{{ docker_hosts_common
+                                | combine(plextraktsync_docker_hosts_default)
+                                | combine(plextraktsync_docker_hosts_custom) }}"
+
+# Labels
+plextraktsync_docker_labels_default: {}
+plextraktsync_docker_labels_custom: {}
+plextraktsync_docker_labels: "{{ docker_labels_common
+                                 | combine(plextraktsync_docker_labels_default)
+                                 | combine(plextraktsync_docker_labels_custom) }}"
+
+# Hostname
+plextraktsync_docker_hostname: "{{ plextraktsync_name }}"
+
+# Networks
+plextraktsync_docker_networks_alias: "{{ plextraktsync_name }}"
+plextraktsync_docker_networks_default: []
+plextraktsync_docker_networks_custom: []
+plextraktsync_docker_networks: "{{ docker_networks_common
+                                   + plextraktsync_docker_networks_default
+                                   + plextraktsync_docker_networks_custom }}"
+
+# Capabilities
+plextraktsync_docker_capabilities_default: []
+plextraktsync_docker_capabilities_custom: []
+plextraktsync_docker_capabilities: "{{ plextraktsync_docker_capabilities_default
+                                       + plextraktsync_docker_capabilities_custom }}"
+
+# Security Opts
+plextraktsync_docker_security_opts_default: []
+plextraktsync_docker_security_opts_custom: []
+plextraktsync_docker_security_opts: "{{ plextraktsync_docker_security_opts_default
+                                        + plextraktsync_docker_security_opts_custom }}"
+
+# Restart Policy
+plextraktsync_docker_restart_policy: unless-stopped
+
+# State
+plextraktsync_docker_state: started
+
+# User
+plextraktsync_docker_user: "{{ uid }}:{{ gid }}"

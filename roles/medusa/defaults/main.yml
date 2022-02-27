@@ -59,7 +59,7 @@ medusa_docker_container: "{{ medusa_name }}"
 # Image
 medusa_docker_image_pull: true
 medusa_docker_image_tag: "latest"
-medusa_docker_image: "ghcr.io/lscr.io/linuxserver/medusa:{{ medusa_docker_image_tag }}"
+medusa_docker_image: "lscr.io/linuxserver/medusa:{{ medusa_docker_image_tag }}"
 
 # Ports
 medusa_docker_ports_defaults:
