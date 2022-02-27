@@ -150,4 +150,4 @@ goaccess_docker_state: started
 goaccess_docker_stop_timeout: 10
 
 # Force Kill
-goaccess__docker_force_kill: true
+goaccess_docker_force_kill: true
