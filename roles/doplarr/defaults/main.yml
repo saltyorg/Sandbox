@@ -30,6 +30,7 @@ doplarr_docker_envs_default:
   DISCORD__TOKEN: "{{ doplarr.discord_token }}"
   OVERSEERR__URL: "{{ doplarr.overseer_url |default('http://overseerr:5055',true) }}"
   OVERSEERR__API: "{{ doplarr.overseerr_api }}"
+  PARTIAL_SEASONS: "{{ doplarr.partials_seasons |default("true" ,true) }}"
 doplarr_docker_envs_custom: []
 doplarr_docker_envs: "{{ doplarr_docker_envs_default
                          | combine(doplarr_docker_envs_custom) }}"
