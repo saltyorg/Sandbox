@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: InvoiceNinja v5 app                        #
-# Author(s):        Thomvh, kowalski                                    #
+# Author(s):        addbee                                              #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
 #########################################################################
@@ -8,14 +8,14 @@
 #########################################################################
 ---
 
-#- name: MariaDB Role
-#  include_role:
-#    name: mariadb
+- name: MariaDB Role
+  include_role:
+    name: mariadb
 
-#- name: MariaDB | Create ninja database
-#  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database ninjadb;'"
-#  ignore_errors: yes
-
+- name: MariaDB | Create ninja database
+  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninja-v5-db;'"
+  ignore_errors: yes
+ 
 - name: Create directories
   file:
     path: "{{ item }}"
@@ -24,7 +24,6 @@
     group: "1500"
     mode: "0777"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
-
 
 - name: "Settings | Check if in-vhost.conf exists"
   stat:
@@ -62,27 +61,7 @@
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: "Debug Print"
-  ansible.builtin.debug:
-    msg:
-#    - "var_prefix: {{ var_prefix }}"
-    - "role_name: {{ role_name }}"
-    - "invoiceninjav5_docker_envs: {{ invoiceninjav5_docker_envs }}"
-
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-#  vars:
-#    invoiceninjav5_docker_envs: "{{ invoiceninjav5_docker_envs }}"
 
-
-- name: "Debug Print"
-  ansible.builtin.debug:
-    msg:
-#    - "var_prefix: {{ var_prefix }}"
-    - "role_name: {{ role_name }}"
-    - "invoiceninjav5_docker_envs: {{ invoiceninjav5_docker_envs }}"
-
-#- name: InvoiceNinja | Install DB Migration
-#  command: "docker exec {{invoiceninjav5_docker_container}} /usr/local/bin/php /var/www/app/artisan migrate:install"
-#  ignore_errors: yes
 

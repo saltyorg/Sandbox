@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: InvoiceNinja v5                            #
-# Author(s):        Thomvh, kowalski                                    #
+# Author(s):        addbee                                              #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
 #########################################################################
@@ -82,17 +82,17 @@ invoiceninjav5_docker_envs_default:
   DB_HOST: "mariadb"
   DB_USERNAME: "root"
   DB_PASSWORD: "password321"
-  DB_DATABASE: "ninjadb"
+  DB_DATABASE: "invoiceninja-v5-db"
   DB_PORT: "3306"
   DB_HOST1: "mariadb"
   DB_USERNAME1: "root"
   DB_PASSWORD1: "password321"
-  DB_DATABASE1: "ninjadb"
+  DB_DATABASE1: "invoiceninja-v5-db"
   DB_PORT1: "3306"
   MYSQL_ROOT_PASSWORD: 'password321'
   MYSQL_USER:  "root"
   MYSQL_PASSWORD: "password321"
-  MYSQL_DATABASE: "ninjadb"
+  MYSQL_DATABASE: "invoiceninja-v5-db"
   PDF_GENERATOR: "snappdf"
   MULTI_DB_ENABLED: 'false'
   IS_DOCKER: 'true'
