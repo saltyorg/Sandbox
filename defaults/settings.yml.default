@@ -8,10 +8,27 @@ delugevpn:
   vpn_user: your_vpn_username
   vpn_client: wireguard # 'wireguard' or 'openvpn'
 doplarr:
-  discord_token: your_discord_bot_token
-  overseerr_url: "http://overseerr:5055"
-  overseerr_api: your_overseer_api_key
-  partial_season: "true" # Default is "true"
+  discord_token: your_discord_bot_token # MUST BE SET
+  #you must define below overseer credential OR (Radarr AND Sonarr) credentials
+  #Overseer:
+  overseerr_url: "http://overseerr:5055" #set to empty and define radarr and sonarr parameters if you want to use radarr/sonarr rather than overserr.
+  overseerr_api: #to be defined if you want to use overseer
+  #Radarr AND Sonarr:
+  radarr_api: #not defined by default. set it if you want to use sonarr and radarr.
+  radarr_url: #not defined by default. set it if you want to use sonarr and radarr.
+  sonarr_api: #not defined by default. set it if you want to use sonarr and radarr.
+  sonarr_url: #not defined by default. set it if you want to use sonarr and radarr.
+  #Optional settings:
+  discord_max_results: 25
+  discord_role_id: #optional: role id of users allowed to talk to the bot. Empty=all
+  discord_requested_msg_style: ":plain" #optional: Sets the style of the request alert message. One of :plain :embed :none
+  sonarr_quality_profile: #optional
+  radarr_quality_profile: #optional
+  sonarr_language_profile: #optional
+  overseer_default_id: #optional - The Overseerr user id to use by default if there is no associated discord account for the requester 
+  partial_season: "true" #optional - Sets whether users can request partial seasons.
+  log_level: ":info" #optional -  One of :trace :debug :info :warn :error :fatal :report
+
 goplaxt:
   trakt_id: ~
   trakt_secret: ~
