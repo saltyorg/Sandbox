@@ -13,7 +13,7 @@
     name: mariadb
 
 - name: MariaDB | Create ninja database
-  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninja-v5-db;'"
+  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
   ignore_errors: yes
  
 - name: Create directories
