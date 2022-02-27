@@ -55,4 +55,4 @@
       ╚════════════════════════════════════════════════════════════════╝
 
   when: not plextraktsync_env_trakt_username.found or
-    not plextraktsync_pytrakt.stat.exists
+        not plextraktsync_pytrakt.stat.exists
