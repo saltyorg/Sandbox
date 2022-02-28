@@ -21,6 +21,7 @@ plex_utills_paths_folder: "{{ plex_utills_name }}"
 plex_utills_paths_location: "{{ server_appdata_path }}/{{ plex_utills_paths_folder }}"
 plex_utills_paths_folders_list:
   - "{{ plex_utills_paths_location }}"
+  - "{{ plex_utills_paths_location }}/logs"
 
 ################################
 # Web
@@ -84,7 +85,6 @@ plex_utills_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-
 plex_utills_docker_envs: "{{ plex_utills_docker_envs_default
                              | combine(plex_utills_docker_envs_custom)
                           if not (plex_utills_themepark_enabled)
@@ -101,7 +101,8 @@ plex_utills_docker_commands: "{{ plex_utills_docker_commands_default
 # Volumes
 plex_utills_docker_volumes_default:
   - "{{ plex_utills_paths_location }}:/config"
-  - "/mnt/unionfs/Media/Movies:/films"
+  - "{{ plex_utills_paths_location }}/logs:/logs"
+  - "/mnt/unionfs/Media:/films"
   - "/mnt:/mnt"
 plex_utills_docker_volumes_custom: []
 plex_utills_docker_volumes: "{{ plex_utills_docker_volumes_default
