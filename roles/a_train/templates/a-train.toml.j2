@@ -1,0 +1,13 @@
+# a-train.toml
+[autoscan]
+# Replace the URL with your Autoscan URL.
+url = "http://autoscan:3030"
+username = {{ user.name }}
+password = {{ user.pass }}
+
+[drive]
+# Path to the Service Account key file,
+# relative to the configuration file.
+account = {{a_train_paths_sa_location}}
+# One or more Shared Drive IDs
+drives = []
