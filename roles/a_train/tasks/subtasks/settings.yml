@@ -31,7 +31,7 @@
     path: "{{ a_train_paths_sa_location }}"
   register: a_train_sa
 
-- name: "Fail when 'accounts.json' is not present"
+- name: "Fail when 'account.json' is not present"
   fail:
     msg: "You need to setup your service accounts file. Create a service account, add it to the team drives you wish to monitor and put the json file as 'accounts.json' in `{{a_train_paths_location}}`"
   when: not a_train_sa.stat.exists
