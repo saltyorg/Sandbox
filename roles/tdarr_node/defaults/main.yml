@@ -30,7 +30,6 @@ tdarr_node_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  UMASK: "002"
   serverIP: "tdarr"
   serverPort: "8266"
   nodeID: "MainNode"
