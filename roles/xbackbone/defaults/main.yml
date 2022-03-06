@@ -1,0 +1,150 @@
+##########################################################################
+# Title:         Sandbox: xbackbone | Default Variables                  #
+# Author(s):     salty, dvsmasta                                         #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+xbackbone_name: xbackbone
+
+################################
+# Paths
+################################
+
+xbackbone_paths_folder: "{{ xbackbone_name }}"
+xbackbone_paths_location: "{{ server_appdata_path }}/{{ xbackbone_paths_folder }}"
+xbackbone_paths_folders_list:
+  - "{{ xbackbone_paths_location }}"
+xbackbone_paths_config_location: "{{ xbackbone_paths_location }}/env"
+
+################################
+# Web
+################################
+
+xbackbone_web_subdomain: "{{ xbackbone_name }}"
+xbackbone_web_domain: "{{ user.domain }}"
+xbackbone_web_port: "80"
+xbackbone_web_url: "{{ 'https://' + xbackbone_web_subdomain + '.' + xbackbone_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + xbackbone_web_port }}"
+
+################################
+# DNS
+################################
+
+xbackbone_dns_record: "{{ xbackbone_web_subdomain }}"
+xbackbone_dns_zone: "{{ xbackbone_web_domain }}"
+xbackbone_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+xbackbone_traefik_middleware: "{{ traefik_default_middleware }}"
+xbackbone_traefik_certresolver: "{{ traefik_default_certresolver }}"
+xbackbone_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+xbackbone_docker_container: "{{ xbackbone_name }}"
+
+# Image
+xbackbone_docker_image_pull: true
+xbackbone_docker_image_tag: "latest"
+xbackbone_docker_image: "pe46dro/xbackbone-docker:{{ xbackbone_docker_image_tag }}"
+
+# Ports
+xbackbone_docker_ports_defaults:
+  - "{{ xbackbone_web_port }}:{{ xbackbone_web_port }}"
+xbackbone_docker_ports_custom: []
+xbackbone_docker_ports: "{{ xbackbone_docker_ports_defaults
+                              + xbackbone_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + xbackbone_docker_ports_custom }}"
+
+# Envs
+xbackbone_docker_envs_default:
+  TZ: "{{ tz }}"
+  DOMAIN: "{{ xbackbone_web_subdomain + '.' + xbackbone_web_domain }}"
+  URL: "{{ xbackbone_web_url }}"
+  PHP_UPLOAD_MAX_FILESIZE: "1G"
+  PHP_MEMORY_LIMIT: "2048M"
+xbackbone_docker_envs_custom: {}
+xbackbone_docker_envs: "{{ xbackbone_docker_envs_default
+                              | combine(xbackbone_docker_envs_custom) }}"
+
+# Commands
+xbackbone_docker_commands_default: []
+xbackbone_docker_commands_custom: []
+xbackbone_docker_commands: "{{ xbackbone_docker_commands_default
+                                  + xbackbone_docker_commands_custom }}"
+
+# Volumes
+xbackbone_docker_volumes_default:
+  - "{{ xbackbone_paths_location }}/storage:/app/storage"
+  - "{{ xbackbone_paths_location }}/database:/app/resources/database"
+  - "{{ xbackbone_paths_location }}/logs:/app/logs"
+  - "{{ xbackbone_paths_location }}/config:/app/config"
+  - "/mnt:/mnt"
+xbackbone_docker_volumes_custom: []
+xbackbone_docker_volumes: "{{ xbackbone_docker_volumes_default
+                                + xbackbone_docker_volumes_custom
+                                + docker_volumes_downloads_common }}"
+
+# Devices
+xbackbone_docker_devices_default: []
+xbackbone_docker_devices_custom: []
+xbackbone_docker_devices: "{{ xbackbone_docker_devices_default
+                                + xbackbone_docker_devices_custom }}"
+
+# Hosts
+xbackbone_docker_hosts_default: []
+xbackbone_docker_hosts_custom: []
+xbackbone_docker_hosts: "{{ docker_hosts_common
+                              | combine(xbackbone_docker_hosts_default)
+                              | combine(xbackbone_docker_hosts_custom) }}"
+
+# Labels
+xbackbone_docker_labels_default: {}
+xbackbone_docker_labels_custom: {}
+xbackbone_docker_labels: "{{ docker_labels_common
+                                | combine(xbackbone_docker_labels_default)
+                                | combine(xbackbone_docker_labels_custom) }}"
+
+# Hostname
+xbackbone_docker_hostname: "{{ xbackbone_name }}"
+
+# Networks
+xbackbone_docker_networks_alias: "{{ xbackbone_name }}"
+xbackbone_docker_networks_default: []
+xbackbone_docker_networks_custom: []
+xbackbone_docker_networks: "{{ docker_networks_common
+                                  + xbackbone_docker_networks_default
+                                  + xbackbone_docker_networks_custom }}"
+
+# Capabilities
+xbackbone_docker_capabilities_default: []
+xbackbone_docker_capabilities_custom: []
+xbackbone_docker_capabilities: "{{ xbackbone_docker_capabilities_default
+                                      + xbackbone_docker_capabilities_custom }}"
+
+# Security Opts
+xbackbone_docker_security_opts_default: []
+xbackbone_docker_security_opts_custom: []
+xbackbone_docker_security_opts: "{{ xbackbone_docker_security_opts_default
+                                      + xbackbone_docker_security_opts_custom }}"
+
+# Restart Policy
+xbackbone_docker_restart_policy: unless-stopped
+
+# State
+xbackbone_docker_state: started

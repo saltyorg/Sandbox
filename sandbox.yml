@@ -103,6 +103,7 @@
     - { role: watchtower, tags: ['watchtower'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
+    - { role: xbackbone, tags: ['xbackbone'] }
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
     - { role: znc, tags: ['znc'] }
