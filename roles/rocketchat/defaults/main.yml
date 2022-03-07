@@ -90,12 +90,19 @@ rocketchat_docker_commands: "{{ rocketchat_docker_commands_default }}"
 # Volumes
 rocketchat_docker_volumes_default:
   - "{{ rocketchat_paths_location }}/uploads:/uploads"
-  - "/tmp:/tmp"
   - "/mnt:/mnt"
 rocketchat_docker_volumes_custom: []
 rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
                               + rocketchat_docker_volumes_custom
                               + docker_volumes_downloads_common }}"
+
+#Mounts
+rocketchat_docker_mounts_default:
+  - target: /tmp
+    type: tmpfs
+rocketchat_docker_mounts_custom: []
+rocketchat_docker_mounts: "{{ rocketchat_docker_mounts_default)
+                        + rocketchat_docker_mounts_custom) }}"
 
 # Devices
 rocketchat_docker_devices_default: []
