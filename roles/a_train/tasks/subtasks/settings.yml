@@ -33,6 +33,8 @@
     
     - name: Import Settings task
       import_tasks: "subtasks/config.yml"
+      
+    - include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
     
     - name: Settings | Import default `{{ a_train_paths_config_location | basename }}`
       template:
