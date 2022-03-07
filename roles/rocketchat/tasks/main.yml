@@ -44,7 +44,7 @@
       - name: saltbox
     purge_networks: yes
     restart_policy: unless-stopped
-    autoremove: true
+    auto_remove: yes
     state: started
 
 - name: Create Docker container
