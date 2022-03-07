@@ -21,6 +21,7 @@ a_train_paths_folder: "{{ a_train_name }}"
 a_train_paths_location: "{{ server_appdata_path }}/{{ a_train_paths_folder }}"
 a_train_paths_config_location: "{{ a_train_paths_location }}/a-train.toml"
 a_train_paths_sa_location: "{{ a_train_paths_location }}/account.json"
+a_train_paths_rclone_config_location: "/home/{{ user.name }}/.config/rclone/rclone.conf"
 a_train_paths_folders_list:
   - "{{ a_train_paths_location }}"
 
