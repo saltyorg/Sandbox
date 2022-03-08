@@ -30,7 +30,7 @@
 
 - name: Settings | New `{{ a_train_paths_config_location | basename }}` tasks
   block:
- 
+
     - name: Import Settings task
       import_tasks: "subtasks/config.yml"
 
