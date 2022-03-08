@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: Rocketchat                                 #
-# Author(s):     Minds3t, salty, dvsmasta                               #
+# Author(s):        Minds3t, salty, dvsmasta                            #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
 #########################################################################
@@ -33,7 +33,7 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-# this container's job is just run the command to initialize the replica set.
+# this container's job is just to run the command to initialize the replica set.
 # it will run the command and will later be removed automatically
 - name: Initialize MongoDB Replica Set
   docker_container:
