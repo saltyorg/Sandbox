@@ -1,0 +1,74 @@
+#########################################################################
+# Title:            Sandbox: A-Train                                    #
+# Author(s):        hackmonker                                          #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+- name: Get remote types from rclone config
+  ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=a_train_paths_rclone_config_location) }}"
+  with_items: "{{ a_train.remotes|lower }}"
+  register: remote_type
+
+- name: Set variable for remote types
+  set_fact:
+    remote_type_var: "{{ remote_type.results | map(attribute='stdout') }}"
+
+- name: Get the ID of teamdrives if remote type is drive
+  block:
+
+    - name: Set variable for remote names
+      set_fact:
+        drive_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'drive') | map(attribute='item') }}"
+
+    - name: Get the ID of the teamdrives
+      ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_paths_rclone_config_location) }}"
+      register: drive_id_var
+      loop: "{{ drive_remotes }}"
+
+    - name: Set variable for ID of teamdrives
+      set_fact:
+        drive_id: "{{ drive_id_var.results | map(attribute='stdout') }}"
+
+  when: remote_type_var is search("drive")
+
+- name: Get the ID of teamdrives if remote type is union
+  block:
+
+    - name: Set variable for remote names
+      set_fact:
+        union_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'union') | map(attribute='item') }}"
+
+    - name: Get the upstreams
+      ansible.builtin.shell: "echo {{ lookup('ini', 'upstreams', section=item, file=a_train_paths_rclone_config_location) }}"
+      with_items: "{{ union_remotes }}"
+      register: union_upstreams_var
+
+    - name: Set variable for upstreams
+      set_fact:
+        union_upstreams: "{{ union_upstreams_var.results | map(attribute='stdout') | map('split',': ') | join('\", \"') | replace(':', '') }}"
+
+    - name: Get the ID of the teamdrives
+      ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_paths_rclone_config_location) }}"
+      register: union_id_var
+      loop: "{{ union_upstreams }}"
+
+    - name: Set variable for ID of teamdrives
+      set_fact:
+        union_id: "{{ union_id_var.results | map(attribute='stdout') }}"
+
+  when: remote_type_var is search("union")
+
+- name: Merge teamdrive ID of both union and drive remotes
+  set_fact:
+    td_id_var: "{{ td_id_var | default([]) + item }}"
+  loop:
+    - "{{ drive_id | default([]) }}"
+    - "{{ union_id | default([]) }}"
+
+- name: Set variable for merged ID of teamdrives
+  set_fact:
+    td_id: "{{ td_id_var | unique | join('\", \"') }}"
