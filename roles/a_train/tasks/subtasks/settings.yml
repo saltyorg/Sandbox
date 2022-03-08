@@ -15,7 +15,7 @@
 
 - name: "Fail when 'account.json' is `not present`"
   fail:
-    msg: "You need to setup your service accounts file. Create a service account, add it to the team drives you wish to monitor and put the json file as 'accounts.json' in `{{a_train_paths_location}}`"
+    msg: "You need to setup your service accounts file. Create a service account, add it to the team drives you wish to monitor and put the json file as 'accounts.json' in `{{ a_train_paths_location }}`"
   when: not a_train_sa.stat.exists
 
 - name: "Fail when remotes are `not added`"
@@ -30,12 +30,13 @@
 
 - name: Settings | New `{{ a_train_paths_config_location | basename }}` tasks
   block:
-    
+ 
     - name: Import Settings task
       import_tasks: "subtasks/config.yml"
-      
-    - include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
-    
+
+    - name: Include variables from autoscan role
+      include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
+
     - name: Settings | Import default `{{ a_train_paths_config_location | basename }}`
       template:
         src: a-train.toml.j2
@@ -45,5 +46,3 @@
         mode: 0775
 
   when: not a_train_config.stat.exists
-
-
