@@ -16,12 +16,12 @@
 - name: "Fail when 'account.json' is `not present`"
   fail:
     msg: "You need to setup your service accounts file. Create a service account, add it to the team drives you wish to monitor and put the json file as 'accounts.json' in `{{ a_train_paths_location }}`"
-  when: not a_train_sa.stat.exists
+  when: (not a_train_sa.stat.exists) and (not continuous_integration)
 
 - name: "Fail when remotes are `not added`"
   fail:
     msg: "You need to add remotes you wish to monitor in the settings file."
-  when: '"" in a_train.remotes'
+  when: ('"" in a_train.remotes') and (not continuous_integration)
 
 - name: Settings | Check if `{{ a_train_paths_config_location | basename }}` exists
   stat:
