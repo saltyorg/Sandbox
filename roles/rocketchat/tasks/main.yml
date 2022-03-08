@@ -43,7 +43,6 @@
     networks:
       - name: saltbox
     purge_networks: yes
-    restart_policy: unless-stopped
     auto_remove: yes
     state: started
 
