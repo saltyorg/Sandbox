@@ -45,4 +45,4 @@
         group: "{{ user.name }}"
         mode: 0775
 
-  when: not a_train_config.stat.exists
+  when: (not a_train_config.stat.exists) and (not continuous_integration)
