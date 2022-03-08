@@ -21,7 +21,7 @@
 - name: "Fail when remotes are `not added`"
   fail:
     msg: "You need to add remotes you wish to monitor in the settings file."
-  when: ('"" in a_train.remotes') and (not continuous_integration)
+  when: ("" in a_train.remotes) and (not continuous_integration)
 
 - name: Settings | Check if `{{ a_train_paths_config_location | basename }}` exists
   stat:
