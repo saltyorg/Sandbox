@@ -1,0 +1,48 @@
+#########################################################################
+# Title:            Sandbox: A-Train                                    #
+# Author(s):        hackmonker                                          #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+- name: Settings | Check if `{{ a_train_paths_sa_location | basename }}` exists
+  stat:
+    path: "{{ a_train_paths_sa_location }}"
+  register: a_train_sa
+
+- name: "Fail when 'account.json' is `not present`"
+  fail:
+    msg: "You need to setup your service accounts file. Create a service account, add it to the team drives you wish to monitor and put the json file as 'accounts.json' in `{{ a_train_paths_location }}`"
+  when: (not a_train_sa.stat.exists) and (not continuous_integration)
+
+- name: "Fail when remotes are `not added`"
+  fail:
+    msg: "You need to add remotes you wish to monitor in the settings file."
+  when: ("" in a_train.remotes) and (not continuous_integration)
+
+- name: Settings | Check if `{{ a_train_paths_config_location | basename }}` exists
+  stat:
+    path: "{{ a_train_paths_config_location }}"
+  register: a_train_config
+
+- name: Settings | New `{{ a_train_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Import Settings task
+      import_tasks: "config.yml"
+
+    - name: Include variables from autoscan role
+      include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
+
+    - name: Settings | Import default `{{ a_train_paths_config_location | basename }}`
+      template:
+        src: a-train.toml.j2
+        dest: "{{ a_train_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: (not a_train_config.stat.exists) and (not continuous_integration)

@@ -1,0 +1,13 @@
+# a-train.toml
+[autoscan]
+# Replace the URL with your Autoscan URL.
+url = "{{ 'http://' + autoscan_docker_networks_alias + ':' + autoscan_web_port }}"
+username = "{{ user.name }}"
+password = "{{ user.pass }}"
+
+[drive]
+# Path to the Service Account key file,
+# relative to the configuration file.
+account = "./account.json"
+# One or more Shared Drive IDs
+drives = ["{{td_id}}"]
