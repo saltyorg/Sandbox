@@ -1,0 +1,154 @@
+##########################################################################
+# Title:         Sandbox: rocketchat | Default Variables                 #
+# Author(s):     Minds3t, salty, dvsmasta                                #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+rocketchat_name: rocketchat
+
+################################
+# Paths
+################################
+
+rocketchat_paths_folder: "{{ rocketchat_name }}"
+rocketchat_paths_location: "{{ server_appdata_path }}/{{ rocketchat_paths_folder }}"
+rocketchat_paths_folders_list:
+  - "{{ rocketchat_paths_location }}"
+rocketchat_paths_config_location: "{{ rocketchat_paths_location }}/env"
+
+################################
+# Web
+################################
+
+rocketchat_web_subdomain: "{{ rocketchat_name }}"
+rocketchat_web_domain: "{{ user.domain }}"
+rocketchat_web_port: "3000"
+rocketchat_web_url: "{{ 'https://' + rocketchat_web_subdomain + '.' + rocketchat_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + rocketchat_web_port }}"
+
+################################
+# DNS
+################################
+
+rocketchat_dns_record: "{{ rocketchat_web_subdomain }}"
+rocketchat_dns_zone: "{{ rocketchat_web_domain }}"
+rocketchat_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+rocketchat_traefik_middleware: "{{ traefik_default_middleware }}"
+rocketchat_traefik_certresolver: "{{ traefik_default_certresolver }}"
+rocketchat_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+rocketchat_docker_container: "{{ rocketchat_name }}"
+
+# Image
+rocketchat_docker_image_pull: true
+rocketchat_docker_image_tag: "latest"
+rocketchat_docker_image: "rocketchat/rocket.chat:{{ rocketchat_docker_image_tag }}"
+
+# Ports
+rocketchat_docker_ports_defaults:
+  - "9458:9458"
+  - "{{ rocketchat_web_port }}:{{ rocketchat_web_port }}"
+rocketchat_docker_ports_custom: []
+rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
+                             + rocketchat_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + rocketchat_docker_ports_custom }}"
+
+# Envs
+rocketchat_docker_envs_default:
+  TZ: "{{ tz }}"
+  ROOT_URL: "{{ rocketchat_web_url }}"
+  MONGO_URL: mongodb://rocketchat_db:27017/rocketchat
+  MONGO_OPLOG_URL: mongodb://rocketchat_db:27017/local
+rocketchat_docker_envs_custom: {}
+rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
+                            | combine(rocketchat_docker_envs_custom) }}"
+
+# Commands
+rocketchat_docker_commands_default: bash -c 'for i in `seq 1 30`; do node main.js && s=$$? && break || s=$$?; echo "Tried $$i times. Waiting 5 secs..."; sleep 5; done; (exit $$s)'
+rocketchat_docker_commands_custom: []
+rocketchat_docker_commands: "{{ rocketchat_docker_commands_default }}"
+
+# Volumes
+rocketchat_docker_volumes_default:
+  - "{{ rocketchat_paths_location }}/uploads:/uploads"
+  - "/mnt:/mnt"
+rocketchat_docker_volumes_custom: []
+rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
+                               + rocketchat_docker_volumes_custom
+                               + docker_volumes_downloads_common }}"
+
+#Mounts
+rocketchat_docker_mounts_default:
+  - target: /tmp
+    type: tmpfs
+rocketchat_docker_mounts_custom: []
+rocketchat_docker_mounts: "{{ rocketchat_docker_mounts_default
+                              + rocketchat_docker_mounts_custom }}"
+
+# Devices
+rocketchat_docker_devices_default: []
+rocketchat_docker_devices_custom: []
+rocketchat_docker_devices: "{{ rocketchat_docker_devices_default
+                               + rocketchat_docker_devices_custom }}"
+
+# Hosts
+rocketchat_docker_hosts_default: []
+rocketchat_docker_hosts_custom: []
+rocketchat_docker_hosts: "{{ docker_hosts_common
+                             | combine(rocketchat_docker_hosts_default)
+                             | combine(rocketchat_docker_hosts_custom) }}"
+
+# Labels
+rocketchat_docker_labels_default: {}
+rocketchat_docker_labels_custom: {}
+rocketchat_docker_labels: "{{ docker_labels_common
+                              | combine(rocketchat_docker_labels_default)
+                              | combine(rocketchat_docker_labels_custom) }}"
+
+# Hostname
+rocketchat_docker_hostname: "{{ rocketchat_name }}"
+
+# Networks
+rocketchat_docker_networks_alias: "{{ rocketchat_name }}"
+rocketchat_docker_networks_default: []
+rocketchat_docker_networks_custom: []
+rocketchat_docker_networks: "{{ docker_networks_common
+                                + rocketchat_docker_networks_default
+                                + rocketchat_docker_networks_custom }}"
+
+# Capabilities
+rocketchat_docker_capabilities_default: []
+rocketchat_docker_capabilities_custom: []
+rocketchat_docker_capabilities: "{{ rocketchat_docker_capabilities_default
+                                    + rocketchat_docker_capabilities_custom }}"
+
+# Security Opts
+rocketchat_docker_security_opts_default: []
+rocketchat_docker_security_opts_custom: []
+rocketchat_docker_security_opts: "{{ rocketchat_docker_security_opts_default
+                                     + rocketchat_docker_security_opts_custom }}"
+
+# Restart Policy
+rocketchat_docker_restart_policy: unless-stopped
+
+# State
+rocketchat_docker_state: started

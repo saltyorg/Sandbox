@@ -1,0 +1,50 @@
+#########################################################################
+# Title:            Sandbox: Rocketchat                                 #
+# Author(s):        Minds3t, salty, dvsmasta                            #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: MongoDB Role
+  include_role:
+    name: mongodb
+  vars:
+    mongodb_name: "rocketchat_db"
+    mongodb_docker_commands: "mongod --oplogSize 128 --replSet rs0"
+
+- name: Add DNS record
+  include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "65533"
+    group: "65533"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+# this container's job is just to run the command to initialize the replica set.
+# it will run the command and will later be removed automatically
+- name: Initialize MongoDB Replica Set
+  docker_container:
+    name: "rocketchat-mongo-init-replica"
+    image: "mongo:latest"
+    command: 'bash -c "for i in `seq 1 30`; do mongo rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
+    networks:
+      - name: saltbox
+    purge_networks: yes
+    auto_remove: yes
+    state: started
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
