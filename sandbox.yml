@@ -84,6 +84,7 @@
     - { role: resiliosync, tags: ['resiliosync'] }
     - { role: rflood, tags: ['rflood'] }
     - { role: rfloodx, tags: ['rfloodx'] }
+    - { role: rocketchat, tags: ['rocketchat'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
