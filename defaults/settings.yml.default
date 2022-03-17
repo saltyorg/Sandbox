@@ -1,6 +1,8 @@
 ---
 alternatrrx:
   roles: ["1080webdl", "1080remux"]
+a_train:
+  remotes: [""]
 delugevpn:
   vpn_endpoint: netherlands.ovpn
   vpn_pass: your_vpn_password
@@ -28,7 +30,6 @@ doplarr:
   overseer_default_id: #optional - The Overseerr user id to use by default if there is no associated discord account for the requester 
   partial_seasons: "true" #optional - Sets whether users can request partial seasons.
   log_level: ":info" #optional -  One of :trace :debug :info :warn :error :fatal :report
-
 goplaxt:
   trakt_id: ~
   trakt_secret: ~
@@ -39,6 +40,7 @@ moviematch:
   plex_url: http://plex:32400
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
+  ui_password: "username:password" # Password needs to be at least 16 characters long.
 ombix:
   roles: ["4k"]
 plex_meta_manager:
@@ -68,5 +70,3 @@ rfloodx:
   roles: [""]
 transmissionx:
   roles: [""]
-a_train:
-  remotes: [""]
