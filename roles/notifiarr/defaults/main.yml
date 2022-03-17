@@ -1,6 +1,6 @@
 ##########################################################################
 # Title:            Sandbox: Notifiarr Client | Default Variables        #
-# Author(s):        kowalski                                             #
+# Author(s):        kowalski, salty                                      #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
 ##########################################################################
@@ -67,13 +67,16 @@ notifiarr_docker_image_tag: "latest"
 notifiarr_docker_image: "golift/notifiarr:{{ notifiarr_docker_image_tag }}"
 
 # Ports
-notifiarr_docker_ports_defaults:
-  - "{{ notifiarr_web_port }}"
+notifiarr_docker_ports_defaults: []
+notifiarr_docker_ports_ui:
+  - "{{ notifiarr_web_port }}:{{ notifiarr_web_port }}"
 notifiarr_docker_ports_custom: []
 notifiarr_docker_ports: "{{ notifiarr_docker_ports_defaults
+                            + notifiarr_docker_ports_ui
                             + notifiarr_docker_ports_custom
                          if (not reverse_proxy_is_enabled)
-                         else [] + notifiarr_docker_ports_custom }}"
+                         else notifiarr_docker_ports_defaults
+                            + notifiarr_docker_ports_custom }}"
 
 # Envs
 notifiarr_docker_envs_default: {}
@@ -90,7 +93,6 @@ notifiarr_docker_commands: "{{ notifiarr_docker_commands_default
 # Volumes
 notifiarr_docker_volumes_default:
   - "{{ notifiarr_paths_location }}:/config"
-  - "{{ notifiarr_paths_config_location }}:/config/notifiarr.conf"
   - "/var/run/utmp:/var/run/utmp"
 notifiarr_docker_volumes_custom: []
 notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
@@ -145,3 +147,6 @@ notifiarr_docker_restart_policy: unless-stopped
 
 # State
 notifiarr_docker_state: started
+
+# User
+notifiarr_docker_user: "{{ uid }}:{{ gid }}"
