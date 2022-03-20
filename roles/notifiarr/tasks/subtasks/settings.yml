@@ -19,6 +19,26 @@
 - name: Import Default Plex variables
   include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
+- name: Set Default Tautulli instance
+  set_fact:
+    tautulli_name: "{{ tautulli_instances[0] }}"
+  when: tautulli_name not defined
+
+- name: Set Default Sonarr instance
+  set_fact:
+    sonarr_name: "{{ sonarr_instances[0] }}"
+  when: sonarr_name not defined
+
+- name: Set Default Radarr instance
+  set_fact:
+    radarr_name: "{{ radarr_instances[0] }}"
+  when: radarr_name not defined
+
+- name: Set Default Plex instance
+  set_fact:
+    plex_name: "{{ plex_instances[0] }}"
+  when: plex_name not defined
+
 # Tautulli Tasks
 - name: "Check if tautulli exists"
   stat:
@@ -62,8 +82,6 @@
     radarr_api_key: "{{ xmlresp.matches[0].ApiKey if radarr_config.stat.exists else '' }}"
 
 # Plex Tasks
-- name: Import Plex variables
-  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
 - name: "Settings | Check if '{{ plex_paths_config_location | basename }}' exists"
   stat:
