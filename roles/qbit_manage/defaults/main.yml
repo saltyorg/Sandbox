@@ -131,7 +131,8 @@ qbit_manage_docker_security_opts: "{{ qbit_manage_docker_security_opts_default
                                       + qbit_manage_docker_security_opts_custom }}"
 
 # Restart Policy
-qbit_manage_docker_restart_policy: unless-stopped
+qbit_manage_docker_restart_policy: on-failure
+qbit_manage_docker_restart_retries: 3
 
 # State
 qbit_manage_docker_state: started
