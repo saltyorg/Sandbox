@@ -22,22 +22,22 @@
 - name: Set Default Tautulli instance
   set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"
-  when: tautulli_name not defined
+  when: not tautulli_name is defined
 
 - name: Set Default Sonarr instance
   set_fact:
     sonarr_name: "{{ sonarr_instances[0] }}"
-  when: sonarr_name not defined
+  when: not sonarr_name is defined
 
 - name: Set Default Radarr instance
   set_fact:
     radarr_name: "{{ radarr_instances[0] }}"
-  when: radarr_name not defined
+  when: not radarr_name is defined
 
 - name: Set Default Plex instance
   set_fact:
     plex_name: "{{ plex_instances[0] }}"
-  when: plex_name not defined
+  when: not plex_name is defined
 
 # Tautulli Tasks
 - name: "Check if tautulli exists"
