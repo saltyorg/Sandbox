@@ -13,7 +13,7 @@
 - name: Set Default Plex instance
   set_fact:
     plex_name: "{{ plex_instances[0] }}"
-  when: plex_name not defined
+  when: not plex_name is defined
 
 - name: Pre-Install | Check if {{ plex_paths_config_location | basename }} exists
   stat:
