@@ -13,7 +13,7 @@
 - name: Set Default Sonarr instance
   set_fact:
     sonarr_name: "{{ sonarr_instances[0] }}"
-  when: sonarr_name not defined
+  when: not sonarr_name is defined
 
 - name: Add DNS record
   include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
