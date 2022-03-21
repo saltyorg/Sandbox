@@ -45,7 +45,7 @@ apprise_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-apprise_traefik_middleware: "{{ traefik_default_middleware }},apprise-auth"
+apprise_traefik_middleware: "apprise-auth,{{ traefik_default_middleware }}"
 apprise_traefik_certresolver: "{{ traefik_default_certresolver }}"
 apprise_traefik_enabled: true
 apprise_auth: "/etc/traefik/auth"
