@@ -1,0 +1,27 @@
+#########################################################################
+# Title:         Saltbox: saltbox_mod Role                              #
+# Author(s):     Grostim                                                #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+saltbox_mod_name: saltbox_mod
+
+################################
+# Paths
+################################
+
+saltbox_mod_paths_folder: "{{ saltbox_mod_name }}" /
+saltbox_mod_paths_location: "{{ server_appdata_path }}/{{ saltbox_mod_paths_folder }}"
+
+################################
+# Git Repository 
+################################
+
+saltbox_mod_repo: "https://github.com/saltyorg/saltbox_mod.git"
