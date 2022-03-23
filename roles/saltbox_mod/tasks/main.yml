@@ -1,0 +1,42 @@
+#########################################################################
+# Title:         Saltbox: saltbox_mod Role                              #
+# Author(s):     Grostim                                                #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Create saltbox_mod directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: 0775
+    recurse: yes
+  with_items:
+    - "{{ saltbox_mod_paths_location }}"
+
+- name: Clone saltbox_mod repo 'HEAD'
+  git:
+    repo: "{{ saltbox_mod_repo }}"
+    dest: "{{ saltbox_mod_paths_location }}"
+    clone: true
+    version: HEAD
+    force: true
+  become: true
+  become_user: "{{ user.name }}"
+  ignore_errors: true
+  register: saltbox_mod_clone_status
+
+- name: Clone saltbox_mod repo 'master'
+  git:
+    repo: "{{ saltbox_mod_repo }}"
+    dest: "{{ saltbox_mod_paths_location }}"
+    clone: true
+    version: master
+    force: true
+  become: true
+  become_user: "{{ user.name }}"
+  when: saltbox_mod_clone_status is failed

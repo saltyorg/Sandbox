@@ -85,6 +85,7 @@
     - { role: rflood, tags: ['rflood'] }
     - { role: rfloodx, tags: ['rfloodx'] }
     - { role: rocketchat, tags: ['rocketchat'] }
+    - { role: saltbox_mod, tags: ['saltbox_mod'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
