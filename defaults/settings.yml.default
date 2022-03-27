@@ -70,3 +70,7 @@ rfloodx:
   roles: [""]
 transmissionx:
   roles: [""]
+transmissionvpn:
+  vpn_user:
+  vpn_pass:
+  vpn_prov:
