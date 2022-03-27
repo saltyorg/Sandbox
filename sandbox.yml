@@ -95,6 +95,7 @@
     - { role: thelounge, tags: ['thelounge'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionx, tags: ['transmissionx'] }
+    - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: unpackerr, tags: ['unpackerr'] }
