@@ -22,11 +22,11 @@ delugevpn_paths_location: "{{ server_appdata_path }}/{{ delugevpn_paths_folder }
 delugevpn_paths_folders_list:
   - "{{ delugevpn_paths_location }}"
   - "{{ delugevpn_paths_location }}/wireguard"
-  - "{{ downloads.torrents }}"
-  - "{{ downloads.torrents }}/deluge"
-  - "{{ downloads.torrents }}/deluge/completed"
-  - "{{ downloads.torrents }}/deluge/incoming"
-  - "{{ downloads.torrents }}/deluge/watched"
+  - "{{ downloads_torrents_path }}"
+  - "{{ downloads_torrents_path }}/deluge"
+  - "{{ downloads_torrents_path }}/deluge/completed"
+  - "{{ downloads_torrents_path }}/deluge/incoming"
+  - "{{ downloads_torrents_path }}/deluge/watched"
 
 ################################
 # Web
