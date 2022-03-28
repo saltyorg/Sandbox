@@ -18,7 +18,7 @@ rflood_name: rflood
 
 rflood_paths_folder: "{{ rflood_name }}"
 rflood_paths_location: "{{ server_appdata_path }}/{{ rflood_paths_folder }}"
-rflood_paths_downloads_location: "{{ downloads.torrents }}/{{ rflood_paths_folder }}"
+rflood_paths_downloads_location: "{{ downloads_torrents_path }}/{{ rflood_paths_folder }}"
 rflood_paths_folders_list:
   - "{{ rflood_paths_location }}"
   - "{{ rflood_paths_downloads_location }}"
