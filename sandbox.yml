@@ -94,8 +94,8 @@
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: transmission, tags: ['transmission'] }
-    - { role: transmissionx, tags: ['transmissionx'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
+    - { role: transmissionx, tags: ['transmissionx'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: unpackerr, tags: ['unpackerr'] }
