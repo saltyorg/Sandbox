@@ -19,7 +19,7 @@ transmission_name: transmission
 
 transmission_paths_folder: "{{ transmission_name }}"
 transmission_paths_location: "{{ server_appdata_path }}/{{ transmission_paths_folder }}"
-transmission_paths_downloads_location: "{{ downloads.torrents }}/{{ transmission_paths_folder }}"
+transmission_paths_downloads_location: "{{ downloads_torrents_path }}/{{ transmission_paths_folder }}"
 transmission_paths_folders_list:
   - "{{ transmission_paths_location }}"
   - "{{ transmission_paths_downloads_location }}"
