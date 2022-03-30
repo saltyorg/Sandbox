@@ -1,0 +1,16 @@
+rclone:
+  sleeptime: {{ sarotate.sleeptime | default('300', true) }}
+
+remotes:
+  '{{ sarotate.sa_path }}':
+  {% for item in remote_names %}
+  {{ item }}:
+      address: localhost:{{ sarotate.rc_port | default('5572', true) }}
+      user: {{ sarotate.rc_user | default('', true) }}
+      pass: {{ sarotate.rc_pass | default('', true) }}
+  {% endfor %}
+
+notification:
+  errors_only: y
+  apprise:
+    - '{{ sarotate.apprise | default('', true) }}'
