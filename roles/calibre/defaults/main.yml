@@ -102,11 +102,9 @@ calibre_docker_commands: "{{ calibre_docker_commands_default
 calibre_docker_volumes_default:
   - "{{ calibre_paths_location }}:/config"
   - "/mnt/unionfs/Media/Books:/library"
-  - "/mnt:/mnt"
 calibre_docker_volumes_custom: []
 calibre_docker_volumes: "{{ calibre_docker_volumes_default
-                            + calibre_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + calibre_docker_volumes_custom }}"
 
 # Devices
 calibre_docker_devices_default: []
