@@ -93,8 +93,7 @@ jirafeau_docker_volumes_default:
 
 jirafeau_docker_volumes_custom: []
 jirafeau_docker_volumes: "{{ jirafeau_docker_volumes_default
-                             + jirafeau_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + jirafeau_docker_volumes_custom }}"
 
 # Devices
 jirafeau_docker_devices_default: []
