@@ -88,7 +88,6 @@ sshwifty_docker_commands: "{{ sshwifty_docker_commands_default
 # Volumes
 sshwifty_docker_volumes_default:
   - "{{ sshwifty_paths_location }}/config:/config"
-  - "/mnt:/mnt"
 sshwifty_docker_volumes_custom: []
 sshwifty_docker_volumes: "{{ sshwifty_docker_volumes_default
                              + sshwifty_docker_volumes_custom }}"
