@@ -88,11 +88,9 @@ comicstreamer_docker_commands: "{{ comicstreamer_docker_commands_default
 comicstreamer_docker_volumes_default:
   - "{{ comicstreamer_paths_location }}:/config"
   - "/mnt/unionfs/Media/Comics:/comics"
-  - "/mnt:/mnt"
 comicstreamer_docker_volumes_custom: []
 comicstreamer_docker_volumes: "{{ comicstreamer_docker_volumes_default
-                                  + comicstreamer_docker_volumes_custom
-                                  + docker_volumes_downloads_common }}"
+                                  + comicstreamer_docker_volumes_custom }}"
 
 # Devices
 comicstreamer_docker_devices_default: []
