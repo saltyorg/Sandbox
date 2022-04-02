@@ -89,11 +89,9 @@ vaultwarden_docker_commands: "{{ vaultwarden_docker_commands_default
 vaultwarden_docker_volumes_default:
   - "{{ vaultwarden_paths_location }}:/data"
   - "{{ vaultwarden_paths_location }}/env:/.env"
-  - "/mnt:/mnt"
 vaultwarden_docker_volumes_custom: []
 vaultwarden_docker_volumes: "{{ vaultwarden_docker_volumes_default
-                                + vaultwarden_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + vaultwarden_docker_volumes_custom }}"
 
 # Devices
 vaultwarden_docker_devices_default: []
