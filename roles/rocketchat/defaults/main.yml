@@ -90,11 +90,9 @@ rocketchat_docker_commands: "{{ rocketchat_docker_commands_default }}"
 # Volumes
 rocketchat_docker_volumes_default:
   - "{{ rocketchat_paths_location }}/uploads:/uploads"
-  - "/mnt:/mnt"
 rocketchat_docker_volumes_custom: []
 rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
-                               + rocketchat_docker_volumes_custom
-                               + docker_volumes_downloads_common }}"
+                               + rocketchat_docker_volumes_custom }}"
 
 #Mounts
 rocketchat_docker_mounts_default:
