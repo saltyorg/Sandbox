@@ -89,11 +89,9 @@ lazylibrarian_docker_commands: "{{ lazylibrarian_docker_commands_default
 # Volumes
 lazylibrarian_docker_volumes_default:
   - "{{ lazylibrarian_paths_location }}:/config"
-  - "/mnt:/mnt"
 lazylibrarian_docker_volumes_custom: []
 lazylibrarian_docker_volumes: "{{ lazylibrarian_docker_volumes_default
-                                  + lazylibrarian_docker_volumes_custom
-                                  + docker_volumes_downloads_common }}"
+                                  + lazylibrarian_docker_volumes_custom }}"
 
 # Devices
 lazylibrarian_docker_devices_default: []
