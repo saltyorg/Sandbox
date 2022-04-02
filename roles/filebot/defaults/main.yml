@@ -95,13 +95,11 @@ filebot_docker_commands: "{{ filebot_docker_commands_default
 # Volumes
 filebot_docker_volumes_default:
   - "{{ filebot_paths_location }}:/config"
-  - "/mnt:/mnt"
   - "/mnt/unionfs/Media/:/storage/Media/"
   - "/mnt/local/downloads:/storage/downloads"
 filebot_docker_volumes_custom: []
 filebot_docker_volumes: "{{ filebot_docker_volumes_default
-                            + filebot_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + filebot_docker_volumes_custom }}"
 
 # Devices
 filebot_docker_devices_default: []
