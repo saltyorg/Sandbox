@@ -99,8 +99,7 @@ gitea_docker_volumes_default:
   - /etc/localtime:/etc/localtime:ro
 gitea_docker_volumes_custom: []
 gitea_docker_volumes: "{{ gitea_docker_volumes_default
-                          + gitea_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + gitea_docker_volumes_custom }}"
 
 # Devices
 gitea_docker_devices_default: []
