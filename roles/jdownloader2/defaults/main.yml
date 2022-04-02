@@ -98,13 +98,11 @@ jdownloader2_docker_commands: "{{ jdownloader2_docker_commands_default
 
 # Volumes
 jdownloader2_docker_volumes_default:
-  - "{{ jdownloader2_paths_location }}/config:/config:rw"
-  - "{{ jdownloader2_paths_downloads_location }}:/output:rw"
-  - "/mnt:/mnt:rw"
+  - "{{ jdownloader2_paths_location }}/config:/config"
+  - "{{ jdownloader2_paths_downloads_location }}:/output"
 jdownloader2_docker_volumes_custom: []
 jdownloader2_docker_volumes: "{{ jdownloader2_docker_volumes_default
-                                 + jdownloader2_docker_volumes_custom
-                                 + docker_volumes_downloads_common }}"
+                                 + jdownloader2_docker_volumes_custom }}"
 
 # Devices
 jdownloader2_docker_devices_default: []
