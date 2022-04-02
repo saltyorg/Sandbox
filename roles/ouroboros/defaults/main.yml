@@ -58,8 +58,7 @@ ouroboros_docker_volumes_default:
   - "/var/run/docker.sock:/var/run/docker.sock:ro"
 ouroboros_docker_volumes_custom: []
 ouroboros_docker_volumes: "{{ ouroboros_docker_volumes_default
-                              + ouroboros_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + ouroboros_docker_volumes_custom }}"
 
 # Devices
 ouroboros_docker_devices_default: []
