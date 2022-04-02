@@ -91,8 +91,7 @@ vnstat_docker_volumes_default:
   - "/var/lib/vnstat:/var/lib/vnstat:ro"
 vnstat_docker_volumes_custom: []
 vnstat_docker_volumes: "{{ vnstat_docker_volumes_default
-                           + vnstat_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + vnstat_docker_volumes_custom }}"
 
 # Devices
 vnstat_docker_devices_default: []
