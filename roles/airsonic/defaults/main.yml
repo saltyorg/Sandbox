@@ -90,8 +90,7 @@ airsonic_docker_volumes_default:
   - "{{ airsonic_paths_location }}:/config"
 airsonic_docker_volumes_custom: []
 airsonic_docker_volumes: "{{ airsonic_docker_volumes_default
-                             + airsonic_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + airsonic_docker_volumes_custom }}"
 
 # Devices
 airsonic_docker_devices_default: []
