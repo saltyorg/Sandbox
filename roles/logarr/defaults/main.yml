@@ -92,7 +92,6 @@ logarr_docker_volumes_default:
   - "{{ logarr_paths_location }}:/app"
   - "{{ logarr_paths_location }}/config:/config"
   - "{{ server_appdata_path }}:/opt"
-  - "/mnt:/mnt"
 logarr_docker_volumes_custom: []
 logarr_docker_volumes: "{{ logarr_docker_volumes_default
                            + logarr_docker_volumes_custom }}"
