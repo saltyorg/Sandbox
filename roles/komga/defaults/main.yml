@@ -87,11 +87,9 @@ komga_docker_commands: "{{ komga_docker_commands_default
 komga_docker_volumes_default:
   - "{{ komga_paths_location }}:/config"
   - "/mnt/unionfs/Media/Comics:/comics"
-  - "/mnt:/mnt"
 komga_docker_volumes_custom: []
 komga_docker_volumes: "{{ komga_docker_volumes_default
-                          + komga_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + komga_docker_volumes_custom }}"
 
 # Devices
 komga_docker_devices_default: []
