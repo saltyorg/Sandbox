@@ -90,8 +90,7 @@ archivebox_docker_volumes_default:
   - "{{ archivebox_paths_location }}:/data"
 archivebox_docker_volumes_custom: []
 archivebox_docker_volumes: "{{ archivebox_docker_volumes_default
-                               + archivebox_docker_volumes_custom
-                               + docker_volumes_downloads_common }}"
+                               + archivebox_docker_volumes_custom }}"
 
 # Devices
 archivebox_docker_devices_default: []
