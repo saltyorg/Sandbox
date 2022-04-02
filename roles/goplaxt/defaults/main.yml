@@ -92,8 +92,7 @@ goplaxt_docker_volumes_default:
   - "{{ goplaxt_paths_location }}:/app/keystore"
 goplaxt_docker_volumes_custom: []
 goplaxt_docker_volumes: "{{ goplaxt_docker_volumes_default
-                            + goplaxt_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + goplaxt_docker_volumes_custom }}"
 
 # Devices
 goplaxt_docker_devices_default: []
