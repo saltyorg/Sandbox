@@ -127,12 +127,10 @@ transmission_docker_commands: "{{ transmission_docker_commands_default
 transmission_docker_volumes_default:
   - "{{ transmission_paths_location }}:/config"
   - "{{ server_appdata_path }}/scripts:/scripts"
-  - "/mnt:/mnt"
   - "{{ transmission_paths_downloads_location }}/watched:/watch"
 transmission_docker_volumes_custom: []
 transmission_docker_volumes: "{{ transmission_docker_volumes_default
-                                 + transmission_docker_volumes_custom
-                                 + docker_volumes_downloads_common  }}"
+                                 + transmission_docker_volumes_custom }}"
 
 # Devices
 transmission_docker_devices_default: []
