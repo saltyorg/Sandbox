@@ -19,7 +19,7 @@ transmissionvpn_name: transmissionvpn
 
 transmissionvpn_paths_folder: "{{ transmissionvpn_name }}"
 transmissionvpn_paths_location: "{{ server_appdata_path }}/{{ transmissionvpn_paths_folder }}"
-transmissionvpn_paths_downloads_location: "{{ downloads.torrents }}/{{ transmissionvpn_paths_folder }}"
+transmissionvpn_paths_downloads_location: "{{ downloads_torrents_path }}/{{ transmissionvpn_paths_folder }}"
 
 transmissionvpn_paths_folders_list:
   - "{{ transmissionvpn_paths_location }}"
@@ -114,11 +114,9 @@ transmissionvpn_docker_volumes_default:
   - "{{ server_appdata_path }}/scripts:/scripts"
   - "{{ transmissionvpn_paths_location }}/vpn:/etc/openvpn/custom"
   - "{{ transmissionvpn_paths_downloads_location }}:/data"
-  - "/mnt:/mnt"
 transmissionvpn_docker_volumes_custom: []
 transmissionvpn_docker_volumes: "{{ transmissionvpn_docker_volumes_default
-                                    + transmissionvpn_docker_volumes_custom
-                                    + docker_volumes_downloads_common }}"
+                                    + transmissionvpn_docker_volumes_custom }}"
 
 # Devices
 transmissionvpn_docker_devices_default: []
