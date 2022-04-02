@@ -81,11 +81,9 @@ qbit_manage_docker_commands: "{{ qbit_manage_docker_commands_default
 # Volumes
 qbit_manage_docker_volumes_default:
   - "{{ qbit_manage_paths_location }}:/config"
-  - "/mnt:/mnt"
 qbit_manage_docker_volumes_custom: []
 qbit_manage_docker_volumes: "{{ qbit_manage_docker_volumes_default
-                                + qbit_manage_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + qbit_manage_docker_volumes_custom }}"
 
 # Devices
 qbit_manage_docker_devices_default: []
