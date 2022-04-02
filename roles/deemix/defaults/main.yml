@@ -90,11 +90,9 @@ deemix_docker_commands: "{{ deemix_docker_commands_default
 # Volumes
 deemix_docker_volumes_default:
   - "{{ deemix_paths_location }}:/config"
-  - "/mnt:/mnt"
 deemix_docker_volumes_custom: []
 deemix_docker_volumes: "{{ deemix_docker_volumes_default
-                           + deemix_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + deemix_docker_volumes_custom }}"
 
 # Devices
 deemix_docker_devices_default: []
