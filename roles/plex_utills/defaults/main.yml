@@ -103,11 +103,9 @@ plex_utills_docker_volumes_default:
   - "{{ plex_utills_paths_location }}:/config"
   - "{{ plex_utills_paths_location }}/logs:/logs"
   - "/mnt/unionfs/Media:/films"
-  - "/mnt:/mnt"
 plex_utills_docker_volumes_custom: []
 plex_utills_docker_volumes: "{{ plex_utills_docker_volumes_default
-                                + plex_utills_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + plex_utills_docker_volumes_custom }}"
 
 # Devices
 plex_utills_docker_devices_default: []
