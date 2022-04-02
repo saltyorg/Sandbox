@@ -93,11 +93,9 @@ bookstack_docker_commands: "{{ bookstack_docker_commands_default
 # Volumes
 bookstack_docker_volumes_default:
   - "{{ bookstack_paths_location }}:/config"
-  - "/mnt:/mnt"
 bookstack_docker_volumes_custom: []
 bookstack_docker_volumes: "{{ bookstack_docker_volumes_default
-                              + bookstack_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"  # CHECK IF NEEDED
+                              + bookstack_docker_volumes_custom }}"
 
 # Devices
 bookstack_docker_devices_default: []
