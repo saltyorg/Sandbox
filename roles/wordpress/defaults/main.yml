@@ -92,8 +92,7 @@ wordpress_docker_volumes_default:
   - "{{ wordpress_paths_location }}:/var/www/html"
 wordpress_docker_volumes_custom: []
 wordpress_docker_volumes: "{{ wordpress_docker_volumes_default
-                              + wordpress_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + wordpress_docker_volumes_custom }}"
 
 # Devices
 wordpress_docker_devices_default: []
