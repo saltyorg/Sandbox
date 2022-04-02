@@ -93,8 +93,7 @@ alternatrr_docker_volumes_default:
   - "{{ sonarr_paths_location }}/app:/opt/sonarr/app"
 alternatrr_docker_volumes_custom: []
 alternatrr_docker_volumes: "{{ alternatrr_docker_volumes_default
-                               + alternatrr_docker_volumes_custom
-                               + docker_volumes_downloads_common }}"
+                               + alternatrr_docker_volumes_custom }}"
 
 # Devices
 alternatrr_docker_devices_default: []
