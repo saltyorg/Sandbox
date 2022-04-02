@@ -55,8 +55,7 @@ nabarr_docker_volumes_default:
   - "{{ nabarr_paths_location }}:/config"
 nabarr_docker_volumes_custom: []
 nabarr_docker_volumes: "{{ nabarr_docker_volumes_default
-                           + nabarr_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + nabarr_docker_volumes_custom }}"
 
 # Devices
 nabarr_docker_devices_default: []
