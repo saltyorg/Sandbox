@@ -63,8 +63,7 @@ plex_meta_manager_docker_volumes_default:
   - "{{ plex_meta_manager_paths_location }}:/config"
 plex_meta_manager_docker_volumes_custom: []
 plex_meta_manager_docker_volumes: "{{ plex_meta_manager_docker_volumes_default
-                                      + plex_meta_manager_docker_volumes_custom
-                                      + docker_volumes_downloads_common }}"
+                                      + plex_meta_manager_docker_volumes_custom }}"
 
 # Devices
 plex_meta_manager_docker_devices_default: []
