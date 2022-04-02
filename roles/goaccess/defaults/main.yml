@@ -94,8 +94,7 @@ goaccess_docker_volumes_default:
   - "/opt/traefik:/opt/log"
 goaccess_docker_volumes_custom: []
 goaccess_docker_volumes: "{{ goaccess_docker_volumes_default
-                             + goaccess_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + goaccess_docker_volumes_custom }}"
 
 # Devices
 goaccess_docker_devices_default: []
