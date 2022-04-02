@@ -10,3 +10,4 @@ skip_list:
   - command-instead-of-shell
   - truthy
   - line-length
+  - fqcn-builtins
