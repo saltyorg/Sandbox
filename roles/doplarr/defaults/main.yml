@@ -60,8 +60,7 @@ doplarr_docker_commands: "{{ doplarr_docker_commands_default
 doplarr_docker_volumes_default: []
 doplarr_docker_volumes_custom: []
 doplarr_docker_volumes: "{{ doplarr_docker_volumes_default
-                            + doplarr_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + doplarr_docker_volumes_custom }}"
 
 # Devices
 doplarr_docker_devices_default: []
