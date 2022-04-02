@@ -45,8 +45,7 @@ flaresolverr_docker_commands: "{{ flaresolverr_docker_commands_default
 flaresolverr_docker_volumes_default: []
 flaresolverr_docker_volumes_custom: []
 flaresolverr_docker_volumes: "{{ flaresolverr_docker_volumes_default
-                                 + flaresolverr_docker_volumes_custom
-                                 + docker_volumes_downloads_common }}"
+                                 + flaresolverr_docker_volumes_custom }}"
 
 # Devices
 flaresolverr_docker_devices_default: []
