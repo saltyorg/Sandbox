@@ -89,11 +89,9 @@ apprise_docker_commands: "{{ apprise_docker_commands_default
 # Volumes
 apprise_docker_volumes_default:
   - "{{ apprise_paths_location }}:/config"
-  - "/mnt:/mnt"
 apprise_docker_volumes_custom: []
 apprise_docker_volumes: "{{ apprise_docker_volumes_default
-                            + apprise_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + apprise_docker_volumes_custom }}"
 
 # Devices
 apprise_docker_devices_default: []
