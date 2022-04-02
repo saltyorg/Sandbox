@@ -88,11 +88,9 @@ comixed_docker_commands: "{{ comixed_docker_commands_default
 comixed_docker_volumes_default:
   - "{{ comixed_paths_location }}:/root/.comixed"
   - "/mnt/unionfs/Media/Comics:/comic_dir"
-  - "/mnt:/mnt"
 comixed_docker_volumes_custom: []
 comixed_docker_volumes: "{{ comixed_docker_volumes_default
-                            + comixed_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + comixed_docker_volumes_custom }}"
 
 # Devices
 comixed_docker_devices_default: []
