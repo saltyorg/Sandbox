@@ -96,8 +96,7 @@ yacht_docker_volumes_default:
   - "{{ yacht_paths_location }}/storage:/storage"
 yacht_docker_volumes_custom: []
 yacht_docker_volumes: "{{ yacht_docker_volumes_default
-                          + yacht_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + yacht_docker_volumes_custom  }}"
 
 # Devices
 yacht_docker_devices_default: []
