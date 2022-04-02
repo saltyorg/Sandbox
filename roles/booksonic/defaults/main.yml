@@ -90,12 +90,10 @@ booksonic_docker_volumes_default:
   - "{{ booksonic_paths_location }}:/config"
   - "/mnt/unionfs/Media/Audiobooks:/audiobooks"
   - "/mnt/unionfs/Media/Podcasts:/podcasts"
-  - "/mnt:/mnt"
   - "/mnt/unionfs/Media:/othermedia"
 booksonic_docker_volumes_custom: []
 booksonic_docker_volumes: "{{ booksonic_docker_volumes_default
-                              + booksonic_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + booksonic_docker_volumes_custom }}"
 
 # Devices
 booksonic_docker_devices_default: []
