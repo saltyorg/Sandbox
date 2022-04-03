@@ -90,12 +90,10 @@ medusa_docker_commands: "{{ medusa_docker_commands_default
 medusa_docker_volumes_default:
   - "{{ medusa_paths_location }}:/config"
   - "/opt/scripts:/scripts"
-  - "/mnt:/mnt"
   - "/mnt/unionfs/Media/TV:/tv"
 medusa_docker_volumes_custom: []
 medusa_docker_volumes: "{{ medusa_docker_volumes_default
-                           + medusa_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + medusa_docker_volumes_custom }}"
 
 # Devices
 medusa_docker_devices_default: []

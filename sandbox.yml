@@ -85,6 +85,7 @@
     - { role: rflood, tags: ['rflood'] }
     - { role: rfloodx, tags: ['rfloodx'] }
     - { role: rocketchat, tags: ['rocketchat'] }
+    - { role: sarotate, tags: ['sarotate'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
@@ -104,6 +105,7 @@
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
+    - { role: whisparr, tags: ['whisparr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: xbackbone, tags: ['xbackbone'] }

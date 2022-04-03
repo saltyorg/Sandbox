@@ -96,8 +96,7 @@ notifiarr_docker_volumes_default:
   - "/var/run/utmp:/var/run/utmp"
 notifiarr_docker_volumes_custom: []
 notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
-                              + notifiarr_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + notifiarr_docker_volumes_custom }}"
 
 # Devices
 notifiarr_docker_devices_default: []

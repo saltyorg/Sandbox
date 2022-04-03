@@ -98,8 +98,7 @@ handbrake_docker_volumes_default:
   - "/mnt/local/downloads/handbrake/output:/output:rw"
 handbrake_docker_volumes_custom: []
 handbrake_docker_volumes: "{{ handbrake_docker_volumes_default
-                              + handbrake_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + handbrake_docker_volumes_custom }}"
 
 # Devices
 handbrake_docker_devices_default:

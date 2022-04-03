@@ -86,11 +86,9 @@ nextcloud_docker_commands: "{{ nextcloud_docker_commands_default
 # Volumes
 nextcloud_docker_volumes_default:
   - "{{ nextcloud_paths_location }}:/var/www/html"
-  - "/mnt:/mnt"
 nextcloud_docker_volumes_custom: []
 nextcloud_docker_volumes: "{{ nextcloud_docker_volumes_default
-                              + nextcloud_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + nextcloud_docker_volumes_custom }}"
 
 # Devices
 nextcloud_docker_devices_default: []

@@ -94,11 +94,9 @@ xbackbone_docker_volumes_default:
   - "{{ xbackbone_paths_location }}/database:/app/resources/database"
   - "{{ xbackbone_paths_location }}/logs:/app/logs"
   - "{{ xbackbone_paths_location }}/config:/app/config"
-  - "/mnt:/mnt"
 xbackbone_docker_volumes_custom: []
 xbackbone_docker_volumes: "{{ xbackbone_docker_volumes_default
-                              + xbackbone_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + xbackbone_docker_volumes_custom }}"
 
 # Devices
 xbackbone_docker_devices_default: []

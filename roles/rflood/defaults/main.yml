@@ -18,7 +18,7 @@ rflood_name: rflood
 
 rflood_paths_folder: "{{ rflood_name }}"
 rflood_paths_location: "{{ server_appdata_path }}/{{ rflood_paths_folder }}"
-rflood_paths_downloads_location: "{{ downloads.torrents }}/{{ rflood_paths_folder }}"
+rflood_paths_downloads_location: "{{ downloads_torrents_path }}/{{ rflood_paths_folder }}"
 rflood_paths_folders_list:
   - "{{ rflood_paths_location }}"
   - "{{ rflood_paths_downloads_location }}"
@@ -138,11 +138,9 @@ rflood_docker_commands: "{{ rflood_docker_commands_default
 rflood_docker_volumes_default:
   - "{{ rflood_paths_location }}:/config"
   - "{{ server_appdata_path }}/scripts:/scripts"
-  - "/mnt:/mnt"
 rflood_docker_volumes_custom: []
 rflood_docker_volumes: "{{ rflood_docker_volumes_default
-                           + rflood_docker_volumes_custom
-                           + docker_volumes_downloads_common  }}"
+                           + rflood_docker_volumes_custom }}"
 
 # Devices
 rflood_docker_devices_default: []

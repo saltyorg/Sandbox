@@ -90,8 +90,7 @@ monitorr_docker_volumes_default:
   - "{{ monitorr_paths_location }}:/app"
 monitorr_docker_volumes_custom: []
 monitorr_docker_volumes: "{{ monitorr_docker_volumes_default
-                             + monitorr_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + monitorr_docker_volumes_custom }}"
 
 # Devices
 monitorr_docker_devices_default: []

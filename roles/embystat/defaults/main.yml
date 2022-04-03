@@ -88,8 +88,7 @@ embystat_docker_volumes_default:
   - "{{ embystat_paths_location }}/config:/app/data"
 embystat_docker_volumes_custom: []
 embystat_docker_volumes: "{{ embystat_docker_volumes_default
-                             + embystat_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + embystat_docker_volumes_custom }}"
 
 # Devices
 embystat_docker_devices_default: []

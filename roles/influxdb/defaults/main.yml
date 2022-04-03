@@ -59,8 +59,7 @@ influxdb_docker_volumes_default:
   - "{{ influxdb_paths_location }}:/var/lib/influxdb"
 influxdb_docker_volumes_custom: []
 influxdb_docker_volumes: "{{ influxdb_docker_volumes_default
-                             + influxdb_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + influxdb_docker_volumes_custom }}"
 
 # Devices
 influxdb_docker_devices_default: []

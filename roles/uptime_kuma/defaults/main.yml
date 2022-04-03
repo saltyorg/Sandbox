@@ -88,8 +88,7 @@ uptime_kuma_docker_volumes_default:
   - "{{ uptime_kuma_paths_location }}:/app/data"
 uptime_kuma_docker_volumes_custom: []
 uptime_kuma_docker_volumes: "{{ uptime_kuma_docker_volumes_default
-                                + uptime_kuma_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + uptime_kuma_docker_volumes_custom }}"
 
 # Devices
 uptime_kuma_docker_devices_default: []

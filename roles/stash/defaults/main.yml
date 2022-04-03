@@ -98,11 +98,9 @@ stash_docker_volumes_default:
   - "{{ stash_paths_location }}/cache:/cache"
   - "{{ stash_paths_location }}/generated:/generated"
   - "/mnt/unionfs/Media/Adult:/data"
-  - "/mnt:/mnt"
 stash_docker_volumes_custom: []
 stash_docker_volumes: "{{ stash_docker_volumes_default
-                          + stash_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + stash_docker_volumes_custom }}"
 
 # Devices
 stash_docker_devices_default: []
