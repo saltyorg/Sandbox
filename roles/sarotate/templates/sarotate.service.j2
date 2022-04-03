@@ -1,0 +1,13 @@
+[Unit]
+Description=sarotate     
+After=network-online.target
+
+[Service]
+User={{ user.name }}
+Group={{ user.name }}
+Type=simple
+WorkingDirectory={{ sarotate_paths_location }}
+ExecStart={{ sarotate_paths_location}}/SARotate
+
+[Install]
+WantedBy=default.target
