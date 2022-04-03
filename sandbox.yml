@@ -103,6 +103,7 @@
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
+    - { role: whisparr, tags: ['whisparr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: xbackbone, tags: ['xbackbone'] }
