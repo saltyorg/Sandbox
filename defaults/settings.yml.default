@@ -68,8 +68,6 @@ requestrrx:
   roles: ["1080p", "4k"]
 rfloodx:
   roles: [""]
-transmissionx:
-  roles: [""]
 sarotate:
   remotes: [""]
   sa_path: "your_sa_folder_path"     
@@ -78,4 +76,9 @@ sarotate:
   rc_user:    #optional: The user used by rc if authentication is enabled (Default is no authentication)
   rc_pass:    #optional: The password used by rc if autentication is enabled (Default is no authentication)
   apprise:    #optional: apprise notifications (Default is blank)
-
+transmissionvpn:
+  vpn_user:
+  vpn_pass:
+  vpn_prov:
+transmissionx:
+  roles: [""]
