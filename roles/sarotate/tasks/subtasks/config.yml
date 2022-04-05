@@ -10,7 +10,7 @@
     
 - name: Get types of the remote entered
   ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=sarotate_paths_rclone_config_location) }}"
-  loop: "{{ sarotate.remotes|lower }}"
+  loop: "{{ sarotate.remotes }}"
   register: remote_type
 
 - name: Set variable for remote types
