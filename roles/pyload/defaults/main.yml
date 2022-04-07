@@ -1,0 +1,143 @@
+##########################################################################
+# Title:         Sandbox: pyLoad | Default Variables                     #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+pyload_name: pyload
+
+################################
+# Paths
+################################
+
+pyload_paths_folder: "{{ pyload_name }}"
+pyload_paths_location: "{{ server_appdata_path }}/{{ pyload_paths_folder }}"
+pyload_paths_folders_list:
+  - "{{ pyload_paths_location }}"
+
+################################
+# Web
+################################
+
+pyload_web_subdomain: "{{ pyload_name }}"
+pyload_web_domain: "{{ user.domain }}"
+pyload_web_port: "8000"
+pyload_web_url: "{{ 'https://' + pyload_web_subdomain + '.' + pyload_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + pyload_web_port }}"
+
+################################
+# DNS
+################################
+
+pyload_dns_record: "{{ pyload_web_subdomain }}"
+pyload_dns_zone: "{{ pyload_web_domain }}"
+pyload_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+pyload_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+pyload_traefik_middleware: "{{ traefik_default_middleware + ',' + pyload_traefik_sso_middleware
+                           if (pyload_traefik_sso_middleware | length > 0)
+                           else traefik_default_middleware }}"
+pyload_traefik_certresolver: "{{ traefik_default_certresolver }}"
+pyload_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+pyload_docker_container: "{{ pyload_name }}"
+
+# Image
+pyload_docker_image_pull: true
+pyload_docker_image_tag: "latest"
+pyload_docker_image: "lscr.io/linuxserver/pyload-ng:{{ pyload_docker_image_tag }}"
+
+# Ports
+pyload_docker_ports_defaults: []
+pyload_docker_ports_custom: []
+pyload_docker_ports: "{{ pyload_docker_ports_defaults
+                         + pyload_docker_ports_custom }}"
+
+# Envs
+pyload_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+pyload_docker_envs_custom: {}
+pyload_docker_envs: "{{ pyload_docker_envs_default
+                        | combine(pyload_docker_envs_custom) }}"
+
+# Commands
+pyload_docker_commands_default: []
+pyload_docker_commands_custom: []
+pyload_docker_commands: "{{ pyload_docker_commands_default
+                            + pyload_docker_commands_custom }}"
+
+# Volumes
+pyload_docker_volumes_default:
+  - "{{ pyload_paths_location }}:/config"
+pyload_docker_volumes_custom: []
+pyload_docker_volumes: "{{ pyload_docker_volumes_default
+                           + pyload_docker_volumes_custom }}"
+
+# Devices
+pyload_docker_devices_default: []
+pyload_docker_devices_custom: []
+pyload_docker_devices: "{{ pyload_docker_devices_default
+                         + pyload_docker_devices_custom }}"
+
+# Hosts
+pyload_docker_hosts_default: []
+pyload_docker_hosts_custom: []
+pyload_docker_hosts: "{{ docker_hosts_common
+                         | combine(pyload_docker_hosts_default)
+                         | combine(pyload_docker_hosts_custom) }}"
+
+# Labels
+pyload_docker_labels_default:
+  diun.enable: "true"
+pyload_docker_labels_custom: {}
+pyload_docker_labels: "{{ docker_labels_common
+                          | combine(pyload_docker_labels_default)
+                          | combine(pyload_docker_labels_custom) }}"
+
+# Hostname
+pyload_docker_hostname: "{{ pyload_name }}"
+
+# Networks
+pyload_docker_networks_alias: "{{ pyload_name }}"
+pyload_docker_networks_default: []
+pyload_docker_networks_custom: []
+pyload_docker_networks: "{{ docker_networks_common
+                            + pyload_docker_networks_default
+                            + pyload_docker_networks_custom }}"
+
+# Capabilities
+pyload_docker_capabilities_default: []
+pyload_docker_capabilities_custom: []
+pyload_docker_capabilities: "{{ pyload_docker_capabilities_default
+                                + pyload_docker_capabilities_custom }}"
+
+# Security Opts
+pyload_docker_security_opts_default: []
+pyload_docker_security_opts_custom: []
+pyload_docker_security_opts: "{{ pyload_docker_security_opts_default
+                                 + pyload_docker_security_opts_custom }}"
+
+# Restart Policy
+pyload_docker_restart_policy: unless-stopped
+
+# State
+pyload_docker_state: started
