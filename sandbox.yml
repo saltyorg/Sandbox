@@ -21,6 +21,7 @@
     - { role: alternatrrx, tags: ['alternatrrx'] }
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
+    - { role: autobrr, tags: ['autobrr'] }
     - { role: beets, tags: ['beets'] }
     - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }
