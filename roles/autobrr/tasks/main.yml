@@ -58,7 +58,7 @@
 
 - name: Advise user to create Autobrr user
   debug:
-    msg: 
+    msg:
       - "Run the following to create your user:"
-      - "docker exec -t {{ lookup('vars', role_name + '_name') }} sh -c 'autobrrctl --config /config create-user {{ user.name }}'"
+      - "docker exec -it {{ lookup('vars', role_name + '_name') }} sh -c 'autobrrctl --config /config create-user {{ user.name }}'"
   when: not autobbr_directory.stat.exists
