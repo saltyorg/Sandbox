@@ -46,7 +46,7 @@
 
 - name: "Fail when 'config.yml' is not present"
   fail:
-    msg: "You need to setup your config file. https://github.com/meisnate12/Plex-Meta-Manager/wiki/Configuration-File"
+    msg: "You need to setup your config file. https://metamanager.wiki/en/latest/config/configuration.html"
   when: (not meta_config.stat.exists) and (not continuous_integration)
 
 - name: Create Docker container
