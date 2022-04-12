@@ -6,7 +6,8 @@ For existing roles, please include a summary of the change and which issue is fi
 
 # How Has This Been Tested?
 
-Please describe the tests that you ran to verify your changes. Please also note any relevant details for your test configuration.
+Please describe the tests that you ran to verify your changes. Please also note any relevant details for your test configuration.  You can use the checkboxes below or delete them as you wish.
 
-- [ ] I didn't read what this says
-- [ ] And then I checked these boxes
+- [ ] This is not a test I performed
+- [ ] I did not read the paragraph above this before checking this box
+- [ ] I blindly checked three boxes without reading any of the text
