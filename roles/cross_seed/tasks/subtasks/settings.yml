@@ -1,0 +1,26 @@
+##########################################################################
+# Title:            Sandbox: Cross Seed                                  #
+# Author(s):        Raneydazed                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Settings | Check if `{{ cross_seed_paths_config_location | basename }}` exists
+  stat:
+    path: "{{ cross_seed_paths_config_location }}"
+  register: cross_seed_config
+
+- name: Settings | New `{{ cross_seed_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ cross_seed_paths_location | basename }}`
+      copy:
+        src: config.js.sample
+        dest: "{{ cross_seed_paths_location }}/config.js.sample"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not cross_seed_config.stat.exists
