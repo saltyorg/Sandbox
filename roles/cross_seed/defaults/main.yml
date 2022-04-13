@@ -22,6 +22,7 @@ cross_seed_paths_location: "{{ server_appdata_path }}/{{ cross_seed_paths_folder
 cross_seed_paths_config_location: "{{ cross_seed_paths_location }}/config.js"
 cross_seed_paths_folders_list:
   - "{{ cross_seed_paths_location }}"
+  - "{{ cross_seed_paths_location }}/xseeds"
 
 ################################
 # Docker
@@ -64,7 +65,8 @@ cross_seed_docker_commands: "{{ cross_seed_docker_commands_default
 # Volumes
 cross_seed_docker_volumes_default:
   - "{{ cross_seed_paths_location }}:/config"
-  - "/mnt/local/downloads/torrents:/torrents"
+  - "/opt:/opt"
+  - "/opt/cross_seed/xseeds:/xseeds"
 cross_seed_docker_volumes_custom: []
 cross_seed_docker_volumes: "{{ cross_seed_docker_volumes_default
                                + cross_seed_docker_volumes_custom }}"
