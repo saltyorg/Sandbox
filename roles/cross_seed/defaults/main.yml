@@ -64,6 +64,7 @@ cross_seed_docker_commands: "{{ cross_seed_docker_commands_default
 # Volumes
 cross_seed_docker_volumes_default:
   - "{{ cross_seed_paths_location }}:/config"
+  - "/mnt/local/downloads/torrents:/torrents"
 cross_seed_docker_volumes_custom: []
 cross_seed_docker_volumes: "{{ cross_seed_docker_volumes_default
                                + cross_seed_docker_volumes_custom }}"
