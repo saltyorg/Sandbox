@@ -40,9 +40,9 @@ cross_seed_docker_ports_defaults:
   - "{{ cross_seed_web_port }}"
 cross_seed_docker_ports_custom: []
 cross_seed_docker_ports: "{{ cross_seed_docker_ports_defaults
-                              + cross_seed_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else [] + cross_seed_docker_ports_custom }}"
+                             + cross_seed_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + cross_seed_docker_ports_custom }}"
 
 # Envs
 cross_seed_docker_envs_default:
@@ -52,41 +52,41 @@ cross_seed_docker_envs_default:
   TZ: "{{ tz }}"
 cross_seed_docker_envs_custom: {}
 cross_seed_docker_envs: "{{ cross_seed_docker_envs_default
-                             | combine(cross_seed_docker_envs_custom) }}"
+                            | combine(cross_seed_docker_envs_custom) }}"
 
 # Commands
 cross_seed_docker_commands_default:
   - "search"
 cross_seed_docker_commands_custom: []
 cross_seed_docker_commands: "{{ cross_seed_docker_commands_default
-                                 + cross_seed_docker_commands_custom }}"
+                                + cross_seed_docker_commands_custom }}"
 
 # Volumes
 cross_seed_docker_volumes_default:
   - "{{ cross_seed_paths_location }}:/config"
 cross_seed_docker_volumes_custom: []
 cross_seed_docker_volumes: "{{ cross_seed_docker_volumes_default
-                                + cross_seed_docker_volumes_custom }}"
+                               + cross_seed_docker_volumes_custom }}"
 
 # Devices
 cross_seed_docker_devices_default: []
 cross_seed_docker_devices_custom: []
 cross_seed_docker_devices: "{{ cross_seed_docker_devices_default
-                                + cross_seed_docker_devices_custom }}"
+                               + cross_seed_docker_devices_custom }}"
 
 # Hosts
 cross_seed_docker_hosts_default: []
 cross_seed_docker_hosts_custom: []
 cross_seed_docker_hosts: "{{ docker_hosts_common
-                              | combine(cross_seed_docker_hosts_default)
-                              | combine(cross_seed_docker_hosts_custom) }}"
+                             | combine(cross_seed_docker_hosts_default)
+                             | combine(cross_seed_docker_hosts_custom) }}"
 
 # Labels
 cross_seed_docker_labels_default: {}
 cross_seed_docker_labels_custom: {}
 cross_seed_docker_labels: "{{ docker_labels_common
-                               | combine(cross_seed_docker_labels_default)
-                               | combine(cross_seed_docker_labels_custom) }}"
+                              | combine(cross_seed_docker_labels_default)
+                              | combine(cross_seed_docker_labels_custom) }}"
 
 # Hostname
 cross_seed_docker_hostname: "{{ cross_seed_name }}"
@@ -96,20 +96,20 @@ cross_seed_docker_networks_alias: "{{ cross_seed_name }}"
 cross_seed_docker_networks_default: []
 cross_seed_docker_networks_custom: []
 cross_seed_docker_networks: "{{ docker_networks_common
-                                 + cross_seed_docker_networks_default
-                                 + cross_seed_docker_networks_custom }}"
+                                + cross_seed_docker_networks_default
+                                + cross_seed_docker_networks_custom }}"
 
 # Capabilities
 cross_seed_docker_capabilities_default: []
 cross_seed_docker_capabilities_custom: []
 cross_seed_docker_capabilities: "{{ cross_seed_docker_capabilities_default
-                                     + cross_seed_docker_capabilities_custom }}"
+                                    + cross_seed_docker_capabilities_custom }}"
 
 # Security Opts
 cross_seed_docker_security_opts_default: []
 cross_seed_docker_security_opts_custom: []
 cross_seed_docker_security_opts: "{{ cross_seed_docker_security_opts_default
-                                      + cross_seed_docker_security_opts_custom }}"
+                                     + cross_seed_docker_security_opts_custom }}"
 
 # Restart Policy
 cross_seed_docker_restart_policy: unless-stopped
