@@ -84,14 +84,14 @@ resiliosync_docker_commands: "{{ resiliosync_docker_commands_default
                                  + resiliosync_docker_commands_custom }}"
 
 # Volumes
+resiliosync_docker_volumes_global: false
 resiliosync_docker_volumes_default:
   - "{{ resiliosync_paths_location }}:/mnt/sync"
   - "/mnt:/mnt/mounted_folders/mnt"
   - "/home:/mnt/mounted_folders/home"
 resiliosync_docker_volumes_custom: []
 resiliosync_docker_volumes: "{{ resiliosync_docker_volumes_default
-                                + resiliosync_docker_volumes_custom
-                                + docker_volumes_downloads_common }}" 
+                                + resiliosync_docker_volumes_custom }}" 
 
 # Devices
 resiliosync_docker_devices_default: []

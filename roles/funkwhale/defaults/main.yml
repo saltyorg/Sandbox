@@ -92,11 +92,9 @@ funkwhale_docker_commands: "{{ funkwhale_docker_commands_default
 funkwhale_docker_volumes_default:
   - "{{ funkwhale_paths_location }}/data:/data"
   - "/mnt/unionfs:/music:ro"
-  - "/mnt:/mnt:ro"
 funkwhale_docker_volumes_custom: []
 funkwhale_docker_volumes: "{{ funkwhale_docker_volumes_default
-                              + funkwhale_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + funkwhale_docker_volumes_custom }}"
 
 # Devices
 funkwhale_docker_devices_default: []

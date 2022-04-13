@@ -92,8 +92,7 @@ speedtest_docker_volumes_default:
   - "{{ speedtest_paths_location }}:/config"
 speedtest_docker_volumes_custom: []
 speedtest_docker_volumes: "{{ speedtest_docker_volumes_default
-                              + speedtest_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + speedtest_docker_volumes_custom }}"
 
 # Devices
 speedtest_docker_devices_default: []

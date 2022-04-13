@@ -91,11 +91,9 @@ syncthing_docker_commands: "{{ syncthing_docker_commands_default
 # Volumes
 syncthing_docker_volumes_default:
   - "{{ syncthing_paths_location }}:/config"
-  - "/mnt:/mnt"
 syncthing_docker_volumes_custom: []
 syncthing_docker_volumes: "{{ syncthing_docker_volumes_default
-                              + syncthing_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + syncthing_docker_volumes_custom }}"
 
 # Devices
 syncthing_docker_devices_default: []

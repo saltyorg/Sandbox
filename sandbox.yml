@@ -21,6 +21,7 @@
     - { role: alternatrrx, tags: ['alternatrrx'] }
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
+    - { role: autobrr, tags: ['autobrr'] }
     - { role: beets, tags: ['beets'] }
     - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }
@@ -78,6 +79,7 @@
     - { role: plex_patrol, tags: ['plex_patrol'] }
     - { role: plex_utills, tags: ['plex_utills'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
+    - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
     - { role: requestrr, tags: ['requestrr'] }
@@ -86,6 +88,7 @@
     - { role: rflood, tags: ['rflood'] }
     - { role: rfloodx, tags: ['rfloodx'] }
     - { role: rocketchat, tags: ['rocketchat'] }
+    - { role: sarotate, tags: ['sarotate'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
@@ -95,6 +98,7 @@
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: transmission, tags: ['transmission'] }
+    - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
@@ -104,6 +108,7 @@
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
+    - { role: whisparr, tags: ['whisparr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: xbackbone, tags: ['xbackbone'] }

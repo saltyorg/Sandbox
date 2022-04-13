@@ -16,6 +16,21 @@
 - name: Import Default Tautulli variables
   include_vars: /srv/git/saltbox/roles/tautulli/defaults/main.yml
 
+- name: Set Default Tautulli instance
+  set_fact:
+    tautulli_name: "{{ tautulli_instances[0] }}"
+  when: not tautulli_name is defined
+
+- name: Set Default Sonarr instance
+  set_fact:
+    sonarr_name: "{{ sonarr_instances[0] }}"
+  when: not sonarr_name is defined
+
+- name: Set Default Radarr instance
+  set_fact:
+    radarr_name: "{{ radarr_instances[0] }}"
+  when: not radarr_name is defined
+
 - name: InfluxDB Role
   include_role:
     name: influxdb

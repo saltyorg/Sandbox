@@ -1,6 +1,8 @@
 ---
 alternatrrx:
   roles: ["1080webdl", "1080remux"]
+a_train:
+  remotes: [""]
 delugevpn:
   vpn_endpoint: netherlands.ovpn
   vpn_pass: your_vpn_password
@@ -28,7 +30,6 @@ doplarr:
   overseer_default_id: #optional - The Overseerr user id to use by default if there is no associated discord account for the requester 
   partial_seasons: "true" #optional - Sets whether users can request partial seasons.
   log_level: ":info" #optional -  One of :trace :debug :info :warn :error :fatal :report
-
 goplaxt:
   trakt_id: ~
   trakt_secret: ~
@@ -39,6 +40,7 @@ moviematch:
   plex_url: http://plex:32400
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
+  ui_password: "username:password" # Password needs to be at least 16 characters long.
 ombix:
   roles: ["4k"]
 plex_meta_manager:
@@ -66,9 +68,17 @@ requestrrx:
   roles: ["1080p", "4k"]
 rfloodx:
   roles: [""]
+sarotate:
+  remotes: [""]
+  sa_path: "your_sa_folder_path"     
+  sleeptime:  #optional: Delay between service account rotation (Default is 300)
+  rc_port:    #optional: The port used by rc (Default is saltbox default of 5572)
+  rc_user:    #optional: The user used by rc if authentication is enabled (Default is no authentication)
+  rc_pass:    #optional: The password used by rc if autentication is enabled (Default is no authentication)
+  apprise:    #optional: apprise notifications (Default is blank)
+transmissionvpn:
+  vpn_user:
+  vpn_pass:
+  vpn_prov:
 transmissionx:
   roles: [""]
-a_train:
-  remotes: [""]
-#cross_seed:
-#  cs_command: "daemon" # Default is "daemon" other option is "search"

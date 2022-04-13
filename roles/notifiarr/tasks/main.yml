@@ -1,6 +1,6 @@
 ##########################################################################
 # Title:            Sandbox: Notifiarr Client                            #
-# Author(s):        kowalski                                             #
+# Author(s):        kowalski, salty                                      #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
 ##########################################################################
@@ -24,6 +24,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
+    recurse: yes
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: Import Settings task

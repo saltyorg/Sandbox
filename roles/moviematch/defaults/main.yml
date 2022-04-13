@@ -93,8 +93,7 @@ moviematch_docker_commands: "{{ moviematch_docker_commands_default
 moviematch_docker_volumes_default: []
 moviematch_docker_volumes_custom: []
 moviematch_docker_volumes: "{{ moviematch_docker_volumes_default
-                               + moviematch_docker_volumes_custom
-                               + docker_volumes_downloads_common }}"
+                               + moviematch_docker_volumes_custom }}"
 
 # Devices
 moviematch_docker_devices_default: []

@@ -89,8 +89,7 @@ alltube_docker_volumes_default:
   - "{{ alltube_paths_location }}:/var/www/html/config"
 alltube_docker_volumes_custom: []
 alltube_docker_volumes: "{{ alltube_docker_volumes_default
-                            + alltube_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + alltube_docker_volumes_custom }}"
 
 # Devices
 alltube_docker_devices_default: []

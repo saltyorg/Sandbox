@@ -97,8 +97,7 @@ xteve_docker_volumes_default:
   - "{{ xteve_paths_location }}/app/guide2go:/home/xteve/guide2go/conf:rw"
 xteve_docker_volumes_custom: []
 xteve_docker_volumes: "{{ xteve_docker_volumes_default
-                          + xteve_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + xteve_docker_volumes_custom }}"
 
 # Devices
 xteve_docker_devices_default: []

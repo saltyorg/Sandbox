@@ -90,8 +90,7 @@ guacamole_docker_volumes_default:
   - "{{ guacamole_paths_location }}/config:/config"
 guacamole_docker_volumes_custom: []
 guacamole_docker_volumes: "{{ guacamole_docker_volumes_default
-                              + guacamole_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"
+                              + guacamole_docker_volumes_custom }}"
 
 # Devices
 guacamole_docker_devices_default: []

@@ -92,8 +92,7 @@ gotify_docker_volumes_default:
   - "{{ gotify_paths_location }}:/app/data"
 gotify_docker_volumes_custom: []
 gotify_docker_volumes: "{{ gotify_docker_volumes_default
-                           + gotify_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + gotify_docker_volumes_custom }}"
 
 # Devices
 gotify_docker_devices_default: []

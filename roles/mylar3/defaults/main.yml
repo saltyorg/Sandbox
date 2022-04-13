@@ -90,11 +90,9 @@ mylar3_docker_commands: "{{ mylar3_docker_commands_default
 mylar3_docker_volumes_default:
   - "{{ mylar3_paths_location }}:/config"
   - "/mnt/unionfs/Media/Comics:/comics"
-  - "/mnt:/mnt"
 mylar3_docker_volumes_custom: []
 mylar3_docker_volumes: "{{ mylar3_docker_volumes_default
-                             + mylar3_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + mylar3_docker_volumes_custom }}"
 
 # Devices
 mylar3_docker_devices_default: []

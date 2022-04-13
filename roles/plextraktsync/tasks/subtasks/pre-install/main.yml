@@ -10,6 +10,11 @@
 - name: Pre-Install | Import Default Plex variables
   include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
+- name: Set Default Plex instance
+  set_fact:
+    plex_name: "{{ plex_instances[0] }}"
+  when: not plex_name is defined
+
 - name: Pre-Install | Check if {{ plex_paths_config_location | basename }} exists
   stat:
     path: "{{ plex_paths_config_location }}"

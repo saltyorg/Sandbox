@@ -111,13 +111,10 @@ tdarr_docker_volumes_default:
   - "/mnt/unionfs/Media:/media"
   - "/mnt/unionfs/Media/Movies:/movies"
   - "/mnt/unionfs/Media/TV:/tv"
-  - "/mnt:/mnt"
   - "/dev/shm:/dev/shm"
-
 tdarr_docker_volumes_custom: []
 tdarr_docker_volumes: "{{ tdarr_docker_volumes_default
-                          + tdarr_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + tdarr_docker_volumes_custom }}"
 
 # Devices
 tdarr_docker_devices_default: []
