@@ -70,3 +70,5 @@ transmissionx:
   roles: [""]
 a_train:
   remotes: [""]
+#cross_seed:
+#  cs_command: "daemon" # Default is "daemon" other option is "search"

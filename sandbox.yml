@@ -29,6 +29,7 @@
     - { role: coder, tags: ['coder'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
+    - { role: cross_seed, tags: ['cross-seed'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
     - { role: doplarr, tags: ['doplarr'] }
