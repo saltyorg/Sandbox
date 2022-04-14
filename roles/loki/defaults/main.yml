@@ -1,0 +1,124 @@
+#########################################################################
+# Title:            Sandbox: loki Role | Default Variables           #
+# Author(s):        desimaniac, salty                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+loki_name: loki
+
+################################
+# Paths
+################################
+
+loki_paths_folder: "{{ loki_name }}"
+loki_paths_location: "{{ server_appdata_path }}/{{ loki_paths_folder }}"
+loki_paths_folders_list:
+  - "{{ loki_paths_location }}"
+
+################################
+# Web
+################################
+
+loki_web_port: "3100"
+
+################################
+# Docker
+################################
+
+# Container
+loki_docker_container: "{{ loki_name }}"
+
+# Image
+loki_docker_image_pull: true
+loki_docker_image_tag: "latest"
+loki_docker_image: "grafana/loki:{{ loki_docker_image_tag }}"
+
+# Ports
+loki_docker_ports_defaults:
+  - "{{ loki_web_port }}"
+loki_docker_ports_custom: []
+loki_docker_ports: "{{ loki_docker_ports_defaults
+                          + loki_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else [] + loki_docker_ports_custom }}"
+
+# Envs
+loki_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+loki_docker_envs_custom: {}
+loki_docker_envs: "{{ loki_docker_envs_default
+                          | combine(loki_docker_envs_custom) }}"
+
+# Commands
+loki_docker_commands_default:
+  - "-config.file=/etc/loki/config.yml"
+loki_docker_commands_custom: []
+loki_docker_commands: "{{ loki_docker_commands_default
+                              + loki_docker_commands_custom }}"
+
+# Volumes
+loki_docker_volumes_default:
+  - "{{ loki_paths_location }}:/etc/loki"
+loki_docker_volumes_custom: []
+loki_docker_volumes: "{{ loki_docker_volumes_default
+                            + loki_docker_volumes_custom }}"
+
+# Devices
+loki_docker_devices_default: []
+loki_docker_devices_custom: []
+loki_docker_devices: "{{ loki_docker_devices_default
+                            + loki_docker_devices_custom }}"
+
+# Hosts
+loki_docker_hosts_default: []
+loki_docker_hosts_custom: []
+loki_docker_hosts: "{{ docker_hosts_common
+                          | combine(loki_docker_hosts_default)
+                          | combine(loki_docker_hosts_custom) }}"
+
+# Labels
+loki_docker_labels_default: {}
+loki_docker_labels_custom: {}
+loki_docker_labels: "{{ docker_labels_common
+                            | combine(loki_docker_labels_default)
+                            | combine(loki_docker_labels_custom) }}"
+
+# Hostname
+loki_docker_hostname: "{{ loki_name }}"
+
+# Networks
+loki_docker_networks_alias: "{{ loki_name }}"
+loki_docker_networks_default: []
+loki_docker_networks_custom: []
+loki_docker_networks: "{{ docker_networks_common
+                              + loki_docker_networks_default
+                              + loki_docker_networks_custom }}"
+
+# Capabilities
+loki_docker_capabilities_default: []
+loki_docker_capabilities_custom: []
+loki_docker_capabilities: "{{ loki_docker_capabilities_default
+                                  + loki_docker_capabilities_custom }}"
+
+# Security Opts
+loki_docker_security_opts_default: []
+loki_docker_security_opts_custom: []
+loki_docker_security_opts: "{{ loki_docker_security_opts_default
+                                  + loki_docker_security_opts_custom }}"
+
+# Restart Policy
+loki_docker_restart_policy: unless-stopped
+
+# State
+loki_docker_state: started
+
+# User
+loki_docker_user: "{{ uid }}:{{ gid }}"

@@ -1,0 +1,121 @@
+#########################################################################
+# Title:            Sandbox: promtail Role | Default Variables           #
+# Author(s):        desimaniac, salty                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+promtail_name: promtail
+
+################################
+# Paths
+################################
+
+promtail_paths_folder: "{{ promtail_name }}"
+promtail_paths_location: "{{ server_appdata_path }}/{{ promtail_paths_folder }}"
+promtail_paths_folders_list:
+  - "{{ promtail_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+promtail_docker_container: "{{ promtail_name }}"
+
+# Image
+promtail_docker_image_pull: true
+promtail_docker_image_tag: "latest"
+promtail_docker_image: "grafana/promtail:{{ promtail_docker_image_tag }}"
+
+
+# Ports
+promtail_docker_ports_defaults:
+  - "{{ promtail_web_port }}"
+promtail_docker_ports_custom: []
+promtail_docker_ports: "{{ promtail_docker_ports_defaults
+                          + promtail_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else [] + promtail_docker_ports_custom }}"
+
+# Envs
+promtail_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+promtail_docker_envs_custom: {}
+promtail_docker_envs: "{{ promtail_docker_envs_default
+                          | combine(promtail_docker_envs_custom) }}"
+
+# Commands
+promtail_docker_commands_default:
+  - "-config.file=/etc/promtail/config.yml"
+promtail_docker_commands_custom: []
+promtail_docker_commands: "{{ promtail_docker_commands_default
+                              + promtail_docker_commands_custom }}"
+
+# Volumes
+promtail_docker_volumes_default:
+  - "{{ promtail_paths_location }}:/etc/promtail"
+  - "/var/lib/docker/containers:/var/lib/docker/containers"
+  - "/var/log:/var/log"
+promtail_docker_volumes_custom: []
+promtail_docker_volumes: "{{ promtail_docker_volumes_default
+                            + promtail_docker_volumes_custom }}"
+
+# Devices
+promtail_docker_devices_default: []
+promtail_docker_devices_custom: []
+promtail_docker_devices: "{{ promtail_docker_devices_default
+                            + promtail_docker_devices_custom }}"
+
+# Hosts
+promtail_docker_hosts_default: []
+promtail_docker_hosts_custom: []
+promtail_docker_hosts: "{{ docker_hosts_common
+                          | combine(promtail_docker_hosts_default)
+                          | combine(promtail_docker_hosts_custom) }}"
+
+# Labels
+promtail_docker_labels_default: {}
+promtail_docker_labels_custom: {}
+promtail_docker_labels: "{{ docker_labels_common
+                            | combine(promtail_docker_labels_default)
+                            | combine(promtail_docker_labels_custom) }}"
+
+# Hostname
+promtail_docker_hostname: "{{ promtail_name }}"
+
+# Networks
+promtail_docker_networks_alias: "{{ promtail_name }}"
+promtail_docker_networks_default: []
+promtail_docker_networks_custom: []
+promtail_docker_networks: "{{ docker_networks_common
+                              + promtail_docker_networks_default
+                              + promtail_docker_networks_custom }}"
+
+# Capabilities
+promtail_docker_capabilities_default: []
+promtail_docker_capabilities_custom: []
+promtail_docker_capabilities: "{{ promtail_docker_capabilities_default
+                                  + promtail_docker_capabilities_custom }}"
+
+# Security Opts
+promtail_docker_security_opts_default: []
+promtail_docker_security_opts_custom: []
+promtail_docker_security_opts: "{{ promtail_docker_security_opts_default
+                                  + promtail_docker_security_opts_custom }}"
+
+# Restart Policy
+promtail_docker_restart_policy: unless-stopped
+
+# State
+promtail_docker_state: started
+
+# User
+#promtail_docker_user: "{{ uid }}:{{ gid }}"

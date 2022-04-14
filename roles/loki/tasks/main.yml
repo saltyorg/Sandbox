@@ -1,0 +1,35 @@
+#########################################################################
+# Title:            Sandbox: Grafana Role                               #
+# Author(s):        desimaniac, salty                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+
+- name: Download config.yml.template
+  get_url:
+    url: https://github.com/jolbol1/loki-promtail-configs/blob/main/loki-config.yml
+    dest: "{{ loki_paths_location }}/config.yml.template"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: 0775
+    force: yes
+    validate_certs: no
+  ignore_errors: true
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

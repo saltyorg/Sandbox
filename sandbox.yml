@@ -61,6 +61,7 @@
     - { role: komga, tags: ['komga'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: logarr, tags: ['logarr'] }
+    - { role: loki, tags: ['loki'] }
     - { role: medusa, tags: ['medusa'] }
     - { role: monitorr, tags: ['monitorr'] }
     - { role: moviematch, tags: ['moviematch'] }
@@ -78,6 +79,7 @@
     - { role: plex_patrol, tags: ['plex_patrol'] }
     - { role: plex_utills, tags: ['plex_utills'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
+    - { role: promtail, tags: ['promtail'] }
     - { role: privatebin, tags: ['privatebin'] }
     - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
