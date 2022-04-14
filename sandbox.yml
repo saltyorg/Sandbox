@@ -9,8 +9,8 @@
   roles:
     # Reqs
     - { role: settings, tags: ['settings'] }
-    - { role: sanity_check, tags: ['always', 'sanity_check'] }
     - { role: pre_tasks, tags: ['pre_tasks'] }
+    - { role: sanity_check, tags: ['always', 'sanity_check'] }
     # Apps
     - { role: a_train, tags: ['a_train'] }
     - { role: adguardhome, tags: ['adguardhome'] }
