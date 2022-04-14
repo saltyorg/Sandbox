@@ -24,7 +24,7 @@ module.exports = {
 	 * Set to [] if you want to search all trackers.
 	 * Tracker ids can be found in their Torznab feed paths
 	 */
-	trackers: ["oink", "tehconnection"],
+	trackers: [],
 
 	/**
 	 * List of Torznab urls.
@@ -45,12 +45,12 @@ module.exports = {
 	/**
 	 * where to put the torrent files that cross-seed finds for you.
 	 */
-	outputDir: ".",
+	outputDir: "xseeds",
 
 	/**
 	 * Whether to search for single episode torrents
 	 */
-	includeEpisodes: false,
+	includeEpisodes: true,
 
 	/**
 	 * search for all torrents, regardless of their contents
@@ -79,7 +79,7 @@ module.exports = {
 	 * can be either "save" or "inject".
 	 * With "inject" you need to set up one of the below clients.
 	 */
-	action: "save",
+	action: "inject",
 
 	/**
 	 * The url of your rtorrent XMLRPC interface.
