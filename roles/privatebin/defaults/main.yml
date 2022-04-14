@@ -141,3 +141,4 @@ privatebin_docker_restart_policy: unless-stopped
 
 # State
 privatebin_docker_state: started
+
