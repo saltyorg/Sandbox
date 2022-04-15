@@ -1,0 +1,106 @@
+#########################################################################
+# Title:            Sandbox: Traefik Robotstxt                          #
+# Author(s):        JigSawFr                                            #
+# URL:              https://github.com/mstroecker/zig-robotstxt         #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+traefik_robotstxt_name: traefik_robotstxt
+
+################################
+# Traefik
+################################
+
+traefik_robotstxt_traefik_middleware: "{{ traefik_default_middleware }}"
+traefik_robotstxt_traefik_certresolver: "{{ traefik_default_certresolver }}"
+traefik_robotstxt_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+traefik_robotstxt_docker_container: "{{ traefik_robotstxt_name }}"
+
+# Image
+traefik_robotstxt_docker_image_pull: true
+traefik_robotstxt_docker_image_tag: "latest"
+traefik_robotstxt_docker_image: "mstroecker/zig-robotstxt:{{ traefik_robotstxt_docker_image_tag }}"
+
+# Envs
+traefik_robotstxt_docker_envs_default: {}
+traefik_robotstxt_docker_envs_custom: {}
+traefik_robotstxt_docker_envs: "{{ traefik_robotstxt_docker_envs_default
+                           | combine(traefik_robotstxt_docker_envs_custom) }}"
+
+# Commands
+traefik_robotstxt_docker_commands_default: []
+traefik_robotstxt_docker_commands_custom: []
+traefik_robotstxt_docker_commands: "{{ traefik_robotstxt_docker_commands_default
+                               + traefik_robotstxt_docker_commands_custom }}"
+
+# Volumes
+traefik_robotstxt_docker_volumes_default: []
+traefik_robotstxt_docker_volumes_custom: []
+traefik_robotstxt_docker_volumes: "{{ traefik_robotstxt_docker_volumes_default
+                              + traefik_robotstxt_docker_volumes_custom }}"
+
+# Devices
+traefik_robotstxt_docker_devices_default: []
+traefik_robotstxt_docker_devices_custom: []
+traefik_robotstxt_docker_devices: "{{ traefik_robotstxt_docker_devices_default
+                              + traefik_robotstxt_docker_devices_custom }}"
+
+# Hosts
+traefik_robotstxt_docker_hosts_default: []
+traefik_robotstxt_docker_hosts_custom: []
+traefik_robotstxt_docker_hosts: "{{ docker_hosts_common
+                            | combine(traefik_robotstxt_docker_hosts_default)
+                            | combine(traefik_robotstxt_docker_hosts_custom) }}"
+
+# Labels
+traefik_robotstxt_docker_labels_default:
+  - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.entrypoints": "web,websecure" }'
+  - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.rule": "HostRegexp(`{host:.*}`) && Path(`/robots.txt`)" }'
+  - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.service": "{{ traefik_robotstxt_name }}" }'
+  - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.loadbalancer.server.port": "8080" }'
+  - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.priority": "99" }'
+traefik_robotstxt_docker_labels_custom: {}
+traefik_robotstxt_docker_labels: "{{ docker_labels_common
+                             | combine(traefik_robotstxt_docker_labels_default)
+                             | combine(traefik_robotstxt_docker_labels_custom) }}"
+
+# Hostname
+traefik_robotstxt_docker_hostname: "{{ traefik_robotstxt_name }}"
+
+# Networks
+traefik_robotstxt_docker_networks_alias: "{{ traefik_robotstxt_name }}"
+traefik_robotstxt_docker_networks_default: []
+traefik_robotstxt_docker_networks_custom: []
+traefik_robotstxt_docker_networks: "{{ docker_networks_common
+                               + traefik_robotstxt_docker_networks_default
+                               + traefik_robotstxt_docker_networks_custom }}"
+
+# Capabilities
+traefik_robotstxt_docker_capabilities_default: []
+traefik_robotstxt_docker_capabilities_custom: []
+traefik_robotstxt_docker_capabilities: "{{ traefik_robotstxt_docker_capabilities_default
+                                   + traefik_robotstxt_docker_capabilities_custom }}"
+
+# Security Opts
+traefik_robotstxt_docker_security_opts_default: []
+traefik_robotstxt_docker_security_opts_custom: []
+traefik_robotstxt_docker_security_opts: "{{ traefik_robotstxt_docker_security_opts_default
+                                    + traefik_robotstxt_docker_security_opts_custom }}"
+
+# Restart Policy
+traefik_robotstxt_docker_restart_policy: unless-stopped
+
+# State
+traefik_robotstxt_docker_state: started
