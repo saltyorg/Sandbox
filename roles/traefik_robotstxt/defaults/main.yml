@@ -64,9 +64,9 @@ traefik_robotstxt_docker_labels_default:
   - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.loadbalancer.server.port": "8080" }'
   - '{ "traefik.http.routers.{{ traefik_robotstxt_name }}.priority": "99" }'
 traefik_robotstxt_docker_labels_custom: {}
-traefik_robotstxt_docker_labels: "{{ traefik_robotstxt_docker_labels_default
-                                     | combine(traefik_robotstxt_docker_labels_custom)
-                                     | combine(docker_labels_common) }}"
+traefik_robotstxt_docker_labels: "{{ combine(docker_labels_common)
+                                     | combine(traefik_robotstxt_docker_labels_default)
+                                     | combine(traefik_robotstxt_docker_labels_custom) }}"
 
 # Hostname
 traefik_robotstxt_docker_hostname: "{{ traefik_robotstxt_name }}"
