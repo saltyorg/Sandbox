@@ -6,9 +6,43 @@
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
----
-- name: Remove existing Docker container
-  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+# ---
+# - name: Remove existing Docker container
+#   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Create Docker container
-  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+# - name: Create Docker container
+#   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+---
+- name: Stop and remove any existing container
+  docker_container:
+    name: traefik_robotstxt
+    state: absent
+    tls_hostname: localhost
+
+- name: Create container
+  docker_container:
+    name: traefik_robotstxt
+    image: "mstroecker/zig-robotstxt:latest"
+    pull: yes
+    command_handling: compatibility
+    container_default_behavior: compatibility
+    default_host_ip: ""
+    labels:
+      "com.github.saltbox.saltbox_managed": "true"
+      "traefik.enable": "true"
+      "traefik.http.routers.traefik_robotstxt.entrypoints": "web,websecure"
+      "traefik.http.routers.traefik_robotstxt.rule": "HostRegexp(`{host:.*}`) && Path(`/robots.txt`)"
+      "traefik.http.routers.traefik_robotstxt.service": "traefik_robotstxt"
+      "traefik.http.services.traefik_robotstxt.loadbalancer.server.port": "8080"
+      "traefik.http.routers.traefik_robotstxt.priority": "99"
+    network_mode: "saltbox"
+    networks_cli_compatible: true
+    networks:
+      - name: saltbox
+        aliases:
+          - traefik_robotstxt
+    purge_networks: yes
+    state: started
+    tls_hostname: localhost
+    restart_policy: unless-stopped
