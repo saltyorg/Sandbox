@@ -57,15 +57,21 @@ traefik_robotstxt_docker_hosts: "{{ docker_hosts_common
 
 # Labels
 traefik_robotstxt_docker_labels_default:
-  traefik.enable: "true"
-  traefik.http.routers.traefik_robotstxt.entrypoints: "web,websecure"
-  traefik.http.routers.traefik_robotstxt.rule: "HostRegexp(`{host:.*}`) && Path(`/robots.txt`)"
-  traefik.http.routers.traefik_robotstxt.service: "traefik_robotstxt"
-  traefik.http.services.traefik_robotstxt.loadbalancer.server.port: "8080"
-  traefik.http.routers.traefik_robotstxt.priority: "99"
+- key: "traefik.enable"
+  value: "true"
+- key: "traefik.http.routers.{{ traefik_robotstxt_name }}.entrypoints"
+  value: "web,websecure"
+- key: "traefik.http.routers.{{ traefik_robotstxt_name }}.rule"
+  value: "HostRegexp(`{host:.*}`) && Path(`/robots.txt`)"
+- key: "traefik.http.routers.{{ traefik_robotstxt_name }}.service"
+  value: "{{ traefik_robotstxt_name }}"
+- key: "traefik.http.services.{{ traefik_robotstxt_name }}.loadbalancer.server.port"
+  value: "8080"
+- key: "traefik.http.routers.{{ traefik_robotstxt_name }}.priority"
+  value: "99"
 traefik_robotstxt_docker_labels_custom: {}
 traefik_robotstxt_docker_labels: "{{ docker_labels_common
-                                     | combine(traefik_robotstxt_docker_labels_default)
+                                     | combine(traefik_robotstxt_docker_labels_default | items2dict )
                                      | combine(traefik_robotstxt_docker_labels_custom) }}"
 
 # Hostname
