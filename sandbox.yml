@@ -96,6 +96,7 @@
     - { role: tdarr_node, tags: ['tdarr_node'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
+    - { role: traefik_robotstxt, tags: ['traefik_robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
