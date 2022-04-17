@@ -110,12 +110,21 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/JigSawFr>
+            <img src=https://avatars.githubusercontent.com/u/5781907?v=4 width="100;"  alt=JigSaw/>
+            <br />
+            <sub style="font-size:14px"><b>JigSaw</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/JohnClementine>
             <img src=https://avatars.githubusercontent.com/u/52635735?v=4 width="100;"  alt=JohnClementine/>
             <br />
             <sub style="font-size:14px"><b>JohnClementine</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/ayykamp>
             <img src=https://avatars.githubusercontent.com/u/32194363?v=4 width="100;"  alt=ayykamp/>
