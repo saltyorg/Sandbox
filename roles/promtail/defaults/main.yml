@@ -62,8 +62,8 @@ promtail_docker_commands: "{{ promtail_docker_commands_default
 # Volumes
 promtail_docker_volumes_default:
   - "{{ promtail_paths_location }}:/etc/promtail"
-  - "/var/lib/docker/containers:/var/lib/docker/containers"
   - "/var/log:/var/log"
+  - "/var/run/docker.sock:/var/run/docker.sock"
 promtail_docker_volumes_custom: []
 promtail_docker_volumes: "{{ promtail_docker_volumes_default
                             + promtail_docker_volumes_custom }}"
