@@ -146,8 +146,5 @@ coder_docker_restart_policy: unless-stopped
 # State
 coder_docker_state: started
 
-# Stop Timeout
-coder_docker_stop_timeout: 15
-
 # User
 coder_docker_user: "{{ uid }}:{{ gid }}"
