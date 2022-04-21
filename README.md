@@ -16,7 +16,7 @@ Roles may get moved to the main repo if they become officially maintained.
 
 Install Sandbox using the Saltbox installer.
 ```
-saltbox install sandbox
+sb install sandbox
 ```
 
 ### Documentation
