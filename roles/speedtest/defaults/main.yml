@@ -145,6 +145,3 @@ speedtest_docker_state: started
 
 # Force Kill
 speedtest_docker_force_kill: yes
-
-# Stop Timeout
-speedtest_docker_stop_timeout: 10
