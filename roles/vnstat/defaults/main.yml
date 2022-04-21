@@ -144,6 +144,3 @@ vnstat_docker_state: started
 
 # Force Kill
 vnstat_docker_force_kill: yes
-
-# Stop Timeout
-vnstat_docker_stop_timeout: 10
