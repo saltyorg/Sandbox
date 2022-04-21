@@ -106,8 +106,5 @@ a_train_docker_restart_policy: unless-stopped
 # State
 a_train_docker_state: started
 
-# Stop Timeout
-a_train_docker_stop_timeout: 10
-
 # User
 a_train_docker_user: "{{ uid }}:{{ gid }}"
