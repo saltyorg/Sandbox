@@ -105,8 +105,5 @@ plextraktsync_docker_restart_policy: unless-stopped
 # State
 plextraktsync_docker_state: started
 
-# Stop Timeout
-plextraktsync_docker_stop_timeout: 10
-
 # User
 plextraktsync_docker_user: "{{ uid }}:{{ gid }}"
