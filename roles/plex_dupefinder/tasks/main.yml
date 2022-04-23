@@ -37,7 +37,7 @@
   become_user: "{{ user.name }}"
 
 - name: Install pip requirements
-  pip:
+  pip_venvfix:
     requirements: /opt/plex_dupefinder/requirements.txt
     virtualenv_python: python3
     virtualenv: "/opt/plex_dupefinder/venv"
