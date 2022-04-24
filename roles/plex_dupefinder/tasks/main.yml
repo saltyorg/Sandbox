@@ -38,7 +38,7 @@
 
 - name: Set Python version
   ansible.builtin.set_fact:
-    plex_dupefinder_python: "{{ python3
+    plex_dupefinder_python: "{{ 'python3'
                              if ansible_distribution_version is version('20.04', '==')
                              else 'python3.8' }}"
 
