@@ -15,6 +15,15 @@
 - name: MariaDB | Create ninja database
   command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
   ignore_errors: yes
+
+
+- name: Permissions | Create ninja group
+  command: "addgroup --gid 1500 invoiceninja "
+  ignore_errors: yes
+
+- name: Permissions | Add to ninja group
+  command: "adduser {{ user.name }} invoiceninja "
+  ignore_errors: yes
  
 - name: Create directories
   file:
@@ -22,7 +31,7 @@
     state: directory
     owner: "1500"
     group: "1500"
-    mode: "0777"
+    mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: "Settings | Check if in-vhost.conf exists"
@@ -38,7 +47,7 @@
         dest: '{{ invoiceninjav5_conf_path }}'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0777
+        mode: 0775
         force: yes
   when: not invoiceninjav5_config.stat.exists
 
