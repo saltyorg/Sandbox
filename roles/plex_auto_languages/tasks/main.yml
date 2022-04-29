@@ -23,7 +23,7 @@
 
 - name: Set Default Plex instance
   set_fact:
-    plex_name: "{{ plex_instances[0] }}"
+    plex_name: "{{ plex_name | default(plex_instances[0]) }}"
   when: not plex_name is defined and not plex_auto_languages_config.stat.exists
 
 - name: Import Plex Auth Token role
