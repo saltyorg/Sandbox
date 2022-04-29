@@ -16,7 +16,7 @@ Roles may get moved to the main repo if they become officially maintained.
 
 Install Sandbox using the Saltbox installer.
 ```
-saltbox install sandbox
+sb install sandbox
 ```
 
 ### Documentation
@@ -52,13 +52,6 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/TABLE272>
-            <img src=https://avatars.githubusercontent.com/u/11992630?v=4 width="100;"  alt=TABLE272/>
-            <br />
-            <sub style="font-size:14px"><b>TABLE272</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/owine>
             <img src=https://avatars.githubusercontent.com/u/4283702?v=4 width="100;"  alt=owine/>
             <br />
@@ -66,10 +59,17 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/TurboCheetah>
-            <img src=https://avatars.githubusercontent.com/u/19479111?v=4 width="100;"  alt=Turbo/>
+        <a href=https://github.com/chazlarson>
+            <img src=https://avatars.githubusercontent.com/u/3865541?v=4 width="100;"  alt=Chaz Larson/>
             <br />
-            <sub style="font-size:14px"><b>Turbo</b></sub>
+            <sub style="font-size:14px"><b>Chaz Larson</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/TABLE272>
+            <img src=https://avatars.githubusercontent.com/u/11992630?v=4 width="100;"  alt=TABLE272/>
+            <br />
+            <sub style="font-size:14px"><b>TABLE272</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -82,10 +82,38 @@ sb list
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/chazlarson>
-            <img src=https://avatars.githubusercontent.com/u/3865541?v=4 width="100;"  alt=Chaz Larson/>
+        <a href=https://github.com/hackmonker>
+            <img src=https://avatars.githubusercontent.com/u/46002790?v=4 width="100;"  alt=ハックモンカー/>
             <br />
-            <sub style="font-size:14px"><b>Chaz Larson</b></sub>
+            <sub style="font-size:14px"><b>ハックモンカー</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/TurboCheetah>
+            <img src=https://avatars.githubusercontent.com/u/19479111?v=4 width="100;"  alt=Turbo/>
+            <br />
+            <sub style="font-size:14px"><b>Turbo</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/keldian>
+            <img src=https://avatars.githubusercontent.com/u/953679?v=4 width="100;"  alt=keldian/>
+            <br />
+            <sub style="font-size:14px"><b>keldian</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/dvsmasta>
+            <img src=https://avatars.githubusercontent.com/u/14364893?v=4 width="100;"  alt=dvsmasta/>
+            <br />
+            <sub style="font-size:14px"><b>dvsmasta</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/JigSawFr>
+            <img src=https://avatars.githubusercontent.com/u/5781907?v=4 width="100;"  alt=JigSaw/>
+            <br />
+            <sub style="font-size:14px"><b>JigSaw</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -95,11 +123,20 @@ sb list
             <sub style="font-size:14px"><b>JohnClementine</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/keldian>
-            <img src=https://avatars.githubusercontent.com/u/953679?v=4 width="100;"  alt=keldian/>
+        <a href=https://github.com/ayykamp>
+            <img src=https://avatars.githubusercontent.com/u/32194363?v=4 width="100;"  alt=ayykamp/>
             <br />
-            <sub style="font-size:14px"><b>keldian</b></sub>
+            <sub style="font-size:14px"><b>ayykamp</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/tipdec-siblyn>
+            <img src=https://avatars.githubusercontent.com/u/99356862?v=4 width="100;"  alt=~tipdec-siblyn/>
+            <br />
+            <sub style="font-size:14px"><b>~tipdec-siblyn</b></sub>
         </a>
     </td>
 </tr>

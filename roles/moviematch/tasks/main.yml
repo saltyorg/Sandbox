@@ -12,6 +12,13 @@
     msg: Requires Plex Account credentials to be entered in accounts.yml
   when: not plex_account_is_enabled
 
+- name: Import Default Plex variables
+  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+- name: Check if Plex instance is defined
+  ansible.builtin.set_fact:
+    plex_name: "{{ plex_name | default(plex_instances[0]) }}"
+
 - name: Run Role
   block:
 

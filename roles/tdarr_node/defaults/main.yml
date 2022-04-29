@@ -30,7 +30,6 @@ tdarr_node_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  UMASK: "002"
   serverIP: "tdarr"
   serverPort: "8266"
   nodeID: "MainNode"
@@ -56,13 +55,11 @@ tdarr_node_docker_volumes_default:
   - "/mnt/unionfs/Media:/media"
   - "/mnt/unionfs/Media/Movies:/movies"
   - "/mnt/unionfs/Media/TV:/tv"
-  - "/mnt:/mnt"
   - "/dev/shm:/dev/shm"
 
 tdarr_node_docker_volumes_custom: []
 tdarr_node_docker_volumes: "{{ tdarr_node_docker_volumes_default
-                               + tdarr_node_docker_volumes_custom
-                               + docker_volumes_downloads_common }}"
+                               + tdarr_node_docker_volumes_custom }}"
 
 # Devices
 tdarr_node_docker_devices_default: []

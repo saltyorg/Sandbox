@@ -86,11 +86,9 @@ kavita_docker_commands: "{{ kavita_docker_commands_default
 # Volumes
 kavita_docker_volumes_default:
   - "{{ kavita_paths_location }}:/kavita/config"
-  - "/mnt:/mnt"
 kavita_docker_volumes_custom: []
 kavita_docker_volumes: "{{ kavita_docker_volumes_default
-                           + kavita_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + kavita_docker_volumes_custom }}"
 
 # Devices
 kavita_docker_devices_default: []

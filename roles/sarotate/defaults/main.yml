@@ -1,0 +1,28 @@
+#########################################################################
+# Title:            Sandbox: SARotate                                   #
+# Author(s):        hackmonker                                          #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+################################
+# Basics
+################################
+
+sarotate_name: sarotate
+
+################################
+# Paths
+################################
+
+sarotate_paths_folder: "{{ sarotate_name }}"
+sarotate_paths_location: "{{ server_appdata_path }}/{{ sarotate_paths_folder }}"
+sarotate_paths_config_location: "{{ sarotate_paths_location }}/config.yaml"
+sarotate_paths_rclone_config_location: "/home/{{ user.name }}/.config/rclone/rclone.conf"
+sarotate_paths_service_file_location: "/etc/systemd/system/sarotate.service"
+rclone_mount_service_file_location: "/etc/systemd/system/rclone_vfs.service"
+sarotate_paths_folders_list:
+  - "{{ sarotate_paths_location }}"

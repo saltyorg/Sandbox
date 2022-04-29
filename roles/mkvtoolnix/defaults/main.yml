@@ -97,9 +97,9 @@ mkvtoolnix_docker_commands: "{{ mkvtoolnix_docker_commands_default
 mkvtoolnix_docker_volumes_default:
   - "{{ mkvtoolnix_paths_location }}:/config:rw"
   - "/mnt/unionfs:/storage"
-  - "/mnt:/mnt"
 mkvtoolnix_docker_volumes_custom: []
-mkvtoolnix_docker_volumes: "{{ mkvtoolnix_docker_volumes_default }}"
+mkvtoolnix_docker_volumes: "{{ mkvtoolnix_docker_volumes_default
+                               + mkvtoolnix_docker_volumes_custom }}"
 
 # Devices
 mkvtoolnix_docker_devices_default: []

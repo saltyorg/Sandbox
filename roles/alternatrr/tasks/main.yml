@@ -7,6 +7,14 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Import Default Sonarr variables
+  include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
+
+- name: Set Default Sonarr instance
+  set_fact:
+    sonarr_name: "{{ sonarr_instances[0] }}"
+  when: not sonarr_name is defined
+
 - name: Add DNS record
   include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:

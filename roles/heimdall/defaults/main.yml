@@ -91,8 +91,7 @@ heimdall_docker_volumes_default:
   - "{{ heimdall_paths_location }}:/config"
 heimdall_docker_volumes_custom: []
 heimdall_docker_volumes: "{{ heimdall_docker_volumes_default
-                             + heimdall_docker_volumes_custom
-                             + docker_volumes_downloads_common }}"
+                             + heimdall_docker_volumes_custom }}"
 
 # Devices
 heimdall_docker_devices_default: []

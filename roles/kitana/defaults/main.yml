@@ -90,8 +90,7 @@ kitana_docker_volumes_default:
   - "{{ kitana_paths_location }}:/app/data"
 kitana_docker_volumes_custom: []
 kitana_docker_volumes: "{{ kitana_docker_volumes_default
-                           + kitana_docker_volumes_custom
-                           + docker_volumes_downloads_common }}"
+                           + kitana_docker_volumes_custom }}"
 
 # Devices
 kitana_docker_devices_default: []

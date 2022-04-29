@@ -93,11 +93,9 @@ airdcpp_docker_commands: "{{ airdcpp_docker_commands_default
 airdcpp_docker_volumes_default:
   - "{{ airdcpp_paths_location }}:/.airdcpp"
   - "/mnt/local/downloads/airdcpp:/Downloads"
-  - "/mnt:/mnt"
 airdcpp_docker_volumes_custom: []
 airdcpp_docker_volumes: "{{ airdcpp_docker_volumes_default
-                            + airdcpp_docker_volumes_custom
-                            + docker_volumes_downloads_common }}"
+                            + airdcpp_docker_volumes_custom }}"
 
 # Devices
 airdcpp_docker_devices_default: []

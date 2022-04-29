@@ -6,6 +6,12 @@
 # This API key must be copied from your notifiarr.com account.
 api_key = "{{ notifiarr.api_key }}"
 
+## Setting a UI password enables the human accessible web GUI. Must be at least 16 characters.
+## The default username is admin; change it by setting ui_password to "username:password"
+## Set to "webauth" to disable the login form and use only proxy authentication. See upstreams, below.
+## Your proxy auth must pass x-webauth-user header if you set this to "webauth".
+ui_password = "{{ notifiarr.ui_password }}"
+
 ## The ip:port to listen on for incoming HTTP requests. 0.0.0.0 means all/any IP and is recommended!
 ## You may use "127.0.0.1:5454" to listen only on localhost; good if using a local proxy.
 ## This is used to receive Plex webhooks and Media Request commands.
@@ -25,6 +31,10 @@ auto_update = "off"
 ##
 quiet = false
 
+## Debug prints more data and json payloads. This increases application memory usage.
+debug = false
+max_body = 0 # maximum body size for debug logs. 0 = no limit.
+
 ## All API paths start with /api. This does not affect incoming /plex webhooks.
 ## Change it to /somethingelse/api by setting urlbase to "/somethingelse"
 ##
@@ -34,7 +44,7 @@ urlbase = "/"
 ## Set this to your reverse proxy server's IP or network. If you leave off the mask,
 ## then /32 or /128 is assumed depending on IP version. Empty by default. Example:
 ##
-#upstreams = [ "127.0.0.1/32", "::1/128" ]
+upstreams = [ "127.0.0.1/32", "::1/128", "172.19.0.0/16" ]
 
 ## If you provide a cert and key file (pem) paths, this app will listen with SSL/TLS.
 ## Uncomment both lines and add valid file paths. Make sure this app can read them.
@@ -48,7 +58,7 @@ log_file = '/config/notifiarr.log'
 http_log = '/config/notifiarr.http.log'
 ##
 ## Set this to the number of megabytes to rotate files.
-log_file_mb = 100
+log_file_mb = 10
 ##
 ## How many files to keep? 0 = all.
 log_files = 5
@@ -61,6 +71,14 @@ file_mode = "0600"
 ##
 timeout = "1m0s"
 
+## Setting serial to true makes the app use fewer threads when polling apps.
+## This spreads CPU usage out and uses a bit less memory.
+serial = false
+
+## Retries controls how many times to retry requests to notifiarr.com.
+## Sometimes cloudflare returns a 521, and this mitigates those problems.
+## Setting this to 0 will take the default of 4. Use 1 to disable retrying.
+retries = 0
 
 ##################
 # Starr Settings #

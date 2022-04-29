@@ -1,0 +1,157 @@
+#########################################################################
+# Title:            Sandbox: Plex-Utills                                #
+# Author(s):        Grostim                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+plex_utills_name: plex-utills
+
+################################
+# Paths
+################################
+
+plex_utills_paths_folder: "{{ plex_utills_name }}"
+plex_utills_paths_location: "{{ server_appdata_path }}/{{ plex_utills_paths_folder }}"
+plex_utills_paths_folders_list:
+  - "{{ plex_utills_paths_location }}"
+  - "{{ plex_utills_paths_location }}/logs"
+
+################################
+# Web
+################################
+
+plex_utills_web_subdomain: "{{ plex_utills_name }}"
+plex_utills_web_domain: "{{ user.domain }}"
+plex_utills_web_port: "80"
+plex_utills_web_url: "{{ 'https://' + plex_utills_web_subdomain + '.' + plex_utills_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + plex_utills_web_port }}"
+
+################################
+# DNS
+################################
+
+plex_utills_dns_record: "{{ plex_utills_web_subdomain }}"
+plex_utills_dns_zone: "{{ plex_utills_web_domain }}"
+plex_utills_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+plex_utills_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+plex_utills_traefik_middleware_default: "{{ traefik_default_middleware + ',' + plex_utills_traefik_sso_middleware
+                                         if (plex_utills_traefik_sso_middleware | length > 0)
+                                         else traefik_default_middleware }}"
+plex_utills_traefik_middleware_custom: ""
+plex_utills_traefik_middleware: "{{ plex_utills_traefik_middleware_default + ','
+                                    + plex_utills_traefik_middleware_custom
+                                 if (not plex_utills_traefik_middleware_custom.startswith(',') and plex_utills_traefik_middleware_custom | length > 0)
+                                 else plex_utills_traefik_middleware_default
+                                    + plex_utills_traefik_middleware_custom }}"
+plex_utills_traefik_certresolver: "{{ traefik_default_certresolver }}"
+plex_utills_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+plex_utills_docker_container: "{{ plex_utills_name }}"
+
+# Image
+plex_utills_docker_image_pull: true
+plex_utills_docker_image_tag: "latest"
+plex_utills_docker_image: "jkirkcaldy/plex-utills:{{ plex_utills_docker_image_tag }}"
+
+# Ports
+plex_utills_docker_ports_defaults:
+  - "{{ plex_utills_web_port }}"
+plex_utills_docker_ports_custom: []
+plex_utills_docker_ports: "{{ plex_utills_docker_ports_defaults
+                              + plex_utills_docker_ports_custom
+                           if (not reverse_proxy_is_enabled)
+                           else [] + plex_utills_docker_ports_custom }}"
+
+# Envs
+plex_utills_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+plex_utills_docker_envs: "{{ plex_utills_docker_envs_default
+                             | combine(plex_utills_docker_envs_custom)
+                          if not (plex_utills_themepark_enabled)
+                          else plex_utills_docker_envs_default
+                             | combine(plex_utills_docker_envs_custom)
+                             | combine(plex_utills_docker_envs_theme) }}"
+
+# Commands
+plex_utills_docker_commands_default: []
+plex_utills_docker_commands_custom: []
+plex_utills_docker_commands: "{{ plex_utills_docker_commands_default
+                                 + plex_utills_docker_commands_custom }}"
+
+# Volumes
+plex_utills_docker_volumes_default:
+  - "{{ plex_utills_paths_location }}:/config"
+  - "{{ plex_utills_paths_location }}/logs:/logs"
+  - "/mnt/unionfs/Media:/films"
+plex_utills_docker_volumes_custom: []
+plex_utills_docker_volumes: "{{ plex_utills_docker_volumes_default
+                                + plex_utills_docker_volumes_custom }}"
+
+# Devices
+plex_utills_docker_devices_default: []
+plex_utills_docker_devices_custom: []
+plex_utills_docker_devices: "{{ plex_utills_docker_devices_default
+                                + plex_utills_docker_devices_custom }}"
+
+# Hosts
+plex_utills_docker_hosts_default: []
+plex_utills_docker_hosts_custom: []
+plex_utills_docker_hosts: "{{ docker_hosts_common
+                              | combine(plex_utills_docker_hosts_default)
+                              | combine(plex_utills_docker_hosts_custom) }}"
+
+# Labels
+plex_utills_docker_labels_default: {}
+plex_utills_docker_labels_custom: {}
+plex_utills_docker_labels: "{{ docker_labels_common
+                               | combine(plex_utills_docker_labels_default)
+                               | combine(plex_utills_docker_labels_custom) }}"
+
+# Hostname
+plex_utills_docker_hostname: "{{ plex_utills_name }}"
+
+# Networks
+plex_utills_docker_networks_alias: "{{ plex_utills_name }}"
+plex_utills_docker_networks_default: []
+plex_utills_docker_networks_custom: []
+plex_utills_docker_networks: "{{ docker_networks_common
+                                 + plex_utills_docker_networks_default
+                                 + plex_utills_docker_networks_custom }}"
+
+# Capabilities
+plex_utills_docker_capabilities_default: []
+plex_utills_docker_capabilities_custom: []
+plex_utills_docker_capabilities: "{{ plex_utills_docker_capabilities_default
+                                     + plex_utills_docker_capabilities_custom }}"
+
+# Security Opts
+plex_utills_docker_security_opts_default: []
+plex_utills_docker_security_opts_custom: []
+plex_utills_docker_security_opts: "{{ plex_utills_docker_security_opts_default
+                                      + plex_utills_docker_security_opts_custom }}"
+
+# Restart Policy
+plex_utills_docker_restart_policy: unless-stopped
+
+# State
+plex_utills_docker_state: started

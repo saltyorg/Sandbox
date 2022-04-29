@@ -93,12 +93,9 @@ coder_docker_volumes_default:
   - "{{ coder_paths_location }}/project:/home/coder/project"
   - "{{ coder_paths_location }}/.config:/home/coder/.config"
   - "{{ server_appdata_path }}:/host_opt"
-  - "/mnt:/mnt"
-
 coder_docker_volumes_custom: []
 coder_docker_volumes: "{{ coder_docker_volumes_default
-                          + coder_docker_volumes_custom
-                          + docker_volumes_downloads_common }}"
+                          + coder_docker_volumes_custom }}"
 
 # Devices
 coder_docker_devices_default: []
@@ -148,9 +145,6 @@ coder_docker_restart_policy: unless-stopped
 
 # State
 coder_docker_state: started
-
-# Stop Timeout
-coder_docker_stop_timeout: 15
 
 # User
 coder_docker_user: "{{ uid }}:{{ gid }}"

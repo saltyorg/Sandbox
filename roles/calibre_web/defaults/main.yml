@@ -85,10 +85,10 @@ calibre_web_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   USE_CONFIG_DIR: "true"
-  DOCKER_MODS: lscr.io/linuxserver/calibre-web:calibre
+  DOCKER_MODS: linuxserver/calibre-web:calibre
 calibre_web_docker_envs_custom: {}
 calibre_web_docker_envs_theme:
-  DOCKER_MODS: "lscr.io/linuxserver/calibre-web:calibre|ghcr.io/gilbn/theme.park:calibre-web"
+  DOCKER_MODS: "linuxserver/calibre-web:calibre|ghcr.io/gilbn/theme.park:calibre-web"
   TP_DOMAIN: "{{ calibre_web_themepark_domain }}"
   TP_THEME: "{{ calibre_web_themepark_theme }}"
 calibre_web_docker_envs: "{{ calibre_web_docker_envs_default
@@ -109,11 +109,9 @@ calibre_web_docker_volumes_default:
   - "{{ calibre_web_paths_location }}:/calibre-web"
   - "{{ calibre_web_paths_location }}/config:/config"
   - "/mnt/unionfs/Media/Books:/books"
-  - "/mnt:/mnt"
 calibre_web_docker_volumes_custom: []
 calibre_web_docker_volumes: "{{ calibre_web_docker_volumes_default
-                                + calibre_web_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + calibre_web_docker_volumes_custom }}"
 
 # Devices
 calibre_web_docker_devices_default: []

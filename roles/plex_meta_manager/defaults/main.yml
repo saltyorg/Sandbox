@@ -46,8 +46,6 @@ plex_meta_manager_docker_ports: "{{ plex_meta_manager_docker_ports_defaults
 # Envs
 plex_meta_manager_docker_envs_default:
   TZ: "{{ tz }}"
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
   LOG_LEVEL: "DEBUG"
   PMM_TIME: "{{ plex_meta_manager.time }}"
 plex_meta_manager_docker_envs_custom: {}
@@ -65,8 +63,7 @@ plex_meta_manager_docker_volumes_default:
   - "{{ plex_meta_manager_paths_location }}:/config"
 plex_meta_manager_docker_volumes_custom: []
 plex_meta_manager_docker_volumes: "{{ plex_meta_manager_docker_volumes_default
-                                      + plex_meta_manager_docker_volumes_custom
-                                      + docker_volumes_downloads_common }}"
+                                      + plex_meta_manager_docker_volumes_custom }}"
 
 # Devices
 plex_meta_manager_docker_devices_default: []
@@ -116,3 +113,6 @@ plex_meta_manager_docker_restart_policy: unless-stopped
 
 # State
 plex_meta_manager_docker_state: started
+
+# User
+plex_meta_manager_docker_user: "{{ uid }}:{{ gid }}"

@@ -97,8 +97,7 @@ filebrowser_docker_volumes_default:
   - "/mnt/unionfs:/srv"
 filebrowser_docker_volumes_custom: []
 filebrowser_docker_volumes: "{{ filebrowser_docker_volumes_default
-                                + filebrowser_docker_volumes_custom
-                                + docker_volumes_downloads_common }}"
+                                + filebrowser_docker_volumes_custom }}"
 
 # Devices
 filebrowser_docker_devices_default: []
