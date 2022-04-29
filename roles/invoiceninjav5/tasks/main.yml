@@ -30,7 +30,7 @@
     path: "{{ item }}"
     state: directory
     owner: "1500"
-    group: "1500"
+    group: "invoiceninja"
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
@@ -46,7 +46,7 @@
         src: in-vhost.conf.j2
         dest: '{{ invoiceninjav5_conf_path }}'
         owner: "{{ user.name }}"
-        group: "{{ user.name }}"
+        group: "invoiceninja"
         mode: 0775
         force: yes
   when: not invoiceninjav5_config.stat.exists
@@ -63,6 +63,7 @@
     nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
     nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
     nginx_name: "invoiceninja-nginx"
+    nginx_docker_container: "invoiceninja-nginx"
     nginx_docker_volumes_default:
       - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default:ro"
       - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public" 

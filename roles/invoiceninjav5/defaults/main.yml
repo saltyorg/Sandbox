@@ -114,7 +114,7 @@ invoiceninjav5_docker_volumes_default:
 invoiceninjav5_docker_volumes_custom: []
 invoiceninjav5_docker_volumes: "{{ invoiceninjav5_docker_volumes_default
                               + invoiceninjav5_docker_volumes_custom
-                              + docker_volumes_downloads_common }}"  # CHECK IF NEEDED
+                               }}"  
 
 # Devices
 invoiceninjav5_docker_devices_default: []
