@@ -61,7 +61,7 @@
   when: plex_dupefinder_venv_folder.stat.exists
 
 - name: Install pip requirements
-  pip_venvfix:
+  ansible.builtin.pip:
     requirements: /opt/plex_dupefinder/requirements.txt
     virtualenv_python: "{{ plex_dupefinder_python }}"
     virtualenv: "/opt/plex_dupefinder/venv"
@@ -80,17 +80,17 @@
     plex_dupefinder_bin_folder: "{{ files.files[0].path | dirname }}"
 
 - name: Check config exists
-  stat:
+  ansible.builtin.stat:
     path: "/opt/plex_dupefinder/config.json"
   register: plex_dupefinder_config
 
 - name: Import Plex Auth Token role
-  import_role:
+  ansible.builtin.import_role:
     name: plex_auth_token
   when: plex_account_is_enabled and not plex_dupefinder_config.stat.exists
 
 - name: Import default config
-  template:
+  ansible.builtin.template:
     src: config.json.j2
     dest: /opt/plex_dupefinder/config.json
     owner: "{{ user.name }}"
@@ -99,14 +99,14 @@
     force: false
 
 - name: Set plex_dupefinder.py as executable
-  file:
+  ansible.builtin.file:
     path: /opt/plex_dupefinder/plex_dupefinder.py
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: a+x
 
 - name: Import bash wrapper
-  template:
+  ansible.builtin.template:
     src: plex_dupefinder.j2
     dest: /usr/local/bin/plex_dupefinder
     owner: "{{ user.name }}"
