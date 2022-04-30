@@ -52,6 +52,7 @@
     - { role: healthchecks, tags: ['healthchecks'] }
     - { role: heimdall, tags: ['heimdall'] }
     - { role: influxdb, tags: ['influxdb'] }
+    - { role: invoiceninjav5, tags: ['invoiceninja'] }
     - { role: jdownloader2, tags: ['jdownloader2'] }
     - { role: jirafeau, tags: ['jirafeau'] }
     - { role: kavita, tags: ['kavita'] }

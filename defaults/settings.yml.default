@@ -82,3 +82,5 @@ transmissionvpn:
   vpn_prov:
 transmissionx:
   roles: [""]
+invoiceninja:
+  app_key: 'base64:O1S3kAJEDgo92gPkXtxfdCJpoGShgKloUSdcaHMXmoY=' # Generate your own with: docker run --rm -it invoiceninja/invoiceninja php artisan key:generate --show
