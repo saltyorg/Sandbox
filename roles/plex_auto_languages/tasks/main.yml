@@ -16,42 +16,40 @@
     msg: Requires Plex Account credentials to be entered in accounts.yml
   when: not plex_account_is_enabled
 
-- name: Check config exists
-  stat:
-    path: "{{ plex_auto_languages_config_location }}"
-  register: plex_auto_languages_config
-
-- name: Set Default Plex instance
-  set_fact:
-    plex_name: "{{ plex_name | default(plex_instances[0]) }}"
-  when: not plex_name is defined and not plex_auto_languages_config.stat.exists
-
-- name: Import Plex Auth Token role
-  import_role:
-    name: plex_auth_token
-  when: plex_account_is_enabled and not plex_auto_languages_config.stat.exists
-
-- name: Create directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
-
-- name: Import default config
-  template:
-    src: config.yaml.j2
-    dest: "{{ plex_auto_languages_config_location }}"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: 0775
-    force: true
-  when: not plex_auto_languages_config.stat.exists
-
-- name: Create and start container
+- name: Run tasks if Plex Account is enabled
   block:
+
+    - name: Check config exists
+      stat:
+        path: "{{ plex_auto_languages_config_location }}"
+      register: plex_auto_languages_config
+
+    - name: Set Default Plex instance
+      set_fact:
+        plex_name: "{{ plex_name | default(plex_instances[0]) }}"
+
+    - name: Import Plex Auth Token role
+      import_role:
+        name: plex_auth_token
+      when: not plex_auto_languages_config.stat.exists
+
+    - name: Create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: "0775"
+      with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+    - name: Import default config
+      template:
+        src: config.yaml.j2
+        dest: "{{ plex_auto_languages_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: "0775"
+      when: not plex_auto_languages_config.stat.exists
 
     - name: Remove existing Docker container
       include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
