@@ -61,7 +61,7 @@
     network_mode: "saltbox"
     networks_cli_compatible: true
     purge_networks: yes
-    user: "telegraf:{{ gid }}"
+    user: "telegraf:{{ dockergid }}"
     tls_hostname: localhost
     restart_policy: unless-stopped
     state: started
