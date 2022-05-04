@@ -44,9 +44,6 @@
     command_handling: compatibility
     container_default_behavior: compatibility
     default_host_ip: ""
-    env:
-      PUID: "{{ uid }}"
-      PGID: "{{ gid }}"
     volumes:
       - "/opt/telegraf:/etc/telegraf:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -64,6 +61,7 @@
     network_mode: "saltbox"
     networks_cli_compatible: true
     purge_networks: yes
+    user: "telegraf:{{ uid }}"
     tls_hostname: localhost
     restart_policy: unless-stopped
     state: started
