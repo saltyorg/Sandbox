@@ -32,8 +32,8 @@ invoiceninjav5_nginx_web_subdomain: "invoiceninja"
 invoiceninjav5_nginx_web_domain: "{{ user.domain }}"
 invoiceninjav5_nginx_web_port: "80"
 invoiceninjav5_nginx_web_url: "{{ 'https://' + invoiceninjav5_web_subdomain + '.' + invoiceninjav5_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + invoiceninjav5_web_port }}"
+                               if (reverse_proxy_is_enabled)
+                               else 'http://localhost:' + invoiceninjav5_web_port }}"
                 
 ################################
 # DNS
@@ -95,17 +95,15 @@ invoiceninjav5_docker_envs_default:
   PHANTOMJS_PDF_GENERATION: 'false'
   IN_USER_EMAIL: "{{ user.email }}"
   IN_PASSWORD: "{{ user.pass }}"
-
-
 invoiceninjav5_docker_envs_custom: {}
 invoiceninjav5_docker_envs: "{{ invoiceninjav5_docker_envs_default
-                           | combine(invoiceninjav5_docker_envs_custom) }}"
+                                | combine(invoiceninjav5_docker_envs_custom) }}"
 
 # Commands
 invoiceninjav5_docker_commands_default: []
 invoiceninjav5_docker_commands_custom: []
 invoiceninjav5_docker_commands: "{{ invoiceninjav5_docker_commands_default
-                               + invoiceninjav5_docker_commands_custom }}"
+                                    + invoiceninjav5_docker_commands_custom }}"
 
 # Volumes
 invoiceninjav5_docker_volumes_default:
@@ -113,28 +111,27 @@ invoiceninjav5_docker_volumes_default:
   - "{{ invoiceninjav5_paths_location }}/storage:/var/www/app/storage"
 invoiceninjav5_docker_volumes_custom: []
 invoiceninjav5_docker_volumes: "{{ invoiceninjav5_docker_volumes_default
-                              + invoiceninjav5_docker_volumes_custom
-                               }}"  
+                                   + invoiceninjav5_docker_volumes_custom }}"  
 
 # Devices
 invoiceninjav5_docker_devices_default: []
 invoiceninjav5_docker_devices_custom: []
 invoiceninjav5_docker_devices: "{{ invoiceninjav5_docker_devices_default
-                              + invoiceninjav5_docker_devices_custom }}"
+                                   + invoiceninjav5_docker_devices_custom }}"
 
 # Hosts
 invoiceninjav5_docker_hosts_default: []
 invoiceninjav5_docker_hosts_custom: []
 invoiceninjav5_docker_hosts: "{{ docker_hosts_common
-                            | combine(invoiceninjav5_docker_hosts_default)
-                            | combine(invoiceninjav5_docker_hosts_custom) }}"
+                                 | combine(invoiceninjav5_docker_hosts_default)
+                                 | combine(invoiceninjav5_docker_hosts_custom) }}"
 
 # Labels
 invoiceninjav5_docker_labels_default: {}
 invoiceninjav5_docker_labels_custom: {}
 invoiceninjav5_docker_labels: "{{ docker_labels_common
-                             | combine(invoiceninjav5_docker_labels_default)
-                             | combine(invoiceninjav5_docker_labels_custom) }}"
+                                  | combine(invoiceninjav5_docker_labels_default)
+                                  | combine(invoiceninjav5_docker_labels_custom) }}"
 
 # Hostname
 invoiceninjav5_docker_hostname: "{{ invoiceninjav5_name }}"
@@ -144,20 +141,20 @@ invoiceninjav5_docker_networks_alias: "{{ invoiceninjav5_name }}"
 invoiceninjav5_docker_networks_default: []
 invoiceninjav5_docker_networks_custom: []
 invoiceninjav5_docker_networks: "{{ docker_networks_common
-                               + invoiceninjav5_docker_networks_default
-                               + invoiceninjav5_docker_networks_custom }}"
+                                    + invoiceninjav5_docker_networks_default
+                                    + invoiceninjav5_docker_networks_custom }}"
 
 # Capabilities
 invoiceninjav5_docker_capabilities_default: []
 invoiceninjav5_docker_capabilities_custom: []
 invoiceninjav5_docker_capabilities: "{{ invoiceninjav5_docker_capabilities_default
-                                   + invoiceninjav5_docker_capabilities_custom }}"
+                                        + invoiceninjav5_docker_capabilities_custom }}"
 
 # Security Opts
 invoiceninjav5_docker_security_opts_default: []
 invoiceninjav5_docker_security_opts_custom: []
 invoiceninjav5_docker_security_opts: "{{ invoiceninjav5_docker_security_opts_default
-                                    + invoiceninjav5_docker_security_opts_custom }}"
+                                         + invoiceninjav5_docker_security_opts_custom }}"
 
 # Restart Policy
 invoiceninjav5_docker_restart_policy: unless-stopped
