@@ -1,0 +1,150 @@
+##########################################################################
+# Title:         Sandbox: rdtclient                                      #
+# Author(s):     kxzaon, salty                                           #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+rdtclient_name: rdtclient
+
+################################
+# Paths
+################################
+
+rdtclient_paths_folder: "{{ rdtclient_name }}"
+rdtclient_paths_location: "{{ server_appdata_path }}/{{ rdtclient_paths_folder }}"
+rdtclient_paths_config_location: "{{ rdtclient_paths_location }}/config"
+rdtclient_paths_db_location: "{{ rdtclient_paths_location }}/db"
+rdtclient_paths_downloads_location: "/mnt/unionfs/downloads/torrents/rdtclient"
+rdtclient_paths_folders_list:
+  - "{{ rdtclient_paths_location }}"
+  - "{{ rdtclient_paths_config_location }}"
+  - "{{ rdtclient_paths_db_location }}"
+  - "{{ rdtclient_paths_downloads_location }}"
+
+################################
+# Web
+################################
+
+rdtclient_web_subdomain: "{{ rdtclient_name }}"
+rdtclient_web_domain: "{{ user.domain }}"
+rdtclient_web_port: "6500"
+rdtclient_web_url: "{{ 'https://' + rdtclient_web_subdomain + '.' + rdtclient_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + rdtclient_web_port }}"
+
+################################
+# DNS
+################################
+
+rdtclient_dns_record: "{{ rdtclient_web_subdomain }}"
+rdtclient_dns_zone: "{{ rdtclient_web_domain }}"
+rdtclient_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+rdtclient_traefik_middleware: "{{ traefik_default_middleware }}"
+rdtclient_traefik_certresolver: "{{ traefik_default_certresolver }}"
+rdtclient_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+rdtclient_docker_container: "{{ rdtclient_name }}"
+
+# Image
+rdtclient_docker_image_pull: true
+rdtclient_docker_image_tag: "latest"
+rdtclient_docker_image: "rogerfar/rdtclient:{{ rdtclient_docker_image_tag }}"
+
+# Ports
+rdtclient_docker_ports_defaults: []
+rdtclient_docker_ports_custom: []
+rdtclient_docker_ports: "{{ rdtclient_docker_ports_defaults
+                          + rdtclient_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else [] + rdtclient_docker_ports_custom }}"
+
+# Envs
+rdtclient_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+rdtclient_docker_envs_custom: {}
+rdtclient_docker_envs: "{{ rdtclient_docker_envs_default
+                         | combine(rdtclient_docker_envs_custom) }}"
+
+# Commands
+rdtclient_docker_commands_default: []
+rdtclient_docker_commands_custom: []
+rdtclient_docker_commands: "{{ rdtclient_docker_commands_default
+                             + rdtclient_docker_commands_custom }}"
+
+# Volumes
+rdtclient_docker_volumes_default:
+  - "{{ rdtclient_paths_location }}:/data"
+  - "{{ rdtclient_paths_config_location }}:/data/config"
+  - "{{ rdtclient_paths_db_location }}:/data/db"
+  - "{{ rdtclient_paths_downloads_location }}:/data/downloads"
+rdtclient_docker_volumes_custom: []
+rdtclient_docker_volumes: "{{ rdtclient_docker_volumes_default
+                            + rdtclient_docker_volumes_custom }}"
+
+# Devices
+rdtclient_docker_devices_default: []
+rdtclient_docker_devices_custom: []
+rdtclient_docker_devices: "{{ rdtclient_docker_devices_default
+                            + rdtclient_docker_devices_custom }}"
+
+# Hosts
+rdtclient_docker_hosts_default: []
+rdtclient_docker_hosts_custom: []
+rdtclient_docker_hosts: "{{ docker_hosts_common
+                          | combine(rdtclient_docker_hosts_default)
+                          | combine(rdtclient_docker_hosts_custom) }}"
+
+# Labels
+rdtclient_docker_labels_default: {}
+rdtclient_docker_labels_custom: {}
+rdtclient_docker_labels: "{{ docker_labels_common
+                           | combine(rdtclient_docker_labels_default)
+                           | combine(rdtclient_docker_labels_custom) }}"
+
+# Hostname
+rdtclient_docker_hostname: "{{ rdtclient_name }}"
+
+# Networks
+rdtclient_docker_networks_alias: "{{ rdtclient_name }}"
+rdtclient_docker_networks_default: []
+rdtclient_docker_networks_custom: []
+rdtclient_docker_networks: "{{ docker_networks_common
+                             + rdtclient_docker_networks_default
+                             + rdtclient_docker_networks_custom }}"
+
+# Capabilities
+rdtclient_docker_capabilities_default: []
+rdtclient_docker_capabilities_custom: []
+rdtclient_docker_capabilities: "{{ rdtclient_docker_capabilities_default
+                                 + rdtclient_docker_capabilities_custom }}"
+
+# Security Opts
+rdtclient_docker_security_opts_default: []
+rdtclient_docker_security_opts_custom: []
+rdtclient_docker_security_opts: "{{ rdtclient_docker_security_opts_default
+                                  + rdtclient_docker_security_opts_custom }}"
+
+# Restart Policy
+rdtclient_docker_restart_policy: unless-stopped
+
+# State
+rdtclient_docker_state: started
