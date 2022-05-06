@@ -84,7 +84,6 @@
     - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
-    - { role: requestrrx, tags: ['requestrrx'] }
     - { role: requestrr, tags: ['requestrr'] }
     - { role: requestrrx, tags: ['requestrrx'] }
     - { role: resiliosync, tags: ['resiliosync'] }
