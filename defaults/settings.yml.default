@@ -35,6 +35,8 @@ goplaxt:
   trakt_secret: ~
 handbrake:
   handbrake_pass: saltbox # must be less than eight characters
+invoiceninja:
+  app_key: 'base64:O1S3kAJEDgo92gPkXtxfdCJpoGShgKloUSdcaHMXmoY=' # Generate your own with: docker run --rm -it invoiceninja/invoiceninja php artisan key:generate --show
 moviematch:
   libraries: Movies
   plex_url: http://plex:32400
