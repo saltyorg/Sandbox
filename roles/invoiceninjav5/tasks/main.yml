@@ -16,7 +16,6 @@
   command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
   ignore_errors: yes
 
-
 - name: Permissions | Create ninja group
   command: "addgroup --gid 1500 invoiceninja "
   ignore_errors: yes
@@ -73,3 +72,4 @@
 
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+  
