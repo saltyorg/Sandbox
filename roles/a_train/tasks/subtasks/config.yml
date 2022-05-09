@@ -48,8 +48,19 @@
       register: union_upstreams_var
 
     - name: Set variable for upstreams
+      ansible.builtin.set_fact:
+        union_upstreams: "{{ union_upstreams_var.results[0].stdout.split(separator) | replace(':', '') }}"
+      vars:
+        separator: ': '
+      when: '": " in union_upstreams_var.results[0].stdout'
+
+    - name: Set variable for upstreams when root folder is specified
       set_fact:
-        union_upstreams: "{{ union_upstreams_var.results | map(attribute='stdout') | map('split',': ') | join('\", \"') | replace(':', '') }}"
+        union_upstreams: "{{ union_upstreams_var.results[0].stdout.split(separator) | replace(':', '')  | replace(secret_slash, '') }}"
+      vars:
+        separator: '/ '
+        secret_slash: '/'
+      when: '"/" in union_upstreams_var.results[0].stdout'
 
     - name: Get the ID of the teamdrives
       ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_paths_rclone_config_location) }}"
