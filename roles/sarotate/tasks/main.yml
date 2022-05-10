@@ -97,7 +97,6 @@
     dest: "{{ sarotate_paths_service_file_location }}"
     mode: "0664"
     force: true
-  when: not sarotate_service.stat.exists
 
 - name: Load sarotate service
   systemd:

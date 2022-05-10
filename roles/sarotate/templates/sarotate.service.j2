@@ -7,6 +7,7 @@ User={{ user.name }}
 Group={{ user.name }}
 Type=simple
 WorkingDirectory={{ sarotate_paths_location }}
+ExecStartPre=/bin/sleep 30
 ExecStart={{ sarotate_paths_location}}/SARotate
 
 [Install]
