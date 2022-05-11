@@ -50,20 +50,20 @@
 
 - name: Check if venv folder exists
   ansible.builtin.stat:
-    path: "/opt/plex_dupefinder/venv"
+    path: "/opt/python-plexlibrary/venv"
   register: python_plexlibrary_venv_folder
 
 - name: Delete venv folder
   ansible.builtin.file:
-    path: "/opt/plex_dupefinder/venv"
+    path: "/opt/python-plexlibrary/venv"
     state: absent
   when:  python_plexlibrary_venv_folder.stat.exists
 
 - name: Install pip requirements
   pip:
     requirements: "/opt/python-plexlibrary/requirements.txt"
-    virtualenv_python: python3
-    virtualenv: "/opt/plex_autoscan/venv"
+    virtualenv_python: "{{ python_plexlibrary_python }}"
+    virtualenv: "/opt/python-plexlibrary/venv"
   become: true
   become_user: "{{ user.name }}"
 
