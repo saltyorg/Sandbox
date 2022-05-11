@@ -35,6 +35,30 @@
   become: true
   become_user: "{{ user.name }}"
 
+- name: Set Python version
+  ansible.builtin.set_fact:
+    python_plexlibrary_python: "{{ 'python3'
+                             if ansible_distribution_version is version('20.04', '==')
+                             else 'python3.8' }}"
+
+- name: "Execute Python role"
+  ansible.builtin.include_role:
+    name: "python"
+  vars:
+    python_version: "3.8"
+  when: ansible_distribution_version is version('22.04', '==')
+
+- name: Check if venv folder exists
+  ansible.builtin.stat:
+    path: "/opt/plex_dupefinder/venv"
+  register: python_plexlibrary_venv_folder
+
+- name: Delete venv folder
+  ansible.builtin.file:
+    path: "/opt/plex_dupefinder/venv"
+    state: absent
+  when:  python_plexlibrary_venv_folder.stat.exists
+
 - name: Install pip requirements
   pip:
     requirements: "/opt/python-plexlibrary/requirements.txt"
@@ -42,6 +66,17 @@
     virtualenv: "/opt/plex_autoscan/venv"
   become: true
   become_user: "{{ user.name }}"
+
+- name: Find pip3 path
+  ansible.builtin.find:
+    paths: /opt/python-plexlibrary/venv
+    recurse: yes
+    patterns: 'pip3'
+  register: files
+
+- name: Path
+  ansible.builtin.set_fact:
+    python_plexlibrary_bin_folder: "{{ files.files[0].path | dirname }}"
 
 - name: Check config exists
   stat:
