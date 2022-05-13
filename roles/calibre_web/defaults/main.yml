@@ -45,7 +45,7 @@ calibre_web_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-calibre_web_traefik_middleware: "{{ traefik_default_middleware }}"
+calibre_web_traefik_middleware: "{{ traefik_default_middleware }},kobo-sync-headers"
 calibre_web_traefik_certresolver: "{{ traefik_default_certresolver }}"
 calibre_web_traefik_enabled: true
 
@@ -127,7 +127,8 @@ calibre_web_docker_hosts: "{{ docker_hosts_common
                               | combine(calibre_web_docker_hosts_custom) }}"
 
 # Labels
-calibre_web_docker_labels_default: {}
+calibre_web_docker_labels_default:
+  traefik.http.middlewares.kobo-sync-headers.headers.customrequestheaders.X-Scheme: "https"
 calibre_web_docker_labels_custom: {}
 calibre_web_docker_labels: "{{ docker_labels_common
                                | combine(calibre_web_docker_labels_default)
