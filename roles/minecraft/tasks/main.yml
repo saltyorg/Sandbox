@@ -1,0 +1,20 @@
+#########################################################################
+# Title:         Saltbox: Minecraft                                     #
+# Author(s):     jolbol1                                                #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute minecraft roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    minecraft_name: "{{ role }}"
+  with_items: "{{ minecraft_instances }}"
+  loop_control:
+    loop_var: role
+
+- name: McRouter Role
+  include_role:
+    name: mcrouter
