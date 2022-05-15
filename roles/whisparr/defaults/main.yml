@@ -73,6 +73,15 @@ whisparr_traefik_api_endpoint: "`/api`"
 whisparr_api_key:
 
 ################################
+# THEME
+################################
+
+# Options can be found at https://github.com/gilbN/theme.park
+whisparr_themepark_enabled: false
+whisparr_themepark_theme: "{{ global_themepark_theme }}"
+whisparr_themepark_domain: "{{ global_themepark_domain }}"
+
+################################
 # Docker
 ################################
 
@@ -104,6 +113,9 @@ whisparr_docker_envs_default:
   PGID: "{{ gid }}"
   UMASK: "002"
   TZ: "{{ tz }}"
+  TP_DOMAIN: "{{ lookup('vars', whisparr_name + '_themepark_domain', default=whisparr_themepark_domain) }}"
+  TP_THEME: "{{ lookup('vars', whisparr_name + '_themepark_theme', default=whisparr_themepark_theme) }}"
+  TP_HOTIO: "true"
 whisparr_docker_envs_custom: {}
 whisparr_docker_envs: "{{ lookup('vars', whisparr_name + '_docker_envs_default', default=whisparr_docker_envs_default)
                           | combine(lookup('vars', whisparr_name + '_docker_envs_custom', default=whisparr_docker_envs_custom)) }}"
@@ -119,8 +131,14 @@ whisparr_docker_volumes_default:
   - "{{ whisparr_paths_location }}:/config"
   - "{{ server_appdata_path }}/scripts:/scripts"
 whisparr_docker_volumes_custom: []
+whisparr_docker_volumes_theme:
+  - "{{ whisparr_paths_location }}/98-themepark:/etc/cont-init.d/98-themepark"
 whisparr_docker_volumes: "{{ lookup('vars', whisparr_name + '_docker_volumes_default', default=whisparr_docker_volumes_default)
-                             + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom) }}"
+                           + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom)
+                        if not (lookup('vars', whisparr_name + '_themepark_enabled', default=whisparr_themepark_enabled))
+                        else lookup('vars', whisparr_name + '_docker_volumes_default', default=whisparr_docker_volumes_default)
+                           + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom)
+                           + lookup('vars', whisparr_name + '_docker_volumes_theme', default=whisparr_docker_volumes_theme) }}"
 
 # Devices
 whisparr_docker_devices_default: []
