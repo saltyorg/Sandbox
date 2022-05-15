@@ -63,7 +63,9 @@
     - { role: komga, tags: ['komga'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: logarr, tags: ['logarr'] }
+    - { role: mcrouter, tags: ['mcrouter'] }
     - { role: medusa, tags: ['medusa'] }
+    - { role: minecraft, tags: ['minecraft'] }
     - { role: monitorr, tags: ['monitorr'] }
     - { role: moviematch, tags: ['moviematch'] }
     - { role: mylar3, tags: ['mylar3'] }

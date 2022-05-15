@@ -1,0 +1,117 @@
+#########################################################################
+# Title:            Sandbox: mcrouter                                   #
+# Author(s):        jolbol1                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+minecraft_instances: ["minecraft"]
+
+mcrouter_name: mcrouter
+mcrouter_minecraft_port: "25565"
+
+################################
+# Paths
+################################
+
+mcrouter_paths_folder: "{{ mcrouter_name }}"
+mcrouter_paths_location: "{{ server_appdata_path }}/{{ mcrouter_paths_folder }}"
+mcrouter_paths_folders_list:
+  - "{{ mcrouter_paths_location }}"
+
+
+################################
+# Docker
+################################
+
+# Container
+mcrouter_docker_container: "{{ mcrouter_name }}"
+
+# Image
+mcrouter_docker_image_pull: true
+mcrouter_docker_image_tag: "latest"
+mcrouter_docker_image: "itzg/mc-router:{{ mcrouter_docker_image_tag }}"
+
+# Ports
+mcrouter_docker_ports_defaults:
+  - "{{ mcrouter_minecraft_port }}:{{ mcrouter_minecraft_port }}"
+  - "{{ mcrouter_minecraft_port }}:{{ mcrouter_minecraft_port }}/udp"
+mcrouter_docker_ports_custom: []
+mcrouter_docker_ports: "{{ mcrouter_docker_ports_defaults
+                           + mcrouter_docker_ports_custom }}"
+
+# Envs
+mcrouter_docker_envs_default: {}
+mcrouter_docker_envs_custom: {}
+mcrouter_docker_envs: "{{ mcrouter_docker_envs_default
+                          | combine(mcrouter_docker_envs_custom) }}"
+
+# Commands
+mcrouter_docker_commands_default:
+  - "--mapping={% for item in minecraft_instances %}{{ lookup('vars', item + '_web_subdomain', default=item) }}.{{ user.domain }}={{ lookup('vars', item + '_web_subdomain', default=item) }}:25565{{ '' if loop.last else ',' }}{% endfor %}"
+mcrouter_docker_commands_custom: []
+mcrouter_docker_commands: "{{ mcrouter_docker_commands_default
+                              + mcrouter_docker_commands_custom }}"
+
+# Volumes
+mcrouter_docker_volumes_default: []
+mcrouter_docker_volumes_custom: []
+mcrouter_docker_volumes: "{{ mcrouter_docker_volumes_default
+                             + mcrouter_docker_volumes_custom }}"
+
+# Devices
+mcrouter_docker_devices_default: []
+mcrouter_docker_devices_custom: []
+mcrouter_docker_devices: "{{ mcrouter_docker_devices_default
+                             + mcrouter_docker_devices_custom }}"
+
+# Hosts
+mcrouter_docker_hosts_default: []
+mcrouter_docker_hosts_custom: []
+mcrouter_docker_hosts: "{{ docker_hosts_common
+                           | combine(mcrouter_docker_hosts_default)
+                           | combine(mcrouter_docker_hosts_custom) }}"
+
+# Labels
+mcrouter_docker_labels_default: {}
+mcrouter_docker_labels_custom: {}
+mcrouter_docker_labels: "{{ docker_labels_common
+                            | combine(mcrouter_docker_labels_default)
+                            | combine(mcrouter_docker_labels_custom) }}"
+
+# Hostname
+mcrouter_docker_hostname: "{{ mcrouter_name }}"
+
+# Networks
+mcrouter_docker_networks_alias: "{{ mcrouter_name }}"
+mcrouter_docker_networks_default: []
+mcrouter_docker_networks_custom: []
+mcrouter_docker_networks: "{{ docker_networks_common
+                              + mcrouter_docker_networks_default
+                              + mcrouter_docker_networks_custom }}"
+
+# Capabilities
+mcrouter_docker_capabilities_default: []
+mcrouter_docker_capabilities_custom: []
+mcrouter_docker_capabilities: "{{ mcrouter_docker_capabilities_default
+                                  + mcrouter_docker_capabilities_custom }}"
+
+# Security Opts
+mcrouter_docker_security_opts_default: []
+mcrouter_docker_security_opts_custom: []
+mcrouter_docker_security_opts: "{{ mcrouter_docker_security_opts_default
+                                   + mcrouter_docker_security_opts_custom }}"
+
+# Restart Policy
+mcrouter_docker_restart_policy: unless-stopped
+
+# State
+mcrouter_docker_state: started
+
+# User
+mcrouter_docker_user: "{{ uid }}:{{ gid }}"
