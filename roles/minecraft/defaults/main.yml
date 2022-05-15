@@ -16,11 +16,12 @@ minecraft_instances: ["minecraft"]
 # Paths
 ################################
 
-minecraft_paths_folder: "{{ minecraft_name }}"
+minecraft_paths_folder: "minecraft"
 minecraft_paths_location: "{{ server_appdata_path }}/{{ minecraft_paths_folder }}"
 minecraft_paths_folders_list:
-  - "{{ minecraft_paths_location }}"
-  - "{{ minecraft_paths_location }}/data"
+  - "{{ minecraft_paths_location }}/"
+  - "{{ minecraft_paths_location }}/{{ minecraft_name }}"
+  - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data"
 
 ################################
 # Web
@@ -68,7 +69,7 @@ minecraft_docker_commands: "{{ lookup('vars', minecraft_name + '_docker_commands
 
 # Volumes
 minecraft_docker_volumes_default:
-  - "{{ minecraft_paths_location }}/data:/data"
+  - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data:/data"
 minecraft_docker_volumes_custom: []
 minecraft_docker_volumes: "{{ lookup('vars', minecraft_name + '_docker_volumes_default', default=minecraft_docker_volumes_default)
                               + lookup('vars', minecraft_name + '_docker_volumes_custom', default=minecraft_docker_volumes_custom) }}"
