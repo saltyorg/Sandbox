@@ -14,6 +14,7 @@
     # Apps
     - { role: a_train, tags: ['a_train'] }
     - { role: adguardhome, tags: ['adguardhome'] }
+    - { role: adminer, tags: ['adminer'] }
     - { role: airdcpp, tags: ['airdcpp'] }
     - { role: airsonic, tags: ['airsonic'] }
     - { role: alltube, tags: ['alltube'] }
