@@ -14,16 +14,6 @@
 adminer_name: adminer
 
 ################################
-# Paths
-################################
-
-adminer_paths_folder: "{{ adminer_name }}"
-adminer_paths_location: "{{ server_appdata_path }}/{{ adminer_paths_folder }}"
-adminer_paths_config_location: "{{ adminer_paths_location }}/config.toml"
-adminer_paths_folders_list:
-  - "{{ adminer_paths_location }}"
-
-################################
 # Web
 ################################
 
