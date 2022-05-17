@@ -50,7 +50,7 @@ plex_auto_languages_docker_commands: "{{ plex_auto_languages_docker_commands_def
 
 # Volumes
 plex_auto_languages_docker_volumes_default:
-  - "{{ plex_auto_languages_config_location }}:/config/config.yaml"
+  - "{{ plex_auto_languages_paths_location }}:/config"
 plex_auto_languages_docker_volumes_custom: []
 plex_auto_languages_docker_volumes: "{{ plex_auto_languages_docker_volumes_default
                                         + plex_auto_languages_docker_volumes_custom }}"
