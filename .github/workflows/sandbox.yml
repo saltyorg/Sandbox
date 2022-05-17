@@ -61,7 +61,7 @@ jobs:
 
   webhook:
     name: 'webhook'
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     needs: install
     if: always()
     steps:
