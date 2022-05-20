@@ -1,7 +1,6 @@
 # Saltbox Sandbox Repo
 [![Discord](https://img.shields.io/discord/853755447970758686)](https://discord.gg/ugfKXpFND8)
 [![CI](https://github.com/saltyorg/Sandbox/actions/workflows/sandbox.yml/badge.svg)](https://github.com/saltyorg/Sandbox/actions/workflows/sandbox.yml)
-[![Ansible Lint](https://github.com/saltyorg/Sandbox/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/saltyorg/Sandbox/actions/workflows/ansible-lint.yml)
 [![License:](https://img.shields.io/github/license/saltyorg/Sandbox)](LICENSE.md)
 
 Sandbox Repository for Unofficial Saltbox Add-ons
