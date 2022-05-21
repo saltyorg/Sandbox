@@ -76,6 +76,7 @@ healthchecks_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   DEBUG: "False"
+  APPRISE_ENABLED: "True"
   SITE_ROOT: "{{ healthchecks_web_url }}"
   SITE_NAME: "{{ healthchecks_name }}"
   SUPERUSER_EMAIL: "{{ user.email }}"
