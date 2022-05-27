@@ -2,16 +2,17 @@
 # Title:            Sandbox: kcptun Client                              #
 # Author(s):        RXWatcher                                           #
 # URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
 - name: Stop and remove any existing container
   docker_container:
-   name: kcptun-client
-   state: absent
-   container_default_behavior: compatibility
-   tls_hostname: localhost
+    name: kcptun-client
+    state: absent
+    container_default_behavior: compatibility
+    tls_hostname: localhost
 
 - name: Create opt directory
   file:

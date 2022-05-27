@@ -90,7 +90,7 @@ thelounge_docker_volumes_default:
   - "{{ thelounge_paths_location }}:/config"
 thelounge_docker_volumes_custom: []
 thelounge_docker_volumes: "{{ thelounge_docker_volumes_default
-                              + thelounge_docker_volumes_custom}}"
+                              + thelounge_docker_volumes_custom }}"
 
 # Devices
 thelounge_docker_devices_default: []

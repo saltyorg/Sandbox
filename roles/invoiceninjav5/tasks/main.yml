@@ -23,7 +23,7 @@
 - name: Permissions | Add to ninja group
   command: "adduser {{ user.name }} invoiceninja "
   ignore_errors: yes
- 
+
 - name: Create directories
   file:
     path: "{{ item }}"
@@ -65,11 +65,10 @@
     nginx_docker_container: "invoiceninja-nginx"
     nginx_docker_volumes_default:
       - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default:ro"
-      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public" 
+      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public"
 
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-  

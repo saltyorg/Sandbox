@@ -45,7 +45,7 @@ tdarr_node_docker_envs: "{{ tdarr_node_docker_envs_default
 tdarr_node_docker_commands_default: []
 tdarr_node_docker_commands_custom: []
 tdarr_node_docker_commands: "{{ tdarr_node_docker_commands_default
-                                + tdarr_node_docker_commands_custom}}"
+                                + tdarr_node_docker_commands_custom }}"
 
 # Volumes
 tdarr_node_docker_volumes_default:
