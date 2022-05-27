@@ -19,3 +19,4 @@ skip_list:
   - yaml[line-length]
   - yaml[truthy]
   - schema[tasks]
+  - fqcn-builtins
