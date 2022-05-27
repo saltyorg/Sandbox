@@ -57,7 +57,7 @@
   ansible.builtin.file:
     path: "/opt/python-plexlibrary/venv"
     state: absent
-  when:  python_plexlibrary_venv_folder.stat.exists
+  when: python_plexlibrary_venv_folder.stat.exists
 
 - name: Install pip requirements
   pip:

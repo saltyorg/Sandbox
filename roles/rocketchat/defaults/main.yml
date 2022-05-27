@@ -94,7 +94,7 @@ rocketchat_docker_volumes_custom: []
 rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
                                + rocketchat_docker_volumes_custom }}"
 
-#Mounts
+# Mounts
 rocketchat_docker_mounts_default:
   - target: /tmp
     type: tmpfs

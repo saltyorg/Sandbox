@@ -6,8 +6,7 @@
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
----    
-    
+---
 - name: Get types of the remote entered
   ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=sarotate_paths_rclone_config_location) }}"
   loop: "{{ sarotate.remotes }}"
@@ -21,7 +20,7 @@
   set_fact:
     drive_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'drive') | map(attribute='item') }}"
   when: remote_type_var is search("drive")
-    
+
 - name: Get union remote names
   block:
 

@@ -65,12 +65,12 @@ resiliosync_docker_image: "resilio/sync:{{ resiliosync_docker_image_tag }}"
 # Ports
 resiliosync_docker_ports_defaults:
   - "{{ resiliosync_web_port }}"
-resiliosync_docker_ports_custom: 
+resiliosync_docker_ports_custom:
   - "{{ resiliosync_data_port }}:{{ resiliosync_data_port }}"
 resiliosync_docker_ports: "{{ resiliosync_docker_ports_defaults
                               + resiliosync_docker_ports_custom
                            if (not reverse_proxy_is_enabled)
-                           else [] + resiliosync_docker_ports_custom }}" #not sure if this is right
+                           else [] + resiliosync_docker_ports_custom }}"
 
 # Envs
 resiliosync_docker_envs_default: {}
@@ -91,7 +91,7 @@ resiliosync_docker_volumes_default:
   - "/home:/mnt/mounted_folders/home"
 resiliosync_docker_volumes_custom: []
 resiliosync_docker_volumes: "{{ resiliosync_docker_volumes_default
-                                + resiliosync_docker_volumes_custom }}" 
+                                + resiliosync_docker_volumes_custom }}"
 
 # Devices
 resiliosync_docker_devices_default: []
