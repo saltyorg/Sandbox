@@ -9,12 +9,12 @@
 #########################################################################
 ---
 - name: Gather list of running Docker containers
-  shell: "docker ps --format '{{ '{{' }} .Names{{ '}}' }}' | xargs echo -n"
+  ansible.builtin.shell: "docker ps --format '{{ '{{' }} .Names{{ '}}' }}' | xargs echo -n"
   register: docker_running_containers
   ignore_errors: true
 
 - name: Convert to list
-  set_fact:
+  ansible.builtin.set_fact:
     docker_running_containers: "{{ (docker_running_containers.stdout).split() }}"
 
 - name: Stop Plex container
@@ -27,7 +27,7 @@
   when: ('plex' in docker_running_containers)
 
 - name: Create Extended Personal Media Scanner directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: 0775
@@ -39,13 +39,14 @@
     - '/opt/plex/Library/Application Support/Plex Media Server/Scanners/Series'
 
 - name: Get latest Extended Personal Media Scanner.py
-  get_url:
-    url: https://bitbucket.org/mjarends/plex-scanners/raw/e6b21a46375cb456af44aea437316faa644c5bb4/Series/Extended%20Personal%20Media%20Scanner.py
+  ansible.builtin.get_url:
+    url: https://bitbucket.org/mjarends/plex-scanners/raw/8aa4517831e440512a9a0cb4110e786bf041feb5/Series/Extended%20Personal%20Media%20Scanner.py
+
     dest: '/opt/plex/Library/Application Support/Plex Media Server/Scanners/Series/Extended Personal Media Scanner.py'
     mode: '0775'
 
 - name: Set Extended Personal Media Scanner directory permissions
-  file:
+  ansible.builtin.file:
     path: '/opt/plex/Library/Application Support/Plex Media Server/Scanners'
     state: directory
     mode: 0775
@@ -54,7 +55,7 @@
     recurse: true
 
 - name: Clone Extended Personal Media Scanner Bundle
-  git:
+  ansible.builtin.git:
     repo: https://bitbucket.org/mjarends/extendedpersonalmedia-agent.bundle.git
     dest: '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
     clone: true
@@ -64,7 +65,7 @@
   become_user: "{{ user.name }}"
 
 - name: Set Extended Personal Media Scanner directory permissions
-  file:
+  ansible.builtin.file:
     path: '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
     state: directory
     mode: 0775
