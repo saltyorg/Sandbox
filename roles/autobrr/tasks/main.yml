@@ -18,7 +18,7 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Check if already installed
-  stat:
+  ansible.builtin.stat:
     path: "{{ autobrr_paths_location }}"
   register: autobbr_directory
 
@@ -40,7 +40,7 @@
   block:
 
     - name: Generate sessionSecret
-      shell: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c16"
+      ansible.builtin.shell: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c16"
       register: autobrr_secret
 
     - name: Import default `{{ autobrr_paths_config_location | basename }}`
@@ -57,7 +57,7 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: Advise user to create Autobrr user
-  debug:
+  ansible.builtin.debug:
     msg:
       - "Run the following to create your user:"
       - "docker exec -it {{ lookup('vars', role_name + '_name') }} sh -c 'autobrrctl --config /config create-user {{ user.name }}'"
