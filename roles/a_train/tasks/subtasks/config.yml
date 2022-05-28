@@ -14,14 +14,14 @@
   register: remote_type
 
 - name: Set variable for remote types
-  set_fact:
+  ansible.builtin.set_fact:
     remote_type_var: "{{ remote_type.results | map(attribute='stdout') }}"
 
 - name: Get the ID of teamdrives if remote type is drive
   block:
 
     - name: Set variable for remote names
-      set_fact:
+      ansible.builtin.set_fact:
         drive_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'drive') | map(attribute='item') }}"
 
     - name: Get the ID of the teamdrives
@@ -30,7 +30,7 @@
       loop: "{{ drive_remotes }}"
 
     - name: Set variable for ID of teamdrives
-      set_fact:
+      ansible.builtin.set_fact:
         drive_id: "{{ drive_id_var.results | map(attribute='stdout') }}"
 
   when: remote_type_var is search("drive")
@@ -39,7 +39,7 @@
   block:
 
     - name: Set variable for remote names
-      set_fact:
+      ansible.builtin.set_fact:
         union_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'union') | map(attribute='item') }}"
 
     - name: Get the upstreams
@@ -55,7 +55,7 @@
       when: '": " in union_upstreams_var.results[0].stdout'
 
     - name: Set variable for upstreams when root folder is specified
-      set_fact:
+      ansible.builtin.set_fact:
         union_upstreams: "{{ union_upstreams_var.results[0].stdout.split(separator) | replace(':', '')  | replace(secret_slash, '') }}"
       vars:
         separator: '/ '
@@ -68,18 +68,18 @@
       loop: "{{ union_upstreams }}"
 
     - name: Set variable for ID of teamdrives
-      set_fact:
+      ansible.builtin.set_fact:
         union_id: "{{ union_id_var.results | map(attribute='stdout') }}"
 
   when: remote_type_var is search("union")
 
 - name: Merge teamdrive ID of both union and drive remotes
-  set_fact:
+  ansible.builtin.set_fact:
     td_id_var: "{{ td_id_var | default([]) + item }}"
   loop:
     - "{{ drive_id | default([]) }}"
     - "{{ union_id | default([]) }}"
 
 - name: Set variable for merged ID of teamdrives
-  set_fact:
+  ansible.builtin.set_fact:
     td_id: "{{ td_id_var | unique | join('\", \"') }}"
