@@ -18,7 +18,7 @@
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
@@ -27,7 +27,7 @@
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: "Settings | Check if AdGuardHome.yaml exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ adguardhome_config_path }}"
   register: adguardhome_config
 
@@ -35,7 +35,7 @@
   block:
 
     - name: "Settings | Import AdGuardHome.yaml.js2"
-      template:
+      ansible.builtin.template:
         src: AdGuardHome.yaml.js2
         dest: '{{ adguardhome_config_path }}'
         owner: "{{ user.name }}"
