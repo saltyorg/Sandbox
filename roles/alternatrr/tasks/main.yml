@@ -8,10 +8,10 @@
 #########################################################################
 ---
 - name: Import Default Sonarr variables
-  include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
 
 - name: Set Default Sonarr instance
-  set_fact:
+  ansible.builtin.set_fact:
     sonarr_name: "{{ sonarr_instances[0] }}"
   when: not sonarr_name is defined
 
@@ -26,7 +26,7 @@
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"

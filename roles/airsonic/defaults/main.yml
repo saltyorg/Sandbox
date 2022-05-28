@@ -59,7 +59,7 @@ airsonic_docker_container: "{{ airsonic_name }}"
 # Image
 airsonic_docker_image_pull: true
 airsonic_docker_image_tag: "latest"
-airsonic_docker_image: "lscr.io/linuxserver/airsonic:{{ airsonic_docker_image_tag }}"
+airsonic_docker_image: "lscr.io/linuxserver/airsonic-advanced:{{ airsonic_docker_image_tag }}"
 
 # Ports
 airsonic_docker_ports_defaults:
