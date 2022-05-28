@@ -18,7 +18,7 @@
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
@@ -30,11 +30,11 @@
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: EmbyStat directory permissions | Wait 30 seconds before continuing
-  wait_for:
+  ansible.builtin.wait_for:
     timeout: 30
 
 - name: Reset directory permissions
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
