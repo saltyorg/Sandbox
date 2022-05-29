@@ -16,5 +16,5 @@
     loop_var: role
 
 - name: McRouter Role
-  include_role:
+  ansible.builtin.include_role:
     name: mcrouter
