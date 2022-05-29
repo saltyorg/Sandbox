@@ -35,7 +35,7 @@
 
     - name: Set variable for upstreams of union remotes
       ansible.builtin.set_fact:
-        union_upstreams: "{{ union_upstreams_var.results | map(attribute='stdout') | map('split',': ') | join('\", \"') | replace(':', '') }}"
+        union_upstreams: "{{ union_upstreams_var.results | map(attribute='stdout') | map('split',' ') | flatten }}"
 
   when: remote_type_var is search("union")
 
