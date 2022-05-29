@@ -11,7 +11,7 @@
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
@@ -20,7 +20,7 @@
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: Download config.yml.template
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager/master/config/config.yml.template
     dest: "{{ plex_meta_manager_paths_location }}/config.yml.template"
     owner: "{{ user.name }}"
@@ -31,7 +31,7 @@
   ignore_errors: true
 
 - name: Chown '{{ plex_meta_manager_paths_location }}'
-  file:
+  ansible.builtin.file:
     path: "{{ plex_meta_manager_paths_location }}"
     state: directory
     recurse: yes
@@ -40,12 +40,12 @@
     mode: "0775"
 
 - name: "Checking if 'config.yml' exists in {{ plex_meta_manager_paths_location }}"
-  stat:
+  ansible.builtin.stat:
     path: "{{ plex_meta_manager_paths_location }}/config.yml"
   register: meta_config
 
 - name: "Fail when 'config.yml' is not present"
-  fail:
+  ansible.builtin.fail:
     msg: "You need to setup your config file. https://metamanager.wiki/en/latest/config/configuration.html"
   when: (not meta_config.stat.exists) and (not continuous_integration)
 
@@ -53,7 +53,7 @@
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: Alert user to make and verify the config and auth.
-  debug:
+  ansible.builtin.debug:
     msg:
       - "You should attempt a manual run first to ensure the config is working and to use oAuth for Trakt config etc. To do this run the below command"
       - "docker run --rm -it --network=saltbox -v {{ plex_meta_manager_paths_location }}:/config {{ plex_meta_manager_docker_image }} --run"
