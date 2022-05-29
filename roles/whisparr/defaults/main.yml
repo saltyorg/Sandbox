@@ -134,11 +134,11 @@ whisparr_docker_volumes_custom: []
 whisparr_docker_volumes_theme:
   - "{{ whisparr_paths_location }}/98-themepark:/etc/cont-init.d/98-themepark"
 whisparr_docker_volumes: "{{ lookup('vars', whisparr_name + '_docker_volumes_default', default=whisparr_docker_volumes_default)
-                           + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom)
-                        if not (lookup('vars', whisparr_name + '_themepark_enabled', default=whisparr_themepark_enabled))
-                        else lookup('vars', whisparr_name + '_docker_volumes_default', default=whisparr_docker_volumes_default)
-                           + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom)
-                           + lookup('vars', whisparr_name + '_docker_volumes_theme', default=whisparr_docker_volumes_theme) }}"
+                             + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom)
+                          if not (lookup('vars', whisparr_name + '_themepark_enabled', default=whisparr_themepark_enabled))
+                          else lookup('vars', whisparr_name + '_docker_volumes_default', default=whisparr_docker_volumes_default)
+                             + lookup('vars', whisparr_name + '_docker_volumes_custom', default=whisparr_docker_volumes_custom)
+                             + lookup('vars', whisparr_name + '_docker_volumes_theme', default=whisparr_docker_volumes_theme) }}"
 
 # Devices
 whisparr_docker_devices_default: []
