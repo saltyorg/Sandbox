@@ -8,17 +8,17 @@
 #########################################################################
 ---
 - name: hotio Migration | Check 'mylar' subfolder exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ mylar3_paths_location }}/mylar"
   register: subfolder1
 
 - name: hotio Migration | Check 'app' subfolder exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ mylar3_paths_location }}/app"
   register: subfolder2
 
 - name: hotio Migration | Move 'mylar3' folder contents to 'app' subfolder
-  shell: |
+  ansible.builtin.shell: |
     mv "{{ mylar3_paths_location }}/mylar" /tmp/app
     mkdir "{{ mylar3_paths_location }}"
     mv /tmp/app "{{ mylar3_paths_location }}/"
