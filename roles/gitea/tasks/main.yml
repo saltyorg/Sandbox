@@ -15,18 +15,18 @@
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
 - name: MariaDB Role
-  include_role:
+  ansible.builtin.include_role:
     name: mariadb
 
 - name: MariaDB | Create gitea database
-  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create schema gitea DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
+  ansible.builtin.command: "docker exec mariadb mysql -u root -ppassword321 -e 'create schema gitea DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
   ignore_errors: yes
 
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
