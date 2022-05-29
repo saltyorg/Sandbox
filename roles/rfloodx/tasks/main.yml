@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: "Execute rfloodX roles"
-  include_role:
+  ansible.builtin.include_role:
     name: rflood
   vars:
     rflood_name: "rflood{{ role }}"

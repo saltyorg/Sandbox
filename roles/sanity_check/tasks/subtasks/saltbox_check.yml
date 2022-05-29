@@ -8,11 +8,11 @@
 #########################################################################
 ---
 - name: "Check if 'saltbox' folder is present"
-  stat:
+  ansible.builtin.stat:
     path: "/srv/git/saltbox"
   register: saltbox_path
 
 - name: "Fail when 'saltbox' folder does not exist"
-  fail:
+  ansible.builtin.fail:
     msg: "Saltbox installation is required before running the Sandbox roles."
   when: not saltbox_path.stat.exists

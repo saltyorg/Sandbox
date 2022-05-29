@@ -8,7 +8,7 @@
 ########################################################################################
 ---
 - name: Migrator | All | '{{ file }}' | Migration 01 | Add single space after colon (if needed)
-  replace:
+  ansible.builtin.replace:
     path: "{{ playbook_dir }}/{{ file }}"
     regexp: '(:)[ \t]*(.*)'
     replace: '\1 \2'
@@ -17,4 +17,4 @@
     mode: 0664
 
 - name: Migrator | All | '{{ file }}' | Migration 01 | Re-import Variables
-  include_vars: "{{ playbook_dir }}/{{ file }}"
+  ansible.builtin.include_vars: "{{ playbook_dir }}/{{ file }}"

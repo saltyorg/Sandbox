@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Settings | Check if `{{ sshwifty_paths_config_location | basename }}` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ sshwifty_paths_config_location }}"
   register: sshwifty_config
 
@@ -16,7 +16,7 @@
   block:
 
     - name: Settings | Import default `{{ sshwifty_paths_config_location | basename }}`
-      template:
+      ansible.builtin.template:
         src: sshwifty.conf.json.j2
         dest: "{{ sshwifty_paths_config_location }}"
         owner: "{{ user.name }}"
