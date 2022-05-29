@@ -7,7 +7,7 @@
 #########################################################################
 ---
 - name: Settings | Check if `{{ logarr_paths_config_location | basename }}` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ logarr_paths_config_location }}"
   register: logarr_config
 
@@ -15,7 +15,7 @@
   block:
 
     - name: Settings | Import default `{{ logarr_paths_config_location | basename }}`
-      template:
+      ansible.builtin.template:
         src: config.json.j2
         dest: "{{ logarr_paths_config_location }}"
         owner: "{{ user.name }}"
