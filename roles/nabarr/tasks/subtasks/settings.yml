@@ -8,7 +8,7 @@
 ##########################################################################
 ---
 - name: Settings | Check if `{{ nabarr_paths_config_location | basename }}` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ nabarr_paths_config_location }}"
   register: nabarr_config
 
@@ -16,7 +16,7 @@
   block:
 
     - name: Settings | Import default `{{ nabarr_paths_location | basename }}`
-      copy:
+      ansible.builtin.copy:
         src: config.yml.sample
         dest: "{{ nabarr_paths_location }}/config.yml.sample"
         owner: "{{ user.name }}"

@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: "Execute OmbiX roles"
-  include_role:
+  ansible.builtin.include_role:
     name: ombi
   vars:
     ombi_name: "ombi{{ role }}"
