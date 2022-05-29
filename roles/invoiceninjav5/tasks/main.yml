@@ -9,23 +9,23 @@
 ---
 
 - name: MariaDB Role
-  include_role:
+  ansible.builtin.include_role:
     name: mariadb
 
 - name: MariaDB | Create ninja database
-  command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
+  ansible.builtin.command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
   ignore_errors: yes
 
 - name: Permissions | Create ninja group
-  command: "addgroup --gid 1500 invoiceninja "
+  ansible.builtin.command: "addgroup --gid 1500 invoiceninja "
   ignore_errors: yes
 
 - name: Permissions | Add to ninja group
-  command: "adduser {{ user.name }} invoiceninja "
+  ansible.builtin.command: "adduser {{ user.name }} invoiceninja "
   ignore_errors: yes
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "1500"
@@ -34,14 +34,14 @@
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: "Settings | Check if in-vhost.conf exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ invoiceninjav5_conf_path }}"
   register: invoiceninjav5_config
 
 - name: "Settings | in-vhost.conf tasks"
   block:
     - name: "Settings | Import in-vhost.conf"
-      template:
+      ansible.builtin.template:
         src: in-vhost.conf.j2
         dest: '{{ invoiceninjav5_conf_path }}'
         owner: "{{ user.name }}"
@@ -51,7 +51,7 @@
   when: not invoiceninjav5_config.stat.exists
 
 - name: "Execute nginx role"
-  include_role:
+  ansible.builtin.include_role:
     name: nginx
   vars:
     nginx_paths_folder: ""
