@@ -9,10 +9,10 @@
 ---
 
 - name: Import Default Plex variables
-  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
 - name: Report Plex Account Status
-  debug:
+  ansible.builtin.debug:
     msg: Requires Plex Account credentials to be entered in accounts.yml
   when: not plex_account_is_enabled
 
@@ -20,21 +20,21 @@
   block:
 
     - name: Check config exists
-      stat:
+      ansible.builtin.stat:
         path: "{{ plex_auto_languages_config_location }}"
       register: plex_auto_languages_config
 
     - name: Set Default Plex instance
-      set_fact:
+      ansible.builtin.set_fact:
         plex_name: "{{ plex_name | default(plex_instances[0]) }}"
 
     - name: Import Plex Auth Token role
-      import_role:
+      ansible.builtin.import_role:
         name: plex_auth_token
       when: not plex_auto_languages_config.stat.exists
 
     - name: Create directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "{{ user.name }}"
@@ -43,7 +43,7 @@
       with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
     - name: Import default config
-      template:
+      ansible.builtin.template:
         src: config.yaml.j2
         dest: "{{ plex_auto_languages_config_location }}"
         owner: "{{ user.name }}"
