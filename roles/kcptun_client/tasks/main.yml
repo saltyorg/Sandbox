@@ -15,7 +15,7 @@
     tls_hostname: localhost
 
 - name: Create opt directory
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: "0775"
@@ -26,12 +26,12 @@
     - /opt/kcptun-client/config
 
 - name: "Check if kcptun-client config file exists"
-  stat:
+  ansible.builtin.stat:
     path: "/opt/kcptun-client/config/config.json"
   register: kcptun_config
 
 - name: "Import config file if it doesnt exist"
-  template:
+  ansible.builtin.template:
     src: config.json.j2
     dest: /opt/kcptun-client/config/config.json
     force: yes
