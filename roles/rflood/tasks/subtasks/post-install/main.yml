@@ -8,14 +8,14 @@
 #########################################################################
 ---
 - name: Post-Install | Wait for config files to be created
-  wait_for:
+  ansible.builtin.wait_for:
     path: "{{ item }}"
     state: present
   loop:
     - "{{ rflood_paths_rtorrent_rc_location }}"
 
 - name: Post-Install | Wait for 10 seconds
-  wait_for:
+  ansible.builtin.wait_for:
     timeout: 10
 
 - name: Post-Install | Stop container

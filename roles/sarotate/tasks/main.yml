@@ -24,12 +24,12 @@
   register: mount_service
 
 - name: "Fail when rclone service is `not found`"
-  fail:
+  ansible.builtin.fail:
     msg: "You need to have a rclone mount running for sarotate to work."
   when: (not mount_service.stat.exists) and (not continuous_integration)
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
@@ -41,32 +41,32 @@
   block:
 
     - name: Set variable for output of sarotate releases
-      uri:
+      ansible.builtin.uri:
         url: https://api.github.com/repos/saltydk/sarotate/releases/latest
       register: sarotate_releases
 
     - name: Get the url for latest x64 sarotate binary
-      set_fact:
+      ansible.builtin.set_fact:
         sarotate_latest: "{{ sarotate_releases.json.assets | selectattr('name', '==', 'SARotate-linux-x64') | map(attribute='browser_download_url') | join('') }}"
 
     - name: Download sarotate binary
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ sarotate_latest }}"
         dest: "{{ sarotate_paths_location }}/SARotate"
         mode: "0775"
 
 - name: Check if `{{ sarotate_paths_config_location | basename }}` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ sarotate_paths_config_location }}"
   register: sarotate_config
 
 - name: "Fail when remotes are `not added`"
-  fail:
+  ansible.builtin.fail:
     msg: "You need to add remotes you wish to rotate the service accounts for in the settings file."
   when: (not sarotate_config.stat.exists) and ("" in sarotate.remotes) and (not continuous_integration)
 
 - name: "Fail when sa folder path are `not added`"
-  fail:
+  ansible.builtin.fail:
     msg: "You need to add the path to the folder containing your service accounts files in the settings file."
   when: (not sarotate_config.stat.exists) and (sarotate.sa_path == "your_sa_folder_path") and (not continuous_integration)
 
@@ -77,7 +77,7 @@
       import_tasks: "subtasks/config.yml"
 
     - name: Import default config
-      template:
+      ansible.builtin.template:
         src: config.yaml.j2
         dest: "{{ sarotate_paths_config_location }}"
         owner: "{{ user.name }}"
@@ -87,14 +87,14 @@
   when: (not sarotate_config.stat.exists) and (not continuous_integration)
 
 - name: Import sarotate service
-  template:
+  ansible.builtin.template:
     src: sarotate.service.j2
     dest: "{{ sarotate_paths_service_file_location }}"
     mode: "0664"
     force: true
 
 - name: Load sarotate service
-  systemd:
+  ansible.builtin.systemd:
     name: sarotate
     state: started
     enabled: yes
