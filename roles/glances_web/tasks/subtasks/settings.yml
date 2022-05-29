@@ -6,7 +6,7 @@
 #########################################################################
 ---
 - name: Settings | Check if `{{ glances_web_paths_config_location | basename }}` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ glances_web_paths_config_location }}"
   register: glances_web_config
 
@@ -14,7 +14,7 @@
   block:
 
     - name: Settings | Import default `{{ glances_web_paths_config_location | basename }}`
-      copy:
+      ansible.builtin.copy:
         src: glances.conf
         dest: "{{ glances_web_paths_config_location }}"
         owner: "{{ user.name }}"
