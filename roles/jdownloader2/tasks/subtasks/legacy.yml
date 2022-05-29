@@ -8,7 +8,7 @@
 ##########################################################################
 ---
 - name: Legacy | Check if '/opt/myjdownloader' exists
-  stat:
+  ansible.builtin.stat:
     path: "/opt/myjdownloader"
   register: opt_myjdownloader
 
@@ -21,7 +21,7 @@
         state: absent
 
     - name: Legacy | Move opt folder 'myjdownloader' to 'jdownloader2'
-      shell: |
+      ansible.builtin.shell: |
         mv /opt/myjdownloader "{{ jdownloader2_paths_location }}"
         chown -R {{ user.name }}:{{ user.name }} "{{ jdownloader2_paths_location }}"
 
