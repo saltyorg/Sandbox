@@ -8,15 +8,15 @@
 #########################################################################
 ---
 - name: Import Default Plex variables
-  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
 - name: Set Default Plex instance
-  set_fact:
+  ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"
   when: not plex_name is defined
 
 - name: Create plex_dupefinder directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
@@ -27,7 +27,7 @@
     - /opt/plex_dupefinder
 
 - name: Clone plex_dupefinder
-  git:
+  ansible.builtin.git:
     repo: https://github.com/l3uddz/plex_dupefinder.git
     dest: /opt/plex_dupefinder
     clone: true

@@ -8,15 +8,15 @@
 ##########################################################################
 ---
 - name: Pre-Install | Import Default Plex variables
-  include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
 - name: Pre-Install | Set Default Plex instance
-  set_fact:
+  ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"
   when: not plex_name is defined
 
 - name: Pre-Install | Check if {{ plex_paths_config_location | basename }} exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ plex_paths_config_location }}"
   register: preferences_xml
 
@@ -30,19 +30,19 @@
       register: preferences_xml_resp
 
     - name: Pre-Install | Set plex_host_username variable
-      set_fact:
+      ansible.builtin.set_fact:
         plex_host_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
 
   ignore_errors: true
   when: preferences_xml.stat.exists
 
 - name: Pre-Install | Plex Auth Token tasks
-  import_role:
+  ansible.builtin.import_role:
     name: plex_auth_token
   when: plex_account_is_enabled
 
 - name: Pre-Install | Create {{ plextraktsync_paths_config_location | basename }}
-  copy:
+  ansible.builtin.copy:
     content: |
       # This is .env file for PlexTraktSync
       PLEX_BASEURL=

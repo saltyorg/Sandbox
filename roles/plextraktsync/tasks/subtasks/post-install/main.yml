@@ -8,12 +8,12 @@
 ##########################################################################
 ---
 - name: Post-Install | Check if `.pytrakt.json` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ plextraktsync_paths_location }}/.pytrakt.json"
   register: plextraktsync_pytrakt
 
 - name: Post-Install | Check if a Trakt.tv username is supplied
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ plextraktsync_paths_config_location }}"
     regexp: '^TRAKT_USERNAME=(?!\s*$).+'
     state: absent
@@ -22,7 +22,7 @@
   register: plextraktsync_env_trakt_username
 
 - name: Post-Install | Check if a Plex.tv username is supplied
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ plextraktsync_paths_config_location }}"
     regexp: '^PLEX_USERNAME=(?!\s*$).+'
     state: absent
@@ -31,14 +31,14 @@
   register: plextraktsync_env_plex_username
 
 - name: Post-Install | Warn if no Plex.tv username is supplied
-  debug:
+  ansible.builtin.debug:
     msg:
       Username not found for Plex. If a user is not specified, watch activity from ALL
       users of the target Plex server will be scrobbled to the target Trakt.tv account.
   when: not plextraktsync_env_plex_username.found
 
 - name: Post-Install | Guide if Trakt.tv login data is missing
-  pause:
+  ansible.builtin.pause:
     seconds: 1
     prompt: |
 
