@@ -8,9 +8,9 @@
 ####################################################################################
 ---
 - name: Post-Install | Settings | Update 'settings.json' config settings
-  shell: jq '."peer-port"={{ transmission_docker_ports_51413 }}' "{{ transmission_paths_setttings_location }}" | sponge "{{ transmission_paths_setttings_location }}"  # noqa 204
+  ansible.builtin.shell: jq '."peer-port"={{ transmission_docker_ports_51413 }}' "{{ transmission_paths_setttings_location }}" | sponge "{{ transmission_paths_setttings_location }}"  # noqa 204
 
 - name: Post-Install | Settings | Set '{{ transmission_paths_location }}' ownership recursively
-  shell: "chown -R {{ user.name }}:{{ user.name }} {{ transmission_paths_location }}"
+  ansible.builtin.shell: "chown -R {{ user.name }}:{{ user.name }} {{ transmission_paths_location }}"
   args:
     warn: false

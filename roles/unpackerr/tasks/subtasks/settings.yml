@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Settings | Check if `{{ unpackerr_config_location | basename }}` exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ unpackerr_config_location }}"
   register: unpackerr_config
 
@@ -16,7 +16,7 @@
   block:
 
     - name: Settings | Import default `{{ unpackerr_config_location | basename }}`
-      template:
+      ansible.builtin.template:
         src: unpackerr.conf.j2
         dest: "{{ unpackerr_config_location }}"
         owner: "{{ user.name }}"

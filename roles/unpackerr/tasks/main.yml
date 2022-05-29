@@ -14,7 +14,7 @@
     container_default_behavior: compatibility
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
