@@ -13,13 +13,13 @@
 
 # Tautulli Tasks
 - name: "Check if tautulli exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ varken_tautulli_config }}"
   register: tautulli_config
 
 # Sonarr Tasks
 - name: "Check if sonarr exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ varken_sonarr_config }}"
   register: sonarr_config
 
@@ -32,12 +32,12 @@
   when: sonarr_config.stat.exists
 
 - name: Set 'sonarr_api_key'
-  set_fact:
+  ansible.builtin.set_fact:
     sonarr_api_key: "{{ xmlresp.matches[0].ApiKey if sonarr_config.stat.exists else '' }}"
 
 # Radarr Tasks
 - name: "Check if radarr exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ varken_radarr_config }}"
   register: radarr_config
 
@@ -50,26 +50,26 @@
   when: radarr_config.stat.exists
 
 - name: Set 'radarr_api_key'
-  set_fact:
+  ansible.builtin.set_fact:
     radarr_api_key: "{{ xmlresp.matches[0].ApiKey if radarr_config.stat.exists else '' }}"
 
 # Ombi Tasks
 - name: "Check if ombi exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ varken_ombi_db }}"
   register: ombi_config
 
 - name: Get Ombi API key
-  shell: sqlite3 "{{ varken_ombi_db }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 207
+  ansible.builtin.shell: sqlite3 "{{ varken_ombi_db }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 207
   register: ombi_api_key
   when: ombi_config.stat.exists
 
 - name: Set 'ombi_api_key'
-  set_fact:
+  ansible.builtin.set_fact:
     ombi_api_key: "{{ ombi_api_key.stdout if ombi_config.stat.exists else '' }}"
 
 - name: Import 'config.ini'
-  template:
+  ansible.builtin.template:
     src: varken.ini.js2
     dest: /opt/varken/varken.ini
     owner: "{{ user.name }}"
