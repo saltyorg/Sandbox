@@ -8,10 +8,10 @@
 #########################################################################
 ---
 - name: Import Default MariaDB variables
-  include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
 
 - name: MariaDB Role
-  include_role:
+  ansible.builtin.include_role:
     name: mariadb
 
 - name: Add DNS record
@@ -25,7 +25,7 @@
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ user.name }}"
@@ -34,7 +34,7 @@
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: Create Wordpress database
-  command: "docker exec {{ mariadb_name }} mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create schema {{ wordpress_name }} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
+  ansible.builtin.command: "docker exec {{ mariadb_name }} mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create schema {{ wordpress_name }} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
   ignore_errors: yes
 
 - name: Create Docker container

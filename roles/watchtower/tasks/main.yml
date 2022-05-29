@@ -15,7 +15,7 @@
     tls_hostname: localhost
 
 - name: Create watchtower directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: "0775"
@@ -26,12 +26,12 @@
     - /opt/watchtower
 
 - name: "Check if watchtower.env file exists"
-  stat:
+  ansible.builtin.stat:
     path: "/opt/watchtower/watchtower.env"
   register: watchtower_env
 
 - name: "Import watchtower.env if it doesnt exist"
-  template:
+  ansible.builtin.template:
     src: watchtower.env.j2
     dest: /opt/watchtower/watchtower.env
     force: yes
