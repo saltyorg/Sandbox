@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: "Settings | Check if '{{ filebrowser_paths_config_location | basename }}' exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ filebrowser_paths_config_location }}"
   register: filebrowser_env
 
@@ -16,7 +16,7 @@
   block:
 
     - name: Settings | Import default `{{ filebrowser_paths_config_location | basename }}`
-      template:
+      ansible.builtin.template:
         src: filebrowser.json.j2
         dest: "{{ filebrowser_paths_config_location }}"
         owner: "{{ user.name }}"
@@ -26,7 +26,7 @@
   when: not filebrowser_env.stat.exists
 
 - name: "Settings | Check if '{{ filebrowser_paths_db_location | basename }}' exists"
-  stat:
+  ansible.builtin.stat:
     path: "{{ filebrowser_paths_db_location }}"
   register: filebrowser_db
 
@@ -34,7 +34,7 @@
   block:
 
     - name: Settings | Import default `{{ filebrowser_paths_db_location | basename }}`
-      template:
+      ansible.builtin.template:
         src: filebrowser.db
         dest: "{{ filebrowser_paths_db_location }}"
         owner: "{{ user.name }}"
