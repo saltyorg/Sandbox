@@ -37,23 +37,21 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-- name: Download sarotate binary for linux x64
-  block:
+- name: Set variable for output of sarotate releases
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/saltydk/sarotate/releases/latest
+  register: sarotate_releases
 
-    - name: Set variable for output of sarotate releases
-      ansible.builtin.uri:
-        url: https://api.github.com/repos/saltydk/sarotate/releases/latest
-      register: sarotate_releases
+- name: Get the url for latest x64 sarotate binary
+  ansible.builtin.set_fact:
+    sarotate_latest: "{{ sarotate_releases.json.assets | selectattr('name', '==', 'SARotate-linux-x64') | map(attribute='browser_download_url') | join('') }}"
 
-    - name: Get the url for latest x64 sarotate binary
-      ansible.builtin.set_fact:
-        sarotate_latest: "{{ sarotate_releases.json.assets | selectattr('name', '==', 'SARotate-linux-x64') | map(attribute='browser_download_url') | join('') }}"
-
-    - name: Download sarotate binary
-      ansible.builtin.get_url:
-        url: "{{ sarotate_latest }}"
-        dest: "{{ sarotate_paths_location }}/SARotate"
-        mode: "0775"
+- name: Download sarotate binary
+  ansible.builtin.get_url:
+    url: "{{ sarotate_latest }}"
+    dest: "{{ sarotate_paths_location }}/SARotate"
+    mode: "0775"
+    force: true
 
 - name: Check if `{{ sarotate_paths_config_location | basename }}` exists
   ansible.builtin.stat:
