@@ -56,4 +56,4 @@
   ansible.builtin.debug:
     msg:
       - "You should attempt a manual run first to ensure the config is working and to use oAuth for Trakt config etc. To do this run the below command"
-      - "docker run --rm -it --network=saltbox -v {{ plex_meta_manager_paths_location }}:/config {{ plex_meta_manager_docker_image }} --run"
+      - "docker run --rm -it --network=saltbox -u \"{{ uid }}:{{ gid }}\" -v {{ plex_meta_manager_paths_location }}:/config {{ plex_meta_manager_docker_image }} --run"
