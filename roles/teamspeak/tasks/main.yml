@@ -1,0 +1,82 @@
+#########################################################################
+# Title:            Sandbox: Teamspeak                                  #
+# Author(s):        salty                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Import Default MariaDB variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+
+- name: MariaDB | Create ninja database
+  ansible.builtin.command: "docker exec mariadb mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create database {{ teamspeak_name }};'"
+  ignore_errors: yes
+
+- name: Get next available port within the range of '9987-9997'
+  find_next_open_port:
+    low_bound: 9987
+    high_bound: 9997
+  register: port_lookup_voice
+  ignore_errors: true
+
+- name: Get next available port within the range of '10011-10021'
+  find_next_open_port:
+    low_bound: 10011
+    high_bound: 10021
+  register: port_lookup_webquery
+  ignore_errors: true
+
+- name: Get next available port within the range of '30033-30043'
+  find_next_open_port:
+    low_bound: 30033
+    high_bound: 30043
+  register: port_lookup_file
+  ignore_errors: true
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Add SRV record
+  community.general.cloudflare_dns:
+    account_api_token: "{{ cloudflare.api }}"
+    account_email: "{{ cloudflare.email }}"
+    domain: "{{ _dns_tasker_zone }}"
+    service: "{{ teamspeak_web_subdomain }}.{{ teamspeak_web_domain }}"
+    proto: udp
+    port: "{{ teamspeak_docker_ports_9987 }}"
+    priority: 10
+    weight: 20
+    type: SRV
+    value: "_ts3._udp.{{ teamspeak_web_subdomain }}.{{ teamspeak_web_domain }}"
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Port Information
+  ansible.builtin.debug:
+    msg:
+      - "Voice port is: {{ teamspeak_docker_ports_9987 }}"
+      - "Web Query port is: {{ teamspeak_docker_ports_10011 }}"
+      - "File port is: {{ teamspeak_docker_ports_30033 }}"

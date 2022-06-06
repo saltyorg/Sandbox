@@ -1,0 +1,155 @@
+##########################################################################
+# Title:         Sandbox: Teamspeak | Default Variables                  #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+teamspeak_name: "teamspeak"
+
+################################
+# Paths
+################################
+
+teamspeak_paths_folder: "{{ teamspeak_name }}"
+teamspeak_paths_location: "{{ server_appdata_path }}/{{ teamspeak_paths_folder }}"
+teamspeak_paths_folders_list:
+  - "{{ teamspeak_paths_location }}"
+
+################################
+# Web
+################################
+
+teamspeak_web_subdomain: "{{ teamspeak_name }}"
+teamspeak_web_domain: "{{ user.domain }}"
+
+################################
+# DNS
+################################
+
+teamspeak_dns_record: "{{ lookup('vars', teamspeak_name + '_web_subdomain', default=teamspeak_web_subdomain) }}"
+teamspeak_dns_zone: "{{ lookup('vars', teamspeak_name + '_web_domain', default=teamspeak_web_domain) }}"
+teamspeak_dns_proxy: false
+
+################################
+# Ports
+################################
+teamspeak_docker_ports_9987: "{{ port_lookup_voice.port
+                              if (port_lookup_voice.port is defined)
+                                 and (port_lookup_voice.port | trim | length > 0)
+                              else '9987' }}"
+
+teamspeak_docker_ports_10011: "{{ port_lookup_webquery.port
+                               if (port_lookup_webquery.port is defined)
+                                  and (port_lookup_webquery.port | trim | length > 0)
+                               else '10011' }}"
+
+teamspeak_docker_ports_30033: "{{ port_lookup_file.port
+                               if (port_lookup_file.port is defined)
+                                  and (port_lookup_file.port | trim | length > 0)
+                               else '30033' }}"
+
+################################
+# Docker
+################################
+
+# Container
+teamspeak_docker_container: "{{ teamspeak_name }}"
+
+# Image
+teamspeak_docker_image_pull: true
+teamspeak_docker_image_repo: "teamspeak"
+teamspeak_docker_image_tag: "latest"
+teamspeak_docker_image: "{{ lookup('vars', teamspeak_name + '_docker_image_repo', default=teamspeak_docker_image_repo)
+                            + ':' + lookup('vars', teamspeak_name + '_docker_image_tag', default=teamspeak_docker_image_tag) }}"
+
+# Ports
+teamspeak_docker_ports_defaults:
+  - "{{ teamspeak_docker_ports_9987 }}:9987/udp"
+  - "{{ teamspeak_docker_ports_10011 }}:10011"
+  - "{{ teamspeak_docker_ports_30033 }}:30033"
+teamspeak_docker_ports_custom: []
+teamspeak_docker_ports: "{{ lookup('vars', teamspeak_name + '_docker_ports_defaults', default=teamspeak_docker_ports_defaults)
+                            + lookup('vars', teamspeak_name + '_docker_ports_custom', default=teamspeak_docker_ports_custom) }}"
+
+# Envs
+teamspeak_docker_envs_default:
+  TS3SERVER_DB_PLUGIN: "ts3db_mariadb"
+  TS3SERVER_DB_SQLCREATEPATH: "create_mariadb"
+  TS3SERVER_DB_HOST: "mariadb"
+  TS3SERVER_DB_USER: "root"
+  TS3SERVER_DB_PASSWORD: "{{ mariadb_docker_envs_mysql_root_password }}"
+  TS3SERVER_DB_NAME: "{{ teamspeak_name }}"
+  TS3SERVER_DB_WAITUNTILREADY: "30"
+  TS3SERVER_LICENSE: "accept"
+teamspeak_docker_envs_custom: {}
+teamspeak_docker_envs: "{{ lookup('vars', teamspeak_name + '_docker_envs_default', default=teamspeak_docker_envs_default)
+                           | combine(lookup('vars', teamspeak_name + '_docker_envs_custom', default=teamspeak_docker_envs_custom)) }}"
+
+# Commands
+teamspeak_docker_commands_default: []
+teamspeak_docker_commands_custom: []
+teamspeak_docker_commands: "{{ lookup('vars', teamspeak_name + '_docker_commands_default', default=teamspeak_docker_commands_default)
+                               + lookup('vars', teamspeak_name + '_docker_docker_commands_custom', default=teamspeak_docker_commands_custom) }}"
+
+# Volumes
+teamspeak_docker_volumes_default:
+  - "{{ teamspeak_paths_location }}:/var/ts3server"
+teamspeak_docker_volumes_custom: []
+teamspeak_docker_volumes: "{{ lookup('vars', teamspeak_name + '_docker_volumes_default', default=teamspeak_docker_volumes_default)
+                              + lookup('vars', teamspeak_name + '_docker_volumes_custom', default=teamspeak_docker_volumes_custom) }}"
+
+# Devices
+teamspeak_docker_devices_default: []
+teamspeak_docker_devices_custom: []
+teamspeak_docker_devices: "{{ lookup('vars', teamspeak_name + '_docker_devices_default', default=teamspeak_docker_devices_default)
+                              + lookup('vars', teamspeak_name + '_docker_devices_custom', default=teamspeak_docker_devices_custom) }}"
+
+# Hosts
+teamspeak_docker_hosts_default: []
+teamspeak_docker_hosts_custom: []
+teamspeak_docker_hosts: "{{ docker_hosts_common
+                            | combine(lookup('vars', teamspeak_name + '_docker_hosts_default', default=teamspeak_docker_hosts_default))
+                            | combine(lookup('vars', teamspeak_name + '_docker_hosts_custom', default=teamspeak_docker_hosts_custom)) }}"
+
+# Labels
+teamspeak_docker_labels_default: {}
+teamspeak_docker_labels_custom: {}
+teamspeak_docker_labels: "{{ docker_labels_common
+                             | combine(lookup('vars', teamspeak_name + '_docker_labels_default', default=teamspeak_docker_labels_default))
+                             | combine(lookup('vars', teamspeak_name + '_docker_labels_custom', default=teamspeak_docker_labels_custom)) }}"
+
+# Hostname
+teamspeak_docker_hostname: "{{ teamspeak_name }}"
+
+# Networks
+teamspeak_docker_networks_alias: "{{ teamspeak_name }}"
+teamspeak_docker_networks_default: []
+teamspeak_docker_networks_custom: []
+teamspeak_docker_networks: "{{ docker_networks_common
+                               + lookup('vars', teamspeak_name + '_docker_networks_default', default=teamspeak_docker_networks_default)
+                               + lookup('vars', teamspeak_name + '_docker_networks_custom', default=teamspeak_docker_networks_custom) }}"
+
+# Capabilities
+teamspeak_docker_capabilities_default: []
+teamspeak_docker_capabilities_custom: []
+teamspeak_docker_capabilities: "{{ lookup('vars', teamspeak_name + '_docker_capabilities_default', default=teamspeak_docker_capabilities_default)
+                                   + lookup('vars', teamspeak_name + '_docker_capabilities_custom', default=teamspeak_docker_capabilities_custom) }}"
+
+# Security Opts
+teamspeak_docker_security_opts_default: []
+teamspeak_docker_security_opts_custom: []
+teamspeak_docker_security_opts: "{{ lookup('vars', teamspeak_name + '_docker_security_opts_default', default=teamspeak_docker_security_opts_default)
+                                    + lookup('vars', teamspeak_name + '_docker_security_opts_custom', default=teamspeak_docker_security_opts_custom) }}"
+
+# Restart Policy
+teamspeak_docker_restart_policy: unless-stopped
+
+# State
+teamspeak_docker_state: started
