@@ -102,6 +102,7 @@
     - { role: syncthing, tags: ['syncthing'] }
     - { role: tdarr, tags: ['tdarr'] }
     - { role: tdarr_node, tags: ['tdarr_node'] }
+    - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: traefik_robotstxt, tags: ['traefik_robotstxt'] }
