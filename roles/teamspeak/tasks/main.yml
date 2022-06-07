@@ -61,7 +61,7 @@
     weight: 20
     type: SRV
     value: "_ts3._udp.{{ teamspeak_web_subdomain }}.{{ teamspeak_web_domain }}"
-  when: (not continuous_integration)
+  when: cloudflare_is_enabled
 
 - name: Create directories
   ansible.builtin.file:
