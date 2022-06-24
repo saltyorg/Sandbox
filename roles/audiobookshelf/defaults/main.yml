@@ -31,16 +31,18 @@ audiobookshelf_paths_folders_list:
 audiobookshelf_web_subdomain: "{{ audiobookshelf_name }}"
 audiobookshelf_web_domain: "{{ user.domain }}"
 audiobookshelf_web_port: "80"
-audiobookshelf_web_url: "{{ 'https://' + audiobookshelf_web_subdomain + dns_record_suffix + '.' + audiobookshelf_web_domain
+audiobookshelf_web_url: "{{ 'https://' + lookup('vars', audiobookshelf_name + '_web_subdomain', default=audiobookshelf_web_subdomain)
+                             + '.' + lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_web_domain)
                          if (reverse_proxy_is_enabled)
-                         else 'http://localhost:' + audiobookshelf_web_port }}"
+                         else 'http://localhost:' + lookup('vars', audiobookshelf_name + '_web_port', default=audiobookshelf_web_port) }}"
 
 ################################
 # DNS
 ################################
 
-audiobookshelf_dns_record: "{{ audiobookshelf_web_subdomain }}"
-audiobookshelf_dns_zone: "{{ audiobookshelf_web_domain }}"
+audiobookshelf_dns_record: "{{ lookup('vars', audiobookshelf_name + '_web_subdomain', default=audiobookshelf_web_subdomain) }}"
+audiobookshelf_dns_zone: "{{ lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_web_domain) }}"
+audiobookshelf_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
@@ -58,6 +60,7 @@ audiobookshelf_traefik_middleware: "{{ audiobookshelf_traefik_middleware_default
                                     if (not audiobookshelf_traefik_middleware_custom.startswith(',') and audiobookshelf_traefik_middleware_custom | length > 0)
                                     else audiobookshelf_traefik_middleware_default
                                        + audiobookshelf_traefik_middleware_custom }}"
+
 audiobookshelf_traefik_certresolver: "{{ traefik_default_certresolver }}"
 audiobookshelf_traefik_enabled: true
 
@@ -70,32 +73,36 @@ audiobookshelf_docker_container: "{{ audiobookshelf_name }}"
 
 # Image
 audiobookshelf_docker_image_pull: true
+audiobookshelf_docker_image_repo: "ghcr.io/advplyr/audiobookshelf"
 audiobookshelf_docker_image_tag: "latest"
-audiobookshelf_docker_image: "ghcr.io/advplyr/audiobookshelf:{{ audiobookshelf_docker_image_tag }}"
+audiobookshelf_docker_image: "{{ lookup('vars', audiobookshelf_name + '_docker_image_repo', default=audiobookshelf_docker_image_repo)
+                                 + ':' + lookup('vars', audiobookshelf_name + '_docker_image_tag', default=audiobookshelf_docker_image_tag) }}"
 
 # Ports
-audiobookshelf_docker_ports_defaults:
-  - "{{ audiobookshelf_web_port }}"
+audiobookshelf_docker_ports_defaults: []
+audiobookshelf_docker_ports_ui:
+  - "{{ lookup('vars', audiobookshelf_name + '_web_port', default=audiobookshelf_web_port) }}:{{ lookup('vars', audiobookshelf_name + '_web_port', default=audiobookshelf_web_port) }}"
 audiobookshelf_docker_ports_custom: []
-audiobookshelf_docker_ports: "{{ audiobookshelf_docker_ports_defaults
-                                 + audiobookshelf_docker_ports_custom
+audiobookshelf_docker_ports: "{{ lookup('vars', audiobookshelf_name + '_docker_ports_defaults', default=audiobookshelf_docker_ports_defaults)
+                                 + lookup('vars', audiobookshelf_name + '_docker_ports_ui', default=audiobookshelf_docker_ports_ui)
+                                 + lookup('vars', audiobookshelf_name + '_docker_ports_custom', default=audiobookshelf_docker_ports_custom)
                               if (not reverse_proxy_is_enabled)
-                              else [] + audiobookshelf_docker_ports_custom }}"
+                              else lookup('vars', audiobookshelf_name + '_docker_ports_defaults', default=audiobookshelf_docker_ports_defaults)
+                                 + lookup('vars', audiobookshelf_name + '_docker_ports_custom', default=audiobookshelf_docker_ports_custom) }}"
 
 # Envs
 audiobookshelf_docker_envs_default:
   AUDIOBOOKSHELF_UID: "{{ uid }}"
   AUDIOBOOKSHELF_GID: "{{ gid }}"
-  TZ: "{{ tz }}"
 audiobookshelf_docker_envs_custom: {}
-audiobookshelf_docker_envs: "{{ audiobookshelf_docker_envs_default
-                                | combine(audiobookshelf_docker_envs_custom) }}"
+audiobookshelf_docker_envs: "{{ lookup('vars', audiobookshelf_name + '_docker_envs_default', default=audiobookshelf_docker_envs_default)
+                                | combine(lookup('vars', audiobookshelf_name + '_docker_envs_custom', default=audiobookshelf_docker_envs_custom)) }}"
 
 # Commands
 audiobookshelf_docker_commands_default: []
 audiobookshelf_docker_commands_custom: []
-audiobookshelf_docker_commands: "{{ audiobookshelf_docker_commands_default
-                                    + audiobookshelf_docker_commands_custom}}"
+audiobookshelf_docker_commands: "{{ lookup('vars', audiobookshelf_name + '_docker_commands_default', default=audiobookshelf_docker_commands_default)
+                                    + lookup('vars', audiobookshelf_name + '_docker_docker_commands_custom', default=audiobookshelf_docker_commands_custom) }}"
 
 # Volumes
 audiobookshelf_docker_volumes_default:
@@ -110,22 +117,22 @@ audiobookshelf_docker_volumes: "{{ lookup('vars', audiobookshelf_name + '_docker
 # Devices
 audiobookshelf_docker_devices_default: []
 audiobookshelf_docker_devices_custom: []
-audiobookshelf_docker_devices: "{{ audiobookshelf_docker_devices_default
-                                   + audiobookshelf_docker_devices_custom }}"
+audiobookshelf_docker_devices: "{{ lookup('vars', audiobookshelf_name + '_docker_devices_default', default=audiobookshelf_docker_devices_default)
+                                   + lookup('vars', audiobookshelf_name + '_docker_devices_custom', default=audiobookshelf_docker_devices_custom) }}"
 
 # Hosts
 audiobookshelf_docker_hosts_default: []
 audiobookshelf_docker_hosts_custom: []
 audiobookshelf_docker_hosts: "{{ docker_hosts_common
-                                 | combine(audiobookshelf_docker_hosts_default)
-                                 | combine(audiobookshelf_docker_hosts_custom) }}"
+                                 | combine(lookup('vars', audiobookshelf_name + '_docker_hosts_default', default=audiobookshelf_docker_hosts_default))
+                                 | combine(lookup('vars', audiobookshelf_name + '_docker_hosts_custom', default=audiobookshelf_docker_hosts_custom)) }}"
 
 # Labels
 audiobookshelf_docker_labels_default: {}
 audiobookshelf_docker_labels_custom: {}
 audiobookshelf_docker_labels: "{{ docker_labels_common
-                                  | combine(audiobookshelf_docker_labels_default)
-                                  | combine(audiobookshelf_docker_labels_custom) }}"
+                                  | combine(lookup('vars', audiobookshelf_name + '_docker_labels_default', default=audiobookshelf_docker_labels_default))
+                                  | combine(lookup('vars', audiobookshelf_name + '_docker_labels_custom', default=audiobookshelf_docker_labels_custom)) }}"
 
 # Hostname
 audiobookshelf_docker_hostname: "{{ audiobookshelf_name }}"
@@ -135,20 +142,20 @@ audiobookshelf_docker_networks_alias: "{{ audiobookshelf_name }}"
 audiobookshelf_docker_networks_default: []
 audiobookshelf_docker_networks_custom: []
 audiobookshelf_docker_networks: "{{ docker_networks_common
-                                    + audiobookshelf_docker_networks_default
-                                    + audiobookshelf_docker_networks_custom }}"
+                                    + lookup('vars', audiobookshelf_name + '_docker_networks_default', default=audiobookshelf_docker_networks_default)
+                                    + lookup('vars', audiobookshelf_name + '_docker_networks_custom', default=audiobookshelf_docker_networks_custom) }}"
 
 # Capabilities
 audiobookshelf_docker_capabilities_default: []
 audiobookshelf_docker_capabilities_custom: []
-audiobookshelf_docker_capabilities: "{{ audiobookshelf_docker_capabilities_default
-                                        + audiobookshelf_docker_capabilities_custom }}"
+audiobookshelf_docker_capabilities: "{{ lookup('vars', audiobookshelf_name + '_docker_capabilities_default', default=audiobookshelf_docker_capabilities_default)
+                                        + lookup('vars', audiobookshelf_name + '_docker_capabilities_custom', default=audiobookshelf_docker_capabilities_custom) }}"
 
 # Security Opts
 audiobookshelf_docker_security_opts_default: []
 audiobookshelf_docker_security_opts_custom: []
-audiobookshelf_docker_security_opts: "{{ audiobookshelf_docker_security_opts_default
-                                         + audiobookshelf_docker_security_opts_custom }}"
+audiobookshelf_docker_security_opts: "{{ lookup('vars', audiobookshelf_name + '_docker_security_opts_default', default=audiobookshelf_docker_security_opts_default)
+                                         + lookup('vars', audiobookshelf_name + '_docker_security_opts_custom', default=audiobookshelf_docker_security_opts_custom) }}"
 
 # Restart Policy
 audiobookshelf_docker_restart_policy: unless-stopped
