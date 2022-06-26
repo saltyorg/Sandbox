@@ -29,6 +29,7 @@
     - { section: 'defaults', option: 'callbacks_enabled', value: 'profile_tasks' }
     - { section: 'defaults', option: 'callback_whitelist', state: 'absent' }
     - { section: 'defaults', option: 'command_warnings', state: 'absent' }
+    - { section: 'defaults', option: 'force_color', value: 'True' }
 
 - name: "Migrator | 'ansible.cfg' | Build 'files_updated_successfully' list"
   ansible.builtin.set_fact:
