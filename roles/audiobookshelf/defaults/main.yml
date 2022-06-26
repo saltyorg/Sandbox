@@ -48,9 +48,9 @@ audiobookshelf_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-rocketchat_traefik_middleware: "{{ traefik_default_middleware }}"
-rocketchat_traefik_certresolver: "{{ traefik_default_certresolver }}"
-rocketchat_traefik_enabled: true
+audiobookshelf_traefik_middleware: "{{ traefik_default_middleware }}"
+audiobookshelf_traefik_certresolver: "{{ traefik_default_certresolver }}"
+audiobookshelf_traefik_enabled: true
 
 ################################
 # Docker
