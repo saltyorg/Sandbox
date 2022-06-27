@@ -68,7 +68,7 @@ thelounge_docker_ports_custom: []
 thelounge_docker_ports: "{{ thelounge_docker_ports_defaults
                             + thelounge_docker_ports_custom
                          if (not reverse_proxy_is_enabled)
-                         else [] + thelounge_docker_ports_custom }}"
+                         else thelounge_docker_ports_custom }}"
 
 # Envs
 thelounge_docker_envs_default:

@@ -69,7 +69,7 @@ mylar3_docker_ports_custom: []
 mylar3_docker_ports: "{{ mylar3_docker_ports_defaults
                            + mylar3_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + mylar3_docker_ports_custom }}"
+                        else mylar3_docker_ports_custom }}"
 
 # Envs
 mylar3_docker_envs_default:

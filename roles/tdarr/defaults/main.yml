@@ -79,7 +79,7 @@ tdarr_docker_ports_custom: []
 tdarr_docker_ports: "{{ tdarr_docker_ports_defaults
                         + tdarr_docker_ports_custom
                      if (not reverse_proxy_is_enabled)
-                     else [] + tdarr_docker_ports_custom }}"
+                     else tdarr_docker_ports_custom }}"
 
 # Envs
 tdarr_docker_envs_default:

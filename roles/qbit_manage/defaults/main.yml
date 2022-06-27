@@ -41,7 +41,7 @@ qbit_manage_docker_ports_custom: []
 qbit_manage_docker_ports: "{{ qbit_manage_docker_ports_defaults
                               + qbit_manage_docker_ports_custom
                            if (not reverse_proxy_is_enabled)
-                           else [] + qbit_manage_docker_ports_custom }}"
+                           else qbit_manage_docker_ports_custom }}"
 
 # Envs
 qbit_manage_docker_envs_default:

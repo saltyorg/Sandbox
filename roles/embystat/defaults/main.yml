@@ -69,7 +69,7 @@ embystat_docker_ports_custom: []
 embystat_docker_ports: "{{ embystat_docker_ports_defaults
                            + embystat_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + embystat_docker_ports_custom }}"
+                        else embystat_docker_ports_custom }}"
 
 # Envs
 embystat_docker_envs_default: {}

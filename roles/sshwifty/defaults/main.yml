@@ -71,7 +71,7 @@ sshwifty_docker_ports_custom: []
 sshwifty_docker_ports: "{{ sshwifty_docker_ports_defaults
                            + sshwifty_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + sshwifty_docker_ports_custom }}"
+                        else sshwifty_docker_ports_custom }}"
 
 # Envs
 sshwifty_docker_envs_default:

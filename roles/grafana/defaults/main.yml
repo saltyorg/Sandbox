@@ -73,7 +73,7 @@ grafana_docker_ports_custom: []
 grafana_docker_ports: "{{ grafana_docker_ports_defaults
                           + grafana_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + grafana_docker_ports_custom }}"
+                        else grafana_docker_ports_custom }}"
 
 # Envs
 grafana_docker_envs_default:

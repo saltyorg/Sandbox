@@ -68,7 +68,7 @@ medusa_docker_ports_custom: []
 medusa_docker_ports: "{{ medusa_docker_ports_defaults
                          + medusa_docker_ports_custom
                       if (not reverse_proxy_is_enabled)
-                      else [] + medusa_docker_ports_custom }}"
+                      else medusa_docker_ports_custom }}"
 
 # Envs
 medusa_docker_envs_default:

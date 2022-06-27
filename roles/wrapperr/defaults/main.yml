@@ -68,7 +68,7 @@ wrapperr_docker_ports_custom: []
 wrapperr_docker_ports: "{{ wrapperr_docker_ports_defaults
                            + wrapperr_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + wrapperr_docker_ports_custom }}"
+                        else wrapperr_docker_ports_custom }}"
 
 # Envs
 wrapperr_docker_envs_default: {}

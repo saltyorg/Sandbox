@@ -73,7 +73,7 @@ stash_docker_ports_custom: []
 stash_docker_ports: "{{ stash_docker_ports_defaults
                         + stash_docker_ports_custom
                      if (not reverse_proxy_is_enabled)
-                     else [] + stash_docker_ports_custom }}"
+                     else stash_docker_ports_custom }}"
 
 # Envs
 stash_docker_envs_default:
