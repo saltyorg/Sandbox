@@ -72,7 +72,7 @@ glances_web_docker_ports_custom: []
 glances_web_docker_ports: "{{ glances_web_docker_ports_defaults
                               + glances_web_docker_ports_custom
                            if (not reverse_proxy_is_enabled)
-                           else [] + glances_web_docker_ports_custom }}"
+                           else glances_web_docker_ports_custom }}"
 
 # Envs
 glances_web_docker_envs_default:

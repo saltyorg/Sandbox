@@ -78,7 +78,7 @@ adguardhome_docker_ports_custom: []
 adguardhome_docker_ports: "{{ adguardhome_docker_ports_defaults
                               + adguardhome_docker_ports_custom
                            if (not reverse_proxy_is_enabled)
-                           else [] + adguardhome_docker_ports_custom }}"
+                           else adguardhome_docker_ports_custom }}"
 
 # Envs
 adguardhome_docker_envs_default:

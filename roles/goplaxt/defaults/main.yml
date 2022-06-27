@@ -69,7 +69,7 @@ goplaxt_docker_ports_custom: []
 goplaxt_docker_ports: "{{ goplaxt_docker_ports_defaults
                           + goplaxt_docker_ports_custom
                        if (not reverse_proxy_is_enabled)
-                       else [] + goplaxt_docker_ports_custom }}"
+                       else goplaxt_docker_ports_custom }}"
 
 # Envs
 goplaxt_docker_envs_default:

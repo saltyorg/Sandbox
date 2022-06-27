@@ -71,7 +71,7 @@ mkvtoolnix_docker_ports_custom: []
 mkvtoolnix_docker_ports: "{{ mkvtoolnix_docker_ports_defaults
                              + mkvtoolnix_docker_ports_custom
                           if (not reverse_proxy_is_enabled)
-                          else [] + mkvtoolnix_docker_ports_custom }}"
+                          else mkvtoolnix_docker_ports_custom }}"
 
 # Envs
 mkvtoolnix_docker_envs_default:

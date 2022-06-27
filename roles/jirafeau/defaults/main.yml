@@ -70,7 +70,7 @@ jirafeau_docker_ports_custom: []
 jirafeau_docker_ports: "{{ jirafeau_docker_ports_defaults
                            + jirafeau_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + jirafeau_docker_ports_custom }}"
+                        else jirafeau_docker_ports_custom }}"
 
 # Envs
 jirafeau_docker_envs_default:

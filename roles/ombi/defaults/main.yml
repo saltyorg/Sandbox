@@ -68,7 +68,7 @@ ombi_docker_ports_custom: []
 ombi_docker_ports: "{{ ombi_docker_ports_defaults
                        + ombi_docker_ports_custom
                     if (not reverse_proxy_is_enabled)
-                    else [] + ombi_docker_ports_custom }}"
+                    else ombi_docker_ports_custom }}"
 
 # Envs
 ombi_docker_envs_default:

@@ -68,7 +68,7 @@ archivebox_docker_ports_custom: []
 archivebox_docker_ports: "{{ archivebox_docker_ports_defaults
                              + archivebox_docker_ports_custom
                           if (not reverse_proxy_is_enabled)
-                          else [] + archivebox_docker_ports_custom }}"
+                          else archivebox_docker_ports_custom }}"
 
 # Envs
 archivebox_docker_envs_default:

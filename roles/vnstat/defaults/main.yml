@@ -68,7 +68,7 @@ vnstat_docker_ports_custom: []
 vnstat_docker_ports: "{{ vnstat_docker_ports_defaults
                          + vnstat_docker_ports_custom
                       if (not reverse_proxy_is_enabled)
-                      else [] + vnstat_docker_ports_custom }}"
+                      else vnstat_docker_ports_custom }}"
 
 # Envs
 vnstat_docker_envs_default:

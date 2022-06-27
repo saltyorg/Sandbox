@@ -73,7 +73,7 @@ unmanic_docker_ports_custom: []
 unmanic_docker_ports: "{{ unmanic_docker_ports_defaults
                           + unmanic_docker_ports_custom
                        if (not reverse_proxy_is_enabled)
-                       else [] + unmanic_docker_ports_custom }}"
+                       else unmanic_docker_ports_custom }}"
 
 # Envs
 unmanic_docker_envs_default:

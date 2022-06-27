@@ -87,7 +87,7 @@ delugevpn_docker_ports: "{{ delugevpn_docker_ports_defaults
                             + delugevpn_docker_ports_torrents
                             + delugevpn_docker_ports_custom
                          if (not reverse_proxy_is_enabled)
-                         else [] + delugevpn_docker_ports_torrents
+                         else delugevpn_docker_ports_torrents
                             + delugevpn_docker_ports_custom }}"
 
 # Envs
