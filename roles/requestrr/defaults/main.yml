@@ -68,7 +68,7 @@ requestrr_docker_ports_custom: []
 requestrr_docker_ports: "{{ requestrr_docker_ports_defaults
                             + requestrr_docker_ports_custom
                          if (not reverse_proxy_is_enabled)
-                         else [] + requestrr_docker_ports_custom }}"
+                         else requestrr_docker_ports_custom }}"
 
 # Envs
 requestrr_docker_envs_default:

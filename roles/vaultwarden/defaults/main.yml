@@ -69,7 +69,7 @@ vaultwarden_docker_ports_custom: []
 vaultwarden_docker_ports: "{{ vaultwarden_docker_ports_defaults
                               + vaultwarden_docker_ports_custom
                           if (not reverse_proxy_is_enabled)
-                          else [] + vaultwarden_docker_ports_custom }}"
+                          else vaultwarden_docker_ports_custom }}"
 
 # Envs
 vaultwarden_docker_envs_default:

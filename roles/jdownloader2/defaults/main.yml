@@ -84,7 +84,7 @@ jdownloader2_docker_ports_custom: []
 jdownloader2_docker_ports: "{{ jdownloader2_docker_ports_defaults
                                + jdownloader2_docker_ports_custom
                             if (not reverse_proxy_is_enabled)
-                            else [] + jdownloader2_docker_ports_custom }}"
+                            else jdownloader2_docker_ports_custom }}"
 
 # Envs
 jdownloader2_docker_envs_default:

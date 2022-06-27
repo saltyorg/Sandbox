@@ -73,7 +73,7 @@ unifi_docker_ports_custom: []
 unifi_docker_ports: "{{ unifi_docker_ports_defaults
                         + unifi_docker_ports_custom
                      if (not reverse_proxy_is_enabled)
-                     else [] + unifi_docker_ports_custom }}"
+                     else unifi_docker_ports_custom }}"
 
 # Envs
 unifi_docker_envs_default:

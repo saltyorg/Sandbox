@@ -70,7 +70,7 @@ comicstreamer_docker_ports_custom: []
 comicstreamer_docker_ports: "{{ comicstreamer_docker_ports_defaults
                                 + comicstreamer_docker_ports_custom
                              if (not reverse_proxy_is_enabled)
-                             else [] + comicstreamer_docker_ports_custom }}"
+                             else comicstreamer_docker_ports_custom }}"
 
 # Envs
 comicstreamer_docker_envs_default:

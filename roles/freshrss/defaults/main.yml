@@ -67,7 +67,7 @@ freshrss_docker_ports_custom: []
 freshrss_docker_ports: "{{ freshrss_docker_ports_defaults
                            + freshrss_docker_ports_custom
                         if (not reverse_proxy_is_enabled)
-                        else [] + freshrss_docker_ports_custom }}"
+                        else freshrss_docker_ports_custom }}"
 
 # Envs
 freshrss_docker_envs_default:

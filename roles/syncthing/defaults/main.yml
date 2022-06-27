@@ -71,7 +71,7 @@ syncthing_docker_ports_custom: []
 syncthing_docker_ports: "{{ syncthing_docker_ports_defaults
                             + syncthing_docker_ports_custom
                          if (not reverse_proxy_is_enabled)
-                         else [] + syncthing_docker_ports_custom }}"
+                         else syncthing_docker_ports_custom }}"
 
 # Envs
 syncthing_docker_envs_default:

@@ -41,7 +41,7 @@ plex_meta_manager_docker_ports_custom: []
 plex_meta_manager_docker_ports: "{{ plex_meta_manager_docker_ports_defaults
                                     + plex_meta_manager_docker_ports_custom
                                  if (not reverse_proxy_is_enabled)
-                                 else [] + plex_meta_manager_docker_ports_custom }}"
+                                 else plex_meta_manager_docker_ports_custom }}"
 
 # Envs
 plex_meta_manager_docker_envs_default:

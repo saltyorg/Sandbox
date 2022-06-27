@@ -70,7 +70,7 @@ guacamole_docker_ports_custom: []
 guacamole_docker_ports: "{{ guacamole_docker_ports_defaults
                             + guacamole_docker_ports_custom
                          if (not reverse_proxy_is_enabled)
-                         else [] + guacamole_docker_ports_custom }}"
+                         else guacamole_docker_ports_custom }}"
 
 # Envs
 guacamole_docker_envs_default:
