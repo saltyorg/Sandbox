@@ -11,7 +11,7 @@
   block:
 
     - name: Migrator | All | Migration 01
-      include_tasks: "migrator/all/migration_01.yml"
+      ansible.builtin.include_tasks: "migrator/all/migration_01.yml"
       when: (file != "backup_config.yml")
 
   when: (file != "ansible.cfg")
@@ -20,6 +20,6 @@
   block:
 
     - name: Migrator | 'ansible.cfg' | Migration 01
-      include_tasks: "migrator/ansible_cfg/migration_01.yml"
+      ansible.builtin.include_tasks: "migrator/ansible_cfg/migration_01.yml"
 
   when: (file == "ansible.cfg")
