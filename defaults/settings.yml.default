@@ -66,6 +66,8 @@ qbit_manage:
   qbt_width: "100" # Default is "100"
   qbt_debug: "false"
   qbt_trace: "false"
+recyclarr:
+  cron_schedule: "@daily" # Standard cron syntax for how often you want Recyclarr to run
 requestrrx:
   roles: ["1080p", "4k"]
 rfloodx:
