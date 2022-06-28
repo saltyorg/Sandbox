@@ -1,5 +1,5 @@
 ##########################################################################
-# Title:            Sandbox: Recyclarr                                   #
+# Title:            Sandbox: Recyclarr   | Default Variables             #
 # Author(s):        BeansIsFat                                           #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
@@ -38,9 +38,9 @@ recyclarr_docker_image: "ghcr.io/recyclarr/recyclarr:{{ recyclarr_docker_image_t
 recyclarr_docker_ports_defaults: []
 recyclarr_docker_ports_custom: []
 recyclarr_docker_ports: "{{ recyclarr_docker_ports_defaults
-                           + recyclarr_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else [] + recyclarr_docker_ports_custom }}"
+                            + recyclarr_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else [] + recyclarr_docker_ports_custom }}"
 
 # Envs
 recyclarr_docker_envs_default:
@@ -50,40 +50,40 @@ recyclarr_docker_envs_default:
   CRON_SCHEDULE: "{{ recyclarr.cron_schedule }}"
 recyclarr_docker_envs_custom: {}
 recyclarr_docker_envs: "{{ recyclarr_docker_envs_default
-                          | combine(recyclarr_docker_envs_custom) }}"
+                           | combine(recyclarr_docker_envs_custom) }}"
 
 # Commands
 recyclarr_docker_commands_default: []
 recyclarr_docker_commands_custom: []
 recyclarr_docker_commands: "{{ recyclarr_docker_commands_default
-                              + recyclarr_docker_commands_custom }}"
+                               + recyclarr_docker_commands_custom }}"
 
 # Volumes
 recyclarr_docker_volumes_default:
   - "{{ recyclarr_paths_location }}:/config"
 recyclarr_docker_volumes_custom: []
 recyclarr_docker_volumes: "{{ recyclarr_docker_volumes_default
-                             + recyclarr_docker_volumes_custom }}"
+                              + recyclarr_docker_volumes_custom }}"
 
 # Devices
 recyclarr_docker_devices_default: []
 recyclarr_docker_devices_custom: []
 recyclarr_docker_devices: "{{ recyclarr_docker_devices_default
-                             + recyclarr_docker_devices_custom }}"
+                              + recyclarr_docker_devices_custom }}"
 
 # Hosts
 recyclarr_docker_hosts_default: []
 recyclarr_docker_hosts_custom: []
 recyclarr_docker_hosts: "{{ docker_hosts_common
-                           | combine(recyclarr_docker_hosts_default)
-                           | combine(recyclarr_docker_hosts_custom) }}"
+                            | combine(recyclarr_docker_hosts_default)
+                            | combine(recyclarr_docker_hosts_custom) }}"
 
 # Labels
 recyclarr_docker_labels_default: {}
 recyclarr_docker_labels_custom: {}
 recyclarr_docker_labels: "{{ docker_labels_common
-                            | combine(recyclarr_docker_labels_default)
-                            | combine(recyclarr_docker_labels_custom) }}"
+                             | combine(recyclarr_docker_labels_default)
+                             | combine(recyclarr_docker_labels_custom) }}"
 
 # Hostname
 recyclarr_docker_hostname: "{{ recyclarr_name }}"
@@ -93,20 +93,20 @@ recyclarr_docker_networks_alias: "{{ recyclarr_name }}"
 recyclarr_docker_networks_default: []
 recyclarr_docker_networks_custom: []
 recyclarr_docker_networks: "{{ docker_networks_common
-                              + recyclarr_docker_networks_default
-                              + recyclarr_docker_networks_custom }}"
+                               + recyclarr_docker_networks_default
+                               + recyclarr_docker_networks_custom }}"
 
 # Capabilities
 recyclarr_docker_capabilities_default: []
 recyclarr_docker_capabilities_custom: []
 recyclarr_docker_capabilities: "{{ recyclarr_docker_capabilities_default
-                                  + recyclarr_docker_capabilities_custom }}"
+                                   + recyclarr_docker_capabilities_custom }}"
 
 # Security Opts
 recyclarr_docker_security_opts_default: []
 recyclarr_docker_security_opts_custom: []
 recyclarr_docker_security_opts: "{{ recyclarr_docker_security_opts_default
-                                   + recyclarr_docker_security_opts_custom }}"
+                                    + recyclarr_docker_security_opts_custom }}"
 
 # Restart Policy
 recyclarr_docker_restart_policy: unless-stopped
