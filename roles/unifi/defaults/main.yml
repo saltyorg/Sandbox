@@ -65,15 +65,18 @@ unifi_docker_image: "lscr.io/linuxserver/unifi-controller:{{ unifi_docker_image_
 
 # Ports
 unifi_docker_ports_defaults:
-  - "{{ unifi_web_port }}:{{ unifi_web_port }}/tcp"
   - "8080:8080/tcp"
   - "3478:3478/udp"
   - "10001:10001/udp"
+unifi_docker_ports_ui:
+  - "{{ unifi_web_port }}:{{ unifi_web_port }}/tcp"
 unifi_docker_ports_custom: []
 unifi_docker_ports: "{{ unifi_docker_ports_defaults
+                        + unifi_docker_ports_ui
                         + unifi_docker_ports_custom
                      if (not reverse_proxy_is_enabled)
-                     else unifi_docker_ports_custom }}"
+                     else unifi_docker_ports_defaults
+                        + unifi_docker_ports_custom }}"
 
 # Envs
 unifi_docker_envs_default:
