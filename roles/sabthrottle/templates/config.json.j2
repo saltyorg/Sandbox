@@ -1,0 +1,50 @@
+{
+  "plex":
+  {
+    "url":"{{plex_web_url}}",
+    "interval":60,
+    "token": "{{ plex_auth_token | default('') }}"
+  },
+  "sabnzbd":
+  {
+    "apikey":"123124sfdadsf",
+    "url":"http://localhost:6789",
+    "speeds":{
+      "1":"50M",
+      "2":"40M",
+      "3":"30M",
+      "4":"20M",
+      "5":"10M"
+    },
+    "max_speed":"0M"
+  },"notifications": {
+    "Discord": {
+      "enabled": false ,
+      "url": "discord://webhook_id/webhook_token"
+    },
+    "Rocket.Chat": {
+      "enabled": false,
+      "url": "rocket://user:password@hostname/RoomID/Channel"
+    },
+    "Slack": {
+      "enabled": false,
+      "url": "slack://TokenA/TokenB/TokenC/Channel"
+    },
+    "Telegram": {
+      "enabled": false,
+      "url": "tgram://bottoken/ChatID"
+    },
+    "IFTTT": {
+      "enabled": false,
+      "url": "ifttt://webhooksID/EventToTrigger"
+    },
+    "PushBullet":{
+      "enabled": false,
+      "url": "pbul://accesstoken"
+    },
+    "Growl": {
+      "enabled": false,
+      "url": "growl://hostname"
+    }
+  }
+}
