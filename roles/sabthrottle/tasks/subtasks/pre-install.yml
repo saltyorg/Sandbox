@@ -1,0 +1,42 @@
+#########################################################################
+# Title:         Sandbox: SABThrottle | Pre-Install Tasks               #
+# Author(s):     8a8al00ey                                              #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Pre-Install | Check if config exists
+  ansible.builtin.stat:
+    path: "{{ sabthrottle_paths_config_location }}"
+  register: sabthrottle_paths_config_location_stat
+
+- name: Pre-Install | Import Default Plex variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
+
+- name: Pre-Install | Set Default Plex instance
+  ansible.builtin.set_fact:
+    plex_name: "{{ plex_instances[0] }}"
+  when: not plex_name is defined
+
+- name: Pre-Install | New config tasks
+  block:
+
+    - name: Pre-Install | Import Plex Auth Token role
+      ansible.builtin.import_role:
+        name: plex_auth_token
+      when: (plex_account_is_enabled)
+
+    - name: Pre-Install | Import default config
+      ansible.builtin.template:
+        src: 'config.json.j2'
+        dest: "{{ sabthrottle_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: "0775"
+        force: true
+      vars:
+        plex_name: "{{ plex_name | default(plex_instances[0]) }}"
+
+  when: not sabthrottle_paths_config_location_stat.stat.exists
