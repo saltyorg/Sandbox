@@ -40,21 +40,21 @@ sabthrottle_docker_ports_defaults: []
 sabthrottle_docker_ports_custom: []
 sabthrottle_docker_ports: "{{ sabthrottle_docker_ports_defaults
                               + sabthrottle_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else sabthrottle_docker_ports_custom }}"
+                           if (not reverse_proxy_is_enabled)
+                           else sabthrottle_docker_ports_custom }}"
 
 # Envs
 sabthrottle_docker_envs_default:
   TZ: "{{ tz }}"
 sabthrottle_docker_envs_custom: {}
 sabthrottle_docker_envs: "{{ sabthrottle_docker_envs_default
-                              | combine(sabthrottle_docker_envs_custom) }}"
+                             | combine(sabthrottle_docker_envs_custom) }}"
 
 # Commands
 sabthrottle_docker_commands_default: []
 sabthrottle_docker_commands_custom: []
 sabthrottle_docker_commands: "{{ sabthrottle_docker_commands_default
-                                  + sabthrottle_docker_commands_custom }}"
+                                 + sabthrottle_docker_commands_custom }}"
 
 # Volumes
 sabthrottle_docker_volumes_default:
@@ -80,8 +80,8 @@ sabthrottle_docker_hosts: "{{ docker_hosts_common
 sabthrottle_docker_labels_default: {}
 sabthrottle_docker_labels_custom: {}
 sabthrottle_docker_labels: "{{ docker_labels_common
-                                | combine(sabthrottle_docker_labels_default)
-                                | combine(sabthrottle_docker_labels_custom) }}"
+                               | combine(sabthrottle_docker_labels_default)
+                               | combine(sabthrottle_docker_labels_custom) }}"
 
 # Hostname
 sabthrottle_docker_hostname: "{{ sabthrottle_name }}"
@@ -91,14 +91,14 @@ sabthrottle_docker_networks_alias: "{{ sabthrottle_name }}"
 sabthrottle_docker_networks_default: []
 sabthrottle_docker_networks_custom: []
 sabthrottle_docker_networks: "{{ docker_networks_common
-                                  + sabthrottle_docker_networks_default
-                                  + sabthrottle_docker_networks_custom }}"
+                                 + sabthrottle_docker_networks_default
+                                 + sabthrottle_docker_networks_custom }}"
 
 # Capabilities
 sabthrottle_docker_capabilities_default: []
 sabthrottle_docker_capabilities_custom: []
 sabthrottle_docker_capabilities: "{{ sabthrottle_docker_capabilities_default
-                                      + sabthrottle_docker_capabilities_custom }}"
+                                     + sabthrottle_docker_capabilities_custom }}"
 
 # Security Opts
 sabthrottle_docker_security_opts_default: []
