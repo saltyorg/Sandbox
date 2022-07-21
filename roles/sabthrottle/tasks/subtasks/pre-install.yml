@@ -19,7 +19,7 @@
   ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"
   when: not plex_name is defined
-  
+
 - name: Pre-Install | New config tasks
   block:
 
