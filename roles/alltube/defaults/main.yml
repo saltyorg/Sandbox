@@ -45,7 +45,17 @@ alltube_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-alltube_traefik_middleware: "{{ traefik_default_middleware }}"
+alltube_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+alltube_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                         + lookup('vars', alltube_name + '_traefik_sso_middleware', default=alltube_traefik_sso_middleware)
+                                      if (lookup('vars', alltube_name + '_traefik_sso_middleware', default=alltube_traefik_sso_middleware) | length > 0)
+                                      else traefik_default_middleware }}"
+alltube_traefik_middleware_custom: ""
+alltube_traefik_middleware: "{{ alltube_traefik_middleware_default + ','
+                                 + alltube_traefik_middleware_custom
+                              if (not alltube_traefik_middleware_custom.startswith(',') and alltube_traefik_middleware_custom | length > 0)
+                              else alltube_traefik_middleware_default
+                                 + alltube_traefik_middleware_custom }}"
 alltube_traefik_certresolver: "{{ traefik_default_certresolver }}"
 alltube_traefik_enabled: true
 
