@@ -50,6 +50,14 @@ nextcloud_traefik_certresolver: "{{ traefik_default_certresolver }}"
 nextcloud_traefik_enabled: true
 
 ################################
+# Settings
+################################
+
+nextcloud_data_directory: "/var/www/html/data"
+nextcloud_php_memory_limit: "512M"
+nextcloud_php_upload_limit: "512M"
+
+################################
 # Docker
 ################################
 
@@ -73,6 +81,16 @@ nextcloud_docker_ports: "{{ nextcloud_docker_ports_defaults
 # Envs
 nextcloud_docker_envs_default:
   TZ: "{{ tz }}"
+  NEXTCLOUD_ADMIN_USER: "{{ user.name }}"
+  NEXTCLOUD_ADMIN_PASSWORD: "{{ user.pass }}"
+  NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_web_subdomain + '.' + nextcloud_web_domain }}"
+  NEXTCLOUD_DATA_DIR: "{{ nextcloud_data_directory }}"
+  MYSQL_DATABASE: "nextcloud"
+  MYSQL_USER: "root"
+  MYSQL_PASSWORD: "{{ mariadb_docker_envs_mysql_root_password }}"
+  MYSQL_HOST: "mariadb"
+  PHP_MEMORY_LIMIT: "{{ nextcloud_php_memory_limit }}"
+  PHP_UPLOAD_LIMIT: "{{ nextcloud_php_upload_limit }}"
 nextcloud_docker_envs_custom: {}
 nextcloud_docker_envs: "{{ nextcloud_docker_envs_default
                            | combine(nextcloud_docker_envs_custom) }}"
