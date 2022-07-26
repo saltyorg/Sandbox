@@ -17,14 +17,27 @@
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Create directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    vnstat_docker_container: "{{ vnstat_name }}-host"
+
+- name: Create a volume
+  docker_volume:
+    name: "vnstat"
+
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+  vars:
+    vnstat_docker_container: "{{ vnstat_name }}-host"
+    vnstat_docker_envs:
+      TZ: "{{ tz }}"
+      HTTP_PORT: "0"
+    vnstat_docker_network_mode: "host"
+    vnstat_docker_networks: "{{ omit }}"
+    vnstat_docker_volumes:
+      - "vnstat:/var/lib/vnstat"
+    vnstat_docker_labels: "{{ omit }}"
 
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
