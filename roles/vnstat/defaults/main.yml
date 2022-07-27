@@ -14,21 +14,12 @@
 vnstat_name: vnstat
 
 ################################
-# Paths
-################################
-
-vnstat_paths_folder: "{{ vnstat_name }}"
-vnstat_paths_location: "{{ server_appdata_path }}/{{ vnstat_paths_folder }}"
-vnstat_paths_folders_list:
-  - "{{ vnstat_paths_location }}"
-
-################################
 # Web
 ################################
 
 vnstat_web_subdomain: "{{ vnstat_name }}"
 vnstat_web_domain: "{{ user.domain }}"
-vnstat_web_port: "80"
+vnstat_web_port: "8685"
 vnstat_web_url: "{{ 'https://' + vnstat_web_subdomain + '.' + vnstat_web_domain
                  if (reverse_proxy_is_enabled)
                  else 'http://localhost:' + vnstat_web_port }}"
@@ -50,6 +41,13 @@ vnstat_traefik_certresolver: "{{ traefik_default_certresolver }}"
 vnstat_traefik_enabled: true
 
 ################################
+# Settings
+################################
+
+vnstat_page_refresh: "0"
+vnstat_rate_unit: "1" # Used traffic rate unit, 0: bytes, 1: bits
+
+################################
 # Docker
 ################################
 
@@ -59,7 +57,7 @@ vnstat_docker_container: "{{ vnstat_name }}"
 # Image
 vnstat_docker_image_pull: true
 vnstat_docker_image_tag: "latest"
-vnstat_docker_image: "amarston/vnstat-dashboard:{{ vnstat_docker_image_tag }}"
+vnstat_docker_image: "vergoh/vnstat:{{ vnstat_docker_image_tag }}"
 
 # Ports
 vnstat_docker_ports_defaults:
@@ -73,8 +71,10 @@ vnstat_docker_ports: "{{ vnstat_docker_ports_defaults
 # Envs
 vnstat_docker_envs_default:
   TZ: "{{ tz }}"
-  PASSWORD: "{{ user.pass }}"
-  DB_TYPE: "sqlite"
+  HTTP_PORT: "8685"
+  PAGE_REFRESH: "{{ vnstat_page_refresh }}"
+  RATE_UNIT: "{{ vnstat_rate_unit }}"
+  RUN_VNSTATD: "0"
 vnstat_docker_envs_custom: {}
 vnstat_docker_envs: "{{ vnstat_docker_envs_default
                         | combine(vnstat_docker_envs_custom) }}"
@@ -87,8 +87,7 @@ vnstat_docker_commands: "{{ vnstat_docker_commands_default
 
 # Volumes
 vnstat_docker_volumes_default:
-  - "/usr/bin/vnstat:/usr/bin/vnstat:ro"
-  - "/var/lib/vnstat:/var/lib/vnstat:ro"
+  - "vnstat:/var/lib/vnstat:ro"
 vnstat_docker_volumes_custom: []
 vnstat_docker_volumes: "{{ vnstat_docker_volumes_default
                            + vnstat_docker_volumes_custom }}"
