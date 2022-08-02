@@ -104,6 +104,7 @@
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
     - { role: syncthing, tags: ['syncthing'] }
+    - { role: tandoor, tags: ['tandoor'] }
     - { role: tdarr, tags: ['tdarr'] }
     - { role: tdarr_node, tags: ['tdarr_node'] }
     - { role: teamspeak, tags: ['teamspeak'] }
