@@ -1,0 +1,150 @@
+##########################################################################
+# Title:         Sandbox: Tandoor | Default Variables                    #
+# Author(s):     owine                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+tandoor_name: tandoor
+
+################################
+# Paths
+################################
+
+tandoor_paths_folder: "{{ tandoor_name }}"
+tandoor_paths_location: "{{ server_appdata_path }}/{{ tandoor_paths_folder }}"
+tandoor_paths_folders_list:
+  - "{{ tandoor_paths_location }}"
+
+################################
+# Web
+################################
+
+tandoor_web_subdomain: "{{ tandoor_name }}"
+tandoor_web_domain: "{{ user.domain }}"
+tandoor_web_port: "8080"
+tandoor_web_url: "{{ 'https://' + tandoor_web_subdomain + '.' + tandoor_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + tandoor_web_port }}"
+
+################################
+# DNS
+################################
+
+tandoor_dns_record: "{{ tandoor_web_subdomain }}"
+tandoor_dns_zone: "{{ tandoor_web_domain }}"
+tandoor_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+tandoor_traefik_middleware: "{{ traefik_default_middleware }}"
+tandoor_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tandoor_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+tandoor_docker_container: "{{ tandoor_name }}"
+
+# Image
+tandoor_docker_image_pull: true
+tandoor_docker_image_tag: "latest"
+tandoor_docker_image: "vabene1111/recipes:{{ tandoor_docker_image_tag }}"
+
+# Ports
+tandoor_docker_ports_defaults:
+  - "{{ tandoor_web_port }}"
+tandoor_docker_ports_custom: []
+tandoor_docker_ports: "{{ tandoor_docker_ports_defaults
+                            + tandoor_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else tandoor_docker_ports_custom }}"
+
+# Envs
+tandoor_docker_envs_default:
+  TZ: "{{ tz }}"
+  DB_ENGINE: "django.db.backends.postgresql"
+  POSTGRES_HOST: "{{ postgres_name }}"
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: "{{ postgres_docker_env_user }}"
+  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
+  POSTGRES_DB: "{{ postgres_docker_env_db }}"
+tandoor_docker_envs_custom: {}
+tandoor_docker_envs: "{{ tandoor_docker_envs_default
+                           | combine(tandoor_docker_envs_custom) }}"
+
+# Commands
+tandoor_docker_commands_default: []
+tandoor_docker_commands_custom: []
+tandoor_docker_commands: "{{ tandoor_docker_commands_default
+                               + tandoor_docker_commands_custom }}"
+
+# Volumes
+tandoor_docker_volumes_default:
+  - "{{ tandoor_paths_location }}/staticfiles:/staticfiles"
+  - "{{ tandoor_paths_location }}/mediafiles:/mediafiles"
+tandoor_docker_volumes_custom: []
+tandoor_docker_volumes: "{{ tandoor_docker_volumes_default
+                              + tandoor_docker_volumes_custom }}"
+
+# Devices
+tandoor_docker_devices_default: []
+tandoor_docker_devices_custom: []
+tandoor_docker_devices: "{{ tandoor_docker_devices_default
+                              + tandoor_docker_devices_custom }}"
+
+# Hosts
+tandoor_docker_hosts_default: []
+tandoor_docker_hosts_custom: []
+tandoor_docker_hosts: "{{ docker_hosts_common
+                            | combine(tandoor_docker_hosts_default)
+                            | combine(tandoor_docker_hosts_custom) }}"
+
+# Labels
+tandoor_docker_labels_default: {}
+tandoor_docker_labels_custom: {}
+tandoor_docker_labels: "{{ docker_labels_common
+                             | combine(tandoor_docker_labels_default)
+                             | combine(tandoor_docker_labels_custom) }}"
+
+# Hostname
+tandoor_docker_hostname: "{{ tandoor_name }}"
+
+# Networks
+tandoor_docker_networks_alias: "{{ tandoor_name }}"
+tandoor_docker_networks_default: []
+tandoor_docker_networks_custom: []
+tandoor_docker_networks: "{{ docker_networks_common
+                               + tandoor_docker_networks_default
+                               + tandoor_docker_networks_custom }}"
+
+# Capabilities
+tandoor_docker_capabilities_default: []
+tandoor_docker_capabilities_custom: []
+tandoor_docker_capabilities: "{{ tandoor_docker_capabilities_default
+                                   + tandoor_docker_capabilities_custom }}"
+
+# Security Opts
+tandoor_docker_security_opts_default: []
+tandoor_docker_security_opts_custom: []
+tandoor_docker_security_opts: "{{ tandoor_docker_security_opts_default
+                                    + tandoor_docker_security_opts_custom }}"
+
+# Restart Policy
+tandoor_docker_restart_policy: unless-stopped
+
+# State
+tandoor_docker_state: started
+
+# User
+tandoor_docker_user: "{{ uid }}:{{ gid }}"
