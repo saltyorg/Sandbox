@@ -150,6 +150,3 @@ tandoor_docker_restart_policy: unless-stopped
 
 # State
 tandoor_docker_state: started
-
-# User
-tandoor_docker_user: "{{ uid }}:{{ gid }}"
