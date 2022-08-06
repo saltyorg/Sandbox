@@ -11,50 +11,35 @@
 - name: Import Default Plex variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
-- name: Report Plex Account Status
-  ansible.builtin.debug:
-    msg: Requires Plex Account credentials to be entered in accounts.yml
-  when: not plex_account_is_enabled
+- name: Check config exists
+  ansible.builtin.stat:
+    path: "{{ plex_credits_detect_config_location }}"
+  register: plex_credits_detect_config
 
-- name: Run tasks if Plex Account is enabled
-  block:
+- name: Set Default Plex instance
+  ansible.builtin.set_fact:
+    plex_name: "{{ plex_name | default(plex_instances[0]) }}"
 
-    - name: Check config exists
-      ansible.builtin.stat:
-        path: "{{ plex_credits_detect_config_location }}"
-      register: plex_credits_detect_config
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-    - name: Set Default Plex instance
-      ansible.builtin.set_fact:
-        plex_name: "{{ plex_name | default(plex_instances[0]) }}"
+- name: Import default config
+  ansible.builtin.template:
+    src: fingerprint.ini.j2
+    dest: "{{ plex_credits_detect_config_location }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  when: not plex_credits_detect_config.stat.exists
 
-    - name: Import Plex Auth Token role
-      ansible.builtin.import_role:
-        name: plex_auth_token
-      when: not plex_credits_detect_config.stat.exists
+- name: Remove existing Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-    - name: Create directories
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: "0775"
-      with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
-
-    - name: Import default config
-      ansible.builtin.template:
-        src: fingerprint.ini.j2
-        dest: "{{ plex_credits_detect_config_location }}"
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: "0775"
-      when: not plex_credits_detect_config.stat.exists
-
-    - name: Remove existing Docker container
-      include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
-    - name: Create Docker container
-      include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
-  when: plex_account_is_enabled
+- name: Create Docker container
+  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
