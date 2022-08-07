@@ -32,7 +32,7 @@
 - name: Import default config
   ansible.builtin.template:
     src: fingerprint.ini.j2
-    dest: "{{ plex_credits_detect_config_location }}/plex-credits-detect"
+    dest: "{{ plex_credits_detect_config_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
