@@ -103,6 +103,7 @@
     - { role: sabthrottle, tags: ['sabthrottle'] }
     - { role: sarotate, tags: ['sarotate'] }
     - { role: speedtest, tags: ['speedtest'] }
+    - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
     - { role: syncthing, tags: ['syncthing'] }
