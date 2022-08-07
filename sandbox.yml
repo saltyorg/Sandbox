@@ -80,6 +80,7 @@
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
+    - { role: plex_autoscan, tags: ['plex_autoscan'] }
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: plex_auto_languages, tags: ['plex_auto_languages'] }
@@ -104,6 +105,7 @@
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
     - { role: syncthing, tags: ['syncthing'] }
+    - { role: tandoor, tags: ['tandoor'] }
     - { role: tdarr, tags: ['tdarr'] }
     - { role: tdarr_node, tags: ['tdarr_node'] }
     - { role: teamspeak, tags: ['teamspeak'] }

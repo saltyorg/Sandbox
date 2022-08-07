@@ -37,6 +37,7 @@ nabarr_docker_image: "cloudb0x/nabarr:{{ nabarr_docker_image_tag }}"
 
 # Envs
 nabarr_docker_envs_default:
+  TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   APP_VERBOSITY: "0"
