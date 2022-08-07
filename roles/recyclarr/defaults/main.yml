@@ -111,3 +111,6 @@ recyclarr_docker_restart_policy: unless-stopped
 
 # State
 recyclarr_docker_state: started
+
+# User
+recyclarr_docker_user: "{{ uid }}:{{ gid }}"
