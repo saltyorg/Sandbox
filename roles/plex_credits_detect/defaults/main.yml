@@ -108,6 +108,3 @@ plex_credits_detect_docker_state: started
 
 # Stop Timeout
 plex_credits_detect_docker_stop_timeout: 10
-
-# User
-plex_credits_detect_docker_user: "{{ uid }}:{{ gid }}"
