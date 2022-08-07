@@ -80,6 +80,7 @@
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
+    - { role: plex_autoscan, tags: ['plex_autoscan'] }
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: plex_auto_languages, tags: ['plex_auto_languages'] }
