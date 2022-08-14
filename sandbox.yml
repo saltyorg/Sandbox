@@ -84,6 +84,7 @@
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
     - { role: plex_auto_languages, tags: ['plex_auto_languages'] }
+    - { role: plex_credits_detect, tags: ['plex_credits_detect'] }
     - { role: plex_patrol, tags: ['plex_patrol'] }
     - { role: plex_utills, tags: ['plex_utills'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
@@ -102,6 +103,7 @@
     - { role: sabthrottle, tags: ['sabthrottle'] }
     - { role: sarotate, tags: ['sarotate'] }
     - { role: speedtest, tags: ['speedtest'] }
+    - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
     - { role: syncthing, tags: ['syncthing'] }
