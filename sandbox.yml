@@ -77,6 +77,7 @@
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
     - { role: notifiarr, tags: ['notifiarr'] }
+    - { role: olivetin, tags: ['olivetin'] }
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
