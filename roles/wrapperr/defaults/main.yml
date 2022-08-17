@@ -28,7 +28,7 @@ wrapperr_paths_folders_list:
 
 wrapperr_web_subdomain: "{{ wrapperr_name }}"
 wrapperr_web_domain: "{{ user.domain }}"
-wrapperr_web_port: "80"
+wrapperr_web_port: "8282"
 wrapperr_web_url: "{{ 'https://' + wrapperr_web_subdomain + dns_record_suffix + '.' + wrapperr_web_domain
                    if (reverse_proxy_is_enabled)
                    else 'http://localhost:' + wrapperr_web_port }}"
