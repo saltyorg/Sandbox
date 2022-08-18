@@ -146,4 +146,4 @@ olivetin_docker_restart_policy: unless-stopped
 olivetin_docker_state: started
 
 # User
-olivetin_docker_user: "{{ uid }}:{{ gid }}"
+olivetin_docker_user: "0:0"
