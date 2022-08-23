@@ -19,7 +19,7 @@ qbittorrentvpn_instances: ["qbittorrentvpnvpn"]
 qbittorrentvpn_paths_folder: "{{ qbittorrentvpn_name }}"
 qbittorrentvpn_paths_location: "{{ server_appdata_path }}/{{ qbittorrentvpn_paths_folder }}"
 qbittorrentvpn_paths_downloads_location: "{{ downloads_torrents_path }}/{{ qbittorrentvpn_paths_folder }}"
-qbittorrentvpn_paths_conf: "{{ qbittorrentvpn_paths_location }}/qbittorrentvpn/qbittorrentvpn.conf"
+qbittorrentvpn_paths_conf: "{{ qbittorrentvpn_paths_location }}/qbittorrent/qbittorrent.conf"
 qbittorrentvpn_paths_folders_list:
   - "{{ qbittorrentvpn_paths_location }}"
   - "{{ qbittorrentvpn_paths_location }}/wireguard"
