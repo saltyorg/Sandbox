@@ -10,7 +10,7 @@
 # Basics
 ################################
 
-qbittorrentvpnvpn_instances: ["qbittorrentvpnvpn"]
+qbittorrentvpn_instances: ["qbittorrentvpnvpn"]
 
 ################################
 # Paths
