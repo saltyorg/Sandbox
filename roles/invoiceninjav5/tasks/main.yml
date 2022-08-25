@@ -51,7 +51,7 @@
   when: not invoiceninjav5_config.stat.exists
 
 - name: "Execute nginx role"
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: nginx
   vars:
     nginx_paths_folder: ""
@@ -61,8 +61,7 @@
     nginx_dns_record: "{{ invoiceninjav5_nginx_dns_record }}"
     nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
     nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
-    nginx_name: "invoiceninja-nginx"
-    nginx_docker_container: "invoiceninja-nginx"
+    nginx_instances: ["invoiceninja-nginx"]
     nginx_docker_volumes_default:
       - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default.conf:ro"
       - "{{ invoiceninjav5_paths_location }}/public:/app/www/public"
