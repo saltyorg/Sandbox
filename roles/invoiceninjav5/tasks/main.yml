@@ -7,7 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
@@ -54,6 +53,7 @@
   ansible.builtin.import_role:
     name: nginx
   vars:
+    nginx_docker_image: "nginx:latest"
     nginx_paths_folder: ""
     nginx_paths_folders_list: []
     nginx_web_subdomain: "{{ invoiceninjav5_nginx_web_subdomain }}"
@@ -62,9 +62,11 @@
     nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
     nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
     nginx_instances: ["invoiceninja-nginx"]
+    nginx_traefik_middleware: "{{ invoiceninjav5_nginx_traefik_middleware }}"
+    nginx_traefik_certresolver: "{{ invoiceninjav5_nginx_traefik_certresolver }}"
     nginx_docker_volumes_default:
-      - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default.conf:ro"
-      - "{{ invoiceninjav5_paths_location }}/public:/app/www/public"
+      - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
+      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public"
 
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
