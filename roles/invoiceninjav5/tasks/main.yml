@@ -14,15 +14,15 @@
 
 - name: MariaDB | Create ninja database
   ansible.builtin.command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Permissions | Create ninja group
   ansible.builtin.command: "addgroup --gid 1500 invoiceninja "
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Permissions | Add to ninja group
   ansible.builtin.command: "adduser {{ user.name }} invoiceninja "
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Create directories
   ansible.builtin.file:
