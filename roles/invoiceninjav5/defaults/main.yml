@@ -16,7 +16,7 @@ invoiceninjav5_name: "invoiceninja"
 # Paths
 ################################
 
-invoiceninjav5_paths_folder: "invoiceninja" # {{invoiceninjav5_name}}
+invoiceninjav5_paths_folder: "{{ invoiceninjav5_name }}"
 invoiceninjav5_paths_location: "{{ server_appdata_path }}/{{ invoiceninjav5_paths_folder }}"
 invoiceninjav5_conf_path: "{{ server_appdata_path }}/{{ invoiceninjav5_paths_folder }}/in-vhost.conf"
 invoiceninjav5_paths_folders_list:
