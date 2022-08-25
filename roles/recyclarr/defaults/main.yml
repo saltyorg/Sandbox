@@ -21,6 +21,7 @@ recyclarr_paths_folder: "{{ recyclarr_name }}"
 recyclarr_paths_location: "{{ server_appdata_path }}/{{ recyclarr_paths_folder }}"
 recyclarr_paths_folders_list:
   - "{{ recyclarr_paths_location }}"
+recyclarr_config_location: "{{ recyclarr_paths_location }}/recyclarr.yml"
 
 ################################
 # Docker
