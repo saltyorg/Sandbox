@@ -65,7 +65,7 @@
     nginx_docker_container: "invoiceninja-nginx"
     nginx_docker_volumes_default:
       - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default.conf:ro"
-      - "{{ invoiceninjav5_paths_location }}/public:/app/www/public"
+      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public/"
 
 - name: Remove existing Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
