@@ -29,6 +29,7 @@
     - { role: bookstack, tags: ['bookstack'] }
     - { role: calibre, tags: ['calibre'] }
     - { role: calibre_web, tags: ['calibre-web'] }
+    - { role: changedetection, tags: ['changedetection'] }
     - { role: coder, tags: ['coder'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
@@ -77,6 +78,7 @@
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
     - { role: notifiarr, tags: ['notifiarr'] }
+    - { role: olivetin, tags: ['olivetin'] }
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
@@ -93,6 +95,7 @@
     - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
+    - { role: qbittorrentvpn, tags: ['qbittorrentvpn'] }
     - { role: rdtclient, tags: ['rdtclient'] }
     - { role: recyclarr, tags: ['recyclarr'] }
     - { role: requestrr, tags: ['requestrr'] }

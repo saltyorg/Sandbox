@@ -7,22 +7,21 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
 
 - name: MariaDB | Create ninja database
   ansible.builtin.command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Permissions | Create ninja group
   ansible.builtin.command: "addgroup --gid 1500 invoiceninja "
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Permissions | Add to ninja group
   ansible.builtin.command: "adduser {{ user.name }} invoiceninja "
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Create directories
   ansible.builtin.file:
@@ -51,9 +50,10 @@
   when: not invoiceninjav5_config.stat.exists
 
 - name: "Execute nginx role"
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: nginx
   vars:
+    nginx_docker_image: "nginx:latest"
     nginx_paths_folder: ""
     nginx_paths_folders_list: []
     nginx_web_subdomain: "{{ invoiceninjav5_nginx_web_subdomain }}"
@@ -61,10 +61,11 @@
     nginx_dns_record: "{{ invoiceninjav5_nginx_dns_record }}"
     nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
     nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
-    nginx_name: "invoiceninja-nginx"
-    nginx_docker_container: "invoiceninja-nginx"
+    nginx_instances: ["invoiceninja-nginx"]
+    nginx_traefik_middleware: "{{ invoiceninjav5_nginx_traefik_middleware }}"
+    nginx_traefik_certresolver: "{{ invoiceninjav5_nginx_traefik_certresolver }}"
     nginx_docker_volumes_default:
-      - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/config/nginx/site-confs/default:ro"
+      - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
       - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public"
 
 - name: Remove existing Docker container

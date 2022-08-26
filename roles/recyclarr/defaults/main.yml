@@ -21,6 +21,7 @@ recyclarr_paths_folder: "{{ recyclarr_name }}"
 recyclarr_paths_location: "{{ server_appdata_path }}/{{ recyclarr_paths_folder }}"
 recyclarr_paths_folders_list:
   - "{{ recyclarr_paths_location }}"
+recyclarr_config_location: "{{ recyclarr_paths_location }}/recyclarr.yml"
 
 ################################
 # Docker
@@ -45,8 +46,6 @@ recyclarr_docker_ports: "{{ recyclarr_docker_ports_defaults
 # Envs
 recyclarr_docker_envs_default:
   TZ: "{{ tz }}"
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
   CRON_SCHEDULE: "{{ recyclarr.cron_schedule }}"
 recyclarr_docker_envs_custom: {}
 recyclarr_docker_envs: "{{ recyclarr_docker_envs_default
@@ -113,3 +112,6 @@ recyclarr_docker_restart_policy: unless-stopped
 
 # State
 recyclarr_docker_state: started
+
+# User
+recyclarr_docker_user: "{{ uid }}:{{ gid }}"

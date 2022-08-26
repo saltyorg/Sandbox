@@ -1,0 +1,149 @@
+##########################################################################
+# Title:         Sandbox: OliveTin | Default Variables                   #
+# Author(s):     owine                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+olivetin_name: olivetin
+
+################################
+# Paths
+################################
+
+olivetin_paths_folder: "{{ olivetin_name }}"
+olivetin_paths_location: "{{ server_appdata_path }}/{{ olivetin_paths_folder }}"
+olivetin_config_location: "{{ olivetin_paths_location }}/config.yaml"
+olivetin_paths_folders_list:
+  - "{{ olivetin_paths_location }}"
+
+################################
+# Web
+################################
+
+olivetin_web_subdomain: "{{ olivetin_name }}"
+olivetin_web_domain: "{{ user.domain }}"
+olivetin_web_port: "1337"
+olivetin_web_url: "{{ 'https://' + olivetin_web_subdomain + '.' + olivetin_web_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + olivetin_web_port }}"
+
+################################
+# DNS
+################################
+
+olivetin_dns_record: "{{ olivetin_web_subdomain }}"
+olivetin_dns_zone: "{{ olivetin_web_domain }}"
+olivetin_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+olivetin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+olivetin_traefik_middleware: "{{ traefik_default_middleware + ',' + olivetin_traefik_sso_middleware
+                              if (olivetin_traefik_sso_middleware | length > 0)
+                              else traefik_default_middleware }}"
+olivetin_traefik_middleware_api: "{{ traefik_global_middleware }}"
+olivetin_traefik_certresolver: "{{ traefik_default_certresolver }}"
+olivetin_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+olivetin_docker_container: "{{ olivetin_name }}"
+
+# Image
+olivetin_docker_image_pull: true
+olivetin_docker_image_tag: "latest"
+olivetin_docker_image: "jamesread/olivetin:{{ olivetin_docker_image_tag }}"
+
+# Ports
+olivetin_docker_ports_defaults:
+  - "{{ olivetin_web_port }}:{{ olivetin_web_port }}"
+olivetin_docker_ports_custom: []
+olivetin_docker_ports: "{{ olivetin_docker_ports_defaults
+                           + olivetin_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else olivetin_docker_ports_custom }}"
+
+# Envs
+olivetin_docker_envs_default:
+  TZ: "{{ tz }}"
+olivetin_docker_envs_custom: {}
+olivetin_docker_envs: "{{ olivetin_docker_envs_default
+                          | combine(olivetin_docker_envs_custom) }}"
+
+# Commands
+olivetin_docker_commands_default: []
+olivetin_docker_commands_custom: []
+olivetin_docker_commands: "{{ olivetin_docker_commands_default
+                              + olivetin_docker_commands_custom }}"
+
+# Volumes
+olivetin_docker_volumes_default:
+  - "/var/run/docker.sock:/var/run/docker.sock"
+  - "{{ olivetin_paths_location }}:/config"
+olivetin_docker_volumes_custom: []
+olivetin_docker_volumes: "{{ olivetin_docker_volumes_default
+                             + olivetin_docker_volumes_custom  }}"
+
+# Devices
+olivetin_docker_devices_default: []
+olivetin_docker_devices_custom: []
+olivetin_docker_devices: "{{ olivetin_docker_devices_default
+                             + olivetin_docker_devices_custom }}"
+
+# Hosts
+olivetin_docker_hosts_default: []
+olivetin_docker_hosts_custom: []
+olivetin_docker_hosts: "{{ docker_hosts_common
+                           | combine(olivetin_docker_hosts_default)
+                           | combine(olivetin_docker_hosts_custom) }}"
+
+# Labels
+olivetin_docker_labels_default: {}
+olivetin_docker_labels_custom: {}
+olivetin_docker_labels: "{{ docker_labels_common
+                            | combine(olivetin_docker_labels_default)
+                            | combine(olivetin_docker_labels_custom) }}"
+
+# Hostname
+olivetin_docker_hostname: "{{ olivetin_name }}"
+
+# Networks
+olivetin_docker_networks_alias: "{{ olivetin_name }}"
+olivetin_docker_networks_default: []
+olivetin_docker_networks_custom: []
+olivetin_docker_networks: "{{ docker_networks_common
+                              + olivetin_docker_networks_default
+                              + olivetin_docker_networks_custom }}"
+
+# Capabilities
+olivetin_docker_capabilities_default: []
+olivetin_docker_capabilities_custom: []
+olivetin_docker_capabilities: "{{ olivetin_docker_capabilities_default
+                                  + olivetin_docker_capabilities_custom }}"
+
+# Security Opts
+olivetin_docker_security_opts_default: []
+olivetin_docker_security_opts_custom: []
+olivetin_docker_security_opts: "{{ olivetin_docker_security_opts_default
+                                   + olivetin_docker_security_opts_custom }}"
+
+# Restart Policy
+olivetin_docker_restart_policy: unless-stopped
+
+# State
+olivetin_docker_state: started
+
+# User
+olivetin_docker_user: "0:0"

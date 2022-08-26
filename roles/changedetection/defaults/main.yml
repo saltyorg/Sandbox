@@ -1,0 +1,157 @@
+#########################################################################
+# Title:            Sandbox: ChangeDetection.io                         #
+# Author(s):        owine                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+changedetection_name: changedetection
+
+################################
+# Paths
+################################
+
+changedetection_paths_folder: "{{ changedetection_name }}"
+changedetection_paths_location: "{{ server_appdata_path }}/{{ changedetection_paths_folder }}"
+changedetection_paths_folders_list:
+  - "{{ changedetection_paths_location }}"
+
+################################
+# Web
+################################
+
+changedetection_web_subdomain: "{{ changedetection_name }}"
+changedetection_web_domain: "{{ user.domain }}"
+changedetection_web_port: "5000"
+changedetection_web_url: "{{ 'https://' + changedetection_web_subdomain + '.' + changedetection_web_domain
+                if (reverse_proxy_is_enabled)
+                else 'http://localhost:' + changedetection_web_port }}"
+
+################################
+# DNS
+################################
+
+changedetection_dns_record: "{{ changedetection_web_subdomain }}"
+changedetection_dns_zone: "{{ changedetection_web_domain }}"
+changedetection_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+changedetection_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+
+changedetection_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                            + lookup('vars', changedetection_name + '_traefik_sso_middleware', default=changedetection_traefik_sso_middleware)
+                                            if (lookup('vars', changedetection_name + '_traefik_sso_middleware', default=changedetection_traefik_sso_middleware) | length > 0)
+                                            else traefik_default_middleware }}"
+changedetection_traefik_middleware_custom: ""
+changedetection_traefik_middleware: "{{ changedetection_traefik_middleware_default + ','
+                                    + changedetection_traefik_middleware_custom
+                                    if (not changedetection_traefik_middleware_custom.startswith(',') and changedetection_traefik_middleware_custom | length > 0)
+                                    else changedetection_traefik_middleware_default
+                                    + changedetection_traefik_middleware_custom }}"
+
+changedetection_traefik_certresolver: "{{ traefik_default_certresolver }}"
+changedetection_traefik_enabled: true
+changedetection_traefik_api_enabled: true
+changedetection_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+changedetection_docker_container: "{{ changedetection_name }}"
+
+# Image
+changedetection_docker_image_pull: true
+changedetection_docker_image_tag: "latest"
+changedetection_docker_image: "lscr.io/linuxserver/changedetection.io:{{ changedetection_docker_image_tag }}"
+
+# Ports
+changedetection_docker_ports_defaults:
+  - "{{ changedetection_web_port }}:{{ changedetection_web_port }}"
+changedetection_docker_ports_custom: []
+changedetection_docker_ports: "{{ changedetection_docker_ports_defaults
+                        + changedetection_docker_ports_custom
+                     if (not reverse_proxy_is_enabled)
+                     else changedetection_docker_ports_custom }}"
+
+# Envs
+changedetection_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  BASE_URL: "{{ changedetection_web_url }}"
+changedetection_docker_envs_custom: {}
+changedetection_docker_envs: "{{ changedetection_docker_envs_default
+                       | combine(changedetection_docker_envs_custom) }}"
+
+# Commands
+changedetection_docker_commands_default: []
+changedetection_docker_commands_custom: []
+changedetection_docker_commands: "{{ changedetection_docker_commands_default
+                           + changedetection_docker_commands_custom }}"
+
+# Volumes
+changedetection_docker_volumes_default:
+  - "{{ changedetection_paths_location }}:/config"
+changedetection_docker_volumes_custom: []
+changedetection_docker_volumes: "{{ changedetection_docker_volumes_default
+                          + changedetection_docker_volumes_custom }}"
+
+# Devices
+changedetection_docker_devices_default: []
+changedetection_docker_devices_custom: []
+changedetection_docker_devices: "{{ changedetection_docker_devices_default
+                          + changedetection_docker_devices_custom }}"
+
+# Hosts
+changedetection_docker_hosts_default: []
+changedetection_docker_hosts_custom: []
+changedetection_docker_hosts: "{{ docker_hosts_common
+                        | combine(changedetection_docker_hosts_default)
+                        | combine(changedetection_docker_hosts_custom) }}"
+
+# Labels
+changedetection_docker_labels_default: {}
+changedetection_docker_labels_custom: {}
+changedetection_docker_labels: "{{ docker_labels_common
+                         | combine(changedetection_docker_labels_default)
+                         | combine(changedetection_docker_labels_custom) }}"
+
+# Hostname
+changedetection_docker_hostname: "{{ changedetection_name }}"
+
+# Networks
+changedetection_docker_networks_alias: "{{ changedetection_name }}"
+changedetection_docker_networks_default: []
+changedetection_docker_networks_custom: []
+changedetection_docker_networks: "{{ docker_networks_common
+                           + changedetection_docker_networks_default
+                           + changedetection_docker_networks_custom }}"
+
+# Capabilities
+changedetection_docker_capabilities_default: []
+changedetection_docker_capabilities_custom: []
+changedetection_docker_capabilities: "{{ changedetection_docker_capabilities_default
+                               + changedetection_docker_capabilities_custom }}"
+
+# Security Opts
+changedetection_docker_security_opts_default: []
+changedetection_docker_security_opts_custom: []
+changedetection_docker_security_opts: "{{ changedetection_docker_security_opts_default
+                                + changedetection_docker_security_opts_custom }}"
+
+# Restart Policy
+changedetection_docker_restart_policy: unless-stopped
+
+# State
+changedetection_docker_state: started
