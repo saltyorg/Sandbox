@@ -91,29 +91,45 @@ retries = 0
 ##
 ## Examples follow. UNCOMMENT (REMOVE #), AT MINIMUM: [[header]], url, api_key
 
-#[[lidarr]]
-#name     = "lidarr" # Set a name to enable checks of your service.
-#url      = "http://lidarr:8989/"
-#api_key  = " lidarr_api_key "
+{% for instance in lidarr_info %}
+{% if lidarr_info[instance]['api_key'] != 'not installed' %}
+[[lidarr]]
+name      = "{{ lidarr_info[instance]['name'] }}"
+url       = "{{ lidarr_info[instance]['url'] }}"
+api_key   = "{{ lidarr_info[instance]['api_key'] }}"
 
+{% endif %}
+{% endfor %}
+
+{% for instance in radarr_info %}
+{% if radarr_info[instance]['api_key'] != 'not installed' %}
 [[radarr]]
-{% if radarr_api_key is defined %}
-name      = "radarr" # Set a name to enable checks of your service.
-url       = "http://radarr:7878/"
-api_key   = "{{ radarr_api_key }}"
+name      = "{{ radarr_info[instance]['name'] }}"
+url       = "{{ radarr_info[instance]['url'] }}"
+api_key   = "{{ radarr_info[instance]['api_key'] }}"
+
 {% endif %}
+{% endfor %}
 
-#[[readarr]]
-#name      = "readarr" # Set a name to enable checks of your service.
-#url       = "http://readarr:8787/"
-#api_key   = " readarr_api_key "
+{% for instance in readarr_info %}
+{% if readarr_info[instance]['api_key'] != 'not installed' %}
+[[readarr]]
+name      = "{{ readarr_info[instance]['name'] }}"
+url       = "{{ readarr_info[instance]['url'] }}"
+api_key   = "{{ readarr_info[instance]['api_key'] }}"
 
+{% endif %}
+{% endfor %}
+
+{% for instance in sonarr_info %}
+{% if sonarr_info[instance]['api_key'] != 'not installed' %}
 [[sonarr]]
-{% if sonarr_api_key is defined %}
-name      = "sonarr"  # Set a name to enable checks of your service.
-url       = "http://sonarr:8989"
-api_key   = "{{ sonarr_api_key }}"
+name      = "{{ sonarr_info[instance]['name'] }}"
+url       = "{{ sonarr_info[instance]['url'] }}"
+api_key   = "{{ sonarr_info[instance]['api_key'] }}"
+
 {% endif %}
+{% endfor %}
 
 # Download Client Configs (below) are used for dashboard state and service checks.
 

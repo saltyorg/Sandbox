@@ -10,12 +10,6 @@
 - name: Import Default Tautulli variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/tautulli/defaults/main.yml
 
-- name: Import Default Sonarr variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
-
-- name: Import Default Radarr variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/radarr/defaults/main.yml
-
 - name: Import Default Plex variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
@@ -23,16 +17,6 @@
   ansible.builtin.set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"
   when: not tautulli_name is defined
-
-- name: Set Default Sonarr instance
-  ansible.builtin.set_fact:
-    sonarr_name: "{{ sonarr_instances[0] }}"
-  when: not sonarr_name is defined
-
-- name: Set Default Radarr instance
-  ansible.builtin.set_fact:
-    radarr_name: "{{ radarr_instances[0] }}"
-  when: not radarr_name is defined
 
 - name: Set Default Plex instance
   ansible.builtin.set_fact:
@@ -44,42 +28,6 @@
   ansible.builtin.stat:
     path: "{{ notifiarr_tautulli_config }}"
   register: tautulli_config
-
-# Sonarr Tasks
-- name: "Check if sonarr exists"
-  ansible.builtin.stat:
-    path: "{{ notifiarr_sonarr_config }}"
-  register: sonarr_config
-
-- name: Pull sonarr api key
-  xml:
-    path: "{{ notifiarr_sonarr_config }}"
-    xpath: /Config/ApiKey
-    content: text
-  register: xmlresp
-  when: sonarr_config.stat.exists
-
-- name: Set 'sonarr_api_key'
-  ansible.builtin.set_fact:
-    sonarr_api_key: "{{ xmlresp.matches[0].ApiKey if sonarr_config.stat.exists else '' }}"
-
-# Radarr Tasks
-- name: "Check if radarr exists"
-  ansible.builtin.stat:
-    path: "{{ notifiarr_radarr_config }}"
-  register: radarr_config
-
-- name: Pull radarr api key
-  xml:
-    path: "{{ notifiarr_radarr_config }}"
-    xpath: /Config/ApiKey
-    content: text
-  register: xmlresp
-  when: radarr_config.stat.exists
-
-- name: Set 'radarr_api_key'
-  ansible.builtin.set_fact:
-    radarr_api_key: "{{ xmlresp.matches[0].ApiKey if radarr_config.stat.exists else '' }}"
 
 # Plex Tasks
 
@@ -112,6 +60,9 @@
 
 - name: Settings | New `{{ notifiarr_paths_config_location | basename }}` tasks
   block:
+
+    - name: Get Arr Info
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
 
     - name: Settings | Import default `{{ notifiarr_paths_config_location | basename }}`
       ansible.builtin.template:
