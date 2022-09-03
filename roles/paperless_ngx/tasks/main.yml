@@ -7,7 +7,62 @@
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
+# Versions: https://github.com/paperless-ngx/paperless-ngx/blob/main/docker/compose/docker-compose.postgres-tika.yml
 ---
+- name: Redis Role
+  ansible.builtin.import_role:
+    name: redis
+  vars:
+    redis_name: "{{ paperless_ngx_name }}_redis"
+    redis_docker_image_tag: "7-alpine"
+    redis_paths_folder: "{{ paperless_ngx_name }}"
+    redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
+
+- name: Import Default Redis variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/redis/defaults/main.yml
+
+- name: PostgreSQL Role
+  ansible.builtin.import_role:
+    name: postgres
+  vars:
+    postgres_name: "{{ paperless_ngx_name }}_postgres"
+    postgres_docker_env_db: "{{ paperless_ngx_name }}"
+    postgres_docker_image_tag: "14-alpine"
+    postgres_paths_folder: "{{ paperless_ngx_name }}"
+    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+
+- name: Import Default PostgreSQL variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/postgres/defaults/main.yml
+
+- name: Gotenberg Role
+  ansible.builtin.import_role:
+    name: gotenberg
+  vars:
+    gotenberg_name: "{{ paperless_ngx_name }}_gotenberg"
+    gotenberg_docker_image_tag: "7-cloudrun"
+    gotenberg_docker_commands_default:
+      - "gotenberg"
+      - "--chromium-disable-routes=true"
+      - "--api-timeout=300s"
+      - "--uno-listener-restart-threshold=0"
+      - "--uno-listener-restart-threshold=300"
+      - "--uno-listener-start-timeout=300s"
+    gotenberg_paths_folder: "{{ paperless_ngx_name }}"
+    gotenberg_paths_location: "{{ server_appdata_path }}/{{ gotenberg_paths_folder }}/gotenberg"
+
+- name: Tika Role
+  ansible.builtin.import_role:
+    name: tika
+  vars:
+    tika_name: "{{ paperless_ngx_name }}_tika"
+    tika_docker_image_tag: "latest"
+    tika_paths_folder: "{{ paperless_ngx_name }}"
+    tika_paths_location: "{{ server_appdata_path }}/{{ gotenberg_paths_folder }}/gotenberg"
+
+- name: "Generate Secret Key for sessions"
+  ansible.builtin.shell: "openssl rand -base64 45"
+  register: paperless_ngx_secret_key
+
 - name: Add DNS record
   include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
@@ -29,3 +84,11 @@
 
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: "Get number of physical processors"
+  ansible.builtin.shell: "grep -c ^processor /proc/cpuinfo"
+  register: paperless_ngx_proc
+
+- name: Print tweaks infos
+  debug:
+    msg: "Your server has {{ paperless_ngx_proc.stdout }} CPU core, you can tweak your config with: https://paperless-ngx.readthedocs.io/en/latest/configuration.html#software-tweaks"

@@ -49,6 +49,7 @@
     - { role: gitea, tags: ['gitea'] }
     - { role: glances_web, tags: ['glances-web'] }
     - { role: goplaxt, tags: ['goplaxt'] }
+    - { role: gotenberg, tags: ['gotenberg'] }
     - { role: gotify, tags: ['gotify'] }
     - { role: grafana, tags: ['grafana'] }
     - { role: guacamole, tags: ['guacamole'] }
@@ -82,7 +83,7 @@
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
-    - { role: paperless_ngx, tags: ['paperless_ngx'] }
+    - { role: paperless_ngx, tags: ['paperless-ngx'] }
     - { role: plex_autoscan, tags: ['plex_autoscan'] }
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
@@ -117,6 +118,7 @@
     - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
+    - { role: tika, tags: ['tika'] }
     - { role: traefik_robotstxt, tags: ['traefik_robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
