@@ -88,6 +88,6 @@
   ansible.builtin.shell: "grep -c ^processor /proc/cpuinfo"
   register: paperless_ngx_proc
 
-- name: Print tweaks infos
+- name: Print Tweaking Info
   ansible.builtin.debug:
-    msg: "Your server has {{ paperless_ngx_proc.stdout }} CPU core, you can tweak your config with: https://paperless-ngx.readthedocs.io/en/latest/configuration.html#software-tweaks"
+    msg: "Your server has {{ paperless_ngx_proc.stdout }} CPU cores, tweak your config using: https://paperless-ngx.readthedocs.io/en/latest/configuration.html#software-tweaks"
