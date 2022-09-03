@@ -109,12 +109,21 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/JigSawFr>
+            <img src=https://avatars.githubusercontent.com/u/5781907?v=4 width="100;"  alt=JigSaw/>
+            <br />
+            <sub style="font-size:14px"><b>JigSaw</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/dvsmasta>
             <img src=https://avatars.githubusercontent.com/u/14364893?v=4 width="100;"  alt=dvsmasta/>
             <br />
             <sub style="font-size:14px"><b>dvsmasta</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/kxzaon>
             <img src=https://avatars.githubusercontent.com/u/46218?v=4 width="100;"  alt=kxzaon/>
@@ -122,8 +131,6 @@ sb list
             <sub style="font-size:14px"><b>kxzaon</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/8a8al00ey>
             <img src=https://avatars.githubusercontent.com/u/109389709?v=4 width="100;"  alt=8a8al00ey/>
@@ -150,13 +157,6 @@ sb list
             <img src=https://avatars.githubusercontent.com/u/3855051?v=4 width="100;"  alt=Javier Blanco/>
             <br />
             <sub style="font-size:14px"><b>Javier Blanco</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/JigSawFr>
-            <img src=https://avatars.githubusercontent.com/u/5781907?v=4 width="100;"  alt=JigSaw/>
-            <br />
-            <sub style="font-size:14px"><b>JigSaw</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
