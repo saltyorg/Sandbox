@@ -90,5 +90,5 @@
   register: paperless_ngx_proc
 
 - name: Print tweaks infos
-  debug:
+  ansible.builtin.debug:
     msg: "Your server has {{ paperless_ngx_proc.stdout }} CPU core, you can tweak your config with: https://paperless-ngx.readthedocs.io/en/latest/configuration.html#software-tweaks"
