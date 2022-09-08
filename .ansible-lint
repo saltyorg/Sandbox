@@ -20,6 +20,3 @@ skip_list:
   - yaml[truthy]
   - schema[tasks]
   - name[casing]
-
-warn_list:
-  - var-spacing

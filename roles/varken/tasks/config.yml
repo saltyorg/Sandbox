@@ -60,7 +60,7 @@
   register: ombi_config
 
 - name: Get Ombi API key
-  ansible.builtin.shell: sqlite3 "{{ varken_ombi_db }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 207
+  ansible.builtin.shell: sqlite3 "{{ varken_ombi_db }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 no-jinja-nesting
   register: ombi_api_key
   when: ombi_config.stat.exists
 

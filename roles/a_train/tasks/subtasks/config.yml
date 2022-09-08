@@ -56,7 +56,7 @@
 
     - name: Set variable for upstreams when root folder is specified
       ansible.builtin.set_fact:
-        union_upstreams: "{{ union_upstreams_var.results[0].stdout.split(separator) | replace(':', '')  | replace(secret_slash, '') }}"
+        union_upstreams: "{{ union_upstreams_var.results[0].stdout.split(separator) | replace(':', '') | replace(secret_slash, '') }}"
       vars:
         separator: '/ '
         secret_slash: '/'

@@ -94,7 +94,7 @@ olivetin_docker_volumes_default:
   - "{{ olivetin_paths_location }}:/config"
 olivetin_docker_volumes_custom: []
 olivetin_docker_volumes: "{{ olivetin_docker_volumes_default
-                             + olivetin_docker_volumes_custom  }}"
+                             + olivetin_docker_volumes_custom }}"
 
 # Devices
 olivetin_docker_devices_default: []
