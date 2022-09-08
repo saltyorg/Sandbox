@@ -72,9 +72,9 @@ rflood_config_rflood_rc_settings_default:
   - { option: "network.port_range.set", value: "{{ rflood_docker_ports_50000 }}-{{ rflood_docker_ports_50000 }}" }
   - { option: "dht.port.set", value: "{{ rflood_docker_ports_6881 }}" }
   # Enable / Disable Public Trackers
-  - { option: "dht.mode.set", value: "{{ rflood_config_public_trackers | ternary('on','disable') }}" }
-  - { option: "trackers.use_udp.set", value: "{{ rflood_config_public_trackers | ternary('yes','no') }}" }
-  - { option: "protocol.pex.set", value: "{{ rflood_config_public_trackers | ternary('yes','no') }}" }
+  - { option: "dht.mode.set", value: "{{ rflood_config_public_trackers | ternary('on', 'disable') }}" }
+  - { option: "trackers.use_udp.set", value: "{{ rflood_config_public_trackers | ternary('yes', 'no') }}" }
+  - { option: "protocol.pex.set", value: "{{ rflood_config_public_trackers | ternary('yes', 'no') }}" }
   # Maximum XMLRPC payloads
   - { option: "network.xmlrpc.size_limit.set", value: "20M" }
 rflood_config_rflood_rc_settings_custom: []
