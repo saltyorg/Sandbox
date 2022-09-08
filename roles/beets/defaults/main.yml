@@ -91,7 +91,6 @@ beets_docker_commands: "{{ beets_docker_commands_default
 beets_docker_volumes_default:
   - "{{ beets_paths_location }}:/config"
   - "/mnt/unionfs/Media/Music:/music"
-  - "/mnt/local/downloads/music:/downloads"
 beets_docker_volumes_custom: []
 beets_docker_volumes: "{{ beets_docker_volumes_default
                           + beets_docker_volumes_custom }}"
