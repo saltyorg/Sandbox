@@ -19,6 +19,14 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
+- name: Import Default Autoscan variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
+
+- name: Set Default Autoscan instance
+  ansible.builtin.set_fact:
+    autoscan_name: "{{ autoscan_instances[0] }}"
+  when: not autoscan_name is defined
+
 - name: Import Settings task
   import_tasks: "subtasks/settings.yml"
 
