@@ -31,8 +31,8 @@ mylar3_web_subdomain: "{{ mylar3_name }}"
 mylar3_web_domain: "{{ user.domain }}"
 mylar3_web_port: "8090"
 mylar3_web_url: "{{ 'https://' + mylar3_web_subdomain + '.' + mylar3_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + mylar3_web_port }}"
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + mylar3_web_port }}"
 
 ################################
 # DNS
@@ -67,9 +67,9 @@ mylar3_docker_ports_defaults:
   - "{{ mylar3_web_port }}"
 mylar3_docker_ports_custom: []
 mylar3_docker_ports: "{{ mylar3_docker_ports_defaults
-                           + mylar3_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else mylar3_docker_ports_custom }}"
+                         + mylar3_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else mylar3_docker_ports_custom }}"
 
 # Envs
 mylar3_docker_envs_default:
@@ -78,13 +78,13 @@ mylar3_docker_envs_default:
   TZ: "{{ tz }}"
 mylar3_docker_envs_custom: {}
 mylar3_docker_envs: "{{ mylar3_docker_envs_default
-                          | combine(mylar3_docker_envs_custom) }}"
+                        | combine(mylar3_docker_envs_custom) }}"
 
 # Commands
 mylar3_docker_commands_default: []
 mylar3_docker_commands_custom: []
 mylar3_docker_commands: "{{ mylar3_docker_commands_default
-                              + mylar3_docker_commands_custom }}"
+                            + mylar3_docker_commands_custom }}"
 
 # Volumes
 mylar3_docker_volumes_default:
@@ -92,27 +92,27 @@ mylar3_docker_volumes_default:
   - "/mnt/unionfs/Media/Comics:/comics"
 mylar3_docker_volumes_custom: []
 mylar3_docker_volumes: "{{ mylar3_docker_volumes_default
-                             + mylar3_docker_volumes_custom }}"
+                           + mylar3_docker_volumes_custom }}"
 
 # Devices
 mylar3_docker_devices_default: []
 mylar3_docker_devices_custom: []
 mylar3_docker_devices: "{{ mylar3_docker_devices_default
-                             + mylar3_docker_devices_custom }}"
+                           + mylar3_docker_devices_custom }}"
 
 # Hosts
 mylar3_docker_hosts_default: []
 mylar3_docker_hosts_custom: []
 mylar3_docker_hosts: "{{ docker_hosts_common
-                           | combine(mylar3_docker_hosts_default)
-                           | combine(mylar3_docker_hosts_custom) }}"
+                         | combine(mylar3_docker_hosts_default)
+                         | combine(mylar3_docker_hosts_custom) }}"
 
 # Labels
 mylar3_docker_labels_default: {}
 mylar3_docker_labels_custom: {}
 mylar3_docker_labels: "{{ docker_labels_common
-                            | combine(mylar3_docker_labels_default)
-                            | combine(mylar3_docker_labels_custom) }}"
+                          | combine(mylar3_docker_labels_default)
+                          | combine(mylar3_docker_labels_custom) }}"
 
 # Hostname
 mylar3_docker_hostname: "{{ mylar3_name }}"
@@ -122,20 +122,20 @@ mylar3_docker_networks_alias: "{{ mylar3_name }}"
 mylar3_docker_networks_default: []
 mylar3_docker_networks_custom: []
 mylar3_docker_networks: "{{ docker_networks_common
-                              + mylar3_docker_networks_default
-                              + mylar3_docker_networks_custom }}"
+                            + mylar3_docker_networks_default
+                            + mylar3_docker_networks_custom }}"
 
 # Capabilities
 mylar3_docker_capabilities_default: []
 mylar3_docker_capabilities_custom: []
 mylar3_docker_capabilities: "{{ mylar3_docker_capabilities_default
-                                  + mylar3_docker_capabilities_custom }}"
+                                + mylar3_docker_capabilities_custom }}"
 
 # Security Opts
 mylar3_docker_security_opts_default: []
 mylar3_docker_security_opts_custom: []
 mylar3_docker_security_opts: "{{ mylar3_docker_security_opts_default
-                                   + mylar3_docker_security_opts_custom }}"
+                                 + mylar3_docker_security_opts_custom }}"
 
 # Restart Policy
 mylar3_docker_restart_policy: unless-stopped
