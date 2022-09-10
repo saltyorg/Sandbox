@@ -24,8 +24,5 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-- name: Hotio Migration Tasks
-  import_tasks: "subtasks/hotio_migration.yml"
-
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

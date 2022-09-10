@@ -60,7 +60,7 @@ mylar3_docker_container: "{{ mylar3_name }}"
 # Image
 mylar3_docker_image_pull: true
 mylar3_docker_image_tag: "latest"
-mylar3_docker_image: "cr.hotio.dev/hotio/mylar3:{{ mylar3_docker_image_tag }}"
+mylar3_docker_image: "lscr.io/linuxserver/mylar3:{{ mylar3_docker_image_tag }}"
 
 # Ports
 mylar3_docker_ports_defaults:
