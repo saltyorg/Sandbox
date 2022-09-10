@@ -59,7 +59,7 @@ requestrr_docker_container: "{{ requestrr_name }}"
 # Image
 requestrr_docker_image_pull: true
 requestrr_docker_image_tag: "latest"
-requestrr_docker_image: "cr.hotio.dev/hotio/requestrr:{{ requestrr_docker_image_tag }}"
+requestrr_docker_image: "darkalfx/requestrr:{{ requestrr_docker_image_tag }}"
 
 # Ports
 requestrr_docker_ports_defaults:
@@ -88,7 +88,7 @@ requestrr_docker_commands: "{{ requestrr_docker_commands_default
 
 # Volumes
 requestrr_docker_volumes_default:
-  - "{{ requestrr_paths_location }}:/config"
+  - "{{ requestrr_paths_location }}:/root/config"
 requestrr_docker_volumes_custom: []
 requestrr_docker_volumes: "{{ requestrr_docker_volumes_default
                               + requestrr_docker_volumes_custom }}"
