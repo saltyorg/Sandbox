@@ -42,14 +42,8 @@
   when: plex_account_is_enabled
 
 - name: Pre-Install | Create {{ plextraktsync_paths_config_location | basename }}
-  ansible.builtin.copy:
-    content: |
-      # This is .env file for PlexTraktSync
-      PLEX_BASEURL=
-      PLEX_LOCALURL={{ 'http://' + plex_docker_networks_alias + ':' + plex_web_port }}
-      PLEX_TOKEN={{ plex_auth_token | d('') }}
-      PLEX_USERNAME={{ plex_host_username | d('') | escape }}
-      TRAKT_USERNAME=
+  ansible.builtin.template:
+    src: env.j2
     dest: "{{ plextraktsync_paths_config_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
