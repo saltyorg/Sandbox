@@ -20,3 +20,5 @@ skip_list:
   - yaml[truthy]
   - schema[tasks]
   - name[casing]
+  - name[template]
+  - key-order[task]
