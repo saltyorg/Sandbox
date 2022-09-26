@@ -50,6 +50,8 @@
   ansible.builtin.get_url:
     url: "{{ sarotate_latest }}"
     dest: "{{ sarotate_paths_location }}/SARotate"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
     mode: "0775"
     force: true
 
