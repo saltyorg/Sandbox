@@ -7,6 +7,11 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Fail if secret_key has not been set
+  ansible.builtin.fail:
+    msg: "You need to edit 'tandoor.secret_key' in the settings.yml"
+  when: tandoor.secret_key | default(None) | ternary('true', 'false') == 'false'
+
 - name: PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
