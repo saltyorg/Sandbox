@@ -10,7 +10,7 @@
 - name: Fail if secret_key has not been set
   ansible.builtin.fail:
     msg: "You need to edit 'tandoor.secret_key' in the settings.yml"
-  when: tandoor.secret_key | default(None) | ternary('true', 'false') == 'false'
+  when: (tandoor.secret_key | default(None) | ternary('true', 'false') == 'false') and not continuous_integration
 
 - name: PostgreSQL Role
   ansible.builtin.include_role:
