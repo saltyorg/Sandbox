@@ -123,6 +123,7 @@
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
+    - { role: trillium, tags: ['trillium'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: unpackerr, tags: ['unpackerr'] }

@@ -1,0 +1,157 @@
+##########################################################################
+# Title:         Sandbox: Trillium | Default Variables                   #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+trillium_name: trillium
+
+################################
+# Paths
+################################
+
+trillium_paths_folder: "{{ trillium_name }}"
+trillium_paths_location: "{{ server_appdata_path }}/{{ trillium_paths_folder }}"
+trillium_paths_folders_list:
+  - "{{ trillium_paths_location }}"
+
+################################
+# Web
+################################
+
+trillium_web_subdomain: "{{ trillium_name }}"
+trillium_web_domain: "{{ user.domain }}"
+trillium_web_port: "8080"
+trillium_web_url: "{{ 'https://' + trillium_web_subdomain + '.' + trillium_web_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + trillium_web_port }}"
+
+################################
+# DNS
+################################
+
+trillium_dns_record: "{{ trillium_web_subdomain }}"
+trillium_dns_zone: "{{ trillium_web_domain }}"
+trillium_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+trillium_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+
+trillium_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                         + lookup('vars', trillium_name + '_traefik_sso_middleware', default=trillium_traefik_sso_middleware)
+                                      if (lookup('vars', trillium_name + '_traefik_sso_middleware', default=trillium_traefik_sso_middleware) | length > 0)
+                                      else traefik_default_middleware }}"
+trillium_traefik_middleware_custom: ""
+trillium_traefik_middleware: "{{ trillium_traefik_middleware_default + ','
+                                 + trillium_traefik_middleware_custom
+                              if (not trillium_traefik_middleware_custom.startswith(',') and trillium_traefik_middleware_custom | length > 0)
+                              else trillium_traefik_middleware_default
+                                 + trillium_traefik_middleware_custom }}"
+trillium_traefik_certresolver: "{{ traefik_default_certresolver }}"
+trillium_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+trillium_docker_container: "{{ trillium_name }}"
+
+# Image
+trillium_docker_image_pull: true
+trillium_docker_image_tag: "latest"
+trillium_docker_image: "zadam/trilium:{{ trillium_docker_image_tag }}"
+
+# Ports
+trillium_docker_ports_defaults: []
+trillium_docker_ports_ui:
+  - "{{ trillium_web_port }}:{{ trillium_web_port }}"
+trillium_docker_ports_custom: []
+trillium_docker_ports: "{{ trillium_docker_ports_defaults
+                           + trillium_docker_ports_ui
+                           + trillium_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else trillium_docker_ports_defaults
+                           + trillium_docker_ports_custom }}"
+
+# Envs
+trillium_docker_envs_default:
+  USER_UID: "{{ uid }}"
+  USER_GID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  TRILIUM_DATA_DIR: "/home/node/trilium-data"
+trillium_docker_envs_custom: {}
+trillium_docker_envs: "{{ trillium_docker_envs_default
+                          | combine(trillium_docker_envs_custom) }}"
+
+# Commands
+trillium_docker_commands_default: []
+trillium_docker_commands_custom: []
+trillium_docker_commands: "{{ trillium_docker_commands_default
+                              + trillium_docker_commands_custom }}"
+
+# Volumes
+trillium_docker_volumes_default:
+  - "{{ trillium_paths_location }}:/home/node/trilium-data"
+trillium_docker_volumes_custom: []
+trillium_docker_volumes: "{{ trillium_docker_volumes_default
+                             + trillium_docker_volumes_custom }}"
+
+# Devices
+trillium_docker_devices_default: []
+trillium_docker_devices_custom: []
+trillium_docker_devices: "{{ trillium_docker_devices_default
+                             + trillium_docker_devices_custom }}"
+
+# Hosts
+trillium_docker_hosts_default: []
+trillium_docker_hosts_custom: []
+trillium_docker_hosts: "{{ docker_hosts_common
+                           | combine(trillium_docker_hosts_default)
+                           | combine(trillium_docker_hosts_custom) }}"
+
+# Labels
+trillium_docker_labels_default: {}
+trillium_docker_labels_custom: {}
+trillium_docker_labels: "{{ docker_labels_common
+                            | combine(trillium_docker_labels_default)
+                            | combine(trillium_docker_labels_custom) }}"
+
+# Hostname
+trillium_docker_hostname: "{{ trillium_name }}"
+
+# Networks
+trillium_docker_networks_alias: "{{ trillium_name }}"
+trillium_docker_networks_default: []
+trillium_docker_networks_custom: []
+trillium_docker_networks: "{{ docker_networks_common
+                              + trillium_docker_networks_default
+                              + trillium_docker_networks_custom }}"
+
+# Capabilities
+trillium_docker_capabilities_default: []
+trillium_docker_capabilities_custom: []
+trillium_docker_capabilities: "{{ trillium_docker_capabilities_default
+                                  + trillium_docker_capabilities_custom }}"
+
+# Security Opts
+trillium_docker_security_opts_default: []
+trillium_docker_security_opts_custom: []
+trillium_docker_security_opts: "{{ trillium_docker_security_opts_default
+                                   + trillium_docker_security_opts_custom }}"
+
+# Restart Policy
+trillium_docker_restart_policy: unless-stopped
+
+# State
+trillium_docker_state: started
