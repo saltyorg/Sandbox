@@ -1,0 +1,157 @@
+##########################################################################
+# Title:         Sandbox: Trilium | Default Variables                    #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+trilium_name: trilium
+
+################################
+# Paths
+################################
+
+trilium_paths_folder: "{{ trilium_name }}"
+trilium_paths_location: "{{ server_appdata_path }}/{{ trilium_paths_folder }}"
+trilium_paths_folders_list:
+  - "{{ trilium_paths_location }}"
+
+################################
+# Web
+################################
+
+trilium_web_subdomain: "{{ trilium_name }}"
+trilium_web_domain: "{{ user.domain }}"
+trilium_web_port: "8080"
+trilium_web_url: "{{ 'https://' + trilium_web_subdomain + '.' + trilium_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + trilium_web_port }}"
+
+################################
+# DNS
+################################
+
+trilium_dns_record: "{{ trilium_web_subdomain }}"
+trilium_dns_zone: "{{ trilium_web_domain }}"
+trilium_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+trilium_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+
+trilium_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                        + lookup('vars', trilium_name + '_traefik_sso_middleware', default=trilium_traefik_sso_middleware)
+                                     if (lookup('vars', trilium_name + '_traefik_sso_middleware', default=trilium_traefik_sso_middleware) | length > 0)
+                                     else traefik_default_middleware }}"
+trilium_traefik_middleware_custom: ""
+trilium_traefik_middleware: "{{ trilium_traefik_middleware_default + ','
+                                + trilium_traefik_middleware_custom
+                             if (not trilium_traefik_middleware_custom.startswith(',') and trilium_traefik_middleware_custom | length > 0)
+                             else trilium_traefik_middleware_default
+                                + trilium_traefik_middleware_custom }}"
+trilium_traefik_certresolver: "{{ traefik_default_certresolver }}"
+trilium_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+trilium_docker_container: "{{ trilium_name }}"
+
+# Image
+trilium_docker_image_pull: true
+trilium_docker_image_tag: "latest"
+trilium_docker_image: "zadam/trilium:{{ trilium_docker_image_tag }}"
+
+# Ports
+trilium_docker_ports_defaults: []
+trilium_docker_ports_ui:
+  - "{{ trilium_web_port }}:{{ trilium_web_port }}"
+trilium_docker_ports_custom: []
+trilium_docker_ports: "{{ trilium_docker_ports_defaults
+                          + trilium_docker_ports_ui
+                          + trilium_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else trilium_docker_ports_defaults
+                          + trilium_docker_ports_custom }}"
+
+# Envs
+trilium_docker_envs_default:
+  USER_UID: "{{ uid }}"
+  USER_GID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  TRILIUM_DATA_DIR: "/home/node/trilium-data"
+trilium_docker_envs_custom: {}
+trilium_docker_envs: "{{ trilium_docker_envs_default
+                         | combine(trilium_docker_envs_custom) }}"
+
+# Commands
+trilium_docker_commands_default: []
+trilium_docker_commands_custom: []
+trilium_docker_commands: "{{ trilium_docker_commands_default
+                             + trilium_docker_commands_custom }}"
+
+# Volumes
+trilium_docker_volumes_default:
+  - "{{ trilium_paths_location }}:/home/node/trilium-data"
+trilium_docker_volumes_custom: []
+trilium_docker_volumes: "{{ trilium_docker_volumes_default
+                            + trilium_docker_volumes_custom }}"
+
+# Devices
+trilium_docker_devices_default: []
+trilium_docker_devices_custom: []
+trilium_docker_devices: "{{ trilium_docker_devices_default
+                            + trilium_docker_devices_custom }}"
+
+# Hosts
+trilium_docker_hosts_default: []
+trilium_docker_hosts_custom: []
+trilium_docker_hosts: "{{ docker_hosts_common
+                          | combine(trilium_docker_hosts_default)
+                          | combine(trilium_docker_hosts_custom) }}"
+
+# Labels
+trilium_docker_labels_default: {}
+trilium_docker_labels_custom: {}
+trilium_docker_labels: "{{ docker_labels_common
+                           | combine(trilium_docker_labels_default)
+                           | combine(trilium_docker_labels_custom) }}"
+
+# Hostname
+trilium_docker_hostname: "{{ trilium_name }}"
+
+# Networks
+trilium_docker_networks_alias: "{{ trilium_name }}"
+trilium_docker_networks_default: []
+trilium_docker_networks_custom: []
+trilium_docker_networks: "{{ docker_networks_common
+                             + trilium_docker_networks_default
+                             + trilium_docker_networks_custom }}"
+
+# Capabilities
+trilium_docker_capabilities_default: []
+trilium_docker_capabilities_custom: []
+trilium_docker_capabilities: "{{ trilium_docker_capabilities_default
+                                 + trilium_docker_capabilities_custom }}"
+
+# Security Opts
+trilium_docker_security_opts_default: []
+trilium_docker_security_opts_custom: []
+trilium_docker_security_opts: "{{ trilium_docker_security_opts_default
+                                  + trilium_docker_security_opts_custom }}"
+
+# Restart Policy
+trilium_docker_restart_policy: unless-stopped
+
+# State
+trilium_docker_state: started
