@@ -10,6 +10,11 @@
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
+  vars:
+    mariadb_name: "{{ invoiceninjav5_name }}_mariadb"
+    mariadb_docker_env_db: "{{ invoiceninjav5_name }}"
+    mariadb_paths_folder: "{{ invoiceninjav5_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
 - name: MariaDB | Create ninja database
   community.mysql.mysql_db:
@@ -25,6 +30,8 @@
     state: present
     gid: 1500
   ignore_errors: true
+- name: Import Default MariaDB variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
 
 - name: Permissions | Add to invoiceninja group
   ansible.builtin.user:
