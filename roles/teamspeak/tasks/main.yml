@@ -13,6 +13,11 @@
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
+  vars:
+    mariadb_name: "{{ teamspeak_name }}_mariadb"
+    mariadb_docker_env_db: "{{ teamspeak_name }}"
+    mariadb_paths_folder: "{{ teamspeak_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
 - name: MariaDB | Create {{ teamspeak_name }} database
   community.mysql.mysql_db:
@@ -21,6 +26,9 @@
     login_user: "root"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
+
+- name: Import Default MariaDB variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
 
 - name: Get next available port within the range of '9987-9997' # noqa fqcn[action]
   find_open_port:
