@@ -15,6 +15,12 @@
 - name: PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
+  vars:
+    postgres_name: "{{ tandoor_name }}_postgres"
+    postgres_docker_env_db: "{{ tandoor_name }}"
+    postgres_docker_image_tag: "14-alpine"
+    postgres_paths_folder: "{{ tandoor_name }}"
+    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
