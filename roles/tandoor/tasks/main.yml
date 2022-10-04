@@ -23,6 +23,9 @@
     postgres_paths_folder: "{{ tandoor_name }}"
     postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
 
+- name: Import Default PostgreSQL variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/postgres/defaults/main.yml
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
