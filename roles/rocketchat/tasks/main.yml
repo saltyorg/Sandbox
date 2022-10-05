@@ -46,7 +46,7 @@
   community.docker.docker_container:
     name: "rocketchat-mongo-init-replica"
     image: "mongo:latest"
-    command: 'bash -c "for i in `seq 1 30`; do mongo {{ mongodb_name }}/{{ mongodb_docker_env_db }} --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
+    command: 'bash -c "for i in `seq 1 30`; do mongo {{ rocketchat_name }}_mongo/{{ rocketchat_name }} --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
     networks:
       - name: saltbox
     comparisons:
