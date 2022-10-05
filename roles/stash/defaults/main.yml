@@ -64,7 +64,7 @@ stash_docker_container: "{{ stash_name }}"
 # Image
 stash_docker_image_pull: true
 stash_docker_image_tag: "latest"
-stash_docker_image: "stashapp/stash:{{ stash_docker_image_tag }}"
+stash_docker_image: "cr.hotio.dev/hotio/stash:{{ stash_docker_image_tag }}"
 
 # Ports
 stash_docker_ports_defaults:
@@ -77,10 +77,9 @@ stash_docker_ports: "{{ stash_docker_ports_defaults
 
 # Envs
 stash_docker_envs_default:
-  - STASH_STASH: "/data/"
-  - STASH_GENERATED: "/generated/"
-  - STASH_METADATA: "/metadata/"
-  - STASH_CACHE: "/cache/"
+  - TZ: "{{ tz }}"
+  - PUID: "{{ uid }}"
+  - PGID: "{{ gid }}"
 stash_docker_envs_custom: {}
 stash_docker_envs: "{{ stash_docker_envs_default
                        | combine(stash_docker_envs_custom) }}"
@@ -93,7 +92,7 @@ stash_docker_commands: "{{ stash_docker_commands_default
 
 # Volumes
 stash_docker_volumes_default:
-  - "{{ stash_paths_location }}/config:/root/.stash"
+  - "{{ stash_paths_location }}/config:/config"
   - "{{ stash_paths_location }}/metadata:/metadata"
   - "{{ stash_paths_location }}/cache:/cache"
   - "{{ stash_paths_location }}/generated:/generated"
