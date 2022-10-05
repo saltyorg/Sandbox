@@ -17,6 +17,7 @@
     name: postgres
   vars:
     postgres_name: "{{ tandoor_name }}_postgres"
+    postgres_instances: ["{{ tandoor_name }}_postgres"]
     postgres_docker_env_db: "{{ tandoor_name }}"
     postgres_docker_image_tag: "14-alpine"
     postgres_paths_folder: "{{ tandoor_name }}"
