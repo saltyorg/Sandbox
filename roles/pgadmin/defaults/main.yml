@@ -1,0 +1,147 @@
+##########################################################################
+# Title:         Sandbox: PGAdmin | Default Variables                    #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+pgadmin_name: pgadmin
+
+################################
+# Paths
+################################
+
+pgadmin_paths_folder: "{{ pgadmin_name }}"
+pgadmin_paths_location: "{{ server_appdata_path }}/{{ pgadmin_paths_folder }}"
+pgadmin_paths_folders_list:
+  - "{{ pgadmin_paths_location }}"
+
+################################
+# Web
+################################
+
+pgadmin_web_subdomain: "{{ pgadmin_name }}"
+pgadmin_web_domain: "{{ user.domain }}"
+pgadmin_web_port: "80"
+pgadmin_web_url: "{{ 'https://' + pgadmin_web_subdomain + '.' + pgadmin_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + pgadmin_web_port }}"
+
+################################
+# DNS
+################################
+
+pgadmin_dns_record: "{{ pgadmin_web_subdomain }}"
+pgadmin_dns_zone: "{{ pgadmin_web_domain }}"
+pgadmin_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+pgadmin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+pgadmin_traefik_middleware: "{{ traefik_default_middleware + ',' + pgadmin_traefik_sso_middleware
+                             if (pgadmin_traefik_sso_middleware | length > 0)
+                             else traefik_default_middleware }}"
+pgadmin_traefik_certresolver: "{{ traefik_default_certresolver }}"
+pgadmin_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+pgadmin_docker_container: "{{ pgadmin_name }}"
+
+# Image
+pgadmin_docker_image_pull: true
+pgadmin_docker_image_tag: "latest"
+pgadmin_docker_image: "dpage/pgadmin4:{{ pgadmin_docker_image_tag }}"
+
+# Ports
+pgadmin_docker_ports_defaults: []
+pgadmin_docker_ports_ui:
+  - "{{ pgadmin_web_port }}:{{ pgadmin_web_port }}"
+pgadmin_docker_ports_custom: []
+pgadmin_docker_ports: "{{ pgadmin_docker_ports_defaults
+                          + pgadmin_docker_ports_ui
+                          + pgadmin_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else pgadmin_docker_ports_defaults
+                          + pgadmin_docker_ports_custom }}"
+
+# Envs
+pgadmin_docker_envs_default:
+  - PGADMIN_DEFAULT_EMAIL: "{{ user.email }}"
+  - PGADMIN_DEFAULT_PASSWORD: "{{ user.pass }}"
+pgadmin_docker_envs_custom: {}
+pgadmin_docker_envs: "{{ pgadmin_docker_envs_default
+                         | combine(pgadmin_docker_envs_custom) }}"
+
+# Commands
+pgadmin_docker_commands_default: []
+pgadmin_docker_commands_custom: []
+pgadmin_docker_commands: "{{ pgadmin_docker_commands_default
+                             + pgadmin_docker_commands_custom }}"
+
+# Volumes
+pgadmin_docker_volumes_default:
+  - "{{ pgadmin_paths_location }}:/var/lib/pgadmin"
+pgadmin_docker_volumes_custom: []
+pgadmin_docker_volumes: "{{ pgadmin_docker_volumes_default
+                            + pgadmin_docker_volumes_custom }}"
+
+# Devices
+pgadmin_docker_devices_default: []
+pgadmin_docker_devices_custom: []
+pgadmin_docker_devices: "{{ pgadmin_docker_devices_default
+                            + pgadmin_docker_devices_custom }}"
+
+# Hosts
+pgadmin_docker_hosts_default: []
+pgadmin_docker_hosts_custom: []
+pgadmin_docker_hosts: "{{ docker_hosts_common
+                          | combine(pgadmin_docker_hosts_default)
+                          | combine(pgadmin_docker_hosts_custom) }}"
+
+# Labels
+pgadmin_docker_labels_default: {}
+pgadmin_docker_labels_custom: {}
+pgadmin_docker_labels: "{{ docker_labels_common
+                           | combine(pgadmin_docker_labels_default)
+                           | combine(pgadmin_docker_labels_custom) }}"
+
+# Hostname
+pgadmin_docker_hostname: "{{ pgadmin_name }}"
+
+# Networks
+pgadmin_docker_networks_alias: "{{ pgadmin_name }}"
+pgadmin_docker_networks_default: []
+pgadmin_docker_networks_custom: []
+pgadmin_docker_networks: "{{ docker_networks_common
+                             + pgadmin_docker_networks_default
+                             + pgadmin_docker_networks_custom }}"
+
+# Capabilities
+pgadmin_docker_capabilities_default: []
+pgadmin_docker_capabilities_custom: []
+pgadmin_docker_capabilities: "{{ pgadmin_docker_capabilities_default
+                                 + pgadmin_docker_capabilities_custom }}"
+
+# Security Opts
+pgadmin_docker_security_opts_default: []
+pgadmin_docker_security_opts_custom: []
+pgadmin_docker_security_opts: "{{ pgadmin_docker_security_opts_default
+                                  + pgadmin_docker_security_opts_custom }}"
+
+# Restart Policy
+pgadmin_docker_restart_policy: unless-stopped
+
+# State
+pgadmin_docker_state: started
