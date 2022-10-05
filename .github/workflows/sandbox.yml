@@ -76,7 +76,7 @@ jobs:
       - name: Syntax Check
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
 
-      - name: Install Saltbox
+      - name: Install Saltbox Core
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --tags "core" --skip-tags "sanity_check,settings" --extra-vars '{"continuous_integration":true}'
 
       - name: Copy default configuration
