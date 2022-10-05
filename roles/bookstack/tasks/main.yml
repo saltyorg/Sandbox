@@ -18,7 +18,8 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_name: "{{ bookstack_name }}_mariadb"
+    mariadb_name: "{{ bookstack_name }}_mariadb"  # Remove when instance support merged into Saltbox
+    mariadb_instances: ["{{ bookstack_name }}_mariadb"]
     mariadb_docker_env_db: "{{ bookstack_name }}"
     mariadb_paths_folder: "{{ bookstack_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
