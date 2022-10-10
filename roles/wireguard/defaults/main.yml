@@ -1,0 +1,153 @@
+##########################################################################
+# Title:            Sandbox: Wireguard | Default Variables               #
+# Author(s):        owine                                                #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+wireguard_name: wireguard
+
+################################
+# Paths
+################################
+
+wireguard_paths_folder: "{{ wireguard_name }}"
+wireguard_paths_location: "{{ server_appdata_path }}/{{ wireguard_paths_folder }}"
+wireguard_paths_folders_list:
+  - "{{ wireguard_paths_location }}"
+
+################################
+# Web
+################################
+
+wireguard_web_subdomain: "{{ wireguard_name }}"
+wireguard_web_domain: "{{ user.domain }}"
+wireguard_web_port: "51821"
+wireguard_web_url: "{{ 'https://' + wireguard_web_subdomain + '.' + wireguard_web_domain
+              if (reverse_proxy_is_enabled)
+              else 'http://localhost:' + wireguard_web_port }}"
+
+################################
+# DNS
+################################
+
+wireguard_dns_record: "{{ wireguard_web_subdomain }}"
+wireguard_dns_zone: "{{ wireguard_web_domain }}"
+wireguard_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+wireguard_traefik_middleware: "{{ traefik_default_middleware }}"
+wireguard_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wireguard_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+wireguard_docker_container: "{{ wireguard_name }}"
+
+# Image
+wireguard_docker_image_pull: true
+wireguard_docker_image_tag: "latest"
+wireguard_docker_image: "weejewel/wg-easy:{{ wireguard_docker_image_tag }}"
+
+# Ports
+wireguard_docker_ports_defaults:
+  - "51820:51820"
+wireguard_docker_ports_ui:
+  - "{{ wireguard_web_port }}:{{ wireguard_web_port }}"
+wireguard_docker_ports_custom: []
+wireguard_docker_ports: "{{ wireguard_docker_ports_defaults
+                          + wireguard_docker_ports_ui
+                          + wireguard_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else wireguard_docker_ports_defaults
+                          + wireguard_docker_ports_custom }}"
+
+# Envs
+wireguard_docker_envs_default:
+  TZ: "{{ tz }}"
+  WG_HOST: "{{ wireguard_web_subdomain + '.' + wireguard_web_domain }}"
+  PASSWORD: " {{ user.pass }}"
+wireguard_docker_envs_custom: {}
+wireguard_docker_envs: "{{ wireguard_docker_envs_default
+                     | combine(wireguard_docker_envs_custom) }}"
+
+# Commands
+wireguard_docker_commands_default: []
+wireguard_docker_commands_custom: []
+wireguard_docker_commands: "{{ wireguard_docker_commands_default
+                         + wireguard_docker_commands_custom }}"
+
+# Volumes
+wireguard_docker_volumes_default:
+  - "{{ wireguard_paths_location }}:/etc/wireguard"
+wireguard_docker_volumes_custom: []
+wireguard_docker_volumes: "{{ wireguard_docker_volumes_default
+                        + wireguard_docker_volumes_custom }}"
+
+# Devices
+wireguard_docker_devices_default: []
+wireguard_docker_devices_custom: []
+wireguard_docker_devices: "{{ wireguard_docker_devices_default
+                        + wireguard_docker_devices_custom }}"
+
+# Hosts
+wireguard_docker_hosts_default: []
+wireguard_docker_hosts_custom: []
+wireguard_docker_hosts: "{{ docker_hosts_common
+                      | combine(wireguard_docker_hosts_default)
+                      | combine(wireguard_docker_hosts_custom) }}"
+
+# Labels
+wireguard_docker_labels_default: {}
+wireguard_docker_labels_custom: {}
+wireguard_docker_labels: "{{ docker_labels_common
+                       | combine(wireguard_docker_labels_default)
+                       | combine(wireguard_docker_labels_custom) }}"
+
+# Hostname
+wireguard_docker_hostname: "{{ wireguard_name }}"
+
+# Networks
+wireguard_docker_networks_alias: "{{ wireguard_name }}"
+wireguard_docker_networks_default: []
+wireguard_docker_networks_custom: []
+wireguard_docker_networks: "{{ docker_networks_common
+                         + wireguard_docker_networks_default
+                         + wireguard_docker_networks_custom }}"
+
+# Capabilities
+wireguard_docker_capabilities_default:
+  - NET_ADMIN
+  - SYS_MODULE
+wireguard_docker_capabilities_custom: []
+wireguard_docker_capabilities: "{{ wireguard_docker_capabilities_default
+                             + wireguard_docker_capabilities_custom }}"
+
+# Security Opts
+wireguard_docker_security_opts_default: []
+wireguard_docker_security_opts_custom: []
+wireguard_docker_security_opts: "{{ wireguard_docker_security_opts_default
+                              + wireguard_docker_security_opts_custom }}"
+
+# Sysctls
+wireguard_docker_sysctls:
+  net.ipv4.conf.all.src_valid_mark: "1"
+  net.ipv4.ip_forward: "1"
+
+# Restart Policy
+wireguard_docker_restart_policy: unless-stopped
+
+# State
+wireguard_docker_state: started
