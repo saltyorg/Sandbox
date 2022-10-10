@@ -81,7 +81,7 @@ wireguard_docker_ports: "{{ wireguard_docker_ports_defaults
 wireguard_docker_envs_default:
   TZ: "{{ tz }}"
   WG_HOST: "{{ wireguard_web_subdomain + '.' + wireguard_web_domain }}"
-  PASSWORD: " {{ user.pass }}"
+  PASSWORD: "{{ user.pass }}"
 wireguard_docker_envs_custom: {}
 wireguard_docker_envs: "{{ wireguard_docker_envs_default
                      | combine(wireguard_docker_envs_custom) }}"
