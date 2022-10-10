@@ -29,5 +29,21 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
+- name: Check 'conf.php'' exists
+  ansible.builtin.stat:
+    path: "{{ privatebin_paths_location }}/conf.php"
+  register: conf_php
+
+- name: Import default 'conf.php'
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/PrivateBin/PrivateBin/master/cfg/conf.sample.php
+    dest: "{{ privatebin_paths_location }}/conf.php"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    validate_certs: false
+    mode: 0775
+    force: true
+  when: not conf_php.stat.exists
+
 - name: Create Docker container
   include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
