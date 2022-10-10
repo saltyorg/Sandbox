@@ -66,7 +66,7 @@ wireguard_docker_image: "weejewel/wg-easy:{{ wireguard_docker_image_tag }}"
 
 # Ports
 wireguard_docker_ports_defaults:
-  - "51820:51820"
+  - "51820:51820/udp"
 wireguard_docker_ports_ui:
   - "{{ wireguard_web_port }}:{{ wireguard_web_port }}"
 wireguard_docker_ports_custom: []
