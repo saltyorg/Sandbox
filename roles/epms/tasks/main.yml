@@ -23,6 +23,7 @@
     state: stopped
     container_default_behavior: compatibility
     tls_hostname: localhost
+    stop_timeout: "180"
 
   when: ('plex' in docker_running_containers)
 
@@ -77,5 +78,7 @@
   docker_container:
     name: plex
     state: started
+    container_default_behavior: compatibility
+    tls_hostname: localhost
 
   when: ('plex' in docker_running_containers)

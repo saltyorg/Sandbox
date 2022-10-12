@@ -85,6 +85,7 @@
     - { role: ombix, tags: ['ombix'] }
     - { role: ouroboros, tags: ['ouroboros'] }
     - { role: paperless_ngx, tags: ['paperless-ngx'] }
+    - { role: pgadmin, tags: ['pgadmin'] }
     - { role: plex_autoscan, tags: ['plex_autoscan'] }
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
@@ -124,6 +125,7 @@
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
+    - { role: trilium, tags: ['trilium'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: unpackerr, tags: ['unpackerr'] }
@@ -132,6 +134,7 @@
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
+    - { role: wireguard, tags: ['wireguard'] }
     - { role: whisparr, tags: ['whisparr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
