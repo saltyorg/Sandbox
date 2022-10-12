@@ -18,7 +18,7 @@ jobs:
   ansible-lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Lint Ansible Playbook
       uses: ansible-community/ansible-lint-action@v6.6.1
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: BobAnkh/add-contributors@master
       with:
         REPO_NAME: 'saltyorg/Sandbox'
@@ -46,7 +46,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-matrix
         run: OUTPUT=$(awk -F'[][]' -e '/ role:/ && FNR > 13' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | sed "s/.\(roles\|hetzner_nfs_server_uninstall\|hetzner_nfs_client_mount\|hetzner_nfs_client_unmount\).,//g") && echo "::set-output name=matrix::{\"roles\":[$OUTPUT]}"
 
@@ -59,7 +59,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install Dependencies
         run: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v
