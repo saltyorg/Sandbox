@@ -1,11 +1,23 @@
 #########################################################################
-# Title:            Sandbox: Grafana Role                               #
-# Author(s):        desimaniac, salty                                   #
+# Title:            Sandbox: Joplin                                     #
+# Author(s):        salty                                               #
 # URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: PostgreSQL Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_name: "{{ joplin_name }}_postgres"
+    postgres_docker_image_tag: "13.1"
+    postgres_docker_env_db: "joplin"
+    postgres_docker_env_user: "joplin"
+    postgres_docker_env_password: "joplin"
+    postgres_paths_folder: "{{ joplin_name }}"
+
 - name: Add DNS record
   include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:

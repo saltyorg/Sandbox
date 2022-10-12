@@ -51,7 +51,6 @@
     - { role: goplaxt, tags: ['goplaxt'] }
     - { role: gotenberg, tags: ['gotenberg'] }
     - { role: gotify, tags: ['gotify'] }
-    - { role: grafana, tags: ['grafana'] }
     - { role: guacamole, tags: ['guacamole'] }
     - { role: handbrake, tags: ['handbrake'] }
     - { role: healthchecks, tags: ['healthchecks'] }
@@ -61,6 +60,7 @@
     - { role: jdownloader2, tags: ['jdownloader2'] }
     - { role: jellyseerr, tags: ['jellyseerr'] }
     - { role: jirafeau, tags: ['jirafeau'] }
+    - { role: joplin, tags: ['joplin'] }
     - { role: kavita, tags: ['kavita'] }
     - { role: kcptun_client, tags: ['kcptun-client'] }
     - { role: kcptun_server, tags: ['kcptun-server'] }
