@@ -10,6 +10,9 @@
 - name: Import Default Plex variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
+- name: Import Inventory variables
+  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
+
 - name: Check if Plex instance is defined
   ansible.builtin.set_fact:
     plex_name: "{{ plex_name | default(plex_instances[0]) }}"
