@@ -14,6 +14,9 @@
 - name: Import Default MariaDB variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
 
+- name: Import Inventory variables
+  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
+
 - name: Add DNS record
   include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:

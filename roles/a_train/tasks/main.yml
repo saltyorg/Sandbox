@@ -22,6 +22,9 @@
 - name: Import Default Autoscan variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
 
+- name: Import Inventory variables
+  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
+
 - name: Set Default Autoscan instance
   ansible.builtin.set_fact:
     autoscan_name: "{{ autoscan_instances[0] }}"

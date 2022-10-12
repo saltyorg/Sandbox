@@ -13,6 +13,9 @@
 - name: Import Default Plex variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
 
+- name: Import Inventory variables
+  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
+
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"
