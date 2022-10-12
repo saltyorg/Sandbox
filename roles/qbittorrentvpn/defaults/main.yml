@@ -201,5 +201,5 @@ qbittorrentvpn_docker_stop_timeout: 900
 # State
 qbittorrentvpn_docker_state: started
 
-# Privledged
+# Privileged
 qbittorrentvpn_docker_privileged: "yes"

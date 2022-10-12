@@ -180,5 +180,5 @@ delugevpn_docker_state: started
 delugevpn_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"
 
-# Privledged
+# Privileged
 delugevpn_docker_privileged: "yes"

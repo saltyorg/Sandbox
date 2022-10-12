@@ -42,7 +42,7 @@
       with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
     - name: Import Plex Auth Token role
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: plex_auth_token
 
     - name: Create Docker container

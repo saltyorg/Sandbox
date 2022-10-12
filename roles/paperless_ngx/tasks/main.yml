@@ -9,7 +9,7 @@
 # Versions: https://github.com/paperless-ngx/paperless-ngx/blob/main/docker/compose/docker-compose.postgres-tika.yml
 ---
 - name: Redis Role
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: redis
   vars:
     redis_name: "{{ paperless_ngx_name }}_redis"
@@ -21,7 +21,7 @@
   ansible.builtin.include_vars: /srv/git/saltbox/roles/redis/defaults/main.yml
 
 - name: PostgreSQL Role
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: postgres
   vars:
     postgres_name: "{{ paperless_ngx_name }}_postgres"
@@ -34,7 +34,7 @@
   ansible.builtin.include_vars: /srv/git/saltbox/roles/postgres/defaults/main.yml
 
 - name: Gotenberg Role
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: gotenberg
   vars:
     gotenberg_name: "{{ paperless_ngx_name }}_gotenberg"
@@ -50,7 +50,7 @@
     gotenberg_paths_location: "{{ server_appdata_path }}/{{ gotenberg_paths_folder }}/gotenberg"
 
 - name: Tika Role
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: tika
   vars:
     tika_name: "{{ paperless_ngx_name }}_tika"

@@ -157,7 +157,8 @@ calibre_docker_capabilities: "{{ calibre_docker_capabilities_default
                                  + calibre_docker_capabilities_custom }}"
 
 # Security Opts
-calibre_docker_security_opts_default: []
+calibre_docker_security_opts_default:
+  - seccomp:unconfined
 calibre_docker_security_opts_custom: []
 calibre_docker_security_opts: "{{ calibre_docker_security_opts_default
                                   + calibre_docker_security_opts_custom }}"

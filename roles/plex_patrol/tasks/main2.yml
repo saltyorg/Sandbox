@@ -28,7 +28,7 @@
   register: plex_patrol_config
 
 - name: Import Plex Auth Token role
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: plex_auth_token
   when: plex_account_is_enabled and not plex_patrol_config.stat.exists
 
