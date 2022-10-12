@@ -29,7 +29,7 @@
         plex_name: "{{ plex_name | default(plex_instances[0]) }}"
 
     - name: Import Plex Auth Token role
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: plex_auth_token
       when: not plex_auto_languages_config.stat.exists
 

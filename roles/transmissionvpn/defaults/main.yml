@@ -172,5 +172,5 @@ transmissionvpn_docker_state: started
 transmissionvpn_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"
 
-# Privledged
+# Privileged
 transmissionvpn_docker_privileged: "yes"

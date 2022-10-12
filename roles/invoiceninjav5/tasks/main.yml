@@ -50,7 +50,7 @@
   when: not invoiceninjav5_config.stat.exists
 
 - name: "Execute nginx role"
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: nginx
   vars:
     nginx_docker_image: "nginx:latest"
