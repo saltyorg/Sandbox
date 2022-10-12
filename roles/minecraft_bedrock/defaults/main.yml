@@ -12,6 +12,7 @@
 ################################
 
 minecraft_bedrock_name: minecraft-bedrock
+minecraft_bedrock_version: "LATEST"
 
 ################################
 # Paths
@@ -45,6 +46,7 @@ minecraft_bedrock_docker_envs_default:
   UID: "{{ uid }}"
   GID: "{{ gid }}"
   EULA: "TRUE"
+  VERSION: "{{ minecraft_bedrock_version }}"
 minecraft_bedrock_docker_envs_custom: {}
 minecraft_bedrock_docker_envs: "{{ minecraft_bedrock_docker_envs_default
                                    | combine(minecraft_bedrock_docker_envs_custom) }}"
