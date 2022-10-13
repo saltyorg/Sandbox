@@ -134,6 +134,7 @@
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
     - { role: wireguard, tags: ['wireguard'] }
+    - { role: wizarr, tags: ['wizarr'] }
     - { role: whisparr, tags: ['whisparr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
