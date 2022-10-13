@@ -29,6 +29,9 @@
                           if yyq_version_settings_check.stdout is defined
                           else '0.0.0' }}"
 
+- name: Import Default yyq variables
+  ansible.builtin.include_vars: /srv/git/saltbox/roles/yyq/defaults/main.yml
+
 - name: "Start | Install yyq"
   ansible.builtin.include_role:
     name: yyq
