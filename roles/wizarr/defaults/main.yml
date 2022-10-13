@@ -104,8 +104,8 @@ wizarr_docker_devices: "{{ wizarr_docker_devices_default
 wizarr_docker_hosts_default: []
 wizarr_docker_hosts_custom: []
 wizarr_docker_hosts: "{{ docker_hosts_common
-                        | cwizarrne(wizarr_docker_hosts_default)
-                        | cwizarrne(wizarr_docker_hosts_custom) }}"
+                        | combine(wizarr_docker_hosts_default)
+                        | combine(wizarr_docker_hosts_custom) }}"
 
 # Labels
 wizarr_docker_labels_default: {}
