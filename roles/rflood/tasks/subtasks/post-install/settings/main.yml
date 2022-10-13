@@ -8,7 +8,7 @@
 ####################################################################################
 ---
 - name: Post-Install | Settings | Update 'rtorrent.rc' config settings
-  ini_file:
+  community.general.ini_file:
     path: "{{ rflood_paths_rtorrent_rc_location }}"
     section: null
     option: "{{ item.option }}"

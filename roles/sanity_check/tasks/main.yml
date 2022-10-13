@@ -8,21 +8,21 @@
 #########################################################################
 ---
 - name: "Saltbox Check"
-  import_tasks: "subtasks/saltbox_check.yml"
+  ansible.builtin.import_tasks: "subtasks/saltbox_check.yml"
   tags: always
 
 - name: "Ansible Check"
-  import_tasks: "subtasks/ansible_check.yml"
+  ansible.builtin.import_tasks: "subtasks/ansible_check.yml"
   tags: always
 
 - name: "Backup Check"
-  import_tasks: "subtasks/backup_check.yml"
+  ansible.builtin.import_tasks: "subtasks/backup_check.yml"
   tags: always
 
 - name: "Tags Check"
-  import_tasks: "subtasks/tags_check.yml"
+  ansible.builtin.import_tasks: "subtasks/tags_check.yml"
   tags: always
 
 - name: "Repo Check"
-  import_tasks: "subtasks/repo.yml"
+  ansible.builtin.import_tasks: "subtasks/repo.yml"
   tags: always

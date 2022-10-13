@@ -19,17 +19,17 @@
     timeout: 10
 
 - name: Post-Install | Stop container
-  docker_container:
+  community.docker.docker_container:
     name: "{{ rflood_docker_container }}"
     container_default_behavior: compatibility
     tls_hostname: localhost
     state: stopped
 
 - name: Post-Install | Settings Task
-  import_tasks: "settings/main.yml"
+  ansible.builtin.import_tasks: "settings/main.yml"
 
 - name: Post-Install | Start container
-  docker_container:
+  community.docker.docker_container:
     name: "{{ rflood_docker_container }}"
     container_default_behavior: compatibility
     tls_hostname: localhost

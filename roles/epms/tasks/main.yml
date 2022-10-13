@@ -18,7 +18,7 @@
     docker_running_containers: "{{ (docker_running_containers.stdout).split() }}"
 
 - name: Stop Plex container
-  docker_container:
+  community.docker.docker_container:
     name: plex
     state: stopped
     container_default_behavior: compatibility
@@ -75,7 +75,7 @@
     recurse: true
 
 - name: Start Plex container
-  docker_container:
+  community.docker.docker_container:
     name: plex
     state: started
     container_default_behavior: compatibility

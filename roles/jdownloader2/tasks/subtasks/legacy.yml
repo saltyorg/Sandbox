@@ -16,7 +16,7 @@
   block:
 
     - name: Legacy | Stop and remove myjdownloader container
-      docker_container:
+      community.docker.docker_container:
         name: myjdownloader
         state: absent
 

@@ -74,7 +74,7 @@
   block:
 
     - name: Import Settings task
-      import_tasks: "subtasks/config.yml"
+      ansible.builtin.import_tasks: "subtasks/config.yml"
 
     - name: Import default config
       ansible.builtin.template:

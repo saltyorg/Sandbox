@@ -24,21 +24,21 @@
   ansible.builtin.command: "docker exec mariadb mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create database {{ teamspeak_name }};'"
   ignore_errors: yes
 
-- name: Get next available port within the range of '9987-9997'
+- name: Get next available port within the range of '9987-9997' # noqa fqcn[action]
   find_next_open_port:
     low_bound: 9987
     high_bound: 9997
   register: port_lookup_voice
   ignore_errors: true
 
-- name: Get next available port within the range of '10011-10021'
+- name: Get next available port within the range of '10011-10021' # noqa fqcn[action]
   find_next_open_port:
     low_bound: 10011
     high_bound: 10021
   register: port_lookup_webquery
   ignore_errors: true
 
-- name: Get next available port within the range of '30033-30043'
+- name: Get next available port within the range of '30033-30043' # noqa fqcn[action]
   find_next_open_port:
     low_bound: 30033
     high_bound: 30043

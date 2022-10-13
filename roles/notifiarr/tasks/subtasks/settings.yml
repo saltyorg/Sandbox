@@ -43,7 +43,7 @@
   block:
 
     - name: Settings | Fetch {{ plex_name }} auth token
-      xml:
+      community.general.xml:
         path: "{{ plex_paths_config_location }}"
         xpath: /Preferences
         content: attribute

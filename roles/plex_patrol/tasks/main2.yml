@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Stop and remove any existing container
-  docker_container:
+  community.docker.docker_container:
     name: "{{ plex_name }}_patrol"
     state: absent
     container_default_behavior: compatibility
@@ -43,7 +43,7 @@
   when: not plex_patrol_config.stat.exists
 
 - name: Create and start container
-  docker_container:
+  community.docker.docker_container:
     name: "{{ plex_name }}_patrol"
     image: "cloudb0x/plex_patrol:latest"
     pull: true
