@@ -78,6 +78,7 @@ joplin_docker_ports: "{{ joplin_docker_ports_defaults
 
 # Envs
 joplin_docker_envs_default:
+  TZ: "{{ tz }}"
   APP_BASE_URL: "{{ joplin_web_url }}"
   APP_PORT: "22300"
   POSTGRES_PASSWORD: "joplin"
