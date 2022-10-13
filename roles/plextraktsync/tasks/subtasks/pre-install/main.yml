@@ -26,7 +26,7 @@
 - name: Pre-Install | {{ plex_paths_config_location | basename }} Tasks
   block:
     - name: Pre-Install | Get {{ plex_paths_config_location | basename }} XML data
-      xml:
+      community.general.xml:
         path: "{{ plex_paths_config_location }}"
         xpath: /Preferences
         content: attribute

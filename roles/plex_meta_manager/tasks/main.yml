@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Remove existing Docker container
-  include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.file:
@@ -50,7 +50,7 @@
   when: (not meta_config.stat.exists) and (not continuous_integration)
 
 - name: Create Docker container
-  include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: Alert user to make and verify the config and auth.
   ansible.builtin.debug:

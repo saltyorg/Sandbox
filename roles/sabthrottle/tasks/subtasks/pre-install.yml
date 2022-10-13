@@ -39,7 +39,5 @@
         group: "{{ user.name }}"
         mode: "0775"
         force: true
-      vars:
-        plex_name: "{{ plex_name | default(plex_instances[0]) }}"
 
   when: not sabthrottle_paths_config_location_stat.stat.exists

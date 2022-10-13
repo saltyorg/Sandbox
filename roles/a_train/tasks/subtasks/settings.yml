@@ -32,7 +32,7 @@
   block:
 
     - name: Import Settings task
-      import_tasks: "config.yml"
+      ansible.builtin.import_tasks: "config.yml"
 
     - name: Include variables from autoscan role
       ansible.builtin.include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml

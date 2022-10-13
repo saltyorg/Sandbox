@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Stop and remove any existing containers
-  docker_container:
+  community.docker.docker_container:
     name: telegraf
     container_default_behavior: compatibility
     tls_hostname: localhost
@@ -37,7 +37,7 @@
   when: not telegraf_conf.stat.exists
 
 - name: Create and start telegraf container
-  docker_container:
+  community.docker.docker_container:
     name: telegraf
     image: "telegraf"
     pull: yes

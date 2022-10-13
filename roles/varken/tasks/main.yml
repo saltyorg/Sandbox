@@ -47,7 +47,7 @@
     name: grafana
 
 - name: Stop and remove any existing containers
-  docker_container:
+  community.docker.docker_container:
     name: varken
     container_default_behavior: compatibility
     tls_hostname: localhost
@@ -67,11 +67,11 @@
   register: varken_config
 
 - name: Import config tasks
-  import_tasks: config.yml
+  ansible.builtin.import_tasks: config.yml
   when: not varken_config.stat.exists
 
 - name: Create and start varken container
-  docker_container:
+  community.docker.docker_container:
     name: varken
     image: "boerderij/varken"
     pull: yes

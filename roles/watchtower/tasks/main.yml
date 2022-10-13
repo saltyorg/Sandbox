@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Stop and remove any existing container
-  docker_container:
+  community.docker.docker_container:
     name: watchtower
     container_default_behavior: compatibility
     state: absent
@@ -41,7 +41,7 @@
   when: not watchtower_env.stat.exists
 
 - name: Create container
-  docker_container:
+  community.docker.docker_container:
     name: watchtower
     image: "containrrr/watchtower"
     pull: yes

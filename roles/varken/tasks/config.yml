@@ -9,7 +9,7 @@
 ---
 # Get Public IP Address
 - name: Get IP Address
-  ipinfoio_facts:
+  community.general.ipinfoio_facts:
 
 # Tautulli Tasks
 - name: "Check if tautulli exists"
@@ -24,7 +24,7 @@
   register: sonarr_config
 
 - name: Pull sonarr api key
-  xml:
+  community.general.xml:
     path: "{{ varken_sonarr_config }}"
     xpath: /Config/ApiKey
     content: text
@@ -42,7 +42,7 @@
   register: radarr_config
 
 - name: Pull radarr api key
-  xml:
+  community.general.xml:
     path: "{{ varken_radarr_config }}"
     xpath: /Config/ApiKey
     content: text

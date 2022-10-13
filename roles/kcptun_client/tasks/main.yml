@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Stop and remove any existing container
-  docker_container:
+  community.docker.docker_container:
     name: kcptun-client
     state: absent
     container_default_behavior: compatibility
@@ -41,7 +41,7 @@
   when: not kcptun_config.stat.exists
 
 - name: Create and start container
-  docker_container:
+  community.docker.docker_container:
     name: kcptun-client
     image: horjulf/kcptun:latest
     pull: yes
