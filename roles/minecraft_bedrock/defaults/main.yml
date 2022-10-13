@@ -24,6 +24,20 @@ minecraft_bedrock_paths_folders_list:
   - "{{ minecraft_bedrock_paths_location }}"
 
 ################################
+# Web
+################################
+
+minecraft_bedrock_web_subdomain: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_web_domain: "{{ user.domain }}"
+
+################################
+# DNS
+################################
+
+minecraft_bedrock_dns_record: "{{ lookup('vars', minecraft_bedrock_name + '_web_subdomain', default=minecraft_bedrock_web_subdomain) }}"
+minecraft_bedrock_dns_zone: "{{ lookup('vars', minecraft_bedrock_name + '_web_domain', default=minecraft_bedrock_web_domain) }}"
+
+################################
 # Docker
 ################################
 
