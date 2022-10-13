@@ -12,7 +12,7 @@
     name: postgres
   vars:
     postgres_name: "{{ joplin_name }}_postgres"
-    postgres_docker_image_tag: "13.1"
+    postgres_docker_image_tag: "13"
     postgres_docker_env_db: "joplin"
     postgres_docker_env_user: "joplin"
     postgres_docker_env_password: "joplin"
