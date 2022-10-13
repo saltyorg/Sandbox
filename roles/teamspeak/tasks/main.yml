@@ -16,9 +16,9 @@
 - name: Import Inventory variables
   ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
 
-#- name: MariaDB Role
-#  ansible.builtin.include_role:
-#    name: mariadb
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
 
 - name: "Create {{ teamspeak_name }} database"
   ansible.builtin.command: "docker exec mariadb mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create database {{ teamspeak_name }};'"
