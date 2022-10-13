@@ -45,7 +45,7 @@ joplin_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-joplin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+joplin_traefik_sso_middleware: ""
 joplin_traefik_middleware: "{{ traefik_default_middleware + ',' + joplin_traefik_sso_middleware
                             if (joplin_traefik_sso_middleware | length > 0)
                             else traefik_default_middleware }}"
@@ -62,7 +62,7 @@ joplin_docker_container: "{{ joplin_name }}"
 # Image
 joplin_docker_image_pull: true
 joplin_docker_image_tag: "latest"
-joplin_docker_image: "florider89/joplin-server:{{ joplin_docker_image_tag }}"
+joplin_docker_image: "joplin/server:{{ joplin_docker_image_tag }}"
 
 # Ports
 joplin_docker_ports_defaults: []
