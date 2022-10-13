@@ -18,7 +18,7 @@
 
 - name: Add SRV record
   community.general.cloudflare_dns:
-    zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    zone: "{{ _dns_tasker_zone }}"
     record: "{{ lookup('vars', role_name + '_dns_record') }}"
     type: SRV
     proto: udp
