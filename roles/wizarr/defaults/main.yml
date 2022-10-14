@@ -73,7 +73,7 @@ wizarr_docker_ports: "{{ wizarr_docker_ports_defaults
 # Envs
 wizarr_docker_envs_default:
   APP_URL: "{{ wizarr_web_url }}"
-  DISABLE_BUILTIN_AUTH: false
+  DISABLE_BUILTIN_AUTH: "false"
 wizarr_docker_envs_custom: {}
 wizarr_docker_envs: "{{ wizarr_docker_envs_default
                         | combine(wizarr_docker_envs_custom) }}"
