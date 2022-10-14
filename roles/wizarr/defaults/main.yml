@@ -60,7 +60,7 @@ wizarr_traefik_middleware: "{{ wizarr_traefik_middleware_default + ','
 wizarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wizarr_traefik_enabled: true
 wizarr_traefik_api_enabled: true
-nzbget_traefik_api_endpoint: "`/join`,`/j/*`,`/setup*`,`/static/*`"
+wizarr_traefik_api_endpoint: "`/join`,`/j/*`,`/setup*`,`/static/*`"
 
 ################################
 # Docker
