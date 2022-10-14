@@ -1,0 +1,128 @@
+##########################################################################
+# Title:         Sandbox: minecraft-bedrock | Default Variables          #
+# Author(s):     nickstarkloff                                           #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+minecraft_bedrock_name: minecraft-bedrock
+minecraft_bedrock_version: "LATEST"
+
+################################
+# Paths
+################################
+
+minecraft_bedrock_paths_folder: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_paths_location: "{{ server_appdata_path }}/{{ minecraft_bedrock_paths_folder }}"
+minecraft_bedrock_paths_folders_list:
+  - "{{ minecraft_bedrock_paths_location }}"
+
+################################
+# Web
+################################
+
+minecraft_bedrock_web_subdomain: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_web_domain: "{{ user.domain }}"
+
+################################
+# DNS
+################################
+
+minecraft_bedrock_dns_record: "{{ lookup('vars', minecraft_bedrock_name + '_web_subdomain', default=minecraft_bedrock_web_subdomain) }}"
+minecraft_bedrock_dns_zone: "{{ lookup('vars', minecraft_bedrock_name + '_web_domain', default=minecraft_bedrock_web_domain) }}"
+
+################################
+# Docker
+################################
+
+# Container
+minecraft_bedrock_docker_container: "{{ minecraft_bedrock_name }}"
+
+# Image
+minecraft_bedrock_docker_image_pull: true
+minecraft_bedrock_docker_image_tag: "latest"
+minecraft_bedrock_docker_image: "itzg/minecraft-bedrock-server:{{ minecraft_bedrock_docker_image_tag }}"
+
+# Ports
+minecraft_bedrock_docker_ports_defaults:
+  - "19132:19132/udp"
+minecraft_bedrock_docker_ports: "{{ minecraft_bedrock_docker_ports_defaults }}"
+
+# Envs
+minecraft_bedrock_docker_envs_default:
+  TZ: "{{ tz }}"
+  UID: "{{ uid }}"
+  GID: "{{ gid }}"
+  EULA: "TRUE"
+  VERSION: "{{ minecraft_bedrock_version }}"
+minecraft_bedrock_docker_envs_custom: {}
+minecraft_bedrock_docker_envs: "{{ minecraft_bedrock_docker_envs_default
+                                   | combine(minecraft_bedrock_docker_envs_custom) }}"
+
+# Commands
+minecraft_bedrock_docker_commands_default: []
+minecraft_bedrock_docker_commands_custom: []
+minecraft_bedrock_docker_commands: "{{ minecraft_bedrock_docker_commands_default
+                                       + minecraft_bedrock_docker_commands_custom }}"
+
+# Volumes
+minecraft_bedrock_docker_volumes_default:
+  - "{{ minecraft_bedrock_paths_location }}:/data"
+minecraft_bedrock_docker_volumes_custom: []
+minecraft_bedrock_docker_volumes: "{{ minecraft_bedrock_docker_volumes_default
+                                      + minecraft_bedrock_docker_volumes_custom }}"
+
+# Devices
+minecraft_bedrock_docker_devices_default: []
+minecraft_bedrock_docker_devices_custom: []
+minecraft_bedrock_docker_devices: "{{ minecraft_bedrock_docker_devices_default
+                                      + minecraft_bedrock_docker_devices_custom }}"
+
+# Hosts
+minecraft_bedrock_docker_hosts_default: []
+minecraft_bedrock_docker_hosts_custom: []
+minecraft_bedrock_docker_hosts: "{{ docker_hosts_common
+                                    | combine(minecraft_bedrock_docker_hosts_default)
+                                    | combine(minecraft_bedrock_docker_hosts_custom) }}"
+
+# Labels
+minecraft_bedrock_docker_labels_default: {}
+minecraft_bedrock_docker_labels_custom: {}
+minecraft_bedrock_docker_labels: "{{ docker_labels_common
+                                     | combine(minecraft_bedrock_docker_labels_default)
+                                     | combine(minecraft_bedrock_docker_labels_custom) }}"
+
+# Hostname
+minecraft_bedrock_docker_hostname: "{{ minecraft_bedrock_name }}"
+
+# Networks
+minecraft_bedrock_docker_networks_alias: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_docker_networks_default: []
+minecraft_bedrock_docker_networks_custom: []
+minecraft_bedrock_docker_networks: "{{ docker_networks_common
+                                       + minecraft_bedrock_docker_networks_default
+                                       + minecraft_bedrock_docker_networks_custom }}"
+
+# Capabilities
+minecraft_bedrock_docker_capabilities_default: []
+minecraft_bedrock_docker_capabilities_custom: []
+minecraft_bedrock_docker_capabilities: "{{ minecraft_bedrock_docker_capabilities_default
+                                           + minecraft_bedrock_docker_capabilities_custom }}"
+
+# Security Opts
+minecraft_bedrock_docker_security_opts_default: []
+minecraft_bedrock_docker_security_opts_custom: []
+minecraft_bedrock_docker_security_opts: "{{ minecraft_bedrock_docker_security_opts_default
+                                            + minecraft_bedrock_docker_security_opts_custom }}"
+
+# Restart Policy
+minecraft_bedrock_docker_restart_policy: unless-stopped
+
+# State
+minecraft_bedrock_docker_state: started
