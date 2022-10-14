@@ -46,21 +46,13 @@ wizarr_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 wizarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-wizarr_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', wizarr_name + '_traefik_sso_middleware', default=wizarr_traefik_sso_middleware)
-                                    if (lookup('vars', wizarr_name + '_traefik_sso_middleware', default=wizarr_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
-wizarr_traefik_middleware_custom: ""
-wizarr_traefik_middleware: "{{ wizarr_traefik_middleware_default + ','
-                               + wizarr_traefik_middleware_custom
-                             if (not wizarr_traefik_middleware_custom.startswith(',') and wizarr_traefik_middleware_custom | length > 0)
-                             else wizarr_traefik_middleware_default
-                               + wizarr_traefik_middleware_custom }}"
+wizarr_traefik_middleware: "{{ traefik_default_middleware + ',' + wizarr_traefik_sso_middleware
+                                 if (wizarr_traefik_sso_middleware | length > 0)
+                                 else traefik_default_middleware }}"
 wizarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wizarr_traefik_enabled: true
 wizarr_traefik_api_enabled: true
-wizarr_traefik_api_endpoint: "`/join`,`/j/*`,`/setup*`,`/static/*`"
+wizarr_traefik_api_endpoint: "`/join`,`/j`,`/setup`,`/static`"
 
 ################################
 # Docker
