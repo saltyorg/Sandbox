@@ -87,6 +87,7 @@
     - { role: ouroboros, tags: ['ouroboros'] }
     - { role: paperless_ngx, tags: ['paperless-ngx'] }
     - { role: pgadmin, tags: ['pgadmin'] }
+    - { role: photoprism, tags: ['photoprism'] }
     - { role: plex_autoscan, tags: ['plex_autoscan'] }
     - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
