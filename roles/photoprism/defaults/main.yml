@@ -33,8 +33,8 @@ photoprism_web_subdomain: "{{ photoprism_name }}"
 photoprism_web_domain: "{{ user.domain }}"
 photoprism_web_port: "2342"
 photoprism_web_url: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
-                        if (reverse_proxy_is_enabled)
-                        else 'http://localhost:' + photoprism_web_port }}"
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + photoprism_web_port }}"
 
 ################################
 # DNS
@@ -50,8 +50,8 @@ photoprism_dns_proxy: "{{ dns.proxied }}"
 
 photoprism_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}" #Remove this line if you don't need authelia authentication
 photoprism_traefik_middleware: "{{ traefik_default_middleware + ',' + photoprism_traefik_sso_middleware
-                              if (photoprism_traefik_sso_middleware | length > 0)
-                              else traefik_default_middleware }}"
+                                if (photoprism_traefik_sso_middleware | length > 0)
+                                else traefik_default_middleware }}"
 photoprism_traefik_certresolver: "{{ traefik_default_certresolver }}"
 photoprism_traefik_enabled: true
 
@@ -72,9 +72,9 @@ photoprism_docker_ports_defaults:
   - "{{ photoprism_web_port }}"
 photoprism_docker_ports_custom: []
 photoprism_docker_ports: "{{ photoprism_docker_ports_defaults
-                                + photoprism_docker_ports_custom
-                             if (not reverse_proxy_is_enabled)
-                             else [] + photoprism_docker_ports_custom }}"
+                             + photoprism_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + photoprism_docker_ports_custom }}"
 
 # Envs
 photoprism_docker_envs_default:
@@ -112,13 +112,13 @@ photoprism_docker_envs_default:
   PHOTOPRISM_GID: "{{ gid }}"
 photoprism_docker_envs_custom: {}
 photoprism_docker_envs: "{{ photoprism_docker_envs_default
-                               | combine(photoprism_docker_envs_custom) }}"
+                            | combine(photoprism_docker_envs_custom) }}"
 
 # Commands
 photoprism_docker_commands_default: []
 photoprism_docker_commands_custom: []
 photoprism_docker_commands: "{{ photoprism_docker_commands_default
-                                   + photoprism_docker_commands_custom }}"
+                                + photoprism_docker_commands_custom }}"
 
 # Volumes
 photoprism_docker_volumes_default:
@@ -127,28 +127,28 @@ photoprism_docker_volumes_default:
   - "{{ photoprism_paths_location }}/storage:/photoprism/storage"
 photoprism_docker_volumes_custom: []
 photoprism_docker_volumes: "{{ photoprism_docker_volumes_default
-                                  + photoprism_docker_volumes_custom }}"
+                               + photoprism_docker_volumes_custom }}"
 
 # Devices
 photoprism_docker_devices_default:
   - "/dev/dri:/dev/dri"
 photoprism_docker_devices_custom: []
 photoprism_docker_devices: "{{ photoprism_docker_devices_default
-                                  + photoprism_docker_devices_custom }}"
+                               + photoprism_docker_devices_custom }}"
 
 # Hosts
 photoprism_docker_hosts_default: []
 photoprism_docker_hosts_custom: []
 photoprism_docker_hosts: "{{ docker_hosts_common
-                                | combine(photoprism_docker_hosts_default)
-                                | combine(photoprism_docker_hosts_custom) }}"
+                             | combine(photoprism_docker_hosts_default)
+                             | combine(photoprism_docker_hosts_custom) }}"
 
 # Labels
 photoprism_docker_labels_default: {}
 photoprism_docker_labels_custom: {}
 photoprism_docker_labels: "{{ docker_labels_common
-                                 | combine(photoprism_docker_labels_default)
-                                 | combine(photoprism_docker_labels_custom) }}"
+                              | combine(photoprism_docker_labels_default)
+                              | combine(photoprism_docker_labels_custom) }}"
 
 # Hostname
 photoprism_docker_hostname: "{{ photoprism_name }}"
@@ -158,14 +158,14 @@ photoprism_docker_networks_alias: "{{ photoprism_name }}"
 photoprism_docker_networks_default: []
 photoprism_docker_networks_custom: []
 photoprism_docker_networks: "{{ docker_networks_common
-                                   + photoprism_docker_networks_default
-                                   + photoprism_docker_networks_custom }}"
+                                + photoprism_docker_networks_default
+                                + photoprism_docker_networks_custom }}"
 
 # Capabilities
 photoprism_docker_capabilities_default: []
 photoprism_docker_capabilities_custom: []
 photoprism_docker_capabilities: "{{ photoprism_docker_capabilities_default
-                                       + photoprism_docker_capabilities_custom }}"
+                                    + photoprism_docker_capabilities_custom }}"
 
 # Security Opts
 photoprism_docker_security_opts_default:
@@ -173,7 +173,7 @@ photoprism_docker_security_opts_default:
   - "apparmor:unconfined"
 photoprism_docker_security_opts_custom: []
 photoprism_docker_security_opts: "{{ photoprism_docker_security_opts_default
-                                        + photoprism_docker_security_opts_custom }}"
+                                     + photoprism_docker_security_opts_custom }}"
 
 # Working Directory
 photoprism_docker_working_dir: "/photoprism"
