@@ -1,0 +1,157 @@
+##########################################################################
+# Title:         Sandbox: linkding | Default Variables                   #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+linkding_name: linkding
+
+################################
+# Paths
+################################
+
+linkding_paths_folder: "{{ linkding_name }}"
+linkding_paths_location: "{{ server_appdata_path }}/{{ linkding_paths_folder }}"
+linkding_paths_folders_list:
+  - "{{ linkding_paths_location }}"
+
+################################
+# Web
+################################
+
+linkding_web_subdomain: "{{ linkding_name }}"
+linkding_web_domain: "{{ user.domain }}"
+linkding_web_port: "9090"
+linkding_web_url: "{{ 'https://' + linkding_web_subdomain + '.' + linkding_web_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + linkding_web_port }}"
+
+################################
+# DNS
+################################
+
+linkding_dns_record: "{{ linkding_web_subdomain }}"
+linkding_dns_zone: "{{ linkding_web_domain }}"
+linkding_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+linkding_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+linkding_traefik_middleware: "{{ traefik_default_middleware + ',' + linkding_traefik_sso_middleware
+                              if (linkding_traefik_sso_middleware | length > 0)
+                              else traefik_default_middleware }}"
+linkding_traefik_certresolver: "{{ traefik_default_certresolver }}"
+linkding_traefik_enabled: true
+linkding_traefik_api_enabled: true
+linkding_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+linkding_docker_container: "{{ linkding_name }}"
+
+# Image
+linkding_docker_image_pull: true
+linkding_docker_image_tag: "latest"
+linkding_docker_image: "sissbruecker/linkding:{{ linkding_docker_image_tag }}"
+
+# Ports
+linkding_docker_ports_defaults: []
+linkding_docker_ports_ui:
+  - "{{ linkding_web_port }}:{{ linkding_web_port }}"
+linkding_docker_ports_custom: []
+linkding_docker_ports: "{{ linkding_docker_ports_defaults
+                           + linkding_docker_ports_ui
+                           + linkding_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else linkding_docker_ports_defaults
+                           + linkding_docker_ports_custom }}"
+
+# Envs
+linkding_docker_envs_default:
+  TZ: "{{ tz }}"
+  LD_CONTAINER_NAME: "{{ linkding_name }}"
+  LD_HOST_PORT: "9090"
+  LD_HOST_DATA_DIR: "./data"
+  LD_SUPERUSER_NAME: "{{ user.name }}"
+  LD_SUPERUSER_PASSWORD: "{{ user.pass }}"
+  LD_DISABLE_BACKGROUND_TASKS: "false"
+  LD_DISABLE_URL_VALIDATION: "false"
+  LD_ENABLE_AUTH_PROXY: "false"
+  LD_CSRF_TRUSTED_ORIGINS: "{{ linkding_web_url }}"
+linkding_docker_envs_custom: {}
+linkding_docker_envs: "{{ linkding_docker_envs_default
+                          | combine(linkding_docker_envs_custom) }}"
+
+# Commands
+linkding_docker_commands_default: []
+linkding_docker_commands_custom: []
+linkding_docker_commands: "{{ linkding_docker_commands_default
+                              + linkding_docker_commands_custom }}"
+
+# Volumes
+linkding_docker_volumes_default:
+  - "{{ linkding_paths_location }}:/etc/linkding/data"
+linkding_docker_volumes_custom: []
+linkding_docker_volumes: "{{ linkding_docker_volumes_default
+                             + linkding_docker_volumes_custom }}"
+
+# Devices
+linkding_docker_devices_default: []
+linkding_docker_devices_custom: []
+linkding_docker_devices: "{{ linkding_docker_devices_default
+                             + linkding_docker_devices_custom }}"
+
+# Hosts
+linkding_docker_hosts_default: []
+linkding_docker_hosts_custom: []
+linkding_docker_hosts: "{{ docker_hosts_common
+                           | combine(linkding_docker_hosts_default)
+                           | combine(linkding_docker_hosts_custom) }}"
+
+# Labels
+linkding_docker_labels_default: {}
+linkding_docker_labels_custom: {}
+linkding_docker_labels: "{{ docker_labels_common
+                            | combine(linkding_docker_labels_default)
+                            | combine(linkding_docker_labels_custom) }}"
+
+# Hostname
+linkding_docker_hostname: "{{ linkding_name }}"
+
+# Networks
+linkding_docker_networks_alias: "{{ linkding_name }}"
+linkding_docker_networks_default: []
+linkding_docker_networks_custom: []
+linkding_docker_networks: "{{ docker_networks_common
+                              + linkding_docker_networks_default
+                              + linkding_docker_networks_custom }}"
+
+# Capabilities
+linkding_docker_capabilities_default: []
+linkding_docker_capabilities_custom: []
+linkding_docker_capabilities: "{{ linkding_docker_capabilities_default
+                                  + linkding_docker_capabilities_custom }}"
+
+# Security Opts
+linkding_docker_security_opts_default: []
+linkding_docker_security_opts_custom: []
+linkding_docker_security_opts: "{{ linkding_docker_security_opts_default
+                                   + linkding_docker_security_opts_custom }}"
+
+# Restart Policy
+linkding_docker_restart_policy: unless-stopped
+
+# State
+linkding_docker_state: started
