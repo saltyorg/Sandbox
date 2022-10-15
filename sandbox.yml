@@ -134,8 +134,9 @@
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
-    - { role: wireguard, tags: ['wireguard'] }
     - { role: whisparr, tags: ['whisparr'] }
+    - { role: wireguard, tags: ['wireguard'] }
+    - { role: wizarr, tags: ['wizarr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: xbackbone, tags: ['xbackbone'] }
