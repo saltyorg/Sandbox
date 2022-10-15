@@ -1,0 +1,185 @@
+##########################################################################
+# Title:            Sandbox: template role                               #
+# Author(s):        Raneydazed                                           #
+# URL:              https://github.com/saltyorg/Saltbox_mod              #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+photoprism_name: photoprism
+
+################################
+# Paths
+################################
+
+photoprism_paths_folder: "{{ photoprism_name }}"
+photoprism_paths_location: "{{ server_appdata_path }}/{{ photoprism_paths_folder }}"
+photoprism_paths_folders_list:
+  - "{{ photoprism_paths_location }}"
+  - "{{ photoprism_paths_location }}/originals"
+  - "{{ photoprism_paths_location }}/storage"
+  - "{{ photoprism_paths_location }}/import"
+
+################################
+# Web
+################################
+
+photoprism_web_subdomain: "{{ photoprism_name }}"
+photoprism_web_domain: "{{ user.domain }}"
+photoprism_web_port: "2342"
+photoprism_web_url: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + photoprism_web_port }}"
+
+################################
+# DNS
+################################
+
+photoprism_dns_record: "{{ photoprism_web_subdomain }}"
+photoprism_dns_zone: "{{ photoprism_web_domain }}"
+photoprism_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+photoprism_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+photoprism_traefik_middleware: "{{ traefik_default_middleware + ',' + photoprism_traefik_sso_middleware
+                                if (photoprism_traefik_sso_middleware | length > 0)
+                                else traefik_default_middleware }}"
+photoprism_traefik_certresolver: "{{ traefik_default_certresolver }}"
+photoprism_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+photoprism_docker_container: "{{ photoprism_name }}"
+
+# Image
+photoprism_docker_image_pull: true
+photoprism_docker_image_tag: "latest"
+photoprism_docker_image: "photoprism/photoprism:{{ photoprism_docker_image_tag }}"
+
+# Ports
+photoprism_docker_ports_defaults:
+  - "{{ photoprism_web_port }}"
+photoprism_docker_ports_custom: []
+photoprism_docker_ports: "{{ photoprism_docker_ports_defaults
+                             + photoprism_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else [] + photoprism_docker_ports_custom }}"
+
+# Envs
+photoprism_docker_envs_default:
+  PHOTOPRISM_ADMIN_PASSWORD: "{{ user.pass }}"
+  PHOTOPRISM_AUTH_MODE: "password"
+  PHOTOPRISM_SITE_URL: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
+                        if (reverse_proxy_is_enabled)
+                        else 'http://localhost:' + photoprism_web_port }}"
+  PHOTOPRISM_ORIGINALS_LIMIT: "5000"
+  PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+  PHOTOPRISM_LOG_LEVEL: "info"
+  PHOTOPRISM_READONLY: "false"
+  PHOTOPRISM_EXPERIMENTAL: "false"
+  PHOTOPRISM_DISABLE_CHOWN: "false"
+  PHOTOPRISM_DISABLE_WEBDAV: "false"
+  PHOTOPRISM_DISABLE_SETTINGS: "false"
+  PHOTOPRISM_DISABLE_TENSORFLOW: "false"
+  PHOTOPRISM_DISABLE_FACES: "false"
+  PHOTOPRISM_DISABLE_CLASSIFICATION: "false"
+  PHOTOPRISM_DISABLE_RAW: "false"
+  PHOTOPRISM_RAW_PRESETS: "false"
+  PHOTOPRISM_JPEG_QUALITY: "85"
+  PHOTOPRISM_DETECT_NSFW: "false"
+  PHOTOPRISM_UPLOAD_NSFW: "false"
+  PHOTOPRISM_DATABASE_DRIVER: "mysql"
+  PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"
+  PHOTOPRISM_DATABASE_NAME: "photoprisms"
+  PHOTOPRISM_DATABASE_USER: "root"
+  PHOTOPRISM_DATABASE_PASSWORD: "password321"
+  PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
+  PHOTOPRISM_SITE_DESCRIPTION: "Trying out PhotoPrism!"
+  PHOTOPRISM_SITE_AUTHOR: "{{ user.name }}"
+  PHOTOPRISM_INIT: "gpu tensorflow"
+  PHOTOPRISM_UID: "{{ uid }}"
+  PHOTOPRISM_GID: "{{ gid }}"
+photoprism_docker_envs_custom: {}
+photoprism_docker_envs: "{{ photoprism_docker_envs_default
+                            | combine(photoprism_docker_envs_custom) }}"
+
+# Commands
+photoprism_docker_commands_default: []
+photoprism_docker_commands_custom: []
+photoprism_docker_commands: "{{ photoprism_docker_commands_default
+                                + photoprism_docker_commands_custom }}"
+
+# Volumes
+photoprism_docker_volumes_default:
+  - "{{ photoprism_paths_location }}/originals:/photoprism/originals"
+  - "{{ photoprism_paths_location }}/import:/photoprism/import"
+  - "{{ photoprism_paths_location }}/storage:/photoprism/storage"
+photoprism_docker_volumes_custom: []
+photoprism_docker_volumes: "{{ photoprism_docker_volumes_default
+                               + photoprism_docker_volumes_custom }}"
+
+# Devices
+photoprism_docker_devices_default:
+  - "/dev/dri:/dev/dri"
+photoprism_docker_devices_custom: []
+photoprism_docker_devices: "{{ photoprism_docker_devices_default
+                               + photoprism_docker_devices_custom }}"
+
+# Hosts
+photoprism_docker_hosts_default: []
+photoprism_docker_hosts_custom: []
+photoprism_docker_hosts: "{{ docker_hosts_common
+                             | combine(photoprism_docker_hosts_default)
+                             | combine(photoprism_docker_hosts_custom) }}"
+
+# Labels
+photoprism_docker_labels_default: {}
+photoprism_docker_labels_custom: {}
+photoprism_docker_labels: "{{ docker_labels_common
+                              | combine(photoprism_docker_labels_default)
+                              | combine(photoprism_docker_labels_custom) }}"
+
+# Hostname
+photoprism_docker_hostname: "{{ photoprism_name }}"
+
+# Networks
+photoprism_docker_networks_alias: "{{ photoprism_name }}"
+photoprism_docker_networks_default: []
+photoprism_docker_networks_custom: []
+photoprism_docker_networks: "{{ docker_networks_common
+                                + photoprism_docker_networks_default
+                                + photoprism_docker_networks_custom }}"
+
+# Capabilities
+photoprism_docker_capabilities_default: []
+photoprism_docker_capabilities_custom: []
+photoprism_docker_capabilities: "{{ photoprism_docker_capabilities_default
+                                    + photoprism_docker_capabilities_custom }}"
+
+# Security Opts
+photoprism_docker_security_opts_default:
+  - "seccomp:unconfined"
+  - "apparmor:unconfined"
+photoprism_docker_security_opts_custom: []
+photoprism_docker_security_opts: "{{ photoprism_docker_security_opts_default
+                                     + photoprism_docker_security_opts_custom }}"
+
+# Working Directory
+photoprism_docker_working_dir: "/photoprism"
+
+# Restart Policy
+photoprism_docker_restart_policy: unless-stopped
+
+# State
+photoprism_docker_state: started
