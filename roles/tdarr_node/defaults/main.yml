@@ -14,6 +14,17 @@
 tdarr_node_name: tdarr_node
 
 ################################
+# Settings
+################################
+
+tdarr_node_server_ip: "tdarr"
+tdarr_node_server_port: "8266"
+tdarr_node_node_id: "MainNode"
+tdarr_node_node_ip: "0.0.0.0"
+tdarr_node_node_port: "8267"
+tdarr_node_external: false
+
+################################
 # Docker
 ################################
 
@@ -25,16 +36,23 @@ tdarr_node_docker_image_pull: true
 tdarr_node_docker_image_tag: "latest"
 tdarr_node_docker_image: "haveagitgat/tdarr_node:{{ tdarr_node_docker_image_tag }}"
 
+# Ports
+tdarr_node_docker_ports_defaults:
+  - "{{ tdarr_node_node_port }}:{{ tdarr_node_node_port }}"
+tdarr_node_docker_ports_custom: []
+tdarr_node_docker_ports: "{{ 'tdarr_node_docker_ports_defaults' if (tdarr_node_external) else []
+                      + tdarr_node_docker_ports_custom }}"
+
 # Envs
 tdarr_node_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  serverIP: "tdarr"
-  serverPort: "8266"
-  nodeID: "MainNode"
-  nodeIP: "tdarr_node"
-  nodePort: "8267"
+  serverIP: "{{ tdarr_node_server_ip }}"
+  serverPort: "{{ tdarr_node_server_port }}"
+  nodeID: "{{ tdarr_node_node_id }}"
+  nodeIP: "{{ tdarr_node_node_ip }}"
+  nodePort: "{{ tdarr_node_node_port }}}}"
   NVIDIA_DRIVER_CAPABILITIES: "{{ 'compute,video,utility' if (gpu.nvidia) | default(false) else omit }}"
   NVIDIA_VISIBLE_DEVICES: "{{ 'all' if (gpu.nvidia) | default(false) else omit }}"
 tdarr_node_docker_envs_custom: {}
