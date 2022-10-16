@@ -52,7 +52,7 @@ tdarr_node_docker_envs_default:
   serverPort: "{{ tdarr_node_server_port }}"
   nodeID: "{{ tdarr_node_node_id }}"
   nodeIP: "{{ tdarr_node_node_ip }}"
-  nodePort: "{{ tdarr_node_node_port }}}}"
+  nodePort: "{{ tdarr_node_node_port }}"
   NVIDIA_DRIVER_CAPABILITIES: "{{ 'compute,video,utility' if (gpu.nvidia) | default(false) else omit }}"
   NVIDIA_VISIBLE_DEVICES: "{{ 'all' if (gpu.nvidia) | default(false) else omit }}"
 tdarr_node_docker_envs_custom: {}
