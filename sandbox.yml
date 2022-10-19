@@ -30,6 +30,7 @@
     - { role: calibre, tags: ['calibre'] }
     - { role: calibre_web, tags: ['calibre-web'] }
     - { role: changedetection, tags: ['changedetection'] }
+    - { role: cherry, tags: ['cherry'] }
     - { role: coder, tags: ['coder'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
