@@ -30,8 +30,8 @@ homebox_web_subdomain: "{{ homebox_name }}"
 homebox_web_domain: "{{ user.domain }}"
 homebox_web_port: "7745"
 homebox_web_url: "{{ 'https://' + homebox_web_subdomain + '.' + homebox_web_domain
-                        if (reverse_proxy_is_enabled)
-                        else 'http://localhost:' + homebox_web_port }}"
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + homebox_web_port }}"
 
 ################################
 # DNS
@@ -47,15 +47,15 @@ homebox_dns_proxy: "{{ dns.proxied }}"
 
 homebox_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 homebox_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                              + lookup('vars', homebox_name + '_traefik_sso_middleware', default=homebox_traefik_sso_middleware)
-                                           if (lookup('vars', homebox_name + '_traefik_sso_middleware', default=homebox_traefik_sso_middleware) | length > 0)
-                                           else traefik_default_middleware }}"
+                                        + lookup('vars', homebox_name + '_traefik_sso_middleware', default=homebox_traefik_sso_middleware)
+                                     if (lookup('vars', homebox_name + '_traefik_sso_middleware', default=homebox_traefik_sso_middleware) | length > 0)
+                                     else traefik_default_middleware }}"
 homebox_traefik_middleware_custom: ""
 homebox_traefik_middleware: "{{ homebox_traefik_middleware_default + ','
-                                      + homebox_traefik_middleware_custom
-                                   if (not homebox_traefik_middleware_custom.startswith(',') and homebox_traefik_middleware_custom | length > 0)
-                                   else homebox_traefik_middleware_default
-                                      + homebox_traefik_middleware_custom }}"
+                                + homebox_traefik_middleware_custom
+                             if (not homebox_traefik_middleware_custom.startswith(',') and homebox_traefik_middleware_custom | length > 0)
+                             else homebox_traefik_middleware_default
+                                + homebox_traefik_middleware_custom }}"
 homebox_traefik_certresolver: "{{ traefik_default_certresolver }}"
 homebox_traefik_enabled: true
 
@@ -76,9 +76,9 @@ homebox_docker_ports_defaults:
   - "{{ homebox_web_port }}"
 homebox_docker_ports_custom: []
 homebox_docker_ports: "{{ homebox_docker_ports_defaults
-                                + homebox_docker_ports_custom
-                             if (not reverse_proxy_is_enabled)
-                             else homebox_docker_ports_custom }}"
+                          + homebox_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else homebox_docker_ports_custom }}"
 
 # Envs
 homebox_docker_envs_default:
@@ -89,40 +89,40 @@ homebox_docker_envs_default:
   HBOX_SWAGGER_SCHEMA: "https"
 homebox_docker_envs_custom: {}
 homebox_docker_envs: "{{ homebox_docker_envs_default
-                               | combine(homebox_docker_envs_custom) }}"
+                         | combine(homebox_docker_envs_custom) }}"
 
 # Commands
 homebox_docker_commands_default: []
 homebox_docker_commands_custom: []
 homebox_docker_commands: "{{ homebox_docker_commands_default
-                                   + homebox_docker_commands_custom }}"
+                             + homebox_docker_commands_custom }}"
 
 # Volumes
 homebox_docker_volumes_default:
   - "{{ homebox_paths_location }}:/data"
 homebox_docker_volumes_custom: []
 homebox_docker_volumes: "{{ homebox_docker_volumes_default
-                                  + homebox_docker_volumes_custom }}"
+                            + homebox_docker_volumes_custom }}"
 
 # Devices
 homebox_docker_devices_default: []
 homebox_docker_devices_custom: []
 homebox_docker_devices: "{{ homebox_docker_devices_default
-                                  + homebox_docker_devices_custom }}"
+                            + homebox_docker_devices_custom }}"
 
 # Hosts
 homebox_docker_hosts_default: []
 homebox_docker_hosts_custom: []
 homebox_docker_hosts: "{{ docker_hosts_common
-                                | combine(homebox_docker_hosts_default)
-                                | combine(homebox_docker_hosts_custom) }}"
+                          | combine(homebox_docker_hosts_default)
+                          | combine(homebox_docker_hosts_custom) }}"
 
 # Labels
 homebox_docker_labels_default: {}
 homebox_docker_labels_custom: {}
 homebox_docker_labels: "{{ docker_labels_common
-                                 | combine(homebox_docker_labels_default)
-                                 | combine(homebox_docker_labels_custom) }}"
+                           | combine(homebox_docker_labels_default)
+                           | combine(homebox_docker_labels_custom) }}"
 
 # Hostname
 homebox_docker_hostname: "{{ homebox_name }}"
@@ -132,20 +132,20 @@ homebox_docker_networks_alias: "{{ homebox_name }}"
 homebox_docker_networks_default: []
 homebox_docker_networks_custom: []
 homebox_docker_networks: "{{ docker_networks_common
-                                   + homebox_docker_networks_default
-                                   + homebox_docker_networks_custom }}"
+                             + homebox_docker_networks_default
+                             + homebox_docker_networks_custom }}"
 
 # Capabilities
 homebox_docker_capabilities_default: []
 homebox_docker_capabilities_custom: []
 homebox_docker_capabilities: "{{ homebox_docker_capabilities_default
-                                       + homebox_docker_capabilities_custom }}"
+                                 + homebox_docker_capabilities_custom }}"
 
 # Security Opts
 homebox_docker_security_opts_default: []
 homebox_docker_security_opts_custom: []
 homebox_docker_security_opts: "{{ homebox_docker_security_opts_default
-                                        + homebox_docker_security_opts_custom }}"
+                                  + homebox_docker_security_opts_custom }}"
 
 # Restart Policy
 homebox_docker_restart_policy: unless-stopped
