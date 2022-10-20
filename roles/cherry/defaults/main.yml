@@ -1,0 +1,156 @@
+##########################################################################
+# Title:            Sandbox: Cherry | Default Variables                  #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+cherry_name: cherry
+
+################################
+# Paths
+################################
+
+cherry_paths_folder: "{{ cherry_name }}"
+cherry_paths_location: "{{ server_appdata_path }}/{{ cherry_paths_folder }}"
+cherry_paths_folders_list:
+  - "{{ cherry_paths_location }}"
+
+################################
+# Web
+################################
+
+cherry_web_subdomain: "{{ cherry_name }}"
+cherry_web_domain: "{{ user.domain }}"
+cherry_web_port: "8000"
+cherry_web_url: "{{ 'https://' + cherry_web_subdomain + '.' + cherry_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + cherry_web_port }}"
+
+################################
+# DNS
+################################
+
+cherry_dns_record: "{{ cherry_web_subdomain }}"
+cherry_dns_zone: "{{ cherry_web_domain }}"
+cherry_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+cherry_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+cherry_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                       + lookup('vars', cherry_name + '_traefik_sso_middleware', default=cherry_traefik_sso_middleware)
+                                    if (lookup('vars', cherry_name + '_traefik_sso_middleware', default=cherry_traefik_sso_middleware) | length > 0)
+                                    else traefik_default_middleware }}"
+cherry_traefik_middleware_custom: ""
+cherry_traefik_middleware: "{{ cherry_traefik_middleware_default + ','
+                               + cherry_traefik_middleware_custom
+                            if (not cherry_traefik_middleware_custom.startswith(',') and cherry_traefik_middleware_custom | length > 0)
+                            else cherry_traefik_middleware_default
+                               + cherry_traefik_middleware_custom }}"
+cherry_traefik_certresolver: "{{ traefik_default_certresolver }}"
+cherry_traefik_enabled: true
+cherry_traefik_api_enabled: true
+cherry_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+cherry_docker_container: "{{ cherry_name }}"
+
+# Image
+cherry_docker_image_pull: true
+cherry_docker_image_tag: "latest"
+cherry_docker_image: "haishanh/cherry:{{ cherry_docker_image_tag }}"
+
+# Ports
+cherry_docker_ports_defaults:
+  - "{{ cherry_web_port }}"
+cherry_docker_ports_custom: []
+cherry_docker_ports: "{{ cherry_docker_ports_defaults
+                         + cherry_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else cherry_docker_ports_custom }}"
+
+# Envs
+cherry_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  JWT_SECRET: "{{ cherry_secret_key.stdout }}"
+  ENABLE_HTTP_REMOTE_USER: "1"
+cherry_docker_envs_custom: {}
+cherry_docker_envs: "{{ cherry_docker_envs_default
+                        | combine(cherry_docker_envs_custom) }}"
+
+# Commands
+cherry_docker_commands_default: []
+cherry_docker_commands_custom: []
+cherry_docker_commands: "{{ cherry_docker_commands_default
+                            + cherry_docker_commands_custom }}"
+
+# Volumes
+cherry_docker_volumes_default:
+  - "{{ cherry_paths_location }}:/data"
+cherry_docker_volumes_custom: []
+cherry_docker_volumes: "{{ cherry_docker_volumes_default
+                           + cherry_docker_volumes_custom }}"
+
+# Devices
+cherry_docker_devices_default: []
+cherry_docker_devices_custom: []
+cherry_docker_devices: "{{ cherry_docker_devices_default
+                           + cherry_docker_devices_custom }}"
+
+# Hosts
+cherry_docker_hosts_default: []
+cherry_docker_hosts_custom: []
+cherry_docker_hosts: "{{ docker_hosts_common
+                         | combine(cherry_docker_hosts_default)
+                         | combine(cherry_docker_hosts_custom) }}"
+
+# Labels
+cherry_docker_labels_default: {}
+cherry_docker_labels_custom: {}
+cherry_docker_labels: "{{ docker_labels_common
+                          | combine(cherry_docker_labels_default)
+                          | combine(cherry_docker_labels_custom) }}"
+
+# Hostname
+cherry_docker_hostname: "{{ cherry_name }}"
+
+# Networks
+cherry_docker_networks_alias: "{{ cherry_name }}"
+cherry_docker_networks_default: []
+cherry_docker_networks_custom: []
+cherry_docker_networks: "{{ docker_networks_common
+                            + cherry_docker_networks_default
+                            + cherry_docker_networks_custom }}"
+
+# Capabilities
+cherry_docker_capabilities_default: []
+cherry_docker_capabilities_custom: []
+cherry_docker_capabilities: "{{ cherry_docker_capabilities_default
+                                + cherry_docker_capabilities_custom }}"
+
+# Security Opts
+cherry_docker_security_opts_default: []
+cherry_docker_security_opts_custom: []
+cherry_docker_security_opts: "{{ cherry_docker_security_opts_default
+                                 + cherry_docker_security_opts_custom }}"
+
+# Restart Policy
+cherry_docker_restart_policy: unless-stopped
+
+# State
+cherry_docker_state: started
