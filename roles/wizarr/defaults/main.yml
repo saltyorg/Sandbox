@@ -1,0 +1,145 @@
+##########################################################################
+# Title:         Sandbox: wizarr | Default Variables                 #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+wizarr_name: wizarr
+
+################################
+# Paths
+################################
+
+wizarr_paths_folder: "{{ wizarr_name }}"
+wizarr_paths_location: "{{ server_appdata_path }}/{{ wizarr_paths_folder }}"
+wizarr_paths_folders_list:
+  - "{{ wizarr_paths_location }}"
+
+################################
+# Web
+################################
+
+wizarr_web_subdomain: "{{ wizarr_name }}"
+wizarr_web_domain: "{{ user.domain }}"
+wizarr_web_port: "5690"
+wizarr_web_url: "{{ 'https://' + wizarr_web_subdomain + '.' + wizarr_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + wizarr_web_port }}"
+
+################################
+# DNS
+################################
+
+wizarr_dns_record: "{{ wizarr_web_subdomain }}"
+wizarr_dns_zone: "{{ wizarr_web_domain }}"
+wizarr_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+wizarr_traefik_middleware: "{{ traefik_default_middleware }}"
+wizarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wizarr_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+wizarr_docker_container: "{{ wizarr_name }}"
+
+# Image
+wizarr_docker_image_pull: true
+wizarr_docker_image_tag: "latest"
+wizarr_docker_image: "ghcr.io/wizarrrr/wizarr:{{ wizarr_docker_image_tag }}"
+
+# Ports
+wizarr_docker_ports_defaults:
+  - "{{ wizarr_web_port }}:{{ wizarr_web_port }}"
+wizarr_docker_ports_custom: []
+wizarr_docker_ports: "{{ wizarr_docker_ports_defaults
+                             + wizarr_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else wizarr_docker_ports_custom }}"
+
+# Envs
+wizarr_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  APP_URL: "{{ wizarr_web_url }}"
+  LOG_LEVEL: DEBUG
+  DISABLE_BUILTIN_AUTH: "false"
+  ALLOW_BUG_REPORTING: "false"
+wizarr_docker_envs_custom: {}
+wizarr_docker_envs: "{{ wizarr_docker_envs_default
+                            | combine(wizarr_docker_envs_custom) }}"
+
+# Commands
+wizarr_docker_commands_default: []
+wizarr_docker_commands_custom: []
+wizarr_docker_commands: "{{ wizarr_docker_commands_default
+                                + wizarr_docker_commands_custom }}"
+
+# Volumes
+wizarr_docker_volumes_default: []
+wizarr_docker_volumes_custom: []
+wizarr_docker_volumes: "{{ wizarr_docker_volumes_default
+                               + wizarr_docker_volumes_custom }}"
+
+# Devices
+wizarr_docker_devices_default: []
+wizarr_docker_devices_custom: []
+wizarr_docker_devices: "{{ wizarr_docker_devices_default
+                               + wizarr_docker_devices_custom }}"
+
+# Hosts
+wizarr_docker_hosts_default: []
+wizarr_docker_hosts_custom: []
+wizarr_docker_hosts: "{{ docker_hosts_common
+                             | combine(wizarr_docker_hosts_default)
+                             | combine(wizarr_docker_hosts_custom) }}"
+
+# Labels
+wizarr_docker_labels_default: {}
+wizarr_docker_labels_custom: {}
+wizarr_docker_labels: "{{ docker_labels_common
+                              | combine(wizarr_docker_labels_default)
+                              | combine(wizarr_docker_labels_custom) }}"
+
+# Hostname
+wizarr_docker_hostname: "{{ wizarr_name }}"
+
+# Networks
+wizarr_docker_networks_alias: "{{ wizarr_name }}"
+wizarr_docker_networks_default: []
+wizarr_docker_networks_custom: []
+wizarr_docker_networks: "{{ docker_networks_common
+                                + wizarr_docker_networks_default
+                                + wizarr_docker_networks_custom }}"
+
+# Capabilities
+wizarr_docker_capabilities_default: []
+wizarr_docker_capabilities_custom: []
+wizarr_docker_capabilities: "{{ wizarr_docker_capabilities_default
+                                    + wizarr_docker_capabilities_custom }}"
+
+# Security Opts
+wizarr_docker_security_opts_default: []
+wizarr_docker_security_opts_custom: []
+wizarr_docker_security_opts: "{{ wizarr_docker_security_opts_default
+                                     + wizarr_docker_security_opts_custom }}"
+
+# Restart Policy
+wizarr_docker_restart_policy: unless-stopped
+
+# State
+wizarr_docker_state: started

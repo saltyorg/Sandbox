@@ -134,6 +134,7 @@
     - { role: whisparr, tags: ['whisparr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
+    - { role: wizarr, tags: ['wizarr'] }
     - { role: xbackbone, tags: ['xbackbone'] }
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
