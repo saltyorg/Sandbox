@@ -7,12 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Import Default MariaDB variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
-
-- name: Import Inventory variables
-  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb

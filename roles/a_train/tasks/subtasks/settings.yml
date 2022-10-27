@@ -34,12 +34,6 @@
     - name: Import Settings task
       ansible.builtin.import_tasks: "config.yml"
 
-    - name: Include variables from autoscan role
-      ansible.builtin.include_vars: /srv/git/saltbox/roles/autoscan/defaults/main.yml
-
-    - name: Import Inventory variables
-      ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
     - name: Settings | Import default `{{ a_train_paths_config_location | basename }}`
       ansible.builtin.template:
         src: a-train.toml.j2

@@ -12,12 +12,6 @@
     path: "{{ sabthrottle_paths_config_location }}"
   register: sabthrottle_paths_config_location_stat
 
-- name: Pre-Install | Import Default Plex variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
-
-- name: Import Inventory variables
-  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
 - name: Pre-Install | Set Default Plex instance
   ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"

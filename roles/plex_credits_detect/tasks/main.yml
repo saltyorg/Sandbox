@@ -7,13 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
-- name: Import Default Plex variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
-
-- name: Import Inventory variables
-  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
 - name: Check config exists
   ansible.builtin.stat:
     path: "{{ plex_credits_detect_config_location }}"

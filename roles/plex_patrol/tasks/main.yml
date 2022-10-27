@@ -7,10 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Import Default Plex variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
-  when: not plex_instances is defined
-
 - name: "Execute Plex Patrol roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
