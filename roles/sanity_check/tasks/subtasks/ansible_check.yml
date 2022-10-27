@@ -7,9 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Import Default Sanity Check variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/sanity_check/defaults/main.yml
-
 - name: Find Ansible version
   ansible.builtin.shell: python3 -c 'from ansible_collections.ansible_release import ansible_version; print(ansible_version)'
   register: registered_ansible_version

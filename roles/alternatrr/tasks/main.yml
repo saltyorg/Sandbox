@@ -7,12 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Import Default Sonarr variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
-
-- name: Import Inventory variables
-  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
 - name: Set Default Sonarr instance
   ansible.builtin.set_fact:
     sonarr_name: "{{ sonarr_instances[0] }}"

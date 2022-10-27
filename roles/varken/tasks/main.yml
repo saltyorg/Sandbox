@@ -7,18 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Import Default Sonarr variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/sonarr/defaults/main.yml
-
-- name: Import Default Radarr variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/radarr/defaults/main.yml
-
-- name: Import Default Tautulli variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/tautulli/defaults/main.yml
-
-- name: Import Inventory variables
-  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"

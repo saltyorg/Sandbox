@@ -7,13 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
-- name: Import Default Plex variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/plex/defaults/main.yml
-
-- name: Import Inventory variables
-  ansible.builtin.include_vars: "/srv/git/saltbox/inventories/host_vars/localhost.yml"
-
 - name: Report Plex Account Status
   ansible.builtin.debug:
     msg: Requires Plex Account credentials to be entered in accounts.yml
