@@ -1,0 +1,145 @@
+#######################################################################
+# Title:            Sandbox: Omegabrr | Default Variables             #
+# Author(s):        keldian                                           #
+# URL:              https://github.com/saltyorg/Sandbox               #
+# --                                                                  #
+#######################################################################
+#                   GNU General Public License v3.0                   #
+#######################################################################
+---
+################################
+# Basics
+################################
+
+omegabrr_name: omegabrr
+
+################################
+# Paths
+################################
+
+omegabrr_paths_folder: "{{ omegabrr_name }}"
+omegabrr_paths_location: "{{ server_appdata_path }}/{{ omegabrr_paths_folder }}"
+omegabrr_paths_config_location: "{{ omegabrr_paths_location }}/config.yaml"
+omegabrr_paths_folders_list:
+  - "{{ omegabrr_paths_location }}"
+
+################################
+# Web
+################################
+
+omegabrr_web_subdomain: "{{ omegabrr_name }}"
+omegabrr_web_domain: "{{ user.domain }}"
+omegabrr_web_port: "7441"
+omegabrr_web_url: "{{ 'https://' + omegabrr_web_subdomain + '.' + omegabrr_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + omegabrr_web_port }}"
+omegabrr_web_enabled: false
+
+################################
+# DNS
+################################
+
+omegabrr_dns_record: "{{ omegabrr_web_subdomain }}"
+omegabrr_dns_zone: "{{ omegabrr_web_domain }}"
+omegabrr_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+omegabrr_traefik_middleware: "{{ traefik_default_middleware }}"
+omegabrr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+omegabrr_traefik_enabled: "{{ omegabrr_web_enabled | d(false) }}"
+
+################################
+# Docker
+################################
+
+# Container
+omegabrr_docker_container: "{{ omegabrr_name }}"
+
+# Image
+omegabrr_docker_image_pull: true
+omegabrr_docker_image_tag: "latest"
+omegabrr_docker_image: "ghcr.io/autobrr/omegabrr:{{ omegabrr_docker_image_tag }}"
+
+# Ports
+omegabrr_docker_ports_defaults: []
+omegabrr_docker_ports_custom: []
+omegabrr_docker_ports: "{{ omegabrr_docker_ports_defaults
+                          + omegabrr_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else omegabrr_docker_ports_defaults
+                          + omegabrr_docker_ports_custom }}"
+
+# Envs
+omegabrr_docker_envs_default:
+  TZ: "{{ tz }}"
+omegabrr_docker_envs_custom: {}
+omegabrr_docker_envs: "{{ omegabrr_docker_envs_default
+                               | combine(omegabrr_docker_envs_custom) }}"
+
+# Commands
+omegabrr_docker_commands_default: []
+omegabrr_docker_commands_custom: []
+omegabrr_docker_commands: "{{ omegabrr_docker_commands_default
+                                   + omegabrr_docker_commands_custom }}"
+
+# Volumes
+omegabrr_docker_volumes_default:
+  - "{{ omegabrr_paths_location }}:/config"
+omegabrr_docker_volumes_custom: []
+omegabrr_docker_volumes: "{{ omegabrr_docker_volumes_default
+                                  + omegabrr_docker_volumes_custom }}"
+
+# Devices
+omegabrr_docker_devices_default: []
+omegabrr_docker_devices_custom: []
+omegabrr_docker_devices: "{{ omegabrr_docker_devices_default
+                                  + omegabrr_docker_devices_custom }}"
+
+# Hosts
+omegabrr_docker_hosts_default: []
+omegabrr_docker_hosts_custom: []
+omegabrr_docker_hosts: "{{ docker_hosts_common
+                                | combine(omegabrr_docker_hosts_default)
+                                | combine(omegabrr_docker_hosts_custom) }}"
+
+# Labels
+omegabrr_docker_labels_default: {}
+omegabrr_docker_labels_custom: {}
+omegabrr_docker_labels: "{{ docker_labels_common
+                                 | combine(omegabrr_docker_labels_default)
+                                 | combine(omegabrr_docker_labels_custom) }}"
+
+# Hostname
+omegabrr_docker_hostname: "{{ omegabrr_name }}"
+
+# Networks
+omegabrr_docker_networks_alias: "{{ omegabrr_name }}"
+omegabrr_docker_networks_default: []
+omegabrr_docker_networks_custom: []
+omegabrr_docker_networks: "{{ docker_networks_common
+                                   + omegabrr_docker_networks_default
+                                   + omegabrr_docker_networks_custom }}"
+
+# Capabilities
+omegabrr_docker_capabilities_default: []
+omegabrr_docker_capabilities_custom: []
+omegabrr_docker_capabilities: "{{ omegabrr_docker_capabilities_default
+                                       + omegabrr_docker_capabilities_custom }}"
+
+# Security Opts
+omegabrr_docker_security_opts_default: []
+omegabrr_docker_security_opts_custom: []
+omegabrr_docker_security_opts: "{{ omegabrr_docker_security_opts_default
+                                        + omegabrr_docker_security_opts_custom }}"
+
+# Restart Policy
+omegabrr_docker_restart_policy: unless-stopped
+
+# State
+omegabrr_docker_state: started
+
+# User
+omegabrr_docker_user: "{{ uid }}:{{ gid }}"
