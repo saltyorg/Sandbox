@@ -35,24 +35,8 @@
 - name: New `{{ omegabrr_paths_config_location | basename }}` tasks
   block:
 
-    - name: Import default Autobrr variables
-      ansible.builtin.include_vars: "{{ playbook_dir }}/roles/autobrr/defaults/main.yml"
-
-    - name: Resources | Tasks | Instances | Get Info | Run Sonarr Tasks
-      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/sonarr.yml"
-      vars:
-        sonarr_name: "{{ role }}"
-      with_items: "{{ sonarr_instances }}"
-      loop_control:
-        loop_var: role
-
-    - name: Resources | Tasks | Instances | Get Info | Run Radarr Tasks
-      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/radarr.yml"
-      vars:
-        radarr_name: "{{ role }}"
-      with_items: "{{ radarr_instances }}"
-      loop_control:
-        loop_var: role
+    - name: Get Arr Info
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
 
     - name: Generate API token
       ansible.builtin.set_fact:
