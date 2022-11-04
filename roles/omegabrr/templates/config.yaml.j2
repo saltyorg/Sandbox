@@ -11,37 +11,23 @@ clients:
     apikey: API_KEY
 
   arr:
-{%- set br = joiner("\n") %}
-{% for instance in radarr_info | d({}) %}{{ br() }}
+{% for instance in radarr_info }}
+{% if radarr_info[instance]['api_key'] != 'not installed' %}
     - name: {{ radarr_info[instance]['name'] }}
       type: radarr
       host: {{ 'http://' + radarr_info[instance]['name'] + ':' + radarr_web_port }}
       apikey: {{ radarr_info[instance]['api_key'] }}
       filters: []
-{%- else +%}
-    - name: radarr
-      type: radarr
-      host: http://radarr:7878
-      apikey: API_KEY
-      filters: [15]
 
-    - name: radarr4k
-      type: radarr
-      host: http://radarr4k:7878
-      apikey: API_KEY
-      filters: [16]
+{% endif %}
 {%- endfor %}
-{% for instance in sonarr_info | d({}) %}{{ br() }}
+{% for instance in sonarr_info }}
+{% if sonarr_info[instance]['api_key'] != 'not installed' %}
     - name: {{ sonarr_info[instance]['name'] }}
       type: sonarr
       host: {{ 'http://' + sonarr_info[instance]['name'] + ':' + sonarr_web_port }}
       apikey: {{ sonarr_info[instance]['api_key'] }}
       filters: []
-{%- else +%}
 
-    - name: sonarr
-      type: sonarr
-      host: http://sonarr:8989
-      apikey: API_KEY
-      filters: [14]
+{% endif %}
 {%- endfor %}
