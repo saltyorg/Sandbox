@@ -10,24 +10,22 @@ clients:
     host: {{ 'http://' + autobrr_docker_networks_alias + ':' + autobrr_web_port }}
     apikey: API_KEY
 
-  arr:
-{% for instance in radarr_info %}
+{%+ if True %}  arr:{% endif %}
+{% for instance in radarr_info +%}
 {% if radarr_info[instance]['api_key'] != 'not installed' %}
     - name: {{ radarr_info[instance]['name'] }}
       type: radarr
       host: {{ 'http://' + radarr_info[instance]['name'] + ':' + radarr_web_port }}
       apikey: {{ radarr_info[instance]['api_key'] }}
       filters: []
-
 {% endif %}
 {%- endfor %}
-{% for instance in sonarr_info %}
+{% for instance in sonarr_info +%}
 {% if sonarr_info[instance]['api_key'] != 'not installed' %}
     - name: {{ sonarr_info[instance]['name'] }}
       type: sonarr
       host: {{ 'http://' + sonarr_info[instance]['name'] + ':' + sonarr_web_port }}
       apikey: {{ sonarr_info[instance]['api_key'] }}
       filters: []
-
 {% endif %}
 {%- endfor %}
