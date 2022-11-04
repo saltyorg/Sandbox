@@ -1,0 +1,84 @@
+#######################################################################
+# Title:            Sandbox: Omegabrr | Tasks                         #
+# Author(s):        keldian                                           #
+# URL:              https://github.com/saltyorg/Sandbox               #
+# --                                                                  #
+#######################################################################
+#                   GNU General Public License v3.0                   #
+#######################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+  when: omegabrr_web_enabled
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+
+- name: Check if `{{ omegabrr_paths_config_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ omegabrr_paths_config_location }}"
+  register: omegabrr_config
+
+- name: New `{{ omegabrr_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Get Instance Info
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
+      vars:
+        get_info_list:
+          - sonarr
+          - radarr
+
+    - name: Generate API token
+      ansible.builtin.set_fact:
+        omegabrr_apitoken: "{{ lookup('community.general.random_string', override_all='0123456789abcdef', length=32) }}"
+
+    - name: Import default `{{ omegabrr_paths_config_location | basename }}`
+      ansible.builtin.template:
+        src: config.yaml.j2
+        dest: "{{ omegabrr_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+        force: yes
+
+  when: not omegabrr_config.stat.exists
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Guide if `{{ omegabrr_paths_config_location | basename }}` is missing
+  ansible.builtin.pause:
+    seconds: 1
+    prompt: |
+
+      ╔════ Clean install detected ═════════════════════════════╗
+      ║                                                         ║
+      ║  Your new API token: {{ omegabrr_apitoken }}   ║
+      ║                                                         ║
+      ╠═════════════════════════════════════════════════════════╣
+      ║                                                         ║
+      ║                     TO FINISH SETUP                     ║
+      ║                                                         ║
+      ║  In {{ omegabrr_paths_config_location }}, fill out your autobrr    ║
+      ║                                                         ║
+      ║  API key and the filters you wish to sync, eg. [15,16]  ║
+      ║                                                         ║
+      ║  Changes take effect after restarting the container.    ║
+      ║                                                         ║
+      ╚═════════════════════════════════════════════════════════╝
+
+  when: not omegabrr_config.stat.exists
