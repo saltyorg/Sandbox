@@ -86,6 +86,7 @@
     - { role: olivetin, tags: ['olivetin'] }
     - { role: ombi, tags: ['ombi'] }
     - { role: ombix, tags: ['ombix'] }
+    - { role: omegabrr, tags: ['omegabrr'] }
     - { role: ouroboros, tags: ['ouroboros'] }
     - { role: paperless_ngx, tags: ['paperless-ngx'] }
     - { role: pgadmin, tags: ['pgadmin'] }
