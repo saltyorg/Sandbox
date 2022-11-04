@@ -33,7 +33,6 @@ omegabrr_web_port: "7441"
 omegabrr_web_url: "{{ 'https://' + omegabrr_web_subdomain + '.' + omegabrr_web_domain
                    if (reverse_proxy_is_enabled)
                    else 'http://localhost:' + omegabrr_web_port }}"
-omegabrr_web_enabled: false
 
 ################################
 # DNS
@@ -49,7 +48,7 @@ omegabrr_dns_proxy: "{{ dns.proxied }}"
 
 omegabrr_traefik_middleware: "{{ traefik_default_middleware }}"
 omegabrr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-omegabrr_traefik_enabled: "{{ omegabrr_web_enabled }}"
+omegabrr_traefik_enabled: true
 
 ################################
 # Docker
