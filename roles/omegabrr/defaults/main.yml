@@ -49,7 +49,7 @@ omegabrr_dns_proxy: "{{ dns.proxied }}"
 
 omegabrr_traefik_middleware: "{{ traefik_default_middleware }}"
 omegabrr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-omegabrr_traefik_enabled: "{{ omegabrr_web_enabled | d(false) }}"
+omegabrr_traefik_enabled: "{{ omegabrr_web_enabled }}"
 
 ################################
 # Docker
