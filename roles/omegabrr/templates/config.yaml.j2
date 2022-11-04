@@ -11,7 +11,7 @@ clients:
     apikey: API_KEY
 
   arr:
-{% for instance in radarr_info }}
+{% for instance in radarr_info %}
 {% if radarr_info[instance]['api_key'] != 'not installed' %}
     - name: {{ radarr_info[instance]['name'] }}
       type: radarr
@@ -21,7 +21,7 @@ clients:
 
 {% endif %}
 {%- endfor %}
-{% for instance in sonarr_info }}
+{% for instance in sonarr_info %}
 {% if sonarr_info[instance]['api_key'] != 'not installed' %}
     - name: {{ sonarr_info[instance]['name'] }}
       type: sonarr
