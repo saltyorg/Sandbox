@@ -67,6 +67,7 @@
     - { role: kcptun_client, tags: ['kcptun-client'] }
     - { role: kcptun_server, tags: ['kcptun-server'] }
     - { role: kitana, tags: ['kitana'] }
+    - { role: koel, tags: ['koel'] }
     - { role: komga, tags: ['komga'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: linkding, tags: ['linkding'] }

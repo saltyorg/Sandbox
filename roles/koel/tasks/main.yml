@@ -1,0 +1,42 @@
+#########################################################################
+# Title:            Sandbox: Koel                                       #
+# Author(s):        JigSawFr                                            #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: PostgreSQL Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_name: "{{ koel_name }}_postgres"
+    postgres_docker_env_db: "{{ koel_name }}"
+    postgres_docker_image_tag: "14-alpine"
+    postgres_paths_folder: "{{ koel_name }}"
+    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+
+- name: "Generate Secret Key for sessions"
+  ansible.builtin.shell: "openssl rand -base64 45"
+  register: koel_secret_key
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Print Tweaking Info
+  ansible.builtin.debug:
+    msg: "You can check Koel's documentation for tweaking: https://docs.koel.dev/"
