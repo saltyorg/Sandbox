@@ -71,6 +71,7 @@
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: linkding, tags: ['linkding'] }
     - { role: logarr, tags: ['logarr'] }
+    - { role: makemkv, tags: ['makemkv'] }
     - { role: mcrouter, tags: ['mcrouter'] }
     - { role: medusa, tags: ['medusa'] }
     - { role: minecraft, tags: ['minecraft'] }
