@@ -1,0 +1,163 @@
+##########################################################################
+# Title:            Sandbox: n8n-io | Default Variables                  #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+n8n_name: n8n
+
+################################
+# Paths
+################################
+
+n8n_paths_folder: "{{ n8n_name }}"
+n8n_paths_location: "{{ server_appdata_path }}/{{ n8n_paths_folder }}/app"
+n8n_paths_folders_list:
+  - "{{ n8n_paths_location }}"
+
+################################
+# Web
+################################
+
+n8n_web_subdomain: "{{ n8n_name }}"
+n8n_web_domain: "{{ user.domain }}"
+n8n_web_port: "5678"
+n8n_web_url: "{{ 'https://' + n8n_web_subdomain + '.' + n8n_web_domain
+             if (reverse_proxy_is_enabled)
+             else 'http://localhost:' + n8n_web_port }}"
+
+################################
+# DNS
+################################
+
+n8n_dns_record: "{{ n8n_web_subdomain }}"
+n8n_dns_zone: "{{ n8n_web_domain }}"
+n8n_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+n8n_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+n8n_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                    + lookup('vars', n8n_name + '_traefik_sso_middleware', default=n8n_traefik_sso_middleware)
+                                 if (lookup('vars', n8n_name + '_traefik_sso_middleware', default=n8n_traefik_sso_middleware) | length > 0)
+                                 else traefik_default_middleware }}"
+n8n_traefik_middleware_custom: ""
+n8n_traefik_middleware: "{{ n8n_traefik_middleware_default + ','
+                            + n8n_traefik_middleware_custom
+                         if (not n8n_traefik_middleware_custom.startswith(',') and n8n_traefik_middleware_custom | length > 0)
+                         else n8n_traefik_middleware_default
+                            + n8n_traefik_middleware_custom }}"
+n8n_traefik_certresolver: "{{ traefik_default_certresolver }}"
+n8n_traefik_enabled: true
+n8n_traefik_api_enabled: true
+n8n_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+n8n_docker_container: "{{ n8n_name }}"
+
+# Image
+n8n_docker_image_pull: true
+n8n_docker_image_tag: "latest"
+n8n_docker_image: "n8nio/n8n:{{ n8n_docker_image_tag }}"
+
+# Ports
+n8n_docker_ports_defaults:
+  - "{{ n8n_web_port }}"
+n8n_docker_ports_custom: []
+n8n_docker_ports: "{{ n8n_docker_ports_defaults
+                      + n8n_docker_ports_custom
+                   if (not reverse_proxy_is_enabled)
+                   else n8n_docker_ports_custom }}"
+
+# Envs
+n8n_docker_envs_default:
+  GENERIC_TIMEZONE: "{{ tz }}"
+  TZ: "{{ tz }}"
+  DB_TYPE: "postgresdb"
+  DB_POSTGRESDB_DATABASE: "{{ n8n_name }}"
+  DB_POSTGRESDB_HOST: "{{ n8n_name }}_postgres"
+  DB_POSTGRESDB_PORT: "5432"
+  DB_POSTGRESDB_USER: "{{ postgres_docker_env_user }}"
+  DB_POSTGRESDB_PASSWORD: "{{ postgres_docker_env_password }}"
+  N8N_EDITOR_BASE_URL: "{{ n8n_web_url }}"
+  N8N_DIAGNOSTICS_ENABLED: "false"
+  N8N_HIRING_BANNER_ENABLED: "false"
+  N8N_USER_MANAGEMENT_DISABLED: "true"
+n8n_docker_envs_custom: {}
+n8n_docker_envs: "{{ n8n_docker_envs_default
+                     | combine(n8n_docker_envs_custom) }}"
+
+# Commands
+n8n_docker_commands_default: []
+n8n_docker_commands_custom: []
+n8n_docker_commands: "{{ n8n_docker_commands_default
+                         + n8n_docker_commands_custom }}"
+
+# Volumes
+n8n_docker_volumes_default:
+  - "{{ n8n_paths_location }}:/home/node/.n8n"
+n8n_docker_volumes_custom: []
+n8n_docker_volumes: "{{ n8n_docker_volumes_default
+                        + n8n_docker_volumes_custom }}"
+
+# Devices
+n8n_docker_devices_default: []
+n8n_docker_devices_custom: []
+n8n_docker_devices: "{{ n8n_docker_devices_default
+                        + n8n_docker_devices_custom }}"
+
+# Hosts
+n8n_docker_hosts_default: []
+n8n_docker_hosts_custom: []
+n8n_docker_hosts: "{{ docker_hosts_common
+                      | combine(n8n_docker_hosts_default)
+                      | combine(n8n_docker_hosts_custom) }}"
+
+# Labels
+n8n_docker_labels_default: {}
+n8n_docker_labels_custom: {}
+n8n_docker_labels: "{{ docker_labels_common
+                       | combine(n8n_docker_labels_default)
+                       | combine(n8n_docker_labels_custom) }}"
+
+# Hostname
+n8n_docker_hostname: "{{ n8n_name }}"
+
+# Networks
+n8n_docker_networks_alias: "{{ n8n_name }}"
+n8n_docker_networks_default: []
+n8n_docker_networks_custom: []
+n8n_docker_networks: "{{ docker_networks_common
+                         + n8n_docker_networks_default
+                         + n8n_docker_networks_custom }}"
+
+# Capabilities
+n8n_docker_capabilities_default: []
+n8n_docker_capabilities_custom: []
+n8n_docker_capabilities: "{{ n8n_docker_capabilities_default
+                             + n8n_docker_capabilities_custom }}"
+
+# Security Opts
+n8n_docker_security_opts_default: []
+n8n_docker_security_opts_custom: []
+n8n_docker_security_opts: "{{ n8n_docker_security_opts_default
+                              + n8n_docker_security_opts_custom }}"
+
+# Restart Policy
+n8n_docker_restart_policy: unless-stopped
+
+# State
+n8n_docker_state: started
