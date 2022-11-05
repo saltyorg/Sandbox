@@ -21,7 +21,7 @@ makemkv_paths_folder: "{{ makemkv_name }}"
 makemkv_paths_location: "{{ server_appdata_path }}/{{ makemkv_paths_folder }}"
 makemkv_paths_folders_list:
   - "{{ makemkv_paths_location }}"
-  - "/mnt/local/makemkv"
+  - "/mnt/unionfs/makemkv"
 
 ################################
 # Web
@@ -99,8 +99,8 @@ makemkv_docker_commands: "{{ makemkv_docker_commands_default
 # Volumes
 makemkv_docker_volumes_default:
   - "{{ makemkv_paths_location }}:/docker/appdata/makemkv"
-  - "/mnt/local:/storage:ro"
-  - "/mnt/local/makemkv:/output:rw"
+  - "/mnt/unionfs:/storage:ro"
+  - "/mnt/unionfs/makemkv:/output:rw"
 makemkv_docker_volumes_custom: []
 makemkv_docker_volumes: "{{ makemkv_docker_volumes_default
                             + makemkv_docker_volumes_custom }}"
