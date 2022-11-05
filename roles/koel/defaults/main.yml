@@ -91,8 +91,8 @@ koel_docker_envs_default:
   DB_USERNAME: "{{ postgres_docker_env_user }}"
   DB_PASSWORD: "{{ postgres_docker_env_password }}"
   DB_DATABASE: "{{ koel_name }}"
-  APP_KEY: "{{ koel_secret_key.stdout }}"
-  FORCE_HTTPS: "1"
+#  APP_KEY: "{{ koel_secret_key.stdout }}"
+#  FORCE_HTTPS: "1"
 koel_docker_envs_custom: {}
 koel_docker_envs: "{{ koel_docker_envs_default
                       | combine(koel_docker_envs_custom) }}"
