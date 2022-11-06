@@ -1,0 +1,149 @@
+#########################################################################
+# Title:            Sandbox: Puddletag                                  #
+# Author(s):        CHAIR/Raneydazed                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+puddletag_name: puddletag
+
+################################
+# Paths
+################################
+
+puddletag_paths_folder: "{{ puddletag_name }}"
+puddletag_paths_location: "{{ server_appdata_path }}/{{ puddletag_paths_folder }}"
+puddletag_paths_folders_list:
+  - "{{ puddletag_paths_location }}"
+
+################################
+# Web
+################################
+
+puddletag_web_subdomain: "{{ puddletag_name }}"
+puddletag_web_domain: "{{ user.domain }}"
+puddletag_web_port: "8080"
+puddletag_web_url: "{{ 'https://' + puddletag_web_subdomain + '.' + puddletag_web_domain
+                  if (reverse_proxy_is_enabled)
+                  else 'http://localhost:' + puddletag_web_port }}"
+
+################################
+# DNS
+################################
+
+puddletag_dns_record: "{{ puddletag_web_subdomain }}"
+puddletag_dns_zone: "{{ puddletag_web_domain }}"
+puddletag_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+puddletag_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+
+puddletag_traefik_middleware: "{{ traefik_default_middleware + ',' + puddletag_traefik_sso_middleware
+                                if (puddletag_traefik_sso_middleware | length > 0)
+                                else traefik_default_middleware }}"
+puddletag_traefik_certresolver: "{{ traefik_default_certresolver }}"
+puddletag_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+puddletag_docker_container: "{{ puddletag_name }}"
+
+# Image
+puddletag_docker_image_pull: true
+puddletag_docker_image_tag: "latest"
+puddletag_docker_image: "lscr.io/linuxserver/puddletag:{{ puddletag_docker_image_tag }}"
+
+# Ports
+puddletag_docker_ports_defaults:
+  - "{{ puddletag_web_port }}"
+puddletag_docker_ports_custom: []
+puddletag_docker_ports: "{{ puddletag_docker_ports_defaults
+                          + puddletag_docker_ports_custom
+                       if (not reverse_proxy_is_enabled)
+                       else puddletag_docker_ports_custom }}"
+
+# Envs
+puddletag_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  APPNAME: "puddletag"
+  GUAC_USER: "{{ user.name }}"
+  GUAC_PASS: "{{ user.pass }}"
+puddletag_docker_envs_custom: {}
+puddletag_docker_envs: "{{ puddletag_docker_envs_default
+                         | combine(puddletag_docker_envs_custom) }}"
+
+# Commands
+puddletag_docker_commands_default: []
+puddletag_docker_commands_custom: []
+puddletag_docker_commands: "{{ puddletag_docker_commands_default
+                             + puddletag_docker_commands_custom }}"
+
+# Volumes
+puddletag_docker_volumes_default:
+  - "{{ puddletag_paths_location }}:/config"
+puddletag_docker_volumes_custom: []
+puddletag_docker_volumes: "{{ puddletag_docker_volumes_default
+                            + puddletag_docker_volumes_custom }}"
+
+# Devices
+puddletag_docker_devices_default: []
+puddletag_docker_devices_custom: []
+puddletag_docker_devices: "{{ puddletag_docker_devices_default
+                            + puddletag_docker_devices_custom }}"
+
+# Hosts
+puddletag_docker_hosts_default: []
+puddletag_docker_hosts_custom: []
+puddletag_docker_hosts: "{{ docker_hosts_common
+                          | combine(puddletag_docker_hosts_default)
+                          | combine(puddletag_docker_hosts_custom) }}"
+
+# Labels
+puddletag_docker_labels_default: {}
+puddletag_docker_labels_custom: {}
+puddletag_docker_labels: "{{ docker_labels_common
+                           | combine(puddletag_docker_labels_default)
+                           | combine(puddletag_docker_labels_custom) }}"
+
+# Hostname
+puddletag_docker_hostname: "{{ puddletag_name }}"
+
+# Networks
+puddletag_docker_networks_alias: "{{ puddletag_name }}"
+puddletag_docker_networks_default: []
+puddletag_docker_networks_custom: []
+puddletag_docker_networks: "{{ docker_networks_common
+                             + puddletag_docker_networks_default
+                             + puddletag_docker_networks_custom }}"
+
+# Capabilities
+puddletag_docker_capabilities_default: []
+puddletag_docker_capabilities_custom: []
+puddletag_docker_capabilities: "{{ puddletag_docker_capabilities_default
+                                 + puddletag_docker_capabilities_custom }}"
+
+# Security Opts
+puddletag_docker_security_opts_default: []
+puddletag_docker_security_opts_custom: []
+puddletag_docker_security_opts: "{{ puddletag_docker_security_opts_default
+                                  + puddletag_docker_security_opts_custom }}"
+
+# Restart Policy
+puddletag_docker_restart_policy: unless-stopped
+
+# State
+puddletag_docker_state: started
