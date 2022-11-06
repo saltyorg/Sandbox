@@ -70,7 +70,7 @@ puddletag_docker_ports_defaults:
   - "{{ puddletag_web_port }}"
 puddletag_docker_ports_custom: []
 puddletag_docker_ports: "{{ puddletag_docker_ports_defaults
-                          + puddletag_docker_ports_custom
+                            + puddletag_docker_ports_custom
                           if (not reverse_proxy_is_enabled)
                           else puddletag_docker_ports_custom }}"
 
@@ -84,40 +84,40 @@ puddletag_docker_envs_default:
   GUAC_PASS: "{{ user.pass | hash('md5') }}"
 puddletag_docker_envs_custom: {}
 puddletag_docker_envs: "{{ puddletag_docker_envs_default
-                         | combine(puddletag_docker_envs_custom) }}"
+                           | combine(puddletag_docker_envs_custom) }}"
 
 # Commands
 puddletag_docker_commands_default: []
 puddletag_docker_commands_custom: []
 puddletag_docker_commands: "{{ puddletag_docker_commands_default
-                             + puddletag_docker_commands_custom }}"
+                               + puddletag_docker_commands_custom }}"
 
 # Volumes
 puddletag_docker_volumes_default:
   - "{{ puddletag_paths_location }}:/config"
 puddletag_docker_volumes_custom: []
 puddletag_docker_volumes: "{{ puddletag_docker_volumes_default
-                            + puddletag_docker_volumes_custom }}"
+                              + puddletag_docker_volumes_custom }}"
 
 # Devices
 puddletag_docker_devices_default: []
 puddletag_docker_devices_custom: []
 puddletag_docker_devices: "{{ puddletag_docker_devices_default
-                            + puddletag_docker_devices_custom }}"
+                              + puddletag_docker_devices_custom }}"
 
 # Hosts
 puddletag_docker_hosts_default: []
 puddletag_docker_hosts_custom: []
 puddletag_docker_hosts: "{{ docker_hosts_common
-                          | combine(puddletag_docker_hosts_default)
-                          | combine(puddletag_docker_hosts_custom) }}"
+                            | combine(puddletag_docker_hosts_default)
+                            | combine(puddletag_docker_hosts_custom) }}"
 
 # Labels
 puddletag_docker_labels_default: {}
 puddletag_docker_labels_custom: {}
 puddletag_docker_labels: "{{ docker_labels_common
-                           | combine(puddletag_docker_labels_default)
-                           | combine(puddletag_docker_labels_custom) }}"
+                             | combine(puddletag_docker_labels_default)
+                             | combine(puddletag_docker_labels_custom) }}"
 
 # Hostname
 puddletag_docker_hostname: "{{ puddletag_name }}"
@@ -127,20 +127,20 @@ puddletag_docker_networks_alias: "{{ puddletag_name }}"
 puddletag_docker_networks_default: []
 puddletag_docker_networks_custom: []
 puddletag_docker_networks: "{{ docker_networks_common
-                             + puddletag_docker_networks_default
-                             + puddletag_docker_networks_custom }}"
+                               + puddletag_docker_networks_default
+                               + puddletag_docker_networks_custom }}"
 
 # Capabilities
 puddletag_docker_capabilities_default: []
 puddletag_docker_capabilities_custom: []
 puddletag_docker_capabilities: "{{ puddletag_docker_capabilities_default
-                                 + puddletag_docker_capabilities_custom }}"
+                                   + puddletag_docker_capabilities_custom }}"
 
 # Security Opts
 puddletag_docker_security_opts_default: []
 puddletag_docker_security_opts_custom: []
 puddletag_docker_security_opts: "{{ puddletag_docker_security_opts_default
-                                  + puddletag_docker_security_opts_custom }}"
+                                    + puddletag_docker_security_opts_custom }}"
 
 # Restart Policy
 puddletag_docker_restart_policy: unless-stopped
