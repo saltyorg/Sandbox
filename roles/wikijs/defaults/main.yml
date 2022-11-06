@@ -1,0 +1,161 @@
+##########################################################################
+# Title:            Sandbox: Wikijs | Default Variables                  #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+wikijs_name: wikijs
+
+################################
+# Paths
+################################
+
+wikijs_paths_folder: "{{ wikijs_name }}"
+wikijs_paths_location: "{{ server_appdata_path }}/{{ wikijs_paths_folder }}/app"
+wikijs_paths_folders_list:
+  - "{{ wikijs_paths_location }}/config"
+  - "{{ wikijs_paths_location }}/data"
+
+################################
+# Web
+################################
+
+wikijs_web_subdomain: "{{ wikijs_name }}"
+wikijs_web_domain: "{{ user.domain }}"
+wikijs_web_port: "3000"
+wikijs_web_url: "{{ 'https://' + wikijs_web_subdomain + '.' + wikijs_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + wikijs_web_port }}"
+
+################################
+# DNS
+################################
+
+wikijs_dns_record: "{{ wikijs_web_subdomain }}"
+wikijs_dns_zone: "{{ wikijs_web_domain }}"
+wikijs_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+wikijs_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+wikijs_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                       + lookup('vars', wikijs_name + '_traefik_sso_middleware', default=wikijs_traefik_sso_middleware)
+                                    if (lookup('vars', wikijs_name + '_traefik_sso_middleware', default=wikijs_traefik_sso_middleware) | length > 0)
+                                    else traefik_default_middleware }}"
+wikijs_traefik_middleware_custom: ""
+wikijs_traefik_middleware: "{{ wikijs_traefik_middleware_default + ','
+                               + wikijs_traefik_middleware_custom
+                            if (not wikijs_traefik_middleware_custom.startswith(',') and wikijs_traefik_middleware_custom | length > 0)
+                            else wikijs_traefik_middleware_default
+                               + wikijs_traefik_middleware_custom }}"
+wikijs_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wikijs_traefik_enabled: true
+wikijs_traefik_api_enabled: true
+wikijs_traefik_api_endpoint: "`/graphql`"
+
+################################
+# Docker
+################################
+
+# Container
+wikijs_docker_container: "{{ wikijs_name }}"
+
+# Image
+wikijs_docker_image_pull: true
+wikijs_docker_image_tag: "2"
+wikijs_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_docker_image_tag }}"
+
+# Ports
+wikijs_docker_ports_defaults:
+  - "{{ wikijs_web_port }}"
+wikijs_docker_ports_custom: []
+wikijs_docker_ports: "{{ wikijs_docker_ports_defaults
+                         + wikijs_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else wikijs_docker_ports_custom }}"
+
+# Envs
+wikijs_docker_envs_default:
+  TZ: "{{ tz }}"
+  DB_TYPE: "postgres"
+  DB_HOST: "{{ wikijs_name }}_postgres"
+  DB_PORT: "5432"
+  DB_USER: "{{ postgres_docker_env_user }}"
+  DB_PASS: "{{ postgres_docker_env_password }}"
+  DB_NAME: "{{ wikijs_name }}"
+wikijs_docker_envs_custom: {}
+wikijs_docker_envs: "{{ wikijs_docker_envs_default
+                        | combine(wikijs_docker_envs_custom) }}"
+
+# Commands
+wikijs_docker_commands_default: []
+wikijs_docker_commands_custom: []
+wikijs_docker_commands: "{{ wikijs_docker_commands_default
+                            + wikijs_docker_commands_custom }}"
+
+# Volumes
+wikijs_docker_volumes_default:
+  - "{{ wikijs_paths_location }}/config:/config"
+  - "{{ wikijs_paths_location }}/data:/data"
+  - /etc/localtime:/etc/localtime:ro
+wikijs_docker_volumes_custom: []
+wikijs_docker_volumes: "{{ wikijs_docker_volumes_default
+                           + wikijs_docker_volumes_custom }}"
+
+# Devices
+wikijs_docker_devices_default: []
+wikijs_docker_devices_custom: []
+wikijs_docker_devices: "{{ wikijs_docker_devices_default
+                           + wikijs_docker_devices_custom }}"
+
+# Hosts
+wikijs_docker_hosts_default: []
+wikijs_docker_hosts_custom: []
+wikijs_docker_hosts: "{{ docker_hosts_common
+                         | combine(wikijs_docker_hosts_default)
+                         | combine(wikijs_docker_hosts_custom) }}"
+
+# Labels
+wikijs_docker_labels_default: {}
+wikijs_docker_labels_custom: {}
+wikijs_docker_labels: "{{ docker_labels_common
+                          | combine(wikijs_docker_labels_default)
+                          | combine(wikijs_docker_labels_custom) }}"
+
+# Hostname
+wikijs_docker_hostname: "{{ wikijs_name }}"
+
+# Networks
+wikijs_docker_networks_alias: "{{ wikijs_name }}"
+wikijs_docker_networks_default: []
+wikijs_docker_networks_custom: []
+wikijs_docker_networks: "{{ docker_networks_common
+                            + wikijs_docker_networks_default
+                            + wikijs_docker_networks_custom }}"
+
+# Capabilities
+wikijs_docker_capabilities_default: []
+wikijs_docker_capabilities_custom: []
+wikijs_docker_capabilities: "{{ wikijs_docker_capabilities_default
+                                + wikijs_docker_capabilities_custom }}"
+
+# Security Opts
+wikijs_docker_security_opts_default: []
+wikijs_docker_security_opts_custom: []
+wikijs_docker_security_opts: "{{ wikijs_docker_security_opts_default
+                                 + wikijs_docker_security_opts_custom }}"
+
+# Restart Policy
+wikijs_docker_restart_policy: unless-stopped
+
+# State
+wikijs_docker_state: started
