@@ -71,8 +71,8 @@ puddletag_docker_ports_defaults:
 puddletag_docker_ports_custom: []
 puddletag_docker_ports: "{{ puddletag_docker_ports_defaults
                             + puddletag_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else puddletag_docker_ports_custom }}"
+                         if (not reverse_proxy_is_enabled)
+                         else puddletag_docker_ports_custom }}"
 
 # Envs
 puddletag_docker_envs_default:
