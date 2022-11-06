@@ -31,7 +31,7 @@
   register: stat_vars_ini
 
 - name: "Generate Secret Key for sessions"
-  ansible.builtin.shell: "openssl rand -base64 45"
+  ansible.builtin.shell: "openssl rand -base64 32"
   register: generate_koel_secret_key
   when: not stat_vars_ini.stat.exists
 
