@@ -62,6 +62,8 @@ koel_traefik_middleware: "{{ koel_traefik_middleware_default + ','
                              + koel_traefik_middleware_custom }}"
 koel_traefik_certresolver: "{{ traefik_default_certresolver }}"
 koel_traefik_enabled: true
+koel_traefik_api_enabled: true
+koel_traefik_api_endpoint: "`/api`"
 
 ################################
 # Docker
