@@ -72,3 +72,18 @@
   until: "koel_init is not failed"
   retries: 5
   when: not stat_koel_db_folder.stat.exists
+
+- name: Generate Admin password hash
+  ansible.builtin.shell: "htpasswd -bnBC 12 '' '{{ user.pass }}' | tr -d ':\n'"
+  register: koel_admin_password_hash
+  when: not stat_koel_db_folder.stat.exists
+
+- name: Generate Admin password hash
+  ansible.builtin.shell: "date '+%F %H:%M:%S'"
+  register: koel_date
+  when: not stat_koel_db_folder.stat.exists
+
+- name: Edit Admin user
+  ansible.builtin.shell: |
+    docker exec {{ koel_name }}_mariadb mysql -u root -ppassword321 -D koel -e 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `is_admin` = "1", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
+  when: not stat_koel_db_folder.stat.exists
