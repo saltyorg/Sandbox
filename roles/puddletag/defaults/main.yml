@@ -30,8 +30,8 @@ puddletag_web_subdomain: "{{ puddletag_name }}"
 puddletag_web_domain: "{{ user.domain }}"
 puddletag_web_port: "8080"
 puddletag_web_url: "{{ 'https://' + puddletag_web_subdomain + '.' + puddletag_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + puddletag_web_port }}"
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + puddletag_web_port }}"
 
 ################################
 # DNS
@@ -48,8 +48,8 @@ puddletag_dns_proxy: "{{ dns.proxied }}"
 puddletag_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 
 puddletag_traefik_middleware: "{{ traefik_default_middleware + ',' + puddletag_traefik_sso_middleware
-                                if (puddletag_traefik_sso_middleware | length > 0)
-                                else traefik_default_middleware }}"
+                               if (puddletag_traefik_sso_middleware | length > 0)
+                               else traefik_default_middleware }}"
 puddletag_traefik_certresolver: "{{ traefik_default_certresolver }}"
 puddletag_traefik_enabled: true
 
