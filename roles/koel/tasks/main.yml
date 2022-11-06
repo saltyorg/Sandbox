@@ -1,25 +1,54 @@
 #########################################################################
 # Title:            Sandbox: Koel                                       #
-# Author(s):        JigSawFr                                            #
+# Author(s):        JigSawFr, salty                                     #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: PostgreSQL Role
+- name: Check if db folder exists
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
+  register: stat_koel_db_folder
+
+- name: MariaDB Role
   ansible.builtin.include_role:
-    name: postgres
+    name: mariadb
   vars:
-    postgres_name: "{{ koel_name }}_postgres"
-    postgres_docker_env_db: "{{ koel_name }}"
-    postgres_docker_image_tag: "14-alpine"
-    postgres_paths_folder: "{{ koel_name }}"
-    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+    mariadb_name: "{{ koel_name }}_mariadb"  # Remove when instance support merged into Saltbox
+    mariadb_instances: ["{{ koel_name }}_mariadb"]
+    mariadb_paths_folder: "{{ koel_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
+
+- name: Create koel database
+  ansible.builtin.command: "docker exec {{ koel_name }}_mariadb mysql -u root -ppassword321 -e 'create schema koel DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
+  when: not stat_koel_db_folder.stat.exists
+
+- name: Check if db folder exists
+  ansible.builtin.stat:
+    path: "{{ koel_paths_location }}/vars.ini"
+  register: stat_vars_ini
 
 - name: "Generate Secret Key for sessions"
   ansible.builtin.shell: "openssl rand -base64 45"
-  register: koel_secret_key
+  register: generate_koel_secret_key
+  when: not stat_vars_ini.stat.exists
+
+- name: "Add Secret Key to '{{ koel_paths_location }}/vars.ini'"
+  community.general.ini_file:
+    path: "{{ koel_paths_location }}/vars.ini"
+    section: "general"
+    option: app_key
+    value: "{{ generate_koel_secret_key.stdout }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0664"
+  when: not stat_vars_ini.stat.exists
+
+- name: "Set koel_secret_key variable"
+  ansible.builtin.set_fact:
+    koel_secret_key: "{{ lookup('ini', 'app_key section=general file=' + koel_paths_location + '/vars.ini') | default(generate_koel_secret_key.stdout) }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
@@ -37,6 +66,9 @@
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
-- name: Print Tweaking Info
-  ansible.builtin.debug:
-    msg: "You can check Koel's documentation for tweaking: https://docs.koel.dev/"
+- name: Init koel
+  ansible.builtin.command: "docker exec --user www-data {{ koel_name }} php artisan koel:init --no-assets --no-interaction"
+  register: koel_init
+  until: "koel_init is not failed"
+  retries: 5
+  when: not stat_koel_db_folder.stat.exists
