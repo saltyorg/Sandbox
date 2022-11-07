@@ -47,6 +47,7 @@
     - { role: flaresolverr, tags: ['flaresolverr'] }
     - { role: freshrss, tags: ['freshrss'] }
     - { role: funkwhale, tags: ['funkwhale'] }
+    - { role: gaps, tags: ['gaps'] }
     - { role: goaccess, tags: ['goaccess'] }
     - { role: gitea, tags: ['gitea'] }
     - { role: glances_web, tags: ['glances-web'] }
