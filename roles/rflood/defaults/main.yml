@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: rflood                                     #
-# Author(s):        salty                                               #
+# Author(s):        salty, JigSawFr                                     #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 #########################################################################
 #                   GNU General Public License v3.0                     #
@@ -53,10 +53,22 @@ rflood_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-rflood_traefik_middleware: "rflood-auth,{{ traefik_default_middleware }}"
+rflood_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+rflood_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                       + lookup('vars', rflood_name + '_traefik_sso_middleware', default=rflood_traefik_sso_middleware)
+                                    if (lookup('vars', rflood_name + '_traefik_sso_middleware', default=rflood_traefik_sso_middleware) | length > 0)
+                                    else traefik_default_middleware }}"
+rflood_traefik_middleware_custom: ""
+rflood_traefik_middleware: "{{ rflood_traefik_middleware_default + ','
+                               + rflood_traefik_middleware_custom
+                            if (not rflood_traefik_middleware_custom.startswith(',') and rflood_traefik_middleware_custom | length > 0)
+                            else rflood_traefik_middleware_default
+                               + rflood_traefik_middleware_custom }}"
 rflood_traefik_certresolver: "{{ traefik_default_certresolver }}"
 rflood_traefik_enabled: true
-rflood_auth: "/etc/traefik/auth"
+# Disabled for security reasons, no authentication on API /!\
+rflood_traefik_api_enabled: false
+rflood_traefik_api_endpoint: "`/api`"
 
 ################################
 # Config
@@ -156,8 +168,7 @@ rflood_docker_hosts: "{{ docker_hosts_common
                          | combine(rflood_docker_hosts_custom) }}"
 
 # Labels
-rflood_docker_labels_default:
-  traefik.http.middlewares.rflood-auth.basicauth.usersfile: "{{ rflood_auth }}"
+rflood_docker_labels_default: {}
 rflood_docker_labels_custom: {}
 rflood_docker_labels: "{{ docker_labels_common
                           | combine(rflood_docker_labels_default)
