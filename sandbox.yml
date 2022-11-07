@@ -102,6 +102,7 @@
     - { role: plex_utills, tags: ['plex_utills'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
+    - { role: puddletag, tags: ['puddletag'] }
     - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit_manage'] }
