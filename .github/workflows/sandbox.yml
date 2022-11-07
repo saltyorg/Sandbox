@@ -41,7 +41,7 @@ jobs:
         AVATAR_SHAPE: 'square'
 
   find-roles:
-    runs-on: ubuntu-22.04
+    runs-on: self-hosted
     needs: ansible-lint
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
