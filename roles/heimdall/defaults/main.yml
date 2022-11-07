@@ -1,6 +1,6 @@
 ##########################################################################
 # Title:            Sandbox: Heimdall | Default Variables                #
-# Author(s):        TheBradz, desimaniac, kowalski                       #
+# Author(s):        TheBradz, desimaniac, kowalski, JigSawFr             #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
 ##########################################################################
@@ -45,10 +45,19 @@ heimdall_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-heimdall_traefik_middleware: "heimdall-auth,{{ traefik_default_middleware }}"
+heimdall_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+heimdall_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                         + lookup('vars', heimdall_name + '_traefik_sso_middleware', default=heimdall_traefik_sso_middleware)
+                                      if (lookup('vars', heimdall_name + '_traefik_sso_middleware', default=heimdall_traefik_sso_middleware) | length > 0)
+                                      else traefik_default_middleware }}"
+heimdall_traefik_middleware_custom: ""
+heimdall_traefik_middleware: "{{ heimdall_traefik_middleware_default + ','
+                                 + heimdall_traefik_middleware_custom
+                              if (not heimdall_traefik_middleware_custom.startswith(',') and heimdall_traefik_middleware_custom | length > 0)
+                              else heimdall_traefik_middleware_default
+                                 + heimdall_traefik_middleware_custom }}"
 heimdall_traefik_certresolver: "{{ traefik_default_certresolver }}"
 heimdall_traefik_enabled: true
-heimdall_auth: "/etc/traefik/auth"
 
 ################################
 # Docker
@@ -107,8 +116,7 @@ heimdall_docker_hosts: "{{ docker_hosts_common
                            | combine(heimdall_docker_hosts_custom) }}"
 
 # Labels
-heimdall_docker_labels_default:
-  traefik.http.middlewares.heimdall-auth.basicauth.usersfile: "{{ heimdall_auth }}"
+heimdall_docker_labels_default: {}
 heimdall_docker_labels_custom: {}
 heimdall_docker_labels: "{{ docker_labels_common
                             | combine(heimdall_docker_labels_default)
