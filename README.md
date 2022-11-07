@@ -116,14 +116,21 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/RaneyDazed>
+            <img src=https://avatars.githubusercontent.com/u/95461636?v=4 width="100;"  alt=CHAIR/>
+            <br />
+            <sub style="font-size:14px"><b>CHAIR</b></sub>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/dvsmasta>
             <img src=https://avatars.githubusercontent.com/u/14364893?v=4 width="100;"  alt=dvsmasta/>
             <br />
             <sub style="font-size:14px"><b>dvsmasta</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/kxzaon>
             <img src=https://avatars.githubusercontent.com/u/46218?v=4 width="100;"  alt=kxzaon/>
@@ -136,13 +143,6 @@ sb list
             <img src=https://avatars.githubusercontent.com/u/109389709?v=4 width="100;"  alt=8a8al00ey/>
             <br />
             <sub style="font-size:14px"><b>8a8al00ey</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/RaneyDazed>
-            <img src=https://avatars.githubusercontent.com/u/95461636?v=4 width="100;"  alt=CHAIR/>
-            <br />
-            <sub style="font-size:14px"><b>CHAIR</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
