@@ -105,6 +105,14 @@ rflood_docker_image_pull: true
 rflood_docker_image_tag: "release"
 rflood_docker_image: "cr.hotio.dev/hotio/rflood:{{ rflood_docker_image_tag }}"
 
+# Healthcheck
+rflood_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:3000"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
 # Ports
 rflood_docker_ports_defaults:
   - "{{ rflood_web_port }}:{{ rflood_web_port }}"
