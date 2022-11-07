@@ -16,6 +16,12 @@
     postgres_docker_image_tag: "14-alpine"
     postgres_paths_folder: "{{ wikijs_name }}"
     postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+    postgres_docker_healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "{{ wikijs_name }}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
