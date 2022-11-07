@@ -71,6 +71,14 @@ heimdall_docker_image_pull: true
 heimdall_docker_image_tag: "latest"
 heimdall_docker_image: "lscr.io/linuxserver/heimdall:{{ heimdall_docker_image_tag }}"
 
+# Healthcheck
+heimdall_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:80"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
 # Ports
 heimdall_docker_ports_defaults:
   - "{{ heimdall_web_port }}"
