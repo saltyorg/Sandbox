@@ -74,6 +74,14 @@ wikijs_docker_image_pull: true
 wikijs_docker_image_tag: "2"
 wikijs_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_docker_image_tag }}"
 
+# Healthcheck
+wikijs_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:3000"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
 # Ports
 wikijs_docker_ports_defaults:
   - "{{ wikijs_web_port }}"
