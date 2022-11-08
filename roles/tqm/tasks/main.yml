@@ -1,0 +1,103 @@
+#########################################################################
+# Title:            Sandbox: tqm                                        #
+# Author(s):        CHAIR/Raneydazed                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Check if tqm service exists
+  ansible.builtin.stat:
+    path: "{{ tqm_paths_service_file_location }}"
+  register: tqm_service
+
+- name: Stop existing tqm service
+  ansible.builtin.systemd:
+    state: stopped
+    name: tqm.service
+  when: tqm_service.stat.exists
+
+- name: Check if tqm timer exists
+  ansible.builtin.stat:
+    path: "{{ tqm_paths_timer_file_location }}"
+  register: tqm_timer
+
+- name: Stop existing tqm timer
+  ansible.builtin.systemd:
+    state: stopped
+    name: tqm.timer
+  when: tqm_timer.stat.exists
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Set variable for output of tqm releases
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/l3uddz/tqm/releases/latest
+  register: tqm_releases
+
+- name: Get the url for latest amd64 tqm binary
+  ansible.builtin.set_fact:
+    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', '==', 'tqm_v1.5.0_linux_amd64') | map(attribute='browser_download_url') | join('') }}"
+
+- name: Download tqm binary
+  ansible.builtin.get_url:
+    url: "{{ tqm_latest }}"
+    dest: "{{ tqm_paths_location }}/tqm"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+    force: true
+
+- name: Check if `{{ tqm_paths_config_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ tqm_paths_config_location }}"
+  register: tqm_config
+
+- name: New `{{ tqm_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Import default config
+      ansible.builtin.template:
+        src: config.yaml.j2
+        dest: "{{ tqm_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: (not tqm_config.stat.exists) and (not continuous_integration)
+
+- name: Import tqm service
+  ansible.builtin.template:
+    src: tqm.service.j2
+    dest: "{{ tqm_paths_service_file_location }}"
+    mode: "0664"
+    force: true
+
+- name: Load tqm service
+  ansible.builtin.systemd:
+    name: tqm.service
+    state: started
+    enabled: yes
+    daemon_reload: true
+
+- name: Import tqm timer
+  ansible.builtin.template:
+    src: tqm.timer.j2
+    dest: "{{ tqm_paths_timer_file_location }}"
+    mode: "0664"
+    force: true
+
+- name: Load tqm timer
+  ansible.builtin.systemd:
+    name: tqm.timer
+    state: started
+    enabled: yes
+    daemon_reload: true
+
+- name: Alert user to update systemd to suit.
+  ansible.builtin.debug:
+    msg:
+      - "tqm runs a 'dry run' for qbittorrent by default. To go live with qbittorrent, edit the service & remove --dry-run with the below command"
+      - "sudo nano /etc/systemd/system/tqm.service"
