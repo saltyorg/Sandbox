@@ -1,0 +1,158 @@
+##########################################################################
+# Title:            Sandbox: plexshare | Default Variables               #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+plexshare_name: plexshare
+
+################################
+# Paths
+################################
+
+plexshare_paths_folder: "{{ plexshare_name }}"
+plexshare_paths_location: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}"
+plexshare_paths_folders_list:
+  - "{{ plexshare_paths_location }}"
+
+################################
+# Web
+################################
+
+plexshare_web_subdomain: "{{ plexshare_name }}"
+plexshare_web_domain: "{{ user.domain }}"
+plexshare_web_port: "80"
+plexshare_web_url: "{{ 'https://' + plexshare_web_subdomain + '.' + plexshare_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + plexshare_web_port }}"
+
+################################
+# DNS
+################################
+
+plexshare_dns_record: "{{ plexshare_web_subdomain }}"
+plexshare_dns_zone: "{{ plexshare_web_domain }}"
+plexshare_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+plexshare_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+plexshare_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                          + lookup('vars', plexshare_name + '_traefik_sso_middleware', default=plexshare_traefik_sso_middleware)
+                                       if (lookup('vars', plexshare_name + '_traefik_sso_middleware', default=plexshare_traefik_sso_middleware) | length > 0)
+                                       else traefik_default_middleware }}"
+plexshare_traefik_middleware_custom: ""
+plexshare_traefik_middleware: "{{ plexshare_traefik_middleware_default + ','
+                                  + plexshare_traefik_middleware_custom
+                               if (not plexshare_traefik_middleware_custom.startswith(',') and plexshare_traefik_middleware_custom | length > 0)
+                               else plexshare_traefik_middleware_default
+                                  + plexshare_traefik_middleware_custom }}"
+plexshare_traefik_certresolver: "{{ traefik_default_certresolver }}"
+plexshare_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+plexshare_docker_container: "{{ plexshare_name }}"
+
+# Image
+plexshare_docker_image_pull: true
+plexshare_docker_image_tag: "latest"
+# WAITING ON OFFICIAL DOCKER IMAGE: https://github.com/Chewbaka69/PlexShare/issues/15
+# plexshare_docker_image: "chewbaka69/plexshare:{{ plexshare_docker_image_tag }}"
+
+# Healthcheck
+plexshare_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ plexshare_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+plexshare_docker_ports_defaults:
+  - "{{ plexshare_web_port }}"
+plexshare_docker_ports_custom: []
+plexshare_docker_ports: "{{ plexshare_docker_ports_defaults
+                            + plexshare_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else plexshare_docker_ports_custom }}"
+
+# Envs
+plexshare_docker_envs_default:
+  TZ: "{{ tz }}"
+plexshare_docker_envs_custom: {}
+plexshare_docker_envs: "{{ plexshare_docker_envs_default
+                           | combine(plexshare_docker_envs_custom) }}"
+
+# Commands
+plexshare_docker_commands_default: []
+plexshare_docker_commands_custom: []
+plexshare_docker_commands: "{{ plexshare_docker_commands_default
+                               + plexshare_docker_commands_custom }}"
+
+# Volumes
+plexshare_docker_volumes_default: []
+plexshare_docker_volumes_custom: []
+plexshare_docker_volumes: "{{ plexshare_docker_volumes_default
+                              + plexshare_docker_volumes_custom }}"
+
+# Devices
+plexshare_docker_devices_default: []
+plexshare_docker_devices_custom: []
+plexshare_docker_devices: "{{ plexshare_docker_devices_default
+                              + plexshare_docker_devices_custom }}"
+
+# Hosts
+plexshare_docker_hosts_default: []
+plexshare_docker_hosts_custom: []
+plexshare_docker_hosts: "{{ docker_hosts_common
+                            | combine(plexshare_docker_hosts_default)
+                            | combine(plexshare_docker_hosts_custom) }}"
+
+# Labels
+plexshare_docker_labels_default: {}
+plexshare_docker_labels_custom: {}
+plexshare_docker_labels: "{{ docker_labels_common
+                             | combine(plexshare_docker_labels_default)
+                             | combine(plexshare_docker_labels_custom) }}"
+
+# Hostname
+plexshare_docker_hostname: "{{ plexshare_name }}"
+
+# Networks
+plexshare_docker_networks_alias: "{{ plexshare_name }}"
+plexshare_docker_networks_default: []
+plexshare_docker_networks_custom: []
+plexshare_docker_networks: "{{ docker_networks_common
+                               + plexshare_docker_networks_default
+                               + plexshare_docker_networks_custom }}"
+
+# Capabilities
+plexshare_docker_capabilities_default: []
+plexshare_docker_capabilities_custom: []
+plexshare_docker_capabilities: "{{ plexshare_docker_capabilities_default
+                                   + plexshare_docker_capabilities_custom }}"
+
+# Security Opts
+plexshare_docker_security_opts_default: []
+plexshare_docker_security_opts_custom: []
+plexshare_docker_security_opts: "{{ plexshare_docker_security_opts_default
+                                    + plexshare_docker_security_opts_custom }}"
+
+# Restart Policy
+plexshare_docker_restart_policy: unless-stopped
+
+# State
+plexshare_docker_state: started
