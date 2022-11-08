@@ -128,6 +128,7 @@
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: tika, tags: ['tika'] }
+    - { role: tqm, tags: ['tqm'] }
     - { role: traefik_robotstxt, tags: ['traefik_robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
