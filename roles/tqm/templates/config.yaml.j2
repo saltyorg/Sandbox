@@ -1,0 +1,66 @@
+clients:
+  deluge:
+    enabled: false
+    filter: default
+    download_path: /mnt/unionfs/downloads/torrents/deluge
+    free_space_path: /mnt/local/downloads/torrents/deluge
+    download_path_mapping:
+      /downloads/torrents/deluge: /mnt/local/downloads/torrents/deluge
+    host: deluge
+    login: localclient
+    password: '{{ user.pass }}' # This needs correcting
+    port: 58846
+    type: deluge
+    v2: true
+  qbt:
+    download_path: /mnt/local/downloads/torrents/qbittorrent/completed
+    download_path_mapping:
+      /mnt/unionfs/downloads/torrents/qbittorrent/completed: /mnt/unionfs/downloads/torrents/qbittorrent/completed
+    enabled: true
+    filter: default
+    type: qbittorrent
+    url: http://qbittorrent:8080
+    user: '{{ user.name }}'
+    password: '{{ user.pass }}'
+filters:
+  default:
+    ignore:
+      # general
+      - TrackerStatus contains "Tracker is down"
+      - Downloaded == false && !IsUnregistered()
+      - SeedingHours < 26 && !IsUnregistered()
+      # permaseed / un-sorted (unless torrent has been deleted)
+      - Label startsWith "permaseed-" && !IsUnregistered()
+    remove:
+      # general
+      - IsUnregistered()
+      # imported
+      - Label in ["sonarr-imported", "radarr-imported", "lidarr-imported"] && (Ratio > 4.0 || SeedingDays >= 15.0)
+      # ipt
+      - Label in ["autoremove-ipt"] && (Ratio > 3.0 || SeedingDays >= 15.0)
+      # hdt
+      - Label in ["autoremove-hdt"] && (Ratio > 3.0 || SeedingDays >= 15.0)
+      # bhd
+      - Label in ["autoremove-bhd"] && (Ratio > 3.0 || SeedingDays >= 15.0)
+      # ptp
+      - Label in ["autoremove-ptp"] && (Ratio > 3.0 || SeedingDays >= 15.0)
+      # btn
+      - Label in ["autoremove-btn"] && (Ratio > 3.0 || SeedingDays >= 15.0)
+      # hdb
+      - Label in ["autoremove-hdb"] && (Ratio > 3.0 || SeedingDays >= 15.0)
+    # label:
+      # btn 1080p season packs to permaseed (all must evaluate to true)
+      # - name: permaseed-btn
+      #   update:
+      #     - Label == "sonarr-imported"
+      #     - TrackerName == "landof.tv"
+      #     - Name contains "1080p"
+      #     - len(Files) >= 3
+
+      # cleanup btn season packs to autoremove-btn (all must evaluate to true)
+      # - name: autoremove-btn
+      #   update:
+      #     - Label == "sonarr-imported"
+      #     - TrackerName == "landof.tv"
+      #     - not (Name contains "1080p")
+      #     - len(Files) >= 3
