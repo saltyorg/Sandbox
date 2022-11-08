@@ -78,8 +78,8 @@ pgadmin_docker_ports: "{{ pgadmin_docker_ports_defaults
 
 # Envs
 pgadmin_docker_envs_default:
-  - PGADMIN_DEFAULT_EMAIL: "{{ user.email }}"
-  - PGADMIN_DEFAULT_PASSWORD: "{{ user.pass }}"
+  PGADMIN_DEFAULT_EMAIL: "{{ user.email }}"
+  PGADMIN_DEFAULT_PASSWORD: "{{ user.pass }}"
 pgadmin_docker_envs_custom: {}
 pgadmin_docker_envs: "{{ pgadmin_docker_envs_default
                          | combine(pgadmin_docker_envs_custom) }}"
