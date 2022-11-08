@@ -138,6 +138,7 @@
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
     - { role: trilium, tags: ['trilium'] }
+    - { role: tvheadend, tags: ['tvheadend'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: unpackerr, tags: ['unpackerr'] }

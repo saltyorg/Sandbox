@@ -1,0 +1,164 @@
+##########################################################################
+# Title:            Sandbox: tvheadend | Default Variables               #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+tvheadend_name: tvheadend
+
+################################
+# Paths
+################################
+
+tvheadend_paths_folder: "{{ tvheadend_name }}"
+tvheadend_paths_location: "{{ server_appdata_path }}/{{ tvheadend_paths_folder }}"
+tvheadend_paths_downloads_location: "{{ downloads_root_path }}/{{ tvheadend_paths_folder }}"
+tvheadend_paths_folders_list:
+  - "{{ tvheadend_paths_location }}"
+  - "{{ tvheadend_paths_downloads_location }}"
+
+
+################################
+# Web
+################################
+
+tvheadend_web_subdomain: "{{ tvheadend_name }}"
+tvheadend_web_domain: "{{ user.domain }}"
+tvheadend_web_port: "9981"
+tvheadend_web_url: "{{ 'https://' + tvheadend_web_subdomain + '.' + tvheadend_web_domain
+                    if (reverse_proxy_is_enabled)
+                    else 'http://localhost:' + tvheadend_web_port }}"
+
+################################
+# DNS
+################################
+
+tvheadend_dns_record: "{{ tvheadend_web_subdomain }}"
+tvheadend_dns_zone: "{{ tvheadend_web_domain }}"
+tvheadend_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+tvheadend_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tvheadend_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                          + lookup('vars', tvheadend_name + '_traefik_sso_middleware', default=tvheadend_traefik_sso_middleware)
+                                       if (lookup('vars', tvheadend_name + '_traefik_sso_middleware', default=tvheadend_traefik_sso_middleware) | length > 0)
+                                       else traefik_default_middleware }}"
+tvheadend_traefik_middleware_custom: ""
+tvheadend_traefik_middleware: "{{ tvheadend_traefik_middleware_default + ','
+                                  + tvheadend_traefik_middleware_custom
+                               if (not tvheadend_traefik_middleware_custom.startswith(',') and tvheadend_traefik_middleware_custom | length > 0)
+                               else tvheadend_traefik_middleware_default
+                                  + tvheadend_traefik_middleware_custom }}"
+tvheadend_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tvheadend_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+tvheadend_docker_container: "{{ tvheadend_name }}"
+
+# Image
+tvheadend_docker_image_pull: true
+tvheadend_docker_image_tag: "latest"
+tvheadend_docker_image: "lscr.io/linuxserver/tvheadend:{{ tvheadend_docker_image_tag }}"
+
+# Healthcheck
+tvheadend_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ tvheadend_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+tvheadend_docker_ports_defaults:
+  - "{{ tvheadend_web_port }}"
+tvheadend_docker_ports_custom: []
+tvheadend_docker_ports: "{{ tvheadend_docker_ports_defaults
+                            + tvheadend_docker_ports_custom
+                         if (not reverse_proxy_is_enabled)
+                         else tvheadend_docker_ports_custom }}"
+
+# Envs
+tvheadend_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+tvheadend_docker_envs_custom: {}
+tvheadend_docker_envs: "{{ tvheadend_docker_envs_default
+                           | combine(tvheadend_docker_envs_custom) }}"
+
+# Commands
+tvheadend_docker_commands_default: []
+tvheadend_docker_commands_custom: []
+tvheadend_docker_commands: "{{ tvheadend_docker_commands_default
+                               + tvheadend_docker_commands_custom }}"
+
+# Volumes
+tvheadend_docker_volumes_default:
+  - "{{ tvheadend_paths_location }}:/config"
+  - "{{ tvheadend_paths_downloads_location }}:/recordings"
+tvheadend_docker_volumes_custom: []
+tvheadend_docker_volumes: "{{ tvheadend_docker_volumes_default
+                              + tvheadend_docker_volumes_custom }}"
+
+# Devices
+tvheadend_docker_devices_default: []
+tvheadend_docker_devices_custom: []
+tvheadend_docker_devices: "{{ tvheadend_docker_devices_default
+                              + tvheadend_docker_devices_custom }}"
+
+# Hosts
+tvheadend_docker_hosts_default: []
+tvheadend_docker_hosts_custom: []
+tvheadend_docker_hosts: "{{ docker_hosts_common
+                            | combine(tvheadend_docker_hosts_default)
+                            | combine(tvheadend_docker_hosts_custom) }}"
+
+# Labels
+tvheadend_docker_labels_default: {}
+tvheadend_docker_labels_custom: {}
+tvheadend_docker_labels: "{{ docker_labels_common
+                             | combine(tvheadend_docker_labels_default)
+                             | combine(tvheadend_docker_labels_custom) }}"
+
+# Hostname
+tvheadend_docker_hostname: "{{ tvheadend_name }}"
+
+# Networks
+tvheadend_docker_networks_alias: "{{ tvheadend_name }}"
+tvheadend_docker_networks_default: []
+tvheadend_docker_networks_custom: []
+tvheadend_docker_networks: "{{ docker_networks_common
+                               + tvheadend_docker_networks_default
+                               + tvheadend_docker_networks_custom }}"
+
+# Capabilities
+tvheadend_docker_capabilities_default: []
+tvheadend_docker_capabilities_custom: []
+tvheadend_docker_capabilities: "{{ tvheadend_docker_capabilities_default
+                                   + tvheadend_docker_capabilities_custom }}"
+
+# Security Opts
+tvheadend_docker_security_opts_default: []
+tvheadend_docker_security_opts_custom: []
+tvheadend_docker_security_opts: "{{ tvheadend_docker_security_opts_default
+                                    + tvheadend_docker_security_opts_custom }}"
+
+# Restart Policy
+tvheadend_docker_restart_policy: unless-stopped
+
+# State
+tvheadend_docker_state: started
