@@ -112,6 +112,7 @@
     - { role: qbittorrentvpn, tags: ['qbittorrentvpn'] }
     - { role: rdtclient, tags: ['rdtclient'] }
     - { role: recyclarr, tags: ['recyclarr'] }
+    - { role: reposilite, tags: ['reposilite'] }
     - { role: requestrr, tags: ['requestrr'] }
     - { role: requestrrx, tags: ['requestrrx'] }
     - { role: resiliosync, tags: ['resiliosync'] }
