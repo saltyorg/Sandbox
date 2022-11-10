@@ -72,10 +72,7 @@ reposilite_docker_container: "{{ reposilite_name }}"
 # Image
 reposilite_docker_image_pull: true
 reposilite_docker_image_tag: "latest"
-reposilite_docker_image_repo: "dzikoysk/reposilite"
-reposilite_docker_image: "{{ lookup('vars', reposilite_name + '_docker_image_repo', default=reposilite_docker_image_repo)
-                                 + ':' + lookup('vars', reposilite_name + '_docker_image_tag', default=reposilite_docker_image_tag) }}"
-
+reposilite_docker_image: "ghcr.io/dzikoysk/reposilite:{{ reposilite_docker_image_tag }}"
 
 # Ports
 reposilite_docker_ports_defaults:
