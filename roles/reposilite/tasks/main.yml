@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: Reposilite                                 #
-# Author(s):        Derek Z                                             #
+# Author(s):        Derek Z, JigSawFr                                   #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # URL:              https://github.com/dzikoysk/reposilite              #
 # --                                                                    #
@@ -23,3 +23,7 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Add curl package for healthcheck
+  ansible.builtin.command: "docker exec {{ lookup('vars', role_name + '_name') }} /bin/bash -c 'apt-get update && apt-get install -y curl'"
+  ignore_errors: true
