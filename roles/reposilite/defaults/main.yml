@@ -59,6 +59,8 @@ reposilite_traefik_middleware: "{{ reposilite_traefik_middleware_default + ','
                                   + reposilite_traefik_middleware_custom }}"
 reposilite_traefik_certresolver: "{{ traefik_default_certresolver }}"
 reposilite_traefik_enabled: true
+reposilite_traefik_api_enabled: true
+reposilite_traefik_api_endpoint: "`/api`"
 
 ################################
 # Docker
