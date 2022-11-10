@@ -30,10 +30,9 @@ reposilite_paths_folders_list:
 reposilite_web_subdomain: "{{ reposilite_name }}"
 reposilite_web_domain: "{{ user.domain }}"
 reposilite_web_port: "8080"
-reposilite_web_url: "{{ 'https://' + lookup('vars', reposilite_name + '_web_subdomain', default=reposilite_web_subdomain)
-                            + '.' + lookup('vars', reposilite_name + '_web_domain', default=reposilite_web_domain)
-                         if (reverse_proxy_is_enabled)
-                         else 'http://localhost:' + lookup('vars', reposilite_name + '_web_port', default=reposilite_web_port) }}"
+reposilite_web_url: "{{ 'https://' + reposilite_web_subdomain + '.' + reposilite_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + preposilite_web_port }}"
 
 ################################
 # DNS
