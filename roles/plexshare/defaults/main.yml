@@ -69,8 +69,7 @@ plexshare_docker_container: "{{ plexshare_name }}"
 # Image
 plexshare_docker_image_pull: true
 plexshare_docker_image_tag: "latest"
-# WAITING ON OFFICIAL DOCKER IMAGE: https://github.com/Chewbaka69/PlexShare/issues/15
-# plexshare_docker_image: "chewbaka69/plexshare:{{ plexshare_docker_image_tag }}"
+plexshare_docker_image: "chewbaka/plexshare:{{ plexshare_docker_image_tag }}"
 
 # Healthcheck
 plexshare_docker_healthcheck:
