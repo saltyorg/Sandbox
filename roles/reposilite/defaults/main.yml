@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Sandbox: Reposilite                                 #
-# Author(s):        Derek Z                                             #
+# Author(s):        Derek Z, JigSawFr                                   #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # URL:              https://github.com/dzikoysk/reposilite              #
 # --                                                                    #
@@ -71,9 +71,9 @@ reposilite_docker_ports_defaults:
   - "{{ reposilite_web_port }}"
 reposilite_docker_ports_custom: []
 reposilite_docker_ports: "{{ reposilite_docker_ports_defaults
-                            + reposilite_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else reposilite_docker_ports_custom }}"
+                             + reposilite_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else reposilite_docker_ports_custom }}"
 
 # Envs
 reposilite_docker_envs_default:
@@ -83,40 +83,40 @@ reposilite_docker_envs_default:
   REPOSILITE_OPTS: "--token {{ user.name }}:{{ user.pass }}"
 reposilite_docker_envs_custom: {}
 reposilite_docker_envs: "{{ reposilite_docker_envs_default
-                           | combine(reposilite_docker_envs_custom) }}"
+                            | combine(reposilite_docker_envs_custom) }}"
 
 # Commands
 reposilite_docker_commands_default: []
 reposilite_docker_commands_custom: []
 reposilite_docker_commands: "{{ reposilite_docker_commands_default
-                               + reposilite_docker_commands_custom }}"
+                                + reposilite_docker_commands_custom }}"
 
 # Volumes
 reposilite_docker_volumes_default:
   - "{{ reposilite_paths_location }}:/app/data"
 reposilite_docker_volumes_custom: []
 reposilite_docker_volumes: "{{ reposilite_docker_volumes_default
-                              + reposilite_docker_volumes_custom }}"
+                               + reposilite_docker_volumes_custom }}"
 
 # Devices
 reposilite_docker_devices_default: []
 reposilite_docker_devices_custom: []
 reposilite_docker_devices: "{{ reposilite_docker_devices_default
-                              + reposilite_docker_devices_custom }}"
+                               + reposilite_docker_devices_custom }}"
 
 # Hosts
 reposilite_docker_hosts_default: []
 reposilite_docker_hosts_custom: []
 reposilite_docker_hosts: "{{ docker_hosts_common
-                            | combine(reposilite_docker_hosts_default)
-                            | combine(reposilite_docker_hosts_custom) }}"
+                             | combine(reposilite_docker_hosts_default)
+                             | combine(reposilite_docker_hosts_custom) }}"
 
 # Labels
 reposilite_docker_labels_default: {}
 reposilite_docker_labels_custom: {}
 reposilite_docker_labels: "{{ docker_labels_common
-                             | combine(reposilite_docker_labels_default)
-                             | combine(reposilite_docker_labels_custom) }}"
+                              | combine(reposilite_docker_labels_default)
+                              | combine(reposilite_docker_labels_custom) }}"
 
 # Hostname
 reposilite_docker_hostname: "{{ reposilite_name }}"
@@ -126,20 +126,20 @@ reposilite_docker_networks_alias: "{{ reposilite_name }}"
 reposilite_docker_networks_default: []
 reposilite_docker_networks_custom: []
 reposilite_docker_networks: "{{ docker_networks_common
-                               + reposilite_docker_networks_default
-                               + reposilite_docker_networks_custom }}"
+                                + reposilite_docker_networks_default
+                                + reposilite_docker_networks_custom }}"
 
 # Capabilities
 reposilite_docker_capabilities_default: []
 reposilite_docker_capabilities_custom: []
 reposilite_docker_capabilities: "{{ reposilite_docker_capabilities_default
-                                   + reposilite_docker_capabilities_custom }}"
+                                    + reposilite_docker_capabilities_custom }}"
 
 # Security Opts
 reposilite_docker_security_opts_default: []
 reposilite_docker_security_opts_custom: []
 reposilite_docker_security_opts: "{{ reposilite_docker_security_opts_default
-                                    + reposilite_docker_security_opts_custom }}"
+                                     + reposilite_docker_security_opts_custom }}"
 
 # Restart Policy
 reposilite_docker_restart_policy: unless-stopped
