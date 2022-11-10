@@ -8,7 +8,7 @@ Type=oneshot
 WorkingDirectory={{ tqm_paths_location }}
 ExecStartPre=/bin/sleep 60
 ExecStart={{ tqm_paths_location}}/tqm \
-  clean qbt --dry-run
+  clean qbt
 
 [Install]
 WantedBy=default.target
