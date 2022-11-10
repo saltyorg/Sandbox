@@ -46,7 +46,17 @@ reposilite_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-reposilite_traefik_middleware: "{{ traefik_default_middleware }}"
+reposilite_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+reposilite_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                          + lookup('vars', reposilite_name + '_traefik_sso_middleware', default=reposilite_traefik_sso_middleware)
+                                       if (lookup('vars', reposilite_name + '_traefik_sso_middleware', default=reposilite_traefik_sso_middleware) | length > 0)
+                                       else traefik_default_middleware }}"
+reposilite_traefik_middleware_custom: ""
+reposilite_traefik_middleware: "{{ reposilite_traefik_middleware_default + ','
+                                  + reposilite_traefik_middleware_custom
+                               if (not reposilite_traefik_middleware_custom.startswith(',') and reposilite_traefik_middleware_custom | length > 0)
+                               else reposilite_traefik_middleware_default
+                                  + reposilite_traefik_middleware_custom }}"
 reposilite_traefik_certresolver: "{{ traefik_default_certresolver }}"
 reposilite_traefik_enabled: true
 
