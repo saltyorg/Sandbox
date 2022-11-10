@@ -92,6 +92,15 @@ plexshare_docker_ports: "{{ plexshare_docker_ports_defaults
 # Envs
 plexshare_docker_envs_default:
   TZ: "{{ tz }}"
+  WEB_DOCUMENT_ROOT: "/app/public"
+  WEB_DOCUMENT_INDEX: "index.php"
+  LOG_STDOUT: "./var/log/plexshare.stdout.log"
+  LOG_STDERR: "./var/log/plexshare.stderr.log"
+  PHP_POST_MAX_SIZE: "20M"
+  PHP_MEMORY_LIMIT: "521M"
+  PHP_MAX_EXECUTION_TIME: "300"
+  PHP_DATE_TIMEZONE: "{{ tz }}"
+  COMPOSER_VERSION: "1"
 plexshare_docker_envs_custom: {}
 plexshare_docker_envs: "{{ plexshare_docker_envs_default
                            | combine(plexshare_docker_envs_custom) }}"
