@@ -1,0 +1,165 @@
+#########################################################################
+# Title:            Sandbox: Duplicati                                  #
+# Author(s):        Derek Z, JigSawFr                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/linuxserver/docker-duplicati     #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+duplicati_name: duplicati
+
+################################
+# Paths
+################################
+
+duplicati_paths_folder: "{{ duplicati_name }}"
+duplicati_paths_location: "{{ server_appdata_path }}/{{ duplicati_paths_folder }}"
+duplicati_paths_folders_list:
+  - "{{ duplicati_paths_location }}"
+
+################################
+# Web
+################################
+
+duplicati_web_subdomain: "{{ duplicati_name }}"
+duplicati_web_domain: "{{ user.domain }}"
+duplicati_web_port: "8200"
+duplicati_web_url: "{{ 'https://' + duplicati_web_subdomain + '.' + duplicati_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + duplicati_web_port }}"
+
+################################
+# DNS
+################################
+
+duplicati_dns_record: "{{ duplicati_web_subdomain }}"
+duplicati_dns_zone: "{{ duplicati_web_domain }}"
+duplicati_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+duplicati_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+duplicati_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                          + lookup('vars', duplicati_name + '_traefik_sso_middleware', default=duplicati_traefik_sso_middleware)
+                                       if (lookup('vars', duplicati_name + '_traefik_sso_middleware', default=duplicati_traefik_sso_middleware) | length > 0)
+                                       else traefik_default_middleware }}"
+duplicati_traefik_middleware_custom: ""
+duplicati_traefik_middleware: "{{ duplicati_traefik_middleware_default + ','
+                                  + duplicati_traefik_middleware_custom
+                               if (not duplicati_traefik_middleware_custom.startswith(',') and duplicati_traefik_middleware_custom | length > 0)
+                               else duplicati_traefik_middleware_default
+                                  + duplicati_traefik_middleware_custom }}"
+duplicati_traefik_certresolver: "{{ traefik_default_certresolver }}"
+duplicati_traefik_enabled: true
+duplicati_traefik_api_enabled: true
+duplicati_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+duplicati_docker_container: "{{ duplicati_name }}"
+
+# Image
+duplicati_docker_image_pull: true
+duplicati_docker_image_tag: "latest"
+duplicati_docker_image: "linuxserver/duplicati:{{ duplicati_docker_image_tag }}"
+
+# Healthcheck
+duplicati_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ duplicati_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+duplicati_docker_ports_defaults:
+  - "{{ duplicati_web_port }}"
+duplicati_docker_ports_custom: []
+duplicati_docker_ports: "{{ duplicati_docker_ports_defaults
+                             + duplicati_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else duplicati_docker_ports_custom }}"
+
+# Envs
+duplicati_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+duplicati_docker_envs_custom: {}
+duplicati_docker_envs: "{{ duplicati_docker_envs_default
+                            | combine(duplicati_docker_envs_custom) }}"
+
+# Commands
+duplicati_docker_commands_default: []
+duplicati_docker_commands_custom: []
+duplicati_docker_commands: "{{ duplicati_docker_commands_default
+                                + duplicati_docker_commands_custom }}"
+
+# Volumes
+duplicati_docker_volumes_default:
+  - "{{ duplicati_paths_location }}:/config"
+  - "/opt:/saltbox/opt"
+  - "/srv/git/saltbox:/saltbox/saltbox"
+duplicati_docker_volumes_custom: []
+duplicati_docker_volumes: "{{ duplicati_docker_volumes_default
+                               + duplicati_docker_volumes_custom }}"
+
+# Devices
+duplicati_docker_devices_default: []
+duplicati_docker_devices_custom: []
+duplicati_docker_devices: "{{ duplicati_docker_devices_default
+                               + duplicati_docker_devices_custom }}"
+
+# Hosts
+duplicati_docker_hosts_default: []
+duplicati_docker_hosts_custom: []
+duplicati_docker_hosts: "{{ docker_hosts_common
+                             | combine(duplicati_docker_hosts_default)
+                             | combine(duplicati_docker_hosts_custom) }}"
+
+# Labels
+duplicati_docker_labels_default: {}
+duplicati_docker_labels_custom: {}
+duplicati_docker_labels: "{{ docker_labels_common
+                              | combine(duplicati_docker_labels_default)
+                              | combine(duplicati_docker_labels_custom) }}"
+
+# Hostname
+duplicati_docker_hostname: "{{ duplicati_name }}"
+
+# Networks
+duplicati_docker_networks_alias: "{{ duplicati_name }}"
+duplicati_docker_networks_default: []
+duplicati_docker_networks_custom: []
+duplicati_docker_networks: "{{ docker_networks_common
+                                + duplicati_docker_networks_default
+                                + duplicati_docker_networks_custom }}"
+
+# Capabilities
+duplicati_docker_capabilities_default: []
+duplicati_docker_capabilities_custom: []
+duplicati_docker_capabilities: "{{ duplicati_docker_capabilities_default
+                                    + duplicati_docker_capabilities_custom }}"
+
+# Security Opts
+duplicati_docker_security_opts_default: []
+duplicati_docker_security_opts_custom: []
+duplicati_docker_security_opts: "{{ duplicati_docker_security_opts_default
+                                     + duplicati_docker_security_opts_custom }}"
+
+# Restart Policy
+duplicati_docker_restart_policy: unless-stopped
+
+# State
+duplicati_docker_state: started
