@@ -23,9 +23,9 @@ doplarr:
   sonarr_quality_profile:
   radarr_quality_profile:
   sonarr_language_profile:
-  overseer_default_id: - The Overseerr user id to use by default if there is no associated discord account for the requester
-  partial_seasons: "true" - Sets whether users can request partial seasons.
-  log_level: ":info" -  One of :trace :debug :info :warn :error :fatal :report
+  overseer_default_id:
+  partial_seasons: "true"
+  log_level: ":info"
 goplaxt:
   trakt_id: ~
   trakt_secret: ~
