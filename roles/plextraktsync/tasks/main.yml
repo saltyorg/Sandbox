@@ -1,11 +1,11 @@
-##########################################################################
-# Title:            Sandbox: PlexTraktSync Role                          #
-# Author(s):        keldian                                              #
-# URL:              https://github.com/saltyorg/Sandbox                  #
-# --                                                                     #
-##########################################################################
-#                   GNU General Public License v3.0                      #
-##########################################################################
+#######################################################################
+# Title:            Sandbox: PlexTraktSync | Tasks                    #
+# Author(s):        keldian                                           #
+# URL:              https://github.com/saltyorg/Sandbox               #
+# --                                                                  #
+#######################################################################
+#                   GNU General Public License v3.0                   #
+#######################################################################
 ---
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -24,6 +24,3 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
-- name: Post-Install Tasks
-  ansible.builtin.import_tasks: "subtasks/post-install/main.yml"
