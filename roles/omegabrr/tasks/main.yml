@@ -18,13 +18,7 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
 - name: Check if `{{ omegabrr_paths_config_location | basename }}` exists
   ansible.builtin.stat:
@@ -58,26 +52,3 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
-- name: Guide if `{{ omegabrr_paths_config_location | basename }}` is missing
-  ansible.builtin.pause:
-    seconds: 1
-    prompt: |
-
-      ╔════ Clean install detected ═════════════════════════════╗
-      ║                                                         ║
-      ║  Your new API token: {{ omegabrr_apitoken }}   ║
-      ║                                                         ║
-      ╠═════════════════════════════════════════════════════════╣
-      ║                                                         ║
-      ║                     TO FINISH SETUP                     ║
-      ║                                                         ║
-      ║  In {{ omegabrr_paths_config_location }}, fill out your autobrr    ║
-      ║                                                         ║
-      ║  API key and the filters you wish to sync, eg. [15,16]  ║
-      ║                                                         ║
-      ║  Changes take effect after restarting the container.    ║
-      ║                                                         ║
-      ╚═════════════════════════════════════════════════════════╝
-
-  when: not omegabrr_config.stat.exists
