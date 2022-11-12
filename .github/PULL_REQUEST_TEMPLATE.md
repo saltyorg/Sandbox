@@ -13,3 +13,6 @@ Please describe the tests that you ran to verify your changes. Please also note 
 - [ ] This is not a test I performed
 - [ ] I did not read the paragraph above this before checking this box
 - [ ] I have now checked three boxes without reading any of the text
+- [ ] I have decided to leave these meaningless checkboxes in my pull request as a demonstration that I did not read to the end.
+
+Please do not leave those four checkboxes in your pull request without editing their contents.
