@@ -100,6 +100,7 @@ plexshare_docker_envs_default:
   PHP_MAX_EXECUTION_TIME: "300"
   PHP_DATE_TIMEZONE: "{{ tz }}"
   COMPOSER_VERSION: "1"
+  BASE_URL: "{{ plexshare_web_url }}/"
 plexshare_docker_envs_custom: {}
 plexshare_docker_envs: "{{ plexshare_docker_envs_default
                            | combine(plexshare_docker_envs_custom) }}"
