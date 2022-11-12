@@ -1,0 +1,158 @@
+#########################################################################
+# Title:            Sandbox: Ddns_updater                               #
+# Author(s):        Derek Z                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/qdm12/ddns-updater               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+ddns_updater_name: ddns_updater
+
+################################
+# Paths
+################################
+
+ddns_updater_paths_folder: "{{ ddns_updater_name }}"
+ddns_updater_paths_location: "{{ server_appdata_path }}/{{ ddns_updater_paths_folder }}"
+ddns_updater_paths_folders_list:
+  - "{{ ddns_updater_paths_location }}"
+
+################################
+# Web
+################################
+
+ddns_updater_web_subdomain: "ddns"
+ddns_updater_web_domain: "{{ user.domain }}"
+ddns_updater_web_port: "8000"
+ddns_updater_web_url: "{{ 'https://' + ddns_updater_web_subdomain + '.' + ddns_updater_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + pddns_updater_web_port }}"
+
+################################
+# DNS
+################################
+
+ddns_updater_dns_record: "{{ ddns_updater_web_subdomain }}"
+ddns_updater_dns_zone: "{{ ddns_updater_web_domain }}"
+ddns_updater_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+ddns_updater_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+ddns_updater_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                          + lookup('vars', ddns_updater_name + '_traefik_sso_middleware', default=ddns_updater_traefik_sso_middleware)
+                                       if (lookup('vars', ddns_updater_name + '_traefik_sso_middleware', default=ddns_updater_traefik_sso_middleware) | length > 0)
+                                       else traefik_default_middleware }}"
+ddns_updater_traefik_middleware_custom: ""
+ddns_updater_traefik_middleware: "{{ ddns_updater_traefik_middleware_default + ','
+                                  + ddns_updater_traefik_middleware_custom
+                               if (not ddns_updater_traefik_middleware_custom.startswith(',') and ddns_updater_traefik_middleware_custom | length > 0)
+                               else ddns_updater_traefik_middleware_default
+                                  + ddns_updater_traefik_middleware_custom }}"
+ddns_updater_traefik_certresolver: "{{ traefik_default_certresolver }}"
+ddns_updater_traefik_enabled: true
+ddns_updater_traefik_api_enabled: true
+ddns_updater_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+ddns_updater_docker_container: "{{ ddns_updater_name }}"
+
+# Image
+ddns_updater_docker_image_pull: true
+ddns_updater_docker_image_tag: "latest"
+ddns_updater_docker_image: "ghcr.io/qdm12/ddns-updater:{{ ddns_updater_docker_image_tag }}"
+
+# Ports
+ddns_updater_docker_ports_defaults:
+  - "{{ ddns_updater_web_port }}"
+ddns_updater_docker_ports_custom: []
+ddns_updater_docker_ports: "{{ ddns_updater_docker_ports_defaults
+                             + ddns_updater_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else ddns_updater_docker_ports_custom }}"
+
+# Envs
+ddns_updater_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+ddns_updater_docker_envs_custom: {}
+ddns_updater_docker_envs: "{{ ddns_updater_docker_envs_default
+                            | combine(ddns_updater_docker_envs_custom) }}"
+
+# Commands
+ddns_updater_docker_commands_default: []
+ddns_updater_docker_commands_custom: []
+ddns_updater_docker_commands: "{{ ddns_updater_docker_commands_default
+                                + ddns_updater_docker_commands_custom }}"
+
+# Volumes
+ddns_updater_docker_volumes_default:
+  - "{{ ddns_updater_paths_location }}:/updater/data"
+ddns_updater_docker_volumes_custom: []
+ddns_updater_docker_volumes: "{{ ddns_updater_docker_volumes_default
+                               + ddns_updater_docker_volumes_custom }}"
+
+# Devices
+ddns_updater_docker_devices_default: []
+ddns_updater_docker_devices_custom: []
+ddns_updater_docker_devices: "{{ ddns_updater_docker_devices_default
+                               + ddns_updater_docker_devices_custom }}"
+
+# Hosts
+ddns_updater_docker_hosts_default: []
+ddns_updater_docker_hosts_custom: []
+ddns_updater_docker_hosts: "{{ docker_hosts_common
+                             | combine(ddns_updater_docker_hosts_default)
+                             | combine(ddns_updater_docker_hosts_custom) }}"
+
+# Labels
+ddns_updater_docker_labels_default: {}
+ddns_updater_docker_labels_custom: {}
+ddns_updater_docker_labels: "{{ docker_labels_common
+                              | combine(ddns_updater_docker_labels_default)
+                              | combine(ddns_updater_docker_labels_custom) }}"
+
+# Hostname
+ddns_updater_docker_hostname: "{{ ddns_updater_name }}"
+
+# Networks
+ddns_updater_docker_networks_alias: "{{ ddns_updater_name }}"
+ddns_updater_docker_networks_default: []
+ddns_updater_docker_networks_custom: []
+ddns_updater_docker_networks: "{{ docker_networks_common
+                                + ddns_updater_docker_networks_default
+                                + ddns_updater_docker_networks_custom }}"
+
+# Capabilities
+ddns_updater_docker_capabilities_default: []
+ddns_updater_docker_capabilities_custom: []
+ddns_updater_docker_capabilities: "{{ ddns_updater_docker_capabilities_default
+                                    + ddns_updater_docker_capabilities_custom }}"
+
+# Security Opts
+ddns_updater_docker_security_opts_default: []
+ddns_updater_docker_security_opts_custom: []
+ddns_updater_docker_security_opts: "{{ ddns_updater_docker_security_opts_default
+                                     + ddns_updater_docker_security_opts_custom }}"
+
+# Restart Policy
+ddns_updater_docker_restart_policy: unless-stopped
+
+# State
+ddns_updater_docker_state: started
+
+# User
+ddns_updater_docker_user: "{{ uid }}:{{ gid }}"

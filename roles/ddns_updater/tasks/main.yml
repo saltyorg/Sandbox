@@ -1,0 +1,37 @@
+#########################################################################
+# Title:            Sandbox: ddns updater                               #
+# Author(s):        Derek Z                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/qdm12/ddns-updater               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: ddns updater | Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: ddns updater | Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: ddns updater | Debug
+  ansible.builtin.debug:
+    msg: "ddns_updater_docker_user: {{ ddns_updater_docker_user }}"
+
+- name: ddns updater | Create config file.
+  ansible.builtin.file:
+    path: "{{ ddns_updater_paths_location }}/config.json"
+    state: file
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: 0775
+
+- name: ddns updater | Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
