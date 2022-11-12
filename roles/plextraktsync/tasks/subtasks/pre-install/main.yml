@@ -7,7 +7,7 @@
 #                   GNU General Public License v3.0                   #
 #######################################################################
 ---
-- name: Set Default Plex instance
+- name: Set default Plex instance
   ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"
   when: not plex_name is defined
@@ -17,7 +17,7 @@
     path: "{{ plex_paths_config_location }}"
   register: preferences_xml
 
-- name: "{{ plex_paths_config_location | basename }}" Tasks
+- name: Get default Plex username
   block:
     - name: Get {{ plex_paths_config_location | basename }} XML data
       community.general.xml:
