@@ -8,6 +8,25 @@
 #########################################################################
 # Repository: https://github.com/Chewbaka69/PlexShare/blob/master/docker-compose.yml
 ---
+- name: Check if db folder exists
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}/mariadb"
+  register: stat_plexshare_db_folder
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+  vars:
+    mariadb_name: "{{ plexshare_name }}_mariadb"  # Remove when instance support merged into Saltbox
+    mariadb_instances: ["{{ plexshare_name }}_mariadb"]
+    mariadb_docker_image_tag: "latest"
+    mariadb_paths_folder: "{{ plexshare_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}/mariadb"
+
+- name: Create plexshare database
+  ansible.builtin.command: "docker exec {{ plexshare_name }}_mariadb mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create schema plexshare DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
+  when: not stat_plexshare_db_folder.stat.exists
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
