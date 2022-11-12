@@ -7,38 +7,38 @@
 #                   GNU General Public License v3.0                   #
 #######################################################################
 ---
-- name: Pre-Install | Set Default Plex instance
+- name: Set Default Plex instance
   ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"
   when: not plex_name is defined
 
-- name: Pre-Install | Check if {{ plex_paths_config_location | basename }} exists
+- name: Check if {{ plex_paths_config_location | basename }} exists
   ansible.builtin.stat:
     path: "{{ plex_paths_config_location }}"
   register: preferences_xml
 
-- name: Pre-Install | {{ plex_paths_config_location | basename }} Tasks
+- name: {{ plex_paths_config_location | basename }} Tasks
   block:
-    - name: Pre-Install | Get {{ plex_paths_config_location | basename }} XML data
+    - name: Get {{ plex_paths_config_location | basename }} XML data
       community.general.xml:
         path: "{{ plex_paths_config_location }}"
         xpath: /Preferences
         content: attribute
       register: preferences_xml_resp
 
-    - name: Pre-Install | Set plex_owner_username variable
+    - name: Set plex_owner_username variable
       ansible.builtin.set_fact:
         plex_owner_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
 
   ignore_errors: true
   when: preferences_xml.stat.exists
 
-- name: Pre-Install | Plex Auth Token tasks
+- name: Plex Auth Token tasks
   ansible.builtin.include_role:
     name: plex_auth_token
   when: plex_account_is_enabled
 
-- name: Pre-Install | Create {{ plextraktsync_paths_config_location | basename }}
+- name: Create {{ plextraktsync_paths_config_location | basename }}
   ansible.builtin.template:
     src: env.j2
     dest: "{{ plextraktsync_paths_config_location }}"
