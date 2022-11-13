@@ -1,0 +1,137 @@
+##########################################################################
+# Title:            Sandbox: elasticsearch | Default Variables           #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+elasticsearch_name: elasticsearch
+
+################################
+# Paths
+################################
+
+elasticsearch_paths_folder: "{{ elasticsearch_name }}"
+elasticsearch_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_paths_folder }}"
+elasticsearch_paths_folders_list:
+  - "{{ elasticsearch_paths_location }}"
+
+################################
+# Settings
+################################
+
+elasticsearch_docker_env_password: "elastic789"
+elasticsearch_docker_env_http_port: "9200"
+elasticsearch_docker_env_transport_port: "9300"
+
+################################
+# Docker
+################################
+
+# Container
+elasticsearch_docker_container: "{{ elasticsearch_name }}"
+
+# Image
+elasticsearch_docker_image_pull: true
+elasticsearch_docker_image_tag: "8.5.0"
+elasticsearch_docker_image: "docker.elastic.co/elasticsearch/elasticsearch:{{ elasticsearch_docker_image_tag }}"
+
+# Healthcheck
+elasticsearch_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:9200"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+elasticsearch_docker_ports_defaults: []
+elasticsearch_docker_ports_custom: []
+elasticsearch_docker_ports: "{{ elasticsearch_docker_ports_defaults
+                                + elasticsearch_docker_ports_custom
+                             if (not reverse_proxy_is_enabled)
+                             else elasticsearch_docker_ports_custom }}"
+
+# Envs
+elasticsearch_docker_envs_default:
+  TZ: "{{ tz }}"
+  discovery.type: "single-node"
+  node.name: "{{ elasticsearch_name }}"
+  xpack.security.enabled: "false"
+  ELASTIC_PASSWORD: "{{ elasticsearch_docker_env_password }}"
+  # ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+  # ENROLLMENT_TOKEN: "<token>"
+elasticsearch_docker_envs_custom: {}
+elasticsearch_docker_envs: "{{ elasticsearch_docker_envs_default
+                               | combine(elasticsearch_docker_envs_custom) }}"
+
+# Commands
+elasticsearch_docker_commands_default: []
+elasticsearch_docker_commands_custom: []
+elasticsearch_docker_commands: "{{ elasticsearch_docker_commands_default
+                                   + elasticsearch_docker_commands_custom }}"
+
+# Volumes
+elasticsearch_docker_volumes_default:
+  - "{{ elasticsearch_paths_location }}:/usr/share/elasticsearch/data"
+elasticsearch_docker_volumes_custom: []
+elasticsearch_docker_volumes: "{{ elasticsearch_docker_volumes_default
+                                  + elasticsearch_docker_volumes_custom }}"
+
+# Devices
+elasticsearch_docker_devices_default: []
+elasticsearch_docker_devices_custom: []
+elasticsearch_docker_devices: "{{ elasticsearch_docker_devices_default
+                                  + elasticsearch_docker_devices_custom }}"
+
+# Hosts
+elasticsearch_docker_hosts_default: []
+elasticsearch_docker_hosts_custom: []
+elasticsearch_docker_hosts: "{{ docker_hosts_common
+                                | combine(elasticsearch_docker_hosts_default)
+                                | combine(elasticsearch_docker_hosts_custom) }}"
+
+# Labels
+elasticsearch_docker_labels_default: {}
+elasticsearch_docker_labels_custom: {}
+elasticsearch_docker_labels: "{{ docker_labels_common
+                                 | combine(elasticsearch_docker_labels_default)
+                                 | combine(elasticsearch_docker_labels_custom) }}"
+
+# Hostname
+elasticsearch_docker_hostname: "{{ elasticsearch_name }}"
+
+# Networks
+elasticsearch_docker_networks_alias: "{{ elasticsearch_name }}"
+elasticsearch_docker_networks_default: []
+elasticsearch_docker_networks_custom: []
+elasticsearch_docker_networks: "{{ docker_networks_common
+                                   + elasticsearch_docker_networks_default
+                                   + elasticsearch_docker_networks_custom }}"
+
+# Capabilities
+elasticsearch_docker_capabilities_default: []
+elasticsearch_docker_capabilities_custom: []
+elasticsearch_docker_capabilities: "{{ elasticsearch_docker_capabilities_default
+                                       + elasticsearch_docker_capabilities_custom }}"
+
+# Security Opts
+elasticsearch_docker_security_opts_default: []
+elasticsearch_docker_security_opts_custom: []
+elasticsearch_docker_security_opts: "{{ elasticsearch_docker_security_opts_default
+                                        + elasticsearch_docker_security_opts_custom }}"
+
+# Restart Policy
+elasticsearch_docker_restart_policy: always
+
+# State
+elasticsearch_docker_state: started
+
+# User
+elasticsearch_docker_user: "{{ uid }}"
