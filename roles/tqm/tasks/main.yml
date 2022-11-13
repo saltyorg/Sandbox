@@ -9,7 +9,7 @@
 ---
 - name: Check if tqm service exists
   ansible.builtin.stat:
-    path: "{{ tqm_paths_service_file_location }}"
+    path: "{{ tqm_paths_service_location }}"
   register: tqm_service
 
 - name: Stop existing tqm service
@@ -20,7 +20,7 @@
 
 - name: Check if tqm timer exists
   ansible.builtin.stat:
-    path: "{{ tqm_paths_timer_file_location }}"
+    path: "{{ tqm_paths_timer_location }}"
   register: tqm_timer
 
 - name: Stop existing tqm timer
@@ -55,23 +55,15 @@
     path: "{{ tqm_paths_config_location }}"
   register: tqm_config
 
-- name: New `{{ tqm_paths_config_location | basename }}` tasks
-  block:
-
-    - name: Import default config
-      ansible.builtin.template:
-        src: config.yaml.j2
-        dest: "{{ tqm_paths_config_location }}"
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: 0775
-
+- name: "Fail when 'config.yml' is not present"
+  ansible.builtin.fail:
+    msg: "You need to setup your config file. link_to_docs here"
   when: (not tqm_config.stat.exists) and (not continuous_integration)
 
 - name: Import tqm service
   ansible.builtin.template:
     src: tqm.service.j2
-    dest: "{{ tqm_paths_service_file_location }}"
+    dest: "{{ tqm_paths_service_location }}"
     mode: "0664"
     force: true
 
@@ -85,7 +77,7 @@
 - name: Import tqm timer
   ansible.builtin.template:
     src: tqm.timer.j2
-    dest: "{{ tqm_paths_timer_file_location }}"
+    dest: "{{ tqm_paths_timer_location }}"
     mode: "0664"
     force: true
 
@@ -95,9 +87,3 @@
     state: started
     enabled: yes
     daemon_reload: true
-
-- name: Alert user to update systemd to suit.
-  ansible.builtin.debug:
-    msg:
-      - "tqm runs a 'dry run' for qbittorrent by default. To go live with qbittorrent, edit the service & remove --dry-run with the below command"
-      - "sudo nano /etc/systemd/system/tqm.service"
