@@ -39,6 +39,7 @@
     - { role: delugevpn, tags: ['delugevpn'] }
     - { role: doplarr, tags: ['doplarr'] }
     - { role: dozzle, tags: ['dozzle'] }
+    - { role: elasticsearch, tags: ['elasticsearch'] }
     - { role: embystat, tags: ['embystat'] }
     - { role: epms, tags: ['epms'] }
     - { role: filebot, tags: ['filebot'] }
@@ -138,6 +139,7 @@
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
     - { role: trilium, tags: ['trilium'] }
+    - { role: tubearchivist, tags: ['tubearchivist'] }
     - { role: tvheadend, tags: ['tvheadend'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
