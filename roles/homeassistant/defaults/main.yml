@@ -34,8 +34,8 @@ homeassistant_web_subdomain: "{{ homeassistant_name }}"
 homeassistant_web_domain: "{{ user.domain }}"
 homeassistant_web_port: "8123"
 homeassistant_web_url: "{{ 'https://' + homeassistant_web_subdomain + '.' + homeassistant_web_domain
-               if (reverse_proxy_is_enabled)
-               else 'http://localhost:' + homeassistant_web_port }}"
+                        if (reverse_proxy_is_enabled)
+                        else 'http://localhost:' + homeassistant_web_port }}"
 
 ################################
 # DNS
@@ -71,13 +71,13 @@ homeassistant_docker_envs_default:
   PGID: "{{ gid }}"
 homeassistant_docker_envs_custom: {}
 homeassistant_docker_envs: "{{ homeassistant_docker_envs_default
-                      | combine(homeassistant_docker_envs_custom) }}"
+                               | combine(homeassistant_docker_envs_custom) }}"
 
 # Commands
 homeassistant_docker_commands_default: []
 homeassistant_docker_commands_custom: []
 homeassistant_docker_commands: "{{ homeassistant_docker_commands_default
-                          + homeassistant_docker_commands_custom }}"
+                                   + homeassistant_docker_commands_custom }}"
 
 # Volumes
 homeassistant_docker_volumes_default:
@@ -85,7 +85,7 @@ homeassistant_docker_volumes_default:
   - /etc/localtime:/etc/localtime:ro
 homeassistant_docker_volumes_custom: []
 homeassistant_docker_volumes: "{{ homeassistant_docker_volumes_default
-                         + homeassistant_docker_volumes_custom }}"
+                                  + homeassistant_docker_volumes_custom }}"
 
 # Extended Privileges
 homeassistant_docker_privileged: "yes"
@@ -94,21 +94,21 @@ homeassistant_docker_privileged: "yes"
 homeassistant_docker_devices_default: []
 homeassistant_docker_devices_custom: []
 homeassistant_docker_devices: "{{ homeassistant_docker_devices_default
-                         + homeassistant_docker_devices_custom }}"
+                                  + homeassistant_docker_devices_custom }}"
 
 # Hosts
 homeassistant_docker_hosts_default: []
 homeassistant_docker_hosts_custom: []
 homeassistant_docker_hosts: "{{ docker_hosts_common
-                       | combine(homeassistant_docker_hosts_default)
-                       | combine(homeassistant_docker_hosts_custom) }}"
+                                | combine(homeassistant_docker_hosts_default)
+                                | combine(homeassistant_docker_hosts_custom) }}"
 
 # Labels
 homeassistant_docker_labels_default: {}
 homeassistant_docker_labels_custom: {}
 homeassistant_docker_labels: "{{ docker_labels_common
-                        | combine(homeassistant_docker_labels_default)
-                        | combine(homeassistant_docker_labels_custom) }}"
+                                 | combine(homeassistant_docker_labels_default)
+                                 | combine(homeassistant_docker_labels_custom) }}"
 
 # Hostname
 homeassistant_docker_hostname: "{{ homeassistant_name }}"
@@ -119,7 +119,7 @@ homeassistant_docker_networks: "{{ omit }}"
 homeassistant_docker_capabilities_default: []
 homeassistant_docker_capabilities_custom: []
 homeassistant_docker_capabilities: "{{ homeassistant_docker_capabilities_default
-                              + homeassistant_docker_capabilities_custom }}"
+                                       + homeassistant_docker_capabilities_custom }}"
 
 # Network Mode
 homeassistant_docker_network_mode: "host"
@@ -128,7 +128,7 @@ homeassistant_docker_network_mode: "host"
 homeassistant_docker_security_opts_default: []
 homeassistant_docker_security_opts_custom: []
 homeassistant_docker_security_opts: "{{ homeassistant_docker_security_opts_default
-                               + homeassistant_docker_security_opts_custom }}"
+                                        + homeassistant_docker_security_opts_custom }}"
 
 # Restart Policy
 homeassistant_docker_restart_policy: unless-stopped
