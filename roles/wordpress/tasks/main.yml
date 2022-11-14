@@ -24,9 +24,13 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Create Wordpress database
-  ansible.builtin.command: "docker exec {{ mariadb_name }} mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create schema {{ wordpress_name }} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
-  ignore_errors: yes
+- name: MariaDB | Create wordpress database
+  community.mysql.mysql_db:
+    name: "{{ wordpress_name }}"
+    login_host: "{{ mariadb_name }}"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
