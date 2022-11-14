@@ -31,6 +31,5 @@
         recurse: yes
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
 
   when: (opt_myjdownloader.stat.exists)
