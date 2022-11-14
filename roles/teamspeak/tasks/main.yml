@@ -14,9 +14,13 @@
   ansible.builtin.include_role:
     name: mariadb
 
-- name: "Create {{ teamspeak_name }} database"
-  ansible.builtin.command: "docker exec mariadb mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create database {{ teamspeak_name }};'"
-  ignore_errors: yes
+- name: MariaDB | Create {{ teamspeak_name }} database
+  community.mysql.mysql_db:
+    name: "{{ teamspeak_name }}"
+    login_host: "mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
 
 - name: Get next available port within the range of '9987-9997' # noqa fqcn[action]
   find_next_open_port:
