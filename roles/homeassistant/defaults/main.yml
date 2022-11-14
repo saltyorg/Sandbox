@@ -45,7 +45,7 @@ homeassistant_dns_proxy: "{{ dns.proxied }}"
 ################################
 # Traefik
 ################################
-homeassistant_traefik_middleware:   "{{ traefik_default_middleware }}"
+homeassistant_traefik_middleware: "{{ traefik_default_middleware }}"
 homeassistant_traefik_certresolver: "{{ traefik_default_certresolver }}"
 homeassistant_traefik_enabled: true
 
