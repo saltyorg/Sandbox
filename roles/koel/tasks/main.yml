@@ -21,9 +21,13 @@
     mariadb_paths_folder: "{{ koel_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
 
-- name: Create koel database
-  ansible.builtin.command: "docker exec {{ koel_name }}_mariadb mysql -u root -ppassword321 -e 'create schema koel DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
-  when: not stat_koel_db_folder.stat.exists
+- name: MariaDB | Create koel database
+  community.mysql.mysql_db:
+    name: "koel"
+    login_host: "{{ koel_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
 
 - name: Check if db folder exists
   ansible.builtin.stat:
