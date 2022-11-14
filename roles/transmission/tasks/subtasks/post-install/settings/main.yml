@@ -17,6 +17,5 @@
     recurse: yes
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
   args:
     warn: false
