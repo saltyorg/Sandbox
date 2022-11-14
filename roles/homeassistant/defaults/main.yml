@@ -59,7 +59,7 @@ homeassistant_docker_container: "{{ homeassistant_name }}"
 # Image
 homeassistant_docker_image_pull: true
 homeassistant_docker_image_tag: "latest"
-homeassistant_docker_image: "ghcr.io/home-assistant/home-assistant:{{ homeassistant_docker_image_tag }}"
+homeassistant_docker_image: "lscr.io/linuxserver/homeassistant:{{ homeassistant_docker_image_tag }}"
 
 # Healthcheck
 homeassistant_docker_healthcheck:
