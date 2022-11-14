@@ -104,6 +104,7 @@
     - { role: plex_auto_languages, tags: ['plex_auto_languages'] }
     - { role: plex_patrol, tags: ['plex_patrol'] }
     - { role: plex_utills, tags: ['plex_utills'] }
+    - { role: plexshare, tags: ['plexshare'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
     - { role: puddletag, tags: ['puddletag'] }
