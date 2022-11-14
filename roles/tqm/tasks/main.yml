@@ -60,6 +60,11 @@
     msg: "You need to setup your config file. link_to_docs here"
   when: (not tqm_config.stat.exists) and (not continuous_integration)
 
+- name: Fail if download_client has not been set
+  ansible.builtin.fail:
+    msg: "You need to edit 'tqm.download_client' in the settings.yml. Options are deluge and qbt"
+  when: (tqm.download_client | default(None) | ternary('true', 'false') == 'false') and not continuous_integration
+
 - name: Import tqm service
   ansible.builtin.template:
     src: tqm.service.j2

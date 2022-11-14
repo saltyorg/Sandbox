@@ -82,6 +82,8 @@ sarotate:
   apprise:    #optional: apprise notifications (Default is blank)
 tandoor:
   secret_key: #Required: You can generate one with 'base64 /dev/urandom | head -c50'
+tqm:
+  download_client: #Required: Config default is qbt or deluge. 
 transmissionvpn:
   vpn_user:
   vpn_pass:
