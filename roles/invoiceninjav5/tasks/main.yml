@@ -12,15 +12,25 @@
     name: mariadb
 
 - name: MariaDB | Create ninja database
-  ansible.builtin.command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database invoiceninjav5db;'"
+  community.mysql.mysql_db:
+    name: "invoiceninjav5db"
+    login_host: "mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
+
+- name: Permissions | Create invoiceninja group
+  ansible.builtin.group:
+    name: invoiceninja
+    state: present
+    gid: 1500
   ignore_errors: true
 
-- name: Permissions | Create ninja group
-  ansible.builtin.command: "addgroup --gid 1500 invoiceninja "
-  ignore_errors: true
-
-- name: Permissions | Add to ninja group
-  ansible.builtin.command: "adduser {{ user.name }} invoiceninja "
+- name: Permissions | Add to invoiceninja group
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    groups: invoiceninja
+    append: yes
   ignore_errors: true
 
 - name: Create directories
