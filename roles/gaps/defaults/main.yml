@@ -1,0 +1,161 @@
+##########################################################################
+# Title:            Sandbox: gaps | Default Variables                    #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+gaps_name: gaps
+
+################################
+# Paths
+################################
+
+gaps_paths_folder: "{{ gaps_name }}"
+gaps_paths_location: "{{ server_appdata_path }}/{{ gaps_paths_folder }}"
+gaps_paths_folders_list:
+  - "{{ gaps_paths_location }}"
+
+################################
+# Web
+################################
+
+gaps_web_subdomain: "{{ gaps_name }}"
+gaps_web_domain: "{{ user.domain }}"
+gaps_web_port: "8484"
+gaps_web_url: "{{ 'https://' + gaps_web_subdomain + '.' + gaps_web_domain
+               if (reverse_proxy_is_enabled)
+               else 'http://localhost:' + gaps_web_port }}"
+
+################################
+# DNS
+################################
+
+gaps_dns_record: "{{ gaps_web_subdomain }}"
+gaps_dns_zone: "{{ gaps_web_domain }}"
+gaps_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+gaps_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+gaps_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                     + lookup('vars', gaps_name + '_traefik_sso_middleware', default=gaps_traefik_sso_middleware)
+                                  if (lookup('vars', gaps_name + '_traefik_sso_middleware', default=gaps_traefik_sso_middleware) | length > 0)
+                                  else traefik_default_middleware }}"
+gaps_traefik_middleware_custom: ""
+gaps_traefik_middleware: "{{ gaps_traefik_middleware_default + ','
+                             + gaps_traefik_middleware_custom
+                          if (not gaps_traefik_middleware_custom.startswith(',') and gaps_traefik_middleware_custom | length > 0)
+                          else gaps_traefik_middleware_default
+                             + gaps_traefik_middleware_custom }}"
+gaps_traefik_certresolver: "{{ traefik_default_certresolver }}"
+gaps_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+gaps_docker_container: "{{ gaps_name }}"
+
+# Image
+gaps_docker_image_pull: true
+gaps_docker_image_tag: "latest"
+gaps_docker_image: "housewrecker/gaps:{{ gaps_docker_image_tag }}"
+
+# Healthcheck
+gaps_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:8484"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+gaps_docker_ports_defaults:
+  - "{{ gaps_web_port }}"
+gaps_docker_ports_custom: []
+gaps_docker_ports: "{{ gaps_docker_ports_defaults
+                       + gaps_docker_ports_custom
+                    if (not reverse_proxy_is_enabled)
+                    else gaps_docker_ports_custom }}"
+
+# Envs
+gaps_docker_envs_default:
+  TZ: "{{ tz }}"
+  # BASE_URL: "{{ gaps_web_url }}"
+  ENABLE_LOGIN: "false"
+  ENABLE_SSL: "false"
+gaps_docker_envs_custom: {}
+gaps_docker_envs: "{{ gaps_docker_envs_default
+                      | combine(gaps_docker_envs_custom) }}"
+
+# Commands
+gaps_docker_commands_default: []
+gaps_docker_commands_custom: []
+gaps_docker_commands: "{{ gaps_docker_commands_default
+                          + gaps_docker_commands_custom }}"
+
+# Volumes
+gaps_docker_volumes_default:
+  - "{{ gaps_paths_location }}:/usr/data"
+gaps_docker_volumes_custom: []
+gaps_docker_volumes: "{{ gaps_docker_volumes_default
+                         + gaps_docker_volumes_custom }}"
+
+# Devices
+gaps_docker_devices_default: []
+gaps_docker_devices_custom: []
+gaps_docker_devices: "{{ gaps_docker_devices_default
+                        + gaps_docker_devices_custom }}"
+
+# Hosts
+gaps_docker_hosts_default: []
+gaps_docker_hosts_custom: []
+gaps_docker_hosts: "{{ docker_hosts_common
+                       | combine(gaps_docker_hosts_default)
+                       | combine(gaps_docker_hosts_custom) }}"
+
+# Labels
+gaps_docker_labels_default: {}
+gaps_docker_labels_custom: {}
+gaps_docker_labels: "{{ docker_labels_common
+                        | combine(gaps_docker_labels_default)
+                        | combine(gaps_docker_labels_custom) }}"
+
+# Hostname
+gaps_docker_hostname: "{{ gaps_name }}"
+
+# Networks
+gaps_docker_networks_alias: "{{ gaps_name }}"
+gaps_docker_networks_default: []
+gaps_docker_networks_custom: []
+gaps_docker_networks: "{{ docker_networks_common
+                          + gaps_docker_networks_default
+                          + gaps_docker_networks_custom }}"
+
+# Capabilities
+gaps_docker_capabilities_default: []
+gaps_docker_capabilities_custom: []
+gaps_docker_capabilities: "{{ gaps_docker_capabilities_default
+                              + gaps_docker_capabilities_custom }}"
+
+# Security Opts
+gaps_docker_security_opts_default: []
+gaps_docker_security_opts_custom: []
+gaps_docker_security_opts: "{{ gaps_docker_security_opts_default
+                               + gaps_docker_security_opts_custom }}"
+
+# Restart Policy
+gaps_docker_restart_policy: unless-stopped
+
+# State
+gaps_docker_state: started

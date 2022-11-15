@@ -23,6 +23,13 @@
     - name: Legacy | Move opt folder 'myjdownloader' to 'jdownloader2'
       ansible.builtin.shell: |
         mv /opt/myjdownloader "{{ jdownloader2_paths_location }}"
-        chown -R {{ user.name }}:{{ user.name }} "{{ jdownloader2_paths_location }}"
+
+    - name: Legacy | Set permissions on 'jdownloader2'
+      ansible.builtin.file:
+        path: "{{ jdownloader2_paths_location }}"
+        state: directory
+        recurse: yes
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
 
   when: (opt_myjdownloader.stat.exists)

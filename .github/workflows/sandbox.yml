@@ -16,7 +16,7 @@ on:
 
 jobs:
   ansible-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
 
@@ -24,7 +24,7 @@ jobs:
       uses: ansible-community/ansible-lint-action@v6.8.2
 
   add-contributors:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event_name != 'pull_request'
     steps:
     - uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
         AVATAR_SHAPE: 'square'
 
   find-roles:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: ansible-lint
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}

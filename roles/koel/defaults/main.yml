@@ -1,0 +1,175 @@
+##########################################################################
+# Title:            Sandbox: Koel | Default Variables                    #
+# Author(s):        JigSawFr, salty                                      #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+koel_name: koel
+
+################################
+# Paths
+################################
+
+koel_paths_folder: "{{ koel_name }}"
+koel_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}"
+koel_paths_folders_list:
+  - "{{ koel_paths_location }}"
+  - "{{ koel_paths_location }}/app"
+  - "{{ koel_paths_location }}/app/covers"
+  - "{{ koel_paths_location }}/app/search-indexes"
+  - "/mnt/unionfs/Media/Music"
+
+################################
+# Web
+################################
+
+koel_web_subdomain: "{{ koel_name }}"
+koel_web_domain: "{{ user.domain }}"
+koel_web_port: "80"
+koel_web_url: "{{ 'https://' + koel_web_subdomain + '.' + koel_web_domain
+               if (reverse_proxy_is_enabled)
+               else 'http://localhost:' + koel_web_port }}"
+
+################################
+# DNS
+################################
+
+koel_dns_record: "{{ koel_web_subdomain }}"
+koel_dns_zone: "{{ koel_web_domain }}"
+koel_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+koel_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+koel_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                     + lookup('vars', koel_name + '_traefik_sso_middleware', default=koel_traefik_sso_middleware)
+                                  if (lookup('vars', koel_name + '_traefik_sso_middleware', default=koel_traefik_sso_middleware) | length > 0)
+                                  else traefik_default_middleware }}"
+koel_traefik_middleware_custom: ""
+koel_traefik_middleware: "{{ koel_traefik_middleware_default + ','
+                             + koel_traefik_middleware_custom
+                          if (not koel_traefik_middleware_custom.startswith(',') and koel_traefik_middleware_custom | length > 0)
+                          else koel_traefik_middleware_default
+                             + koel_traefik_middleware_custom }}"
+koel_traefik_certresolver: "{{ traefik_default_certresolver }}"
+koel_traefik_enabled: true
+koel_traefik_api_enabled: true
+koel_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+koel_docker_container: "{{ koel_name }}"
+
+# Image
+koel_docker_image_pull: true
+koel_docker_image_tag: "latest"
+koel_docker_image: "phanan/koel:{{ koel_docker_image_tag }}"
+
+# Healthcheck
+koel_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+koel_docker_ports_defaults:
+  - "{{ koel_web_port }}"
+koel_docker_ports_custom: []
+koel_docker_ports: "{{ koel_docker_ports_defaults
+                       + koel_docker_ports_custom
+                    if (not reverse_proxy_is_enabled)
+                    else koel_docker_ports_custom }}"
+
+# Envs
+koel_docker_envs_default:
+  TZ: "{{ tz }}"
+  DB_CONNECTION: "mysql"
+  DB_HOST: "{{ koel_name }}_mariadb"
+  DB_PORT: "3306"
+  DB_DATABASE: "{{ koel_name }}"
+  DB_USERNAME: "root"
+  DB_PASSWORD: "{{ mariadb_docker_envs_mysql_root_password }}"
+  APP_KEY: "base64:{{ koel_secret_key }}"
+  APP_URL: "{{ koel_web_url }}"
+  FORCE_HTTPS: "true"
+koel_docker_envs_custom: {}
+koel_docker_envs: "{{ koel_docker_envs_default
+                      | combine(koel_docker_envs_custom) }}"
+
+# Commands
+koel_docker_commands_default: []
+koel_docker_commands_custom: []
+koel_docker_commands: "{{ koel_docker_commands_default
+                          + koel_docker_commands_custom }}"
+
+# Volumes
+koel_docker_volumes_default:
+  - "/mnt/unionfs/Media/Music:/music:ro"
+  - "{{ koel_paths_location }}/app/covers:/var/www/html/public/img/covers"
+  - "{{ koel_paths_location }}/app/search-indexes:/var/www/html/storage/search-indexes"
+koel_docker_volumes_custom: []
+koel_docker_volumes: "{{ koel_docker_volumes_default
+                         + koel_docker_volumes_custom }}"
+
+# Devices
+koel_docker_devices_default: []
+koel_docker_devices_custom: []
+koel_docker_devices: "{{ koel_docker_devices_default
+                         + koel_docker_devices_custom }}"
+
+# Hosts
+koel_docker_hosts_default: []
+koel_docker_hosts_custom: []
+koel_docker_hosts: "{{ docker_hosts_common
+                       | combine(koel_docker_hosts_default)
+                       | combine(koel_docker_hosts_custom) }}"
+
+# Labels
+koel_docker_labels_default: {}
+koel_docker_labels_custom: {}
+koel_docker_labels: "{{ docker_labels_common
+                        | combine(koel_docker_labels_default)
+                        | combine(koel_docker_labels_custom) }}"
+
+# Hostname
+koel_docker_hostname: "{{ koel_name }}"
+
+# Networks
+koel_docker_networks_alias: "{{ koel_name }}"
+koel_docker_networks_default: []
+koel_docker_networks_custom: []
+koel_docker_networks: "{{ docker_networks_common
+                          + koel_docker_networks_default
+                          + koel_docker_networks_custom }}"
+
+# Capabilities
+koel_docker_capabilities_default: []
+koel_docker_capabilities_custom: []
+koel_docker_capabilities: "{{ koel_docker_capabilities_default
+                              + koel_docker_capabilities_custom }}"
+
+# Security Opts
+koel_docker_security_opts_default: []
+koel_docker_security_opts_custom: []
+koel_docker_security_opts: "{{ koel_docker_security_opts_default
+                               + koel_docker_security_opts_custom }}"
+
+# Restart Policy
+koel_docker_restart_policy: unless-stopped
+
+# State
+koel_docker_state: started

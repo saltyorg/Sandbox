@@ -13,15 +13,26 @@
     name: mariadb
 
 - name: MariaDB | Create photoprism database
-  ansible.builtin.command: "docker exec mariadb mysql -u root -ppassword321 -e 'create database photoprisms;'"
+  community.mysql.mysql_db:
+    name: "photoprisms"
+    login_host: "mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
   ignore_errors: true
 
 - name: Permissions | Create photoprism group
-  ansible.builtin.command: "addgroup --gid 1500 photoprism "
+  ansible.builtin.group:
+    name: photoprism
+    state: present
+    gid: 1500
   ignore_errors: true
 
 - name: Permissions | Add to photoprism group
-  ansible.builtin.command: "adduser {{ user.name }} photoprism "
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    groups: photoprism
+    append: yes
   ignore_errors: true
 
 - name: Add DNS record

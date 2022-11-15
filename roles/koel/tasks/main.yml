@@ -1,0 +1,100 @@
+#########################################################################
+# Title:            Sandbox: Koel                                       #
+# Author(s):        JigSawFr, salty                                     #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Check if db folder exists
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
+  register: stat_koel_db_folder
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+  vars:
+    mariadb_name: "{{ koel_name }}_mariadb"  # Remove when instance support merged into Saltbox
+    mariadb_instances: ["{{ koel_name }}_mariadb"]
+    mariadb_paths_folder: "{{ koel_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
+
+- name: MariaDB | Create koel database
+  community.mysql.mysql_db:
+    name: "koel"
+    login_host: "{{ koel_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
+
+- name: Check if db folder exists
+  ansible.builtin.stat:
+    path: "{{ koel_paths_location }}/vars.ini"
+  register: stat_vars_ini
+
+- name: "Generate Secret Key for sessions"
+  ansible.builtin.shell: "openssl rand -base64 32"
+  register: generate_koel_secret_key
+  when: not stat_vars_ini.stat.exists
+
+- name: "Add Secret Key to '{{ koel_paths_location }}/vars.ini'"
+  community.general.ini_file:
+    path: "{{ koel_paths_location }}/vars.ini"
+    section: "general"
+    option: app_key
+    value: "{{ generate_koel_secret_key.stdout }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0664"
+  when: not stat_vars_ini.stat.exists
+
+- name: "Set koel_secret_key variable"
+  ansible.builtin.set_fact:
+    koel_secret_key: "{{ lookup('ini', 'app_key section=general file=' + koel_paths_location + '/vars.ini') | default(generate_koel_secret_key.stdout) }}"
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Init koel
+  community.docker.docker_container_exec:
+    container: "{{ koel_name }}"
+    command: "php artisan koel:init --no-assets --no-interaction"
+    user: "www-data"
+  register: koel_init
+  until: "koel_init is not failed"
+  retries: 5
+  when: not stat_koel_db_folder.stat.exists
+
+- name: Generate Admin password hash
+  ansible.builtin.shell: "htpasswd -bnBC 12 '' '{{ user.pass }}' | tr -d ':\n'"
+  register: koel_admin_password_hash
+  when: not stat_koel_db_folder.stat.exists
+
+- name: Generate Admin password hash
+  ansible.builtin.shell: "date '+%F %H:%M:%S'"
+  register: koel_date
+  when: not stat_koel_db_folder.stat.exists
+
+- name: Edit Admin user
+  community.mysql.mysql_query:
+    login_db: "koel"
+    login_host: "{{ koel_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `is_admin` = "1", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
+  when: not stat_koel_db_folder.stat.exists

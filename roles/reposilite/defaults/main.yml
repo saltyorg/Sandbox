@@ -1,0 +1,164 @@
+#########################################################################
+# Title:            Sandbox: Reposilite                                 #
+# Author(s):        Derek Z, JigSawFr                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/dzikoysk/reposilite              #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+reposilite_name: reposilite
+
+################################
+# Paths
+################################
+
+reposilite_paths_folder: "{{ reposilite_name }}"
+reposilite_paths_location: "{{ server_appdata_path }}/{{ reposilite_paths_folder }}"
+reposilite_paths_folders_list:
+  - "{{ reposilite_paths_location }}"
+
+################################
+# Web
+################################
+
+reposilite_web_subdomain: "{{ reposilite_name }}"
+reposilite_web_domain: "{{ user.domain }}"
+reposilite_web_port: "8080"
+reposilite_web_url: "{{ 'https://' + reposilite_web_subdomain + '.' + reposilite_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + preposilite_web_port }}"
+
+################################
+# DNS
+################################
+
+reposilite_dns_record: "{{ reposilite_web_subdomain }}"
+reposilite_dns_zone: "{{ reposilite_web_domain }}"
+reposilite_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+reposilite_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+reposilite_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                          + lookup('vars', reposilite_name + '_traefik_sso_middleware', default=reposilite_traefik_sso_middleware)
+                                       if (lookup('vars', reposilite_name + '_traefik_sso_middleware', default=reposilite_traefik_sso_middleware) | length > 0)
+                                       else traefik_default_middleware }}"
+reposilite_traefik_middleware_custom: ""
+reposilite_traefik_middleware: "{{ reposilite_traefik_middleware_default + ','
+                                  + reposilite_traefik_middleware_custom
+                               if (not reposilite_traefik_middleware_custom.startswith(',') and reposilite_traefik_middleware_custom | length > 0)
+                               else reposilite_traefik_middleware_default
+                                  + reposilite_traefik_middleware_custom }}"
+reposilite_traefik_certresolver: "{{ traefik_default_certresolver }}"
+reposilite_traefik_enabled: true
+reposilite_traefik_api_enabled: true
+reposilite_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+reposilite_docker_container: "{{ reposilite_name }}"
+
+# Image
+reposilite_docker_image_pull: true
+reposilite_docker_image_tag: "latest"
+reposilite_docker_image: "ghcr.io/dzikoysk/reposilite:{{ reposilite_docker_image_tag }}"
+
+# Healthcheck
+reposilite_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ reposilite_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+reposilite_docker_ports_defaults:
+  - "{{ reposilite_web_port }}"
+reposilite_docker_ports_custom: []
+reposilite_docker_ports: "{{ reposilite_docker_ports_defaults
+                             + reposilite_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else reposilite_docker_ports_custom }}"
+
+# Envs
+reposilite_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  REPOSILITE_OPTS: "--token {{ user.name }}:{{ user.pass }}"
+reposilite_docker_envs_custom: {}
+reposilite_docker_envs: "{{ reposilite_docker_envs_default
+                            | combine(reposilite_docker_envs_custom) }}"
+
+# Commands
+reposilite_docker_commands_default: []
+reposilite_docker_commands_custom: []
+reposilite_docker_commands: "{{ reposilite_docker_commands_default
+                                + reposilite_docker_commands_custom }}"
+
+# Volumes
+reposilite_docker_volumes_default:
+  - "{{ reposilite_paths_location }}:/app/data"
+reposilite_docker_volumes_custom: []
+reposilite_docker_volumes: "{{ reposilite_docker_volumes_default
+                               + reposilite_docker_volumes_custom }}"
+
+# Devices
+reposilite_docker_devices_default: []
+reposilite_docker_devices_custom: []
+reposilite_docker_devices: "{{ reposilite_docker_devices_default
+                               + reposilite_docker_devices_custom }}"
+
+# Hosts
+reposilite_docker_hosts_default: []
+reposilite_docker_hosts_custom: []
+reposilite_docker_hosts: "{{ docker_hosts_common
+                             | combine(reposilite_docker_hosts_default)
+                             | combine(reposilite_docker_hosts_custom) }}"
+
+# Labels
+reposilite_docker_labels_default: {}
+reposilite_docker_labels_custom: {}
+reposilite_docker_labels: "{{ docker_labels_common
+                              | combine(reposilite_docker_labels_default)
+                              | combine(reposilite_docker_labels_custom) }}"
+
+# Hostname
+reposilite_docker_hostname: "{{ reposilite_name }}"
+
+# Networks
+reposilite_docker_networks_alias: "{{ reposilite_name }}"
+reposilite_docker_networks_default: []
+reposilite_docker_networks_custom: []
+reposilite_docker_networks: "{{ docker_networks_common
+                                + reposilite_docker_networks_default
+                                + reposilite_docker_networks_custom }}"
+
+# Capabilities
+reposilite_docker_capabilities_default: []
+reposilite_docker_capabilities_custom: []
+reposilite_docker_capabilities: "{{ reposilite_docker_capabilities_default
+                                    + reposilite_docker_capabilities_custom }}"
+
+# Security Opts
+reposilite_docker_security_opts_default: []
+reposilite_docker_security_opts_custom: []
+reposilite_docker_security_opts: "{{ reposilite_docker_security_opts_default
+                                     + reposilite_docker_security_opts_custom }}"
+
+# Restart Policy
+reposilite_docker_restart_policy: unless-stopped
+
+# State
+reposilite_docker_state: started

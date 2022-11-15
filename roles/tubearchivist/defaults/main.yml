@@ -1,0 +1,173 @@
+##########################################################################
+# Title:            Sandbox: TubeArchivist | Default Variables           #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# URL:              https://github.com/tubearchivist/tubearchivist       #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+tubearchivist_name: tubearchivist
+
+################################
+# Paths
+################################
+
+tubearchivist_paths_folder: "{{ tubearchivist_name }}"
+tubearchivist_paths_location: "{{ server_appdata_path }}/{{ tubearchivist_paths_folder }}/app"
+tubearchivist_paths_downloads_location: "{{ downloads_root_path }}/{{ tubearchivist_paths_folder }}"
+tubearchivist_paths_folders_list:
+  - "{{ tubearchivist_paths_location }}"
+  - "{{ tubearchivist_paths_downloads_location }}"
+  - "{{ tubearchivist_paths_location }}/cache"
+
+################################
+# Web
+################################
+
+tubearchivist_web_subdomain: "{{ tubearchivist_name }}"
+tubearchivist_web_domain: "{{ user.domain }}"
+tubearchivist_web_port: "8000"
+tubearchivist_web_url: "{{ 'https://' + tubearchivist_web_subdomain + '.' + tubearchivist_web_domain
+                        if (reverse_proxy_is_enabled)
+                        else 'http://localhost:' + tubearchivist_web_port }}"
+
+################################
+# DNS
+################################
+
+tubearchivist_dns_record: "{{ tubearchivist_web_subdomain }}"
+tubearchivist_dns_zone: "{{ tubearchivist_web_domain }}"
+tubearchivist_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+tubearchivist_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tubearchivist_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                              + lookup('vars', tubearchivist_name + '_traefik_sso_middleware', default=tubearchivist_traefik_sso_middleware)
+                                           if (lookup('vars', tubearchivist_name + '_traefik_sso_middleware', default=tubearchivist_traefik_sso_middleware) | length > 0)
+                                           else traefik_default_middleware }}"
+tubearchivist_traefik_middleware_custom: ""
+tubearchivist_traefik_middleware: "{{ tubearchivist_traefik_middleware_default + ','
+                                      + tubearchivist_traefik_middleware_custom
+                                   if (not tubearchivist_traefik_middleware_custom.startswith(',') and tubearchivist_traefik_middleware_custom | length > 0)
+                                   else tubearchivist_traefik_middleware_default
+                                      + tubearchivist_traefik_middleware_custom }}"
+tubearchivist_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tubearchivist_traefik_enabled: true
+tubearchivist_traefik_api_enabled: true
+tubearchivist_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+tubearchivist_docker_container: "{{ tubearchivist_name }}"
+
+# Image
+tubearchivist_docker_image_pull: true
+tubearchivist_docker_image_tag: "latest"
+tubearchivist_docker_image: "bbilly1/tubearchivist:{{ tubearchivist_docker_image_tag }}"
+
+# Healthcheck
+tubearchivist_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ tubearchivist_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Ports
+tubearchivist_docker_ports_defaults:
+  - "{{ tubearchivist_web_port }}"
+tubearchivist_docker_ports_custom: []
+tubearchivist_docker_ports: "{{ tubearchivist_docker_ports_defaults
+                                + tubearchivist_docker_ports_custom
+                             if (not reverse_proxy_is_enabled)
+                             else tubearchivist_docker_ports_custom }}"
+
+# Envs
+tubearchivist_docker_envs_default:
+  TZ: "{{ tz }}"
+  ES_URL: "http://{{ tubearchivist_name }}_elasticsearch:9200"
+  REDIS_HOST: "{{ tubearchivist_name }}_redis"
+  HOST_UID: "{{ uid }}"
+  HOST_GID: "{{ gid }}"
+  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ tubearchivist_web_subdomain + '.' + tubearchivist_web_domain }}"
+  TA_USERNAME: "{{ user.name }}"
+  TA_PASSWORD: "{{ user.pass }}"
+  ELASTIC_PASSWORD: "{{ elasticsearch_docker_env_password }}"
+tubearchivist_docker_envs_custom: {}
+tubearchivist_docker_envs: "{{ tubearchivist_docker_envs_default
+                               | combine(tubearchivist_docker_envs_custom) }}"
+
+# Commands
+tubearchivist_docker_commands_default: []
+tubearchivist_docker_commands_custom: []
+tubearchivist_docker_commands: "{{ tubearchivist_docker_commands_default
+                                   + tubearchivist_docker_commands_custom }}"
+
+# Volumes
+tubearchivist_docker_volumes_default:
+  - "{{ tubearchivist_paths_downloads_location }}/:/youtube"
+  - "{{ tubearchivist_paths_location }}/cache:/cache"
+tubearchivist_docker_volumes_custom: []
+tubearchivist_docker_volumes: "{{ tubearchivist_docker_volumes_default
+                                  + tubearchivist_docker_volumes_custom }}"
+
+# Devices
+tubearchivist_docker_devices_default: []
+tubearchivist_docker_devices_custom: []
+tubearchivist_docker_devices: "{{ tubearchivist_docker_devices_default
+                                  + tubearchivist_docker_devices_custom }}"
+
+# Hosts
+tubearchivist_docker_hosts_default: []
+tubearchivist_docker_hosts_custom: []
+tubearchivist_docker_hosts: "{{ docker_hosts_common
+                                | combine(tubearchivist_docker_hosts_default)
+                                | combine(tubearchivist_docker_hosts_custom) }}"
+
+# Labels
+tubearchivist_docker_labels_default: {}
+tubearchivist_docker_labels_custom: {}
+tubearchivist_docker_labels: "{{ docker_labels_common
+                                 | combine(tubearchivist_docker_labels_default)
+                                 | combine(tubearchivist_docker_labels_custom) }}"
+
+# Hostname
+tubearchivist_docker_hostname: "{{ tubearchivist_name }}"
+
+# Networks
+tubearchivist_docker_networks_alias: "{{ tubearchivist_name }}"
+tubearchivist_docker_networks_default: []
+tubearchivist_docker_networks_custom: []
+tubearchivist_docker_networks: "{{ docker_networks_common
+                                   + tubearchivist_docker_networks_default
+                                   + tubearchivist_docker_networks_custom }}"
+
+# Capabilities
+tubearchivist_docker_capabilities_default: []
+tubearchivist_docker_capabilities_custom: []
+tubearchivist_docker_capabilities: "{{ tubearchivist_docker_capabilities_default
+                                       + tubearchivist_docker_capabilities_custom }}"
+
+# Security Opts
+tubearchivist_docker_security_opts_default: []
+tubearchivist_docker_security_opts_custom: []
+tubearchivist_docker_security_opts: "{{ tubearchivist_docker_security_opts_default
+                                        + tubearchivist_docker_security_opts_custom }}"
+
+# Restart Policy
+tubearchivist_docker_restart_policy: unless-stopped
+
+# State
+tubearchivist_docker_state: started
