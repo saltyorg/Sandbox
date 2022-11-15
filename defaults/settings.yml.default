@@ -83,7 +83,7 @@ sarotate:
 tandoor:
   secret_key: #Required: You can generate one with 'base64 /dev/urandom | head -c50'
 tqm:
-  download_client: client
+  download_client: "qbt"
 transmissionvpn:
   vpn_user:
   vpn_pass:
