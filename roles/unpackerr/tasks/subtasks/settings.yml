@@ -15,6 +15,15 @@
 - name: Settings | New `{{ unpackerr_config_location | basename }}` tasks
   block:
 
+    - name: Get Instance Info
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
+      vars:
+        get_info_list:
+          - sonarr
+          - radarr
+          - lidarr
+          - readarr
+
     - name: Settings | Import default `{{ unpackerr_config_location | basename }}`
       ansible.builtin.template:
         src: unpackerr.conf.j2
