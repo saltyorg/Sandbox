@@ -7,23 +7,23 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Check if tqm service exists
+- name: Check if 'tqm_service' exists
   ansible.builtin.stat:
     path: "{{ tqm_paths_service_location }}"
   register: tqm_service
 
-- name: Stop existing tqm service
+- name: Stop existing 'tqm_service'
   ansible.builtin.systemd:
     state: stopped
     name: tqm.service
   when: tqm_service.stat.exists
 
-- name: Check if tqm timer exists
+- name: Check if 'tqm_timer' exists
   ansible.builtin.stat:
     path: "{{ tqm_paths_timer_location }}"
   register: tqm_timer
 
-- name: Stop existing tqm timer
+- name: Stop existing 'tqm_timer'
   ansible.builtin.systemd:
     state: stopped
     name: tqm.timer
@@ -60,33 +60,33 @@
     msg: "You need to setup your config file. link_to_docs here"
   when: (not tqm_config.stat.exists) and (not continuous_integration)
 
-- name: Fail if download_client has not been set
+- name: Fail if 'download_client' has not been set
   ansible.builtin.fail:
     msg: "You need to edit 'tqm.download_client' in the settings.yml. Options are deluge and qbt"
   when: (tqm.download_client | default("client") | ternary('true', 'false') == 'false') and not continuous_integration
 
-- name: Import tqm service
+- name: Import 'tqm_service'
   ansible.builtin.template:
     src: tqm.service.j2
     dest: "{{ tqm_paths_service_location }}"
     mode: "0664"
     force: true
 
-- name: Load tqm service
+- name: Load 'tqm_service'
   ansible.builtin.systemd:
     name: tqm.service
     state: started
     enabled: yes
     daemon_reload: true
 
-- name: Import tqm timer
+- name: Import 'tqm_timer'
   ansible.builtin.template:
     src: tqm.timer.j2
     dest: "{{ tqm_paths_timer_location }}"
     mode: "0664"
     force: true
 
-- name: Load tqm timer
+- name: Load 'tqm_timer'
   ansible.builtin.systemd:
     name: tqm.timer
     state: started
