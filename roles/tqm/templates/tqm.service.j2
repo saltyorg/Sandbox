@@ -1,0 +1,14 @@
+[Unit]
+Description=tqm service
+
+[Service]
+User={{ user.name }}
+Group={{ user.name }}
+Type=oneshot
+WorkingDirectory={{ tqm_paths_location }}
+ExecStartPre=/bin/sleep 30
+ExecStart={{ tqm_paths_location}}/tqm \
+  clean {{ tqm.download_client | default('qbt', true)  }}
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,96 @@
+#########################################################################
+# Title:            Sandbox: tqm                                        #
+# Author(s):        CHAIR/Raneydazed                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Check if 'tqm_service' exists
+  ansible.builtin.stat:
+    path: "{{ tqm_paths_service_location }}"
+  register: tqm_service
+
+- name: Stop existing 'tqm_service'
+  ansible.builtin.systemd:
+    state: stopped
+    name: tqm.service
+  when: tqm_service.stat.exists
+
+- name: Check if 'tqm_timer' exists
+  ansible.builtin.stat:
+    path: "{{ tqm_paths_timer_location }}"
+  register: tqm_timer
+
+- name: Stop existing 'tqm_timer'
+  ansible.builtin.systemd:
+    state: stopped
+    name: tqm.timer
+  when: tqm_timer.stat.exists
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Set variable for output of tqm releases
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/l3uddz/tqm/releases/latest
+  register: tqm_releases
+
+- name: Get the url for latest amd64 tqm binary
+  ansible.builtin.set_fact:
+    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', '==', 'tqm_v1.5.0_linux_amd64') | map(attribute='browser_download_url') | join('') }}"
+
+- name: Download tqm binary
+  ansible.builtin.get_url:
+    url: "{{ tqm_latest }}"
+    dest: "{{ tqm_paths_location }}/tqm"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+    force: true
+
+- name: Check if `{{ tqm_paths_config_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ tqm_paths_config_location }}"
+  register: tqm_config
+
+- name: "Fail when 'config.yml' is not present"
+  ansible.builtin.fail:
+    msg: "You need to setup your config file. link_to_docs here"
+  when: (not tqm_config.stat.exists) and (not continuous_integration)
+
+- name: Fail if 'download_client' has not been set
+  ansible.builtin.fail:
+    msg: "You need to edit 'tqm.download_client' in the settings.yml. Options are deluge and qbt"
+  when: (tqm.download_client | default("client") | ternary('true', 'false') == 'false') and not continuous_integration
+
+- name: Import 'tqm_service'
+  ansible.builtin.template:
+    src: tqm.service.j2
+    dest: "{{ tqm_paths_service_location }}"
+    mode: "0664"
+    force: true
+
+- name: Load 'tqm_service'
+  ansible.builtin.systemd:
+    name: tqm.service
+    state: started
+    enabled: yes
+    daemon_reload: true
+  when: not continuous_integration
+
+- name: Import 'tqm_timer'
+  ansible.builtin.template:
+    src: tqm.timer.j2
+    dest: "{{ tqm_paths_timer_location }}"
+    mode: "0664"
+    force: true
+
+- name: Load 'tqm_timer'
+  ansible.builtin.systemd:
+    name: tqm.timer
+    state: started
+    enabled: yes
+    daemon_reload: true
+  when: not continuous_integration
