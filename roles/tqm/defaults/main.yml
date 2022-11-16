@@ -1,0 +1,27 @@
+#########################################################################
+# Title:            Sandbox: tqm | Default Variables                    #
+# Author(s):        CHAIR/Raneydazed                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+################################
+# Basics
+################################
+
+tqm_name: tqm
+
+################################
+# Paths
+################################
+
+tqm_paths_folder: "{{ tqm_name }}"
+tqm_paths_location: "{{ server_appdata_path }}/{{ tqm_paths_folder }}"
+tqm_paths_config_location: "{{ tqm_paths_location }}/config.yaml"
+tqm_paths_service_location: "/etc/systemd/system/tqm.service"
+tqm_paths_timer_location: "/etc/systemd/system/tqm.timer"
+tqm_paths_folders_list:
+  - "{{ tqm_paths_location }}"

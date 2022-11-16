@@ -78,6 +78,8 @@ sarotate:
   apprise:
 tandoor:
   secret_key:
+tqm:
+  download_client: "qbt"
 transmissionvpn:
   vpn_user:
   vpn_pass:
