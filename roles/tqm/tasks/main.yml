@@ -58,7 +58,7 @@
 - name: "Fail when 'config.yml' is not present"
   ansible.builtin.fail:
     msg: "You need to setup your config file. link_to_docs here"
-  when: (not tqm_config.stat.exists) and (not continuous_integration)
+  when: not tqm_config.stat.exists
 
 - name: Fail if 'download_client' has not been set
   ansible.builtin.fail:
