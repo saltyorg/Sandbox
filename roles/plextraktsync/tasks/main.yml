@@ -27,7 +27,7 @@
 
 - name: Wait for directory to be populated
   ansible.builtin.wait_for:
-    path: "{{ plextraktsync_paths_location }}/plextraktsync.log"
+    path: "{{ plextraktsync_paths_log }}"
 
 - name: Sleep 3 seconds
   ansible.builtin.wait_for:
