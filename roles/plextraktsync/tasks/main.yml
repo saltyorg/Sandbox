@@ -13,9 +13,9 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check if `{{ plextraktsync_paths_config_location | basename }}` exists
+- name: Check if `{{ plextraktsync_paths_env | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ plextraktsync_paths_config_location }}"
+    path: "{{ plextraktsync_paths_env }}"
   register: plextraktsync_env
 
 - name: Pre-Install Tasks
@@ -24,3 +24,18 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Wait for directory to be populated
+  ansible.builtin.wait_for:
+    path: "{{ plextraktsync_paths_log }}"
+
+- name: Sleep 3 seconds
+  ansible.builtin.wait_for:
+    timeout: 3
+
+- name: Reset files ownership
+  ansible.builtin.file:
+    path: "{{ plextraktsync_paths_location }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    recurse: true

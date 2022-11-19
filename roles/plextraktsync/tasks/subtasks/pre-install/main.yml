@@ -38,10 +38,8 @@
     name: plex_auth_token
   when: plex_account_is_enabled
 
-- name: Create {{ plextraktsync_paths_config_location | basename }}
+- name: Create {{ plextraktsync_paths_env | basename }}
   ansible.builtin.template:
     src: env.j2
-    dest: "{{ plextraktsync_paths_config_location }}"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: 0664
+    dest: "{{ plextraktsync_paths_env }}"
+    mode: 0644
