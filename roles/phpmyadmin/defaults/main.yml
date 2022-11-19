@@ -1,0 +1,146 @@
+##########################################################################
+# Title:            Sandbox: phpmyadmin | Default Variables              #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# URL:              https://hub.docker.com/_/phpmyadmin                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+phpmyadmin_name: phpmyadmin
+
+################################
+# Web
+################################
+
+phpmyadmin_web_subdomain: "{{ phpmyadmin_name }}"
+phpmyadmin_web_domain: "{{ user.domain }}"
+phpmyadmin_web_port: "80"
+phpmyadmin_web_url: "{{ 'https://' + phpmyadmin_web_subdomain + '.' + phpmyadmin_web_domain
+                     if (reverse_proxy_is_enabled)
+                     else 'http://localhost:' + phpmyadmin_web_port }}"
+
+################################
+# DNS
+################################
+
+phpmyadmin_dns_record: "{{ phpmyadmin_web_subdomain }}"
+phpmyadmin_dns_zone: "{{ phpmyadmin_web_domain }}"
+phpmyadmin_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+phpmyadmin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+phpmyadmin_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                           + lookup('vars', phpmyadmin_name + '_traefik_sso_middleware', default=phpmyadmin_traefik_sso_middleware)
+                                        if (lookup('vars', phpmyadmin_name + '_traefik_sso_middleware', default=phpmyadmin_traefik_sso_middleware) | length > 0)
+                                        else traefik_default_middleware }}"
+phpmyadmin_traefik_middleware_custom: ""
+phpmyadmin_traefik_middleware: "{{ phpmyadmin_traefik_middleware_default + ','
+                                   + phpmyadmin_traefik_middleware_custom
+                                if (not phpmyadmin_traefik_middleware_custom.startswith(',') and phpmyadmin_traefik_middleware_custom | length > 0)
+                                else phpmyadmin_traefik_middleware_default
+                                   + phpmyadmin_traefik_middleware_custom }}"
+phpmyadmin_traefik_certresolver: "{{ traefik_default_certresolver }}"
+phpmyadmin_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+phpmyadmin_docker_container: "{{ phpmyadmin_name }}"
+
+# Image
+phpmyadmin_docker_image_pull: true
+phpmyadmin_docker_image_tag: "latest"
+phpmyadmin_docker_image: "phpmyadmin:{{ phpmyadmin_docker_image_tag }}"
+
+# Ports
+phpmyadmin_docker_ports_defaults:
+  - "{{ phpmyadmin_web_port }}"
+phpmyadmin_docker_ports_custom: []
+phpmyadmin_docker_ports: "{{ phpmyadmin_docker_ports_defaults
+                             + phpmyadmin_docker_ports_custom
+                          if (not reverse_proxy_is_enabled)
+                          else phpmyadmin_docker_ports_custom }}"
+
+# Envs
+phpmyadmin_docker_envs_default:
+  TZ: "{{ tz }}"
+  PMA_ARBITRARY: "1"
+  PMA_ABSOLUTE_URI: "{{ phpmyadmin_web_url }}"
+  PMA_VERBOSE: "Saltbox"
+  PMA_PORT: "3306"
+  HIDE_PHP_VERSION: "true"
+phpmyadmin_docker_envs_custom: {}
+phpmyadmin_docker_envs: "{{ phpmyadmin_docker_envs_default
+                            | combine(phpmyadmin_docker_envs_custom) }}"
+
+# Commands
+phpmyadmin_docker_commands_default: []
+phpmyadmin_docker_commands_custom: []
+phpmyadmin_docker_commands: "{{ phpmyadmin_docker_commands_default
+                                + phpmyadmin_docker_commands_custom }}"
+
+# Volumes
+phpmyadmin_docker_volumes_default: []
+phpmyadmin_docker_volumes_custom: []
+phpmyadmin_docker_volumes: "{{ phpmyadmin_docker_volumes_default
+                               + phpmyadmin_docker_volumes_custom }}"
+
+# Devices
+phpmyadmin_docker_devices_default: []
+phpmyadmin_docker_devices_custom: []
+phpmyadmin_docker_devices: "{{ phpmyadmin_docker_devices_default
+                               + phpmyadmin_docker_devices_custom }}"
+
+# Hosts
+phpmyadmin_docker_hosts_default: []
+phpmyadmin_docker_hosts_custom: []
+phpmyadmin_docker_hosts: "{{ docker_hosts_common
+                             | combine(phpmyadmin_docker_hosts_default)
+                             | combine(phpmyadmin_docker_hosts_custom) }}"
+
+# Labels
+phpmyadmin_docker_labels_default: {}
+phpmyadmin_docker_labels_custom: {}
+phpmyadmin_docker_labels: "{{ docker_labels_common
+                              | combine(phpmyadmin_docker_labels_default)
+                              | combine(phpmyadmin_docker_labels_custom) }}"
+
+# Hostname
+phpmyadmin_docker_hostname: "{{ phpmyadmin_name }}"
+
+# Networks
+phpmyadmin_docker_networks_alias: "{{ phpmyadmin_name }}"
+phpmyadmin_docker_networks_default: []
+phpmyadmin_docker_networks_custom: []
+phpmyadmin_docker_networks: "{{ docker_networks_common
+                                + phpmyadmin_docker_networks_default
+                                + phpmyadmin_docker_networks_custom }}"
+
+# Capabilities
+phpmyadmin_docker_capabilities_default: []
+phpmyadmin_docker_capabilities_custom: []
+phpmyadmin_docker_capabilities: "{{ phpmyadmin_docker_capabilities_default
+                                    + phpmyadmin_docker_capabilities_custom }}"
+
+# Security Opts
+phpmyadmin_docker_security_opts_default: []
+phpmyadmin_docker_security_opts_custom: []
+phpmyadmin_docker_security_opts: "{{ phpmyadmin_docker_security_opts_default
+                                     + phpmyadmin_docker_security_opts_custom }}"
+
+# Restart Policy
+phpmyadmin_docker_restart_policy: unless-stopped
+
+# State
+phpmyadmin_docker_state: started
