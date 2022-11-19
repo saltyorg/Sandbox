@@ -63,6 +63,14 @@ phpmyadmin_docker_image_pull: true
 phpmyadmin_docker_image_tag: "latest"
 phpmyadmin_docker_image: "phpmyadmin:{{ phpmyadmin_docker_image_tag }}"
 
+# Healthcheck
+phpmyadmin_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ phpmyadmin_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
 # Ports
 phpmyadmin_docker_ports_defaults:
   - "{{ phpmyadmin_web_port }}"
