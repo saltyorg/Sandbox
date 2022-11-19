@@ -37,6 +37,7 @@
     - { role: comixed, tags: ['comixed'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
+    - { role: docspell, tags: ['docspell'] }
     - { role: doplarr, tags: ['doplarr'] }
     - { role: dozzle, tags: ['dozzle'] }
     - { role: elasticsearch, tags: ['elasticsearch'] }
@@ -123,6 +124,7 @@
     - { role: rocketchat, tags: ['rocketchat'] }
     - { role: sabthrottle, tags: ['sabthrottle'] }
     - { role: sarotate, tags: ['sarotate'] }
+    - { role: solr, tags: ['solr'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
     - { role: sshwifty, tags: ['sshwifty'] }

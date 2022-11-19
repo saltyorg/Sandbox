@@ -1,0 +1,175 @@
+##########################################################################
+# Title:            Sandbox: docspell | Default Variables                #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# URL:              https://github.com/eikek/docspell                    #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+docspell_name: docspell
+
+################################
+# Paths
+################################
+
+docspell_paths_folder: "{{ docspell_name }}"
+docspell_paths_location: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/server"
+docspell_paths_folders_list:
+  - "{{ docspell_paths_location }}"
+
+################################
+# Web
+################################
+
+docspell_web_subdomain: "{{ docspell_name }}"
+docspell_web_domain: "{{ user.domain }}"
+docspell_web_port: "7880"
+docspell_web_url: "{{ 'https://' + docspell_web_subdomain + '.' + docspell_web_domain
+                   if (reverse_proxy_is_enabled)
+                   else 'http://localhost:' + docspell_web_port }}"
+
+################################
+# DNS
+################################
+
+docspell_dns_record: "{{ docspell_web_subdomain }}"
+docspell_dns_zone: "{{ docspell_web_domain }}"
+docspell_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+docspell_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+docspell_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                           + lookup('vars', docspell_name + '_traefik_sso_middleware', default=docspell_traefik_sso_middleware)
+                                        if (lookup('vars', docspell_name + '_traefik_sso_middleware', default=docspell_traefik_sso_middleware) | length > 0)
+                                        else traefik_default_middleware }}"
+docspell_traefik_middleware_custom: ""
+docspell_traefik_middleware: "{{ docspell_traefik_middleware_default + ','
+                                 + docspell_traefik_middleware_custom
+                              if (not docspell_traefik_middleware_custom.startswith(',') and docspell_traefik_middleware_custom | length > 0)
+                              else docspell_traefik_middleware_default
+                                 + docspell_traefik_middleware_custom }}"
+docspell_traefik_certresolver: "{{ traefik_default_certresolver }}"
+docspell_traefik_enabled: true
+docspell_traefik_api_enabled: true
+docspell_traefik_api_endpoint: "`/api`"
+
+################################
+# Docker
+################################
+
+# Container
+docspell_docker_container: "{{ docspell_name }}"
+
+# Image
+docspell_docker_image_pull: true
+docspell_docker_image_tag: "latest"
+docspell_docker_image: "docspell/restserver:{{ docspell_docker_image_tag }}"
+
+# Healthcheck
+docspell_docker_healthcheck:
+  test: ["CMD", "wget", "--spider", "http://localhost:{{ docspell_web_port }}/api/info/version"]
+  interval: 1m
+  timeout: 10s
+  retries: 2
+  start_period: 30s
+
+# Ports
+docspell_docker_ports_defaults:
+  - "{{ docspell_web_port }}"
+docspell_docker_ports_custom: []
+docspell_docker_ports: "{{ docspell_docker_ports_defaults
+                           + docspell_docker_ports_custom
+                        if (not reverse_proxy_is_enabled)
+                        else docspell_docker_ports_custom }}"
+
+# Envs
+docspell_docker_envs_default:
+  TZ: "{{ tz }}"
+  DOCSPELL_SERVER_INTERNAL__URL: "http://{{ docspell_name }}:{{ docspell_web_port }}"
+  DOCSPELL_SERVER_ADMIN__ENDPOINT_SECRET: "{{ docspell_admin_key.stdout }}"
+  # DOCSPELL_SERVER_AUTH_SERVER__SECRET: ""
+  DOCSPELL_SERVER_BACKEND_JDBC_PASSWORD: "{{ mariadb_docker_envs_mysql_root_password }}"
+  DOCSPELL_SERVER_BACKEND_JDBC_URL: "jdbc:mariadb://{{ docspell_name }}_mariadb:3306/{{ docspell_name }}"
+  DOCSPELL_SERVER_BACKEND_JDBC_USER: "root"
+  DOCSPELL_SERVER_BIND_ADDRESS: "0.0.0.0"
+  DOCSPELL_SERVER_FULL__TEXT__SEARCH_ENABLED: "true"
+  DOCSPELL_SERVER_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}_solr:{{ solr_docker_env_port }}/solr/{{ docspell_name }}"
+  DOCSPELL_SERVER_INTEGRATION__ENDPOINT_ENABLED: "true"
+  DOCSPELL_SERVER_INTEGRATION__ENDPOINT_HTTP__HEADER_ENABLED: "true"
+  DOCSPELL_SERVER_INTEGRATION__ENDPOINT_HTTP__HEADER_HEADER__VALUE: "{{ docspell_integration_key.stdout }}"
+  DOCSPELL_SERVER_BACKEND_SIGNUP_MODE: "open"
+  DOCSPELL_SERVER_BACKEND_SIGNUP_NEW__INVITE__PASSWORD: "{{ docspell_register_key.stdout }}"
+  DOCSPELL_SERVER_BACKEND_ADDONS_ENABLED: "false"
+docspell_docker_envs_custom: {}
+docspell_docker_envs: "{{ docspell_docker_envs_default
+                          | combine(docspell_docker_envs_custom) }}"
+
+# Commands
+docspell_docker_commands_default: []
+docspell_docker_commands_custom: []
+docspell_docker_commands: "{{ docspell_docker_commands_default
+                              + docspell_docker_commands_custom }}"
+
+# Volumes
+docspell_docker_volumes_default: []
+docspell_docker_volumes_custom: []
+docspell_docker_volumes: "{{ docspell_docker_volumes_default
+                             + docspell_docker_volumes_custom }}"
+
+# Devices
+docspell_docker_devices_default: []
+docspell_docker_devices_custom: []
+docspell_docker_devices: "{{ docspell_docker_devices_default
+                             + docspell_docker_devices_custom }}"
+
+# Hosts
+docspell_docker_hosts_default: []
+docspell_docker_hosts_custom: []
+docspell_docker_hosts: "{{ docker_hosts_common
+                           | combine(docspell_docker_hosts_default)
+                           | combine(docspell_docker_hosts_custom) }}"
+
+# Labels
+docspell_docker_labels_default: {}
+docspell_docker_labels_custom: {}
+docspell_docker_labels: "{{ docker_labels_common
+                            | combine(docspell_docker_labels_default)
+                            | combine(docspell_docker_labels_custom) }}"
+
+# Hostname
+docspell_docker_hostname: "{{ docspell_name }}"
+
+# Networks
+docspell_docker_networks_alias: "{{ docspell_name }}"
+docspell_docker_networks_default: []
+docspell_docker_networks_custom: []
+docspell_docker_networks: "{{ docker_networks_common
+                              + docspell_docker_networks_default
+                              + docspell_docker_networks_custom }}"
+
+# Capabilities
+docspell_docker_capabilities_default: []
+docspell_docker_capabilities_custom: []
+docspell_docker_capabilities: "{{ docspell_docker_capabilities_default
+                                  + docspell_docker_capabilities_custom }}"
+
+# Security Opts
+docspell_docker_security_opts_default: []
+docspell_docker_security_opts_custom: []
+docspell_docker_security_opts: "{{ docspell_docker_security_opts_default
+                                   + docspell_docker_security_opts_custom }}"
+
+# Restart Policy
+docspell_docker_restart_policy: unless-stopped
+
+# State
+docspell_docker_state: started
