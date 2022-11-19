@@ -23,8 +23,12 @@
     mariadb_paths_location: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/mariadb"
 
 - name: Create docspell database
-  ansible.builtin.command: "docker exec {{ docspell_name }}_mariadb mysql -u root -p{{ mariadb_docker_envs_mysql_root_password }} -e 'create schema {{ docspell_name }} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'"
-  when: not stat_docspell_db_folder.stat.exists
+  community.mysql.mysql_db:
+    name: "{{ docspell_name }}"
+    login_host: "{{ docspell_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    state: present
 
 - name: Solr Role
   ansible.builtin.include_role:
