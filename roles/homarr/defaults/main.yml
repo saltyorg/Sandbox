@@ -1,0 +1,168 @@
+##########################################################################
+# Title:            Sandbox: homarr | Default Variables                  #
+# Author(s):        CHAIR/Raneydazed                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+homarr_name: homarr
+
+################################
+# Paths
+################################
+
+homarr_paths_folder: "{{ homarr_name }}"
+homarr_paths_location: "{{ server_appdata_path }}/{{ homarr_paths_folder }}"
+homarr_paths_folders_list:
+  - "{{ homarr_paths_location }}"
+  - "{{ homarr_paths_location }}/icons"
+
+################################
+# Web
+################################
+
+homarr_web_subdomain: "{{ homarr_name }}"
+homarr_web_domain: "{{ user.domain }}"
+homarr_web_port: "7575"
+homarr_web_url: "{{ 'https://' + homarr_web_subdomain + '.' + homarr_web_domain
+                 if (reverse_proxy_is_enabled)
+                 else 'http://localhost:' + homarr_web_port }}"
+
+################################
+# DNS
+################################
+
+homarr_dns_record: "{{ homarr_web_subdomain }}"
+homarr_dns_zone: "{{ homarr_web_domain }}"
+homarr_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+homarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+homarr_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                       + lookup('vars', homarr_name + '_traefik_sso_middleware', default=homarr_traefik_sso_middleware)
+                                    if (lookup('vars', homarr_name + '_traefik_sso_middleware', default=homarr_traefik_sso_middleware) | length > 0)
+                                    else traefik_default_middleware }}"
+homarr_traefik_middleware_custom: ""
+homarr_traefik_middleware: "{{ homarr_traefik_middleware_default + ','
+                               + homarr_traefik_middleware_custom
+                            if (not homarr_traefik_middleware_custom.startswith(',') and homarr_traefik_middleware_custom | length > 0)
+                            else homarr_traefik_middleware_default
+                               + homarr_traefik_middleware_custom }}"
+homarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+homarr_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+homarr_docker_container: "{{ homarr_name }}"
+
+# Image
+homarr_docker_image_pull: true
+homarr_docker_image_tag: "latest"
+homarr_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_docker_image_tag }}"
+
+# Healthcheck
+# homarr_docker_healthcheck:
+#   test: ["CMD", "curl", "--fail", "http://localhost:{{ homarr_web_port }}"]
+#   interval: 10s
+#   timeout: 5s
+#   retries: 10
+#   start_period: 10s
+
+# Ports
+homarr_docker_ports_defaults:
+  - "{{ homarr_web_port }}"
+homarr_docker_ports_custom: []
+homarr_docker_ports: "{{ homarr_docker_ports_defaults
+                         + homarr_docker_ports_custom
+                      if (not reverse_proxy_is_enabled)
+                      else homarr_docker_ports_custom }}"
+
+# Envs
+homarr_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  BASE_URL: "{{ homarr_web_subdomain + '.' + homarr_web_domain
+             if (reverse_proxy_is_enabled)
+             else 'localhost:' + homarr_web_port }}"
+  PASSWORD: "{{ user.pass }}"
+  NODE_TLS_REJECT_UNAUTHORIZED: "0"
+homarr_docker_envs_custom: {}
+homarr_docker_envs: "{{ homarr_docker_envs_default
+                        | combine(homarr_docker_envs_custom) }}"
+
+# Commands
+homarr_docker_commands_default: []
+homarr_docker_commands_custom: []
+homarr_docker_commands: "{{ homarr_docker_commands_default
+                            + homarr_docker_commands_custom }}"
+
+# Volumes
+homarr_docker_volumes_default:
+  - "{{ homarr_paths_location }}:/app/data/configs"
+  - "{{ homarr_paths_location }}/icons:/app/public/icons"
+  - /var/run/docker.sock:/var/run/docker.sock
+homarr_docker_volumes_custom: []
+homarr_docker_volumes: "{{ homarr_docker_volumes_default
+                           + homarr_docker_volumes_custom }}"
+
+# Devices
+homarr_docker_devices_default: []
+homarr_docker_devices_custom: []
+homarr_docker_devices: "{{ homarr_docker_devices_default
+                           + homarr_docker_devices_custom }}"
+
+# Hosts
+homarr_docker_hosts_default: []
+homarr_docker_hosts_custom: []
+homarr_docker_hosts: "{{ docker_hosts_common
+                         | combine(homarr_docker_hosts_default)
+                         | combine(homarr_docker_hosts_custom) }}"
+
+# Labels
+homarr_docker_labels_default: {}
+homarr_docker_labels_custom: {}
+homarr_docker_labels: "{{ docker_labels_common
+                          | combine(homarr_docker_labels_default)
+                          | combine(homarr_docker_labels_custom) }}"
+
+# Hostname
+homarr_docker_hostname: "{{ homarr_name }}"
+
+# Networks
+homarr_docker_networks_alias: "{{ homarr_name }}"
+homarr_docker_networks_default: []
+homarr_docker_networks_custom: []
+homarr_docker_networks: "{{ docker_networks_common
+                            + homarr_docker_networks_default
+                            + homarr_docker_networks_custom }}"
+
+# Capabilities
+homarr_docker_capabilities_default: []
+homarr_docker_capabilities_custom: []
+homarr_docker_capabilities: "{{ homarr_docker_capabilities_default
+                                + homarr_docker_capabilities_custom }}"
+
+# Security Opts
+homarr_docker_security_opts_default: []
+homarr_docker_security_opts_custom: []
+homarr_docker_security_opts: "{{ homarr_docker_security_opts_default
+                                 + homarr_docker_security_opts_custom }}"
+
+# Restart Policy
+homarr_docker_restart_policy: unless-stopped
+
+# State
+homarr_docker_state: started
