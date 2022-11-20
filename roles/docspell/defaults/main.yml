@@ -74,14 +74,6 @@ docspell_docker_image_pull: true
 docspell_docker_image_tag: "latest"
 docspell_docker_image: "docspell/restserver:{{ docspell_docker_image_tag }}"
 
-# Healthcheck
-docspell_docker_healthcheck:
-  test: ["CMD", "wget", "--spider", "http://localhost:{{ docspell_web_port }}/api/info/version"]
-  interval: 1m
-  timeout: 10s
-  retries: 2
-  start_period: 30s
-
 # Ports
 docspell_docker_ports_defaults:
   - "{{ docspell_web_port }}"

@@ -62,14 +62,6 @@ omegabrr_docker_image_pull: true
 omegabrr_docker_image_tag: "latest"
 omegabrr_docker_image: "ghcr.io/autobrr/omegabrr:{{ omegabrr_docker_image_tag }}"
 
-# Healthcheck
-omegabrr_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost:{{ omegabrr_web_port }}"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 omegabrr_docker_ports_defaults: []
 omegabrr_docker_ports_custom: []

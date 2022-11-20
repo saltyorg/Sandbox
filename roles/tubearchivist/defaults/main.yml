@@ -77,14 +77,6 @@ tubearchivist_docker_image_pull: true
 tubearchivist_docker_image_tag: "latest"
 tubearchivist_docker_image: "bbilly1/tubearchivist:{{ tubearchivist_docker_image_tag }}"
 
-# Healthcheck
-tubearchivist_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost:{{ tubearchivist_web_port }}"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 tubearchivist_docker_ports_defaults:
   - "{{ tubearchivist_web_port }}"
