@@ -60,6 +60,7 @@
     - { role: handbrake, tags: ['handbrake'] }
     - { role: healthchecks, tags: ['healthchecks'] }
     - { role: heimdall, tags: ['heimdall'] }
+    - { role: homarr, tags: ['homarr'] }
     - { role: homebox, tags: ['homebox'] }
     - { role: influxdb, tags: ['influxdb'] }
     - { role: invoiceninjav5, tags: ['invoiceninja'] }
