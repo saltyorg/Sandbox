@@ -1,0 +1,57 @@
+#########################################################################
+# Title:         Sandbox: Homeassistant                                 #
+# Author(s):     CHAIR/Raneydazed                                       #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: "Check if '{{ homeassistant_paths_conf | basename }}' exists"
+  ansible.builtin.stat:
+    path: "{{ homeassistant_paths_conf }}"
+  register: homeassistant_config
+
+- name: Settings | New `{{ homeassistant_paths_conf | basename }}` tasks
+  block:
+
+    - name: "Create '{{ homeassistant_paths_conf | basename }}' if it doesnt exist"
+      ansible.builtin.template:
+        src: configuration.yaml.j2
+        dest: "{{ homeassistant_paths_conf }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+  when: not homeassistant_config.stat.exists
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Wait for 'configuration.yaml' to be created
+  ansible.builtin.wait_for:
+    path: "{{ homeassistant_paths_conf }}"
+    state: present
+  when: (not continuous_integration)
+
+- name: Chown '{{ homeassistant_paths_location }}'
+  ansible.builtin.file:
+    path: "{{ homeassistant_paths_location }}"
+    state: directory
+    recurse: true
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+  when: (not continuous_integration)
