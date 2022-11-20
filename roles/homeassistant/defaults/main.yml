@@ -1,0 +1,142 @@
+##########################################################################
+# Title:         Sandbox: Homeassistant | Default Variables              #
+# Author(s):     CHAIR/Raneydazed                                        #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+homeassistant_name: homeassistant
+
+################################
+# Paths
+################################
+
+homeassistant_paths_folder: "{{ homeassistant_name }}"
+homeassistant_paths_location: "{{ server_appdata_path }}/{{ homeassistant_paths_folder }}"
+homeassistant_paths_conf: "{{ homeassistant_paths_location }}/configuration.yaml"
+homeassistant_paths_folders_list:
+  - "{{ homeassistant_paths_location }}"
+
+################################
+# Web
+################################
+
+homeassistant_web_subdomain: "{{ homeassistant_name }}"
+homeassistant_web_domain: "{{ user.domain }}"
+homeassistant_web_port: "8123"
+homeassistant_web_url: "{{ 'https://' + homeassistant_web_subdomain + '.' + homeassistant_web_domain
+                        if (reverse_proxy_is_enabled)
+                        else 'http://localhost:' + homeassistant_web_port }}"
+
+################################
+# DNS
+################################
+
+homeassistant_dns_record: "{{ homeassistant_web_subdomain }}"
+homeassistant_dns_zone: "{{ homeassistant_web_domain }}"
+homeassistant_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+homeassistant_traefik_middleware: "{{ traefik_default_middleware }}"
+homeassistant_traefik_certresolver: "{{ traefik_default_certresolver }}"
+homeassistant_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+homeassistant_docker_container: "{{ homeassistant_name }}"
+
+# Image
+homeassistant_docker_image_pull: true
+homeassistant_docker_image_tag: "latest"
+homeassistant_docker_image: "lscr.io/linuxserver/homeassistant:{{ homeassistant_docker_image_tag }}"
+
+# Healthcheck
+homeassistant_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://localhost:{{ homeassistant_web_port }}"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
+
+# Envs
+homeassistant_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+homeassistant_docker_envs_custom: {}
+homeassistant_docker_envs: "{{ homeassistant_docker_envs_default
+                               | combine(homeassistant_docker_envs_custom) }}"
+
+# Commands
+homeassistant_docker_commands_default: []
+homeassistant_docker_commands_custom: []
+homeassistant_docker_commands: "{{ homeassistant_docker_commands_default
+                                   + homeassistant_docker_commands_custom }}"
+
+# Volumes
+homeassistant_docker_volumes_default:
+  - "{{ homeassistant_paths_location }}:/config"
+  - /etc/localtime:/etc/localtime:ro
+homeassistant_docker_volumes_custom: []
+homeassistant_docker_volumes: "{{ homeassistant_docker_volumes_default
+                                  + homeassistant_docker_volumes_custom }}"
+
+# Extended Privileges
+homeassistant_docker_privileged: "yes"
+
+# Devices
+homeassistant_docker_devices_default: []
+homeassistant_docker_devices_custom: []
+homeassistant_docker_devices: "{{ homeassistant_docker_devices_default
+                                  + homeassistant_docker_devices_custom }}"
+
+# Hosts
+homeassistant_docker_hosts_default: []
+homeassistant_docker_hosts_custom: []
+homeassistant_docker_hosts: "{{ docker_hosts_common
+                                | combine(homeassistant_docker_hosts_default)
+                                | combine(homeassistant_docker_hosts_custom) }}"
+
+# Labels
+homeassistant_docker_labels_default: {}
+homeassistant_docker_labels_custom: {}
+homeassistant_docker_labels: "{{ docker_labels_common
+                                 | combine(homeassistant_docker_labels_default)
+                                 | combine(homeassistant_docker_labels_custom) }}"
+
+# Hostname
+homeassistant_docker_hostname: "{{ homeassistant_name }}"
+
+homeassistant_docker_networks: "{{ omit }}"
+
+# Capabilities
+homeassistant_docker_capabilities_default: []
+homeassistant_docker_capabilities_custom: []
+homeassistant_docker_capabilities: "{{ homeassistant_docker_capabilities_default
+                                       + homeassistant_docker_capabilities_custom }}"
+
+# Network Mode
+homeassistant_docker_network_mode: "host"
+
+# Security Opts
+homeassistant_docker_security_opts_default: []
+homeassistant_docker_security_opts_custom: []
+homeassistant_docker_security_opts: "{{ homeassistant_docker_security_opts_default
+                                        + homeassistant_docker_security_opts_custom }}"
+
+# Restart Policy
+homeassistant_docker_restart_policy: unless-stopped
+
+# State
+homeassistant_docker_state: started
