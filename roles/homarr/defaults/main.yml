@@ -72,14 +72,6 @@ homarr_docker_image_pull: true
 homarr_docker_image_tag: "latest"
 homarr_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_docker_image_tag }}"
 
-# Healthcheck
-# homarr_docker_healthcheck:
-#   test: ["CMD", "curl", "--fail", "http://localhost:{{ homarr_web_port }}"]
-#   interval: 10s
-#   timeout: 5s
-#   retries: 10
-#   start_period: 10s
-
 # Ports
 homarr_docker_ports_defaults:
   - "{{ homarr_web_port }}"
