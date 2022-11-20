@@ -69,14 +69,6 @@ lunasea_docker_image_pull: true
 lunasea_docker_image_tag: "stable"
 lunasea_docker_image: "ghcr.io/jagandeepbrar/lunasea:{{ lunasea_docker_image_tag }}"
 
-# Healthcheck
-lunasea_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 lunasea_docker_ports_defaults:
   - "{{ lunasea_web_port }}"

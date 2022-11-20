@@ -71,14 +71,6 @@ plexshare_docker_image_pull: true
 plexshare_docker_image_tag: "latest"
 plexshare_docker_image: "chewbaka/plexshare:{{ plexshare_docker_image_tag }}"
 
-# Healthcheck
-plexshare_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost:{{ plexshare_web_port }}"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 plexshare_docker_ports_defaults:
   - "{{ plexshare_web_port }}"

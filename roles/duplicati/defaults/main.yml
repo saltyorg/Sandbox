@@ -74,14 +74,6 @@ duplicati_docker_image_pull: true
 duplicati_docker_image_tag: "latest"
 duplicati_docker_image: "linuxserver/duplicati:{{ duplicati_docker_image_tag }}"
 
-# Healthcheck
-duplicati_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost:{{ duplicati_web_port }}"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 duplicati_docker_ports_defaults:
   - "{{ duplicati_web_port }}"

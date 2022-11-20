@@ -76,14 +76,6 @@ aria2_ng_docker_image_pull: true
 aria2_ng_docker_image_tag: "latest"
 aria2_ng_docker_image: "hurlenko/aria2-ariang:{{ aria2_ng_docker_image_tag }}"
 
-# Healthcheck
-aria2_ng_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost:8080"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 aria2_ng_docker_ports_defaults:
   - "{{ aria2_ng_web_port }}"

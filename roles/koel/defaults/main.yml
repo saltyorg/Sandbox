@@ -77,14 +77,6 @@ koel_docker_image_pull: true
 koel_docker_image_tag: "latest"
 koel_docker_image: "phanan/koel:{{ koel_docker_image_tag }}"
 
-# Healthcheck
-koel_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 koel_docker_ports_defaults:
   - "{{ koel_web_port }}"

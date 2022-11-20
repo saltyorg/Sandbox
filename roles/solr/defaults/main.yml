@@ -43,14 +43,6 @@ solr_docker_image_pull: true
 solr_docker_image_tag: "latest"
 solr_docker_image: "solr:{{ solr_docker_image_tag }}"
 
-# Healthcheck
-solr_docker_healthcheck:
-  test: ["CMD", "curl", "-f", "http://localhost:{{ solr_docker_env_port }}/solr/{{ solr_docker_env_core_name }}/admin/ping"]
-  interval: 1m
-  timeout: 10s
-  retries: 5
-  start_period: 30s
-
 # Ports
 solr_docker_ports_defaults: []
 solr_docker_ports_custom: []

@@ -71,14 +71,6 @@ gaps_docker_image_pull: true
 gaps_docker_image_tag: "latest"
 gaps_docker_image: "housewrecker/gaps:{{ gaps_docker_image_tag }}"
 
-# Healthcheck
-gaps_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://localhost:8484"]
-  interval: 10s
-  timeout: 5s
-  retries: 10
-  start_period: 10s
-
 # Ports
 gaps_docker_ports_defaults:
   - "{{ gaps_web_port }}"
