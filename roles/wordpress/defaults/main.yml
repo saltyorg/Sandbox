@@ -115,7 +115,7 @@ wordpress_docker_labels: "{{ docker_labels_common
                              | combine(wordpress_docker_labels_custom) }}"
 
 # Hostname
-wordpress_docker_hostname: "{{ wordpress_name }}"
+wordpress_docker_hostname: "{{ wordpress_web_subdomain + '.' + wordpress_web_domain }}"
 
 # Networks
 wordpress_docker_networks_alias: "{{ wordpress_name }}"
