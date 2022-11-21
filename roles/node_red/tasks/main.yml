@@ -1,0 +1,16 @@
+#########################################################################
+# Title:         Sandbox: Node-RED Role                                 #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute Node-RED roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    node_red_name: "{{ role }}"
+  with_items: "{{ node_red_instances }}"
+  loop_control:
+    loop_var: role
