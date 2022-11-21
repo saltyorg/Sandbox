@@ -158,3 +158,6 @@ node_red_docker_restart_policy: unless-stopped
 
 # State
 node_red_docker_state: started
+
+# User
+node_red_docker_user: "{{ uid }}:{{ gid }}"
