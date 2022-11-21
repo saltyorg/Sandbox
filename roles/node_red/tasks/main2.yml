@@ -27,5 +27,15 @@
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list')
                   + lookup('vars', role_name + '_paths_folders_list_custom', default=[]) }}"
 
+- name: Recursively change ownership
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "1000"
+    group: "1000"
+  with_items: "{{ lookup('vars', role_name + '_paths_folders_list')
+                  + lookup('vars', role_name + '_paths_folders_list_custom', default=[]) }}"
+
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
