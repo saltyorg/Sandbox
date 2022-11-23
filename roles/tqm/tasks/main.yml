@@ -57,7 +57,7 @@
 
 - name: "Fail when 'config.yml' is not present"
   ansible.builtin.fail:
-    msg: "You need to setup your config file. link_to_docs here"
+    msg: "You need to setup your config file. https://docs.saltbox.dev/sandbox/apps/tqm/"
   when: (not tqm_config.stat.exists) and (not continuous_integration)
 
 - name: Fail if 'download_client' has not been set
