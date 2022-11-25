@@ -37,6 +37,7 @@ wordpress_web_url: "{{ 'https://' + wordpress_web_subdomain + '.' + wordpress_we
 # DNS
 ################################
 
+skip_dns: true
 wordpress_dns_record: "{{ wordpress_web_subdomain }}"
 wordpress_dns_zone: "{{ wordpress_web_domain }}"
 wordpress_dns_proxy: "{{ dns.proxied }}"
@@ -109,7 +110,11 @@ wordpress_docker_hosts: "{{ docker_hosts_common
 
 # Labels
 wordpress_docker_labels_default: {}
-wordpress_docker_labels_custom: {}
+wordpress_docker_labels_custom:
+  traefik.http.routers.wordpress-http.entrypoints: web
+  traefik.http.routers.wordpress-http.rule: "Host(`{{ user.domain }}`)"
+  traefik.http.routers.wordpress.entrypoints: websecure
+  traefik.http.routers.wordpress.rule: "Host(`{{ user.domain }}`)"
 wordpress_docker_labels: "{{ docker_labels_common
                              | combine(wordpress_docker_labels_default)
                              | combine(wordpress_docker_labels_custom) }}"

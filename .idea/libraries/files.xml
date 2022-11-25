@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="files">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/roles/jdownloader2/files/sevenzipjbinding1509Linux.jar!/" />
+      <root url="jar://$PROJECT_DIR$/roles/jdownloader2/files/sevenzipjbinding1509.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
