@@ -7,6 +7,9 @@
 # VSCode
 .vscode/
 
+#IJ
+.idea/
+
 # Ansible
 /*.retry
 
