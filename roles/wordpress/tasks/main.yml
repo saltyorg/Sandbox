@@ -26,7 +26,7 @@
 
 - name: MariaDB | Create wordpress database
   community.mysql.mysql_db:
-    name: "{{ wordpress_name }}"
+    name: "{{ mongodb_db_name }}"
     login_host: "{{ mariadb_name }}"
     login_user: "root"
     login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
