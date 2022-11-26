@@ -159,3 +159,6 @@ wikijs_docker_restart_policy: unless-stopped
 
 # State
 wikijs_docker_state: started
+
+# User
+wikijs_docker_user: "{{ uid }}:{{ gid }}"
