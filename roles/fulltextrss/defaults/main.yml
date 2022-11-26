@@ -1,0 +1,146 @@
+##########################################################################
+# Title:         Sandbox: fulltextrss | Default Variables                #
+# Author(s):     CHAIR/Raneydazed                                        #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+fulltextrss_name: fulltextrss
+
+################################
+# Paths
+################################
+
+fulltextrss_paths_folder: "{{ fulltextrss_name }}"
+fulltextrss_paths_location: "{{ server_appdata_path }}/{{ fulltextrss_paths_folder }}"
+fulltextrss_paths_folders_list:
+  - "{{ fulltextrss_paths_location }}"
+
+################################
+# Web
+################################
+
+fulltextrss_web_subdomain: "{{ fulltextrss_name }}"
+fulltextrss_web_domain: "{{ user.domain }}"
+fulltextrss_web_port: "80"
+fulltextrss_web_url: "{{ 'https://' + fulltextrss_web_subdomain + '.' + fulltextrss_web_domain
+                      if (reverse_proxy_is_enabled)
+                      else 'http://localhost:' + fulltextrss_web_port }}"
+
+################################
+# DNS
+################################
+
+fulltextrss_dns_record: "{{ fulltextrss_web_subdomain }}"
+fulltextrss_dns_zone: "{{ fulltextrss_web_domain }}"
+fulltextrss_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+fulltextrss_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+fulltextrss_traefik_middleware: "{{ traefik_default_middleware + ',' + fulltextrss_traefik_sso_middleware
+                                 if (fulltextrss_traefik_sso_middleware | length > 0)
+                                 else traefik_default_middleware }}"
+fulltextrss_traefik_certresolver: "{{ traefik_default_certresolver }}"
+fulltextrss_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+fulltextrss_docker_container: "{{ fulltextrss_name }}"
+
+# Image
+fulltextrss_docker_image_pull: true
+fulltextrss_docker_image_tag: "latest"
+fulltextrss_docker_image: "heussd/fivefilters-full-text-rss:{{ fulltextrss_docker_image_tag }}"
+
+# Ports
+fulltextrss_docker_ports_defaults: []
+fulltextrss_docker_ports_ui:
+  - "{{ fulltextrss_web_port }}:{{ fulltextrss_web_port }}"
+fulltextrss_docker_ports_custom: []
+fulltextrss_docker_ports: "{{ fulltextrss_docker_ports_defaults
+                              + fulltextrss_docker_ports_ui
+                              + fulltextrss_docker_ports_custom
+                           if (not reverse_proxy_is_enabled)
+                           else fulltextrss_docker_ports_defaults
+                              + fulltextrss_docker_ports_custom }}"
+
+# Envs
+fulltextrss_docker_envs_default:
+  FTR_ADMIN_PASSWORD: "{{ user.pass }}"
+fulltextrss_docker_envs_custom: {}
+fulltextrss_docker_envs: "{{ fulltextrss_docker_envs_default
+                             | combine(fulltextrss_docker_envs_custom) }}"
+
+# Commands
+fulltextrss_docker_commands_default: []
+fulltextrss_docker_commands_custom: []
+fulltextrss_docker_commands: "{{ fulltextrss_docker_commands_default
+                                 + fulltextrss_docker_commands_custom }}"
+
+# Volumes
+fulltextrss_docker_volumes_default:
+  - "{{ fulltextrss_paths_location }}:/var/www/html/cache"
+fulltextrss_docker_volumes_custom: []
+fulltextrss_docker_volumes: "{{ fulltextrss_docker_volumes_default
+                                + fulltextrss_docker_volumes_custom }}"
+
+# Devices
+fulltextrss_docker_devices_default: []
+fulltextrss_docker_devices_custom: []
+fulltextrss_docker_devices: "{{ fulltextrss_docker_devices_default
+                                + fulltextrss_docker_devices_custom }}"
+
+# Hosts
+fulltextrss_docker_hosts_default: []
+fulltextrss_docker_hosts_custom: []
+fulltextrss_docker_hosts: "{{ docker_hosts_common
+                              | combine(fulltextrss_docker_hosts_default)
+                              | combine(fulltextrss_docker_hosts_custom) }}"
+
+# Labels
+fulltextrss_docker_labels_default: {}
+fulltextrss_docker_labels_custom: {}
+fulltextrss_docker_labels: "{{ docker_labels_common
+                               | combine(fulltextrss_docker_labels_default)
+                               | combine(fulltextrss_docker_labels_custom) }}"
+
+# Hostname
+fulltextrss_docker_hostname: "{{ fulltextrss_name }}"
+
+# Networks
+fulltextrss_docker_networks_alias: "{{ fulltextrss_name }}"
+fulltextrss_docker_networks_default: []
+fulltextrss_docker_networks_custom: []
+fulltextrss_docker_networks: "{{ docker_networks_common
+                                 + fulltextrss_docker_networks_default
+                                 + fulltextrss_docker_networks_custom }}"
+
+# Capabilities
+fulltextrss_docker_capabilities_default: []
+fulltextrss_docker_capabilities_custom: []
+fulltextrss_docker_capabilities: "{{ fulltextrss_docker_capabilities_default
+                                     + fulltextrss_docker_capabilities_custom }}"
+
+# Security Opts
+fulltextrss_docker_security_opts_default: []
+fulltextrss_docker_security_opts_custom: []
+fulltextrss_docker_security_opts: "{{ fulltextrss_docker_security_opts_default
+                                      + fulltextrss_docker_security_opts_custom }}"
+
+# Restart Policy
+fulltextrss_docker_restart_policy: unless-stopped
+
+# State
+fulltextrss_docker_state: started
