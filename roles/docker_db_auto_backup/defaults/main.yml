@@ -44,9 +44,8 @@ docker_db_auto_backup_docker_ports: "{{ docker_db_auto_backup_docker_ports_defau
 
 # Envs
 docker_db_auto_backup_docker_envs_default:
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
+  DOCKER_HOST: "docker-socket-proxy:2375"
 docker_db_auto_backup_docker_envs_custom: {}
 docker_db_auto_backup_docker_envs: "{{ docker_db_auto_backup_docker_envs_default
                                | combine(docker_db_auto_backup_docker_envs_custom) }}"
@@ -59,7 +58,6 @@ docker_db_auto_backup_docker_commands: "{{ docker_db_auto_backup_docker_commands
 
 # Volumes
 docker_db_auto_backup_docker_volumes_default:
-  - "/var/run/docker.dock:/var/run/docker.sock:ro"
   - "{{ docker_db_auto_backup_paths_location }}:/var/backups"
 docker_db_auto_backup_docker_volumes_custom: []
 docker_db_auto_backup_docker_volumes: "{{ docker_db_auto_backup_docker_volumes_default
