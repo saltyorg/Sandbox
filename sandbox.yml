@@ -37,6 +37,7 @@
     - { role: comixed, tags: ['comixed'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
+    - { role: docker_db_auto_backup, tags: ['docker_db_auto_backup']}
     - { role: docspell, tags: ['docspell'] }
     - { role: doplarr, tags: ['doplarr'] }
     - { role: dozzle, tags: ['dozzle'] }

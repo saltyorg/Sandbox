@@ -1,0 +1,115 @@
+##########################################################################
+# Title:            Sandbox: Docker-DB-Auto-Backup                       #
+# Author(s):        owine                                                #
+# URL:              https://github.com/saltyorg/Saltbox_mod              #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+docker_db_auto_backup_name: docker_db_auto_backup
+
+################################
+# Paths
+################################
+
+docker_db_auto_backup_paths_folder: "{{ docker_db_auto_backup_name }}"
+docker_db_auto_backup_paths_location: "{{ server_appdata_path }}/{{ docker_db_auto_backup_paths_folder }}"
+docker_db_auto_backup_paths_folders_list:
+  - "{{ docker_db_auto_backup_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+docker_db_auto_backup_docker_container: "{{ docker_db_auto_backup_name }}"
+
+# Image
+docker_db_auto_backup_docker_image_pull: true
+docker_db_auto_backup_docker_image_tag: "latest"
+docker_db_auto_backup_docker_image: "ghcr.io/realorangeone/db-auto-backup:{{ docker_db_auto_backup_docker_image_tag }}"
+
+# Ports
+docker_db_auto_backup_docker_ports_defaults: []
+docker_db_auto_backup_docker_ports_custom: []
+docker_db_auto_backup_docker_ports: "{{ docker_db_auto_backup_docker_ports_defaults
+                                + docker_db_auto_backup_docker_ports_custom
+                             if (not reverse_proxy_is_enabled)
+                             else [] + docker_db_auto_backup_docker_ports_custom }}"
+
+# Envs
+docker_db_auto_backup_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+docker_db_auto_backup_docker_envs_custom: {}
+docker_db_auto_backup_docker_envs: "{{ docker_db_auto_backup_docker_envs_default
+                               | combine(docker_db_auto_backup_docker_envs_custom) }}"
+
+# Commands
+docker_db_auto_backup_docker_commands_default: []
+docker_db_auto_backup_docker_commands_custom: []
+docker_db_auto_backup_docker_commands: "{{ docker_db_auto_backup_docker_commands_default
+                                   + docker_db_auto_backup_docker_commands_custom }}"
+
+# Volumes
+docker_db_auto_backup_docker_volumes_default:
+  - "/var/run/docker.dock:/var/run/docker.sock:ro"
+  - "{{ docker_db_auto_backup_paths_location }}:/var/backups"
+docker_db_auto_backup_docker_volumes_custom: []
+docker_db_auto_backup_docker_volumes: "{{ docker_db_auto_backup_docker_volumes_default
+                                  + docker_db_auto_backup_docker_volumes_custom }}"
+
+# Devices
+docker_db_auto_backup_docker_devices_default: []
+docker_db_auto_backup_docker_devices_custom: []
+docker_db_auto_backup_docker_devices: "{{ docker_db_auto_backup_docker_devices_default
+                                  + docker_db_auto_backup_docker_devices_custom }}"
+
+# Hosts
+docker_db_auto_backup_docker_hosts_default: []
+docker_db_auto_backup_docker_hosts_custom: []
+docker_db_auto_backup_docker_hosts: "{{ docker_hosts_common
+                                | combine(docker_db_auto_backup_docker_hosts_default)
+                                | combine(docker_db_auto_backup_docker_hosts_custom) }}"
+
+# Labels
+docker_db_auto_backup_docker_labels_default: {}
+docker_db_auto_backup_docker_labels_custom: {}
+docker_db_auto_backup_docker_labels: "{{ docker_labels_common
+                                 | combine(docker_db_auto_backup_docker_labels_default)
+                                 | combine(docker_db_auto_backup_docker_labels_custom) }}"
+
+# Hostname
+docker_db_auto_backup_docker_hostname: "{{ docker_db_auto_backup_name }}"
+
+# Networks
+docker_db_auto_backup_docker_networks_alias: "{{ docker_db_auto_backup_name }}"
+docker_db_auto_backup_docker_networks_default: []
+docker_db_auto_backup_docker_networks_custom: []
+docker_db_auto_backup_docker_networks: "{{ docker_networks_common
+                                   + docker_db_auto_backup_docker_networks_default
+                                   + docker_db_auto_backup_docker_networks_custom }}"
+
+# Capabilities
+docker_db_auto_backup_docker_capabilities_default: []
+docker_db_auto_backup_docker_capabilities_custom: []
+docker_db_auto_backup_docker_capabilities: "{{ docker_db_auto_backup_docker_capabilities_default
+                                       + docker_db_auto_backup_docker_capabilities_custom }}"
+
+# Security Opts
+docker_db_auto_backup_docker_security_opts_default: []
+docker_db_auto_backup_docker_security_opts_custom: []
+docker_db_auto_backup_docker_security_opts: "{{ docker_db_auto_backup_docker_security_opts_default
+                                        + docker_db_auto_backup_docker_security_opts_custom }}"
+
+# Restart Policy
+docker_db_auto_backup_docker_restart_policy: unless-stopped
+
+# State
+docker_db_auto_backup_docker_state: started
