@@ -6,7 +6,7 @@
 #     - Radarr (4K):
 #         icon: radarr.png
 #         href: https://radarr-4k.<domain>.<tld>
-#         ping: http://radarr-4k:7878/api/v3/health
+#         ping: http://radarr-4k:7878
 #         server: my-docker
 #         container: radarr-4k
 #         description: Movie Management System
@@ -17,7 +17,7 @@
 #     - Radarr (HD):
 #         icon: radarr.png
 #         href: https://radarr.<domain>.<tld>
-#         ping: http://radarr:7878/api/v3/health
+#         ping: http://radarr:7878
 #         server: my-docker
 #         container: radarr
 #         description: Movie Management System
