@@ -64,6 +64,7 @@
     - { role: homarr, tags: ['homarr'] }
     - { role: homeassistant, tags: ['homeassistant'] }
     - { role: homebox, tags: ['homebox'] }
+    - { role: homepage, tags: ['homepage'] }
     - { role: influxdb, tags: ['influxdb'] }
     - { role: invoiceninjav5, tags: ['invoiceninja'] }
     - { role: jdownloader2, tags: ['jdownloader2'] }
