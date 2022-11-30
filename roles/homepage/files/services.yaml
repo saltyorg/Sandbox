@@ -87,7 +87,7 @@
 #     - Traefik:
 #         icon: traefik.png
 #         href: https://dash.<domain>.<tld>
-#         ping: http://traefik
+#         ping: http://traefik:8080
 #         server: my-docker
 #         container: traefik
 #         description: Proxy
