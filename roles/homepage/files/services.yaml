@@ -93,7 +93,7 @@
 #         description: Proxy
 #         widget:
 #           type: traefik
-#           url: https://traefik
+#           url: http://traefik:8080
 #     - Portainer:
 #         icon: portainer.png
 #         href: https://portainer.<domain>.<tld>
