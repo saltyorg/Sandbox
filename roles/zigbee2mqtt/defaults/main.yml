@@ -101,7 +101,7 @@ zigbee2mqtt_docker_volumes: "{{ zigbee2mqtt_docker_volumes_default
                                 + zigbee2mqtt_docker_volumes_custom }}"
 
 # Devices
-zigbee2mqtt_docker_devices_default: 
+zigbee2mqtt_docker_devices_default:
   - "/dev/ttyUSB0:/dev/ttyUSB0"
 zigbee2mqtt_docker_devices_custom: []
 zigbee2mqtt_docker_devices: "{{ zigbee2mqtt_docker_devices_default
