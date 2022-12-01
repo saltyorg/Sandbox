@@ -19,6 +19,7 @@ mqtt_name: mqtt
 
 mqtt_paths_folder: "{{ mqtt_name }}"
 mqtt_paths_location: "{{ server_appdata_path }}/{{ mqtt_paths_folder }}"
+mqtt_paths_config_location: "{{ mqtt_paths_location }}/config/mosquitto.conf"
 mqtt_paths_folders_list:
   - "{{ mqtt_paths_location }}/config"
   - "{{ mqtt_paths_location }}/data"
