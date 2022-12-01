@@ -19,6 +19,7 @@ zigbee2mqtt_name: zigbee2mqtt
 
 zigbee2mqtt_paths_folder: "{{ zigbee2mqtt_name }}"
 zigbee2mqtt_paths_location: "{{ server_appdata_path }}/{{ zigbee2mqtt_paths_folder }}"
+zigbee2mqtt_paths_config_location: "{{ zigbee2mqtt_paths_location }}/configuration.yaml"
 zigbee2mqtt_paths_folders_list:
   - "{{ zigbee2mqtt_paths_location }}"
 
@@ -63,14 +64,6 @@ zigbee2mqtt_docker_container: "{{ zigbee2mqtt_name }}"
 zigbee2mqtt_docker_image_pull: true
 zigbee2mqtt_docker_image_tag: "latest"
 zigbee2mqtt_docker_image: "koenkk/zigbee2mqtt:{{ zigbee2mqtt_docker_image_tag }}"
-
-# Healthcheck
-# zigbee2mqtt_docker_healthcheck:
-#   test: ["CMD", "curl", "--fail", "http://localhost:{{ zigbee2mqtt_web_port }}"]
-#   interval: 10s
-#   timeout: 5s
-#   retries: 10
-#   start_period: 10s
 
 # Ports
 zigbee2mqtt_docker_ports_defaults:
