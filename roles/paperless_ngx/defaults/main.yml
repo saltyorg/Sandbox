@@ -104,7 +104,7 @@ paperless_ngx_docker_envs_default:
   PAPERLESS_TIKA_ENABLED: "1"
   PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://{{ paperless_ngx_name }}_gotenberg:3000
   PAPERLESS_TIKA_ENDPOINT: "http://{{ paperless_ngx_name }}_tika:9998"
-  PAPERLESS_AUTO_LOGIN_USERNAME: "{{ user.name }}"
+  PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
   PAPERLESS_ADMIN_USER: "{{ user.name }}"
   PAPERLESS_ADMIN_PASSWORD: "{{ user.pass }}"
   PAPERLESS_SECRET_KEY: "{{ paperless_ngx_secret_key.stdout }}"
