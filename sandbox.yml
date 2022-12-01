@@ -167,4 +167,5 @@
     - { role: xbackbone, tags: ['xbackbone'] }
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
+    - { role: zigbee2mqtt, tags: ['zigbee2mqtt'] }
     - { role: znc, tags: ['znc'] }
