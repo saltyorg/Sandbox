@@ -30,9 +30,7 @@ reposilite_paths_folders_list:
 reposilite_web_subdomain: "{{ reposilite_name }}"
 reposilite_web_domain: "{{ user.domain }}"
 reposilite_web_port: "8080"
-reposilite_web_url: "{{ 'https://' + reposilite_web_subdomain + '.' + reposilite_web_domain
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + preposilite_web_port }}"
+reposilite_web_url: "{{ 'https://' + reposilite_web_subdomain + '.' + reposilite_web_domain }}"
 
 ################################
 # DNS
@@ -75,13 +73,10 @@ reposilite_docker_image_tag: "latest"
 reposilite_docker_image: "ghcr.io/dzikoysk/reposilite:{{ reposilite_docker_image_tag }}"
 
 # Ports
-reposilite_docker_ports_defaults:
-  - "{{ reposilite_web_port }}"
+reposilite_docker_ports_defaults: []
 reposilite_docker_ports_custom: []
 reposilite_docker_ports: "{{ reposilite_docker_ports_defaults
-                             + reposilite_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else reposilite_docker_ports_custom }}"
+                             + reposilite_docker_ports_custom }}"
 
 # Envs
 reposilite_docker_envs_default:

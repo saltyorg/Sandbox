@@ -47,9 +47,7 @@ solr_docker_image: "solr:{{ solr_docker_image_tag }}"
 solr_docker_ports_defaults: []
 solr_docker_ports_custom: []
 solr_docker_ports: "{{ solr_docker_ports_defaults
-                       + solr_docker_ports_custom
-                    if (not reverse_proxy_is_enabled)
-                    else solr_docker_ports_custom }}"
+                       + solr_docker_ports_custom }}"
 
 # Envs
 solr_docker_envs_default:

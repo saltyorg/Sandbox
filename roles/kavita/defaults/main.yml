@@ -29,9 +29,7 @@ kavita_paths_folders_list:
 kavita_web_subdomain: "{{ kavita_name }}"
 kavita_web_domain: "{{ user.domain }}"
 kavita_web_port: "5000"
-kavita_web_url: "{{ 'https://' + kavita_web_subdomain + '.' + kavita_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + kavita_web_port }}"
+kavita_web_url: "{{ 'https://' + kavita_web_subdomain + '.' + kavita_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ kavita_docker_image_tag: "latest"
 kavita_docker_image: "kizaing/kavita:{{ kavita_docker_image_tag }}"
 
 # Ports
-kavita_docker_ports_defaults:
-  - "{{ kavita_web_port }}"
+kavita_docker_ports_defaults: []
 kavita_docker_ports_custom: []
 kavita_docker_ports: "{{ kavita_docker_ports_defaults
-                         + kavita_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else kavita_docker_ports_custom }}"
+                         + kavita_docker_ports_custom }}"
 
 # Envs
 kavita_docker_envs_default:

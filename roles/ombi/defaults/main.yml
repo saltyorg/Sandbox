@@ -29,9 +29,7 @@ ombi_paths_folders_list:
 ombi_web_subdomain: "{{ ombi_name }}"
 ombi_web_domain: "{{ user.domain }}"
 ombi_web_port: "3579"
-ombi_web_url: "{{ 'https://' + ombi_web_subdomain + '.' + ombi_web_domain
-               if (reverse_proxy_is_enabled)
-               else 'http://localhost:' + ombi_web_port }}"
+ombi_web_url: "{{ 'https://' + ombi_web_subdomain + '.' + ombi_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ ombi_docker_image_tag: "latest"
 ombi_docker_image: "lscr.io/linuxserver/ombi:{{ ombi_docker_image_tag }}"
 
 # Ports
-ombi_docker_ports_defaults:
-  - "{{ ombi_web_port }}:{{ ombi_web_port }}"
+ombi_docker_ports_defaults: []
 ombi_docker_ports_custom: []
 ombi_docker_ports: "{{ ombi_docker_ports_defaults
-                       + ombi_docker_ports_custom
-                    if (not reverse_proxy_is_enabled)
-                    else ombi_docker_ports_custom }}"
+                       + ombi_docker_ports_custom }}"
 
 # Envs
 ombi_docker_envs_default:

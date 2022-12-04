@@ -36,9 +36,7 @@ transmissionvpn_paths_folders_list:
 transmissionvpn_web_subdomain: "{{ transmissionvpn_name }}"
 transmissionvpn_web_domain: "{{ user.domain }}"
 transmissionvpn_web_port: "9091"
-transmissionvpn_web_url: "{{ 'https://' + transmissionvpn_web_subdomain + '.' + transmissionvpn_web_domain
-                          if (reverse_proxy_is_enabled)
-                          else 'http://localhost:' + transmissionvpn_web_port }}"
+transmissionvpn_web_url: "{{ 'https://' + transmissionvpn_web_subdomain + '.' + transmissionvpn_web_domain }}"
 
 ################################
 # DNS
@@ -77,13 +75,10 @@ transmissionvpn_docker_image_tag: "latest"
 transmissionvpn_docker_image: "haugene/transmission-openvpn:{{ transmissionvpn_docker_image_tag }}"
 
 # Ports
-transmissionvpn_docker_ports_defaults:
-  - "{{ transmissionvpn_web_port }}"
+transmissionvpn_docker_ports_defaults: []
 transmissionvpn_docker_ports_custom: []
 transmissionvpn_docker_ports: "{{ transmissionvpn_docker_ports_defaults
-                                  + transmissionvpn_docker_ports_custom
-                               if (not reverse_proxy_is_enabled)
-                               else transmissionvpn_docker_ports_custom }}"
+                                  + transmissionvpn_docker_ports_custom }}"
 
 # Envs
 transmissionvpn_docker_envs_default:

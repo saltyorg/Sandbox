@@ -32,9 +32,7 @@ photoprism_paths_folders_list:
 photoprism_web_subdomain: "{{ photoprism_name }}"
 photoprism_web_domain: "{{ user.domain }}"
 photoprism_web_port: "2342"
-photoprism_web_url: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + photoprism_web_port }}"
+photoprism_web_url: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain }}"
 
 ################################
 # DNS
@@ -71,21 +69,16 @@ photoprism_docker_image_tag: "latest"
 photoprism_docker_image: "photoprism/photoprism:{{ photoprism_docker_image_tag }}"
 
 # Ports
-photoprism_docker_ports_defaults:
-  - "{{ photoprism_web_port }}"
+photoprism_docker_ports_defaults: []
 photoprism_docker_ports_custom: []
 photoprism_docker_ports: "{{ photoprism_docker_ports_defaults
-                             + photoprism_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else [] + photoprism_docker_ports_custom }}"
+                             + photoprism_docker_ports_custom }}"
 
 # Envs
 photoprism_docker_envs_default:
   PHOTOPRISM_ADMIN_PASSWORD: "{{ user.pass }}"
   PHOTOPRISM_AUTH_MODE: "password"
-  PHOTOPRISM_SITE_URL: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain
-                        if (reverse_proxy_is_enabled)
-                        else 'http://localhost:' + photoprism_web_port }}"
+  PHOTOPRISM_SITE_URL: "{{ photoprism_web_url }}"
   PHOTOPRISM_ORIGINALS_LIMIT: "5000"
   PHOTOPRISM_HTTP_COMPRESSION: "gzip"
   PHOTOPRISM_LOG_LEVEL: "info"

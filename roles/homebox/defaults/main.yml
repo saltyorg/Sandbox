@@ -29,9 +29,7 @@ homebox_paths_folders_list:
 homebox_web_subdomain: "{{ homebox_name }}"
 homebox_web_domain: "{{ user.domain }}"
 homebox_web_port: "7745"
-homebox_web_url: "{{ 'https://' + homebox_web_subdomain + '.' + homebox_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + homebox_web_port }}"
+homebox_web_url: "{{ 'https://' + homebox_web_subdomain + '.' + homebox_web_domain }}"
 
 ################################
 # DNS
@@ -72,13 +70,10 @@ homebox_docker_image_tag: "latest"
 homebox_docker_image: "ghcr.io/hay-kot/homebox:{{ homebox_docker_image_tag }}"
 
 # Ports
-homebox_docker_ports_defaults:
-  - "{{ homebox_web_port }}"
+homebox_docker_ports_defaults: []
 homebox_docker_ports_custom: []
 homebox_docker_ports: "{{ homebox_docker_ports_defaults
-                          + homebox_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else homebox_docker_ports_custom }}"
+                          + homebox_docker_ports_custom }}"
 
 # Envs
 homebox_docker_envs_default:

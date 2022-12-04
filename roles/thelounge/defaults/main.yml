@@ -29,9 +29,7 @@ thelounge_paths_folders_list:
 thelounge_web_subdomain: "{{ thelounge_name }}"
 thelounge_web_domain: "{{ user.domain }}"
 thelounge_web_port: "9000"
-thelounge_web_url: "{{ 'https://' + thelounge_web_subdomain + '.' + thelounge_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + thelounge_web_port }}"
+thelounge_web_url: "{{ 'https://' + thelounge_web_subdomain + '.' + thelounge_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ thelounge_docker_image_tag: "latest"
 thelounge_docker_image: "lscr.io/linuxserver/thelounge:{{ thelounge_docker_image_tag }}"
 
 # Ports
-thelounge_docker_ports_defaults:
-  - "{{ thelounge_web_port }}"
+thelounge_docker_ports_defaults: []
 thelounge_docker_ports_custom: []
 thelounge_docker_ports: "{{ thelounge_docker_ports_defaults
-                            + thelounge_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else thelounge_docker_ports_custom }}"
+                            + thelounge_docker_ports_custom }}"
 
 # Envs
 thelounge_docker_envs_default:

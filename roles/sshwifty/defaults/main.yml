@@ -31,9 +31,7 @@ sshwifty_paths_config_location: "{{ sshwifty_paths_location }}/config/sshwifty.c
 sshwifty_web_subdomain: "{{ sshwifty_name }}"
 sshwifty_web_domain: "{{ user.domain }}"
 sshwifty_web_port: "8182"
-sshwifty_web_url: "{{ 'https://' + sshwifty_web_subdomain + '.' + sshwifty_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + sshwifty_web_port }}"
+sshwifty_web_url: "{{ 'https://' + sshwifty_web_subdomain + '.' + sshwifty_web_domain }}"
 
 ################################
 # DNS
@@ -65,13 +63,10 @@ sshwifty_docker_image_tag: "latest"
 sshwifty_docker_image: "niruix/sshwifty:{{ sshwifty_docker_image_tag }}"
 
 # Ports
-sshwifty_docker_ports_defaults:
-  - "{{ sshwifty_web_port }}"
+sshwifty_docker_ports_defaults: []
 sshwifty_docker_ports_custom: []
 sshwifty_docker_ports: "{{ sshwifty_docker_ports_defaults
-                           + sshwifty_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else sshwifty_docker_ports_custom }}"
+                           + sshwifty_docker_ports_custom }}"
 
 # Envs
 sshwifty_docker_envs_default:

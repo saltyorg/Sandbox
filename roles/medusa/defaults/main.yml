@@ -29,9 +29,7 @@ medusa_paths_folders_list:
 medusa_web_subdomain: "{{ medusa_name }}"
 medusa_web_domain: "{{ user.domain }}"
 medusa_web_port: "8081"
-medusa_web_url: "{{ 'https://' + medusa_web_subdomain + '.' + medusa_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + medusa_web_port }}"
+medusa_web_url: "{{ 'https://' + medusa_web_subdomain + '.' + medusa_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ medusa_docker_image_tag: "latest"
 medusa_docker_image: "lscr.io/linuxserver/medusa:{{ medusa_docker_image_tag }}"
 
 # Ports
-medusa_docker_ports_defaults:
-  - "{{ medusa_web_port }}"
+medusa_docker_ports_defaults: []
 medusa_docker_ports_custom: []
 medusa_docker_ports: "{{ medusa_docker_ports_defaults
-                         + medusa_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else medusa_docker_ports_custom }}"
+                         + medusa_docker_ports_custom }}"
 
 # Envs
 medusa_docker_envs_default:

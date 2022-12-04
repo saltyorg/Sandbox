@@ -30,9 +30,7 @@ homarr_paths_folders_list:
 homarr_web_subdomain: "{{ homarr_name }}"
 homarr_web_domain: "{{ user.domain }}"
 homarr_web_port: "7575"
-homarr_web_url: "{{ 'https://' + homarr_web_subdomain + '.' + homarr_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + homarr_web_port }}"
+homarr_web_url: "{{ 'https://' + homarr_web_subdomain + '.' + homarr_web_domain }}"
 
 ################################
 # DNS
@@ -77,18 +75,14 @@ homarr_docker_ports_defaults:
   - "{{ homarr_web_port }}"
 homarr_docker_ports_custom: []
 homarr_docker_ports: "{{ homarr_docker_ports_defaults
-                         + homarr_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else homarr_docker_ports_custom }}"
+                         + homarr_docker_ports_custom }}"
 
 # Envs
 homarr_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  BASE_URL: "{{ homarr_web_subdomain + '.' + homarr_web_domain
-             if (reverse_proxy_is_enabled)
-             else 'localhost:' + homarr_web_port }}"
+  BASE_URL: "{{ homarr_web_subdomain + '.' + homarr_web_domain }}"
   PASSWORD: "{{ user.pass }}"
   NODE_TLS_REJECT_UNAUTHORIZED: "0"
 homarr_docker_envs_custom: {}

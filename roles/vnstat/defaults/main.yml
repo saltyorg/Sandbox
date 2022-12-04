@@ -20,9 +20,7 @@ vnstat_name: vnstat
 vnstat_web_subdomain: "{{ vnstat_name }}"
 vnstat_web_domain: "{{ user.domain }}"
 vnstat_web_port: "8685"
-vnstat_web_url: "{{ 'https://' + vnstat_web_subdomain + '.' + vnstat_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + vnstat_web_port }}"
+vnstat_web_url: "{{ 'https://' + vnstat_web_subdomain + '.' + vnstat_web_domain }}"
 
 ################################
 # DNS
@@ -60,13 +58,10 @@ vnstat_docker_image_tag: "latest"
 vnstat_docker_image: "vergoh/vnstat:{{ vnstat_docker_image_tag }}"
 
 # Ports
-vnstat_docker_ports_defaults:
-  - "{{ vnstat_web_port }}:{{ vnstat_web_port }}"
+vnstat_docker_ports_defaults: []
 vnstat_docker_ports_custom: []
 vnstat_docker_ports: "{{ vnstat_docker_ports_defaults
-                         + vnstat_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else vnstat_docker_ports_custom }}"
+                         + vnstat_docker_ports_custom }}"
 
 # Envs
 vnstat_docker_envs_default:

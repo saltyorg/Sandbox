@@ -29,9 +29,7 @@ wordpress_paths_folders_list:
 wordpress_web_subdomain: "{{ wordpress_name }}"
 wordpress_web_domain: "{{ user.domain }}"
 wordpress_web_port: "80"
-wordpress_web_url: "{{ 'https://' + wordpress_web_subdomain + '.' + wordpress_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + wordpress_web_port }}"
+wordpress_web_url: "{{ 'https://' + wordpress_web_subdomain + '.' + wordpress_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ wordpress_docker_image_tag: "latest"
 wordpress_docker_image: "wordpress:{{ wordpress_docker_image_tag }}"
 
 # Ports
-wordpress_docker_ports_defaults:
-  - "{{ wordpress_web_port }}"
+wordpress_docker_ports_defaults: []
 wordpress_docker_ports_custom: []
 wordpress_docker_ports: "{{ wordpress_docker_ports_defaults
-                            + wordpress_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else wordpress_docker_ports_custom }}"
+                            + wordpress_docker_ports_custom }}"
 
 # Envs
 wordpress_docker_envs_default:

@@ -29,9 +29,7 @@ pgadmin_paths_folders_list:
 pgadmin_web_subdomain: "{{ pgadmin_name }}"
 pgadmin_web_domain: "{{ user.domain }}"
 pgadmin_web_port: "80"
-pgadmin_web_url: "{{ 'https://' + pgadmin_web_subdomain + '.' + pgadmin_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + pgadmin_web_port }}"
+pgadmin_web_url: "{{ 'https://' + pgadmin_web_subdomain + '.' + pgadmin_web_domain }}"
 
 ################################
 # DNS
@@ -66,14 +64,8 @@ pgadmin_docker_image: "dpage/pgadmin4:{{ pgadmin_docker_image_tag }}"
 
 # Ports
 pgadmin_docker_ports_defaults: []
-pgadmin_docker_ports_ui:
-  - "{{ pgadmin_web_port }}:{{ pgadmin_web_port }}"
 pgadmin_docker_ports_custom: []
 pgadmin_docker_ports: "{{ pgadmin_docker_ports_defaults
-                          + pgadmin_docker_ports_ui
-                          + pgadmin_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else pgadmin_docker_ports_defaults
                           + pgadmin_docker_ports_custom }}"
 
 # Envs

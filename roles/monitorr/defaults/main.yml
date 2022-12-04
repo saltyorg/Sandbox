@@ -29,9 +29,7 @@ monitorr_paths_folders_list:
 monitorr_web_subdomain: "{{ monitorr_name }}"
 monitorr_web_domain: "{{ user.domain }}"
 monitorr_web_port: "80"
-monitorr_web_url: "{{ 'https://' + monitorr_web_subdomain + '.' + monitorr_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + monitorr_web_port }}"
+monitorr_web_url: "{{ 'https://' + monitorr_web_subdomain + '.' + monitorr_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ monitorr_docker_image_tag: "develop"
 monitorr_docker_image: "monitorr/monitorr:{{ monitorr_docker_image_tag }}"
 
 # Ports
-monitorr_docker_ports_defaults:
-  - "{{ monitorr_web_port }}"
+monitorr_docker_ports_defaults: []
 monitorr_docker_ports_custom: []
 monitorr_docker_ports: "{{ monitorr_docker_ports_defaults
-                           + monitorr_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else monitorr_docker_ports_custom }}"
+                           + monitorr_docker_ports_custom }}"
 
 # Envs
 monitorr_docker_envs_default:

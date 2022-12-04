@@ -27,9 +27,7 @@ lunasea_paths_folders_list: []
 lunasea_web_subdomain: "{{ lunasea_name }}"
 lunasea_web_domain: "{{ user.domain }}"
 lunasea_web_port: "80"
-lunasea_web_url: "{{ 'https://' + lunasea_web_subdomain + '.' + lunasea_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + lunasea_web_port }}"
+lunasea_web_url: "{{ 'https://' + lunasea_web_subdomain + '.' + lunasea_web_domain }}"
 
 ################################
 # DNS
@@ -70,13 +68,10 @@ lunasea_docker_image_tag: "stable"
 lunasea_docker_image: "ghcr.io/jagandeepbrar/lunasea:{{ lunasea_docker_image_tag }}"
 
 # Ports
-lunasea_docker_ports_defaults:
-  - "{{ lunasea_web_port }}"
+lunasea_docker_ports_defaults: []
 lunasea_docker_ports_custom: []
 lunasea_docker_ports: "{{ lunasea_docker_ports_defaults
-                          + lunasea_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else lunasea_docker_ports_custom }}"
+                          + lunasea_docker_ports_custom }}"
 
 # Envs
 lunasea_docker_envs_default:

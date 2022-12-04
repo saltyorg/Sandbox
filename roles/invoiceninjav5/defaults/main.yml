@@ -31,9 +31,7 @@ invoiceninjav5_paths_folders_list:
 invoiceninjav5_nginx_web_subdomain: "invoiceninja"
 invoiceninjav5_nginx_web_domain: "{{ user.domain }}"
 invoiceninjav5_nginx_web_port: "80"
-invoiceninjav5_nginx_web_url: "{{ 'https://' + invoiceninjav5_web_subdomain + '.' + invoiceninjav5_web_domain
-                               if (reverse_proxy_is_enabled)
-                               else 'http://localhost:' + invoiceninjav5_web_port }}"
+invoiceninjav5_nginx_web_url: "{{ 'https://' + invoiceninjav5_web_subdomain + '.' + invoiceninjav5_web_domain }}"
 
 ################################
 # DNS

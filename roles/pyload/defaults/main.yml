@@ -29,9 +29,7 @@ pyload_paths_folders_list:
 pyload_web_subdomain: "{{ pyload_name }}"
 pyload_web_domain: "{{ user.domain }}"
 pyload_web_port: "8000"
-pyload_web_url: "{{ 'https://' + pyload_web_subdomain + '.' + pyload_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + pyload_web_port }}"
+pyload_web_url: "{{ 'https://' + pyload_web_subdomain + '.' + pyload_web_domain }}"
 
 ################################
 # DNS

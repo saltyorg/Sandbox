@@ -31,9 +31,7 @@ logarr_paths_config_location: "{{ logarr_paths_location }}/userdata/config.json"
 logarr_web_subdomain: "{{ logarr_name }}"
 logarr_web_domain: "{{ user.domain }}"
 logarr_web_port: "80"
-logarr_web_url: "{{ 'https://' + logarr_web_subdomain + '.' + logarr_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + logarr_web_port }}"
+logarr_web_url: "{{ 'https://' + logarr_web_subdomain + '.' + logarr_web_domain }}"
 
 ################################
 # DNS
@@ -64,13 +62,10 @@ logarr_docker_image_tag: "latest"
 logarr_docker_image: "monitorr/logarr-alpha:{{ logarr_docker_image_tag }}"
 
 # Ports
-logarr_docker_ports_defaults:
-  - "{{ logarr_web_port }}"
+logarr_docker_ports_defaults: []
 logarr_docker_ports_custom: []
 logarr_docker_ports: "{{ logarr_docker_ports_defaults
-                         + logarr_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else logarr_docker_ports_custom }}"
+                         + logarr_docker_ports_custom }}"
 
 # Envs
 logarr_docker_envs_default:

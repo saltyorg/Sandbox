@@ -30,9 +30,7 @@ omegabrr_paths_folders_list:
 omegabrr_web_subdomain: "{{ omegabrr_name }}"
 omegabrr_web_domain: "{{ user.domain }}"
 omegabrr_web_port: "7441"
-omegabrr_web_url: "{{ 'https://' + omegabrr_web_subdomain + '.' + omegabrr_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + omegabrr_web_port }}"
+omegabrr_web_url: "{{ 'https://' + omegabrr_web_subdomain + '.' + omegabrr_web_domain }}"
 
 ################################
 # DNS
@@ -66,9 +64,6 @@ omegabrr_docker_image: "ghcr.io/autobrr/omegabrr:{{ omegabrr_docker_image_tag }}
 omegabrr_docker_ports_defaults: []
 omegabrr_docker_ports_custom: []
 omegabrr_docker_ports: "{{ omegabrr_docker_ports_defaults
-                           + omegabrr_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else omegabrr_docker_ports_defaults
                            + omegabrr_docker_ports_custom }}"
 
 # Envs

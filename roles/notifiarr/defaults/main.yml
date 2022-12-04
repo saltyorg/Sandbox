@@ -34,9 +34,7 @@ tautulli_api_key: "{{ (lookup('ini', 'api_key section=General file={{ notifiarr_
 notifiarr_web_subdomain: "{{ notifiarr_name }}"
 notifiarr_web_domain: "{{ user.domain }}"
 notifiarr_web_port: "5454"
-notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + notifiarr_web_port }}"
+notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_web_domain }}"
 
 ################################
 # DNS
@@ -68,14 +66,8 @@ notifiarr_docker_image: "golift/notifiarr:{{ notifiarr_docker_image_tag }}"
 
 # Ports
 notifiarr_docker_ports_defaults: []
-notifiarr_docker_ports_ui:
-  - "{{ notifiarr_web_port }}:{{ notifiarr_web_port }}"
 notifiarr_docker_ports_custom: []
 notifiarr_docker_ports: "{{ notifiarr_docker_ports_defaults
-                            + notifiarr_docker_ports_ui
-                            + notifiarr_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else notifiarr_docker_ports_defaults
                             + notifiarr_docker_ports_custom }}"
 
 # Envs

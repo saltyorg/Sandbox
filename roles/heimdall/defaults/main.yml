@@ -29,9 +29,7 @@ heimdall_paths_folders_list:
 heimdall_web_subdomain: "{{ heimdall_name }}"
 heimdall_web_domain: "{{ user.domain }}"
 heimdall_web_port: "80"
-heimdall_web_url: "{{ 'https://' + heimdall_web_subdomain + '.' + heimdall_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + heimdall_web_port }}"
+heimdall_web_url: "{{ 'https://' + heimdall_web_subdomain + '.' + heimdall_web_domain }}"
 
 ################################
 # DNS
@@ -72,13 +70,10 @@ heimdall_docker_image_tag: "latest"
 heimdall_docker_image: "lscr.io/linuxserver/heimdall:{{ heimdall_docker_image_tag }}"
 
 # Ports
-heimdall_docker_ports_defaults:
-  - "{{ heimdall_web_port }}"
+heimdall_docker_ports_defaults: []
 heimdall_docker_ports_custom: []
 heimdall_docker_ports: "{{ heimdall_docker_ports_defaults
-                           + heimdall_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else heimdall_docker_ports_custom }}"
+                           + heimdall_docker_ports_custom }}"
 
 # Envs
 heimdall_docker_envs_default:

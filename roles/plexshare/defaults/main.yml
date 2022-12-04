@@ -29,9 +29,7 @@ plexshare_paths_folders_list:
 plexshare_web_subdomain: "{{ plexshare_name }}"
 plexshare_web_domain: "{{ user.domain }}"
 plexshare_web_port: "80"
-plexshare_web_url: "{{ 'https://' + plexshare_web_subdomain + '.' + plexshare_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + plexshare_web_port }}"
+plexshare_web_url: "{{ 'https://' + plexshare_web_subdomain + '.' + plexshare_web_domain }}"
 
 ################################
 # DNS
@@ -72,13 +70,10 @@ plexshare_docker_image_tag: "latest"
 plexshare_docker_image: "chewbaka/plexshare:{{ plexshare_docker_image_tag }}"
 
 # Ports
-plexshare_docker_ports_defaults:
-  - "{{ plexshare_web_port }}"
+plexshare_docker_ports_defaults: []
 plexshare_docker_ports_custom: []
 plexshare_docker_ports: "{{ plexshare_docker_ports_defaults
-                            + plexshare_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else plexshare_docker_ports_custom }}"
+                            + plexshare_docker_ports_custom }}"
 
 # Envs
 plexshare_docker_envs_default:

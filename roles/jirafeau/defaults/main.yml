@@ -31,9 +31,7 @@ jirafeau_paths_folders_list:
 jirafeau_web_subdomain: "{{ jirafeau_name }}"
 jirafeau_web_domain: "{{ user.domain }}"
 jirafeau_web_port: "80"
-jirafeau_web_url: "{{ 'https://' + jirafeau_web_subdomain + '.' + jirafeau_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + jirafeau_web_port }}"
+jirafeau_web_url: "{{ 'https://' + jirafeau_web_subdomain + '.' + jirafeau_web_domain }}"
 
 ################################
 # DNS
@@ -64,13 +62,10 @@ jirafeau_docker_image_tag: "latest"
 jirafeau_docker_image: "jgeusebroek/jirafeau:{{ jirafeau_docker_image_tag }}"
 
 # Ports
-jirafeau_docker_ports_defaults:
-  - "{{ jirafeau_web_port }}"
+jirafeau_docker_ports_defaults: []
 jirafeau_docker_ports_custom: []
 jirafeau_docker_ports: "{{ jirafeau_docker_ports_defaults
-                           + jirafeau_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else jirafeau_docker_ports_custom }}"
+                           + jirafeau_docker_ports_custom }}"
 
 # Envs
 jirafeau_docker_envs_default:
