@@ -29,9 +29,7 @@ sqlitebrowser_paths_folders_list:
 sqlitebrowser_web_subdomain: "{{ sqlitebrowser_name }}"
 sqlitebrowser_web_domain: "{{ user.domain }}"
 sqlitebrowser_web_port: "3000"
-sqlitebrowser_web_url: "{{ 'https://' + sqlitebrowser_web_subdomain + '.' + sqlitebrowser_web_domain
-                        if (reverse_proxy_is_enabled)
-                        else 'http://localhost:' + sqlitebrowser_web_port }}"
+sqlitebrowser_web_url: "{{ 'https://' + sqlitebrowser_web_subdomain + '.' + sqlitebrowser_web_domain }}"
 
 ################################
 # DNS
@@ -73,13 +71,10 @@ sqlitebrowser_docker_image_tag: "latest"
 sqlitebrowser_docker_image: "lscr.io/linuxserver/sqlitebrowser:{{ sqlitebrowser_docker_image_tag }}"
 
 # Ports
-sqlitebrowser_docker_ports_defaults:
-  - "{{ sqlitebrowser_web_port }}"
+sqlitebrowser_docker_ports_defaults: []
 sqlitebrowser_docker_ports_custom: []
 sqlitebrowser_docker_ports: "{{ sqlitebrowser_docker_ports_defaults
-                                + sqlitebrowser_docker_ports_custom
-                             if (not reverse_proxy_is_enabled)
-                             else sqlitebrowser_docker_ports_custom }}"
+                                + sqlitebrowser_docker_ports_custom }}"
 
 # Envs
 sqlitebrowser_docker_envs_default:

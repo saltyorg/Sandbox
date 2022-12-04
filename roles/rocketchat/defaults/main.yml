@@ -30,9 +30,7 @@ rocketchat_paths_config_location: "{{ rocketchat_paths_location }}/env"
 rocketchat_web_subdomain: "{{ rocketchat_name }}"
 rocketchat_web_domain: "{{ user.domain }}"
 rocketchat_web_port: "3000"
-rocketchat_web_url: "{{ 'https://' + rocketchat_web_subdomain + '.' + rocketchat_web_domain
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + rocketchat_web_port }}"
+rocketchat_web_url: "{{ 'https://' + rocketchat_web_subdomain + '.' + rocketchat_web_domain }}"
 
 ################################
 # DNS
@@ -68,9 +66,7 @@ rocketchat_docker_ports_defaults:
   - "{{ rocketchat_web_port }}:{{ rocketchat_web_port }}"
 rocketchat_docker_ports_custom: []
 rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
-                             + rocketchat_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else rocketchat_docker_ports_custom }}"
+                             + rocketchat_docker_ports_custom }}"
 
 # Envs
 rocketchat_docker_envs_default:

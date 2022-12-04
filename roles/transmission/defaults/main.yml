@@ -36,9 +36,7 @@ transmission_paths_setttings_location: "{{ transmission_paths_location }}/settin
 transmission_web_subdomain: "{{ transmission_name }}"
 transmission_web_domain: "{{ user.domain }}"
 transmission_web_port: "9091"
-transmission_web_url: "{{ 'https://' + transmission_web_subdomain + '.' + transmission_web_domain
-                       if (reverse_proxy_is_enabled)
-                       else 'http://localhost:' + transmission_web_port }}"
+transmission_web_url: "{{ 'https://' + transmission_web_subdomain + '.' + transmission_web_domain }}"
 
 ################################
 # DNS
@@ -86,22 +84,16 @@ transmission_docker_image_tag: "latest"
 transmission_docker_image: "lscr.io/linuxserver/transmission:{{ transmission_docker_image_tag }}"
 
 # Ports
-transmission_docker_ports_defaults:
-  - "{{ transmission_web_port }}:{{ transmission_web_port }}"
 # - Internal and External ports need to match for the next set of ports
 # - Lookup available ports and set docker ports accordingly
 transmission_docker_ports_51413: "{{ port_lookup_51413.port
                                   if (port_lookup_51413.port is defined)
                                      and (port_lookup_51413.port | trim | length > 0)
                                   else '51413' }}"
-transmission_docker_ports_torrents:
+transmission_docker_ports_defaults:
   - "{{ transmission_docker_ports_51413 }}:{{ transmission_docker_ports_51413 }}"
 transmission_docker_ports_custom: []
 transmission_docker_ports: "{{ transmission_docker_ports_defaults
-                               + transmission_docker_ports_torrents
-                               + transmission_docker_ports_custom
-                            if (not reverse_proxy_is_enabled)
-                            else transmission_docker_ports_torrents
                                + transmission_docker_ports_custom }}"
 
 # Envs

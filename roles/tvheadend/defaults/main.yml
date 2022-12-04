@@ -32,9 +32,7 @@ tvheadend_paths_folders_list:
 tvheadend_web_subdomain: "{{ tvheadend_name }}"
 tvheadend_web_domain: "{{ user.domain }}"
 tvheadend_web_port: "9981"
-tvheadend_web_url: "{{ 'https://' + tvheadend_web_subdomain + '.' + tvheadend_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + tvheadend_web_port }}"
+tvheadend_web_url: "{{ 'https://' + tvheadend_web_subdomain + '.' + tvheadend_web_domain }}"
 
 ################################
 # DNS
@@ -75,13 +73,10 @@ tvheadend_docker_image_tag: "latest"
 tvheadend_docker_image: "lscr.io/linuxserver/tvheadend:{{ tvheadend_docker_image_tag }}"
 
 # Ports
-tvheadend_docker_ports_defaults:
-  - "{{ tvheadend_web_port }}"
+tvheadend_docker_ports_defaults: []
 tvheadend_docker_ports_custom: []
 tvheadend_docker_ports: "{{ tvheadend_docker_ports_defaults
-                            + tvheadend_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else tvheadend_docker_ports_custom }}"
+                            + tvheadend_docker_ports_custom }}"
 
 # Envs
 tvheadend_docker_envs_default:

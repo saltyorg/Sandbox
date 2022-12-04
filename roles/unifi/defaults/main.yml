@@ -31,9 +31,7 @@ unifi_web_domain: "{{ user.domain }}"
 unifi_web_port: "8443"
 unifi_web_scheme: "https"
 unifi_web_serverstransport: "skipverify@file"
-unifi_web_url: "{{ 'https://' + unifi_web_subdomain + '.' + unifi_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + unifi_web_port }}"
+unifi_web_url: "{{ 'https://' + unifi_web_subdomain + '.' + unifi_web_domain }}"
 
 ################################
 # DNS
@@ -68,14 +66,8 @@ unifi_docker_ports_defaults:
   - "8080:8080/tcp"
   - "3478:3478/udp"
   - "10001:10001/udp"
-unifi_docker_ports_ui:
-  - "{{ unifi_web_port }}:{{ unifi_web_port }}/tcp"
 unifi_docker_ports_custom: []
 unifi_docker_ports: "{{ unifi_docker_ports_defaults
-                        + unifi_docker_ports_ui
-                        + unifi_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else unifi_docker_ports_defaults
                         + unifi_docker_ports_custom }}"
 
 # Envs

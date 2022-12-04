@@ -37,9 +37,7 @@ tdarr_paths_folders_list:
 tdarr_web_subdomain: "{{ tdarr_name }}"
 tdarr_web_domain: "{{ user.domain }}"
 tdarr_web_port: "8265"
-tdarr_web_url: "{{ 'https://' + tdarr_web_subdomain + dns_record_suffix + '.' + tdarr_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + tdarr_web_port }}"
+tdarr_web_url: "{{ 'https://' + tdarr_web_subdomain + dns_record_suffix + '.' + tdarr_web_domain }}"
 
 ################################
 # DNS
@@ -73,13 +71,10 @@ tdarr_docker_image_tag: "latest"
 tdarr_docker_image: "haveagitgat/tdarr:{{ tdarr_docker_image_tag }}"
 
 # Ports
-tdarr_docker_ports_defaults:
-  - "{{ tdarr_web_port }}"
+tdarr_docker_ports_defaults: []
 tdarr_docker_ports_custom: []
 tdarr_docker_ports: "{{ tdarr_docker_ports_defaults
-                        + tdarr_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else tdarr_docker_ports_custom }}"
+                        + tdarr_docker_ports_custom }}"
 
 # Envs
 tdarr_docker_envs_default:

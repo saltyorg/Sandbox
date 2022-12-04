@@ -30,9 +30,7 @@ trackarr_paths_config_location: "{{ trackarr_paths_location }}/config.yaml"
 trackarr_web_subdomain: "{{ trackarr_name }}"
 trackarr_web_domain: "{{ user.domain }}"
 trackarr_web_port: "7337"
-trackarr_web_url: "{{ 'https://' + trackarr_web_subdomain + '.' + trackarr_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + trackarr_web_port }}"
+trackarr_web_url: "{{ 'https://' + trackarr_web_subdomain + '.' + trackarr_web_domain }}"
 
 ################################
 # DNS
@@ -77,14 +75,8 @@ trackarr_docker_image: "cloudb0x/trackarr:{{ trackarr_docker_image_tag }}"
 
 # Ports
 trackarr_docker_ports_defaults: []
-trackarr_docker_ports_ui:
-  - "{{ trackarr_web_port }}:{{ trackarr_web_port }}"
 trackarr_docker_ports_custom: []
 trackarr_docker_ports: "{{ trackarr_docker_ports_defaults
-                           + trackarr_docker_ports_ui
-                           + trackarr_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else trackarr_docker_ports_defaults
                            + trackarr_docker_ports_custom }}"
 
 # Envs

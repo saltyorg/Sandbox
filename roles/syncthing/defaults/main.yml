@@ -29,9 +29,7 @@ syncthing_paths_folders_list:
 syncthing_web_subdomain: "{{ syncthing_name }}"
 syncthing_web_domain: "{{ user.domain }}"
 syncthing_web_port: "8384"
-syncthing_web_url: "{{ 'https://' + syncthing_web_subdomain + '.' + syncthing_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + syncthing_web_port }}"
+syncthing_web_url: "{{ 'https://' + syncthing_web_subdomain + '.' + syncthing_web_domain }}"
 
 ################################
 # DNS
@@ -63,15 +61,12 @@ syncthing_docker_image: "lscr.io/linuxserver/syncthing:{{ syncthing_docker_image
 
 # Ports
 syncthing_docker_ports_defaults:
-  - "{{ syncthing_web_port }}:{{ syncthing_web_port }}"
   - "22000:22000/tcp"
   - "22000:22000/udp"
   - "21027:21027/udp"
 syncthing_docker_ports_custom: []
 syncthing_docker_ports: "{{ syncthing_docker_ports_defaults
-                            + syncthing_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else syncthing_docker_ports_custom }}"
+                            + syncthing_docker_ports_custom }}"
 
 # Envs
 syncthing_docker_envs_default:

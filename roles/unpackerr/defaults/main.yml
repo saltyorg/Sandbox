@@ -36,13 +36,10 @@ unpackerr_docker_image_tag: "latest"
 unpackerr_docker_image: "hotio/unpackerr:{{ unpackerr_docker_image_tag }}"
 
 # Ports
-unpackerr_docker_ports_defaults:
-  - "{{ unpackerr_web_port }}:{{ unpackerr_web_port }}"
+unpackerr_docker_ports_defaults: []
 unpackerr_docker_ports_custom: []
 unpackerr_docker_ports: "{{ unpackerr_docker_ports_defaults
-                            + unpackerr_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else unpackerr_docker_ports_custom }}"
+                            + unpackerr_docker_ports_custom }}"
 
 # Envs
 unpackerr_docker_envs_default:

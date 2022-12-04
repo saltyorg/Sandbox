@@ -30,9 +30,7 @@ olivetin_paths_folders_list:
 olivetin_web_subdomain: "{{ olivetin_name }}"
 olivetin_web_domain: "{{ user.domain }}"
 olivetin_web_port: "1337"
-olivetin_web_url: "{{ 'https://' + olivetin_web_subdomain + '.' + olivetin_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + olivetin_web_port }}"
+olivetin_web_url: "{{ 'https://' + olivetin_web_subdomain + '.' + olivetin_web_domain }}"
 
 ################################
 # DNS
@@ -67,13 +65,10 @@ olivetin_docker_image_tag: "latest"
 olivetin_docker_image: "jamesread/olivetin:{{ olivetin_docker_image_tag }}"
 
 # Ports
-olivetin_docker_ports_defaults:
-  - "{{ olivetin_web_port }}:{{ olivetin_web_port }}"
+olivetin_docker_ports_defaults: []
 olivetin_docker_ports_custom: []
 olivetin_docker_ports: "{{ olivetin_docker_ports_defaults
-                           + olivetin_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else olivetin_docker_ports_custom }}"
+                           + olivetin_docker_ports_custom }}"
 
 # Envs
 olivetin_docker_envs_default:

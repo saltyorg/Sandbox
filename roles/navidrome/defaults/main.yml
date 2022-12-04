@@ -29,9 +29,7 @@ navidrome_paths_folders_list:
 navidrome_web_subdomain: "{{ navidrome_name }}"
 navidrome_web_domain: "{{ user.domain }}"
 navidrome_web_port: "4533"
-navidrome_web_url: "{{ 'https://' + navidrome_web_subdomain + '.' + navidrome_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + navidrome_web_port }}"
+navidrome_web_url: "{{ 'https://' + navidrome_web_subdomain + '.' + navidrome_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ navidrome_docker_image_tag: "latest"
 navidrome_docker_image: "deluan/navidrome:{{ navidrome_docker_image_tag }}"
 
 # Ports
-navidrome_docker_ports_defaults:
-  - "{{ navidrome_web_port }}"
+navidrome_docker_ports_defaults: []
 navidrome_docker_ports_custom: []
 navidrome_docker_ports: "{{ navidrome_docker_ports_defaults
-                            + navidrome_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else navidrome_docker_ports_custom }}"
+                            + navidrome_docker_ports_custom }}"
 
 # Envs
 navidrome_docker_envs_default: {}

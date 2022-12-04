@@ -29,9 +29,7 @@ wizarr_paths_folders_list:
 wizarr_web_subdomain: "{{ wizarr_name }}"
 wizarr_web_domain: "{{ user.domain }}"
 wizarr_web_port: "5690"
-wizarr_web_url: "{{ 'https://' + wizarr_web_subdomain + '.' + wizarr_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + wizarr_web_port }}"
+wizarr_web_url: "{{ 'https://' + wizarr_web_subdomain + '.' + wizarr_web_domain }}"
 
 ################################
 # DNS
@@ -67,13 +65,10 @@ wizarr_docker_image_tag: "latest"
 wizarr_docker_image: "ghcr.io/wizarrrr/wizarr"
 
 # Ports
-wizarr_docker_ports_defaults:
-  - "{{ wizarr_web_port }}:{{ wizarr_web_port }}"
+wizarr_docker_ports_defaults: []
 wizarr_docker_ports_custom: []
 wizarr_docker_ports: "{{ wizarr_docker_ports_defaults
-                         + wizarr_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else wizarr_docker_ports_custom }}"
+                         + wizarr_docker_ports_custom }}"
 
 # Envs
 wizarr_docker_envs_default:

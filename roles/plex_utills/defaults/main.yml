@@ -30,9 +30,7 @@ plex_utills_paths_folders_list:
 plex_utills_web_subdomain: "{{ plex_utills_name }}"
 plex_utills_web_domain: "{{ user.domain }}"
 plex_utills_web_port: "80"
-plex_utills_web_url: "{{ 'https://' + plex_utills_web_subdomain + '.' + plex_utills_web_domain
-                      if (reverse_proxy_is_enabled)
-                      else 'http://localhost:' + plex_utills_web_port }}"
+plex_utills_web_url: "{{ 'https://' + plex_utills_web_subdomain + '.' + plex_utills_web_domain }}"
 
 ################################
 # DNS
@@ -72,13 +70,10 @@ plex_utills_docker_image_tag: "latest"
 plex_utills_docker_image: "jkirkcaldy/plex-utills:{{ plex_utills_docker_image_tag }}"
 
 # Ports
-plex_utills_docker_ports_defaults:
-  - "{{ plex_utills_web_port }}"
+plex_utills_docker_ports_defaults: []
 plex_utills_docker_ports_custom: []
 plex_utills_docker_ports: "{{ plex_utills_docker_ports_defaults
-                              + plex_utills_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else plex_utills_docker_ports_custom }}"
+                              + plex_utills_docker_ports_custom }}"
 
 # Envs
 plex_utills_docker_envs_default:

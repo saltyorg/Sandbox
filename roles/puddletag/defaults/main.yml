@@ -29,9 +29,7 @@ puddletag_paths_folders_list:
 puddletag_web_subdomain: "{{ puddletag_name }}"
 puddletag_web_domain: "{{ user.domain }}"
 puddletag_web_port: "8080"
-puddletag_web_url: "{{ 'https://' + puddletag_web_subdomain + '.' + puddletag_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + puddletag_web_port }}"
+puddletag_web_url: "{{ 'https://' + puddletag_web_subdomain + '.' + puddletag_web_domain }}"
 
 ################################
 # DNS
@@ -66,13 +64,10 @@ puddletag_docker_image_tag: "latest"
 puddletag_docker_image: "xirg/docker-puddletag:{{ puddletag_docker_image_tag }}"
 
 # Ports
-puddletag_docker_ports_defaults:
-  - "{{ puddletag_web_port }}"
+puddletag_docker_ports_defaults: []
 puddletag_docker_ports_custom: []
 puddletag_docker_ports: "{{ puddletag_docker_ports_defaults
-                            + puddletag_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else puddletag_docker_ports_custom }}"
+                            + puddletag_docker_ports_custom }}"
 
 # Envs
 puddletag_docker_envs_default:

@@ -29,9 +29,7 @@ uptime_kuma_paths_folders_list:
 uptime_kuma_web_subdomain: "{{ uptime_kuma_name }}"
 uptime_kuma_web_domain: "{{ user.domain }}"
 uptime_kuma_web_port: "3001"
-uptime_kuma_web_url: "{{ 'https://' + uptime_kuma_web_subdomain + '.' + uptime_kuma_web_domain
-                      if (reverse_proxy_is_enabled)
-                      else 'http://localhost:' + uptime_kuma_web_port }}"
+uptime_kuma_web_url: "{{ 'https://' + uptime_kuma_web_subdomain + '.' + uptime_kuma_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ uptime_kuma_docker_image_tag: "latest"
 uptime_kuma_docker_image: "louislam/uptime-kuma:{{ uptime_kuma_docker_image_tag }}"
 
 # Ports
-uptime_kuma_docker_ports_defaults:
-  - "{{ uptime_kuma_web_port }}:{{ uptime_kuma_web_port }}"
+uptime_kuma_docker_ports_defaults: []
 uptime_kuma_docker_ports_custom: []
 uptime_kuma_docker_ports: "{{ uptime_kuma_docker_ports_defaults
-                              + uptime_kuma_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else uptime_kuma_docker_ports_custom }}"
+                              + uptime_kuma_docker_ports_custom }}"
 
 # Envs
 uptime_kuma_docker_envs_default:

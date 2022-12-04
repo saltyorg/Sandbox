@@ -34,9 +34,7 @@ stash_paths_folders_list:
 stash_web_subdomain: "{{ stash_name }}"
 stash_web_domain: "{{ user.domain }}"
 stash_web_port: "9999"
-stash_web_url: "{{ 'https://' + stash_web_subdomain + '.' + stash_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + stash_web_port }}"
+stash_web_url: "{{ 'https://' + stash_web_subdomain + '.' + stash_web_domain }}"
 
 ################################
 # DNS
@@ -67,13 +65,10 @@ stash_docker_image_tag: "latest"
 stash_docker_image: "cr.hotio.dev/hotio/stash:{{ stash_docker_image_tag }}"
 
 # Ports
-stash_docker_ports_defaults:
-  - "{{ stash_web_port }}"
+stash_docker_ports_defaults: []
 stash_docker_ports_custom: []
 stash_docker_ports: "{{ stash_docker_ports_defaults
-                        + stash_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else stash_docker_ports_custom }}"
+                        + stash_docker_ports_custom }}"
 
 # Envs
 stash_docker_envs_default:

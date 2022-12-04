@@ -29,9 +29,7 @@ privatebin_paths_folders_list:
 privatebin_web_subdomain: "{{ privatebin_name }}"
 privatebin_web_domain: "{{ user.domain }}"
 privatebin_web_port: "8080"
-privatebin_web_url: "{{ 'https://' + privatebin_web_subdomain + '.' + privatebin_web_domain
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + privatebin_web_port }}"
+privatebin_web_url: "{{ 'https://' + privatebin_web_subdomain + '.' + privatebin_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ privatebin_docker_image_tag: "latest"
 privatebin_docker_image: "privatebin/nginx-fpm-alpine:{{ privatebin_docker_image_tag }}"
 
 # Ports
-privatebin_docker_ports_defaults:
-  - "{{ privatebin_web_port }}:{{ privatebin_web_port }}"
+privatebin_docker_ports_defaults: []
 privatebin_docker_ports_custom: []
 privatebin_docker_ports: "{{ privatebin_docker_ports_defaults
-                             + privatebin_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else privatebin_docker_ports_custom }}"
+                             + privatebin_docker_ports_custom }}"
 
 # Envs
 privatebin_docker_envs_default:

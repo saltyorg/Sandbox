@@ -38,9 +38,7 @@ tika_docker_image: "logicalspark/docker-tikaserver:{{ tika_docker_image_tag }}"
 tika_docker_ports_defaults: []
 tika_docker_ports_custom: []
 tika_docker_ports: "{{ tika_docker_ports_defaults
-                       + tika_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else tika_docker_ports_custom }}"
+                       + tika_docker_ports_custom }}"
 
 # Envs
 tika_docker_envs_default:
