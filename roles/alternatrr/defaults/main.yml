@@ -69,7 +69,7 @@ alternatrr_docker_ports: "{{ alternatrr_docker_ports_defaults
 # Envs
 alternatrr_docker_envs_default:
   ConnectionStrings__DefaultConnection: Data Source=/opt/alternatrr/app/alternatrr.db
-  ConnectionStrings__sonarr: Data Source=/opt/sonarr/app/sonarr.db
+  ConnectionStrings__sonarr: Data Source=/opt/sonarr/sonarr.db
   Login__Username: "{{ user.name }}"
   Login__Password: "{{ user.pass }}"
 alternatrr_docker_envs_custom: {}
@@ -85,7 +85,7 @@ alternatrr_docker_commands: "{{ alternatrr_docker_commands_default
 # Volumes
 alternatrr_docker_volumes_default:
   - "{{ alternatrr_paths_location }}/app:/opt/alternatrr/app"
-  - "{{ sonarr_paths_location }}/app:/opt/sonarr/app"
+  - "{{ sonarr_paths_location }}:/opt/sonarr"
 alternatrr_docker_volumes_custom: []
 alternatrr_docker_volumes: "{{ alternatrr_docker_volumes_default
                                + alternatrr_docker_volumes_custom }}"
