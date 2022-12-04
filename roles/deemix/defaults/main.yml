@@ -29,9 +29,7 @@ deemix_paths_folders_list:
 deemix_web_subdomain: "{{ deemix_name }}"
 deemix_web_domain: "{{ user.domain }}"
 deemix_web_port: "6595"
-deemix_web_url: "{{ 'https://' + deemix_web_subdomain + '.' + deemix_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + deemix_web_port }}"
+deemix_web_url: "{{ 'https://' + deemix_web_subdomain + '.' + deemix_web_domain }}"
 
 ################################
 # DNS
@@ -74,13 +72,10 @@ deemix_docker_image_tag: "latest"
 deemix_docker_image: "registry.gitlab.com/bockiii/deemix-docker:{{ deemix_docker_image_tag }}"
 
 # Ports
-deemix_docker_ports_defaults:
-  - "{{ deemix_web_port }}"
+deemix_docker_ports_defaults: []
 deemix_docker_ports_custom: []
 deemix_docker_ports: "{{ deemix_docker_ports_defaults
-                         + deemix_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else deemix_docker_ports_custom }}"
+                         + deemix_docker_ports_custom }}"
 
 # Envs
 deemix_docker_envs_default:

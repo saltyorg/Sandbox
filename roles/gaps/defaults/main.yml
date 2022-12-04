@@ -29,9 +29,7 @@ gaps_paths_folders_list:
 gaps_web_subdomain: "{{ gaps_name }}"
 gaps_web_domain: "{{ user.domain }}"
 gaps_web_port: "8484"
-gaps_web_url: "{{ 'https://' + gaps_web_subdomain + '.' + gaps_web_domain
-               if (reverse_proxy_is_enabled)
-               else 'http://localhost:' + gaps_web_port }}"
+gaps_web_url: "{{ 'https://' + gaps_web_subdomain + '.' + gaps_web_domain }}"
 
 ################################
 # DNS
@@ -76,9 +74,7 @@ gaps_docker_ports_defaults:
   - "{{ gaps_web_port }}"
 gaps_docker_ports_custom: []
 gaps_docker_ports: "{{ gaps_docker_ports_defaults
-                       + gaps_docker_ports_custom
-                    if (not reverse_proxy_is_enabled)
-                    else gaps_docker_ports_custom }}"
+                       + gaps_docker_ports_custom }}"
 
 # Envs
 gaps_docker_envs_default:

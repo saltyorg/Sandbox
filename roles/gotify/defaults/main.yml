@@ -29,9 +29,7 @@ gotify_paths_folders_list:
 gotify_web_subdomain: "{{ gotify_name }}"
 gotify_web_domain: "{{ user.domain }}"
 gotify_web_port: "80"
-gotify_web_url: "{{ 'https://' + gotify_web_subdomain + '.' + gotify_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + gotify_web_port }}"
+gotify_web_url: "{{ 'https://' + gotify_web_subdomain + '.' + gotify_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ gotify_docker_image_tag: "latest"
 gotify_docker_image: "gotify/server:{{ gotify_docker_image_tag }}"
 
 # Ports
-gotify_docker_ports_defaults:
-  - "{{ gotify_web_port }}"
+gotify_docker_ports_defaults: []
 gotify_docker_ports_custom: []
 gotify_docker_ports: "{{ gotify_docker_ports_defaults
-                         + gotify_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else gotify_docker_ports_custom }}"
+                         + gotify_docker_ports_custom }}"
 
 # Envs
 gotify_docker_envs_default:

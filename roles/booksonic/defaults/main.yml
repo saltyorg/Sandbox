@@ -29,9 +29,7 @@ booksonic_paths_folders_list:
 booksonic_web_subdomain: "{{ booksonic_name }}"
 booksonic_web_domain: "{{ user.domain }}"
 booksonic_web_port: "4040"
-booksonic_web_url: "{{ 'https://' + booksonic_web_subdomain + '.' + booksonic_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + booksonic_web_port }}"
+booksonic_web_url: "{{ 'https://' + booksonic_web_subdomain + '.' + booksonic_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ booksonic_docker_image_tag: "latest"
 booksonic_docker_image: "lscr.io/linuxserver/booksonic-air:{{ booksonic_docker_image_tag }}"
 
 # Ports
-booksonic_docker_ports_defaults:
-  - "{{ booksonic_web_port }}"
+booksonic_docker_ports_defaults: []
 booksonic_docker_ports_custom: []
 booksonic_docker_ports: "{{ booksonic_docker_ports_defaults
-                            + booksonic_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else booksonic_docker_ports_custom }}"
+                            + booksonic_docker_ports_custom }}"
 
 # Envs
 booksonic_docker_envs_default:

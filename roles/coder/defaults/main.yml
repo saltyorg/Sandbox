@@ -32,9 +32,7 @@ coder_paths_folders_list:
 coder_web_subdomain: "{{ coder_name }}"
 coder_web_domain: "{{ user.domain }}"
 coder_web_port: "8080"
-coder_web_url: "{{ 'https://' + coder_web_subdomain + '.' + coder_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + coder_web_port }}"
+coder_web_url: "{{ 'https://' + coder_web_subdomain + '.' + coder_web_domain }}"
 
 ################################
 # DNS
@@ -65,13 +63,10 @@ coder_docker_image_tag: "latest"
 coder_docker_image: "codercom/code-server:{{ coder_docker_image_tag }}"
 
 # Ports
-coder_docker_ports_defaults:
-  - "{{ coder_web_port }}:{{ coder_web_port }}"
+coder_docker_ports_defaults: []
 coder_docker_ports_custom: []
 coder_docker_ports: "{{ coder_docker_ports_defaults
-                        + coder_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else coder_docker_ports_custom }}"
+                        + coder_docker_ports_custom }}"
 
 # Envs
 coder_docker_envs_default:

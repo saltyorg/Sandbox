@@ -46,9 +46,7 @@ elasticsearch_docker_image: "docker.elastic.co/elasticsearch/elasticsearch:{{ el
 elasticsearch_docker_ports_defaults: []
 elasticsearch_docker_ports_custom: []
 elasticsearch_docker_ports: "{{ elasticsearch_docker_ports_defaults
-                                + elasticsearch_docker_ports_custom
-                             if (not reverse_proxy_is_enabled)
-                             else elasticsearch_docker_ports_custom }}"
+                                + elasticsearch_docker_ports_custom }}"
 
 # Envs
 elasticsearch_docker_envs_default:

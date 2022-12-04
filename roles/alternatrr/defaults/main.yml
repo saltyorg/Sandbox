@@ -30,9 +30,7 @@ alternatrr_paths_folders_list:
 alternatrr_web_subdomain: "{{ alternatrr_name }}"
 alternatrr_web_domain: "{{ user.domain }}"
 alternatrr_web_port: "80"
-alternatrr_web_url: "{{ 'https://' + alternatrr_web_subdomain + '.' + alternatrr_web_domain
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + alternatrr_web_port }}"
+alternatrr_web_url: "{{ 'https://' + alternatrr_web_subdomain + '.' + alternatrr_web_domain }}"
 
 ################################
 # DNS
@@ -63,13 +61,10 @@ alternatrr_docker_image_tag: "latest"
 alternatrr_docker_image: "theultimatecoder/alternatrr:{{ alternatrr_docker_image_tag }}"
 
 # Ports
-alternatrr_docker_ports_defaults:
-  - "{{ alternatrr_web_port }}"
+alternatrr_docker_ports_defaults: []
 alternatrr_docker_ports_custom: []
 alternatrr_docker_ports: "{{ alternatrr_docker_ports_defaults
-                             + alternatrr_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else alternatrr_docker_ports_custom }}"
+                             + alternatrr_docker_ports_custom }}"
 
 # Envs
 alternatrr_docker_envs_default:

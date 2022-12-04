@@ -29,9 +29,7 @@ dozzle_paths_folders_list:
 dozzle_web_subdomain: "{{ dozzle_name }}"
 dozzle_web_domain: "{{ user.domain }}"
 dozzle_web_port: "8080"
-dozzle_web_url: "{{ 'https://' + dozzle_web_subdomain + '.' + dozzle_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + dozzle_web_port }}"
+dozzle_web_url: "{{ 'https://' + dozzle_web_subdomain + '.' + dozzle_web_domain }}"
 
 ################################
 # DNS
@@ -65,13 +63,10 @@ dozzle_docker_image_tag: "latest"
 dozzle_docker_image: "amir20/dozzle:{{ dozzle_docker_image_tag }}"
 
 # Ports
-dozzle_docker_ports_defaults:
-  - "{{ dozzle_web_port }}"
+dozzle_docker_ports_defaults: []
 dozzle_docker_ports_custom: []
 dozzle_docker_ports: "{{ dozzle_docker_ports_defaults
-                         + dozzle_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else dozzle_docker_ports_custom }}"
+                         + dozzle_docker_ports_custom }}"
 
 # Envs
 dozzle_docker_envs_default: {}
