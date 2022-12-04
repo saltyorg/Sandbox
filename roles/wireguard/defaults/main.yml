@@ -109,7 +109,7 @@ wireguard_docker_labels_default: {}
 wireguard_docker_labels_custom: {}
 wireguard_docker_labels: "{{ docker_labels_common
                              | combine(wireguard_docker_labels_default)
-                             | combine(wireguard_docker_labels_custom) }}" 
+                             | combine(wireguard_docker_labels_custom) }}"
 
 # Hostname
 wireguard_docker_hostname: "{{ wireguard_name }}"
