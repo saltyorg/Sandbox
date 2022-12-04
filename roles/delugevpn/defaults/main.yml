@@ -35,9 +35,7 @@ delugevpn_paths_folders_list:
 delugevpn_web_subdomain: "{{ delugevpn_name }}"
 delugevpn_web_domain: "{{ user.domain }}"
 delugevpn_web_port: "8112"
-delugevpn_web_url: "{{ 'https://' + delugevpn_web_subdomain + '.' + delugevpn_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + delugevpn_web_port }}"
+delugevpn_web_url: "{{ 'https://' + delugevpn_web_subdomain + '.' + delugevpn_web_domain }}"
 
 ################################
 # DNS
@@ -78,16 +76,10 @@ delugevpn_docker_image: "binhex/arch-delugevpn:{{ delugevpn_docker_image_tag }}"
 
 # Ports
 delugevpn_docker_ports_defaults:
-  - "{{ delugevpn_web_port }}"
-delugevpn_docker_ports_torrents:
   - "58112:58112"
   - "58846:58846"
 delugevpn_docker_ports_custom: []
 delugevpn_docker_ports: "{{ delugevpn_docker_ports_defaults
-                            + delugevpn_docker_ports_torrents
-                            + delugevpn_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else delugevpn_docker_ports_torrents
                             + delugevpn_docker_ports_custom }}"
 
 # Envs

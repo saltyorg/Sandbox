@@ -34,9 +34,7 @@ adguardhome_paths_folders_list:
 adguardhome_web_subdomain: "{{ adguardhome_name }}"
 adguardhome_web_domain: "{{ user.domain }}"
 adguardhome_web_port: "3000"
-adguardhome_web_url: "{{ 'https://' + adguardhome_web_subdomain + '.' + adguardhome_web_domain
-                      if (reverse_proxy_is_enabled)
-                      else 'http://localhost:' + adguardhome_web_port }}"
+adguardhome_web_url: "{{ 'https://' + adguardhome_web_subdomain + '.' + adguardhome_web_domain }}"
 
 ################################
 # DNS
@@ -72,13 +70,10 @@ adguardhome_docker_image_tag: "latest"
 adguardhome_docker_image: "adguard/adguardhome:{{ adguardhome_docker_image_tag }}"
 
 # Ports
-adguardhome_docker_ports_defaults:
-  - "{{ adguardhome_web_port }}"
+adguardhome_docker_ports_defaults: []
 adguardhome_docker_ports_custom: []
 adguardhome_docker_ports: "{{ adguardhome_docker_ports_defaults
-                              + adguardhome_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else adguardhome_docker_ports_custom }}"
+                              + adguardhome_docker_ports_custom }}"
 
 # Envs
 adguardhome_docker_envs_default:

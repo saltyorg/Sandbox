@@ -31,9 +31,7 @@ handbrake_paths_folders_list:
 handbrake_web_subdomain: "{{ handbrake_name }}"
 handbrake_web_domain: "{{ user.domain }}"
 handbrake_web_port: "5800"
-handbrake_web_url: "{{ 'https://' + handbrake_web_subdomain + '.' + handbrake_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + handbrake_web_port }}"
+handbrake_web_url: "{{ 'https://' + handbrake_web_subdomain + '.' + handbrake_web_domain }}"
 
 ################################
 # DNS
@@ -64,13 +62,10 @@ handbrake_docker_image_tag: "latest"
 handbrake_docker_image: "jlesage/handbrake:{{ handbrake_docker_image_tag }}"
 
 # Ports
-handbrake_docker_ports_defaults:
-  - "{{ handbrake_web_port }}"
+handbrake_docker_ports_defaults: []
 handbrake_docker_ports_custom: []
 handbrake_docker_ports: "{{ handbrake_docker_ports_defaults
-                            + handbrake_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else handbrake_docker_ports_custom }}"
+                            + handbrake_docker_ports_custom }}"
 
 # Envs
 handbrake_docker_envs_default:

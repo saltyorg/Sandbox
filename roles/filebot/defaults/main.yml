@@ -30,9 +30,7 @@ filebot_paths_config_location: "{{ filebot_paths_location }}/config.yml"
 filebot_web_subdomain: "{{ filebot_name }}"
 filebot_web_domain: "{{ user.domain }}"
 filebot_web_port: "5800"
-filebot_web_url: "{{ 'https://' + filebot_web_subdomain + '.' + filebot_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + filebot_web_port }}"
+filebot_web_url: "{{ 'https://' + filebot_web_subdomain + '.' + filebot_web_domain }}"
 
 ################################
 # DNS
@@ -68,13 +66,10 @@ filebot_docker_image_tag: "latest"
 filebot_docker_image: "jlesage/filebot:{{ filebot_docker_image_tag }}"
 
 # Ports
-filebot_docker_ports_defaults:
-  - "{{ filebot_web_port }}"
+filebot_docker_ports_defaults: []
 filebot_docker_ports_custom: []
 filebot_docker_ports: "{{ filebot_docker_ports_defaults
-                          + filebot_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else filebot_docker_ports_custom }}"
+                          + filebot_docker_ports_custom }}"
 
 # Envs
 filebot_docker_envs_default:

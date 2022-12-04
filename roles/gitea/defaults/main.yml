@@ -29,9 +29,7 @@ gitea_paths_folders_list:
 gitea_web_subdomain: "{{ gitea_name }}"
 gitea_web_domain: "{{ user.domain }}"
 gitea_web_port: "3000"
-gitea_web_url: "{{ 'https://' + gitea_web_subdomain + '.' + gitea_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + gitea_web_port }}"
+gitea_web_url: "{{ 'https://' + gitea_web_subdomain + '.' + gitea_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ gitea_docker_image_tag: "latest"
 gitea_docker_image: "gitea/gitea:{{ gitea_docker_image_tag }}"
 
 # Ports
-gitea_docker_ports_defaults:
-  - "{{ gitea_web_port }}"
+gitea_docker_ports_defaults: []
 gitea_docker_ports_custom: []
 gitea_docker_ports: "{{ gitea_docker_ports_defaults
-                        + gitea_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else gitea_docker_ports_custom }}"
+                        + gitea_docker_ports_custom }}"
 
 # Envs
 gitea_docker_envs_default:

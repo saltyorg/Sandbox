@@ -29,9 +29,7 @@ bookstack_paths_folders_list:
 bookstack_web_subdomain: "{{ bookstack_name }}"
 bookstack_web_domain: "{{ user.domain }}"
 bookstack_web_port: "80"
-bookstack_web_url: "{{ 'https://' + bookstack_web_subdomain + '.' + bookstack_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + bookstack_web_port }}"
+bookstack_web_url: "{{ 'https://' + bookstack_web_subdomain + '.' + bookstack_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ bookstack_docker_image_tag: "latest"
 bookstack_docker_image: "lscr.io/linuxserver/bookstack:{{ bookstack_docker_image_tag }}"
 
 # Ports
-bookstack_docker_ports_defaults:
-  - "{{ bookstack_web_port }}"
+bookstack_docker_ports_defaults: []
 bookstack_docker_ports_custom: []
 bookstack_docker_ports: "{{ bookstack_docker_ports_defaults
-                            + bookstack_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else bookstack_docker_ports_custom }}"
+                            + bookstack_docker_ports_custom }}"
 
 # Envs
 bookstack_docker_envs_default:

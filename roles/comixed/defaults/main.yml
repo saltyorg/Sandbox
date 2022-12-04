@@ -31,9 +31,7 @@ comixed_paths_folders_list:
 comixed_web_subdomain: "{{ comixed_name }}"
 comixed_web_domain: "{{ user.domain }}"
 comixed_web_port: "7171"
-comixed_web_url: "{{ 'https://' + comixed_web_subdomain + '.' + comixed_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + comixed_web_port }}"
+comixed_web_url: "{{ 'https://' + comixed_web_subdomain + '.' + comixed_web_domain }}"
 
 ################################
 # DNS
@@ -64,13 +62,10 @@ comixed_docker_image_tag: "latest"
 comixed_docker_image: "comixed/comixed:{{ comixed_docker_image_tag }}"
 
 # Ports
-comixed_docker_ports_defaults:
-  - "{{ comixed_web_port }}"
+comixed_docker_ports_defaults: []
 comixed_docker_ports_custom: []
 comixed_docker_ports: "{{ comixed_docker_ports_defaults
-                          + comixed_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else comixed_docker_ports_custom }}"
+                          + comixed_docker_ports_custom }}"
 
 # Envs
 comixed_docker_envs_default: {}

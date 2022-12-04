@@ -30,9 +30,7 @@ docspell_paths_folders_list:
 docspell_web_subdomain: "{{ docspell_name }}"
 docspell_web_domain: "{{ user.domain }}"
 docspell_web_port: "7880"
-docspell_web_url: "{{ 'https://' + docspell_web_subdomain + '.' + docspell_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + docspell_web_port }}"
+docspell_web_url: "{{ 'https://' + docspell_web_subdomain + '.' + docspell_web_domain }}"
 
 ################################
 # DNS
@@ -75,13 +73,10 @@ docspell_docker_image_tag: "latest"
 docspell_docker_image: "docspell/restserver:{{ docspell_docker_image_tag }}"
 
 # Ports
-docspell_docker_ports_defaults:
-  - "{{ docspell_web_port }}"
+docspell_docker_ports_defaults: []
 docspell_docker_ports_custom: []
 docspell_docker_ports: "{{ docspell_docker_ports_defaults
-                           + docspell_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else docspell_docker_ports_custom }}"
+                           + docspell_docker_ports_custom }}"
 
 # Envs
 docspell_docker_envs_default:
