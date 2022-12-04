@@ -24,7 +24,7 @@
     image: "{{ recyclarr_docker_image }}"
     user: "{{ uid }}:{{ gid }}"
     env:
-      - RECYCLARR_CREATE_CONFIG: "true"
+      RECYCLARR_CREATE_CONFIG: "true"
     volumes:
       - "{{ recyclarr_paths_location }}:/config"
     networks:
