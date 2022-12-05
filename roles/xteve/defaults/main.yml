@@ -49,6 +49,8 @@ xteve_traefik_middleware: "{{ traefik_default_middleware + ',' + xteve_traefik_s
                            else traefik_default_middleware }}"
 xteve_traefik_certresolver: "{{ traefik_default_certresolver }}"
 xteve_traefik_enabled: true
+xteve_traefik_api_enabled: true
+xteve_traefik_api_endpoint: "`/data_images`"
 
 ################################
 # Docker
