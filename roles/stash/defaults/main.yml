@@ -61,6 +61,8 @@ stash_traefik_middleware: "{{ stash_traefik_middleware_default + ','
                                 + stash_traefik_middleware_custom }}"
 stash_traefik_certresolver: "{{ traefik_default_certresolver }}"
 stash_traefik_enabled: true
+stash_traefik_api_enabled: false
+stash_traefik_api_endpoint: ""
 
 ################################
 # Docker
