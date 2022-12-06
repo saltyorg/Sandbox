@@ -50,15 +50,15 @@ stash_dns_proxy: "{{ dns.proxied }}"
 
 stash_traefik_sso_middleware: ""
 stash_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                        + lookup('vars', stash_name + '_traefik_sso_middleware', default=stash_traefik_sso_middleware)
-                                     if (lookup('vars', stash_name + '_traefik_sso_middleware', default=stash_traefik_sso_middleware) | length > 0)
-                                     else traefik_default_middleware }}"
+                                      + lookup('vars', stash_name + '_traefik_sso_middleware', default=stash_traefik_sso_middleware)
+                                   if (lookup('vars', stash_name + '_traefik_sso_middleware', default=stash_traefik_sso_middleware) | length > 0)
+                                   else traefik_default_middleware }}"
 stash_traefik_middleware_custom: ""
 stash_traefik_middleware: "{{ stash_traefik_middleware_default + ','
-                                + stash_traefik_middleware_custom
-                             if (not stash_traefik_middleware_custom.startswith(',') and stash_traefik_middleware_custom | length > 0)
-                             else stash_traefik_middleware_default
-                                + stash_traefik_middleware_custom }}"
+                              + stash_traefik_middleware_custom
+                           if (not stash_traefik_middleware_custom.startswith(',') and stash_traefik_middleware_custom | length > 0)
+                           else stash_traefik_middleware_default
+                              + stash_traefik_middleware_custom }}"
 stash_traefik_certresolver: "{{ traefik_default_certresolver }}"
 stash_traefik_enabled: true
 stash_traefik_api_enabled: false
