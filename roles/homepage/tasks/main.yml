@@ -12,11 +12,8 @@
   ansible.builtin.include_role:
     name: docker_socket_proxy
   vars:
-    docker_socket_proxy_name: "{{ homepage_name }}_docker_proxy"
-    docker_socket_proxy_docker_image_tag: "latest"
-    docker_socket_proxy_docker_envs:
-      CONTAINERS: "1"
-      POST: "0"
+    docker_socket_proxy_name: "{{ homepage_name }}-docker-socket-proxy"
+    docker_socket_proxy_docker_envs: "{{ homepage_docker_socket_proxy_envs }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
