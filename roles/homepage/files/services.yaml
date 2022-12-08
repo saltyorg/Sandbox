@@ -1,0 +1,108 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+# - Movies and Series Management:
+#     - Radarr (4K):
+#         icon: radarr.png
+#         href: https://radarr-4k.<domain>.<tld>
+#         ping: http://radarr-4k:7878
+#         server: my-docker
+#         container: radarr-4k
+#         description: Movie Management System
+#         widget:
+#           type: radarr
+#           url: http://radarr-4k:7878
+#           key: <apiKey>
+#     - Radarr (HD):
+#         icon: radarr.png
+#         href: https://radarr.<domain>.<tld>
+#         ping: http://radarr:7878
+#         server: my-docker
+#         container: radarr
+#         description: Movie Management System
+#         widget:
+#           type: radarr
+#           url: http://radarr:7878
+#           key: <apiKey>
+#     - Sonarr (4K):
+#         icon: sonarr.png
+#         href: https://sonarr-4k.<domain>.<tld>
+#         ping: http://sonarr-4k:8989
+#         server: my-docker
+#         container: sonarr-4k
+#         description: Series Management System
+#         widget:
+#           type: sonarr
+#           url: http://sonarr-4k:8989
+#           key: <apiKey>
+#     - Sonarr (HD):
+#         icon: sonarr.png
+#         href: https://sonarr.<domain>.<tld>
+#         ping: http://sonarr:8989
+#         server: my-docker
+#         container: sonarr
+#         description: Series Management System
+#         widget:
+#           type: sonarr
+#           url: http://sonarr:8989
+#           key: <apiKey>
+
+# - Media Server:
+#     - Plex:
+#         icon: plex.png
+#         href: https://plex.<domain>.<tld>
+#         ping: http://plex:32400
+#         server: my-docker
+#         container: plex
+#         description: Media Server
+#         widget:
+#           type: plex
+#           url: http://plex:32400
+#           key: <apiKey>
+#     - Tautulli:
+#         icon: tautulli.png
+#         href: https://tautulli.<domain>.<tld>
+#         ping: http://tautulli:8181
+#         server: my-docker
+#         container: tautulli
+#         description: Statistics of Plex Media Server
+#         widget:
+#           type: tautulli
+#           url: http://tautulli:8181
+#           key: <apiKey>
+#     - Overseerr:
+#         icon: overseerr.png
+#         href: https://overseerr.<domain>.<tld>
+#         ping: http://overseerr:5055
+#         server: my-docker
+#         container: overseerr
+#         description: Requests
+#         widget:
+#           type: overseerr
+#           url: http://overseerr:5055
+#           key: <apiKey>
+
+# - Infrastructure:
+#     - Traefik:
+#         icon: traefik.png
+#         href: https://dash.<domain>.<tld>
+#         ping: http://traefik:8080
+#         server: my-docker
+#         container: traefik
+#         description: Proxy
+#         widget:
+#           type: traefik
+#           url: http://traefik:8080
+#     - Portainer:
+#         icon: portainer.png
+#         href: https://portainer.<domain>.<tld>
+#         ping: http://portainer:9000
+#         server: my-docker
+#         container: portainer
+#         description: Container Management
+#         widget:
+#           type: portainer
+#           url: http://portainer:9000
+#           env: <envID>
+#           key: <apiKey>

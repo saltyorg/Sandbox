@@ -1,0 +1,35 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/widgets
+
+- resources:
+    cpu: true
+    memory: true
+    disk: false
+    # label: System
+
+- resources:
+    disk: /downloads
+    expanded: false
+    # label: Downloads
+
+- search:
+    provider: google
+    target: _blank
+
+- openmeteo:
+    label: Meteo # optional
+    latitude: 48.8534100
+    longitude: 2.3488000
+    units: metric # or imperial
+    cache: 5 # Time in minutes to cache API responses, to stay within limits
+
+- datetime:
+    text_size: xl
+    format:
+      timeStyle: short
+      hour12: false
+
+- greeting:
+    text_size: xl
+    text: Saltbox
