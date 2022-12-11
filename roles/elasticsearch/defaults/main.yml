@@ -21,6 +21,7 @@ elasticsearch_paths_folder: "{{ elasticsearch_name }}"
 elasticsearch_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_paths_folder }}"
 elasticsearch_paths_folders_list:
   - "{{ elasticsearch_paths_location }}"
+elasticsearch_paths_recursive: true
 
 ################################
 # Settings
