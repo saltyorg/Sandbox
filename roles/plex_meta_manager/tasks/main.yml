@@ -24,15 +24,6 @@
     validate_certs: no
   ignore_errors: true
 
-- name: Chown '{{ plex_meta_manager_paths_location }}'
-  ansible.builtin.file:
-    path: "{{ plex_meta_manager_paths_location }}"
-    state: directory
-    recurse: yes
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-
 - name: "Checking if 'config.yml' exists in {{ plex_meta_manager_paths_location }}"
   ansible.builtin.stat:
     path: "{{ plex_meta_manager_paths_location }}/config.yml"
