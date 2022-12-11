@@ -21,6 +21,7 @@ wordpress_paths_folder: "{{ wordpress_name }}"
 wordpress_paths_location: "{{ server_appdata_path }}/{{ wordpress_paths_folder }}"
 wordpress_paths_folders_list:
   - "{{ wordpress_paths_location }}"
+wordpress_paths_recursive: true
 
 ################################
 # Web
@@ -137,3 +138,6 @@ wordpress_docker_restart_policy: unless-stopped
 
 # State
 wordpress_docker_state: started
+
+# User
+wordpress_docker_user: "{{ uid }}:{{ gid }}"
