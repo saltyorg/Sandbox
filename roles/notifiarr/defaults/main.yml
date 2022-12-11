@@ -21,6 +21,7 @@ notifiarr_paths_folder: "{{ notifiarr_name }}"
 notifiarr_paths_location: "{{ server_appdata_path }}/{{ notifiarr_paths_folder }}"
 notifiarr_paths_folders_list:
   - "{{ notifiarr_paths_location }}"
+notifiarr_paths_recursive: true
 notifiarr_paths_config_location: "{{ notifiarr_paths_location }}/notifiarr.conf"
 notifiarr_radarr_config: "{{ radarr_paths_location }}/config.xml"
 notifiarr_sonarr_config: "{{ sonarr_paths_location }}/config.xml"
