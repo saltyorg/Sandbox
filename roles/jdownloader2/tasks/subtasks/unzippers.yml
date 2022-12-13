@@ -33,7 +33,7 @@
     - name: unzippers | Import 7zip 1509Linux
       ansible.builtin.copy:
         src: "sevenzipjbinding1509Linux.jar"
-        dest: "/opt/jdownloader2/config/libs/sevenzipjbinding1509Linux.jar"
+        dest: "{{ jdownloader2_paths_tools_location }}/sevenzipjbinding1509Linux.jar"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
