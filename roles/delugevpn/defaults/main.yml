@@ -59,7 +59,7 @@ delugevpn_traefik_enabled: true
 
 delugevpn_log_level_daemon: info
 delugevpn_log_level_web: info
-delugevpn_name_servers: "84.200.69.80,37.235.1.174,1.1.1.1,37.235.1.177,84.200.70.40,1.0.0.1"
+delugevpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
 delugevpn_lan_network: "172.19.0.0/16"
 
 ################################
@@ -113,6 +113,7 @@ delugevpn_docker_commands: "{{ delugevpn_docker_commands_default
 # Volumes
 delugevpn_docker_volumes_default:
   - "{{ delugevpn_paths_location }}:/config"
+  - "/etc/localtime:/etc/localtime:ro"
   - "/opt/scripts:/scripts"
 delugevpn_docker_volumes_custom: []
 delugevpn_docker_volumes: "{{ delugevpn_docker_volumes_default
