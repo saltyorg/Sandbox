@@ -16,3 +16,6 @@
 !/sandbox.yml
 /*.log
 /*.log.*
+
+# Visual Studio
+/.vs
