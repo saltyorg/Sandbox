@@ -1,0 +1,147 @@
+##########################################################################
+# Title:         Sandbox: Dashy | Default Variables                      #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+dashy_name: dashy
+
+################################
+# Paths
+################################
+
+dashy_paths_folder: "{{ dashy_name }}"
+dashy_paths_location: "{{ server_appdata_path }}/{{ dashy_paths_folder }}"
+dashy_paths_folders_list:
+  - "{{ dashy_paths_location }}"
+dashy_paths_config_location: "{{ dashy_paths_location }}/conf.yml"
+
+################################
+# Web
+################################
+
+dashy_web_subdomain: "{{ dashy_name }}"
+dashy_web_domain: "{{ user.domain }}"
+dashy_web_port: "80"
+dashy_web_url: "{{ 'https://' + dashy_web_subdomain + '.' + dashy_web_domain }}"
+
+################################
+# DNS
+################################
+
+dashy_dns_record: "{{ dashy_web_subdomain }}"
+dashy_dns_zone: "{{ dashy_web_domain }}"
+dashy_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+dashy_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+dashy_traefik_middleware_default: "{{ traefik_default_middleware }}"
+dashy_traefik_middleware_custom: ""
+dashy_traefik_certresolver: "{{ traefik_default_certresolver }}"
+dashy_traefik_enabled: true
+dashy_traefik_api_enabled: false
+dashy_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+dashy_docker_container: "{{ dashy_name }}"
+
+# Image
+dashy_docker_image_pull: true
+dashy_docker_image_tag: "latest"
+dashy_docker_image: "lissy93/dashy:{{ dashy_docker_image_tag }}"
+
+# Ports
+dashy_docker_ports_defaults: []
+dashy_docker_ports_custom: []
+dashy_docker_ports: "{{ dashy_docker_ports_defaults
+                        + dashy_docker_ports_custom }}"
+
+# Envs
+dashy_docker_envs_default: {}
+dashy_docker_envs_custom: {}
+dashy_docker_envs: "{{ dashy_docker_envs_default
+                       | combine(dashy_docker_envs_custom) }}"
+
+# Commands
+dashy_docker_commands_default: []
+dashy_docker_commands_custom: []
+dashy_docker_commands: "{{ dashy_docker_commands_default
+                           + dashy_docker_commands_custom }}"
+
+# Volumes
+dashy_docker_volumes_default:
+  - "{{ dashy_paths_location }}/conf.yml:/app/public/conf.yml"
+dashy_docker_volumes_custom: []
+dashy_docker_volumes: "{{ dashy_docker_volumes_default
+                          + dashy_docker_volumes_custom }}"
+
+# Devices
+dashy_docker_devices_default: []
+dashy_docker_devices_custom: []
+dashy_docker_devices: "{{ dashy_docker_devices_default
+                          + dashy_docker_devices_custom }}"
+
+# Hosts
+dashy_docker_hosts_default: []
+dashy_docker_hosts_custom: []
+dashy_docker_hosts: "{{ docker_hosts_common
+                        | combine(dashy_docker_hosts_default)
+                        | combine(dashy_docker_hosts_custom) }}"
+
+# Labels
+dashy_docker_labels_default: {}
+dashy_docker_labels_custom: {}
+dashy_docker_labels: "{{ docker_labels_common
+                         | combine(dashy_docker_labels_default)
+                         | combine(dashy_docker_labels_custom) }}"
+
+# Hostname
+dashy_docker_hostname: "{{ dashy_name }}"
+
+# Networks
+dashy_docker_networks_alias: "{{ dashy_name }}"
+dashy_docker_networks_default: []
+dashy_docker_networks_custom: []
+dashy_docker_networks: "{{ docker_networks_common
+                           + dashy_docker_networks_default
+                           + dashy_docker_networks_custom }}"
+
+# Capabilities
+dashy_docker_capabilities_default: []
+dashy_docker_capabilities_custom: []
+dashy_docker_capabilities: "{{ dashy_docker_capabilities_default
+                               + dashy_docker_capabilities_custom }}"
+
+# Security Opts
+dashy_docker_security_opts_default: []
+dashy_docker_security_opts_custom: []
+dashy_docker_security_opts: "{{ dashy_docker_security_opts_default
+                                + dashy_docker_security_opts_custom }}"
+
+# Restart Policy
+dashy_docker_restart_policy: unless-stopped
+
+# State
+dashy_docker_state: started
+
+# Healthcheck
+dashy_docker_healthcheck:
+  test: ["CMD", "yarn", "health-check"]
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 10s
