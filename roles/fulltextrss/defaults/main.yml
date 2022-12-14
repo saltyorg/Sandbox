@@ -144,3 +144,6 @@ fulltextrss_docker_restart_policy: unless-stopped
 
 # State
 fulltextrss_docker_state: started
+
+# User
+fulltextrss_docker_user: "{{ uid }}:{{ gid }}"
