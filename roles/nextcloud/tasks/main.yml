@@ -7,40 +7,39 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Nextcloud | MariaDB Role
+- name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
 
-- name: Nextcloud | Nextcloud | Add DNS record
+- name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
     dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
-- name: Nextcloud | Remove existing Docker container
+- name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Nextcloud | Create directories
+- name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Nextcloud | Create Docker container
+- name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
-- name: Nextcloud | 'add check_data_directory_permissions flag to nextcloud config/config.php'
+- name: Add check_data_directory_permissions flag to nextcloud config/config.php
   block:
-
-    - name: Nextcloud | | Set '_nextcloud_config_path' variable
+    - name: Set '_nextcloud_config_path' variable
       ansible.builtin.set_fact:
         _nextcloud_config_path: "{{ nextcloud_paths_location }}/config/config.php"
 
-    - name: Nextcloud | Wait for 'config.php' to be created
+    - name: Wait for 'config.php' to be created
       ansible.builtin.wait_for:
         path: "{{ _nextcloud_config_path }}"
         state: present
         timeout: 120
 
-    - name: "Nextcloud | set check_data_directory_permissions to false"
+    - name: Set check_data_directory_permissions to false
       ansible.builtin.lineinfile:
         path: "{{ _nextcloud_config_path }}"
         insertbefore: '^(\s*)\);(\s*)$'
@@ -49,5 +48,5 @@
 
     - name: Restart Docker container
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/restart_docker_container.yml"
-      
-  when: (not continuous_integration) and (nextcloud_skip_data_directory_permissions_check is defined) and (nextcloud_skip_data_directory_permissions_check)
+
+  when: (not continuous_integration) and (nextcloud_skip_data_directory_permissions_check is defined) and nextcloud_skip_data_directory_permissions_check
