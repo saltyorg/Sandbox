@@ -7,22 +7,47 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: MariaDB Role
+- name: Nextcloud | MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
 
-- name: Add DNS record
+- name: Nextcloud | Nextcloud | Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
     dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
-- name: Remove existing Docker container
+- name: Nextcloud | Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Create directories
+- name: Nextcloud | Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Create Docker container
+- name: Nextcloud | Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Nextcloud | 'add check_data_directory_permissions flag to nextcloud config/config.php'
+  block:
+
+    - name: Nextcloud | | Set '_nextcloud_config_path' variable
+      ansible.builtin.set_fact:
+        _nextcloud_config_path: "{{ nextcloud_paths_location }}/config/config.php"
+
+    - name: Nextcloud | Wait for 'config.php' to be created
+      ansible.builtin.wait_for:
+        path: "{{ _nextcloud_config_path }}"
+        state: present
+        timeout: 120
+
+    - name: "Nextcloud | set check_data_directory_permissions to false"
+      ansible.builtin.lineinfile:
+        path: "{{ _nextcloud_config_path }}"
+        insertbefore: '^(\s*)\);(\s*)$'
+        search_string: "check_data_directory_permissions"
+        line: "  'check_data_directory_permissions' => false,"
+
+    - name: Restart Docker container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/restart_docker_container.yml"
+  
+  when: (not continuous_integration) and (nextcloud_skip_data_directory_permissions_check is defined) and (nextcloud_skip_data_directory_permissions_check)
