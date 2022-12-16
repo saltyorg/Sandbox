@@ -1,0 +1,36 @@
+#########################################################################
+# Title:            Sandbox: Miniflux                                   #
+# Author(s):        powerdude                                            #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: PostgreSQL Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_name: "{{ miniflux_name }}-postgres"
+    postgres_docker_env_db: "miniflux"
+    postgres_docker_env_user: "{{ miniflux_postgres_username }}"
+    postgres_docker_env_password: "{{ miniflux_postgres_password }}"
+    postgres_docker_image_tag: "{{ miniflux_postgres_image_tag }}"
+    postgres_paths_folder: "{{ miniflux_name }}"
+    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

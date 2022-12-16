@@ -85,6 +85,7 @@
     - { role: medusa, tags: ['medusa'] }
     - { role: minecraft, tags: ['minecraft'] }
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
+    - { role: miniflux, tags: ['miniflux'] }
     - { role: monitorr, tags: ['monitorr'] }
     - { role: moviematch, tags: ['moviematch'] }
     - { role: mqtt, tags: ['mqtt'] }
