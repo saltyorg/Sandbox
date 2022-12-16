@@ -45,7 +45,17 @@ tandoor_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-tandoor_traefik_middleware: "{{ traefik_default_middleware }}"
+tandoor_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tandoor_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                        + lookup('vars', tandoor_name + '_traefik_sso_middleware', default=tandoor_traefik_sso_middleware)
+                                        if (lookup('vars', tandoor_name + '_traefik_sso_middleware', default=tandoor_traefik_sso_middleware) | length > 0)
+                                        else traefik_default_middleware }}"
+tandoor_traefik_middleware_custom: ""
+tandoor_traefik_middleware: "{{ tandoor_traefik_middleware_default + ','
+                                + tandoor_traefik_middleware_custom
+                                if (not tandoor_traefik_middleware_custom.startswith(',') and tandoor_traefik_middleware_custom | length > 0)
+                                else tandoor_traefik_middleware_default
+                                + tandoor_traefik_middleware_custom }}"
 tandoor_traefik_certresolver: "{{ traefik_default_certresolver }}"
 tandoor_traefik_enabled: true
 
@@ -79,6 +89,7 @@ tandoor_docker_envs_default:
   POSTGRES_DB: "{{ postgres_docker_env_db }}"
   DEBUG: "0"
   GUNICORN_MEDIA: "1"
+  REVERSE_PROXY_AUTH: "1"
 tandoor_docker_envs_custom: {}
 tandoor_docker_envs: "{{ tandoor_docker_envs_default
                          | combine(tandoor_docker_envs_custom) }}"

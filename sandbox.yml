@@ -35,6 +35,7 @@
     - { role: coder, tags: ['coder'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
+    - { role: dashy, tags: ['dashy'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
     - { role: docspell, tags: ['docspell'] }
