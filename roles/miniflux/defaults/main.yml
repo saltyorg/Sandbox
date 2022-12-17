@@ -20,8 +20,8 @@ miniflux_name: miniflux
 miniflux_admin_username: "{{ user.name }}"
 miniflux_admin_password: "{{ user.pass }}"
 miniflux_create_admin: "1"
-miniflux_postgres_username: 
-miniflux_postgres_password: 
+miniflux_postgres_username:
+miniflux_postgres_password:
 miniflux_postgres_image_tag: "14-alpine"
 miniflux_run_migrations: "1"
 
