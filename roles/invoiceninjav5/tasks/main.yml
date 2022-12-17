@@ -17,14 +17,6 @@
     mariadb_paths_folder: "{{ invoiceninjav5_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
-- name: MariaDB | Create ninja database
-  community.mysql.mysql_db:
-    name: "{{ invoiceninjav5_name }}"
-    login_host: "{{ invoiceninjav5_name }}_mariadb"
-    login_user: "{{ mariadb_docker_env_user }}"
-    login_password: "{{ mariadb_docker_env_password }}"
-    state: present
-
 - name: Permissions | Create invoiceninja group
   ansible.builtin.group:
     name: invoiceninja
