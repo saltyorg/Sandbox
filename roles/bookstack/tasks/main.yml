@@ -24,14 +24,6 @@
     mariadb_paths_folder: "{{ bookstack_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
-- name: MariaDB | Create bookstackapp database
-  community.mysql.mysql_db:
-    name: "{{ bookstack_name }}"
-    login_host: "{{ bookstack_name }}_mariadb"
-    login_user: "{{ mariadb_docker_env_user }}"
-    login_password: "{{ mariadb_docker_env_password }}"
-    state: present
-
 - name: Import Default MariaDB variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
 
