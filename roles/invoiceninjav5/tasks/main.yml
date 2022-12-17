@@ -19,9 +19,9 @@
 
 - name: MariaDB | Create ninja database
   community.mysql.mysql_db:
-    name: "invoiceninjav5db"
-    login_host: "mariadb"
-    login_user: "root"
+    name: "{{ invoiceninjav5_name }}"
+    login_host: "{{ invoiceninjav5_name }}_mariadb"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
