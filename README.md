@@ -213,6 +213,13 @@ sb list
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/azerial>
+            <img src=https://avatars.githubusercontent.com/u/2659199?v=4 width="100;"  alt=azerial/>
+            <br />
+            <sub style="font-size:14px"><b>azerial</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/markschrik>
             <img src=https://avatars.githubusercontent.com/u/56775030?v=4 width="100;"  alt=markschrik/>
             <br />
