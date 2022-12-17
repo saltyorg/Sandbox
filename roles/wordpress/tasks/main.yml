@@ -20,7 +20,6 @@
 - name: Import Default MariaDB variables
   ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
 
-
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
@@ -33,14 +32,6 @@
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: MariaDB | Create wordpress database
-  community.mysql.mysql_db:
-    name: "{{ wordpress_name }}"
-    login_host: "{{ wordpress_name }}_mariadb"
-    login_user: "{{ mariadb_docker_env_user }}"
-    login_password: "{{ mariadb_docker_env_password }}"
-    state: present
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
