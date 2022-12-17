@@ -13,8 +13,8 @@
   vars:
     postgres_name: "{{ miniflux_name }}-postgres"
     postgres_docker_env_db: "miniflux"
-    postgres_docker_env_user: "{{ miniflux_postgres_username }}"
-    postgres_docker_env_password: "{{ miniflux_postgres_password }}"
+    postgres_docker_env_user: "{{ miniflux_postgres_username | default(omit) }}"
+    postgres_docker_env_password: "{{ miniflux_postgres_password | default(omit) }}"
     postgres_docker_image_tag: "{{ miniflux_postgres_image_tag }}"
     postgres_paths_folder: "{{ miniflux_name }}"
     postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
