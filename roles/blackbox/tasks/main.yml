@@ -1,0 +1,16 @@
+#########################################################################
+# Title:         Saltbox: blackbox Role                                 #
+# Author(s):     powerdude                                              #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute blackbox roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    blackbox_name: "{{ role }}"
+  with_items: "{{ blackbox_instances }}"
+  loop_control:
+    loop_var: role

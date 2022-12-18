@@ -25,6 +25,7 @@
     - { role: aria2_ng, tags: ['aria2-ng'] }
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
     - { role: autobrr, tags: ['autobrr'] }
+    - { role: blackbox, tags: ['blackbox'] }
     - { role: beets, tags: ['beets'] }
     - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }

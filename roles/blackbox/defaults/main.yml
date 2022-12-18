@@ -1,0 +1,165 @@
+##########################################################################
+# Title:         Saltbox: blackbox | Default Variables                     #
+# Author(s):     desimaniac, salty                                       #
+# URL:           https://github.com/saltyorg/Saltbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+blackbox_instances: []
+
+################################
+# Paths
+################################
+
+blackbox_paths_folder: "{{ blackbox_name }}"
+blackbox_paths_location_default: "{{ server_appdata_path }}/{{ blackbox_paths_folder }}"
+blackbox_paths_location: "{{ lookup('vars', blackbox_name + '_paths_location', default=blackbox_paths_location_default) }}"
+blackbox_paths_folders_list:
+  - "{{ blackbox_paths_location }}"
+
+################################
+# Web
+################################
+
+blackbox_web_subdomain: "{{ blackbox_name }}"
+blackbox_web_domain: "{{ user.domain }}"
+blackbox_web_port: "{{ lookup('vars', blackbox_name + '_web_port', default=20000) }}"
+blackbox_web_url: "{{ 'https://' + lookup('vars', blackbox_name + '_web_subdomain', default=blackbox_web_subdomain)
+                    + '.' + lookup('vars', blackbox_name + '_web_domain', default=blackbox_web_domain) }}"
+
+################################
+# DNS
+################################
+
+blackbox_dns_record: "{{ lookup('vars', blackbox_name + '_web_subdomain', default=blackbox_web_subdomain) }}"
+blackbox_dns_zone: "{{ lookup('vars', blackbox_name + '_web_domain', default=blackbox_web_domain) }}"
+blackbox_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+blackbox_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+
+blackbox_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                       + lookup('vars', blackbox_name + '_traefik_sso_middleware', default=blackbox_traefik_sso_middleware)
+                                    if (lookup('vars', blackbox_name + '_traefik_sso_middleware', default=blackbox_traefik_sso_middleware) | length > 0)
+                                    else traefik_default_middleware }}"
+blackbox_traefik_middleware_custom: ""
+blackbox_traefik_middleware: "{{ blackbox_traefik_middleware_default + ','
+                               + blackbox_traefik_middleware_custom
+                            if (not blackbox_traefik_middleware_custom.startswith(',') and blackbox_traefik_middleware_custom | length > 0)
+                            else blackbox_traefik_middleware_default
+                               + blackbox_traefik_middleware_custom }}"
+
+blackbox_traefik_certresolver: "{{ traefik_default_certresolver }}"
+blackbox_traefik_enabled: "{{ lookup('vars', blackbox_name + '_traefik_enabled', default=true) }}"
+blackbox_traefik_api_enabled: "{{ lookup('vars', blackbox_name + '_traefik_api_enabled', default=false) }}"
+blackbox_traefik_api_endpoint_default: "`/api`"
+blackbox_traefik_api_endpoint: "{{ lookup('vars', blackbox_name + '_traefik_api_endpoint', default=blackbox_traefik_api_endpoint_default) }}"
+
+################################
+# API
+################################
+
+# default to blank
+blackbox_api_key:
+
+################################
+# Docker
+################################
+
+# Container
+blackbox_docker_container: "{{ blackbox_name }}"
+
+# Image
+blackbox_docker_image_pull: "{{ lookup('vars', blackbox_name + '_docker_image_pull', default=true) }}"
+blackbox_docker_image_repo: "{{ lookup('vars', blackbox_name + '_docker_image_repo') }}"
+blackbox_docker_image_tag_default: "latest"
+blackbox_docker_image_tag: "{{ lookup('vars', blackbox_name + '_docker_image_tag', default=blackbox_docker_image_tag_default) }}"
+blackbox_docker_image: "{{ blackbox_docker_image_repo }}:{{ blackbox_docker_image_tag }}"
+
+# Ports
+blackbox_docker_ports_defaults: []
+blackbox_docker_ports_custom: []
+blackbox_docker_ports: "{{ lookup('vars', blackbox_name + '_docker_ports_defaults', default=blackbox_docker_ports_defaults)
+                         + lookup('vars', blackbox_name + '_docker_ports_custom', default=blackbox_docker_ports_custom) }}"
+
+# Envs
+blackbox_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+blackbox_docker_envs_custom: {}
+blackbox_docker_envs: "{{ lookup('vars', blackbox_name + '_docker_envs_default', default=blackbox_docker_envs_default)
+                        | combine(lookup('vars', blackbox_name + '_docker_envs_custom', default=blackbox_docker_envs_custom)) }}"
+
+# Commands
+blackbox_docker_commands_default: []
+blackbox_docker_commands_custom: []
+blackbox_docker_commands: "{{ lookup('vars', blackbox_name + '_docker_commands_default', default=blackbox_docker_commands_default)
+                            + lookup('vars', blackbox_name + '_docker_docker_commands_custom', default=blackbox_docker_commands_custom) }}"
+
+# Volumes
+blackbox_docker_config_path_default: "/config"
+blackbox_docker_config_path: "{{ lookup('vars', blackbox_name + '_docker_config_path', default=blackbox_docker_config_path_default) }}"
+blackbox_docker_volumes_default:
+  - "{{ blackbox_paths_location }}:{{ blackbox_docker_config_path }}"
+blackbox_docker_volumes_custom: []
+blackbox_docker_volumes: "{{ lookup('vars', blackbox_name + '_docker_volumes_default', default=blackbox_docker_volumes_default)
+                           + lookup('vars', blackbox_name + '_docker_volumes_custom', default=blackbox_docker_volumes_custom) }}"
+
+# Devices
+blackbox_docker_devices_default: []
+blackbox_docker_devices_custom: []
+blackbox_docker_devices: "{{ lookup('vars', blackbox_name + '_docker_devices_default', default=blackbox_docker_devices_default)
+                           + lookup('vars', blackbox_name + '_docker_devices_custom', default=blackbox_docker_devices_custom) }}"
+
+# Hosts
+blackbox_docker_hosts_default: []
+blackbox_docker_hosts_custom: []
+blackbox_docker_hosts: "{{ docker_hosts_common
+                         | combine(lookup('vars', blackbox_name + '_docker_hosts_default', default=blackbox_docker_hosts_default))
+                         | combine(lookup('vars', blackbox_name + '_docker_hosts_custom', default=blackbox_docker_hosts_custom)) }}"
+
+# Labels
+blackbox_docker_labels_default: {}
+blackbox_docker_labels_custom: {}
+blackbox_docker_labels: "{{ docker_labels_common
+                          | combine(lookup('vars', blackbox_name + '_docker_labels_default', default=blackbox_docker_labels_default))
+                          | combine(lookup('vars', blackbox_name + '_docker_labels_custom', default=blackbox_docker_labels_custom)) }}"
+
+# Hostname
+blackbox_docker_hostname: "{{ blackbox_name }}"
+
+# Networks
+blackbox_docker_networks_alias: "{{ blackbox_name }}"
+blackbox_docker_networks_default: []
+blackbox_docker_networks_custom: []
+blackbox_docker_networks: "{{ docker_networks_common
+                            + lookup('vars', blackbox_name + '_docker_networks_default', default=blackbox_docker_networks_default)
+                            + lookup('vars', blackbox_name + '_docker_networks_custom', default=blackbox_docker_networks_custom) }}"
+
+# Capabilities
+blackbox_docker_capabilities_default: []
+blackbox_docker_capabilities_custom: []
+blackbox_docker_capabilities: "{{ lookup('vars', blackbox_name + '_docker_capabilities_default', default=blackbox_docker_capabilities_default)
+                                + lookup('vars', blackbox_name + '_docker_capabilities_custom', default=blackbox_docker_capabilities_custom) }}"
+
+# Security Opts
+blackbox_docker_security_opts_default: []
+blackbox_docker_security_opts_custom: []
+blackbox_docker_security_opts: "{{ lookup('vars', blackbox_name + '_docker_security_opts_default', default=blackbox_docker_security_opts_default)
+                                 + lookup('vars', blackbox_name + '_docker_security_opts_custom', default=blackbox_docker_security_opts_custom) }}"
+
+# Restart Policy
+blackbox_docker_restart_policy: unless-stopped
+
+# State
+blackbox_docker_state: started
