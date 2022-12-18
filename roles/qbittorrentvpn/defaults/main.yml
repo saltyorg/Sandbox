@@ -100,7 +100,7 @@ qbittorrentvpn_docker_ports: "{{ lookup('vars', qbittorrentvpn_name + '_docker_p
 
 qbittorrentvpn_log_level_daemon: info
 qbittorrentvpn_log_level_web: info
-qbittorrentvpn_name_servers: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
+qbittorrentvpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
 qbittorrentvpn_lan_network: "172.19.0.0/16"
 
 # Envs
