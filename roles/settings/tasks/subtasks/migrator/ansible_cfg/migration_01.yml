@@ -24,7 +24,7 @@
     - { section: 'defaults', option: 'roles_path', value: 'roles:/srv/git/saltbox/roles:/srv/git/saltbox/resources/roles' }
     - { section: 'defaults', option: 'fact_path', value: '/srv/git/saltbox/ansible_facts.d' }
     - { section: 'defaults', option: 'filter_plugins', value: '/srv/git/saltbox/filter_plugins' }
-    - { section: 'defaults', option: 'interpreter_python', value: '/usr/bin/python3' }
+    - { section: 'defaults', option: 'interpreter_python', value: '/srv/ansible/venv/bin/python3' }
     - { section: 'defaults', option: 'log_path', value: './sandbox.log' }
     - { section: 'defaults', option: 'callbacks_enabled', value: 'profile_tasks' }
     - { section: 'defaults', option: 'callback_whitelist', state: 'absent' }
