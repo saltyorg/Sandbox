@@ -1,0 +1,147 @@
+#########################################################################
+# Title:            Sandbox: code-server                                #
+# Author(s):        astroMD, kowalski                                   #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+code_server_name: code-server
+
+################################
+# Paths
+################################
+
+code_server_paths_folder: "{{ code_server_name }}"
+code_server_paths_location: "{{ server_appdata_path }}/{{ code_server_paths_folder }}"
+code_server_paths_folders_list:
+  - "{{ code_server_paths_location }}"
+  - "{{ code_server_paths_location }}/project"
+  - "{{ code_server_paths_location }}/.config"
+  - "{{ code_server_paths_location }}/.local"
+
+################################
+# Web
+################################
+
+code_server_web_subdomain: "{{ code_server_name }}"
+code_server_web_domain: "{{ user.domain }}"
+code_server_web_port: "8080"
+code_server_web_url: "{{ 'https://' + code_server_web_subdomain + '.' + code_server_web_domain }}"
+
+################################
+# DNS
+################################
+
+code_server_dns_record: "{{ code_server_web_subdomain }}"
+code_server_dns_zone: "{{ code_server_web_domain }}"
+code_server_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+code_server_traefik_middleware: "{{ traefik_default_middleware }}"
+code_server_traefik_certresolver: "{{ traefik_default_certresolver }}"
+code_server_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+code_server_docker_container: "{{ code_server_name }}"
+
+# Image
+code_server_docker_image_pull: true
+code_server_docker_image_tag: "latest"
+code_server_docker_image: "codercom/code-server:{{ code_server_docker_image_tag }}"
+
+# Ports
+code_server_docker_ports_defaults: []
+code_server_docker_ports_custom: []
+code_server_docker_ports: "{{ code_server_docker_ports_defaults
+                        + code_server_docker_ports_custom }}"
+
+# Envs
+code_server_docker_envs_default:
+  UMASK: "002"
+  TZ: "{{ tz }}"
+  PASSWORD: "{{ user.pass }}"
+  DOCKER_USER: "{{ user.name }}"
+code_server_docker_envs_custom: {}
+code_server_docker_envs: "{{ code_server_docker_envs_default
+                       | combine(code_server_docker_envs_custom) }}"
+
+# Commands
+code_server_docker_commands_default: []
+code_server_docker_commands_custom: []
+code_server_docker_commands: "{{ code_server_docker_commands_default
+                           + code_server_docker_commands_custom }}"
+
+# Volumes
+code_server_docker_volumes_default:
+  - "{{ code_server_paths_location }}/project:/home/code_server/project"
+  - "{{ code_server_paths_location }}/.config:/home/code_server/.config"
+  - "{{ code_server_paths_location }}/.local:/home/code_server/.local"
+  - "{{ server_appdata_path }}:/host_opt"
+code_server_docker_volumes_custom: []
+code_server_docker_volumes: "{{ code_server_docker_volumes_default
+                          + code_server_docker_volumes_custom }}"
+
+# Devices
+code_server_docker_devices_default: []
+code_server_docker_devices_custom: []
+code_server_docker_devices: "{{ code_server_docker_devices_default
+                          + code_server_docker_devices_custom }}"
+
+# Hosts
+code_server_docker_hosts_default: []
+code_server_docker_hosts_custom: []
+code_server_docker_hosts: "{{ docker_hosts_common
+                        | combine(code_server_docker_hosts_default)
+                        | combine(code_server_docker_hosts_custom) }}"
+
+# Labels
+code_server_docker_labels_default: {}
+code_server_docker_labels_custom: {}
+code_server_docker_labels: "{{ docker_labels_common
+                         | combine(code_server_docker_labels_default)
+                         | combine(code_server_docker_labels_custom) }}"
+
+# Hostname
+code_server_docker_hostname: "{{ code_server_name }}"
+
+# Networks
+code_server_docker_networks_alias: "{{ code_server_name }}"
+code_server_docker_networks_default: []
+code_server_docker_networks_custom: []
+code_server_docker_networks: "{{ docker_networks_common
+                           + code_server_docker_networks_default
+                           + code_server_docker_networks_custom }}"
+
+# Capabilities
+code_server_docker_capabilities_default: []
+code_server_docker_capabilities_custom: []
+code_server_docker_capabilities: "{{ code_server_docker_capabilities_default
+                               + code_server_docker_capabilities_custom }}"
+
+# Security Opts
+code_server_docker_security_opts_default: []
+code_server_docker_security_opts_custom: []
+code_server_docker_security_opts: "{{ code_server_docker_security_opts_default
+                                + code_server_docker_security_opts_custom }}"
+
+# Restart Policy
+code_server_docker_restart_policy: unless-stopped
+
+# State
+code_server_docker_state: started
+
+# User
+code_server_docker_user: "{{ uid }}:{{ gid }}"
