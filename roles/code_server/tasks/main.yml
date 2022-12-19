@@ -14,6 +14,7 @@
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
+
 - name: Import Legacy task
   ansible.builtin.import_tasks: "subtasks/legacy.yml"
 
