@@ -20,7 +20,7 @@
 - name: "Fail when '/opt/coder' does not exist"
   ansible.builtin.fail:
     msg: "A migration has been attempted, but the /opt/coder folder is missing. If you have already run the migration once, you don't need to pass the -e 'code_server_migrate_coder=true' argument anymore. If this is your first time running the migration but you're using a custom folder, move the folder manually to '/opt/code-server', remove the old 'coder' subdomain then run the tag normally."
-  when: (code_server_oldfolder.stat.exists)
+  when: (not code_server_oldfolder.stat.exists)
 
 - name: "Fail when {{ code_server_paths_location }} already exists"
   ansible.builtin.fail:
