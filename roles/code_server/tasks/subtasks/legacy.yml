@@ -1,0 +1,31 @@
+#########################################################################
+# Title:            Sandbox: code-server                                #
+# Author(s):        GiorgioBrux                                         #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+
+- name: Legacy | Migration Block
+  block:
+
+    - name: Legacy | Stop and remove coder container
+      community.docker.docker_container:
+        name: coder
+        state: absent
+
+    - name: Legacy | Move opt folder 'coder' to 'code-server'
+      ansible.builtin.shell: |
+        mv /opt/coder "{{ code_server_paths_location }}"
+
+    - name: Legacy | Set permissions on 'code_server'
+      ansible.builtin.file:
+        path: "{{ code_server_paths_location }}"
+        state: directory
+        recurse: yes
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+
+  when: (code_server_migrate_coder)
