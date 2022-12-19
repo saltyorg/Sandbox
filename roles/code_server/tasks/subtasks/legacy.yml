@@ -33,10 +33,10 @@
     - name: Delete old DNS record
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
       vars:
-        dns_record: "coder_dns_record"
-        dns_zone: "coder_dns_zone"
-        dns_proxy: "coder_dns_proxy"
-        dns_action: "remove"
+          dns_record: "{{ lookup('vars', 'coder' + '_dns_record') }}"
+          dns_zone: "{{ lookup('vars', 'coder' + '_dns_zone') }}"
+          dns_proxy: "{{ lookup('vars', 'coder' + '_dns_proxy') }}"
+          dns_action: "remove"
 
     - name: Legacy | Stop and remove coder container
       community.docker.docker_container:
