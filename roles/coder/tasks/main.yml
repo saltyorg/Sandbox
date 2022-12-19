@@ -1,24 +1,13 @@
 #########################################################################
-# Title:            Sandbox: Coder                                      #
-# Author(s):        astroMD, kowalski                                   #
+# Title:            Sandbox: Coder (deprecated)                         #
+# Author(s):        GiorgioBrux                                         #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
-#########################################################################
+########################################################################
 ---
-- name: Add DNS record
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
-  vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
-- name: Create directories
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: Create Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+- name: "Fail with deprecation warning"
+  ansible.builtin.fail:
+    msg: "The 'coder' role which used the 'code-server' image is currently deprecated in favour of the 'code-server' role using the same image. If you are using the default '/opt/coder' folder, after renaming the custom variables in the inventory if you have any, run \"sb install sandbox-code_server -e 'code_server_migrate_coder=true'\" once to move the files over to the new folder', then simply use the 'code-server' role from now on."
+  when: not continuous_integration
