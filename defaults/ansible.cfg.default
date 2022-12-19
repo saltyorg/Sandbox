@@ -5,6 +5,6 @@ filter_plugins = /srv/git/saltbox/filter_plugins
 fact_path = /srv/git/saltbox/ansible_facts.d
 log_path = ./sandbox.log
 callbacks_enabled = profile_tasks
-interpreter_python = /usr/bin/python3
+interpreter_python = /srv/ansible/venv/bin/python3
 remote_tmp = /tmp/ansible
 force_color = true
