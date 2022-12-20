@@ -29,7 +29,8 @@
       - "{{ recyclarr_paths_location }}:/config"
     networks:
       - name: saltbox
-    purge_networks: yes
+    comparisons:
+      networks: strict
     auto_remove: yes
     state: started
   when: (not recyclarr_config.stat.exists)

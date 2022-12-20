@@ -60,6 +60,7 @@
           - "{{ plex_name }}_patrol"
     networks_cli_compatible: true
     network_mode: "{{ docker_networks_name_common }}"
-    purge_networks: true
+    comparisons:
+      networks: strict
     restart_policy: unless-stopped
     state: started

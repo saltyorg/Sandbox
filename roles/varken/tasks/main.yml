@@ -80,7 +80,8 @@
           - varken
     network_mode: "saltbox"
     networks_cli_compatible: true
-    purge_networks: yes
+    comparisons:
+      networks: strict
     tls_hostname: localhost
     restart_policy: unless-stopped
     state: started
