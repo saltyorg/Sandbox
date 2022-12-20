@@ -167,7 +167,6 @@ qbittorrentvpn_docker_networks_custom: []
 qbittorrentvpn_docker_networks: "{{ docker_networks_common
                                     + lookup('vars', qbittorrentvpn_name + '_docker_networks_default', default=qbittorrentvpn_docker_networks_default)
                                     + lookup('vars', qbittorrentvpn_name + '_docker_networks_custom', default=qbittorrentvpn_docker_networks_custom) }}"
-qbittorrentvpn_docker_purge_networks: true
 
 # Capabilities
 qbittorrentvpn_docker_capabilities_default:
