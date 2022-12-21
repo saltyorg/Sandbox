@@ -61,6 +61,6 @@
     networks_cli_compatible: true
     network_mode: "{{ docker_networks_name_common }}"
     comparisons:
-      networks: strict
+      '*': ignore
     restart_policy: unless-stopped
     state: started

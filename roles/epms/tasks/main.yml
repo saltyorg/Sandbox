@@ -24,6 +24,8 @@
     container_default_behavior: compatibility
     tls_hostname: localhost
     stop_timeout: "180"
+    comparisons:
+      '*': ignore
 
   when: ('plex' in docker_running_containers)
 
@@ -80,5 +82,7 @@
     state: started
     container_default_behavior: compatibility
     tls_hostname: localhost
+    comparisons:
+      '*': ignore
 
   when: ('plex' in docker_running_containers)

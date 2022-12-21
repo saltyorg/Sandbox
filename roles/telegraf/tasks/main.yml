@@ -61,7 +61,7 @@
     network_mode: "saltbox"
     networks_cli_compatible: true
     comparisons:
-      networks: strict
+      '*': ignore
     user: "telegraf:{{ dockergid }}"
     tls_hostname: localhost
     restart_policy: unless-stopped
