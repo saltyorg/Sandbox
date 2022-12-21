@@ -60,7 +60,7 @@
         aliases:
           - watchtower
     comparisons:
-      networks: strict
+      '*': ignore
     state: started
     tls_hostname: localhost
     restart_policy: unless-stopped

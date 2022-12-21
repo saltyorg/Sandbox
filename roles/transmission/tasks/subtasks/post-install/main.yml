@@ -34,3 +34,5 @@
     container_default_behavior: compatibility
     tls_hostname: localhost
     state: "{{ transmission_docker_state }}"
+    comparisons:
+      '*': ignore

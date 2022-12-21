@@ -43,7 +43,7 @@
     networks:
       - name: saltbox
     comparisons:
-      networks: strict
+      '*': ignore
     auto_remove: yes
     state: started
 
