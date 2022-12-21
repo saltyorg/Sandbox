@@ -114,6 +114,3 @@ recyclarr_docker_state: started
 
 # User
 recyclarr_docker_user: "{{ uid }}:{{ gid }}"
-
-# Init
-recyclarr_docker_init: true
