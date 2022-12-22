@@ -29,9 +29,7 @@ trilium_paths_folders_list:
 trilium_web_subdomain: "{{ trilium_name }}"
 trilium_web_domain: "{{ user.domain }}"
 trilium_web_port: "8080"
-trilium_web_url: "{{ 'https://' + trilium_web_subdomain + '.' + trilium_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + trilium_web_port }}"
+trilium_web_url: "{{ 'https://' + trilium_web_subdomain + '.' + trilium_web_domain }}"
 
 ################################
 # DNS
@@ -74,14 +72,8 @@ trilium_docker_image: "zadam/trilium:{{ trilium_docker_image_tag }}"
 
 # Ports
 trilium_docker_ports_defaults: []
-trilium_docker_ports_ui:
-  - "{{ trilium_web_port }}:{{ trilium_web_port }}"
 trilium_docker_ports_custom: []
 trilium_docker_ports: "{{ trilium_docker_ports_defaults
-                          + trilium_docker_ports_ui
-                          + trilium_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else trilium_docker_ports_defaults
                           + trilium_docker_ports_custom }}"
 
 # Envs

@@ -60,7 +60,8 @@
           - telegraf
     network_mode: "saltbox"
     networks_cli_compatible: true
-    purge_networks: yes
+    comparisons:
+      '*': ignore
     user: "telegraf:{{ dockergid }}"
     tls_hostname: localhost
     restart_policy: unless-stopped

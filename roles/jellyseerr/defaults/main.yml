@@ -30,9 +30,7 @@ jellyseerr_web_subdomain: "{{ jellyseerr_name }}"
 jellyseerr_web_domain: "{{ user.domain }}"
 jellyseerr_web_port: "5055"
 jellyseerr_web_url: "{{ 'https://' + lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_web_subdomain)
-                        + '.' + lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_web_domain)
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + lookup('vars', jellyseerr_name + '_web_port', default=jellyseerr_web_port) }}"
+                        + '.' + lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_web_domain) }}"
 
 ################################
 # DNS
@@ -80,14 +78,8 @@ jellyseerr_docker_image: "{{ lookup('vars', jellyseerr_name + '_docker_image_rep
 
 # Ports
 jellyseerr_docker_ports_defaults: []
-jellyseerr_docker_ports_ui:
-  - "{{ lookup('vars', jellyseerr_name + '_web_port', default=jellyseerr_web_port) }}:{{ lookup('vars', jellyseerr_name + '_web_port', default=jellyseerr_web_port) }}"
 jellyseerr_docker_ports_custom: []
 jellyseerr_docker_ports: "{{ lookup('vars', jellyseerr_name + '_docker_ports_defaults', default=jellyseerr_docker_ports_defaults)
-                             + lookup('vars', jellyseerr_name + '_docker_ports_ui', default=jellyseerr_docker_ports_ui)
-                             + lookup('vars', jellyseerr_name + '_docker_ports_custom', default=jellyseerr_docker_ports_custom)
-                          if (not reverse_proxy_is_enabled)
-                          else lookup('vars', jellyseerr_name + '_docker_ports_defaults', default=jellyseerr_docker_ports_defaults)
                              + lookup('vars', jellyseerr_name + '_docker_ports_custom', default=jellyseerr_docker_ports_custom) }}"
 
 # Envs

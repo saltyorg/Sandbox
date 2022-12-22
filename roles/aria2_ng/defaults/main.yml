@@ -31,9 +31,7 @@ aria2_ng_paths_folders_list:
 aria2_ng_web_subdomain: "{{ aria2_ng_name }}"
 aria2_ng_web_domain: "{{ user.domain }}"
 aria2_ng_web_port: "8080"
-aria2_ng_web_url: "{{ 'https://' + aria2_ng_web_subdomain + '.' + aria2_ng_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + aria2_ng_web_port }}"
+aria2_ng_web_url: "{{ 'https://' + aria2_ng_web_subdomain + '.' + aria2_ng_web_domain }}"
 
 ################################
 # DNS
@@ -77,13 +75,10 @@ aria2_ng_docker_image_tag: "latest"
 aria2_ng_docker_image: "hurlenko/aria2-ariang:{{ aria2_ng_docker_image_tag }}"
 
 # Ports
-aria2_ng_docker_ports_defaults:
-  - "{{ aria2_ng_web_port }}"
+aria2_ng_docker_ports_defaults: []
 aria2_ng_docker_ports_custom: []
 aria2_ng_docker_ports: "{{ aria2_ng_docker_ports_defaults
-                           + aria2_ng_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else aria2_ng_docker_ports_custom }}"
+                           + aria2_ng_docker_ports_custom }}"
 
 # Envs
 aria2_ng_docker_envs_default:

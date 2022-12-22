@@ -29,9 +29,7 @@ xteve_paths_folders_list:
 xteve_web_subdomain: "{{ xteve_name }}"
 xteve_web_domain: "{{ user.domain }}"
 xteve_web_port: "34400"
-xteve_web_url: "{{ 'https://' + xteve_web_subdomain + '.' + xteve_web_domain
-                if (reverse_proxy_is_enabled)
-                else 'http://localhost:' + xteve_web_port }}"
+xteve_web_url: "{{ 'https://' + xteve_web_subdomain + '.' + xteve_web_domain }}"
 
 ################################
 # DNS
@@ -51,6 +49,8 @@ xteve_traefik_middleware: "{{ traefik_default_middleware + ',' + xteve_traefik_s
                            else traefik_default_middleware }}"
 xteve_traefik_certresolver: "{{ traefik_default_certresolver }}"
 xteve_traefik_enabled: true
+xteve_traefik_api_enabled: true
+xteve_traefik_api_endpoint: "`/data_images`,`/api`"
 
 ################################
 # Docker
@@ -65,13 +65,10 @@ xteve_docker_image_tag: "latest"
 xteve_docker_image: "dnsforge/xteve:{{ xteve_docker_image_tag }}"
 
 # Ports
-xteve_docker_ports_defaults:
-  - "{{ xteve_web_port }}"
+xteve_docker_ports_defaults: []
 xteve_docker_ports_custom: []
 xteve_docker_ports: "{{ xteve_docker_ports_defaults
-                        + xteve_docker_ports_custom
-                     if (not reverse_proxy_is_enabled)
-                     else xteve_docker_ports_custom }}"
+                        + xteve_docker_ports_custom }}"
 
 # Envs
 xteve_docker_envs_default:

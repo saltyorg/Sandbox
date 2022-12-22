@@ -30,9 +30,7 @@ autobrr_paths_folders_list:
 autobrr_web_subdomain: "{{ autobrr_name }}"
 autobrr_web_domain: "{{ user.domain }}"
 autobrr_web_port: "7474"
-autobrr_web_url: "{{ 'https://' + autobrr_web_subdomain + '.' + autobrr_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + autobrr_web_port }}"
+autobrr_web_url: "{{ 'https://' + autobrr_web_subdomain + '.' + autobrr_web_domain }}"
 
 ################################
 # DNS
@@ -64,14 +62,8 @@ autobrr_docker_image: "ghcr.io/autobrr/autobrr:{{ autobrr_docker_image_tag }}"
 
 # Ports
 autobrr_docker_ports_defaults: []
-autobrr_docker_ports_ui:
-  - "{{ autobrr_web_port }}:{{ autobrr_web_port }}"
 autobrr_docker_ports_custom: []
 autobrr_docker_ports: "{{ autobrr_docker_ports_defaults
-                          + autobrr_docker_ports_ui
-                          + autobrr_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else autobrr_docker_ports_defaults
                           + autobrr_docker_ports_custom }}"
 
 # Envs

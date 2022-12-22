@@ -1,0 +1,119 @@
+##########################################################################
+# Title:            Sandbox: mqtt | Default Variables                    #
+# Author(s):        CHAIR/Raneydazed                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+mqtt_name: mqtt
+
+################################
+# Paths
+################################
+
+mqtt_paths_folder: "{{ mqtt_name }}"
+mqtt_paths_location: "{{ server_appdata_path }}/{{ mqtt_paths_folder }}"
+mqtt_paths_config_location: "{{ mqtt_paths_location }}/config/mosquitto.conf"
+mqtt_paths_folders_list:
+  - "{{ mqtt_paths_location }}/config"
+  - "{{ mqtt_paths_location }}/data"
+  - "{{ mqtt_paths_location }}/log"
+
+################################
+# Docker
+################################
+
+# Container
+mqtt_docker_container: "{{ mqtt_name }}"
+
+# Image
+mqtt_docker_image_pull: true
+mqtt_docker_image_tag: "latest"
+mqtt_docker_image: "eclipse-mosquitto:{{ mqtt_docker_image_tag }}"
+
+# Ports
+mqtt_docker_ports_defaults:
+  - "1883"
+  - "9001"
+
+mqtt_docker_ports: "{{ mqtt_docker_ports_defaults }}"
+
+# Envs
+mqtt_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+mqtt_docker_envs_custom: {}
+mqtt_docker_envs: "{{ mqtt_docker_envs_default
+                      | combine(mqtt_docker_envs_custom) }}"
+
+# Commands
+mqtt_docker_commands_default: []
+mqtt_docker_commands_custom: []
+mqtt_docker_commands: "{{ mqtt_docker_commands_default
+                          + mqtt_docker_commands_custom }}"
+
+# Volumes
+mqtt_docker_volumes_default:
+  - "{{ mqtt_paths_location }}/config:/mosquitto/config"
+  - "{{ mqtt_paths_location }}/data:/mosquitto/data"
+  - "{{ mqtt_paths_location }}/log:/mosquitto/log"
+  - /etc/localtime:/etc/localtime:ro
+mqtt_docker_volumes_custom: []
+mqtt_docker_volumes: "{{ mqtt_docker_volumes_default
+                         + mqtt_docker_volumes_custom }}"
+
+# Devices
+mqtt_docker_devices_default: []
+mqtt_docker_devices_custom: []
+mqtt_docker_devices: "{{ mqtt_docker_devices_default
+                         + mqtt_docker_devices_custom }}"
+
+# Hosts
+mqtt_docker_hosts_default: []
+mqtt_docker_hosts_custom: []
+mqtt_docker_hosts: "{{ docker_hosts_common
+                       | combine(mqtt_docker_hosts_default)
+                       | combine(mqtt_docker_hosts_custom) }}"
+
+# Labels
+mqtt_docker_labels_default: {}
+mqtt_docker_labels_custom: {}
+mqtt_docker_labels: "{{ docker_labels_common
+                        | combine(mqtt_docker_labels_default)
+                        | combine(mqtt_docker_labels_custom) }}"
+
+# Hostname
+mqtt_docker_hostname: "{{ mqtt_name }}"
+
+# Networks
+mqtt_docker_networks_alias: "{{ mqtt_name }}"
+mqtt_docker_networks_default: []
+mqtt_docker_networks_custom: []
+mqtt_docker_networks: "{{ docker_networks_common
+                          + mqtt_docker_networks_default
+                          + mqtt_docker_networks_custom }}"
+
+# Capabilities
+mqtt_docker_capabilities_default: []
+mqtt_docker_capabilities_custom: []
+mqtt_docker_capabilities: "{{ mqtt_docker_capabilities_default
+                              + mqtt_docker_capabilities_custom }}"
+
+# Security Opts
+mqtt_docker_security_opts_default: []
+mqtt_docker_security_opts_custom: []
+mqtt_docker_security_opts: "{{ mqtt_docker_security_opts_default
+                               + mqtt_docker_security_opts_custom }}"
+
+# Restart Policy
+mqtt_docker_restart_policy: unless-stopped
+
+# State
+mqtt_docker_state: started

@@ -21,6 +21,7 @@ notifiarr_paths_folder: "{{ notifiarr_name }}"
 notifiarr_paths_location: "{{ server_appdata_path }}/{{ notifiarr_paths_folder }}"
 notifiarr_paths_folders_list:
   - "{{ notifiarr_paths_location }}"
+notifiarr_paths_recursive: true
 notifiarr_paths_config_location: "{{ notifiarr_paths_location }}/notifiarr.conf"
 notifiarr_radarr_config: "{{ radarr_paths_location }}/config.xml"
 notifiarr_sonarr_config: "{{ sonarr_paths_location }}/config.xml"
@@ -34,9 +35,7 @@ tautulli_api_key: "{{ (lookup('ini', 'api_key section=General file={{ notifiarr_
 notifiarr_web_subdomain: "{{ notifiarr_name }}"
 notifiarr_web_domain: "{{ user.domain }}"
 notifiarr_web_port: "5454"
-notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + notifiarr_web_port }}"
+notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_web_domain }}"
 
 ################################
 # DNS
@@ -68,14 +67,8 @@ notifiarr_docker_image: "golift/notifiarr:{{ notifiarr_docker_image_tag }}"
 
 # Ports
 notifiarr_docker_ports_defaults: []
-notifiarr_docker_ports_ui:
-  - "{{ notifiarr_web_port }}:{{ notifiarr_web_port }}"
 notifiarr_docker_ports_custom: []
 notifiarr_docker_ports: "{{ notifiarr_docker_ports_defaults
-                            + notifiarr_docker_ports_ui
-                            + notifiarr_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else notifiarr_docker_ports_defaults
                             + notifiarr_docker_ports_custom }}"
 
 # Envs

@@ -30,9 +30,7 @@ node_red_web_subdomain: "{{ node_red_name }}"
 node_red_web_domain: "{{ user.domain }}"
 node_red_web_port: "1880"
 node_red_web_url: "{{ 'https://' + lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain)
-                      + '.' + lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain)
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + lookup('vars', node_red_name + '_web_port', default=node_red_web_port) }}"
+                      + '.' + lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain) }}"
 
 ################################
 # DNS
@@ -80,14 +78,8 @@ node_red_docker_image: "{{ lookup('vars', node_red_name + '_docker_image_repo', 
 
 # Ports
 node_red_docker_ports_defaults: []
-node_red_docker_ports_ui:
-  - "{{ lookup('vars', node_red_name + '_web_port', default=node_red_web_port) }}:{{ lookup('vars', node_red_name + '_web_port', default=node_red_web_port) }}"
 node_red_docker_ports_custom: []
 node_red_docker_ports: "{{ lookup('vars', node_red_name + '_docker_ports_defaults', default=node_red_docker_ports_defaults)
-                           + lookup('vars', node_red_name + '_docker_ports_ui', default=node_red_docker_ports_ui)
-                           + lookup('vars', node_red_name + '_docker_ports_custom', default=node_red_docker_ports_custom)
-                        if (not reverse_proxy_is_enabled)
-                        else lookup('vars', node_red_name + '_docker_ports_defaults', default=node_red_docker_ports_defaults)
                            + lookup('vars', node_red_name + '_docker_ports_custom', default=node_red_docker_ports_custom) }}"
 
 # Envs

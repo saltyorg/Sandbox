@@ -1,0 +1,55 @@
+#########################################################################
+# Title:            Sandbox: homepage                                   #
+# Author(s):        JigSawFr                                            #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/benphelps/homepage               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Settings | New `{{ homepage_paths_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import bookmarks.yaml`
+      ansible.builtin.copy:
+        src: bookmarks.yaml
+        dest: "{{ homepage_paths_location }}/config"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+    - name: "Settings | Import docker.yaml"
+      ansible.builtin.template:
+        src: docker.yaml.j2
+        dest: '{{ homepage_paths_location }}/config'
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+    - name: Settings | Import services.yaml`
+      ansible.builtin.copy:
+        src: services.yaml
+        dest: "{{ homepage_paths_location }}/config"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+    - name: "Settings | Import settings.yaml"
+      ansible.builtin.template:
+        src: settings.yaml.j2
+        dest: '{{ homepage_paths_location }}/config'
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+    - name: Settings | Import widgets.yaml`
+      ansible.builtin.copy:
+        src: widgets.yaml
+        dest: "{{ homepage_paths_location }}/config"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+
+  when: not homepage_web_config.stat.exists

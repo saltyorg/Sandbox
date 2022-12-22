@@ -37,9 +37,7 @@ rflood_paths_rtorrent_rc_location: "{{ rflood_paths_location }}/rtorrent.rc"
 rflood_web_subdomain: "{{ rflood_name }}"
 rflood_web_domain: "{{ user.domain }}"
 rflood_web_port: "3000"
-rflood_web_url: "{{ 'https://' + rflood_web_subdomain + '.' + rflood_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + rflood_web_port }}"
+rflood_web_url: "{{ 'https://' + rflood_web_subdomain + '.' + rflood_web_domain }}"
 
 ################################
 # DNS
@@ -106,8 +104,6 @@ rflood_docker_image_tag: "release"
 rflood_docker_image: "cr.hotio.dev/hotio/rflood:{{ rflood_docker_image_tag }}"
 
 # Ports
-rflood_docker_ports_defaults:
-  - "{{ rflood_web_port }}:{{ rflood_web_port }}"
 # - Internal and External ports need to match for the next set of ports
 # - Lookup available ports and set docker ports accordingly
 rflood_docker_ports_50000: "{{ port_lookup_50000.port
@@ -118,15 +114,11 @@ rflood_docker_ports_6881: "{{ port_lookup_6881.port
                            if (port_lookup_6881.port is defined)
                               and (port_lookup_6881.port | trim | length > 0)
                            else '6881' }}"
-rflood_docker_ports_torrents:
+rflood_docker_ports_defaults:
   - "{{ rflood_docker_ports_50000 }}:{{ rflood_docker_ports_50000 }}"
   - "{{ rflood_docker_ports_6881 }}:{{ rflood_docker_ports_6881 }}/udp"
 rflood_docker_ports_custom: []
 rflood_docker_ports: "{{ rflood_docker_ports_defaults
-                         + rflood_docker_ports_torrents
-                         + rflood_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else rflood_docker_ports_torrents
                          + rflood_docker_ports_custom }}"
 
 # Envs

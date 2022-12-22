@@ -29,9 +29,7 @@ linkding_paths_folders_list:
 linkding_web_subdomain: "{{ linkding_name }}"
 linkding_web_domain: "{{ user.domain }}"
 linkding_web_port: "9090"
-linkding_web_url: "{{ 'https://' + linkding_web_subdomain + '.' + linkding_web_domain
-                   if (reverse_proxy_is_enabled)
-                   else 'http://localhost:' + linkding_web_port }}"
+linkding_web_url: "{{ 'https://' + linkding_web_subdomain + '.' + linkding_web_domain }}"
 
 ################################
 # DNS
@@ -68,14 +66,8 @@ linkding_docker_image: "sissbruecker/linkding:{{ linkding_docker_image_tag }}"
 
 # Ports
 linkding_docker_ports_defaults: []
-linkding_docker_ports_ui:
-  - "{{ linkding_web_port }}:{{ linkding_web_port }}"
 linkding_docker_ports_custom: []
 linkding_docker_ports: "{{ linkding_docker_ports_defaults
-                           + linkding_docker_ports_ui
-                           + linkding_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else linkding_docker_ports_defaults
                            + linkding_docker_ports_custom }}"
 
 # Envs

@@ -30,9 +30,7 @@ healthchecks_paths_config_location: "{{ healthchecks_paths_location }}/local_set
 healthchecks_web_subdomain: "{{ healthchecks_name }}"
 healthchecks_web_domain: "{{ user.domain }}"
 healthchecks_web_port: "8000"
-healthchecks_web_url: "{{ 'https://' + healthchecks_web_subdomain + '.' + healthchecks_web_domain
-                       if (reverse_proxy_is_enabled)
-                       else 'http://localhost:' + healthchecks_web_port }}"
+healthchecks_web_url: "{{ 'https://' + healthchecks_web_subdomain + '.' + healthchecks_web_domain }}"
 
 ################################
 # DNS
@@ -63,13 +61,10 @@ healthchecks_docker_image_tag: "latest"
 healthchecks_docker_image: "lscr.io/linuxserver/healthchecks:{{ healthchecks_docker_image_tag }}"
 
 # Ports
-healthchecks_docker_ports_defaults:
-  - "{{ healthchecks_web_port }}"
+healthchecks_docker_ports_defaults: []
 healthchecks_docker_ports_custom: []
 healthchecks_docker_ports: "{{ healthchecks_docker_ports_defaults
-                               + healthchecks_docker_ports_custom
-                            if (not reverse_proxy_is_enabled)
-                            else healthchecks_docker_ports_custom }}"
+                               + healthchecks_docker_ports_custom }}"
 
 # Envs
 healthchecks_docker_envs_default:

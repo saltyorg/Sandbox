@@ -35,9 +35,7 @@ airdcpp_paths_folders_list:
 airdcpp_web_subdomain: "{{ airdcpp_name }}"
 airdcpp_web_domain: "{{ user.domain }}"
 airdcpp_web_port: "5600"
-airdcpp_web_url: "{{ 'https://' + airdcpp_web_subdomain + '.' + airdcpp_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + airdcpp_web_port }}"
+airdcpp_web_url: "{{ 'https://' + airdcpp_web_subdomain + '.' + airdcpp_web_domain }}"
 
 ################################
 # DNS

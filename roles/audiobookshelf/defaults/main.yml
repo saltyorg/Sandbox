@@ -34,9 +34,7 @@ audiobookshelf_web_subdomain: "{{ audiobookshelf_name }}"
 audiobookshelf_web_domain: "{{ user.domain }}"
 audiobookshelf_web_port: "80"
 audiobookshelf_web_url: "{{ 'https://' + lookup('vars', audiobookshelf_name + '_web_subdomain', default=audiobookshelf_web_subdomain)
-                             + '.' + lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_web_domain)
-                         if (reverse_proxy_is_enabled)
-                         else 'http://localhost:' + lookup('vars', audiobookshelf_name + '_web_port', default=audiobookshelf_web_port) }}"
+                             + '.' + lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_web_domain) }}"
 
 ################################
 # DNS
@@ -82,14 +80,8 @@ audiobookshelf_docker_image: "{{ lookup('vars', audiobookshelf_name + '_docker_i
 
 # Ports
 audiobookshelf_docker_ports_defaults: []
-audiobookshelf_docker_ports_ui:
-  - "{{ lookup('vars', audiobookshelf_name + '_web_port', default=audiobookshelf_web_port) }}:{{ lookup('vars', audiobookshelf_name + '_web_port', default=audiobookshelf_web_port) }}"
 audiobookshelf_docker_ports_custom: []
 audiobookshelf_docker_ports: "{{ lookup('vars', audiobookshelf_name + '_docker_ports_defaults', default=audiobookshelf_docker_ports_defaults)
-                                 + lookup('vars', audiobookshelf_name + '_docker_ports_ui', default=audiobookshelf_docker_ports_ui)
-                                 + lookup('vars', audiobookshelf_name + '_docker_ports_custom', default=audiobookshelf_docker_ports_custom)
-                              if (not reverse_proxy_is_enabled)
-                              else lookup('vars', audiobookshelf_name + '_docker_ports_defaults', default=audiobookshelf_docker_ports_defaults)
                                  + lookup('vars', audiobookshelf_name + '_docker_ports_custom', default=audiobookshelf_docker_ports_custom) }}"
 
 # Envs

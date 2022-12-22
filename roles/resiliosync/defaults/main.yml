@@ -30,9 +30,7 @@ resiliosync_paths_folders_list:
 resiliosync_web_subdomain: "{{ resiliosync_name }}"
 resiliosync_web_domain: "{{ user.domain }}"
 resiliosync_web_port: "8888"
-resiliosync_web_url: "{{ 'https://' + resiliosync_web_subdomain + '.' + resiliosync_web_domain
-                      if (reverse_proxy_is_enabled)
-                      else 'http://localhost:' + resiliosync_web_port }}"
+resiliosync_web_url: "{{ 'https://' + resiliosync_web_subdomain + '.' + resiliosync_web_domain }}"
 
 ################################
 # DNS
@@ -64,13 +62,10 @@ resiliosync_docker_image: "resilio/sync:{{ resiliosync_docker_image_tag }}"
 
 # Ports
 resiliosync_docker_ports_defaults:
-  - "{{ resiliosync_web_port }}"
-resiliosync_docker_ports_custom:
   - "{{ resiliosync_data_port }}:{{ resiliosync_data_port }}"
+resiliosync_docker_ports_custom: []
 resiliosync_docker_ports: "{{ resiliosync_docker_ports_defaults
-                              + resiliosync_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else resiliosync_docker_ports_custom }}"
+                              + resiliosync_docker_ports_custom }}"
 
 # Envs
 resiliosync_docker_envs_default: {}

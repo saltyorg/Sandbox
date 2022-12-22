@@ -30,9 +30,7 @@ filezilla_paths_folders_list:
 filezilla_web_subdomain: "{{ filezilla_name }}"
 filezilla_web_domain: "{{ user.domain }}"
 filezilla_web_port: "5800"
-filezilla_web_url: "{{ 'https://' + filezilla_web_subdomain + '.' + filezilla_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + filezilla_web_port }}"
+filezilla_web_url: "{{ 'https://' + filezilla_web_subdomain + '.' + filezilla_web_domain }}"
 
 ################################
 # DNS
@@ -64,13 +62,10 @@ filezilla_docker_image_tag: "latest"
 filezilla_docker_image: "jlesage/filezilla:{{ filezilla_docker_image_tag }}"
 
 # Ports
-filezilla_docker_ports_defaults:
-  - "{{ filezilla_web_port }}"
+filezilla_docker_ports_defaults: []
 filezilla_docker_ports_custom: []
 filezilla_docker_ports: "{{ filezilla_docker_ports_defaults
-                            + filezilla_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else filezilla_docker_ports_custom }}"
+                            + filezilla_docker_ports_custom }}"
 
 # Envs
 filezilla_docker_envs_default:

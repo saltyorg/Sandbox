@@ -35,9 +35,7 @@ delugevpn_paths_folders_list:
 delugevpn_web_subdomain: "{{ delugevpn_name }}"
 delugevpn_web_domain: "{{ user.domain }}"
 delugevpn_web_port: "8112"
-delugevpn_web_url: "{{ 'https://' + delugevpn_web_subdomain + '.' + delugevpn_web_domain
-                    if (reverse_proxy_is_enabled)
-                    else 'http://localhost:' + delugevpn_web_port }}"
+delugevpn_web_url: "{{ 'https://' + delugevpn_web_subdomain + '.' + delugevpn_web_domain }}"
 
 ################################
 # DNS
@@ -61,7 +59,7 @@ delugevpn_traefik_enabled: true
 
 delugevpn_log_level_daemon: info
 delugevpn_log_level_web: info
-delugevpn_name_servers: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
+delugevpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
 delugevpn_lan_network: "172.19.0.0/16"
 
 ################################
@@ -78,16 +76,10 @@ delugevpn_docker_image: "binhex/arch-delugevpn:{{ delugevpn_docker_image_tag }}"
 
 # Ports
 delugevpn_docker_ports_defaults:
-  - "{{ delugevpn_web_port }}"
-delugevpn_docker_ports_torrents:
   - "58112:58112"
   - "58846:58846"
 delugevpn_docker_ports_custom: []
 delugevpn_docker_ports: "{{ delugevpn_docker_ports_defaults
-                            + delugevpn_docker_ports_torrents
-                            + delugevpn_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else delugevpn_docker_ports_torrents
                             + delugevpn_docker_ports_custom }}"
 
 # Envs
@@ -121,6 +113,7 @@ delugevpn_docker_commands: "{{ delugevpn_docker_commands_default
 # Volumes
 delugevpn_docker_volumes_default:
   - "{{ delugevpn_paths_location }}:/config"
+  - "/etc/localtime:/etc/localtime:ro"
   - "/opt/scripts:/scripts"
 delugevpn_docker_volumes_custom: []
 delugevpn_docker_volumes: "{{ delugevpn_docker_volumes_default
@@ -158,8 +151,7 @@ delugevpn_docker_networks: "{{ docker_networks_common
                                + delugevpn_docker_networks_custom }}"
 
 # Capabilities
-delugevpn_docker_capabilities_default:
-  - NET_ADMIN
+delugevpn_docker_capabilities_default: []
 delugevpn_docker_capabilities_custom: []
 delugevpn_docker_capabilities: "{{ delugevpn_docker_capabilities_default
                                    + delugevpn_docker_capabilities_custom }}"

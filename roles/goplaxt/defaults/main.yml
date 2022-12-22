@@ -30,9 +30,7 @@ goplaxt_paths_folders_list:
 goplaxt_web_subdomain: "{{ goplaxt_name }}"
 goplaxt_web_domain: "{{ user.domain }}"
 goplaxt_web_port: "8000"
-goplaxt_web_url: "{{ 'https://' + goplaxt_web_subdomain + '.' + goplaxt_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + goplaxt_web_port }}"
+goplaxt_web_url: "{{ 'https://' + goplaxt_web_subdomain + '.' + goplaxt_web_domain }}"
 
 ################################
 # DNS
@@ -63,13 +61,10 @@ goplaxt_docker_image_tag: "latest"
 goplaxt_docker_image: "xanderstrike/goplaxt:{{ goplaxt_docker_image_tag }}"
 
 # Ports
-goplaxt_docker_ports_defaults:
-  - "{{ goplaxt_web_port }}"
+goplaxt_docker_ports_defaults: []
 goplaxt_docker_ports_custom: []
 goplaxt_docker_ports: "{{ goplaxt_docker_ports_defaults
-                          + goplaxt_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else goplaxt_docker_ports_custom }}"
+                          + goplaxt_docker_ports_custom }}"
 
 # Envs
 goplaxt_docker_envs_default:

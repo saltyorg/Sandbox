@@ -30,9 +30,7 @@ wikijs_paths_folders_list:
 wikijs_web_subdomain: "{{ wikijs_name }}"
 wikijs_web_domain: "{{ user.domain }}"
 wikijs_web_port: "3000"
-wikijs_web_url: "{{ 'https://' + wikijs_web_subdomain + '.' + wikijs_web_domain
-                 if (reverse_proxy_is_enabled)
-                 else 'http://localhost:' + wikijs_web_port }}"
+wikijs_web_url: "{{ 'https://' + wikijs_web_subdomain + '.' + wikijs_web_domain }}"
 
 ################################
 # DNS
@@ -75,13 +73,10 @@ wikijs_docker_image_tag: "2"
 wikijs_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_docker_image_tag }}"
 
 # Ports
-wikijs_docker_ports_defaults:
-  - "{{ wikijs_web_port }}"
+wikijs_docker_ports_defaults: []
 wikijs_docker_ports_custom: []
 wikijs_docker_ports: "{{ wikijs_docker_ports_defaults
-                         + wikijs_docker_ports_custom
-                      if (not reverse_proxy_is_enabled)
-                      else wikijs_docker_ports_custom }}"
+                         + wikijs_docker_ports_custom }}"
 
 # Envs
 wikijs_docker_envs_default:
@@ -159,3 +154,6 @@ wikijs_docker_restart_policy: unless-stopped
 
 # State
 wikijs_docker_state: started
+
+# User
+wikijs_docker_user: "{{ uid }}:{{ gid }}"

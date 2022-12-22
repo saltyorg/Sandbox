@@ -29,9 +29,7 @@ znc_paths_folders_list:
 znc_web_subdomain: "{{ znc_name }}"
 znc_web_domain: "{{ user.domain }}"
 znc_web_port: "6501"
-znc_web_url: "{{ 'https://' + znc_web_subdomain + '.' + znc_web_domain
-              if (reverse_proxy_is_enabled)
-              else 'http://localhost:' + znc_web_port }}"
+znc_web_url: "{{ 'https://' + znc_web_subdomain + '.' + znc_web_domain }}"
 
 ################################
 # DNS

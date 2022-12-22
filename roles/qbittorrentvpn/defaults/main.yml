@@ -37,9 +37,7 @@ qbittorrentvpn_web_subdomain: "{{ qbittorrentvpn_name }}"
 qbittorrentvpn_web_domain: "{{ user.domain }}"
 qbittorrentvpn_web_port: "8080"
 qbittorrentvpn_web_url: "{{ 'https://' + lookup('vars', qbittorrentvpn_name + '_web_subdomain', default=qbittorrentvpn_web_subdomain)
-                            + '.' + lookup('vars', qbittorrentvpn_name + '_web_domain', default=qbittorrentvpn_web_domain)
-                         if (reverse_proxy_is_enabled)
-                         else 'http://localhost:' + lookup('vars', qbittorrentvpn_name + '_web_port', default=qbittorrentvpn_web_port) }}"
+                            + '.' + lookup('vars', qbittorrentvpn_name + '_web_domain', default=qbittorrentvpn_web_domain) }}"
 
 ################################
 # DNS
@@ -92,22 +90,17 @@ qbittorrentvpn_web_port_lookup: "{{ lookup('vars', qbittorrentvpn_name + '_web_p
 qbittorrentvpn_docker_ports_defaults:
   - "{{ qbittorrentvpn_docker_ports_56881 }}:{{ qbittorrentvpn_docker_ports_56881 }}"
   - "{{ qbittorrentvpn_docker_ports_56881 }}:{{ qbittorrentvpn_docker_ports_56881 }}/udp"
-qbittorrentvpn_docker_ports_ui:
-  - "{{ qbittorrentvpn_web_port_lookup }}:{{ qbittorrentvpn_web_port_lookup }}"
 qbittorrentvpn_docker_ports_custom: []
 qbittorrentvpn_docker_ports: "{{ lookup('vars', qbittorrentvpn_name + '_docker_ports_defaults', default=qbittorrentvpn_docker_ports_defaults)
-                                 + lookup('vars', qbittorrentvpn_name + '_docker_ports_ui', default=qbittorrentvpn_docker_ports_ui)
-                                 + lookup('vars', qbittorrentvpn_name + '_docker_ports_custom', default=qbittorrentvpn_docker_ports_custom)
-                              if (not reverse_proxy_is_enabled)
-                              else lookup('vars', qbittorrentvpn_name + '_docker_ports_defaults', default=qbittorrentvpn_docker_ports_defaults)
                                  + lookup('vars', qbittorrentvpn_name + '_docker_ports_custom', default=qbittorrentvpn_docker_ports_custom) }}"
+
 ################################
 # Settings
 ################################
 
 qbittorrentvpn_log_level_daemon: info
 qbittorrentvpn_log_level_web: info
-qbittorrentvpn_name_servers: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
+qbittorrentvpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
 qbittorrentvpn_lan_network: "172.19.0.0/16"
 
 # Envs
@@ -174,7 +167,6 @@ qbittorrentvpn_docker_networks_custom: []
 qbittorrentvpn_docker_networks: "{{ docker_networks_common
                                     + lookup('vars', qbittorrentvpn_name + '_docker_networks_default', default=qbittorrentvpn_docker_networks_default)
                                     + lookup('vars', qbittorrentvpn_name + '_docker_networks_custom', default=qbittorrentvpn_docker_networks_custom) }}"
-qbittorrentvpn_docker_purge_networks: true
 
 # Capabilities
 qbittorrentvpn_docker_capabilities_default:

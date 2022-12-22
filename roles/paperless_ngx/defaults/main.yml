@@ -34,9 +34,7 @@ paperless_ngx_paths_folders_list:
 paperless_ngx_web_subdomain: "{{ paperless_ngx_name }}"
 paperless_ngx_web_domain: "{{ user.domain }}"
 paperless_ngx_web_port: "8000"
-paperless_ngx_web_url: "{{ 'https://' + paperless_ngx_web_subdomain + '.' + paperless_ngx_web_domain
-                        if (reverse_proxy_is_enabled)
-                        else 'http://localhost:' + paperless_ngx_web_port }}"
+paperless_ngx_web_url: "{{ 'https://' + paperless_ngx_web_subdomain + '.' + paperless_ngx_web_domain }}"
 
 ################################
 # DNS
@@ -79,13 +77,10 @@ paperless_ngx_docker_image_tag: "latest"
 paperless_ngx_docker_image: "ghcr.io/paperless-ngx/paperless-ngx:{{ paperless_ngx_docker_image_tag }}"
 
 # Ports
-paperless_ngx_docker_ports_defaults:
-  - "{{ paperless_ngx_web_port }}"
+paperless_ngx_docker_ports_defaults: []
 paperless_ngx_docker_ports_custom: []
 paperless_ngx_docker_ports: "{{ paperless_ngx_docker_ports_defaults
-                                + paperless_ngx_docker_ports_custom
-                             if (not reverse_proxy_is_enabled)
-                             else paperless_ngx_docker_ports_custom }}"
+                                + paperless_ngx_docker_ports_custom }}"
 
 # Envs
 paperless_ngx_docker_envs_default:
@@ -104,10 +99,13 @@ paperless_ngx_docker_envs_default:
   PAPERLESS_TIKA_ENABLED: "1"
   PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://{{ paperless_ngx_name }}_gotenberg:3000
   PAPERLESS_TIKA_ENDPOINT: "http://{{ paperless_ngx_name }}_tika:9998"
-  PAPERLESS_AUTO_LOGIN_USERNAME: "{{ user.name }}"
+  PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
   PAPERLESS_ADMIN_USER: "{{ user.name }}"
   PAPERLESS_ADMIN_PASSWORD: "{{ user.pass }}"
   PAPERLESS_SECRET_KEY: "{{ paperless_ngx_secret_key.stdout }}"
+  PAPERLESS_ALLOWED_HOSTS: "*"
+  PAPERLESS_CORS_ALLOWED_HOSTS: "http://127.0.0.1,http://::1,http://traefik,http://{{ paperless_ngx_name }},{{ paperless_ngx_web_url }}"
+  PAPERLESS_CSRF_TRUSTED_ORIGINS: "http://127.0.0.1,http://::1,http://traefik,http://{{ paperless_ngx_name }},{{ paperless_ngx_web_url }}"
 paperless_ngx_docker_envs_custom: {}
 paperless_ngx_docker_envs: "{{ paperless_ngx_docker_envs_default
                                | combine(paperless_ngx_docker_envs_custom) }}"

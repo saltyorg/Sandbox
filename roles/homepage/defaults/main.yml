@@ -1,0 +1,162 @@
+##########################################################################
+# Title:            Sandbox: homepage | Default Variables                #
+# Author(s):        JigSawFr                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# URL:              https://github.com/benphelps/homepage                #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Docker Socket Proxy
+################################
+
+homepage_docker_socket_proxy_envs:
+  CONTAINERS: "1"
+  POST: "0"
+
+################################
+# Basics
+################################
+
+homepage_name: homepage
+
+################################
+# Paths
+################################
+
+homepage_paths_folder: "{{ homepage_name }}"
+homepage_paths_location: "{{ server_appdata_path }}/{{ homepage_paths_folder }}"
+homepage_paths_folders_list:
+  - "{{ homepage_paths_location }}"
+  - "{{ homepage_paths_location }}/config"
+  - "{{ homepage_paths_location }}/images"
+  - "{{ homepage_paths_location }}/icons"
+
+################################
+# Web
+################################
+
+homepage_web_subdomain: "{{ homepage_name }}"
+homepage_web_domain: "{{ user.domain }}"
+homepage_web_port: "3000"
+homepage_web_url: "{{ 'https://' + homepage_web_subdomain + '.' + homepage_web_domain }}"
+
+################################
+# DNS
+################################
+
+homepage_dns_record: "{{ homepage_web_subdomain }}"
+homepage_dns_zone: "{{ homepage_web_domain }}"
+homepage_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+homepage_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+homepage_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                         + lookup('vars', homepage_name + '_traefik_sso_middleware', default=homepage_traefik_sso_middleware)
+                                      if (lookup('vars', homepage_name + '_traefik_sso_middleware', default=homepage_traefik_sso_middleware) | length > 0)
+                                      else traefik_default_middleware }}"
+homepage_traefik_middleware_custom: ""
+homepage_traefik_middleware: "{{ homepage_traefik_middleware_default + ','
+                                 + homepage_traefik_middleware_custom
+                              if (not homepage_traefik_middleware_custom.startswith(',') and homepage_traefik_middleware_custom | length > 0)
+                              else homepage_traefik_middleware_default
+                                 + homepage_traefik_middleware_custom }}"
+homepage_traefik_certresolver: "{{ traefik_default_certresolver }}"
+homepage_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+homepage_docker_container: "{{ homepage_name }}"
+
+# Image
+homepage_docker_image_pull: true
+homepage_docker_image_tag: "latest"
+homepage_docker_image: "ghcr.io/benphelps/homepage:{{ homepage_docker_image_tag }}"
+
+# Ports
+homepage_docker_ports_defaults: []
+homepage_docker_ports_custom: []
+homepage_docker_ports: "{{ homepage_docker_ports_defaults
+                           + homepage_docker_ports_custom }}"
+
+# Envs
+homepage_docker_envs_default:
+  TZ: "{{ tz }}"
+homepage_docker_envs_custom: {}
+homepage_docker_envs: "{{ homepage_docker_envs_default
+                          | combine(homepage_docker_envs_custom) }}"
+
+# Commands
+homepage_docker_commands_default: []
+homepage_docker_commands_custom: []
+homepage_docker_commands: "{{ homepage_docker_commands_default
+                              + homepage_docker_commands_custom }}"
+
+# Volumes
+homepage_docker_volumes_default:
+  - "{{ homepage_paths_location }}/config:/app/config"
+  - "{{ homepage_paths_location }}/images:/app/public/images"
+  - "{{ homepage_paths_location }}/icons:/app/public/icons"
+homepage_docker_volumes_custom: []
+homepage_docker_volumes: "{{ homepage_docker_volumes_default
+                             + homepage_docker_volumes_custom }}"
+
+# Devices
+homepage_docker_devices_default: []
+homepage_docker_devices_custom: []
+homepage_docker_devices: "{{ homepage_docker_devices_default
+                             + homepage_docker_devices_custom }}"
+
+# Hosts
+homepage_docker_hosts_default: []
+homepage_docker_hosts_custom: []
+homepage_docker_hosts: "{{ docker_hosts_common
+                           | combine(homepage_docker_hosts_default)
+                           | combine(homepage_docker_hosts_custom) }}"
+
+# Labels
+homepage_docker_labels_default: {}
+homepage_docker_labels_custom: {}
+homepage_docker_labels: "{{ docker_labels_common
+                            | combine(homepage_docker_labels_default)
+                            | combine(homepage_docker_labels_custom) }}"
+
+# Hostname
+homepage_docker_hostname: "{{ homepage_name }}"
+
+# Networks
+homepage_docker_networks_alias: "{{ homepage_name }}"
+homepage_docker_networks_default: []
+homepage_docker_networks_custom: []
+homepage_docker_networks: "{{ docker_networks_common
+                              + homepage_docker_networks_default
+                              + homepage_docker_networks_custom }}"
+
+# Capabilities
+homepage_docker_capabilities_default: []
+homepage_docker_capabilities_custom: []
+homepage_docker_capabilities: "{{ homepage_docker_capabilities_default
+                                  + homepage_docker_capabilities_custom }}"
+
+# Security Opts
+homepage_docker_security_opts_default: []
+homepage_docker_security_opts_custom: []
+homepage_docker_security_opts: "{{ homepage_docker_security_opts_default
+                                   + homepage_docker_security_opts_custom }}"
+
+# Restart Policy
+homepage_docker_restart_policy: unless-stopped
+
+# State
+homepage_docker_state: started
+
+# User
+homepage_docker_user: "{{ uid }}:{{ gid }}"

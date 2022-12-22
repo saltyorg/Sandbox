@@ -1,0 +1,40 @@
+#########################################################################
+# Title:            Sandbox: homepage                                   #
+# Author(s):        JigSawFr                                            #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/benphelps/homepage               #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Docker Socket Proxy Role
+  ansible.builtin.include_role:
+    name: docker_socket_proxy
+  vars:
+    docker_socket_proxy_name: "{{ homepage_name }}-docker-socket-proxy"
+    docker_socket_proxy_docker_envs: "{{ homepage_docker_socket_proxy_envs }}"
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Check if `{{ homepage_paths_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ homepage_paths_location }}/config"
+  register: homepage_web_config
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Import default settings files
+  ansible.builtin.import_tasks: "subtasks/init.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

@@ -7,6 +7,14 @@
 #########################################################################
 ---
 ################################
+# Docker Socket Proxy
+################################
+
+glances_docker_socket_proxy_envs:
+  CONTAINERS: "1"
+  IMAGES: "1"
+
+################################
 # Basics
 ################################
 
@@ -30,9 +38,7 @@ glances_web_paths_config_location: "{{ glances_web_paths_location }}/config/glan
 glances_web_web_subdomain: "{{ glances_web_name }}"
 glances_web_web_domain: "{{ user.domain }}"
 glances_web_web_port: "61208"
-glances_web_web_url: "{{ 'https://' + glances_web_web_subdomain + '.' + glances_web_web_domain
-                      if (reverse_proxy_is_enabled)
-                      else 'http://localhost:' + glances_web_web_port }}"
+glances_web_web_url: "{{ 'https://' + glances_web_web_subdomain + '.' + glances_web_web_domain }}"
 
 ################################
 # DNS
@@ -66,13 +72,10 @@ glances_web_docker_image_tag: "alpine-latest-full"
 glances_web_docker_image: "nicolargo/glances:{{ glances_web_docker_image_tag }}"
 
 # Ports
-glances_web_docker_ports_defaults:
-  - "{{ glances_web_web_port }}"
+glances_web_docker_ports_defaults: []
 glances_web_docker_ports_custom: []
 glances_web_docker_ports: "{{ glances_web_docker_ports_defaults
-                              + glances_web_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else glances_web_docker_ports_custom }}"
+                              + glances_web_docker_ports_custom }}"
 
 # Envs
 glances_web_docker_envs_default:
@@ -80,7 +83,7 @@ glances_web_docker_envs_default:
   GID: "{{ gid }}"
   TZ: "{{ tz }}"
   GLANCES_OPT: "-w"
-  DOCKER_HOST: "tcp://docker-socket-proxy:2375"
+  DOCKER_HOST: "tcp://{{ glances_web_name }}-docker-socket-proxy:2375"
 glances_web_docker_envs_custom: {}
 glances_web_docker_envs: "{{ glances_web_docker_envs_default
                              | combine(glances_web_docker_envs_custom) }}"

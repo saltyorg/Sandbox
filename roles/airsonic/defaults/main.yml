@@ -29,9 +29,7 @@ airsonic_paths_folders_list:
 airsonic_web_subdomain: "{{ airsonic_name }}"
 airsonic_web_domain: "{{ user.domain }}"
 airsonic_web_port: "4040"
-airsonic_web_url: "{{ 'https://' + airsonic_web_subdomain + '.' + airsonic_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + airsonic_web_port }}"
+airsonic_web_url: "{{ 'https://' + airsonic_web_subdomain + '.' + airsonic_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ airsonic_docker_image_tag: "latest"
 airsonic_docker_image: "lscr.io/linuxserver/airsonic-advanced:{{ airsonic_docker_image_tag }}"
 
 # Ports
-airsonic_docker_ports_defaults:
-  - "{{ airsonic_web_port }}"
+airsonic_docker_ports_defaults: []
 airsonic_docker_ports_custom: []
 airsonic_docker_ports: "{{ airsonic_docker_ports_defaults
-                           + airsonic_docker_ports_custom
-                        if (not reverse_proxy_is_enabled)
-                        else airsonic_docker_ports_custom }}"
+                           + airsonic_docker_ports_custom }}"
 
 # Envs
 airsonic_docker_envs_default:

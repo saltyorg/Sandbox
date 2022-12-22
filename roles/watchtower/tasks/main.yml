@@ -59,7 +59,8 @@
       - name: saltbox
         aliases:
           - watchtower
-    purge_networks: yes
+    comparisons:
+      '*': ignore
     state: started
     tls_hostname: localhost
     restart_policy: unless-stopped

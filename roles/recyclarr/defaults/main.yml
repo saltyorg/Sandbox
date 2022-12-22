@@ -21,6 +21,7 @@ recyclarr_paths_folder: "{{ recyclarr_name }}"
 recyclarr_paths_location: "{{ server_appdata_path }}/{{ recyclarr_paths_folder }}"
 recyclarr_paths_folders_list:
   - "{{ recyclarr_paths_location }}"
+  - "{{ recyclarr_paths_location }}/configs"
 recyclarr_config_location: "{{ recyclarr_paths_location }}/recyclarr.yml"
 
 ################################
@@ -39,9 +40,7 @@ recyclarr_docker_image: "ghcr.io/recyclarr/recyclarr:{{ recyclarr_docker_image_t
 recyclarr_docker_ports_defaults: []
 recyclarr_docker_ports_custom: []
 recyclarr_docker_ports: "{{ recyclarr_docker_ports_defaults
-                            + recyclarr_docker_ports_custom
-                         if (not reverse_proxy_is_enabled)
-                         else recyclarr_docker_ports_custom }}"
+                            + recyclarr_docker_ports_custom }}"
 
 # Envs
 recyclarr_docker_envs_default:

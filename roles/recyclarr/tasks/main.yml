@@ -23,12 +23,14 @@
     name: recyclarr-config
     image: "{{ recyclarr_docker_image }}"
     user: "{{ uid }}:{{ gid }}"
-    command: 'create-config'
+    env:
+      RECYCLARR_CREATE_CONFIG: "true"
     volumes:
       - "{{ recyclarr_paths_location }}:/config"
     networks:
       - name: saltbox
-    purge_networks: yes
+    comparisons:
+      '*': ignore
     auto_remove: yes
     state: started
   when: (not recyclarr_config.stat.exists)

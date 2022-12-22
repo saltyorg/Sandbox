@@ -1,5 +1,8 @@
 ---
 - hosts: localhost
+  module_defaults:
+    ansible.builtin.setup:
+      fact_path: "/srv/git/saltbox/ansible_facts.d"
   vars_files:
     - ['settings.yml', 'defaults/settings.yml.default']
     - ['/srv/git/saltbox/accounts.yml', '/srv/git/saltbox/defaults/accounts.yml.default']
@@ -33,8 +36,10 @@
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
     - { role: coder, tags: ['coder'] }
+    - { role: code_server, tags: ['code_server'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
+    - { role: dashy, tags: ['dashy'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
     - { role: docspell, tags: ['docspell'] }
@@ -64,6 +69,7 @@
     - { role: homarr, tags: ['homarr'] }
     - { role: homeassistant, tags: ['homeassistant'] }
     - { role: homebox, tags: ['homebox'] }
+    - { role: homepage, tags: ['homepage'] }
     - { role: influxdb, tags: ['influxdb'] }
     - { role: invoiceninjav5, tags: ['invoiceninja'] }
     - { role: jdownloader2, tags: ['jdownloader2'] }
@@ -85,8 +91,10 @@
     - { role: medusa, tags: ['medusa'] }
     - { role: minecraft, tags: ['minecraft'] }
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
+    - { role: miniflux, tags: ['miniflux'] }
     - { role: monitorr, tags: ['monitorr'] }
     - { role: moviematch, tags: ['moviematch'] }
+    - { role: mqtt, tags: ['mqtt'] }
     - { role: mylar3, tags: ['mylar3'] }
     - { role: n8n, tags: ['n8n'] }
     - { role: navidrome, tags: ['navidrome'] }

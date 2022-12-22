@@ -29,9 +29,7 @@ moviematch_paths_folders_list:
 moviematch_web_subdomain: "{{ moviematch_name }}"
 moviematch_web_domain: "{{ user.domain }}"
 moviematch_web_port: "8000"
-moviematch_web_url: "{{ 'https://' + moviematch_web_subdomain + '.' + moviematch_web_domain
-                     if (reverse_proxy_is_enabled)
-                     else 'http://localhost:' + moviematch_web_port }}"
+moviematch_web_url: "{{ 'https://' + moviematch_web_subdomain + '.' + moviematch_web_domain }}"
 
 ################################
 # DNS
@@ -62,13 +60,10 @@ moviematch_docker_image_tag: "latest"
 moviematch_docker_image: "lukechannings/moviematch:{{ moviematch_docker_image_tag }}"
 
 # Ports
-moviematch_docker_ports_defaults:
-  - "{{ moviematch_web_port }}:{{ moviematch_web_port }}"
+moviematch_docker_ports_defaults: []
 moviematch_docker_ports_custom: []
 moviematch_docker_ports: "{{ moviematch_docker_ports_defaults
-                             + moviematch_docker_ports_custom
-                          if (not reverse_proxy_is_enabled)
-                          else moviematch_docker_ports_custom }}"
+                             + moviematch_docker_ports_custom }}"
 
 # Envs
 moviematch_docker_envs_default:

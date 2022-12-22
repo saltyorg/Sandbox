@@ -31,9 +31,7 @@ filebrowser_paths_db_location: "{{ filebrowser_paths_location }}/filebrowser.db"
 filebrowser_web_subdomain: "{{ filebrowser_name }}"
 filebrowser_web_domain: "{{ user.domain }}"
 filebrowser_web_port: "80"
-filebrowser_web_url: "{{ 'https://' + filebrowser_web_subdomain + '.' + filebrowser_web_domain
-                      if (reverse_proxy_is_enabled)
-                      else 'http://localhost:' + filebrowser_web_port }}"
+filebrowser_web_url: "{{ 'https://' + filebrowser_web_subdomain + '.' + filebrowser_web_domain }}"
 
 ################################
 # DNS
@@ -69,13 +67,10 @@ filebrowser_docker_image_tag: "latest"
 filebrowser_docker_image: "filebrowser/filebrowser:{{ filebrowser_docker_image_tag }}"
 
 # Ports
-filebrowser_docker_ports_defaults:
-  - "{{ filebrowser_web_port }}"
+filebrowser_docker_ports_defaults: []
 filebrowser_docker_ports_custom: []
 filebrowser_docker_ports: "{{ filebrowser_docker_ports_defaults
-                              + filebrowser_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else filebrowser_docker_ports_custom }}"
+                              + filebrowser_docker_ports_custom }}"
 
 # Envs
 filebrowser_docker_envs_default:

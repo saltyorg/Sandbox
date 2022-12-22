@@ -20,9 +20,7 @@ adminer_name: adminer
 adminer_web_subdomain: "{{ adminer_name }}"
 adminer_web_domain: "{{ user.domain }}"
 adminer_web_port: "8080"
-adminer_web_url: "{{ 'https://' + adminer_web_subdomain + '.' + adminer_web_domain
-                  if (reverse_proxy_is_enabled)
-                  else 'http://localhost:' + adminer_web_port }}"
+adminer_web_url: "{{ 'https://' + adminer_web_subdomain + '.' + adminer_web_domain }}"
 
 ################################
 # DNS
@@ -57,14 +55,8 @@ adminer_docker_image: "adminer:{{ adminer_docker_image_tag }}"
 
 # Ports
 adminer_docker_ports_defaults: []
-adminer_docker_ports_ui:
-  - "{{ adminer_web_port }}:{{ adminer_web_port }}"
 adminer_docker_ports_custom: []
 adminer_docker_ports: "{{ adminer_docker_ports_defaults
-                          + adminer_docker_ports_ui
-                          + adminer_docker_ports_custom
-                       if (not reverse_proxy_is_enabled)
-                       else adminer_docker_ports_defaults
                           + adminer_docker_ports_custom }}"
 
 # Envs
