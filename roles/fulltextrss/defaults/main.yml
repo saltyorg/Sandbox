@@ -21,6 +21,7 @@ fulltextrss_paths_folder: "{{ fulltextrss_name }}"
 fulltextrss_paths_location: "{{ server_appdata_path }}/{{ fulltextrss_paths_folder }}"
 fulltextrss_paths_folders_list:
   - "{{ fulltextrss_paths_location }}"
+  - "{{ fulltextrss_paths_location }}/rss"
 
 ################################
 # Web
@@ -92,6 +93,7 @@ fulltextrss_docker_commands: "{{ fulltextrss_docker_commands_default
 # Volumes
 fulltextrss_docker_volumes_default:
   - "{{ fulltextrss_paths_location }}:/var/www/html/cache"
+  - "{{ fulltextrss_paths_location }}/rss:/var/www/html/cache/rss"
 fulltextrss_docker_volumes_custom: []
 fulltextrss_docker_volumes: "{{ fulltextrss_docker_volumes_default
                                 + fulltextrss_docker_volumes_custom }}"
