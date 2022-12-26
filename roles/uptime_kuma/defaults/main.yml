@@ -68,6 +68,8 @@ uptime_kuma_docker_ports: "{{ uptime_kuma_docker_ports_defaults
 # Envs
 uptime_kuma_docker_envs_default:
   TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
 uptime_kuma_docker_envs_custom: {}
 uptime_kuma_docker_envs: "{{ uptime_kuma_docker_envs_default
                              | combine(uptime_kuma_docker_envs_custom) }}"
