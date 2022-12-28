@@ -52,7 +52,9 @@ calibre_dns2_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-calibre_traefik_middleware: "{{ traefik_default_middleware }}"
+calibre_traefik_sso_middleware: ""
+calibre_traefik_middleware_default: "{{ traefik_default_middleware }}"
+calibre_traefik_middleware_custom: ""
 calibre_traefik_certresolver: "{{ traefik_default_certresolver }}"
 calibre_traefik_enabled: true
 

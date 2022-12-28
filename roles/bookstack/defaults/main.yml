@@ -43,7 +43,9 @@ bookstack_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-bookstack_traefik_middleware: "{{ traefik_default_middleware }}"
+bookstack_traefik_sso_middleware: ""
+bookstack_traefik_middleware_default: "{{ traefik_default_middleware }}"
+bookstack_traefik_middleware_custom: ""
 bookstack_traefik_certresolver: "{{ traefik_default_certresolver }}"
 bookstack_traefik_enabled: true
 

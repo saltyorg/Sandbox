@@ -44,20 +44,12 @@ cherry_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 cherry_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-cherry_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', cherry_name + '_traefik_sso_middleware', default=cherry_traefik_sso_middleware)
-                                    if (lookup('vars', cherry_name + '_traefik_sso_middleware', default=cherry_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
+cherry_traefik_middleware_default: "{{ traefik_default_middleware }}"
 cherry_traefik_middleware_custom: ""
-cherry_traefik_middleware: "{{ cherry_traefik_middleware_default + ','
-                               + cherry_traefik_middleware_custom
-                            if (not cherry_traefik_middleware_custom.startswith(',') and cherry_traefik_middleware_custom | length > 0)
-                            else cherry_traefik_middleware_default
-                               + cherry_traefik_middleware_custom }}"
 cherry_traefik_certresolver: "{{ traefik_default_certresolver }}"
 cherry_traefik_enabled: true
 cherry_traefik_api_enabled: true
-cherry_traefik_api_endpoint: "`/api`"
+cherry_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
