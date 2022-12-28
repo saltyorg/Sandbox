@@ -49,9 +49,13 @@ airdcpp_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-airdcpp_traefik_middleware: "{{ traefik_default_middleware }}"
+airdcpp_traefik_sso_middleware: ""
+airdcpp_traefik_middleware_default: "{{ traefik_default_middleware }}"
+airdcpp_traefik_middleware_custom: ""
 airdcpp_traefik_certresolver: "{{ traefik_default_certresolver }}"
 airdcpp_traefik_enabled: true
+airdcpp_traefik_api_enabled: false
+airdcpp_traefik_api_endpoint: ""
 
 ################################
 # Docker
