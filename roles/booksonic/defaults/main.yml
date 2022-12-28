@@ -72,7 +72,6 @@ booksonic_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  CONTEXT_PATH: "{{ booksonic_web_url }}"
 booksonic_docker_envs_custom: {}
 booksonic_docker_envs: "{{ booksonic_docker_envs_default
                            | combine(booksonic_docker_envs_custom) }}"
