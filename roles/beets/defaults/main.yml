@@ -44,10 +44,11 @@ beets_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-beets_traefik_middleware: "beets-auth,{{ traefik_default_middleware }}"
+beets_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+beets_traefik_middleware_default: "{{ traefik_default_middleware }}"
+beets_traefik_middleware_custom: ""
 beets_traefik_certresolver: "{{ traefik_default_certresolver }}"
 beets_traefik_enabled: true
-beets_auth: "/etc/traefik/auth"
 
 ################################
 # Docker
@@ -104,8 +105,7 @@ beets_docker_hosts: "{{ docker_hosts_common
                         | combine(beets_docker_hosts_custom) }}"
 
 # Labels
-beets_docker_labels_default:
-  traefik.http.middlewares.beets-auth.basicauth.usersfile: "{{ beets_auth }}"
+beets_docker_labels_default: {}
 beets_docker_labels_custom: {}
 beets_docker_labels: "{{ docker_labels_common
                          | combine(beets_docker_labels_default)

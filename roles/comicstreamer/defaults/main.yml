@@ -45,7 +45,9 @@ comicstreamer_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-comicstreamer_traefik_middleware: "{{ traefik_default_middleware }}"
+comicstreamer_traefik_sso_middleware: ""
+comicstreamer_traefik_middleware_default: "{{ traefik_default_middleware }}"
+comicstreamer_traefik_middleware_custom: ""
 comicstreamer_traefik_certresolver: "{{ traefik_default_certresolver }}"
 comicstreamer_traefik_enabled: true
 
