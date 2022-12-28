@@ -43,9 +43,13 @@ airsonic_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-airsonic_traefik_middleware: "{{ traefik_default_middleware }}"
+airsonic_traefik_sso_middleware: ""
+airsonic_traefik_middleware_default: "{{ traefik_default_middleware }}"
+airsonic_traefik_middleware_custom: ""
 airsonic_traefik_certresolver: "{{ traefik_default_certresolver }}"
 airsonic_traefik_enabled: true
+airsonic_traefik_api_enabled: false
+airsonic_traefik_api_endpoint: ""
 
 ################################
 # Docker
