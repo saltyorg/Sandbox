@@ -43,10 +43,11 @@ apprise_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-apprise_traefik_middleware: "apprise-auth,{{ traefik_default_middleware }}"
+apprise_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+apprise_traefik_middleware_default: "{{ traefik_default_middleware }}"
+apprise_traefik_middleware_custom: ""
 apprise_traefik_certresolver: "{{ traefik_default_certresolver }}"
 apprise_traefik_enabled: true
-apprise_auth: "/etc/traefik/auth"
 
 ################################
 # Docker
@@ -102,8 +103,7 @@ apprise_docker_hosts: "{{ docker_hosts_common
                           | combine(apprise_docker_hosts_custom) }}"
 
 # Labels
-apprise_docker_labels_default:
-  traefik.http.middlewares.apprise-auth.basicauth.usersfile: "{{ apprise_auth }}"
+apprise_docker_labels_default: {}
 apprise_docker_labels_custom: {}
 apprise_docker_labels: "{{ docker_labels_common
                            | combine(apprise_docker_labels_default)

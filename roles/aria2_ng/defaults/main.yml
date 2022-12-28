@@ -46,21 +46,13 @@ aria2_ng_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 aria2_ng_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-aria2_ng_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                         + lookup('vars', aria2_ng_name + '_traefik_sso_middleware', default=aria2_ng_traefik_sso_middleware)
-                                      if (lookup('vars', aria2_ng_name + '_traefik_sso_middleware', default=aria2_ng_traefik_sso_middleware) | length > 0)
-                                      else traefik_default_middleware }}"
+aria2_ng_traefik_middleware_default: "{{ traefik_default_middleware }}"
 aria2_ng_traefik_middleware_custom: ""
-aria2_ng_traefik_middleware: "{{ aria2_ng_traefik_middleware_default + ','
-                                 + aria2_ng_traefik_middleware_custom
-                              if (not aria2_ng_traefik_middleware_custom.startswith(',') and aria2_ng_traefik_middleware_custom | length > 0)
-                              else aria2_ng_traefik_middleware_default
-                                 + aria2_ng_traefik_middleware_custom }}"
 aria2_ng_traefik_certresolver: "{{ traefik_default_certresolver }}"
 aria2_ng_traefik_enabled: true
 # Insecure until we have a way to generate an app token
 aria2_ng_traefik_api_enabled: false
-aria2_ng_traefik_api_endpoint: "`/jsonrpc`"
+aria2_ng_traefik_api_endpoint: "PathPrefix(`/jsonrpc`)"
 
 ################################
 # Docker
