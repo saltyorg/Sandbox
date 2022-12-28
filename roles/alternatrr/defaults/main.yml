@@ -44,7 +44,9 @@ alternatrr_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-alternatrr_traefik_middleware: "{{ traefik_default_middleware }}"
+alternatrr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+alternatrr_traefik_middleware_default: "{{ traefik_default_middleware }}"
+alternatrr_traefik_middleware_custom: ""
 alternatrr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 alternatrr_traefik_enabled: true
 
