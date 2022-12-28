@@ -44,22 +44,12 @@ changedetection_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 changedetection_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-changedetection_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                                + lookup('vars', changedetection_name + '_traefik_sso_middleware', default=changedetection_traefik_sso_middleware)
-                                             if (lookup('vars', changedetection_name + '_traefik_sso_middleware', default=changedetection_traefik_sso_middleware) | length > 0)
-                                             else traefik_default_middleware }}"
+changedetection_traefik_middleware_default: "{{ traefik_default_middleware }}"
 changedetection_traefik_middleware_custom: ""
-changedetection_traefik_middleware: "{{ changedetection_traefik_middleware_default + ','
-                                        + changedetection_traefik_middleware_custom
-                                     if (not changedetection_traefik_middleware_custom.startswith(',') and changedetection_traefik_middleware_custom | length > 0)
-                                     else changedetection_traefik_middleware_default
-                                        + changedetection_traefik_middleware_custom }}"
-
 changedetection_traefik_certresolver: "{{ traefik_default_certresolver }}"
 changedetection_traefik_enabled: true
 changedetection_traefik_api_enabled: true
-changedetection_traefik_api_endpoint: "`/api`"
+changedetection_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
