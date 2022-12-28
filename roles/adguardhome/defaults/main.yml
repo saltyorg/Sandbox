@@ -49,13 +49,12 @@ adguardhome_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 adguardhome_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-adguardhome_traefik_middleware: "{{ traefik_default_middleware + ',' + adguardhome_traefik_sso_middleware
-                                 if (adguardhome_traefik_sso_middleware | length > 0)
-                                 else traefik_default_middleware }}"
+adguardhome_traefik_middleware_default: "{{ traefik_default_middleware }}"
+adguardhome_traefik_middleware_custom: ""
 adguardhome_traefik_certresolver: "{{ traefik_default_certresolver }}"
 adguardhome_traefik_enabled: true
 adguardhome_traefik_api_enabled: true
-adguardhome_traefik_api_endpoint: "`/dns-query`"
+adguardhome_traefik_api_endpoint: "PathPrefix(`/dns-query`)"
 
 ################################
 # Docker
