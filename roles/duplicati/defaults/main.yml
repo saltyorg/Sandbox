@@ -45,20 +45,12 @@ duplicati_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 duplicati_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-duplicati_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                          + lookup('vars', duplicati_name + '_traefik_sso_middleware', default=duplicati_traefik_sso_middleware)
-                                       if (lookup('vars', duplicati_name + '_traefik_sso_middleware', default=duplicati_traefik_sso_middleware) | length > 0)
-                                       else traefik_default_middleware }}"
+duplicati_traefik_middleware_default: "{{ traefik_default_middleware }}"
 duplicati_traefik_middleware_custom: ""
-duplicati_traefik_middleware: "{{ duplicati_traefik_middleware_default + ','
-                                  + duplicati_traefik_middleware_custom
-                               if (not duplicati_traefik_middleware_custom.startswith(',') and duplicati_traefik_middleware_custom | length > 0)
-                               else duplicati_traefik_middleware_default
-                                  + duplicati_traefik_middleware_custom }}"
 duplicati_traefik_certresolver: "{{ traefik_default_certresolver }}"
 duplicati_traefik_enabled: true
 duplicati_traefik_api_enabled: true
-duplicati_traefik_api_endpoint: "`/api`"
+duplicati_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
@@ -76,7 +68,7 @@ duplicati_docker_image: "linuxserver/duplicati:{{ duplicati_docker_image_tag }}"
 duplicati_docker_ports_defaults: []
 duplicati_docker_ports_custom: []
 duplicati_docker_ports: "{{ duplicati_docker_ports_defaults
-                             + duplicati_docker_ports_custom }}"
+                            + duplicati_docker_ports_custom }}"
 
 # Envs
 duplicati_docker_envs_default:
@@ -85,13 +77,13 @@ duplicati_docker_envs_default:
   PGID: "{{ gid }}"
 duplicati_docker_envs_custom: {}
 duplicati_docker_envs: "{{ duplicati_docker_envs_default
-                            | combine(duplicati_docker_envs_custom) }}"
+                           | combine(duplicati_docker_envs_custom) }}"
 
 # Commands
 duplicati_docker_commands_default: []
 duplicati_docker_commands_custom: []
 duplicati_docker_commands: "{{ duplicati_docker_commands_default
-                                + duplicati_docker_commands_custom }}"
+                               + duplicati_docker_commands_custom }}"
 
 # Volumes
 duplicati_docker_volumes_default:
@@ -100,27 +92,27 @@ duplicati_docker_volumes_default:
   - "/srv/git/saltbox:/saltbox/saltbox"
 duplicati_docker_volumes_custom: []
 duplicati_docker_volumes: "{{ duplicati_docker_volumes_default
-                               + duplicati_docker_volumes_custom }}"
+                              + duplicati_docker_volumes_custom }}"
 
 # Devices
 duplicati_docker_devices_default: []
 duplicati_docker_devices_custom: []
 duplicati_docker_devices: "{{ duplicati_docker_devices_default
-                               + duplicati_docker_devices_custom }}"
+                              + duplicati_docker_devices_custom }}"
 
 # Hosts
 duplicati_docker_hosts_default: []
 duplicati_docker_hosts_custom: []
 duplicati_docker_hosts: "{{ docker_hosts_common
-                             | combine(duplicati_docker_hosts_default)
-                             | combine(duplicati_docker_hosts_custom) }}"
+                            | combine(duplicati_docker_hosts_default)
+                            | combine(duplicati_docker_hosts_custom) }}"
 
 # Labels
 duplicati_docker_labels_default: {}
 duplicati_docker_labels_custom: {}
 duplicati_docker_labels: "{{ docker_labels_common
-                              | combine(duplicati_docker_labels_default)
-                              | combine(duplicati_docker_labels_custom) }}"
+                             | combine(duplicati_docker_labels_default)
+                             | combine(duplicati_docker_labels_custom) }}"
 
 # Hostname
 duplicati_docker_hostname: "{{ duplicati_name }}"
@@ -130,20 +122,20 @@ duplicati_docker_networks_alias: "{{ duplicati_name }}"
 duplicati_docker_networks_default: []
 duplicati_docker_networks_custom: []
 duplicati_docker_networks: "{{ docker_networks_common
-                                + duplicati_docker_networks_default
-                                + duplicati_docker_networks_custom }}"
+                               + duplicati_docker_networks_default
+                               + duplicati_docker_networks_custom }}"
 
 # Capabilities
 duplicati_docker_capabilities_default: []
 duplicati_docker_capabilities_custom: []
 duplicati_docker_capabilities: "{{ duplicati_docker_capabilities_default
-                                    + duplicati_docker_capabilities_custom }}"
+                                   + duplicati_docker_capabilities_custom }}"
 
 # Security Opts
 duplicati_docker_security_opts_default: []
 duplicati_docker_security_opts_custom: []
 duplicati_docker_security_opts: "{{ duplicati_docker_security_opts_default
-                                     + duplicati_docker_security_opts_custom }}"
+                                    + duplicati_docker_security_opts_custom }}"
 
 # Restart Policy
 duplicati_docker_restart_policy: unless-stopped
