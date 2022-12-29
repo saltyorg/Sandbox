@@ -45,13 +45,12 @@ filebot_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 filebot_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-filebot_traefik_middleware: "{{ traefik_default_middleware + ',' + filebot_traefik_sso_middleware
-                             if (filebot_traefik_sso_middleware | length > 0)
-                             else traefik_default_middleware }}"
+filebot_traefik_middleware_default: "{{ traefik_default_middleware }}"
+filebot_traefik_middleware_custom: ""
 filebot_traefik_certresolver: "{{ traefik_default_certresolver }}"
 filebot_traefik_enabled: true
 filebot_traefik_api_enabled: true
-filebot_traefik_api_endpoint: "`/websockify`"
+filebot_traefik_api_endpoint: "PathPrefix(`/websockify`)"
 
 ################################
 # Docker

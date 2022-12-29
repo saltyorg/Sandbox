@@ -43,9 +43,13 @@ freshrss_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-freshrss_traefik_middleware: "{{ traefik_default_middleware }}"
+freshrss_traefik_sso_middleware: ""
+freshrss_traefik_middleware_default: "{{ traefik_default_middleware }}"
+freshrss_traefik_middleware_custom: ""
 freshrss_traefik_certresolver: "{{ traefik_default_certresolver }}"
 freshrss_traefik_enabled: true
+freshrss_traefik_api_enabled: false
+freshrss_traefik_api_endpoint: ""
 
 ################################
 # Docker
