@@ -17,6 +17,11 @@
   ansible.builtin.set_fact:
     remote_type_var: "{{ remote_type.results | map(attribute='stdout') }}"
 
+- name: Fail if remote type is crypt
+  ansible.builtin.fail:
+    msg: "A-Train does not support crypt remotes."
+  when: remote_type_var is search("crypt")
+
 - name: Get the ID of teamdrives if remote type is drive
   block:
 
