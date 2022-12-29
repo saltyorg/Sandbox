@@ -46,13 +46,12 @@ filebrowser_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 filebrowser_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-filebrowser_traefik_middleware: "{{ traefik_default_middleware + ',' + filebrowser_traefik_sso_middleware
-                                 if (filebrowser_traefik_sso_middleware | length > 0)
-                                 else traefik_default_middleware }}"
+filebrowser_traefik_middleware_default: "{{ traefik_default_middleware }}"
+filebrowser_traefik_middleware_custom: ""
 filebrowser_traefik_certresolver: "{{ traefik_default_certresolver }}"
 filebrowser_traefik_enabled: true
 filebrowser_traefik_api_enabled: true
-filebrowser_traefik_api_endpoint: "`/api/public`,`/share`,`/static`"
+filebrowser_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/share`) || PathPrefix(`/static`) || PathPrefix(`/api/public`)"
 
 ################################
 # Docker
