@@ -45,20 +45,12 @@ docspell_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 docspell_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-docspell_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                           + lookup('vars', docspell_name + '_traefik_sso_middleware', default=docspell_traefik_sso_middleware)
-                                        if (lookup('vars', docspell_name + '_traefik_sso_middleware', default=docspell_traefik_sso_middleware) | length > 0)
-                                        else traefik_default_middleware }}"
+docspell_traefik_middleware_default: "{{ traefik_default_middleware }}"
 docspell_traefik_middleware_custom: ""
-docspell_traefik_middleware: "{{ docspell_traefik_middleware_default + ','
-                                 + docspell_traefik_middleware_custom
-                              if (not docspell_traefik_middleware_custom.startswith(',') and docspell_traefik_middleware_custom | length > 0)
-                              else docspell_traefik_middleware_default
-                                 + docspell_traefik_middleware_custom }}"
 docspell_traefik_certresolver: "{{ traefik_default_certresolver }}"
 docspell_traefik_enabled: true
 docspell_traefik_api_enabled: true
-docspell_traefik_api_endpoint: "`/api`"
+docspell_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker

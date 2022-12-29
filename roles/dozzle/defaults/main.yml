@@ -44,11 +44,12 @@ dozzle_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 dozzle_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-dozzle_traefik_middleware: "{{ traefik_default_middleware + ',' + dozzle_traefik_sso_middleware
-                            if (dozzle_traefik_sso_middleware | length > 0)
-                            else traefik_default_middleware }}"
+dozzle_traefik_middleware_default: "{{ traefik_default_middleware }}"
+dozzle_traefik_middleware_custom: ""
 dozzle_traefik_certresolver: "{{ traefik_default_certresolver }}"
 dozzle_traefik_enabled: true
+dozzle_traefik_api_enabled: false
+dozzle_traefik_api_endpoint: ""
 
 ################################
 # Docker
