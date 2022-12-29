@@ -44,20 +44,12 @@ deemix_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 deemix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-deemix_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', deemix_name + '_traefik_sso_middleware', default=deemix_traefik_sso_middleware)
-                                    if (lookup('vars', deemix_name + '_traefik_sso_middleware', default=deemix_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
+deemix_traefik_middleware_default: "{{ traefik_default_middleware }}"
 deemix_traefik_middleware_custom: ""
-deemix_traefik_middleware: "{{ deemix_traefik_middleware_default + ','
-                               + deemix_traefik_middleware_custom
-                            if (not deemix_traefik_middleware_custom.startswith(',') and deemix_traefik_middleware_custom | length > 0)
-                            else deemix_traefik_middleware_default
-                               + deemix_traefik_middleware_custom }}"
-
 deemix_traefik_certresolver: "{{ traefik_default_certresolver }}"
 deemix_traefik_enabled: true
+deemix_traefik_api_enabled: false
+deemix_traefik_api_endpoint: ""
 
 ################################
 # Docker

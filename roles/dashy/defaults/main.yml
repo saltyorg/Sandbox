@@ -47,7 +47,6 @@ dashy_dns_proxy: "{{ dns.proxied }}"
 dashy_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 dashy_traefik_middleware_default: "{{ traefik_default_middleware }}"
 dashy_traefik_middleware_custom: ""
-dashy_traefik_middleware: "{{ dashy_traefik_middleware_default + dashy_traefik_middleware_custom }}" # Temporary
 dashy_traefik_certresolver: "{{ traefik_default_certresolver }}"
 dashy_traefik_enabled: true
 dashy_traefik_api_enabled: false
