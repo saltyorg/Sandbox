@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: set-matrix
-        run: echo "matrix={\"roles\":[$(awk -F'[][]' -e '/ role:/ && FNR > 13' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | sed "s/.\(roles\|hetzner_nfs_server_uninstall\|hetzner_nfs_client_mount\|hetzner_nfs_client_unmount\).,//g")]}" >> $GITHUB_OUTPUT
+        run: echo "matrix={\"roles\":[$(awk -F'[][]' -e '/ role:/ && FNR > 13' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | sed "s/.\(roles\|hetzner_nfs_server_uninstall\|hetzner_nfs_client_mount\|hetzner_nfs_client_unmount\|settings\|pre_tasks\|always\|sanity_check\).,//g")]}" >> $GITHUB_OUTPUT
 
   install:
     name: '${{ matrix.roles }}'
