@@ -46,22 +46,12 @@ whisparr_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 whisparr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-whisparr_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                         + lookup('vars', whisparr_name + '_traefik_sso_middleware', default=whisparr_traefik_sso_middleware)
-                                      if (lookup('vars', whisparr_name + '_traefik_sso_middleware', default=whisparr_traefik_sso_middleware) | length > 0)
-                                      else traefik_default_middleware }}"
+whisparr_traefik_middleware_default: "{{ traefik_default_middleware }}"
 whisparr_traefik_middleware_custom: ""
-whisparr_traefik_middleware: "{{ whisparr_traefik_middleware_default + ','
-                                 + whisparr_traefik_middleware_custom
-                              if (not whisparr_traefik_middleware_custom.startswith(',') and whisparr_traefik_middleware_custom | length > 0)
-                              else whisparr_traefik_middleware_default
-                                 + whisparr_traefik_middleware_custom }}"
-
 whisparr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 whisparr_traefik_enabled: true
 whisparr_traefik_api_enabled: true
-whisparr_traefik_api_endpoint: "`/api`"
+whisparr_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # API

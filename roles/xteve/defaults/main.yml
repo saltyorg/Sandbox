@@ -44,13 +44,12 @@ xteve_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 xteve_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-xteve_traefik_middleware: "{{ traefik_default_middleware + ',' + xteve_traefik_sso_middleware
-                           if (xteve_traefik_sso_middleware | length > 0)
-                           else traefik_default_middleware }}"
+xteve_traefik_middleware_default: "{{ traefik_default_middleware }}"
+xteve_traefik_middleware_custom: ""
 xteve_traefik_certresolver: "{{ traefik_default_certresolver }}"
 xteve_traefik_enabled: true
 xteve_traefik_api_enabled: true
-xteve_traefik_api_endpoint: "`/data_images`,`/api`"
+xteve_traefik_api_endpoint: "PathPrefix(`/data_images`) || PathPrefix(`/api`)"
 
 ################################
 # Docker

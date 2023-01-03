@@ -45,9 +45,13 @@ unifi_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-unifi_traefik_middleware: "{{ traefik_default_middleware }}"
+unifi_traefik_sso_middleware: ""
+unifi_traefik_middleware_default: "{{ traefik_default_middleware }}"
+unifi_traefik_middleware_custom: ""
 unifi_traefik_certresolver: "{{ traefik_default_certresolver }}"
 unifi_traefik_enabled: true
+unifi_traefik_api_enabled: false
+unifi_traefik_api_endpoint: ""
 
 ################################
 # Docker
@@ -108,7 +112,6 @@ unifi_docker_hosts: "{{ docker_hosts_common
 # Labels
 unifi_docker_labels_default: {}
 unifi_docker_labels_custom: {}
-
 unifi_docker_labels: "{{ docker_labels_common
                          | combine(unifi_docker_labels_default)
                          | combine(unifi_docker_labels_custom) }}"

@@ -45,20 +45,12 @@ wikijs_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 wikijs_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-wikijs_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', wikijs_name + '_traefik_sso_middleware', default=wikijs_traefik_sso_middleware)
-                                    if (lookup('vars', wikijs_name + '_traefik_sso_middleware', default=wikijs_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
+wikijs_traefik_middleware_default: "{{ traefik_default_middleware }}"
 wikijs_traefik_middleware_custom: ""
-wikijs_traefik_middleware: "{{ wikijs_traefik_middleware_default + ','
-                               + wikijs_traefik_middleware_custom
-                            if (not wikijs_traefik_middleware_custom.startswith(',') and wikijs_traefik_middleware_custom | length > 0)
-                            else wikijs_traefik_middleware_default
-                               + wikijs_traefik_middleware_custom }}"
 wikijs_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wikijs_traefik_enabled: true
 wikijs_traefik_api_enabled: true
-wikijs_traefik_api_endpoint: "`/graphql`"
+wikijs_traefik_api_endpoint: "PathPrefix(`/graphql`)"
 
 ################################
 # Docker
