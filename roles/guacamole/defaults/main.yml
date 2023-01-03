@@ -45,9 +45,13 @@ guacamole_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-guacamole_traefik_middleware: "{{ traefik_default_middleware }}"
+guacamole_traefik_sso_middleware: ""
+guacamole_traefik_middleware_default: "{{ traefik_default_middleware }}"
+guacamole_traefik_middleware_custom: ""
 guacamole_traefik_certresolver: "{{ traefik_default_certresolver }}"
 guacamole_traefik_enabled: true
+guacamole_traefik_api_enabled: false
+guacamole_traefik_api_endpoint: ""
 
 ################################
 # Docker
