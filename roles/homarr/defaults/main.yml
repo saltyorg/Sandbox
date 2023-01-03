@@ -45,18 +45,12 @@ homarr_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 homarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-homarr_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', homarr_name + '_traefik_sso_middleware', default=homarr_traefik_sso_middleware)
-                                    if (lookup('vars', homarr_name + '_traefik_sso_middleware', default=homarr_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
+homarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
 homarr_traefik_middleware_custom: ""
-homarr_traefik_middleware: "{{ homarr_traefik_middleware_default + ','
-                               + homarr_traefik_middleware_custom
-                            if (not homarr_traefik_middleware_custom.startswith(',') and homarr_traefik_middleware_custom | length > 0)
-                            else homarr_traefik_middleware_default
-                               + homarr_traefik_middleware_custom }}"
 homarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 homarr_traefik_enabled: true
+homarr_traefik_api_enabled: false
+homarr_traefik_api_endpoint: ""
 
 ################################
 # Docker

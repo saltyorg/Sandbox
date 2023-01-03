@@ -43,9 +43,13 @@ gotify_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-gotify_traefik_middleware: "{{ traefik_default_middleware }}"
+gotify_traefik_sso_middleware: ""
+gotify_traefik_middleware_default: "{{ traefik_default_middleware }}"
+gotify_traefik_middleware_custom: ""
 gotify_traefik_certresolver: "{{ traefik_default_certresolver }}"
 gotify_traefik_enabled: true
+gotify_traefik_api_enabled: false
+gotify_traefik_api_endpoint: ""
 
 ################################
 # Docker

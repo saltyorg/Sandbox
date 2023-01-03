@@ -45,9 +45,13 @@ invoiceninjav5_nginx_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-invoiceninjav5_nginx_traefik_middleware: "{{ traefik_default_middleware }}"
+invoiceninjav5_nginx_traefik_sso_middleware: ""
+invoiceninjav5_nginx_traefik_middleware_default: "{{ traefik_default_middleware }}"
+invoiceninjav5_nginx_traefik_middleware_custom: ""
 invoiceninjav5_nginx_traefik_certresolver: "{{ traefik_default_certresolver }}"
 invoiceninjav5_nginx_traefik_enabled: true
+invoiceninjav5_nginx_traefik_api_enabled: false
+invoiceninjav5_nginx_traefik_api_endpoint: ""
 
 ################################
 # Docker

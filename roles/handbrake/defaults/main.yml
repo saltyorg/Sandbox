@@ -45,9 +45,13 @@ handbrake_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-handbrake_traefik_middleware: "{{ traefik_default_middleware }}"
+handbrake_traefik_sso_middleware: ""
+handbrake_traefik_middleware_default: "{{ traefik_default_middleware }}"
+handbrake_traefik_middleware_custom: ""
 handbrake_traefik_certresolver: "{{ traefik_default_certresolver }}"
 handbrake_traefik_enabled: true
+handbrake_traefik_api_enabled: false
+handbrake_traefik_api_endpoint: ""
 
 ################################
 # Docker

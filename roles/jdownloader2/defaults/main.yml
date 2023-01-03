@@ -49,19 +49,12 @@ jdownloader2_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 jdownloader2_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-jdownloader2_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                             + lookup('vars', jdownloader2_name + '_traefik_sso_middleware', default=jdownloader2_traefik_sso_middleware)
-                                          if (lookup('vars', jdownloader2_name + '_traefik_sso_middleware', default=jdownloader2_traefik_sso_middleware) | length > 0)
-                                          else traefik_default_middleware }}"
+jdownloader2_traefik_middleware_default: "{{ traefik_default_middleware }}"
 jdownloader2_traefik_middleware_custom: ""
-jdownloader2_traefik_middleware: "{{ jdownloader2_traefik_middleware_default + ','
-                                     + jdownloader2_traefik_middleware_custom
-                                  if (not jdownloader2_traefik_middleware_custom.startswith(',') and jdownloader2_traefik_middleware_custom | length > 0)
-                                  else jdownloader2_traefik_middleware_default
-                                     + jdownloader2_traefik_middleware_custom }}"
 jdownloader2_traefik_certresolver: "{{ traefik_default_certresolver }}"
 jdownloader2_traefik_enabled: true
+jdownloader2_traefik_api_enabled: false
+jdownloader2_traefik_api_endpoint: ""
 
 ################################
 # Docker

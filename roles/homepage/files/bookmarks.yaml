@@ -11,7 +11,14 @@
         - abbr: GH
           # icon: github.png
           href: https://github.com/saltyorg/Sandbox
-
+    - Sandpit Repository:
+        - abbr: GH
+          # icon: github.png
+          href: https://github.com/saltyorg/Sandpit
+    - Saltbox Docs:
+        - abbr: DC
+          # icon: github.png
+          href: https://docs.saltbox.dev/
 - Misc:
     - /r/selfhosted:
         - abbr: RE

@@ -51,16 +51,13 @@ jellyseerr_emby: false
 # Traefik
 ################################
 
+jellyseerr_traefik_sso_middleware: ""
 jellyseerr_traefik_middleware_default: "{{ traefik_default_middleware }}"
 jellyseerr_traefik_middleware_custom: ""
-jellyseerr_traefik_middleware: "{{ jellyseerr_traefik_middleware_default + ','
-                                   + jellyseerr_traefik_middleware_custom
-                                if (not jellyseerr_traefik_middleware_custom.startswith(',') and jellyseerr_traefik_middleware_custom | length > 0)
-                                else jellyseerr_traefik_middleware_default
-                                   + jellyseerr_traefik_middleware_custom }}"
-
 jellyseerr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 jellyseerr_traefik_enabled: true
+jellyseerr_traefik_api_enabled: false
+jellyseerr_traefik_api_endpoint: ""
 
 ################################
 # Docker
