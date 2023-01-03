@@ -17,7 +17,7 @@
     name: "photoprisms"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    login_password: "{{ mariadb_docker_env_password }}"
     state: present
   ignore_errors: true
 

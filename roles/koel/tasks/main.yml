@@ -16,7 +16,6 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_name: "{{ koel_name }}_mariadb"  # Remove when instance support merged into Saltbox
     mariadb_instances: ["{{ koel_name }}_mariadb"]
     mariadb_paths_folder: "{{ koel_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
@@ -26,7 +25,7 @@
     name: "koel"
     login_host: "{{ koel_name }}_mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
 - name: Check if db folder exists
@@ -95,6 +94,6 @@
     login_db: "koel"
     login_host: "{{ koel_name }}_mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    login_password: "{{ mariadb_docker_env_password }}"
     query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `is_admin` = "1", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
   when: not stat_koel_db_folder.stat.exists

@@ -17,7 +17,6 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_name: "{{ docspell_name }}_mariadb"  # Remove when instance support merged into Saltbox
     mariadb_instances: ["{{ docspell_name }}_mariadb"]
     mariadb_paths_folder: "{{ docspell_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/mariadb"
@@ -27,7 +26,7 @@
     name: "{{ docspell_name }}"
     login_host: "{{ docspell_name }}_mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_envs_mysql_root_password }}"
+    login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
 - name: Solr Role
@@ -82,7 +81,7 @@
       DOCSPELL_JOEX_BIND_ADDRESS: "0.0.0.0"
       DOCSPELL_JOEX_FULL__TEXT__SEARCH_ENABLED: "true"
       DOCSPELL_JOEX_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}_solr:{{ solr_docker_env_port }}/solr/{{ docspell_name }}"
-      DOCSPELL_JOEX_JDBC_PASSWORD: "{{ mariadb_docker_envs_mysql_root_password }}"
+      DOCSPELL_JOEX_JDBC_PASSWORD: "{{ mariadb_docker_env_password }}"
       DOCSPELL_JOEX_JDBC_URL: "jdbc:mariadb://{{ docspell_name }}_mariadb:3306/{{ docspell_name }}"
       DOCSPELL_JOEX_JDBC_USER: "root"
       DOCSPELL_JOEX_ADDONS_EXECUTOR__CONFIG_RUNNER: "docker,trivial"
