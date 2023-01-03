@@ -52,7 +52,7 @@ olivetin_traefik_enabled: true
 olivetin_traefik_api_enabled: false
 olivetin_traefik_api_endpoint: ""
 
-# olivetin_traefik_middleware_api: "{{ traefik_global_middleware }}"
+olivetin_traefik_middleware_api: "{{ traefik_global_middleware }}"
 
 ################################
 # Docker
