@@ -44,9 +44,13 @@ resiliosync_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-resiliosync_traefik_middleware: "{{ traefik_default_middleware }}"
+resiliosync_traefik_sso_middleware: ""
+resiliosync_traefik_middleware_default: "{{ traefik_default_middleware }}"
+resiliosync_traefik_middleware_custom: ""
 resiliosync_traefik_certresolver: "{{ traefik_default_certresolver }}"
 resiliosync_traefik_enabled: true
+resiliosync_traefik_api_enabled: false
+resiliosync_traefik_api_endpoint: ""
 
 ################################
 # Docker

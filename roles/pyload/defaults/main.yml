@@ -44,11 +44,12 @@ pyload_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 pyload_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-pyload_traefik_middleware: "{{ traefik_default_middleware + ',' + pyload_traefik_sso_middleware
-                           if (pyload_traefik_sso_middleware | length > 0)
-                           else traefik_default_middleware }}"
+pyload_traefik_middleware_default: "{{ traefik_default_middleware }}"
+pyload_traefik_middleware_custom: ""
 pyload_traefik_certresolver: "{{ traefik_default_certresolver }}"
 pyload_traefik_enabled: true
+pyload_traefik_api_enabled: false
+pyload_traefik_api_endpoint: ""
 
 ################################
 # Docker

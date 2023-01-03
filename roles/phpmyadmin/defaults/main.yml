@@ -36,18 +36,12 @@ phpmyadmin_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 phpmyadmin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-phpmyadmin_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                           + lookup('vars', phpmyadmin_name + '_traefik_sso_middleware', default=phpmyadmin_traefik_sso_middleware)
-                                        if (lookup('vars', phpmyadmin_name + '_traefik_sso_middleware', default=phpmyadmin_traefik_sso_middleware) | length > 0)
-                                        else traefik_default_middleware }}"
+phpmyadmin_traefik_middleware_default: "{{ traefik_default_middleware }}"
 phpmyadmin_traefik_middleware_custom: ""
-phpmyadmin_traefik_middleware: "{{ phpmyadmin_traefik_middleware_default + ','
-                                   + phpmyadmin_traefik_middleware_custom
-                                if (not phpmyadmin_traefik_middleware_custom.startswith(',') and phpmyadmin_traefik_middleware_custom | length > 0)
-                                else phpmyadmin_traefik_middleware_default
-                                   + phpmyadmin_traefik_middleware_custom }}"
 phpmyadmin_traefik_certresolver: "{{ traefik_default_certresolver }}"
 phpmyadmin_traefik_enabled: true
+phpmyadmin_traefik_api_enabled: false
+phpmyadmin_traefik_api_endpoint: ""
 
 ################################
 # Docker

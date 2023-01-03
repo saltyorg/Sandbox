@@ -43,9 +43,13 @@ speedtest_dns_proxy: false # defeats the purpose if proxied
 # Traefik
 ################################
 
-speedtest_traefik_middleware: "{{ traefik_default_middleware }}"
+speedtest_traefik_sso_middleware: ""
+speedtest_traefik_middleware_default: "{{ traefik_default_middleware }}"
+speedtest_traefik_middleware_custom: ""
 speedtest_traefik_certresolver: "{{ traefik_default_certresolver }}"
 speedtest_traefik_enabled: true
+speedtest_traefik_api_enabled: false
+speedtest_traefik_api_endpoint: ""
 
 ################################
 # THEME

@@ -44,11 +44,12 @@ mkvtoolnix_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 mkvtoolnix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-mkvtoolnix_traefik_middleware: "{{ traefik_default_middleware + ',' + mkvtoolnix_traefik_sso_middleware
-                                if (mkvtoolnix_traefik_sso_middleware | length > 0)
-                                else traefik_default_middleware }}"
+mkvtoolnix_traefik_middleware_default: "{{ traefik_default_middleware }}"
+mkvtoolnix_traefik_middleware_custom: ""
 mkvtoolnix_traefik_certresolver: "{{ traefik_default_certresolver }}"
 mkvtoolnix_traefik_enabled: true
+mkvtoolnix_traefik_api_enabled: false
+mkvtoolnix_traefik_api_endpoint: ""
 
 ################################
 # Docker

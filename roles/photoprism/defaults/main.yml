@@ -47,14 +47,12 @@ photoprism_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 photoprism_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-photoprism_traefik_api_enabled: true
-photoprism_traefik_api_endpoint: "`/api`"
-
-photoprism_traefik_middleware: "{{ traefik_default_middleware + ',' + photoprism_traefik_sso_middleware
-                                if (photoprism_traefik_sso_middleware | length > 0)
-                                else traefik_default_middleware }}"
+photoprism_traefik_middleware_default: "{{ traefik_default_middleware }}"
+photoprism_traefik_middleware_custom: ""
 photoprism_traefik_certresolver: "{{ traefik_default_certresolver }}"
 photoprism_traefik_enabled: true
+photoprism_traefik_api_enabled: false
+photoprism_traefik_api_endpoint: ""
 
 ################################
 # Docker

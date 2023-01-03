@@ -45,18 +45,12 @@ makemkv_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 makemkv_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-makemkv_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                        + lookup('vars', makemkv_name + '_traefik_sso_middleware', default=makemkv_traefik_sso_middleware)
-                                    if (lookup('vars', makemkv_name + '_traefik_sso_middleware', default=makemkv_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
+makemkv_traefik_middleware_default: "{{ traefik_default_middleware }}"
 makemkv_traefik_middleware_custom: ""
-makemkv_traefik_middleware: "{{ makemkv_traefik_middleware_default + ','
-                                + makemkv_traefik_middleware_custom
-                            if (not makemkv_traefik_middleware_custom.startswith(',') and makemkv_traefik_middleware_custom | length > 0)
-                            else makemkv_traefik_middleware_default
-                                + makemkv_traefik_middleware_custom }}"
 makemkv_traefik_certresolver: "{{ traefik_default_certresolver }}"
 makemkv_traefik_enabled: true
+makemkv_traefik_api_enabled: false
+makemkv_traefik_api_endpoint: ""
 
 ################################
 # Docker

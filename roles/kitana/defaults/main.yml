@@ -44,9 +44,13 @@ kitana_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-kitana_traefik_middleware: "{{ traefik_default_middleware }}"
+kitana_traefik_sso_middleware: ""
+kitana_traefik_middleware_default: "{{ traefik_default_middleware }}"
+kitana_traefik_middleware_custom: ""
 kitana_traefik_certresolver: "{{ traefik_default_certresolver }}"
 kitana_traefik_enabled: true
+kitana_traefik_api_enabled: false
+kitana_traefik_api_endpoint: ""
 
 ################################
 # Docker

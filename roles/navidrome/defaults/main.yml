@@ -43,9 +43,13 @@ navidrome_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-navidrome_traefik_middleware: "{{ traefik_default_middleware }}"
+navidrome_traefik_sso_middleware: ""
+navidrome_traefik_middleware_default: "{{ traefik_default_middleware }}"
+navidrome_traefik_middleware_custom: ""
 navidrome_traefik_certresolver: "{{ traefik_default_certresolver }}"
 navidrome_traefik_enabled: true
+navidrome_traefik_api_enabled: false
+navidrome_traefik_api_endpoint: ""
 
 ################################
 # Docker

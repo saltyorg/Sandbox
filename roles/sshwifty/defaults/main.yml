@@ -45,9 +45,13 @@ sshwifty_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-sshwifty_traefik_middleware: "{{ traefik_default_middleware }}"
+sshwifty_traefik_sso_middleware: ""
+sshwifty_traefik_middleware_default: "{{ traefik_default_middleware }}"
+sshwifty_traefik_middleware_custom: ""
 sshwifty_traefik_certresolver: "{{ traefik_default_certresolver }}"
 sshwifty_traefik_enabled: true
+sshwifty_traefik_api_enabled: false
+sshwifty_traefik_api_endpoint: ""
 sshwifty_traefik_error_pages_enabled: false
 
 ################################

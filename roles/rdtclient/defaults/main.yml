@@ -49,9 +49,13 @@ rdtclient_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-rdtclient_traefik_middleware: "{{ traefik_default_middleware }}"
+rdtclient_traefik_sso_middleware: ""
+rdtclient_traefik_middleware_default: "{{ traefik_default_middleware }}"
+rdtclient_traefik_middleware_custom: ""
 rdtclient_traefik_certresolver: "{{ traefik_default_certresolver }}"
 rdtclient_traefik_enabled: true
+rdtclient_traefik_api_enabled: false
+rdtclient_traefik_api_endpoint: ""
 
 ################################
 # Docker
