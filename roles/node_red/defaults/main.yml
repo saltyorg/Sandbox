@@ -44,23 +44,13 @@ node_red_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-node_red_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-node_red_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', node_red_name + '_traefik_sso_middleware', default=node_red_traefik_sso_middleware)
-                                    if (lookup('vars', node_red_name + '_traefik_sso_middleware', default=node_red_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
-node_red_traefik_middleware_custom: ""
-node_red_traefik_middleware: "{{ node_red_traefik_middleware_default + ','
-                               + node_red_traefik_middleware_custom
-                            if (not node_red_traefik_middleware_custom.startswith(',') and node_red_traefik_middleware_custom | length > 0)
-                            else node_red_traefik_middleware_default
-                               + node_red_traefik_middleware_custom }}"
-
-node_red_traefik_certresolver: "{{ traefik_default_certresolver }}"
-node_red_traefik_enabled: true
-node_red_traefik_api_enabled: true
-node_red_traefik_api_endpoint: "`/auth`,`/settings`,`/flows`,`/flow`,`/nodes`"
+lidarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+lidarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
+lidarr_traefik_middleware_custom: ""
+lidarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+lidarr_traefik_enabled: true
+lidarr_traefik_api_enabled: true
+lidarr_traefik_api_endpoint: "PathPrefix(`/auth`) || PathPrefix(`/settings`) || PathPrefix(`/flows`) || PathPrefix(`/flow`) || PathPrefix(`/nodes`)"
 
 ################################
 # Docker

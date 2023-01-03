@@ -49,9 +49,13 @@ notifiarr_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-notifiarr_traefik_middleware: "{{ traefik_default_middleware }}"
+notifiarr_traefik_sso_middleware: ""
+notifiarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
+notifiarr_traefik_middleware_custom: ""
 notifiarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 notifiarr_traefik_enabled: true
+notifiarr_traefik_api_enabled: false
+notifiarr_traefik_api_endpoint: ""
 
 ################################
 # Docker

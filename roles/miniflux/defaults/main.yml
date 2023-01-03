@@ -56,18 +56,12 @@ miniflux_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 miniflux_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-miniflux_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                              + lookup('vars', miniflux_name + '_traefik_sso_middleware', default=miniflux_traefik_sso_middleware)
-                                           if (lookup('vars', miniflux_name + '_traefik_sso_middleware', default=miniflux_traefik_sso_middleware) | length > 0)
-                                           else traefik_default_middleware }}"
+miniflux_traefik_middleware_default: "{{ traefik_default_middleware }}"
 miniflux_traefik_middleware_custom: ""
-miniflux_traefik_middleware: "{{ miniflux_traefik_middleware_default + ','
-                                      + miniflux_traefik_middleware_custom
-                                   if (not miniflux_traefik_middleware_custom.startswith(',') and miniflux_traefik_middleware_custom | length > 0)
-                                   else miniflux_traefik_middleware_default
-                                      + miniflux_traefik_middleware_custom }}"
 miniflux_traefik_certresolver: "{{ traefik_default_certresolver }}"
 miniflux_traefik_enabled: true
+miniflux_traefik_api_enabled: false
+miniflux_traefik_api_endpoint: ""
 
 ################################
 # Docker
@@ -85,7 +79,7 @@ miniflux_docker_image: "miniflux/miniflux:{{ miniflux_docker_image_tag }}"
 miniflux_docker_ports_defaults: []
 miniflux_docker_ports_custom: []
 miniflux_docker_ports: "{{ miniflux_docker_ports_defaults
-                                + miniflux_docker_ports_custom }}"
+                           + miniflux_docker_ports_custom }}"
 
 # Envs
 miniflux_docker_envs_default:
@@ -96,40 +90,40 @@ miniflux_docker_envs_default:
   ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
 miniflux_docker_envs_custom: {}
 miniflux_docker_envs: "{{ miniflux_docker_envs_default
-                               | combine(miniflux_docker_envs_custom) }}"
+                          | combine(miniflux_docker_envs_custom) }}"
 
 # Commands
 miniflux_docker_commands_default: []
 miniflux_docker_commands_custom: []
 miniflux_docker_commands: "{{ miniflux_docker_commands_default
-                                   + miniflux_docker_commands_custom }}"
+                              + miniflux_docker_commands_custom }}"
 
 # Volumes
 miniflux_docker_volumes_default:
   - /etc/localtime:/etc/localtime:ro
 miniflux_docker_volumes_custom: []
 miniflux_docker_volumes: "{{ miniflux_docker_volumes_default
-                                  + miniflux_docker_volumes_custom }}"
+                             + miniflux_docker_volumes_custom }}"
 
 # Devices
 miniflux_docker_devices_default: []
 miniflux_docker_devices_custom: []
 miniflux_docker_devices: "{{ miniflux_docker_devices_default
-                                  + miniflux_docker_devices_custom }}"
+                             + miniflux_docker_devices_custom }}"
 
 # Hosts
 miniflux_docker_hosts_default: []
 miniflux_docker_hosts_custom: []
 miniflux_docker_hosts: "{{ docker_hosts_common
-                                | combine(miniflux_docker_hosts_default)
-                                | combine(miniflux_docker_hosts_custom) }}"
+                           | combine(miniflux_docker_hosts_default)
+                           | combine(miniflux_docker_hosts_custom) }}"
 
 # Labels
 miniflux_docker_labels_default: {}
 miniflux_docker_labels_custom: {}
 miniflux_docker_labels: "{{ docker_labels_common
-                                 | combine(miniflux_docker_labels_default)
-                                 | combine(miniflux_docker_labels_custom) }}"
+                            | combine(miniflux_docker_labels_default)
+                            | combine(miniflux_docker_labels_custom) }}"
 
 # Hostname
 miniflux_docker_hostname: "{{ miniflux_name }}"
@@ -139,20 +133,20 @@ miniflux_docker_networks_alias: "{{ miniflux_name }}"
 miniflux_docker_networks_default: []
 miniflux_docker_networks_custom: []
 miniflux_docker_networks: "{{ docker_networks_common
-                                   + miniflux_docker_networks_default
-                                   + miniflux_docker_networks_custom }}"
+                              + miniflux_docker_networks_default
+                              + miniflux_docker_networks_custom }}"
 
 # Capabilities
 miniflux_docker_capabilities_default: []
 miniflux_docker_capabilities_custom: []
 miniflux_docker_capabilities: "{{ miniflux_docker_capabilities_default
-                                       + miniflux_docker_capabilities_custom }}"
+                                  + miniflux_docker_capabilities_custom }}"
 
 # Security Opts
 miniflux_docker_security_opts_default: []
 miniflux_docker_security_opts_custom: []
 miniflux_docker_security_opts: "{{ miniflux_docker_security_opts_default
-                                        + miniflux_docker_security_opts_custom }}"
+                                   + miniflux_docker_security_opts_custom }}"
 
 # Restart Policy
 miniflux_docker_restart_policy: unless-stopped

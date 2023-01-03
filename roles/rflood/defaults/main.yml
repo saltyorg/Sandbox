@@ -52,21 +52,14 @@ rflood_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 rflood_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-rflood_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                       + lookup('vars', rflood_name + '_traefik_sso_middleware', default=rflood_traefik_sso_middleware)
-                                    if (lookup('vars', rflood_name + '_traefik_sso_middleware', default=rflood_traefik_sso_middleware) | length > 0)
-                                    else traefik_default_middleware }}"
+rflood_traefik_middleware_default: "{{ traefik_default_middleware }}"
 rflood_traefik_middleware_custom: ""
-rflood_traefik_middleware: "{{ rflood_traefik_middleware_default + ','
-                               + rflood_traefik_middleware_custom
-                            if (not rflood_traefik_middleware_custom.startswith(',') and rflood_traefik_middleware_custom | length > 0)
-                            else rflood_traefik_middleware_default
-                               + rflood_traefik_middleware_custom }}"
 rflood_traefik_certresolver: "{{ traefik_default_certresolver }}"
 rflood_traefik_enabled: true
+
 # Disabled for security reasons, no authentication on API /!\
 rflood_traefik_api_enabled: false
-rflood_traefik_api_endpoint: "`/api`"
+rflood_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Config

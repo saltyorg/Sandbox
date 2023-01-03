@@ -45,9 +45,13 @@ logarr_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-logarr_traefik_middleware: "{{ traefik_default_middleware }}"
+logarr_traefik_sso_middleware: ""
+logarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
+logarr_traefik_middleware_custom: ""
 logarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 logarr_traefik_enabled: true
+logarr_traefik_api_enabled: false
+logarr_traefik_api_endpoint: ""
 
 ################################
 # Docker

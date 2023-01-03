@@ -43,9 +43,13 @@ nextcloud_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-nextcloud_traefik_middleware: "{{ traefik_default_middleware }},nextcloud-caldav"
+nextcloud_traefik_sso_middleware: ""
+nextcloud_traefik_middleware_default: "{{ traefik_default_middleware }}"
+nextcloud_traefik_middleware_custom: ""
 nextcloud_traefik_certresolver: "{{ traefik_default_certresolver }}"
 nextcloud_traefik_enabled: true
+nextcloud_traefik_api_enabled: false
+nextcloud_traefik_api_endpoint: ""
 
 ################################
 # Settings

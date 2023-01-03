@@ -43,9 +43,13 @@ moviematch_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-moviematch_traefik_middleware: "{{ traefik_default_middleware }}"
+moviematch_traefik_sso_middleware: ""
+moviematch_traefik_middleware_default: "{{ traefik_default_middleware }}"
+moviematch_traefik_middleware_custom: ""
 moviematch_traefik_certresolver: "{{ traefik_default_certresolver }}"
 moviematch_traefik_enabled: true
+moviematch_traefik_api_enabled: false
+moviematch_traefik_api_endpoint: ""
 
 ################################
 # Docker

@@ -43,9 +43,13 @@ lazylibrarian_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-lazylibrarian_traefik_middleware: "{{ traefik_default_middleware }}"
+lazylibrarian_traefik_sso_middleware: ""
+lazylibrarian_traefik_middleware_default: "{{ traefik_default_middleware }}"
+lazylibrarian_traefik_middleware_custom: ""
 lazylibrarian_traefik_certresolver: "{{ traefik_default_certresolver }}"
 lazylibrarian_traefik_enabled: true
+lazylibrarian_traefik_api_enabled: false
+lazylibrarian_traefik_api_endpoint: ""
 
 ################################
 # Docker

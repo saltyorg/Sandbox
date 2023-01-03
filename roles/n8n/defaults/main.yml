@@ -44,20 +44,12 @@ n8n_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 n8n_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-n8n_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                    + lookup('vars', n8n_name + '_traefik_sso_middleware', default=n8n_traefik_sso_middleware)
-                                 if (lookup('vars', n8n_name + '_traefik_sso_middleware', default=n8n_traefik_sso_middleware) | length > 0)
-                                 else traefik_default_middleware }}"
+n8n_traefik_middleware_default: "{{ traefik_default_middleware }}"
 n8n_traefik_middleware_custom: ""
-n8n_traefik_middleware: "{{ n8n_traefik_middleware_default + ','
-                            + n8n_traefik_middleware_custom
-                         if (not n8n_traefik_middleware_custom.startswith(',') and n8n_traefik_middleware_custom | length > 0)
-                         else n8n_traefik_middleware_default
-                            + n8n_traefik_middleware_custom }}"
 n8n_traefik_certresolver: "{{ traefik_default_certresolver }}"
 n8n_traefik_enabled: true
 n8n_traefik_api_enabled: true
-n8n_traefik_api_endpoint: "`/api`"
+n8n_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
