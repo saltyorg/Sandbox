@@ -14,7 +14,7 @@
     - { role: settings, tags: ['settings'] }
     - { role: pre_tasks, tags: ['pre_tasks'] }
     - { role: sanity_check, tags: ['always', 'sanity_check'] }
-    # Apps
+    # Apps Start
     - { role: a_train, tags: ['a_train'] }
     - { role: adguardhome, tags: ['adguardhome'] }
     - { role: adminer, tags: ['adminer'] }
@@ -177,3 +177,4 @@
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
     - { role: znc, tags: ['znc'] }
+    # Apps End
