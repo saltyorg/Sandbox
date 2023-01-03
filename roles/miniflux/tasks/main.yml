@@ -11,7 +11,7 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_name: "{{ miniflux_name }}-postgres"
+    postgres_instances: ["{{ miniflux_name }}-postgres"]
     postgres_docker_env_db: "miniflux"
     postgres_docker_env_user: "{{ miniflux_postgres_username | default(omit) }}"
     postgres_docker_env_password: "{{ miniflux_postgres_password | default(omit) }}"

@@ -11,7 +11,7 @@
   ansible.builtin.include_role:
     name: mongodb
   vars:
-    mongodb_name: "rocketchat_db"
+    mongodb_instances: ["rocketchat_db"]
     mongodb_docker_commands: "mongod --oplogSize 128 --replSet rs0"
 
 - name: Add DNS record

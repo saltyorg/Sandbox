@@ -11,7 +11,7 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_name: "{{ wikijs_name }}_postgres"
+    postgres_instances: ["{{ wikijs_name }}_postgres"]
     postgres_docker_env_db: "{{ wikijs_name }}"
     postgres_docker_image_tag: "14-alpine"
     postgres_paths_folder: "{{ wikijs_name }}"
