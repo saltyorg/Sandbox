@@ -81,7 +81,7 @@ koel_docker_envs_default:
   DB_PORT: "3306"
   DB_DATABASE: "{{ koel_name }}"
   DB_USERNAME: "root"
-  DB_PASSWORD: "{{ mariadb_docker_envs_mysql_root_password }}"
+  DB_PASSWORD: "{{ mariadb_docker_env_password }}"
   APP_KEY: "base64:{{ koel_secret_key }}"
   APP_URL: "{{ koel_web_url }}"
   FORCE_HTTPS: "true"
