@@ -50,9 +50,13 @@ transmissionvpn_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-transmissionvpn_traefik_middleware: "{{ traefik_default_middleware }}"
+transmissionvpn_traefik_sso_middleware: ""
+transmissionvpn_traefik_middleware_default: "{{ traefik_default_middleware }}"
+transmissionvpn_traefik_middleware_custom: ""
 transmissionvpn_traefik_certresolver: "{{ traefik_default_certresolver }}"
 transmissionvpn_traefik_enabled: true
+transmissionvpn_traefik_api_enabled: false
+transmissionvpn_traefik_api_endpoint: ""
 
 ################################
 # Settings

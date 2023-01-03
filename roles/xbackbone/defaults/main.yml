@@ -44,9 +44,13 @@ xbackbone_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-xbackbone_traefik_middleware: "{{ traefik_default_middleware }}"
+xbackbone_traefik_sso_middleware: ""
+xbackbone_traefik_middleware_default: "{{ traefik_default_middleware }}"
+xbackbone_traefik_middleware_custom: ""
 xbackbone_traefik_certresolver: "{{ traefik_default_certresolver }}"
 xbackbone_traefik_enabled: true
+xbackbone_traefik_api_enabled: false
+xbackbone_traefik_api_endpoint: ""
 
 ################################
 # Docker

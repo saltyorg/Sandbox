@@ -48,20 +48,12 @@ tubearchivist_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 tubearchivist_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-tubearchivist_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                              + lookup('vars', tubearchivist_name + '_traefik_sso_middleware', default=tubearchivist_traefik_sso_middleware)
-                                           if (lookup('vars', tubearchivist_name + '_traefik_sso_middleware', default=tubearchivist_traefik_sso_middleware) | length > 0)
-                                           else traefik_default_middleware }}"
+tubearchivist_traefik_middleware_default: "{{ traefik_default_middleware }}"
 tubearchivist_traefik_middleware_custom: ""
-tubearchivist_traefik_middleware: "{{ tubearchivist_traefik_middleware_default + ','
-                                      + tubearchivist_traefik_middleware_custom
-                                   if (not tubearchivist_traefik_middleware_custom.startswith(',') and tubearchivist_traefik_middleware_custom | length > 0)
-                                   else tubearchivist_traefik_middleware_default
-                                      + tubearchivist_traefik_middleware_custom }}"
 tubearchivist_traefik_certresolver: "{{ traefik_default_certresolver }}"
 tubearchivist_traefik_enabled: true
 tubearchivist_traefik_api_enabled: true
-tubearchivist_traefik_api_endpoint: "`/api`"
+tubearchivist_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker

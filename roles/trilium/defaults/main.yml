@@ -44,19 +44,12 @@ trilium_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 trilium_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-
-trilium_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                        + lookup('vars', trilium_name + '_traefik_sso_middleware', default=trilium_traefik_sso_middleware)
-                                     if (lookup('vars', trilium_name + '_traefik_sso_middleware', default=trilium_traefik_sso_middleware) | length > 0)
-                                     else traefik_default_middleware }}"
+trilium_traefik_middleware_default: "{{ traefik_default_middleware }}"
 trilium_traefik_middleware_custom: ""
-trilium_traefik_middleware: "{{ trilium_traefik_middleware_default + ','
-                                + trilium_traefik_middleware_custom
-                             if (not trilium_traefik_middleware_custom.startswith(',') and trilium_traefik_middleware_custom | length > 0)
-                             else trilium_traefik_middleware_default
-                                + trilium_traefik_middleware_custom }}"
 trilium_traefik_certresolver: "{{ traefik_default_certresolver }}"
 trilium_traefik_enabled: true
+trilium_traefik_api_enabled: false
+trilium_traefik_api_endpoint: ""
 
 ################################
 # Docker

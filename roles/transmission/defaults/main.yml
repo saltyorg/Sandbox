@@ -51,13 +51,12 @@ transmission_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 transmission_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-transmission_traefik_middleware: "{{ traefik_default_middleware + ',' + transmission_traefik_sso_middleware
-                                  if (transmission_traefik_sso_middleware | length > 0)
-                                  else traefik_default_middleware }}"
+transmission_traefik_middleware_default: "{{ traefik_default_middleware }}"
+transmission_traefik_middleware_custom: ""
 transmission_traefik_certresolver: "{{ traefik_default_certresolver }}"
 transmission_traefik_enabled: true
 transmission_traefik_api_enabled: true
-transmission_traefik_api_endpoint: "`/rpc`"
+transmission_traefik_api_endpoint: "PathPrefix(`/rpc`)"
 
 ################################
 # Settings

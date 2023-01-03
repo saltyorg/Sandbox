@@ -47,18 +47,12 @@ tvheadend_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 tvheadend_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-tvheadend_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                          + lookup('vars', tvheadend_name + '_traefik_sso_middleware', default=tvheadend_traefik_sso_middleware)
-                                       if (lookup('vars', tvheadend_name + '_traefik_sso_middleware', default=tvheadend_traefik_sso_middleware) | length > 0)
-                                       else traefik_default_middleware }}"
+tvheadend_traefik_middleware_default: "{{ traefik_default_middleware }}"
 tvheadend_traefik_middleware_custom: ""
-tvheadend_traefik_middleware: "{{ tvheadend_traefik_middleware_default + ','
-                                  + tvheadend_traefik_middleware_custom
-                               if (not tvheadend_traefik_middleware_custom.startswith(',') and tvheadend_traefik_middleware_custom | length > 0)
-                               else tvheadend_traefik_middleware_default
-                                  + tvheadend_traefik_middleware_custom }}"
 tvheadend_traefik_certresolver: "{{ traefik_default_certresolver }}"
 tvheadend_traefik_enabled: true
+tvheadend_traefik_api_enabled: false
+tvheadend_traefik_api_endpoint: ""
 
 ################################
 # Docker
