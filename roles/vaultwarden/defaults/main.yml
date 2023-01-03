@@ -44,9 +44,13 @@ vaultwarden_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-vaultwarden_traefik_middleware: "{{ traefik_default_middleware }}"
+vaultwarden_traefik_sso_middleware: ""
+vaultwarden_traefik_middleware_default: "{{ traefik_default_middleware }}"
+vaultwarden_traefik_middleware_custom: ""
 vaultwarden_traefik_certresolver: "{{ traefik_default_certresolver }}"
 vaultwarden_traefik_enabled: true
+vaultwarden_traefik_api_enabled: false
+vaultwarden_traefik_api_endpoint: ""
 
 ################################
 # Docker
@@ -72,13 +76,13 @@ vaultwarden_docker_envs_default:
   ROCKET_PORT: "{{ vaultwarden_web_port }}"
 vaultwarden_docker_envs_custom: {}
 vaultwarden_docker_envs: "{{ vaultwarden_docker_envs_default
-                              | combine(vaultwarden_docker_envs_custom) }}"
+                             | combine(vaultwarden_docker_envs_custom) }}"
 
 # Commands
 vaultwarden_docker_commands_default: []
 vaultwarden_docker_commands_custom: []
 vaultwarden_docker_commands: "{{ vaultwarden_docker_commands_default
-                                  + vaultwarden_docker_commands_custom }}"
+                                 + vaultwarden_docker_commands_custom }}"
 
 # Volumes
 vaultwarden_docker_volumes_default:
@@ -105,8 +109,8 @@ vaultwarden_docker_hosts: "{{ docker_hosts_common
 vaultwarden_docker_labels_default: {}
 vaultwarden_docker_labels_custom: {}
 vaultwarden_docker_labels: "{{ docker_labels_common
-                                | combine(vaultwarden_docker_labels_default)
-                                | combine(vaultwarden_docker_labels_custom) }}"
+                               | combine(vaultwarden_docker_labels_default)
+                               | combine(vaultwarden_docker_labels_custom) }}"
 
 # Hostname
 vaultwarden_docker_hostname: "{{ vaultwarden_name }}"
@@ -116,14 +120,14 @@ vaultwarden_docker_networks_alias: "{{ vaultwarden_name }}"
 vaultwarden_docker_networks_default: []
 vaultwarden_docker_networks_custom: []
 vaultwarden_docker_networks: "{{ docker_networks_common
-                                  + vaultwarden_docker_networks_default
-                                  + vaultwarden_docker_networks_custom }}"
+                                 + vaultwarden_docker_networks_default
+                                 + vaultwarden_docker_networks_custom }}"
 
 # Capabilities
 vaultwarden_docker_capabilities_default: []
 vaultwarden_docker_capabilities_custom: []
 vaultwarden_docker_capabilities: "{{ vaultwarden_docker_capabilities_default
-                                      + vaultwarden_docker_capabilities_custom }}"
+                                     + vaultwarden_docker_capabilities_custom }}"
 
 # Security Opts
 vaultwarden_docker_security_opts_default: []

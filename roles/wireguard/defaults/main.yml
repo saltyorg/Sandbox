@@ -44,11 +44,12 @@ wireguard_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 wireguard_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-wireguard_traefik_middleware: "{{ traefik_default_middleware + ',' + wireguard_traefik_sso_middleware
-                               if (wireguard_traefik_sso_middleware | length > 0)
-                               else traefik_default_middleware }}"
+wireguard_traefik_middleware_default: "{{ traefik_default_middleware }}"
+wireguard_traefik_middleware_custom: ""
 wireguard_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wireguard_traefik_enabled: true
+wireguard_traefik_api_enabled: false
+wireguard_traefik_api_endpoint: ""
 
 ################################
 # Docker

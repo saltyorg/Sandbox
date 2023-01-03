@@ -41,7 +41,7 @@ tdarr_node_docker_ports_defaults:
   - "{{ tdarr_node_node_port }}:{{ tdarr_node_node_port }}"
 tdarr_node_docker_ports_custom: []
 tdarr_node_docker_ports: "{{ 'tdarr_node_docker_ports_defaults' if (tdarr_node_external) else []
-                      + tdarr_node_docker_ports_custom }}"
+                             + tdarr_node_docker_ports_custom }}"
 
 # Envs
 tdarr_node_docker_envs_default:

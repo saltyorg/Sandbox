@@ -46,11 +46,12 @@ unmanic_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 unmanic_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-unmanic_traefik_middleware: "{{ traefik_default_middleware + ',' + unmanic_traefik_sso_middleware
-                             if (unmanic_traefik_sso_middleware | length > 0)
-                             else traefik_default_middleware }}"
+unmanic_traefik_middleware_default: "{{ traefik_default_middleware }}"
+unmanic_traefik_middleware_custom: ""
 unmanic_traefik_certresolver: "{{ traefik_default_certresolver }}"
 unmanic_traefik_enabled: true
+unmanic_traefik_api_enabled: false
+unmanic_traefik_api_endpoint: ""
 
 ################################
 # Docker

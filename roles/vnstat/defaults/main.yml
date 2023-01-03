@@ -34,9 +34,13 @@ vnstat_dns_proxy: false
 # Traefik
 ################################
 
-vnstat_traefik_middleware: "{{ traefik_default_middleware }}"
+vnstat_traefik_sso_middleware: ""
+vnstat_traefik_middleware_default: "{{ traefik_default_middleware }}"
+vnstat_traefik_middleware_custom: ""
 vnstat_traefik_certresolver: "{{ traefik_default_certresolver }}"
 vnstat_traefik_enabled: true
+vnstat_traefik_api_enabled: false
+vnstat_traefik_api_endpoint: ""
 
 ################################
 # Settings
