@@ -42,18 +42,12 @@ lunasea_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 lunasea_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-lunasea_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                        + lookup('vars', lunasea_name + '_traefik_sso_middleware', default=lunasea_traefik_sso_middleware)
-                                     if (lookup('vars', lunasea_name + '_traefik_sso_middleware', default=lunasea_traefik_sso_middleware) | length > 0)
-                                     else traefik_default_middleware }}"
+lunasea_traefik_middleware_default: "{{ traefik_default_middleware }}"
 lunasea_traefik_middleware_custom: ""
-lunasea_traefik_middleware: "{{ lunasea_traefik_middleware_default + ','
-                                + lunasea_traefik_middleware_custom
-                             if (not lunasea_traefik_middleware_custom.startswith(',') and lunasea_traefik_middleware_custom | length > 0)
-                             else lunasea_traefik_middleware_default
-                                + lunasea_traefik_middleware_custom }}"
 lunasea_traefik_certresolver: "{{ traefik_default_certresolver }}"
 lunasea_traefik_enabled: true
+lunasea_traefik_api_enabled: false
+lunasea_traefik_api_endpoint: ""
 
 ################################
 # Docker

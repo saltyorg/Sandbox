@@ -44,13 +44,12 @@ linkding_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 linkding_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-linkding_traefik_middleware: "{{ traefik_default_middleware + ',' + linkding_traefik_sso_middleware
-                              if (linkding_traefik_sso_middleware | length > 0)
-                              else traefik_default_middleware }}"
+linkding_traefik_middleware_default: "{{ traefik_default_middleware }}"
+linkding_traefik_middleware_custom: ""
 linkding_traefik_certresolver: "{{ traefik_default_certresolver }}"
 linkding_traefik_enabled: true
 linkding_traefik_api_enabled: true
-linkding_traefik_api_endpoint: "`/api`"
+linkding_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker

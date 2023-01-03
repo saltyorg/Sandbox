@@ -44,9 +44,13 @@ mylar3_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-mylar3_traefik_middleware: "{{ traefik_default_middleware }}"
+mylar3_traefik_sso_middleware: ""
+mylar3_traefik_middleware_default: "{{ traefik_default_middleware }}"
+mylar3_traefik_middleware_custom: ""
 mylar3_traefik_certresolver: "{{ traefik_default_certresolver }}"
 mylar3_traefik_enabled: true
+mylar3_traefik_api_enabled: false
+mylar3_traefik_api_endpoint: ""
 
 ################################
 # Docker

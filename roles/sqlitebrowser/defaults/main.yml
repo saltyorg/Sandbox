@@ -44,18 +44,12 @@ sqlitebrowser_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 sqlitebrowser_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-sqlitebrowser_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                              + lookup('vars', sqlitebrowser_name + '_traefik_sso_middleware', default=sqlitebrowser_traefik_sso_middleware)
-                                           if (lookup('vars', sqlitebrowser_name + '_traefik_sso_middleware', default=sqlitebrowser_traefik_sso_middleware) | length > 0)
-                                           else traefik_default_middleware }}"
+sqlitebrowser_traefik_middleware_default: "{{ traefik_default_middleware }}"
 sqlitebrowser_traefik_middleware_custom: ""
-sqlitebrowser_traefik_middleware: "{{ sqlitebrowser_traefik_middleware_default + ','
-                                      + sqlitebrowser_traefik_middleware_custom
-                                   if (not sqlitebrowser_traefik_middleware_custom.startswith(',') and sqlitebrowser_traefik_middleware_custom | length > 0)
-                                   else sqlitebrowser_traefik_middleware_default
-                                      + sqlitebrowser_traefik_middleware_custom }}"
 sqlitebrowser_traefik_certresolver: "{{ traefik_default_certresolver }}"
 sqlitebrowser_traefik_enabled: true
+sqlitebrowser_traefik_api_enabled: false
+sqlitebrowser_traefik_api_endpoint: ""
 sqlitebrowser_traefik_error_pages_enabled: false
 
 ################################

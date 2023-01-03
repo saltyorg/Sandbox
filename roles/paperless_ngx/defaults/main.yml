@@ -49,20 +49,12 @@ paperless_ngx_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 paperless_ngx_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-paperless_ngx_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                              + lookup('vars', paperless_ngx_name + '_traefik_sso_middleware', default=paperless_ngx_traefik_sso_middleware)
-                                           if (lookup('vars', paperless_ngx_name + '_traefik_sso_middleware', default=paperless_ngx_traefik_sso_middleware) | length > 0)
-                                           else traefik_default_middleware }}"
+paperless_ngx_traefik_middleware_default: "{{ traefik_default_middleware }}"
 paperless_ngx_traefik_middleware_custom: ""
-paperless_ngx_traefik_middleware: "{{ paperless_ngx_traefik_middleware_default + ','
-                                      + paperless_ngx_traefik_middleware_custom
-                                   if (not paperless_ngx_traefik_middleware_custom.startswith(',') and paperless_ngx_traefik_middleware_custom | length > 0)
-                                   else paperless_ngx_traefik_middleware_default
-                                      + paperless_ngx_traefik_middleware_custom }}"
 paperless_ngx_traefik_certresolver: "{{ traefik_default_certresolver }}"
 paperless_ngx_traefik_enabled: true
 paperless_ngx_traefik_api_enabled: true
-paperless_ngx_traefik_api_endpoint: "`/api`"
+paperless_ngx_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
