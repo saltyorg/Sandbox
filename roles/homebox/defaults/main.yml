@@ -44,18 +44,12 @@ homebox_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 homebox_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-homebox_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                        + lookup('vars', homebox_name + '_traefik_sso_middleware', default=homebox_traefik_sso_middleware)
-                                     if (lookup('vars', homebox_name + '_traefik_sso_middleware', default=homebox_traefik_sso_middleware) | length > 0)
-                                     else traefik_default_middleware }}"
+homebox_traefik_middleware_default: "{{ traefik_default_middleware }}"
 homebox_traefik_middleware_custom: ""
-homebox_traefik_middleware: "{{ homebox_traefik_middleware_default + ','
-                                + homebox_traefik_middleware_custom
-                             if (not homebox_traefik_middleware_custom.startswith(',') and homebox_traefik_middleware_custom | length > 0)
-                             else homebox_traefik_middleware_default
-                                + homebox_traefik_middleware_custom }}"
 homebox_traefik_certresolver: "{{ traefik_default_certresolver }}"
 homebox_traefik_enabled: true
+homebox_traefik_api_enabled: false
+homebox_traefik_api_endpoint: ""
 
 ################################
 # Docker

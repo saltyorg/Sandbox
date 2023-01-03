@@ -44,18 +44,12 @@ heimdall_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 heimdall_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-heimdall_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                         + lookup('vars', heimdall_name + '_traefik_sso_middleware', default=heimdall_traefik_sso_middleware)
-                                      if (lookup('vars', heimdall_name + '_traefik_sso_middleware', default=heimdall_traefik_sso_middleware) | length > 0)
-                                      else traefik_default_middleware }}"
+heimdall_traefik_middleware_default: "{{ traefik_default_middleware }}"
 heimdall_traefik_middleware_custom: ""
-heimdall_traefik_middleware: "{{ heimdall_traefik_middleware_default + ','
-                                 + heimdall_traefik_middleware_custom
-                              if (not heimdall_traefik_middleware_custom.startswith(',') and heimdall_traefik_middleware_custom | length > 0)
-                              else heimdall_traefik_middleware_default
-                                 + heimdall_traefik_middleware_custom }}"
 heimdall_traefik_certresolver: "{{ traefik_default_certresolver }}"
 heimdall_traefik_enabled: true
+heimdall_traefik_api_enabled: false
+heimdall_traefik_api_endpoint: ""
 
 ################################
 # Docker

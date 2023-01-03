@@ -44,18 +44,12 @@ gaps_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 gaps_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-gaps_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                     + lookup('vars', gaps_name + '_traefik_sso_middleware', default=gaps_traefik_sso_middleware)
-                                  if (lookup('vars', gaps_name + '_traefik_sso_middleware', default=gaps_traefik_sso_middleware) | length > 0)
-                                  else traefik_default_middleware }}"
+gaps_traefik_middleware_default: "{{ traefik_default_middleware }}"
 gaps_traefik_middleware_custom: ""
-gaps_traefik_middleware: "{{ gaps_traefik_middleware_default + ','
-                             + gaps_traefik_middleware_custom
-                          if (not gaps_traefik_middleware_custom.startswith(',') and gaps_traefik_middleware_custom | length > 0)
-                          else gaps_traefik_middleware_default
-                             + gaps_traefik_middleware_custom }}"
 gaps_traefik_certresolver: "{{ traefik_default_certresolver }}"
 gaps_traefik_enabled: true
+gaps_traefik_api_enabled: false
+gaps_traefik_api_endpoint: ""
 
 ################################
 # Docker
@@ -103,7 +97,7 @@ gaps_docker_volumes: "{{ gaps_docker_volumes_default
 gaps_docker_devices_default: []
 gaps_docker_devices_custom: []
 gaps_docker_devices: "{{ gaps_docker_devices_default
-                        + gaps_docker_devices_custom }}"
+                         + gaps_docker_devices_custom }}"
 
 # Hosts
 gaps_docker_hosts_default: []

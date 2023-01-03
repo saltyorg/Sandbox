@@ -43,9 +43,14 @@ homeassistant_dns_proxy: "{{ dns.proxied }}"
 ################################
 # Traefik
 ################################
-homeassistant_traefik_middleware: "{{ traefik_default_middleware }}"
+
+homeassistant_traefik_sso_middleware: ""
+homeassistant_traefik_middleware_default: "{{ traefik_default_middleware }}"
+homeassistant_traefik_middleware_custom: ""
 homeassistant_traefik_certresolver: "{{ traefik_default_certresolver }}"
 homeassistant_traefik_enabled: true
+homeassistant_traefik_api_enabled: false
+homeassistant_traefik_api_endpoint: ""
 
 ################################
 # Docker

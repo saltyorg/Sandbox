@@ -44,11 +44,12 @@ goaccess_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 goaccess_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-goaccess_traefik_middleware: "{{ traefik_default_middleware + ',' + goaccess_traefik_sso_middleware
-                              if (goaccess_traefik_sso_middleware | length > 0)
-                              else traefik_default_middleware }}"
+goaccess_traefik_middleware_default: "{{ traefik_default_middleware }}"
+goaccess_traefik_middleware_custom: ""
 goaccess_traefik_certresolver: "{{ traefik_default_certresolver }}"
 goaccess_traefik_enabled: true
+goaccess_traefik_api_enabled: false
+goaccess_traefik_api_endpoint: ""
 
 ################################
 # Docker
