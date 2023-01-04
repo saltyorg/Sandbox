@@ -7,14 +7,17 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Remove existing legacy PostgreSQL container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    _var_prefix: "{{ miniflux_name }}-postgres"
+
 - name: PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ miniflux_name }}-postgres"]
+    postgres_instances: ["{{ miniflux_name }}_postgres"]
     postgres_docker_env_db: "miniflux"
-    postgres_docker_env_user: "{{ miniflux_postgres_username | default(omit) }}"
-    postgres_docker_env_password: "{{ miniflux_postgres_password | default(omit) }}"
     postgres_docker_image_tag: "{{ miniflux_postgres_image_tag }}"
     postgres_paths_folder: "{{ miniflux_name }}"
     postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
