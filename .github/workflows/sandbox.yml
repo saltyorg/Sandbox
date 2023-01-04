@@ -78,7 +78,7 @@ jobs:
         run: sudo mkdir /tmp/ansible && sudo chown -R runner:runner /tmp/ansible && chmod 0777 /tmp/ansible
 
       - name: Change to traefik3 branch
-        run: sb branch traefik3
+        run: cd /srv/git/saltbox && git checkout --quiet "traefik"
 
       - name: Syntax Check
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
