@@ -60,6 +60,11 @@
         force: yes
   when: not invoiceninjav5_config.stat.exists
 
+- name: Remove existing legacy PostgreSQL container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    _var_prefix: "invoiceninja-nginx"
+
 - name: "Execute nginx role"
   ansible.builtin.include_role:
     name: nginx
@@ -72,7 +77,7 @@
     nginx_dns_record: "{{ invoiceninjav5_nginx_dns_record }}"
     nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
     nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
-    nginx_instances: ["invoiceninja-nginx"]
+    nginx_instances: ["invoiceninja_nginx"]
     nginx_traefik_middleware: "{{ invoiceninjav5_nginx_traefik_middleware }}"
     nginx_traefik_certresolver: "{{ invoiceninjav5_nginx_traefik_certresolver }}"
     nginx_docker_volumes_default:
