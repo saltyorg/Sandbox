@@ -124,8 +124,7 @@ photoprism_docker_volumes: "{{ photoprism_docker_volumes_default
                                + photoprism_docker_volumes_custom }}"
 
 # Devices
-photoprism_docker_devices_default:
-  - "/dev/dri:/dev/dri"
+photoprism_docker_devices_default: []
 photoprism_docker_devices_custom: []
 photoprism_docker_devices: "{{ photoprism_docker_devices_default
                                + photoprism_docker_devices_custom }}"
