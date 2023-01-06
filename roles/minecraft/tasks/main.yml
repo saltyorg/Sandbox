@@ -10,7 +10,8 @@
 - name: "Execute minecraft roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    minecraft_name: "{{ role }}"
+    minecraft_original_name: "{{ role }}"
+    minecraft_name: "{{ role if not '-' in role else (role | replace('-', '_')) }}"
   with_items: "{{ minecraft_instances }}"
   loop_control:
     loop_var: role

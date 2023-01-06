@@ -17,7 +17,7 @@ node_red_instances: ["node-red"]
 # Paths
 ################################
 
-node_red_paths_folder: "{{ node_red_name }}"
+node_red_paths_folder: "{{ node_red_original_name }}"
 node_red_paths_location: "{{ server_appdata_path }}/{{ node_red_paths_folder }}"
 node_red_paths_folders_list:
   - "{{ node_red_paths_location }}"
@@ -26,7 +26,7 @@ node_red_paths_folders_list:
 # Web
 ################################
 
-node_red_web_subdomain: "{{ node_red_name }}"
+node_red_web_subdomain: "{{ node_red_original_name }}"
 node_red_web_domain: "{{ user.domain }}"
 node_red_web_port: "1880"
 node_red_web_url: "{{ 'https://' + lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain)
@@ -57,7 +57,7 @@ lidarr_traefik_api_endpoint: "PathPrefix(`/auth`) || PathPrefix(`/settings`) || 
 ################################
 
 # Container
-node_red_docker_container: "{{ node_red_name }}"
+node_red_docker_container: "{{ node_red_original_name }}"
 
 # Image
 node_red_docker_image_pull: true
@@ -113,10 +113,10 @@ node_red_docker_labels: "{{ docker_labels_common
                             | combine(lookup('vars', node_red_name + '_docker_labels_custom', default=node_red_docker_labels_custom)) }}"
 
 # Hostname
-node_red_docker_hostname: "{{ node_red_name }}"
+node_red_docker_hostname: "{{ node_red_original_name }}"
 
 # Networks
-node_red_docker_networks_alias: "{{ node_red_name }}"
+node_red_docker_networks_alias: "{{ node_red_original_name }}"
 node_red_docker_networks_default: []
 node_red_docker_networks_custom: []
 node_red_docker_networks: "{{ docker_networks_common

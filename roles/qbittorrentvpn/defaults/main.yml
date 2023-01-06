@@ -16,7 +16,7 @@ qbittorrentvpn_instances: ["qbittorrentvpn"]
 # Paths
 ################################
 
-qbittorrentvpn_paths_folder: "{{ qbittorrentvpn_name }}"
+qbittorrentvpn_paths_folder: "{{ qbittorrentvpn_original_name }}"
 qbittorrentvpn_paths_location: "{{ server_appdata_path }}/{{ qbittorrentvpn_paths_folder }}"
 qbittorrentvpn_paths_downloads_location: "{{ downloads_torrents_path }}/{{ qbittorrentvpn_paths_folder }}"
 qbittorrentvpn_paths_conf: "{{ qbittorrentvpn_paths_location }}/qBittorrent/config/qBittorrent.conf"
@@ -33,7 +33,7 @@ qbittorrentvpn_paths_folders_list:
 # Web
 ################################
 
-qbittorrentvpn_web_subdomain: "{{ qbittorrentvpn_name }}"
+qbittorrentvpn_web_subdomain: "{{ qbittorrentvpn_original_name }}"
 qbittorrentvpn_web_domain: "{{ user.domain }}"
 qbittorrentvpn_web_port: "8080"
 qbittorrentvpn_web_url: "{{ 'https://' + lookup('vars', qbittorrentvpn_name + '_web_subdomain', default=qbittorrentvpn_web_subdomain)
@@ -64,7 +64,7 @@ qbittorrentvpn_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/command
 ################################
 
 # Container
-qbittorrentvpn_docker_container: "{{ qbittorrentvpn_name }}"
+qbittorrentvpn_docker_container: "{{ qbittorrentvpn_original_name }}"
 
 # Image
 qbittorrentvpn_docker_image_pull: true
@@ -151,10 +151,10 @@ qbittorrentvpn_docker_labels: "{{ docker_labels_common
                                   | combine(lookup('vars', qbittorrentvpn_name + '_docker_labels_custom', default=qbittorrentvpn_docker_labels_custom)) }}"
 
 # Hostname
-qbittorrentvpn_docker_hostname: "{{ qbittorrentvpn_name }}"
+qbittorrentvpn_docker_hostname: "{{ qbittorrentvpn_original_name }}"
 
 # Networks
-qbittorrentvpn_docker_networks_alias: "{{ qbittorrentvpn_name }}"
+qbittorrentvpn_docker_networks_alias: "{{ qbittorrentvpn_original_name }}"
 qbittorrentvpn_docker_networks_default: []
 qbittorrentvpn_docker_networks_custom: []
 qbittorrentvpn_docker_networks: "{{ docker_networks_common
