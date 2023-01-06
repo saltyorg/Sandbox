@@ -9,7 +9,8 @@
 ---
 - name: Set Default Sonarr instance
   ansible.builtin.set_fact:
-    sonarr_name: "{{ sonarr_instances[0] }}"
+    sonarr_original_name: "{{ sonarr_instances[0] }}"
+    sonarr_name: "{{ sonarr_instances[0] if not '-' in sonarr_instances[0] else (sonarr_instances[0] | replace('-', '_')) }}"
   when: not sonarr_name is defined
 
 - name: Add DNS record
