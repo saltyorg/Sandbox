@@ -12,7 +12,7 @@
   ansible.builtin.include_role:
     name: redis
   vars:
-    redis_name: "{{ tubearchivist_name }}_redis"
+    redis_instances: ["{{ tubearchivist_name }}_redis"]
     redis_docker_image_tag: "latest"
     redis_docker_image: "redislabs/rejson"
     redis_paths_folder: "{{ tubearchivist_name }}"
