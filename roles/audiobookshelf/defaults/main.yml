@@ -23,8 +23,8 @@ audiobookshelf_paths_folders_list:
   - "{{ audiobookshelf_paths_location }}"
   - "{{ audiobookshelf_paths_location }}/config"
   - "{{ audiobookshelf_paths_location }}/metadata"
-  - "/mnt/unionfs/Media/audiobooks"
-  - "/mnt/unionfs/Media/podcasts"
+  - "/mnt/unionfs/Media/Audiobooks"
+  - "/mnt/unionfs/Media/Podcasts"
 
 ################################
 # Web
@@ -48,7 +48,7 @@ audiobookshelf_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-audiobookshelf_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+audiobookshelf_traefik_sso_middleware: ""
 audiobookshelf_traefik_middleware_default: "{{ traefik_default_middleware }}"
 audiobookshelf_traefik_middleware_custom: ""
 audiobookshelf_traefik_certresolver: "{{ traefik_default_certresolver }}"
@@ -92,8 +92,8 @@ audiobookshelf_docker_commands: "{{ lookup('vars', audiobookshelf_name + '_docke
 audiobookshelf_docker_volumes_default:
   - "{{ audiobookshelf_paths_location }}/config:/config"
   - "{{ audiobookshelf_paths_location }}/metadata:/metadata"
-  - "/mnt/unionfs/Media/audiobooks:/audiobooks"
-  - "/mnt/unionfs/Media/podcasts:/podcasts"
+  - "/mnt/unionfs/Media/Audiobooks:/audiobooks"
+  - "/mnt/unionfs/Media/Podcasts:/podcasts"
 audiobookshelf_docker_volumes_custom: []
 audiobookshelf_docker_volumes: "{{ lookup('vars', audiobookshelf_name + '_docker_volumes_default', default=audiobookshelf_docker_volumes_default)
                                    + lookup('vars', audiobookshelf_name + '_docker_volumes_custom', default=audiobookshelf_docker_volumes_custom) }}"
