@@ -18,8 +18,8 @@
     plex_name: "{{ (plex_name | default(plex_instances[0])) if not '-' in (plex_name | default(plex_instances[0])) else ((plex_name | default(plex_instances[0])) | replace('-', '_')) }}"
 
 - name: Run Role
+  when: plex_account_is_enabled
   block:
-
     - name: Add DNS record
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
       vars:
@@ -45,5 +45,3 @@
 
     - name: Create Docker container
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
-  when: plex_account_is_enabled

@@ -13,8 +13,8 @@
   register: trackarr_paths_config_location_stat
 
 - name: Pre-Install | New Trackarr config tasks
+  when: not trackarr_paths_config_location_stat.stat.exists
   block:
-
     - name: Pre-Install | Get Instance Info
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
       vars:
@@ -38,5 +38,3 @@
     - name: Pre-Install | Set 'trackarr_docker_state' variable
       ansible.builtin.set_fact:
         trackarr_docker_state: "stopped"
-
-  when: not trackarr_paths_config_location_stat.stat.exists

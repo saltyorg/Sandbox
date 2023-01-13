@@ -19,7 +19,6 @@
 
 - name: unzippers | Import tools "{{ jdownloader2_paths_tools_location | basename }}" tasks
   block:
-
     - name: unzippers | Import 7zip 1509
       ansible.builtin.copy:
         src: "sevenzipjbinding1509.jar"

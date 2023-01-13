@@ -13,8 +13,8 @@
   register: opt_myjdownloader
 
 - name: Legacy | Migration Block
+  when: (opt_myjdownloader.stat.exists)
   block:
-
     - name: Legacy | Stop and remove myjdownloader container
       community.docker.docker_container:
         name: myjdownloader
@@ -31,5 +31,3 @@
         recurse: yes
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-
-  when: (opt_myjdownloader.stat.exists)

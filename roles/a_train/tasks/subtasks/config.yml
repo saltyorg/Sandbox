@@ -23,8 +23,8 @@
   when: remote_type_var is search("crypt")
 
 - name: Get the ID of teamdrives if remote type is drive
+  when: remote_type_var is search("drive")
   block:
-
     - name: Set variable for remote names
       ansible.builtin.set_fact:
         drive_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'drive') | map(attribute='item') }}"
@@ -38,11 +38,9 @@
       ansible.builtin.set_fact:
         drive_id: "{{ drive_id_var.results | map(attribute='stdout') }}"
 
-  when: remote_type_var is search("drive")
-
 - name: Get the ID of teamdrives if remote type is union
+  when: remote_type_var is search("union")
   block:
-
     - name: Set variable for remote names
       ansible.builtin.set_fact:
         union_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'union') | map(attribute='item') }}"
@@ -75,8 +73,6 @@
     - name: Set variable for ID of teamdrives
       ansible.builtin.set_fact:
         union_id: "{{ union_id_var.results | map(attribute='stdout') }}"
-
-  when: remote_type_var is search("union")
 
 - name: Merge teamdrive ID of both union and drive remotes
   ansible.builtin.set_fact:

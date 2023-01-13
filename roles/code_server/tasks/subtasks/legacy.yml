@@ -27,27 +27,25 @@
     msg: "A migration has been attempted, but the {{ code_server_paths_location }} folder already exists. If you have already run the migration once, you don't need to pass the -e 'code_server_migrate_coder=true' argument anymore. If this is your first time running the migration, then you have created a folder manually or have already a container using the {{ code_server_paths_location }} folder. In order for the migration to actually run, an '/opt/coder' folder must exists, while {{ code_server_paths_location }} must not."
   when: (code_server_newfolder.stat.exists)
 
-- name: Legacy | Migration Block
-  block:
-    - name: Legacy | Delete old DNS record
-      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
-      vars:
-        dns_record: "coder"
-        dns_action: "remove"
+- name: Legacy | Delete old DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "coder"
+    dns_action: "remove"
 
-    - name: Legacy | Stop and remove coder container
-      community.docker.docker_container:
-        name: coder
-        state: absent
+- name: Legacy | Stop and remove coder container
+  community.docker.docker_container:
+    name: coder
+    state: absent
 
-    - name: Legacy | Move opt folder 'coder' to 'code-server'
-      ansible.builtin.shell: |
-        mv /opt/coder "{{ code_server_paths_location }}"
+- name: Legacy | Move opt folder 'coder' to 'code-server'
+  ansible.builtin.shell: |
+    mv /opt/coder "{{ code_server_paths_location }}"
 
-    - name: Legacy | Set permissions on 'code_server'
-      ansible.builtin.file:
-        path: "{{ code_server_paths_location }}"
-        state: directory
-        recurse: yes
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
+- name: Legacy | Set permissions on 'code_server'
+  ansible.builtin.file:
+    path: "{{ code_server_paths_location }}"
+    state: directory
+    recurse: yes
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"

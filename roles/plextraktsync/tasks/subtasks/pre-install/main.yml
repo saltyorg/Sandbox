@@ -18,6 +18,8 @@
   register: preferences_xml
 
 - name: Get default Plex username
+  ignore_errors: true
+  when: preferences_xml.stat.exists
   block:
     - name: Get {{ plex_paths_config_location | basename }} XML data
       community.general.xml:
@@ -29,9 +31,6 @@
     - name: Set plex_owner_username variable
       ansible.builtin.set_fact:
         plex_owner_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
-
-  ignore_errors: true
-  when: preferences_xml.stat.exists
 
 - name: Plex Auth Token tasks
   ansible.builtin.include_role:

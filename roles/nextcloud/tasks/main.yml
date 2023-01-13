@@ -28,6 +28,7 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: Add check_data_directory_permissions flag to nextcloud config/config.php
+  when: (not continuous_integration) and (nextcloud_skip_data_directory_permissions_check is defined) and nextcloud_skip_data_directory_permissions_check
   block:
     - name: Set '_nextcloud_config_path' variable
       ansible.builtin.set_fact:
@@ -48,5 +49,3 @@
 
     - name: Restart Docker container
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/restart_docker_container.yml"
-
-  when: (not continuous_integration) and (nextcloud_skip_data_directory_permissions_check is defined) and nextcloud_skip_data_directory_permissions_check

@@ -29,8 +29,8 @@
   when: ("" in a_train.remotes) and (not a_train_config.stat.exists) and (not continuous_integration)
 
 - name: Settings | New `{{ a_train_paths_config_location | basename }}` tasks
+  when: (not a_train_config.stat.exists) and (not continuous_integration)
   block:
-
     - name: Import Settings task
       ansible.builtin.import_tasks: "config.yml"
 
@@ -41,5 +41,3 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-  when: (not a_train_config.stat.exists) and (not continuous_integration)

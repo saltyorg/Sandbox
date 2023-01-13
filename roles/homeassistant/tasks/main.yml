@@ -26,8 +26,8 @@
   register: homeassistant_config
 
 - name: Settings | New `{{ homeassistant_paths_conf | basename }}` tasks
+  when: not homeassistant_config.stat.exists
   block:
-
     - name: "Create '{{ homeassistant_paths_conf | basename }}' if it doesnt exist"
       ansible.builtin.template:
         src: configuration.yaml.j2
@@ -35,7 +35,6 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-  when: not homeassistant_config.stat.exists
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

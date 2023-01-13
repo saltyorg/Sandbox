@@ -26,8 +26,8 @@
   register: adguardhome_config
 
 - name: "Settings | New AdGuardHome.yaml tasks"
+  when: not adguardhome_config.stat.exists
   block:
-
     - name: "Settings | Import AdGuardHome.yaml.js2"
       ansible.builtin.template:
         src: AdGuardHome.yaml.js2
@@ -36,8 +36,6 @@
         group: "{{ user.name }}"
         mode: 0775
         force: true
-
-  when: not adguardhome_config.stat.exists
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

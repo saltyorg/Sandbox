@@ -18,8 +18,8 @@
     plex_name: "{{ (plex_name | default(plex_instances[0])) if not '-' in (plex_name | default(plex_instances[0])) else ((plex_name | default(plex_instances[0])) | replace('-', '_')) }}"
 
 - name: Pre-Install | New config tasks
+  when: not sabthrottle_paths_config_location_stat.stat.exists
   block:
-
     - name: Pre-Install | Import Plex Auth Token role
       ansible.builtin.include_role:
         name: plex_auth_token
@@ -33,5 +33,3 @@
         group: "{{ user.name }}"
         mode: "0775"
         force: true
-
-  when: not sabthrottle_paths_config_location_stat.stat.exists

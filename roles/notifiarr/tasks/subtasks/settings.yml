@@ -33,8 +33,8 @@
   register: preferences_xml
 
 - name: Settings | {{ plex_name }} auth token tasks
+  when: preferences_xml.stat.exists
   block:
-
     - name: Settings | Fetch {{ plex_name }} auth token
       community.general.xml:
         path: "{{ plex_paths_config_location }}"
@@ -47,16 +47,14 @@
       ansible.builtin.set_fact:
         plex_auth_token: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineToken }}"
 
-  when: preferences_xml.stat.exists
-
 - name: Settings | Check if `{{ notifiarr_paths_config_location | basename }}` exists
   ansible.builtin.stat:
     path: "{{ notifiarr_paths_config_location }}"
   register: notifiarr_config
 
 - name: Settings | New `{{ notifiarr_paths_config_location | basename }}` tasks
+  when: not notifiarr_config.stat.exists-
   block:
-
     - name: Get Instance Info
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
       vars:
@@ -73,5 +71,3 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-  when: not notifiarr_config.stat.exists
