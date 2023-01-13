@@ -25,8 +25,8 @@
   register: plex_autoscan_config
 
 - name: Settings | New 'config.json' tasks
+  when: not plex_autoscan_config.stat.exists
   block:
-
     - name: Settings | Generate 32 character 'SERVER_PASS'
       ansible.builtin.set_fact:
         plex_autoscan_server_pass: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=32') }}"
@@ -40,11 +40,9 @@
         mode: "0775"
         force: true
 
-  when: not plex_autoscan_config.stat.exists
-
 - name: Settings | Existing 'config.json' tasks
+  when: plex_autoscan_config.stat.exists
   block:
-
     - name: Settings | Update 'PLEX_LD_LIBRARY_PATH' in 'config.json'
       ansible.builtin.shell: |
         CONFIG_PATH="/opt/plex_autoscan/config/config.json"
@@ -65,8 +63,6 @@
         jq '.PLEX_TOKEN = "{{ plex_auth_token | default('') }}"' ${CONFIG_PATH} | sponge ${CONFIG_PATH}
       become: true
       become_user: "{{ user.name }}"
-
-  when: plex_autoscan_config.stat.exists
 
 # Update 'config.json' for new and existing setups
 

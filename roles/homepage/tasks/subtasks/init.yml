@@ -9,8 +9,8 @@
 #########################################################################
 ---
 - name: Settings | New `{{ homepage_paths_location | basename }}` tasks
+  when: not homepage_web_config.stat.exists
   block:
-
     - name: Settings | Import bookmarks.yaml`
       ansible.builtin.copy:
         src: bookmarks.yaml
@@ -50,6 +50,3 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-
-  when: not homepage_web_config.stat.exists

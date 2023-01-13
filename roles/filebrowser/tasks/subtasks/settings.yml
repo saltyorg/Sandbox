@@ -13,8 +13,8 @@
   register: filebrowser_env
 
 - name: Settings | New `{{ filebrowser_paths_config_location | basename }}` tasks
+  when: not filebrowser_env.stat.exists
   block:
-
     - name: Settings | Import default `{{ filebrowser_paths_config_location | basename }}`
       ansible.builtin.template:
         src: filebrowser.json.j2
@@ -23,16 +23,14 @@
         group: "{{ user.name }}"
         mode: 0775
 
-  when: not filebrowser_env.stat.exists
-
 - name: "Settings | Check if '{{ filebrowser_paths_db_location | basename }}' exists"
   ansible.builtin.stat:
     path: "{{ filebrowser_paths_db_location }}"
   register: filebrowser_db
 
 - name: Settings | New `{{ filebrowser_paths_db_location | basename }}` tasks
+  when: not filebrowser_db.stat.exists
   block:
-
     - name: Settings | Import default `{{ filebrowser_paths_db_location | basename }}`
       ansible.builtin.template:
         src: filebrowser.db
@@ -40,5 +38,3 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-  when: not filebrowser_db.stat.exists

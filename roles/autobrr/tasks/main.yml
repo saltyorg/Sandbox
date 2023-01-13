@@ -31,8 +31,8 @@
   register: autobrr_config
 
 - name: New `{{ autobrr_paths_config_location | basename }}` tasks
+  when: not autobrr_config.stat.exists
   block:
-
     - name: Generate sessionSecret
       ansible.builtin.shell: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c16"
       register: autobrr_secret
@@ -44,8 +44,6 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-  when: not autobrr_config.stat.exists
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

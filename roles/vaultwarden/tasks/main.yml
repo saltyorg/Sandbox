@@ -26,8 +26,8 @@
   register: vaultwarden_env
 
 - name: Settings | New `{{ vaultwarden_paths_config_location | basename }}` tasks
+  when: not vaultwarden_env.stat.exists
   block:
-
     - name: "Generate Admin token"
       ansible.builtin.shell: /usr/bin/openssl rand -base64 48
       register: admin_token
@@ -39,8 +39,6 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-  when: not vaultwarden_env.stat.exists
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

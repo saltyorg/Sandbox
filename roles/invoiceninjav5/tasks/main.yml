@@ -48,16 +48,14 @@
     path: "{{ invoiceninjav5_conf_path }}"
   register: invoiceninjav5_config
 
-- name: "Settings | in-vhost.conf tasks"
-  block:
-    - name: "Settings | Import in-vhost.conf"
-      ansible.builtin.template:
-        src: in-vhost.conf.j2
-        dest: '{{ invoiceninjav5_conf_path }}'
-        owner: "{{ user.name }}"
-        group: "invoiceninja"
-        mode: 0775
-        force: yes
+- name: "Settings | Import in-vhost.conf"
+  ansible.builtin.template:
+    src: in-vhost.conf.j2
+    dest: '{{ invoiceninjav5_conf_path }}'
+    owner: "{{ user.name }}"
+    group: "invoiceninja"
+    mode: 0775
+    force: yes
   when: not invoiceninjav5_config.stat.exists
 
 - name: Remove existing legacy PostgreSQL container

@@ -22,8 +22,8 @@
   when: remote_type_var is search("drive")
 
 - name: Get union remote names
+  when: remote_type_var is search("union")
   block:
-
     - name: Set variable for union remote names
       ansible.builtin.set_fact:
         union_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'union') | map(attribute='item') }}"
@@ -36,8 +36,6 @@
     - name: Set variable for upstreams of union remotes
       ansible.builtin.set_fact:
         union_upstreams: "{{ union_upstreams_var.results | map(attribute='stdout') | map('split', ' ') | flatten }}"
-
-  when: remote_type_var is search("union")
 
 - name: Merge remote names and upstreams of both drive and union remotes
   ansible.builtin.set_fact:
