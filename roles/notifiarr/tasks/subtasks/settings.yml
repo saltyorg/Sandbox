@@ -53,7 +53,7 @@
   register: notifiarr_config
 
 - name: Settings | New `{{ notifiarr_paths_config_location | basename }}` tasks
-  when: not notifiarr_config.stat.exists-
+  when: not notifiarr_config.stat.exists
   block:
     - name: Get Instance Info
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
