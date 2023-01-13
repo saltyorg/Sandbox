@@ -9,9 +9,8 @@
 ---
 - name: Set Default Plex instance
   ansible.builtin.set_fact:
-    plex_original_name: "{{ plex_instances[0] }}"
-    plex_name: "{{ plex_instances[0] if not '-' in plex_instances[0] else (plex_instances[0] | replace('-', '_')) }}"
-  when: not plex_name is defined
+    plex_original_name: "{{ plex_name | default(plex_instances[0]) }}"
+    plex_name: "{{ (plex_name | default(plex_instances[0])) if not '-' in (plex_name | default(plex_instances[0])) else ((plex_name | default(plex_instances[0])) | replace('-', '_')) }}"
 
 - name: Create plex_dupefinder directories
   ansible.builtin.file:

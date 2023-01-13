@@ -64,8 +64,7 @@ gaps_docker_image_tag: "latest"
 gaps_docker_image: "housewrecker/gaps:{{ gaps_docker_image_tag }}"
 
 # Ports
-gaps_docker_ports_defaults:
-  - "{{ gaps_web_port }}"
+gaps_docker_ports_defaults: []
 gaps_docker_ports_custom: []
 gaps_docker_ports: "{{ gaps_docker_ports_defaults
                        + gaps_docker_ports_custom }}"
