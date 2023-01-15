@@ -40,7 +40,7 @@
 
 - name: Clone plex_autoscan repo 'master'
   ansible.builtin.git:
-    repo: https://github.com/saltyorg/l3uddz/plex_autoscan.git
+    repo: https://github.com/l3uddz/plex_autoscan.git
     dest: /opt/plex_autoscan
     clone: true
     version: master
