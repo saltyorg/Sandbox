@@ -14,7 +14,6 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_name: "{{ teamspeak_name }}_mariadb"  # Remove when instance support merged into Saltbox
     mariadb_instances: ["{{ teamspeak_name }}_mariadb"]
     mariadb_docker_env_db: "{{ teamspeak_name }}"
     mariadb_paths_folder: "{{ teamspeak_name }}"

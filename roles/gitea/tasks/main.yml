@@ -18,7 +18,6 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_name: "{{ gitea_name }}_mariadb"  # Remove when instance support merged into Saltbox
     mariadb_instances: ["{{ gitea_name }}_mariadb"]
     mariadb_docker_env_db: "{{ gitea_name }}"
     mariadb_paths_folder: "{{ gitea_name }}"

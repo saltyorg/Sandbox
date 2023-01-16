@@ -11,7 +11,6 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_name: "{{ wordpress_name }}_mariadb"  # Remove when instance support merged into Saltbox
     mariadb_instances: ["{{ wordpress_name }}_mariadb"]
     mariadb_docker_env_db: "{{ wordpress_name }}"
     mariadb_paths_folder: "{{ wordpress_name }}"
