@@ -36,5 +36,12 @@
   become: true
   become_user: "{{ user.name }}"
 
+- name: Remove tripwire
+  ansible.builtin.shell: |
+    yyq e -i '.del(.security_tripwire_accessed_from_public_internet)' {{ stash_paths_location }}/config/config.yml
+  become: true
+  become_user: "{{ user.name }}"
+  ignore_errors: yes
+
 - name: Restart Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/restart_docker_container.yml"
