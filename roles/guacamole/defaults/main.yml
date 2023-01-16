@@ -73,6 +73,8 @@ guacamole_docker_ports: "{{ guacamole_docker_ports_defaults
 
 # Envs
 guacamole_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
   OPT_MYSQL: "Y"
 guacamole_docker_envs_custom: {}
 guacamole_docker_envs: "{{ guacamole_docker_envs_default
