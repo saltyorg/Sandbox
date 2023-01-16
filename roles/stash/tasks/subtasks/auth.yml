@@ -11,6 +11,7 @@
   ansible.builtin.wait_for:
     path: "{{ stash_paths_location }}/config/config.yml"
     state: present
+  ignore_errors: yes
 
 - name: Allow public access without auth
   ansible.builtin.shell: |
