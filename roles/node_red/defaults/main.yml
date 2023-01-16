@@ -44,13 +44,13 @@ node_red_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-lidarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-lidarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-lidarr_traefik_middleware_custom: ""
-lidarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-lidarr_traefik_enabled: true
-lidarr_traefik_api_enabled: true
-lidarr_traefik_api_endpoint: "PathPrefix(`/auth`) || PathPrefix(`/settings`) || PathPrefix(`/flows`) || PathPrefix(`/flow`) || PathPrefix(`/nodes`)"
+node_red_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+node_red_traefik_middleware_default: "{{ traefik_default_middleware }}"
+node_red_traefik_middleware_custom: ""
+node_red_traefik_certresolver: "{{ traefik_default_certresolver }}"
+node_red_traefik_enabled: true
+node_red_traefik_api_enabled: true
+node_red_traefik_api_endpoint: "PathPrefix(`/auth`) || PathPrefix(`/settings`) || PathPrefix(`/flows`) || PathPrefix(`/flow`) || PathPrefix(`/nodes`)"
 
 ################################
 # Docker
