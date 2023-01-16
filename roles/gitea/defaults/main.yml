@@ -79,7 +79,7 @@ gitea_docker_envs_default:
   DB_HOST: "{{ gitea_name }}_mariadb:3306"
   DB_USER: "{{ mariadb_docker_env_user }}"
   DB_PASS: "{{ mariadb_docker_env_pass }}"
-  DB_DATABASE: "{{ mariadb_docker_env_db }}"
+  DB_DATABASE: "{{ gitea_name }}"
   DISABLE_SSH: "true"
   RUN_MODE: "prod"
   ROOT_URL: "{{ gitea_web_url }}/"
