@@ -77,6 +77,12 @@ xbackbone_docker_envs_default:
   URL: "{{ xbackbone_web_url }}"
   PHP_UPLOAD_MAX_FILESIZE: "1G"
   PHP_MEMORY_LIMIT: "2048M"
+  DB_TYPE: "mysql"
+  MYSQL_HOST: "{{ xbackbone_name }}_mariadb"
+  MYSQL_DATABASE: "{{ xbackbone_name }}"
+  MYSQL_USER: "{{ mariadb_docker_env_user }}"
+  MYSQL_PASSWORD: "{{ mariadb_docker_env_password }}"
+  MYSQL_ROOT_PASSWORD: "{{ mariadb_docker_env_password }}"
 xbackbone_docker_envs_custom: {}
 xbackbone_docker_envs: "{{ xbackbone_docker_envs_default
                            | combine(xbackbone_docker_envs_custom) }}"
