@@ -12,7 +12,7 @@
   roles:
     # Reqs
     - { role: settings, tags: ['settings'] }
-    - { role: pre_tasks, tags: ['pre_tasks'] }
+    - { role: pre_tasks, tags: ['always', 'pre_tasks'] }
     - { role: sanity_check, tags: ['always', 'sanity_check'] }
     # Apps
     - { role: a_train, tags: ['a_train'] }
