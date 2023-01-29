@@ -36,9 +36,9 @@ watchtower_docker_image: "containrrr/watchtower:{{ watchtower_docker_image_tag }
 
 # Envs
 watchtower_docker_envs_default:
-  TZ={{ tz }}
-  WATCHTOWER_CLEANUP=true
-  WATCHTOWER_POLL_INTERVAL=86400
+  TZ: "{{ tz }}"
+  WATCHTOWER_CLEANUP: "true"
+  WATCHTOWER_POLL_INTERVAL: "86400"
 
 watchtower_docker_envs_custom: {}
 watchtower_docker_envs: "{{ watchtower_docker_envs_default
