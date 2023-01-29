@@ -1,0 +1,108 @@
+##########################################################################
+# Title:            Sandbox: Watchtower Role | Default Variables         #
+# Author(s):        l3uddz, salty, owine                                 #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+watchtower_name: watchtower
+
+################################
+# Paths
+################################
+
+watchtower_paths_folder: "{{ watchtower_name }}"
+watchtower_paths_location: "{{ server_appdata_path }}/{{ watchtower_paths_folder }}"
+watchtower_paths_folders_list:
+  - "{{ watchtower_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+watchtower_docker_container: "{{ watchtower_name }}"
+
+# Image
+watchtower_docker_image_pull: true
+watchtower_docker_image_tag: "latest"
+watchtower_docker_image: "containrrr/watchtower:{{ watchtower_docker_image_tag }}"
+
+# Envs
+watchtower_docker_envs_default:
+  TZ={{ tz }}
+  WATCHTOWER_CLEANUP=true
+  WATCHTOWER_POLL_INTERVAL=86400
+
+watchtower_docker_envs_custom: {}
+watchtower_docker_envs: "{{ watchtower_docker_envs_default
+                           | combine(watchtower_docker_envs_custom) }}"
+watchtower_docker_env_file: "{{ '{{ watchtower_paths_location }}/watchtower.env' if watchtower_env.stat.exists else omit }}"
+
+# Commands
+watchtower_docker_commands_default: []
+watchtower_docker_commands_custom: []
+watchtower_docker_commands: "{{ watchtower_docker_commands_default
+                               + watchtower_docker_commands_custom }}"
+
+# Volumes
+watchtower_docker_volumes_default:
+  - "/var/run/docker.sock:/var/run/docker.sock:ro"
+watchtower_docker_volumes_custom: []
+watchtower_docker_volumes: "{{ watchtower_docker_volumes_default
+                              + watchtower_docker_volumes_custom }}"
+
+# Devices
+watchtower_docker_devices_default: []
+watchtower_docker_devices_custom: []
+watchtower_docker_devices: "{{ watchtower_docker_devices_default
+                              + watchtower_docker_devices_custom }}"
+
+# Hosts
+watchtower_docker_hosts_default: []
+watchtower_docker_hosts_custom: []
+watchtower_docker_hosts: "{{ docker_hosts_common
+                            | combine(watchtower_docker_hosts_default)
+                            | combine(watchtower_docker_hosts_custom) }}"
+
+# Labels
+watchtower_docker_labels_default: {}
+watchtower_docker_labels_custom: {}
+watchtower_docker_labels: "{{ docker_labels_common
+                             | combine(watchtower_docker_labels_default)
+                             | combine(watchtower_docker_labels_custom) }}"
+
+# Hostname
+watchtower_docker_hostname: "{{ watchtower_name }}"
+
+# Networks
+watchtower_docker_networks_alias: "{{ watchtower_name }}"
+watchtower_docker_networks_default: []
+watchtower_docker_networks_custom: []
+watchtower_docker_networks: "{{ docker_networks_common
+                               + watchtower_docker_networks_default
+                               + watchtower_docker_networks_custom }}"
+
+# Capabilities
+watchtower_docker_capabilities_default: []
+watchtower_docker_capabilities_custom: []
+watchtower_docker_capabilities: "{{ watchtower_docker_capabilities_default
+                                   + watchtower_docker_capabilities_custom }}"
+
+# Security Opts
+watchtower_docker_security_opts_default: []
+watchtower_docker_security_opts_custom: []
+watchtower_docker_security_opts: "{{ watchtower_docker_security_opts_default
+                                    + watchtower_docker_security_opts_custom }}"
+
+# Restart Policy
+watchtower_docker_restart_policy: unless-stopped
+
+# State
+watchtower_docker_state: started
