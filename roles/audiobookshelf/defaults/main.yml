@@ -87,7 +87,7 @@ audiobookshelf_docker_envs: "{{ lookup('vars', audiobookshelf_name + '_docker_en
 audiobookshelf_docker_commands_default: []
 audiobookshelf_docker_commands_custom: []
 audiobookshelf_docker_commands: "{{ lookup('vars', audiobookshelf_name + '_docker_commands_default', default=audiobookshelf_docker_commands_default)
-                                    + lookup('vars', audiobookshelf_name + '_docker_docker_commands_custom', default=audiobookshelf_docker_commands_custom) }}"
+                                    + lookup('vars', audiobookshelf_name + '_docker_commands_custom', default=audiobookshelf_docker_commands_custom) }}"
 
 # Volumes
 audiobookshelf_docker_volumes_default:

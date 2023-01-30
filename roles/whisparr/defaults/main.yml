@@ -106,7 +106,7 @@ whisparr_docker_envs: "{{ lookup('vars', whisparr_name + '_docker_envs_default',
 whisparr_docker_commands_default: []
 whisparr_docker_commands_custom: []
 whisparr_docker_commands: "{{ lookup('vars', whisparr_name + '_docker_commands_default', default=whisparr_docker_commands_default)
-                              + lookup('vars', whisparr_name + '_docker_docker_commands_custom', default=whisparr_docker_commands_custom) }}"
+                              + lookup('vars', whisparr_name + '_docker_commands_custom', default=whisparr_docker_commands_custom) }}"
 
 # Volumes
 whisparr_docker_volumes_default:

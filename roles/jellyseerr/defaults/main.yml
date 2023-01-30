@@ -93,7 +93,7 @@ jellyseerr_docker_envs: "{{ lookup('vars', jellyseerr_name + '_docker_envs_defau
 jellyseerr_docker_commands_default: []
 jellyseerr_docker_commands_custom: []
 jellyseerr_docker_commands: "{{ lookup('vars', jellyseerr_name + '_docker_commands_default', default=jellyseerr_docker_commands_default)
-                                + lookup('vars', jellyseerr_name + '_docker_docker_commands_custom', default=jellyseerr_docker_commands_custom) }}"
+                                + lookup('vars', jellyseerr_name + '_docker_commands_custom', default=jellyseerr_docker_commands_custom) }}"
 
 # Volumes
 jellyseerr_docker_volumes_default:

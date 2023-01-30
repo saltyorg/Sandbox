@@ -83,7 +83,7 @@ node_red_docker_envs: "{{ lookup('vars', node_red_name + '_docker_envs_default',
 node_red_docker_commands_default: []
 node_red_docker_commands_custom: []
 node_red_docker_commands: "{{ lookup('vars', node_red_name + '_docker_commands_default', default=node_red_docker_commands_default)
-                              + lookup('vars', node_red_name + '_docker_docker_commands_custom', default=node_red_docker_commands_custom) }}"
+                              + lookup('vars', node_red_name + '_docker_commands_custom', default=node_red_docker_commands_custom) }}"
 
 # Volumes
 node_red_docker_volumes_default:

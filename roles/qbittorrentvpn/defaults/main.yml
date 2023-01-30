@@ -120,7 +120,7 @@ qbittorrentvpn_docker_envs: "{{ lookup('vars', qbittorrentvpn_name + '_docker_en
 qbittorrentvpn_docker_commands_default: []
 qbittorrentvpn_docker_commands_custom: []
 qbittorrentvpn_docker_commands: "{{ lookup('vars', qbittorrentvpn_name + '_docker_commands_default', default=qbittorrentvpn_docker_commands_default)
-                                    + lookup('vars', qbittorrentvpn_name + '_docker_docker_commands_custom', default=qbittorrentvpn_docker_commands_custom) }}"
+                                    + lookup('vars', qbittorrentvpn_name + '_docker_commands_custom', default=qbittorrentvpn_docker_commands_custom) }}"
 
 # Volumes
 qbittorrentvpn_docker_volumes_default:
