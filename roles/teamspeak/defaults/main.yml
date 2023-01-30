@@ -96,7 +96,7 @@ teamspeak_docker_envs: "{{ lookup('vars', teamspeak_name + '_docker_envs_default
 teamspeak_docker_commands_default: []
 teamspeak_docker_commands_custom: []
 teamspeak_docker_commands: "{{ lookup('vars', teamspeak_name + '_docker_commands_default', default=teamspeak_docker_commands_default)
-                               + lookup('vars', teamspeak_name + '_docker_docker_commands_custom', default=teamspeak_docker_commands_custom) }}"
+                               + lookup('vars', teamspeak_name + '_docker_commands_custom', default=teamspeak_docker_commands_custom) }}"
 
 # Volumes
 teamspeak_docker_volumes_default:
