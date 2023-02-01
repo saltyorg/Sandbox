@@ -22,7 +22,7 @@
     - name: "Settings | Import docker.yaml"
       ansible.builtin.template:
         src: docker.yaml.j2
-        dest: '{{ homepage_paths_location }}/config'
+        dest: '{{ homepage_paths_location }}/config/docker.yaml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
@@ -38,7 +38,7 @@
     - name: "Settings | Import settings.yaml"
       ansible.builtin.template:
         src: settings.yaml.j2
-        dest: '{{ homepage_paths_location }}/config'
+        dest: '{{ homepage_paths_location }}/config/settings.yml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
