@@ -38,7 +38,7 @@
     - name: "Settings | Import settings.yaml"
       ansible.builtin.template:
         src: settings.yaml.j2
-        dest: '{{ homepage_paths_location }}/config/settings.yml'
+        dest: '{{ homepage_paths_location }}/config/settings.yaml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
