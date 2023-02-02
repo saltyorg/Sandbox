@@ -36,6 +36,7 @@ minecraft_bedrock_web_domain: "{{ user.domain }}"
 
 minecraft_bedrock_dns_record: "{{ lookup('vars', minecraft_bedrock_name + '_web_subdomain', default=minecraft_bedrock_web_subdomain) }}"
 minecraft_bedrock_dns_zone: "{{ lookup('vars', minecraft_bedrock_name + '_web_domain', default=minecraft_bedrock_web_domain) }}"
+minecraft_bedrock_dns_proxy: false
 
 ################################
 # Docker
