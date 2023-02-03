@@ -58,6 +58,7 @@
     - { role: goaccess, tags: ['goaccess'] }
     - { role: gitea, tags: ['gitea'] }
     - { role: glances_web, tags: ['glances-web'] }
+    - { role: gluetun, tags: ['gluetun'] }
     - { role: goplaxt, tags: ['goplaxt'] }
     - { role: gotenberg, tags: ['gotenberg'] }
     - { role: gotify, tags: ['gotify'] }
