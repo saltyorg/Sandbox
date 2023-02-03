@@ -1,0 +1,153 @@
+##########################################################################
+# Title:            Sandbox: Gluetun | Default Variables                 #
+# Author(s):        owine                                                #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+gluetun_name: gluetun
+
+################################
+# Settings
+################################
+gluetun_vpn_service_provider: ""
+gluetun_vpn_type: ""
+gluetun_openvpn_custom_config: ""
+gluetun_openvpn_user: ""
+gluetun_openvpn_password: ""
+gluetun_openvpn_key_passphrase: ""
+gluetun_vpn_endpoint_ip: ""
+gluetun_vpn_endpoint_port: ""
+gluetun_wireguard_public_key: ""
+gluetun_wireguard_private_key: ""
+gluetun_wireguard_preshared_key: ""
+gluetun_wireguard_addresses: ""
+gluetun_server_countries: ""
+gluetun_server_cities: ""
+gluetun_server_hostnames: ""
+gluetun_server_names: ""
+gluetun_server_regions: ""
+gluetun_firewall_vpn_input_ports: ""
+
+################################
+# Paths
+################################
+
+gluetun_paths_folder: "{{ gluetun_name }}"
+gluetun_paths_location: "{{ server_appdata_path }}/{{ gluetun_paths_folder }}"
+gluetun_paths_folders_list:
+  - "{{ gluetun_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+gluetun_docker_container: "{{ gluetun_name }}"
+
+# Image
+gluetun_docker_image_pull: true
+gluetun_docker_image_tag: "latest"
+gluetun_docker_image: "qmcgaw/gluetun:{{ gluetun_docker_image_tag }}"
+
+# Ports
+gluetun_docker_ports_defaults: []
+gluetun_docker_ports_custom: []
+gluetun_docker_ports: "{{ gluetun_docker_ports_defaults
+                          + gluetun_docker_ports_custom }}"
+
+# Envs
+gluetun_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  VPN_SERVICE_PROVIDER: "{{ gluetun_vpn_service_provider }}"
+  VPN_TYPE: "{{ gluetun_VPN_TYPE | default(omit) }}"
+  OPENVPN_CUSTOM_CONFIG: "{{ gluetun_openvpn_custom_config | default(omit) }}"
+  OPENVPN_USER: "{{ gluetun_openvpn_user | default(omit) }}"
+  OPENVPN_PASSWORD: "{{ gluetun_openvpn_password | default(omit) }}"
+  OPENVPN_KEY_PASSPHRASE: "{{ gluetun_openvpn_key_passphrase | default(omit) }}"
+  VPN_ENDPOINT_IP: "{{ gluetun_vpn_endpoint_ip | default(omit) }}"
+  VPN_ENDPOINT_PORT: "{{ gluetun_vpn_endpoint_port | default(omit) }}"
+  WIREGUARD_PUBLIC_KEY: "{{ gluetun_wireguard_public_key | default(omit) }}"
+  WIREGUARD_PRIVATE_KEY: "{{ gluetun_wireguard_private_key | default(omit) }}"
+  WIREGUARD_PRESHARED_KEY: "{{ gluetun_wireguard_preshared_key | default(omit) }}"
+  WIREGUARD_ADDRESSES: "{{ gluetun_wireguard_addresses | default(omit) }}"
+  SERVER_COUNTRIES: "{{ gluetun_server_countries | default(omit) }}"
+  SERVER_CITIES: "{{ gluetun_server_cities | default(omit) }}"
+  SERVER_HOSTNAMES: "{{ gluetun_server_hostnames | default(omit) }}"
+  SERVER_NAMES: "{{ gluetun_server_names | default(omit) }}"
+  SERVER_REGIONS: "{{ gluetun_server_regions | default(omit) }}"
+  FIREWALL_VPN_INPUT_PORTS: "{{ gluetun_firewall_vpn_input_ports | default(omit) }}"
+gluetun_docker_envs_custom: {}
+gluetun_docker_envs: "{{ gluetun_docker_envs_default
+                         | combine(gluetun_docker_envs_custom) }}"
+
+# Commands
+gluetun_docker_commands_default: []
+gluetun_docker_commands_custom: []
+gluetun_docker_commands: "{{ gluetun_docker_commands_default
+                             + gluetun_docker_commands_custom }}"
+
+# Volumes
+gluetun_docker_volumes_default:
+  - "{{ gluetun_paths_location }}:/gluetun"
+gluetun_docker_volumes_custom: []
+gluetun_docker_volumes: "{{ gluetun_docker_volumes_default
+                            + gluetun_docker_volumes_custom }}"
+
+# Devices
+gluetun_docker_devices_default: []
+gluetun_docker_devices_custom: []
+gluetun_docker_devices: "{{ gluetun_docker_devices_default
+                            + gluetun_docker_devices_custom }}"
+
+# Hosts
+gluetun_docker_hosts_default: []
+gluetun_docker_hosts_custom: []
+gluetun_docker_hosts: "{{ docker_hosts_common
+                          | combine(gluetun_docker_hosts_default)
+                          | combine(gluetun_docker_hosts_custom) }}"
+
+# Labels
+gluetun_docker_labels_default: {}
+gluetun_docker_labels_custom: {}
+gluetun_docker_labels: "{{ docker_labels_common
+                           | combine(gluetun_docker_labels_default)
+                           | combine(gluetun_docker_labels_custom) }}"
+
+# Hostname
+gluetun_docker_hostname: "{{ gluetun_name }}"
+
+# Networks
+gluetun_docker_networks_alias: "{{ gluetun_name }}"
+gluetun_docker_networks_default: []
+gluetun_docker_networks_custom: []
+gluetun_docker_networks: "{{ docker_networks_common
+                             + gluetun_docker_networks_default
+                             + gluetun_docker_networks_custom }}"
+
+# Capabilities
+gluetun_docker_capabilities_default:
+  - NET_ADMIN
+gluetun_docker_capabilities_custom: []
+gluetun_docker_capabilities: "{{ gluetun_docker_capabilities_default
+                                 + gluetun_docker_capabilities_custom }}"
+
+# Security Opts
+gluetun_docker_security_opts_default: []
+gluetun_docker_security_opts_custom: []
+gluetun_docker_security_opts: "{{ gluetun_docker_security_opts_default
+                                  + gluetun_docker_security_opts_custom }}"
+
+# Restart Policy
+gluetun_docker_restart_policy: unless-stopped
+
+# State
+gluetun_docker_state: started
