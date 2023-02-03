@@ -52,7 +52,7 @@
 #     - Plex:
 #         icon: plex.png
 #         href: https://plex.<domain>.<tld>
-#         ping: http://plex:32400
+#         ping: http://plex:32400/identity
 #         server: my-docker
 #         container: plex
 #         description: Media Server
