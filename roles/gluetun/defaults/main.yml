@@ -70,7 +70,7 @@ gluetun_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   VPN_SERVICE_PROVIDER: "{{ gluetun_vpn_service_provider }}"
-  VPN_TYPE: "{{ gluetun_VPN_TYPE | default(omit) }}"
+  VPN_TYPE: "{{ gluetun_vpn_type | default(omit) }}"
   OPENVPN_CUSTOM_CONFIG: "{{ gluetun_openvpn_custom_config | default(omit) }}"
   OPENVPN_USER: "{{ gluetun_openvpn_user | default(omit) }}"
   OPENVPN_PASSWORD: "{{ gluetun_openvpn_password | default(omit) }}"
