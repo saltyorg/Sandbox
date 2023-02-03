@@ -84,6 +84,8 @@ homepage_docker_ports: "{{ homepage_docker_ports_defaults
 # Envs
 homepage_docker_envs_default:
   TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
 homepage_docker_envs_custom: {}
 homepage_docker_envs: "{{ homepage_docker_envs_default
                           | combine(homepage_docker_envs_custom) }}"
