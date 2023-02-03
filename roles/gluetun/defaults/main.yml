@@ -16,6 +16,8 @@ gluetun_name: gluetun
 ################################
 # Settings
 ################################
+# These variables map to the appropriate Docker ENVs
+# Review the gluetun wiki (https://github.com/qdm12/gluetun/wiki)
 gluetun_vpn_service_provider: ""
 gluetun_vpn_type: ""
 gluetun_openvpn_custom_config: ""
