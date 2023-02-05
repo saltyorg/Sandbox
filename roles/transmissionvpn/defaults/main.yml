@@ -94,7 +94,7 @@ transmissionvpn_docker_envs_default:
   OPENVPN_PASSWORD: "{{ transmissionvpn.vpn_pass | default('password', true) }}"
   UMASK_SET: "{{ transmissionvpn_umask_set }}"
   CREATE_TUN_DEVICE: " {{ transmissionvpn_create_tun_device }}"
-  TRANSMISSION_HOME: " {{ transmissionvpn_transmission_home }}"
+  TRANSMISSION_HOME: "{{ transmissionvpn_transmission_home }}"
 
 transmissionvpn_docker_envs_custom: {}
 transmissionvpn_docker_envs: "{{ transmissionvpn_docker_envs_default
