@@ -139,6 +139,13 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/TAPCollins>
+            <img src=https://avatars.githubusercontent.com/u/13802426?v=4 width="100;"  alt=Tom Collins/>
+            <br />
+            <sub style="font-size:14px"><b>Tom Collins</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/dvsmasta>
             <img src=https://avatars.githubusercontent.com/u/14364893?v=4 width="100;"  alt=dvsmasta/>
             <br />
@@ -159,6 +166,8 @@ sb list
             <sub style="font-size:14px"><b>powerdude</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/8a8al00ey>
             <img src=https://avatars.githubusercontent.com/u/109389709?v=4 width="100;"  alt=8a8al00ey/>
@@ -166,8 +175,6 @@ sb list
             <sub style="font-size:14px"><b>8a8al00ey</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/Aethenn>
             <img src=https://avatars.githubusercontent.com/u/58144688?v=4 width="100;"  alt=Aethenn/>
@@ -203,6 +210,8 @@ sb list
             <sub style="font-size:14px"><b>JohnClementine</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/kungfoome>
             <img src=https://avatars.githubusercontent.com/u/421589?v=4 width="100;"  alt=Matt Martinez/>
@@ -210,8 +219,6 @@ sb list
             <sub style="font-size:14px"><b>Matt Martinez</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/nickstarkloff>
             <img src=https://avatars.githubusercontent.com/u/51816213?v=4 width="100;"  alt=Nick Starkloff/>
@@ -247,6 +254,8 @@ sb list
             <sub style="font-size:14px"><b>markschrik</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/tipdec-siblyn>
             <img src=https://avatars.githubusercontent.com/u/99356862?v=4 width="100;"  alt=~tipdec-siblyn/>
