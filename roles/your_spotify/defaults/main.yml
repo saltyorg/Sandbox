@@ -14,6 +14,20 @@
 your_spotify_name: your-spotify
 
 ################################
+# Lookups
+################################
+
+your_spotify_settings_set: "{{ (your_spotify is defined) and
+                               (your_spotify is not none) and
+                               (your_spotify | trim | length > 0) and
+                               (your_spotify.public_key is defined) and
+                               (your_spotify.public_key is not none) and
+                               (your_spotify.public_key | trim | length > 0) and
+                               (your_spotify.secret_key is defined) and
+                               (your_spotify.secret_key is not none) and
+                               (your_spotify.secret_key | trim | length > 0) }}"
+
+################################
 # Web
 ################################
 
