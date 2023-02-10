@@ -177,5 +177,6 @@
     - { role: xbackbone, tags: ['xbackbone'] }
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
+    - { role: your_spotify, tags: ['your-spotify'] }
     - { role: znc, tags: ['znc'] }
     # Apps End
