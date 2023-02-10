@@ -1,0 +1,33 @@
+##########################################################################
+# Title:            Sandbox: Your Spotify                                #
+# Author(s):        salty                                                #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Fail if settings.yml values are empty
+  ansible.builtin.fail:
+    msg: "You must configure 'settings.yml' with public and secret keys."
+  when: not (((your_spotify.public_key is defined) and (your_spotify.public_key | length > 0)) and ((your_spotify.secret_key is defined) and (your_spotify.secret_key | length > 0)))
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: MongoDB Role
+  ansible.builtin.include_role:
+    name: mongodb
+  vars:
+    mongodb_instances: ["your_spotify_db"]
+    mongodb_paths_location: "{{ server_appdata_path }}/{{ your_spotify_name }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

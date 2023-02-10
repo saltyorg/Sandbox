@@ -91,3 +91,6 @@ transmissionvpn:
   vpn_prov:
 transmissionx:
   roles: [""]
+your_spotify:
+  public_key:
+  secret_key:
