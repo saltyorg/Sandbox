@@ -136,3 +136,6 @@ resiliosync_docker_restart_policy: unless-stopped
 
 # State
 resiliosync_docker_state: started
+
+# User
+resiliosync_docker_user: "{{ uid }}:{{ gid }}"
