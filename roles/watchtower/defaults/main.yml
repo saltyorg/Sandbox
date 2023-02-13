@@ -43,7 +43,7 @@ watchtower_docker_envs_default:
 watchtower_docker_envs_custom: {}
 watchtower_docker_envs: "{{ watchtower_docker_envs_default
                            | combine(watchtower_docker_envs_custom) }}"
-watchtower_docker_env_file: "{{ '{{ watchtower_paths_location }}/watchtower.env' if watchtower_env.stat.exists else omit }}"
+watchtower_docker_env_file: "{{ watchtower_paths_location + '/watchtower.env' if watchtower_env.stat.exists else omit }}"
 
 # Commands
 watchtower_docker_commands_default: []
