@@ -132,6 +132,13 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/8a8al00ey>
+            <img src=https://avatars.githubusercontent.com/u/109389709?v=4 width="100;"  alt=8a8al00ey/>
+            <br />
+            <sub style="font-size:14px"><b>8a8al00ey</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/GiorgioBrux>
             <img src=https://avatars.githubusercontent.com/u/18328525?v=4 width="100;"  alt=GiorgioBrux/>
             <br />
@@ -159,20 +166,13 @@ sb list
             <sub style="font-size:14px"><b>kxzaon</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/powerdude>
             <img src=https://avatars.githubusercontent.com/u/780882?v=4 width="100;"  alt=powerdude/>
             <br />
             <sub style="font-size:14px"><b>powerdude</b></sub>
-        </a>
-    </td>
-</tr>
-<tr>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/8a8al00ey>
-            <img src=https://avatars.githubusercontent.com/u/109389709?v=4 width="100;"  alt=8a8al00ey/>
-            <br />
-            <sub style="font-size:14px"><b>8a8al00ey</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
