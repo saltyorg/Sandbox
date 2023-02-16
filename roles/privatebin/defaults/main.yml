@@ -91,6 +91,14 @@ privatebin_docker_volumes_custom: []
 privatebin_docker_volumes: "{{ privatebin_docker_volumes_default
                                + privatebin_docker_volumes_custom }}"
 
+# Mounts
+privatebin_docker_mounts_default:
+  - target: /tmp
+    type: tmpfs
+privatebin_docker_mounts_custom: []
+privatebin_docker_mounts: "{{ privatebin_docker_mounts_default
+                              + privatebin_docker_mounts_custom }}"
+
 # Devices
 privatebin_docker_devices_default: []
 privatebin_docker_devices_custom: []
