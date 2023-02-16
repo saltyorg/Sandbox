@@ -91,6 +91,10 @@ privatebin_docker_volumes: "{{ privatebin_docker_volumes_default
 privatebin_docker_mounts_default:
   - target: /tmp
     type: tmpfs
+  - target: /run
+    type: tmpfs
+  - target: /var/lib/nginx/tmp
+    type: tmpfs
 privatebin_docker_mounts_custom: []
 privatebin_docker_mounts: "{{ privatebin_docker_mounts_default
                               + privatebin_docker_mounts_custom }}"
