@@ -65,8 +65,7 @@ homarr_docker_image_tag: "latest"
 homarr_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_docker_image_tag }}"
 
 # Ports
-homarr_docker_ports_defaults:
-  - "{{ homarr_web_port }}"
+homarr_docker_ports_defaults: []
 homarr_docker_ports_custom: []
 homarr_docker_ports: "{{ homarr_docker_ports_defaults
                          + homarr_docker_ports_custom }}"
