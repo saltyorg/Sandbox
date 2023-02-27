@@ -50,7 +50,7 @@ uptime_kuma_traefik_middleware_custom: ""
 uptime_kuma_traefik_certresolver: "{{ traefik_default_certresolver }}"
 uptime_kuma_traefik_enabled: true
 uptime_kuma_traefik_api_enabled: true
-uptime_kuma_traefik_api_endpoint: "PathPrefix(`/icon.svg`) || PathPrefix(`/api`) || PathPrefix(`/assets`) || PathPrefix(`/status`)"
+uptime_kuma_traefik_api_endpoint: "PathPrefix(`/icon.svg`) || PathPrefix(`/api`) || PathPrefix(`/assets`) || PathPrefix(`/status`) || PathPrefix(`/metrics`) || PathRegexp(`^/$`) || PathRegexp(`/upload/.*`)"
 
 ################################
 # Docker
