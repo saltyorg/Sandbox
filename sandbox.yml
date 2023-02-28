@@ -39,6 +39,7 @@
     - { role: code_server, tags: ['code_server'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
+    - { role: dashdot, tags: ['dashdot'] }
     - { role: dashy, tags: ['dashy'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
