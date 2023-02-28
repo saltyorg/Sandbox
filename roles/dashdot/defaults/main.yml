@@ -1,0 +1,172 @@
+##########################################################################
+# Title:         Sandbox: dash. | Default Variables                      #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+dashdot_name: dashdot
+
+################################
+# Settings
+################################
+
+dashdot_show_host: "false"
+dashdot_cpu_temps: "false"
+dashdot_imperial: "false"
+dashdot_always_show_percentages: "false"
+dashdot_title: "dash."
+dashdot_widget_list: "os,cpu,storage,ram,network"
+dashdot_os_label_list: "os,arch,up_since"
+dashdot_cpu_label_list: "brand,model,cores,threads,frequency"
+dashdot_storage_label_list: "brand,size,type"
+dashdot_ram_label_list: "brand,size,type,frequency"
+dashdot_network_label_list: "type,speed_up,speed_down,interface_speed"
+dashdot_gpu_label_list: "brand,model,memory"
+
+################################
+# Paths
+################################
+
+dashdot_paths_folder: "{{ dashdot_name }}"
+dashdot_paths_location: "{{ server_appdata_path }}/{{ dashdot_paths_folder }}"
+dashdot_paths_folders_list:
+  - "{{ dashdot_paths_location }}"
+
+################################
+# Web
+################################
+
+dashdot_web_subdomain: "{{ dashdot_name }}"
+dashdot_web_domain: "{{ user.domain }}"
+dashdot_web_port: "3001"
+dashdot_web_url: "{{ 'https://' + dashdot_web_subdomain + '.' + dashdot_web_domain }}"
+
+################################
+# DNS
+################################
+
+dashdot_dns_record: "{{ dashdot_web_subdomain }}"
+dashdot_dns_zone: "{{ dashdot_web_domain }}"
+dashdot_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+dashdot_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+dashdot_traefik_middleware_default: "{{ traefik_default_middleware }}"
+dashdot_traefik_middleware_custom: ""
+dashdot_traefik_certresolver: "{{ traefik_default_certresolver }}"
+dashdot_traefik_enabled: true
+dashdot_traefik_api_enabled: false
+dashdot_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+dashdot_docker_container: "{{ dashdot_name }}"
+
+# Image
+dashdot_docker_image_pull: true
+dashdot_docker_image_tag: "latest"
+dashdot_docker_image: "mauricenino/dashdot:{{ dashdot_docker_image_tag }}"
+
+# Ports
+dashdot_docker_ports_defaults: []
+dashdot_docker_ports_custom: []
+dashdot_docker_ports: "{{ dashdot_docker_ports_defaults
+                          + dashdot_docker_ports_custom }}"
+
+# Envs
+dashdot_docker_envs_default:
+  DASHDOT_SHOW_HOST: "{{ dashdot_show_host }}"
+  DASHDOT_CUSTOM_HOST: "{{ dashdot_web_subdomain + '.' + dashdot_web_domain }}"
+  DASHDOT_ENABLE_CPU_TEMPS: "{{ dashdot_cpu_temps }}"
+  DASHDOT_USE_IMPERIAL: "{{ dashdot_imperial }}"
+  DASHDOT_ALWAYS_SHOW_PERCENTAGES: "{{ dashdot_always_show_percentages }}"
+  DASHDOT_PAGE_TITLE: "{{ dashdot_title }}"
+  DASHDOT_WIDGET_LIST: "{{ dashdot_widget_list }}"
+  DASHDOT_OS_LABEL_LIST: "{{ dashdot_os_label_list }}"
+  DASHDOT_CPU_LABEL_LIST: "{{ dashdot_cpu_label_list }}"
+  DASHDOT_STORAGE_LABEL_LIST: "{{ dashdot_storage_label_list }}"
+  DASHDOT_RAM_LABEL_LIST: "{{ dashdot_ram_label_list }}"
+  DASHDOT_NETWORK_LABEL_LIST: "{{ dashdot_network_label_list }}"
+  DASHDOT_GPU_LABEL_LIST: "{{ dashdot_gpu_label_list }}"
+  DASHDOT_ACCEPT_OOKLA_EULA: "true"
+dashdot_docker_envs_custom: {}
+dashdot_docker_envs: "{{ dashdot_docker_envs_default
+                         | combine(dashdot_docker_envs_custom) }}"
+
+# Commands
+dashdot_docker_commands_default: []
+dashdot_docker_commands_custom: []
+dashdot_docker_commands: "{{ dashdot_docker_commands_default
+                             + dashdot_docker_commands_custom }}"
+
+# Volumes
+dashdot_docker_volumes_default:
+  - "/:/mnt/host:ro"
+dashdot_docker_volumes_custom: []
+dashdot_docker_volumes: "{{ dashdot_docker_volumes_default
+                            + dashdot_docker_volumes_custom }}"
+
+# Devices
+dashdot_docker_devices_default: []
+dashdot_docker_devices_custom: []
+dashdot_docker_devices: "{{ dashdot_docker_devices_default
+                            + dashdot_docker_devices_custom }}"
+
+# Hosts
+dashdot_docker_hosts_default: []
+dashdot_docker_hosts_custom: []
+dashdot_docker_hosts: "{{ docker_hosts_common
+                          | combine(dashdot_docker_hosts_default)
+                          | combine(dashdot_docker_hosts_custom) }}"
+
+# Labels
+dashdot_docker_labels_default: {}
+dashdot_docker_labels_custom: {}
+dashdot_docker_labels: "{{ docker_labels_common
+                           | combine(dashdot_docker_labels_default)
+                           | combine(dashdot_docker_labels_custom) }}"
+
+# Hostname
+dashdot_docker_hostname: "{{ dashdot_name }}"
+
+# Networks
+dashdot_docker_networks_alias: "{{ dashdot_name }}"
+dashdot_docker_networks_default: []
+dashdot_docker_networks_custom: []
+dashdot_docker_networks: "{{ docker_networks_common
+                             + dashdot_docker_networks_default
+                             + dashdot_docker_networks_custom }}"
+
+# Capabilities
+dashdot_docker_capabilities_default: []
+dashdot_docker_capabilities_custom: []
+dashdot_docker_capabilities: "{{ dashdot_docker_capabilities_default
+                                 + dashdot_docker_capabilities_custom }}"
+
+# Security Opts
+dashdot_docker_security_opts_default: []
+dashdot_docker_security_opts_custom: []
+dashdot_docker_security_opts: "{{ dashdot_docker_security_opts_default
+                                  + dashdot_docker_security_opts_custom }}"
+
+# Restart Policy
+dashdot_docker_restart_policy: unless-stopped
+
+# State
+dashdot_docker_state: started
+
+# Privileged
+dashdot_docker_privileged: true
