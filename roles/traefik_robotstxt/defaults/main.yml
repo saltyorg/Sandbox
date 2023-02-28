@@ -59,7 +59,7 @@ traefik_robotstxt_docker_hosts: "{{ docker_hosts_common
 traefik_robotstxt_docker_labels_default:
   traefik.enable: "true"
   traefik.http.routers.robotstxt.entrypoints: "web,websecure"
-  traefik.http.routers.robotstxt.rule: "HostRegexp(`{host:.*}`) && Path(`/robots.txt`)"
+  traefik.http.routers.robotstxt.rule: "Path(`/robots.txt`)"
   traefik.http.routers.robotstxt.service: "robotstxt"
   traefik.http.services.robotstxt.loadbalancer.server.port: "8080"
   traefik.http.routers.robotstxt.priority: "99"
