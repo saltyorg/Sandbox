@@ -60,18 +60,6 @@ transmission_traefik_api_enabled: true
 transmission_traefik_api_endpoint: "`/rpc`"
 
 ################################
-# Settings
-################################
-
-# Options are:
-# "/combustion-release/"
-# "/transmission-web-control/"
-# "/kettu/"
-# "/flood-for-transmission/"
-
-transmission_ui_home: "/transmission-web-control/"
-
-################################
 # Docker
 ################################
 
@@ -92,6 +80,7 @@ transmission_docker_ports_51413: "{{ port_lookup_51413.port
                                   else '51413' }}"
 transmission_docker_ports_defaults:
   - "{{ transmission_docker_ports_51413 }}:{{ transmission_docker_ports_51413 }}"
+  - "{{ transmission_docker_ports_51413 }}:{{ transmission_docker_ports_51413 }}/udp"
 transmission_docker_ports_custom: []
 transmission_docker_ports: "{{ transmission_docker_ports_defaults
                                + transmission_docker_ports_custom }}"
@@ -104,7 +93,6 @@ transmission_docker_envs_default:
   UMASK: "002"
   USER: "{{ user.name }}"
   PASS: "{{ user.pass }}"
-  TRANSMISSION_WEB_HOME: "/transmission-web-control/"
 transmission_docker_envs_custom: {}
 transmission_docker_envs: "{{ transmission_docker_envs_default
                               | combine(transmission_docker_envs_custom) }}"
@@ -171,7 +159,7 @@ transmission_docker_security_opts: "{{ transmission_docker_security_opts_default
 transmission_docker_restart_policy: unless-stopped
 
 # Stop Timeout
-transmission_docker_stop_timeout: 900
+transmission_docker_stop_timeout: 60
 
 # State
 transmission_docker_state: started
