@@ -158,7 +158,7 @@ transmission_docker_security_opts: "{{ transmission_docker_security_opts_default
 transmission_docker_restart_policy: unless-stopped
 
 # Stop Timeout
-transmission_docker_stop_timeout: 60
+transmission_docker_stop_timeout: 900
 
 # State
 transmission_docker_state: started
