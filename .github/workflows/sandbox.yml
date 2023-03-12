@@ -66,7 +66,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           shell: bash
-          command: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v && ansible --version
+          command: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v -b traefik3 && ansible --version
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
@@ -76,9 +76,6 @@ jobs:
 
       - name: Create, chown and chmod /tmp/ansible
         run: sudo mkdir /tmp/ansible && sudo chown -R runner:runner /tmp/ansible && chmod 0777 /tmp/ansible
-
-      - name: Change to traefik3 branch
-        run: cd /srv/git/saltbox && git checkout --quiet "traefik3"
 
       - name: Syntax Check
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
