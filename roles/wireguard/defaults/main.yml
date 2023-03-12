@@ -60,7 +60,7 @@ wireguard_docker_container: "{{ wireguard_name }}"
 # Image
 wireguard_docker_image_pull: true
 wireguard_docker_image_tag: "latest"
-wireguard_docker_image: "weejewel/wg-easy:{{ wireguard_docker_image_tag }}"
+wireguard_docker_image: "peterlewis/wg-easy:{{ wireguard_docker_image_tag }}"
 
 # Ports
 wireguard_docker_ports_defaults:
