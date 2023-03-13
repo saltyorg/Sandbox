@@ -27,7 +27,6 @@
     - { role: archivebox, tags: ['archivebox'] }
     - { role: aria2_ng, tags: ['aria2-ng'] }
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
-    - { role: autobrr, tags: ['autobrr'] }
     - { role: beets, tags: ['beets'] }
     - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }
@@ -45,7 +44,6 @@
     - { role: delugevpn, tags: ['delugevpn'] }
     - { role: docspell, tags: ['docspell'] }
     - { role: doplarr, tags: ['doplarr'] }
-    - { role: dozzle, tags: ['dozzle'] }
     - { role: duplicati, tags: ['duplicati'] }
     - { role: elasticsearch, tags: ['elasticsearch'] }
     - { role: embystat, tags: ['embystat'] }
@@ -163,13 +161,11 @@
     - { role: tvheadend, tags: ['tvheadend'] }
     - { role: unifi, tags: ['unifi'] }
     - { role: unmanic, tags: ['unmanic'] }
-    - { role: unpackerr, tags: ['unpackerr'] }
     - { role: uptime_kuma, tags: ['uptime-kuma'] }
     - { role: varken, tags: ['varken'] }
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
     - { role: watchtower, tags: ['watchtower'] }
-    - { role: whisparr, tags: ['whisparr'] }
     - { role: wikijs, tags: ['wikijs'] }
     - { role: wireguard, tags: ['wireguard'] }
     - { role: wizarr, tags: ['wizarr'] }
