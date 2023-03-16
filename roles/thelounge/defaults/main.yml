@@ -43,7 +43,13 @@ thelounge_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-thelounge_traefik_middleware: "{{ traefik_default_middleware }}"
+thelounge_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+
+thelounge_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                             + lookup('vars', thelounge_name + '_traefik_sso_middleware', default=thelounge_traefik_sso_middleware)
+                                          if (lookup('vars', thelounge_name + '_traefik_sso_middleware', default=thelounge_traefik_sso_middleware) | length > 0)
+                                          else traefik_default_middleware }}"
+thelounge_traefik_middleware_custom: ""
 thelounge_traefik_certresolver: "{{ traefik_default_certresolver }}"
 thelounge_traefik_enabled: true
 
