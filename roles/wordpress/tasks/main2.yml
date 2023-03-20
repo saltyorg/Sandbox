@@ -1,0 +1,32 @@
+#########################################################################
+# Title:            Sandbox: WordPress                                  #
+# Author(s):        Migz93, salty                                       #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: MariaDB | Create wordpress database
+  community.mysql.mysql_db:
+    name: "{{ lookup('vars', wordpress_name + '_mariadb_name', default=wordpress_mariadb_name) }}"
+    login_host: "{{ lookup('vars', wordpress_name + '_mariadb_login_host', default=wordpress_mariadb_login_host) }}"
+    login_user: "{{ lookup('vars', wordpress_name + '_mariadb_login_user', default=wordpress_mariadb_login_user) }}"
+    login_password: "{{ lookup('vars', wordpress_name + '_mariadb_password', default=wordpress_mariadb_password) }}"
+    state: present
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

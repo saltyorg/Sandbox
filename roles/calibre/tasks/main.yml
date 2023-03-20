@@ -11,7 +11,7 @@
   ansible.builtin.include_tasks: main2.yml
   vars:
     calibre_original_name: "{{ role }}"
-    calibre_name: "{{ role if not '-' in role else (role | replace('-', '_')) }}"
+    calibre_name: "{{ role | replace('-', '_') }}"
   with_items: "{{ calibre_instances }}"
   loop_control:
     loop_var: role
