@@ -158,8 +158,9 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 
 ## Find your token: https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/
 ##
-[plex]
+
 {% if plex_auth_token is defined %}
+[plex]
   url     = "{{ plex_web_url }}"     # Your plex URL
   token   = "{{ plex_auth_token }}"  # your plex token; get this from a web inspector
 {% endif %}
@@ -171,8 +172,8 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 # Enables email=>username map. Set a name to enable service checks.
 # Must uncomment [tautulli], 'api_key' and 'url' at a minimum.
 
-[tautulli]
 {% if tautulli_api_key is defined %}
+[tautulli]
   name    = "tautulli" # only set a name to enable service checks.
   url     = "{{ tautulli_web_url }}" # Your Tautulli URL
   api_key = "{{ tautulli_api_key }}" # your tautulli api key; get this from settings
