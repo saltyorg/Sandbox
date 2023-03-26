@@ -7,25 +7,34 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Auth | Check if 'config.yml' exists
+  ansible.builtin.stat:
+    path: "{{ stash_paths_location }}/config/config.yml"
+  register: stash_config
+
+- name: Auth | Print Message
+  ansible.builtin.debug:
+    msg:
+      - "Please go to {{ stash_web_url }} and complete the initial setup."
+      - "You have 10 minutes to finish."
+
 - name: Auth | Wait for 'config.yml' to be created
   ansible.builtin.wait_for:
     path: "{{ stash_paths_location }}/config/config.yml"
     state: present
-  ignore_errors: yes
+    timeout: 600
 
 - name: Allow public access without auth
   ansible.builtin.shell: |
     yyq e -i '.dangerous_allow_public_without_auth = "true"' {{ stash_paths_location }}/config/config.yml
   become: true
   become_user: "{{ user.name }}"
-  ignore_errors: yes
 
 - name: Remove tripwire
   ansible.builtin.shell: |
     yyq e -i 'del(.security_tripwire_accessed_from_public_internet)' {{ stash_paths_location }}/config/config.yml
   become: true
   become_user: "{{ user.name }}"
-  ignore_errors: yes
 
 - name: Restart Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/restart_docker_container.yml"
