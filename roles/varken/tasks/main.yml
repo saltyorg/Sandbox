@@ -61,7 +61,7 @@
 - name: Create and start varken container
   community.docker.docker_container:
     name: varken
-    image: "ghcr.io/thezak48/varken"
+    image: "ghcr.io/thezak48/varken:nightly"
     pull: yes
     command_handling: compatibility
     container_default_behavior: compatibility
