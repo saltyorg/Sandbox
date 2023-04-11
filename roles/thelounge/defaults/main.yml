@@ -56,6 +56,8 @@ thelounge_traefik_middleware: "{{ thelounge_traefik_middleware_default + ','
                                   + thelounge_traefik_middleware_custom }}"
 thelounge_traefik_certresolver: "{{ traefik_default_certresolver }}"
 thelounge_traefik_enabled: true
+thelounge_traefik_api_enabled: true
+thelounge_traefik_api_endpoint: "`/uploads`"
 
 ################################
 # Docker
