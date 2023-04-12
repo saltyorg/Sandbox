@@ -14,6 +14,12 @@
 wireguard_name: wireguard
 
 ################################
+# Settings
+################################
+
+wireguard_listen_port: "51820"
+
+################################
 # Paths
 ################################
 
@@ -64,7 +70,7 @@ wireguard_docker_image: "peterlewis/wg-easy:{{ wireguard_docker_image_tag }}"
 
 # Ports
 wireguard_docker_ports_defaults:
-  - "51820:51820/udp"
+  - "{{ wireguard_listen_port }}:51820/udp"
 wireguard_docker_ports_custom: []
 wireguard_docker_ports: "{{ wireguard_docker_ports_defaults
                             + wireguard_docker_ports_custom }}"
@@ -74,6 +80,7 @@ wireguard_docker_envs_default:
   TZ: "{{ tz }}"
   WG_HOST: "{{ wireguard_web_subdomain + '.' + wireguard_web_domain }}"
   PASSWORD: "{{ user.pass }}"
+  WG_PORT: "{{ wireguard_listen_port }}"
 wireguard_docker_envs_custom: {}
 wireguard_docker_envs: "{{ wireguard_docker_envs_default
                            | combine(wireguard_docker_envs_custom) }}"
