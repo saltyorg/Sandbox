@@ -29,10 +29,10 @@
   ansible.builtin.file:
     path: "{{ vaultwarden_paths_config_location }}"
     state: absent
-  when: vaultwarden_env.stat.isdir
+  when: (vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir
 
 - name: New `{{ vaultwarden_paths_config_location | basename }}` tasks
-  when: not vaultwarden_env.stat.exists or vaultwarden_env.stat.isdir
+  when: not vaultwarden_env.stat.exists or ((vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir)
   block:
 
     - name: "Generate Admin token"
