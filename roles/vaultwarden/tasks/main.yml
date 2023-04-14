@@ -25,7 +25,14 @@
     path: "{{ vaultwarden_paths_config_location }}"
   register: vaultwarden_env
 
-- name: Settings | New `{{ vaultwarden_paths_config_location | basename }}` tasks
+- name: Remove env folder if it exists
+  ansible.builtin.file:
+    path: "{{ vaultwarden_paths_config_location }}"
+    state: absent
+  when: vaultwarden_env.stat.isdir
+
+- name: New `{{ vaultwarden_paths_config_location | basename }}` tasks
+  when: not vaultwarden_env.stat.exists or vaultwarden_env.stat.isdir
   block:
 
     - name: "Generate Admin token"
@@ -39,8 +46,6 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: 0775
-
-  when: not vaultwarden_env.stat.exists
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
