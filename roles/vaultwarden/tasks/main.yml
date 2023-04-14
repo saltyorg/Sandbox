@@ -25,8 +25,14 @@
     path: "{{ vaultwarden_paths_config_location }}"
   register: vaultwarden_env
 
-- name: Settings | New `{{ vaultwarden_paths_config_location | basename }}` tasks
-  when: not vaultwarden_env.stat.exists
+- name: Remove env folder if it exists
+  ansible.builtin.file:
+    path: "{{ vaultwarden_paths_config_location }}"
+    state: absent
+  when: vaultwarden_env.stat.isdir
+
+- name: New `{{ vaultwarden_paths_config_location | basename }}` tasks
+  when: not vaultwarden_env.stat.exists or vaultwarden_env.stat.isdir
   block:
     - name: "Generate Admin token"
       ansible.builtin.shell: /usr/bin/openssl rand -base64 48
