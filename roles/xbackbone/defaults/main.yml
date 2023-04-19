@@ -21,7 +21,7 @@ xbackbone_paths_folder: "{{ xbackbone_name }}"
 xbackbone_paths_location: "{{ server_appdata_path }}/{{ xbackbone_paths_folder }}"
 xbackbone_paths_folders_list:
   - "{{ xbackbone_paths_location }}"
-xbackbone_paths_config_location: "{{ xbackbone_paths_location }}/env"
+xbackbone_paths_config_location: "{{ xbackbone_paths_location }}/www/xbackbone/config.php"
 
 ################################
 # Web
@@ -62,7 +62,7 @@ xbackbone_docker_container: "{{ xbackbone_name }}"
 # Image
 xbackbone_docker_image_pull: true
 xbackbone_docker_image_tag: "latest"
-xbackbone_docker_image: "pe46dro/xbackbone-docker:{{ xbackbone_docker_image_tag }}"
+xbackbone_docker_image: "lscr.io/linuxserver/xbackbone:{{ xbackbone_docker_image_tag }}"
 
 # Ports
 xbackbone_docker_ports_defaults: []
@@ -72,17 +72,9 @@ xbackbone_docker_ports: "{{ xbackbone_docker_ports_defaults
 
 # Envs
 xbackbone_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  DOMAIN: "{{ xbackbone_web_subdomain + '.' + xbackbone_web_domain }}"
-  URL: "{{ xbackbone_web_url }}"
-  PHP_UPLOAD_MAX_FILESIZE: "1G"
-  PHP_MEMORY_LIMIT: "2048M"
-  DB_TYPE: "mysql"
-  MYSQL_HOST: "{{ xbackbone_name }}_mariadb"
-  MYSQL_DATABASE: "{{ xbackbone_name }}"
-  MYSQL_USER: "{{ mariadb_docker_env_user }}"
-  MYSQL_PASSWORD: "{{ mariadb_docker_env_password }}"
-  MYSQL_ROOT_PASSWORD: "{{ mariadb_docker_env_password }}"
 xbackbone_docker_envs_custom: {}
 xbackbone_docker_envs: "{{ xbackbone_docker_envs_default
                            | combine(xbackbone_docker_envs_custom) }}"
@@ -95,10 +87,7 @@ xbackbone_docker_commands: "{{ xbackbone_docker_commands_default
 
 # Volumes
 xbackbone_docker_volumes_default:
-  - "{{ xbackbone_paths_location }}/storage:/app/storage"
-  - "{{ xbackbone_paths_location }}/database:/app/resources/database"
-  - "{{ xbackbone_paths_location }}/logs:/app/logs"
-  - "{{ xbackbone_paths_location }}/config:/app/config"
+  - "{{ xbackbone_paths_location }}:/config"
 xbackbone_docker_volumes_custom: []
 xbackbone_docker_volumes: "{{ xbackbone_docker_volumes_default
                               + xbackbone_docker_volumes_custom }}"

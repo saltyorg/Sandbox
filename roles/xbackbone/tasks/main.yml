@@ -15,23 +15,28 @@
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
-- name: MariaDB Role
-  ansible.builtin.include_role:
-    name: mariadb
-  vars:
-    mariadb_instances: ["{{ xbackbone_name }}_mariadb"]
-    mariadb_docker_env_db: "{{ xbackbone_name }}"
-    mariadb_paths_folder: "{{ xbackbone_name }}"
-    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
-
-- name: Import Default MariaDB variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
-
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: "Settings | Check if config.php exists"
+  ansible.builtin.stat:
+    path: "{{ xbackbone_paths_config_location }}"
+  register: xbackbone_config
+
+- name: "Settings | config.php tasks"
+  when: not xbackbone_config.stat.exists
+  block:
+    - name: "Settings | Import config.php"
+      ansible.builtin.template:
+        src: config.php.j2
+        dest: '{{ xbackbone_paths_config_location }}'
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+        force: true
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
