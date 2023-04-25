@@ -7,7 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
@@ -20,23 +19,6 @@
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: "Settings | Check if config.php exists"
-  ansible.builtin.stat:
-    path: "{{ xbackbone_paths_config_location }}"
-  register: xbackbone_config
-
-- name: "Settings | config.php tasks"
-  when: not xbackbone_config.stat.exists
-  block:
-    - name: "Settings | Import config.php"
-      ansible.builtin.template:
-        src: config.php.j2
-        dest: '{{ xbackbone_paths_config_location }}'
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: 0775
-        force: true
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
