@@ -12,8 +12,7 @@
     name: alternatrr
   vars:
     alternatrr_name: "alternatrr{{ role }}"
-    sonarr_original_name: "sonarr{{ role }}"
-    sonarr_name: "{{ 'sonarr' + role if not '-' in role else ('sonarr' + role | replace('-', '_')) }}"
+    sonarr_name: "sonarr{{ role }}"
   with_items: "{{ alternatrrx.roles }}"
   loop_control:
     loop_var: role

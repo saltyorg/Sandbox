@@ -10,8 +10,7 @@
 - name: "Execute Jellyseerr roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    jellyseerr_original_name: "{{ role }}"
-    jellyseerr_name: "{{ role | replace('-', '_') }}"
+    jellyseerr_name: "{{ role }}"
   with_items: "{{ jellyseerr_instances }}"
   loop_control:
     loop_var: role

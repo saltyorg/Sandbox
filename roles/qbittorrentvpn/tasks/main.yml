@@ -10,8 +10,7 @@
 - name: "Execute qBittorrent VPN roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    qbittorrentvpn_original_name: "{{ role }}"
-    qbittorrentvpn_name: "{{ role | replace('-', '_') }}"
+    qbittorrentvpn_name: "{{ role }}"
   with_items: "{{ qbittorrentvpn_instances }}"
   loop_control:
     loop_var: role

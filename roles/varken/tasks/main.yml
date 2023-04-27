@@ -9,20 +9,17 @@
 ---
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
-    tautulli_original_name: "{{ tautulli_instances[0] }}"
-    tautulli_name: "{{ tautulli_instances[0] if not '-' in tautulli_instances[0] else (tautulli_instances[0] | replace('-', '_')) }}"
+    tautulli_name: "{{ tautulli_instances[0] }}"
   when: not tautulli_name is defined
 
 - name: Set Default Sonarr instance
   ansible.builtin.set_fact:
-    sonarr_original_name: "{{ sonarr_instances[0] }}"
-    sonarr_name: "{{ sonarr_instances[0] if not '-' in sonarr_instances[0] else (sonarr_instances[0] | replace('-', '_')) }}"
+    sonarr_name: "{{ sonarr_instances[0] }}"
   when: not sonarr_name is defined
 
 - name: Set Default Radarr instance
   ansible.builtin.set_fact:
-    radarr_original_name: "{{ radarr_instances[0] }}"
-    radarr_name: "{{ radarr_instances[0] if not '-' in radarr_instances[0] else (radarr_instances[0] | replace('-', '_')) }}"
+    radarr_name: "{{ radarr_instances[0] }}"
   when: not radarr_name is defined
 
 - name: InfluxDB Role
