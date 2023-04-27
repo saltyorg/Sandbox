@@ -10,8 +10,7 @@
 - name: "Execute Node-RED roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    node_red_original_name: "{{ role }}"
-    node_red_name: "{{ role | replace('-', '_') }}"
+    node_red_name: "{{ role }}"
   with_items: "{{ node_red_instances }}"
   loop_control:
     loop_var: role

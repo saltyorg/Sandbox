@@ -9,14 +9,12 @@
 ---
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
-    tautulli_original_name: "{{ tautulli_instances[0] }}"
-    tautulli_name: "{{ tautulli_instances[0] if not '-' in tautulli_instances[0] else (tautulli_instances[0] | replace('-', '_')) }}"
+    tautulli_name: "{{ tautulli_instances[0] }}"
   when: not tautulli_name is defined
 
 - name: Set Default Plex instance
   ansible.builtin.set_fact:
-    plex_original_name: "{{ plex_name | default(plex_instances[0]) }}"
-    plex_name: "{{ (plex_name | default(plex_instances[0])) if not '-' in (plex_name | default(plex_instances[0])) else ((plex_name | default(plex_instances[0])) | replace('-', '_')) }}"
+    plex_name: "{{ plex_name | default(plex_instances[0]) }}"
   when: not plex_name is defined
 
 # Tautulli Tasks

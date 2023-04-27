@@ -20,14 +20,14 @@ minecraft_paths_folder: "minecraft"
 minecraft_paths_location: "{{ server_appdata_path }}/{{ minecraft_paths_folder }}"
 minecraft_paths_folders_list:
   - "{{ minecraft_paths_location }}/"
-  - "{{ minecraft_paths_location }}/{{ minecraft_original_name }}"
-  - "{{ minecraft_paths_location }}/{{ minecraft_original_name }}/data"
+  - "{{ minecraft_paths_location }}/{{ minecraft_name }}"
+  - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data"
 
 ################################
 # Web
 ################################
 
-minecraft_web_subdomain: "{{ minecraft_original_name }}"
+minecraft_web_subdomain: "{{ minecraft_name }}"
 minecraft_web_domain: "{{ user.domain }}"
 
 ################################
@@ -43,7 +43,7 @@ minecraft_dns_proxy: false
 ################################
 
 # Container
-minecraft_docker_container: "{{ minecraft_original_name }}"
+minecraft_docker_container: "{{ minecraft_name }}"
 
 # Image
 minecraft_docker_image_pull: true
@@ -96,10 +96,10 @@ minecraft_docker_labels: "{{ docker_labels_common
                              | combine(lookup('vars', minecraft_name + '_docker_labels_custom', default=minecraft_docker_labels_custom)) }}"
 
 # Hostname
-minecraft_docker_hostname: "{{ minecraft_original_name }}"
+minecraft_docker_hostname: "{{ minecraft_name }}"
 
 # Networks
-minecraft_docker_networks_alias: "{{ minecraft_original_name }}"
+minecraft_docker_networks_alias: "{{ minecraft_name }}"
 minecraft_docker_networks_default: []
 minecraft_docker_networks_custom: []
 minecraft_docker_networks: "{{ docker_networks_common
