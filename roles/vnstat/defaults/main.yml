@@ -28,7 +28,7 @@ vnstat_web_url: "{{ 'https://' + vnstat_web_subdomain + '.' + vnstat_web_domain 
 
 vnstat_dns_record: "{{ vnstat_web_subdomain }}"
 vnstat_dns_zone: "{{ vnstat_web_domain }}"
-vnstat_dns_proxy: false
+vnstat_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik

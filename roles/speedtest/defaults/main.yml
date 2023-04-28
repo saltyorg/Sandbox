@@ -37,7 +37,7 @@ speedtest_web_url: "{{ 'https://' + speedtest_web_subdomain + '.' + speedtest_we
 
 speedtest_dns_record: "{{ speedtest_web_subdomain }}"
 speedtest_dns_zone: "{{ speedtest_web_domain }}"
-speedtest_dns_proxy: false # defeats the purpose if proxied
+speedtest_dns_proxy: false
 
 ################################
 # Traefik
