@@ -23,9 +23,6 @@
     mariadb_paths_folder: "{{ bookstack_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
-- name: Import Default MariaDB variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
-
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 

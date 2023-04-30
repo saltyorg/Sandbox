@@ -23,9 +23,6 @@
     gid: 1500
   ignore_errors: true
 
-- name: Import Default MariaDB variables
-  ansible.builtin.include_vars: /srv/git/saltbox/roles/mariadb/defaults/main.yml
-
 - name: Permissions | Add to invoiceninja group
   ansible.builtin.user:
     name: "{{ user.name }}"
