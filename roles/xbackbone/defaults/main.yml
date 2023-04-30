@@ -21,8 +21,6 @@ xbackbone_paths_folder: "{{ xbackbone_name }}"
 xbackbone_paths_location: "{{ server_appdata_path }}/{{ xbackbone_paths_folder }}"
 xbackbone_paths_folders_list:
   - "{{ xbackbone_paths_location }}"
-  - "{{ xbackbone_paths_location }}/www/xbackbone"
-xbackbone_paths_config_location: "{{ xbackbone_paths_location }}/www/xbackbone/config.php"
 
 ################################
 # Web
