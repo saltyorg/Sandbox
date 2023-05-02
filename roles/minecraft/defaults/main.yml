@@ -98,6 +98,10 @@ minecraft_docker_labels: "{{ docker_labels_common
 # Hostname
 minecraft_docker_hostname: "{{ minecraft_name }}"
 
+# Network Mode
+minecraft_docker_network_mode_default: "{{ docker_networks_name_common }}"
+minecraft_docker_network_mode: "{{ lookup('vars', minecraft_name + '_docker_network_mode_default', default=minecraft_docker_network_mode_default) }}"
+
 # Networks
 minecraft_docker_networks_alias: "{{ minecraft_name }}"
 minecraft_docker_networks_default: []
