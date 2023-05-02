@@ -125,6 +125,10 @@ jellyseerr_docker_labels: "{{ docker_labels_common
 # Hostname
 jellyseerr_docker_hostname: "{{ jellyseerr_name }}"
 
+# Network Mode
+jellyseerr_docker_network_mode_default: "{{ docker_networks_name_common }}"
+jellyseerr_docker_network_mode: "{{ lookup('vars', jellyseerr_name + '_docker_network_mode_default', default=jellyseerr_docker_network_mode_default) }}"
+
 # Networks
 jellyseerr_docker_networks_alias: "{{ jellyseerr_name }}"
 jellyseerr_docker_networks_default: []

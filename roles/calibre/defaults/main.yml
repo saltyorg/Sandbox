@@ -152,6 +152,10 @@ calibre_docker_labels: "{{ docker_labels_common
 # Hostname
 calibre_docker_hostname: "{{ calibre_name }}"
 
+# Network Mode
+calibre_docker_network_mode_default: "{{ docker_networks_name_common }}"
+calibre_docker_network_mode: "{{ lookup('vars', calibre_name + '_docker_network_mode_default', default=calibre_docker_network_mode_default) }}"
+
 # Networks
 calibre_docker_networks_alias: "{{ calibre_name }}"
 calibre_docker_networks_default: []
