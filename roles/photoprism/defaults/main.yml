@@ -99,7 +99,7 @@ photoprism_docker_envs_default:
   PHOTOPRISM_DATABASE_SERVER: "{{ photoprism_name }}_mariadb"
   PHOTOPRISM_DATABASE_NAME: "{{ photoprism_name }}"
   PHOTOPRISM_DATABASE_USER: "{{ mariadb_docker_env_user }}"
-  PHOTOPRISM_DATABASE_PASSWORD: "{{ mariadb_docker_env_user }}"
+  PHOTOPRISM_DATABASE_PASSWORD: "{{ mariadb_docker_env_password }}"
   PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
   PHOTOPRISM_SITE_DESCRIPTION: "Trying out PhotoPrism!"
   PHOTOPRISM_SITE_AUTHOR: "{{ user.name }}"
