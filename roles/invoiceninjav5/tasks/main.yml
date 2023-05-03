@@ -15,6 +15,7 @@
     mariadb_docker_env_db: "{{ invoiceninjav5_name }}"
     mariadb_paths_folder: "{{ invoiceninjav5_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
+    mariadb_docker_user: ""
 
 - name: Permissions | Create invoiceninja group
   ansible.builtin.group:
