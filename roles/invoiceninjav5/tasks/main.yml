@@ -17,6 +17,14 @@
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
     mariadb_docker_user: ""
 
+- name: MariaDB | Create invoiceninja database
+  community.mysql.mysql_db:
+    name: "{{ invoiceninjav5_name }}"
+    login_host: "{{ invoiceninjav5_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_env_password }}"
+    state: present
+
 - name: Permissions | Create invoiceninja group
   ansible.builtin.group:
     name: invoiceninja
