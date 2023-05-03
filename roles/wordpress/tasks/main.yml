@@ -10,7 +10,7 @@
 - name: "Execute Wordpress roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    wordpress_name: "{{ role }}"
+    wordpress_name: "{{ wordpress_role }}"
   with_items: "{{ wordpress_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: wordpress_role
