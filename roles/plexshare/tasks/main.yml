@@ -29,9 +29,9 @@
 
 - name: MariaDB | Create plexshare database
   community.mysql.mysql_db:
-    name: "plexshare"
-    login_host: "{{ plexshare_name }}-mariadb"
-    login_user: "root"
+    name: "{{ plexshare_name }}"
+    login_host: "{{ plexshare_name }}_mariadb"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
   when: not stat_plexshare_db_folder.stat.exists

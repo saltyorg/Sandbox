@@ -27,9 +27,9 @@
 
 - name: MariaDB | Create koel database
   community.mysql.mysql_db:
-    name: "koel"
-    login_host: "{{ koel_name }}-mariadb"
-    login_user: "root"
+    name: "{{ koel_name }}"
+    login_host: "{{ koel_name }}_mariadb"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
@@ -100,9 +100,9 @@
 
 - name: Edit Admin user
   community.mysql.mysql_query:
-    login_db: "koel"
-    login_host: "{{ koel_name }}-mariadb"
-    login_user: "root"
+    login_db: "{{ koel_name }}"
+    login_host: "{{ koel_name }}_mariadb"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `is_admin` = "1", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
   when: not stat_koel_db_folder.stat.exists

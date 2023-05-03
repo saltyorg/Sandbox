@@ -20,7 +20,7 @@
   community.mysql.mysql_db:
     name: "{{ nextcloud_name }}"
     login_host: "{{ nextcloud_name }}_mariadb"
-    login_user: "root"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
