@@ -19,6 +19,14 @@
     mariadb_paths_folder: "{{ teamspeak_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
+- name: MariaDB | Create teamspeak database
+  community.mysql.mysql_db:
+    name: "{{ teamspeak_name }}"
+    login_host: "{{ teamspeak_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_env_password }}"
+    state: present
+
 - name: Get next available port within the range of '9987-9997' # noqa fqcn[action]
   find_open_port:
     low_bound: 9987
