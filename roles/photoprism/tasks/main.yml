@@ -11,12 +11,17 @@
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
+  vars:
+    mariadb_instances: ["{{ photoprism_name }}_mariadb"]
+    mariadb_docker_env_db: "{{ photoprism_name }}"
+    mariadb_paths_folder: "{{ photoprism_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
 - name: MariaDB | Create photoprism database
   community.mysql.mysql_db:
-    name: "photoprisms"
-    login_host: "mariadb"
-    login_user: "root"
+    name: "{{ photoprism_name }}"
+    login_host: "{{ photoprism_name }}_mariadb"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
   ignore_errors: true
