@@ -16,6 +16,14 @@
     mariadb_paths_folder: "{{ nextcloud_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
 
+- name: MariaDB | Create invoiceninja database
+  community.mysql.mysql_db:
+    name: "{{ nextcloud_name }}"
+    login_host: "{{ nextcloud_name }}_mariadb"
+    login_user: "root"
+    login_password: "{{ mariadb_docker_env_password }}"
+    state: present
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
