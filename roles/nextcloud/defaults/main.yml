@@ -88,7 +88,7 @@ nextcloud_docker_envs_default:
   NEXTCLOUD_DATA_DIR: "{{ nextcloud_data_directory }}"
   MYSQL_DATABASE: "{{ nextcloud_name }}"
   MYSQL_USER: "{{ mariadb_docker_env_user }}"
-  MYSQL_PASSWORD: "{{ mariadb_docker_env_pass }}"
+  MYSQL_PASSWORD: "{{ mariadb_docker_env_password }}"
   MYSQL_HOST: "{{ nextcloud_name }}_mariadb:3306"
   OVERWRITEHOST: "{{ nextcloud_web_subdomain + '.' + nextcloud_web_domain }}"
   OVERWRITEPROTOCOL: "https"

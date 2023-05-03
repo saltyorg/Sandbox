@@ -80,7 +80,7 @@ wordpress_docker_envs_default:
   TZ: "{{ tz }}"
   WORDPRESS_DB_HOST: "{{ wordpress_name }}_mariadb:3306"
   WORDPRESS_DB_USER: "{{ mariadb_docker_env_user }}"
-  WORDPRESS_DB_PASSWORD: "{{ mariadb_docker_env_pass }}"
+  WORDPRESS_DB_PASSWORD: "{{ mariadb_docker_env_password }}"
   WORDPRESS_DB_NAME: "{{ wordpress_name }}"
 wordpress_docker_envs_custom: {}
 wordpress_docker_envs: "{{ lookup('vars', wordpress_name + '_docker_envs_default', default=wordpress_docker_envs_default)
