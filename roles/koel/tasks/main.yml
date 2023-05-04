@@ -25,14 +25,6 @@
     mariadb_paths_folder: "{{ koel_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
 
-- name: MariaDB | Create koel database
-  community.mysql.mysql_db:
-    name: "{{ koel_name }}"
-    login_host: "{{ koel_name }}_mariadb"
-    login_user: "{{ mariadb_docker_env_user }}"
-    login_password: "{{ mariadb_docker_env_password }}"
-    state: present
-
 - name: Check if db folder exists
   ansible.builtin.stat:
     path: "{{ koel_paths_location }}/vars.ini"
