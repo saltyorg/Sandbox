@@ -39,7 +39,7 @@ tauticord_docker_image: "nwithan8/tauticord"
 tauticord_docker_ports_defaults: []
 tauticord_docker_ports_custom: []
 tauticord_docker_ports: "{{ tauticord_docker_ports_defaults
-                          + tauticord_docker_ports_custom }}"
+                            + tauticord_docker_ports_custom }}"
 
 # Envs
 tauticord_docker_envs_default:
@@ -49,13 +49,13 @@ tauticord_docker_envs_default:
   UMASK: "022"
 tauticord_docker_envs_custom: {}
 tauticord_docker_envs: "{{ tauticord_docker_envs_default
-                         | combine(tauticord_docker_envs_custom) }}"
+                           | combine(tauticord_docker_envs_custom) }}"
 
 # Commands
 tauticord_docker_commands_default: []
 tauticord_docker_commands_custom: []
 tauticord_docker_commands: "{{ tauticord_docker_commands_default
-                             + tauticord_docker_commands_custom }}"
+                               + tauticord_docker_commands_custom }}"
 
 # Volumes
 tauticord_docker_volumes_default:
@@ -63,27 +63,27 @@ tauticord_docker_volumes_default:
   - "{{ tauticord_paths_location }}:/logs"
 tauticord_docker_volumes_custom: []
 tauticord_docker_volumes: "{{ tauticord_docker_volumes_default
-                            + tauticord_docker_volumes_custom }}"
+                              + tauticord_docker_volumes_custom }}"
 
 # Devices
 tauticord_docker_devices_default: []
 tauticord_docker_devices_custom: []
 tauticord_docker_devices: "{{ tauticord_docker_devices_default
-                            + tauticord_docker_devices_custom }}"
+                              + tauticord_docker_devices_custom }}"
 
 # Hosts
 tauticord_docker_hosts_default: []
 tauticord_docker_hosts_custom: []
 tauticord_docker_hosts: "{{ docker_hosts_common
-                          | combine(tauticord_docker_hosts_default)
-                          | combine(tauticord_docker_hosts_custom) }}"
+                            | combine(tauticord_docker_hosts_default)
+                            | combine(tauticord_docker_hosts_custom) }}"
 
 # Labels
 tauticord_docker_labels_default: {}
 tauticord_docker_labels_custom: {}
 tauticord_docker_labels: "{{ docker_labels_common
-                           | combine(tauticord_docker_labels_default)
-                           | combine(tauticord_docker_labels_custom) }}"
+                             | combine(tauticord_docker_labels_default)
+                             | combine(tauticord_docker_labels_custom) }}"
 
 # Hostname
 tauticord_docker_hostname: "{{ tauticord_name }}"
@@ -93,20 +93,20 @@ tauticord_docker_networks_alias: "{{ tauticord_name }}"
 tauticord_docker_networks_default: []
 tauticord_docker_networks_custom: []
 tauticord_docker_networks: "{{ docker_networks_common
-                             + tauticord_docker_networks_default
-                             + tauticord_docker_networks_custom }}"
+                               + tauticord_docker_networks_default
+                               + tauticord_docker_networks_custom }}"
 
 # Capabilities
 tauticord_docker_capabilities_default: []
 tauticord_docker_capabilities_custom: []
 tauticord_docker_capabilities: "{{ tauticord_docker_capabilities_default
-                                 + tauticord_docker_capabilities_custom }}"
+                                   + tauticord_docker_capabilities_custom }}"
 
 # Security Opts
 tauticord_docker_security_opts_default: []
 tauticord_docker_security_opts_custom: []
 tauticord_docker_security_opts: "{{ tauticord_docker_security_opts_default
-                                  + tauticord_docker_security_opts_custom }}"
+                                    + tauticord_docker_security_opts_custom }}"
 
 # Restart Policy
 tauticord_docker_restart_policy: unless-stopped
