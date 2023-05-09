@@ -113,3 +113,6 @@ mqtt_docker_restart_policy: unless-stopped
 
 # State
 mqtt_docker_state: started
+
+# User
+mqtt_docker_user: "{{ uid }}:{{ gid }}"
