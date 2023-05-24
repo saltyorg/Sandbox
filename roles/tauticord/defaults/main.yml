@@ -21,6 +21,8 @@ tauticord_paths_folder: "{{ tauticord_name }}"
 tauticord_paths_location: "{{ server_appdata_path }}/{{ tauticord_paths_folder }}"
 tauticord_paths_folders_list:
   - "{{ tauticord_paths_location }}"
+  - "{{ tauticord_paths_location }}/config"
+  - "{{ tauticord_paths_location }}/logs"
 
 ################################
 # Docker
