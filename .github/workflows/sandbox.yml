@@ -18,27 +18,27 @@ jobs:
   ansible-lint:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Lint Ansible Playbook
-      uses: ansible-community/ansible-lint-action@v6.8.2
+      - name: Lint Ansible Playbook
+        uses: ansible-community/ansible-lint-action@v6.16.0
 
   add-contributors:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/master'
     steps:
-    - uses: actions/checkout@v3
-    - uses: BobAnkh/add-contributors@master
-      with:
-        REPO_NAME: 'saltyorg/Sandbox'
-        CONTRIBUTOR: '### Contributors'
-        COLUMN_PER_ROW: '6'
-        ACCESS_TOKEN: ${{secrets.GH_TOKEN}}
-        IMG_WIDTH: '100'
-        FONT_SIZE: '14'
-        PATH: '/README.md'
-        COMMIT_MESSAGE: 'docs(README): update contributors'
-        AVATAR_SHAPE: 'square'
+      - uses: actions/checkout@v3
+      - uses: BobAnkh/add-contributors@master
+        with:
+          REPO_NAME: 'saltyorg/Sandbox'
+          CONTRIBUTOR: '### Contributors'
+          COLUMN_PER_ROW: '6'
+          ACCESS_TOKEN: ${{secrets.GH_TOKEN}}
+          IMG_WIDTH: '100'
+          FONT_SIZE: '14'
+          PATH: '/README.md'
+          COMMIT_MESSAGE: 'docs(README): update contributors'
+          AVATAR_SHAPE: 'square'
 
   find-roles:
     runs-on: ubuntu-22.04

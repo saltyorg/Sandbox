@@ -37,7 +37,7 @@
     force: yes
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: 0775
+    mode: "0775"
   when: not kcptun_config.stat.exists
 
 - name: Create and start container

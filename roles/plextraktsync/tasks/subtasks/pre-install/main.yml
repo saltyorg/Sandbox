@@ -40,4 +40,4 @@
   ansible.builtin.template:
     src: env.j2
     dest: "{{ plextraktsync_paths_env }}"
-    mode: 0644
+    mode: "0644"

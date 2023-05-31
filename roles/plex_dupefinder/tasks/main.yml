@@ -17,7 +17,7 @@
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: 0775
+    mode: "0775"
     recurse: yes
   with_items:
     - /opt/plex_dupefinder

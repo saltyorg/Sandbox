@@ -68,4 +68,4 @@
         dest: "{{ notifiarr_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
+        mode: "0775"

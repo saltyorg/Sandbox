@@ -74,15 +74,7 @@ qbittorrentvpn_docker_image: "{{ lookup('vars', qbittorrentvpn_name + '_docker_i
                                  + ':' + lookup('vars', qbittorrentvpn_name + '_docker_image_tag', default=qbittorrentvpn_docker_image_tag) }}"
 
 # Ports
-qbittorrentvpn_docker_ports_56881: "{{ port_lookup_56881.port
-                                    if (port_lookup_56881.port is defined)
-                                       and (port_lookup_56881.port | trim | length > 0)
-                                    else '56881' }}"
-qbittorrentvpn_web_port_lookup: "{{ lookup('vars', qbittorrentvpn_name + '_web_port', default=qbittorrentvpn_web_port) }}"
-
-qbittorrentvpn_docker_ports_defaults:
-  - "{{ qbittorrentvpn_docker_ports_56881 }}:{{ qbittorrentvpn_docker_ports_56881 }}"
-  - "{{ qbittorrentvpn_docker_ports_56881 }}:{{ qbittorrentvpn_docker_ports_56881 }}/udp"
+qbittorrentvpn_docker_ports_defaults: []
 qbittorrentvpn_docker_ports_custom: []
 qbittorrentvpn_docker_ports: "{{ lookup('vars', qbittorrentvpn_name + '_docker_ports_defaults', default=qbittorrentvpn_docker_ports_defaults)
                                  + lookup('vars', qbittorrentvpn_name + '_docker_ports_custom', default=qbittorrentvpn_docker_ports_custom) }}"

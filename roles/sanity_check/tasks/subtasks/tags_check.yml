@@ -12,16 +12,16 @@
   ansible.builtin.shell: |
     ansible-playbook sandbox.yml --list-tags 2>&1 | grep "TASK TAGS" \
       | cut -d":" -f2 | awk '{sub(/\[/, "")sub(/\]/, "")}1' | sed -e 's/,//g' | xargs -n 1 | sort -u
-  register: tags
+  register: available_ansible_tags
   changed_when: false
 
 - name: "List available tags"
   ansible.builtin.debug:
-    msg: "{{ tags.stdout_lines | join(', ') }}"
+    msg: "{{ available_ansible_tags.stdout_lines | join(', ') }}"
 
 - name: "Ensure valid tags were provided."
   ansible.builtin.assert:
     that:
-      - '"{{ item }}" in tags.stdout_lines'
+      - '"{{ item }}" in available_ansible_tags.stdout_lines'
     msg: "You must supply valid tags.')"
   with_items: "{{ ansible_run_tags }}"
