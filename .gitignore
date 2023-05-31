@@ -13,6 +13,7 @@
 # Sandbox
 /ansible.cfg
 /*.yml
+!/requirements.yml
 !/sandbox.yml
 /*.log
 /*.log.*
