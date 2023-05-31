@@ -40,19 +40,16 @@ teamspeak_dns_proxy: false
 ################################
 # Ports
 ################################
-teamspeak_docker_ports_9987: "{{ port_lookup_voice.port
-                              if (port_lookup_voice.port is defined)
-                                 and (port_lookup_voice.port | trim | length > 0)
+teamspeak_docker_ports_9987: "{{ port_lookup_voice.meta.port
+                              if (port_lookup_voice.meta.port is defined) and (port_lookup_voice.meta.port | trim | length > 0)
                               else '9987' }}"
 
-teamspeak_docker_ports_10011: "{{ port_lookup_webquery.port
-                               if (port_lookup_webquery.port is defined)
-                                  and (port_lookup_webquery.port | trim | length > 0)
+teamspeak_docker_ports_10011: "{{ port_lookup_webquery.meta.port
+                               if (port_lookup_webquery.meta.port is defined) and (port_lookup_webquery.meta.port | trim | length > 0)
                                else '10011' }}"
 
-teamspeak_docker_ports_30033: "{{ port_lookup_file.port
-                               if (port_lookup_file.port is defined)
-                                  and (port_lookup_file.port | trim | length > 0)
+teamspeak_docker_ports_30033: "{{ port_lookup_file.meta.port
+                               if (port_lookup_file.meta.port is defined) and (port_lookup_file.meta.port | trim | length > 0)
                                else '30033' }}"
 
 ################################

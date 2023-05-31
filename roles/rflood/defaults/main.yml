@@ -99,13 +99,11 @@ rflood_docker_image: "cr.hotio.dev/hotio/rflood:{{ rflood_docker_image_tag }}"
 # Ports
 # - Internal and External ports need to match for the next set of ports
 # - Lookup available ports and set docker ports accordingly
-rflood_docker_ports_50000: "{{ port_lookup_50000.port
-                            if (port_lookup_50000.port is defined)
-                               and (port_lookup_50000.port | trim | length > 0)
+rflood_docker_ports_50000: "{{ port_lookup_50000.meta.port
+                            if (port_lookup_50000.meta.port is defined) and (port_lookup_50000.meta.port | trim | length > 0)
                             else '50000' }}"
-rflood_docker_ports_6881: "{{ port_lookup_6881.port
-                           if (port_lookup_6881.port is defined)
-                              and (port_lookup_6881.port | trim | length > 0)
+rflood_docker_ports_6881: "{{ port_lookup_6881.meta.port
+                           if (port_lookup_6881.meta.port is defined) and (port_lookup_6881.meta.port | trim | length > 0)
                            else '6881' }}"
 rflood_docker_ports_defaults:
   - "{{ rflood_docker_ports_50000 }}:{{ rflood_docker_ports_50000 }}"
