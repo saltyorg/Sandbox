@@ -73,9 +73,8 @@ transmission_docker_image: "lscr.io/linuxserver/transmission:{{ transmission_doc
 # Ports
 # - Internal and External ports need to match for the next set of ports
 # - Lookup available ports and set docker ports accordingly
-transmission_docker_ports_51413: "{{ port_lookup_51413.port
-                                  if (port_lookup_51413.port is defined)
-                                     and (port_lookup_51413.port | trim | length > 0)
+transmission_docker_ports_51413: "{{ port_lookup_51413.meta.port
+                                  if (port_lookup_51413.meta.port is defined) and (port_lookup_51413.meta.port | trim | length > 0)
                                   else '51413' }}"
 transmission_docker_ports_defaults:
   - "{{ transmission_docker_ports_51413 }}:{{ transmission_docker_ports_51413 }}"
