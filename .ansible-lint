@@ -11,6 +11,9 @@ offline: False
 mock_modules:
   - find_open_port
 
+mock_roles:
+  - pre_tasks
+
 skip_list:
   - braces
   - git-latest
