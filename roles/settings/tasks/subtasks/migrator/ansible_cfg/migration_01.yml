@@ -17,7 +17,7 @@
     no_extra_spaces: false
     owner: "{{ sandbox_yml.stat.uid }}"
     group: "{{ sandbox_yml.stat.gid }}"
-    mode: 0664
+    mode: "0664"
   register: ansible_cfg_update_status
   loop:
     - { section: 'defaults', option: 'inventory', value: '/srv/git/saltbox/inventories/local' }

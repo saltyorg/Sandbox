@@ -25,7 +25,7 @@
         dest: "{{ jdownloader2_paths_tools_location }}/sevenzipjbinding1509.jar"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
+        mode: "0775"
         force: no
       when: not sevenzip_1509.stat.exists
 
@@ -35,6 +35,6 @@
         dest: "{{ jdownloader2_paths_tools_location }}/sevenzipjbinding1509Linux.jar"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
+        mode: "0775"
         force: no
       when: not sevenzip_1509linux.stat.exists

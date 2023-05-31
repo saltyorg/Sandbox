@@ -76,7 +76,7 @@
         dest: "{{ sarotate_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
+        mode: "0775"
 
 - name: Import sarotate service
   ansible.builtin.template:

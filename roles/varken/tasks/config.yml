@@ -74,5 +74,5 @@
     dest: /opt/varken/varken.ini
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: 0775
+    mode: "0775"
     force: yes

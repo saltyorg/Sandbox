@@ -33,7 +33,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0775
+    mode: "0775"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     recurse: true
@@ -52,7 +52,7 @@
   ansible.builtin.file:
     path: '/opt/plex/Library/Application Support/Plex Media Server/Scanners'
     state: directory
-    mode: 0775
+    mode: "0775"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     recurse: true
@@ -71,7 +71,7 @@
   ansible.builtin.file:
     path: '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
     state: directory
-    mode: 0775
+    mode: "0775"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     recurse: true

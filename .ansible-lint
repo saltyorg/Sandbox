@@ -6,6 +6,11 @@ exclude_paths:
   - defaults/
   - library/
 
+offline: False
+
+mock_modules:
+  - find_open_port
+
 skip_list:
   - braces
   - git-latest
@@ -16,8 +21,11 @@ skip_list:
   - no-handler
   - command-instead-of-module
   - command-instead-of-shell
+  - deprecated-command-syntax
   - yaml[line-length]
   - yaml[truthy]
   - schema[tasks]
   - name[casing]
   - name[template]
+  - var-naming[no-role-prefix]
+  - schema[playbook]

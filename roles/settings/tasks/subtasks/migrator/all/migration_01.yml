@@ -14,7 +14,7 @@
     replace: '\1 \2'
     owner: "{{ sandbox_yml.stat.uid }}"
     group: "{{ sandbox_yml.stat.gid }}"
-    mode: 0664
+    mode: "0664"
 
 - name: Migrator | All | '{{ file }}' | Migration 01 | Re-import Variables
   ansible.builtin.include_vars: "{{ playbook_dir }}/{{ file }}"

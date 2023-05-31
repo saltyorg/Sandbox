@@ -54,7 +54,7 @@
     dest: '{{ invoiceninjav5_conf_path }}'
     owner: "{{ user.name }}"
     group: "invoiceninja"
-    mode: 0775
+    mode: "0775"
     force: yes
   when: not invoiceninjav5_config.stat.exists
 

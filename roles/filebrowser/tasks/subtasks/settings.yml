@@ -21,7 +21,7 @@
         dest: "{{ filebrowser_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
+        mode: "0775"
 
 - name: "Settings | Check if '{{ filebrowser_paths_db_location | basename }}' exists"
   ansible.builtin.stat:
@@ -37,4 +37,4 @@
         dest: "{{ filebrowser_paths_db_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
+        mode: "0775"
