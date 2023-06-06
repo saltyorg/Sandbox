@@ -75,8 +75,7 @@ krusader_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  ADMIN_EMAIL: "{{ user.email }}"
-  SECRET_KEY: "{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=16') }}"
+  VNC_PASSWORD: "{{ user.pass }}"
   WEBPAGE_TITLE: "Kruader File Manager Web"
   TEMP_FOLDER: "/tmp"
 krusader_docker_envs_custom: {}
