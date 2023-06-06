@@ -1,0 +1,145 @@
+##########################################################################
+# Title:         Sandbox: Threadfin | Default Variables                  #
+# Author(s):     Satz, Migz, salty, BeansIsFat                           #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+threadfin_name: threadfin
+
+################################
+# Paths
+################################
+
+threadfin_paths_folder: "{{ threadfin_name }}"
+threadfin_paths_location: "{{ server_appdata_path }}/{{ threadfin_paths_folder }}"
+threadfin_paths_folders_list:
+  - "{{ threadfin_paths_location }}"
+
+################################
+# Web
+################################
+
+threadfin_web_subdomain: "{{ threadfin_name }}"
+threadfin_web_domain: "{{ user.domain }}"
+threadfin_web_port: "34400"
+threadfin_web_url: "{{ 'https://' + threadfin_web_subdomain + '.' + threadfin_web_domain }}"
+
+################################
+# DNS
+################################
+
+threadfin_dns_record: "{{ threadfin_web_subdomain }}"
+threadfin_dns_zone: "{{ threadfin_web_domain }}"
+threadfin_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+threadfin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+threadfin_traefik_middleware: "{{ traefik_default_middleware + ',' + threadfin_traefik_sso_middleware
+                           if (threadfin_traefik_sso_middleware | length > 0)
+                           else traefik_default_middleware }}"
+threadfin_traefik_certresolver: "{{ traefik_default_certresolver }}"
+threadfin_traefik_enabled: true
+threadfin_traefik_api_enabled: true
+threadfin_traefik_api_endpoint: "`/api`,`/images`,`/data_images`"
+
+################################
+# Docker
+################################
+
+# Container
+threadfin_docker_container: "{{ threadfin_name }}"
+
+# Image
+threadfin_docker_image_pull: true
+threadfin_docker_image_tag: "latest"
+threadfin_docker_image: "fyb3roptik/threadfin:{{ threadfin_docker_image_tag }}"
+
+# Ports
+threadfin_docker_ports_defaults: []
+threadfin_docker_ports_custom: []
+threadfin_docker_ports: "{{ threadfin_docker_ports_defaults
+                        + threadfin_docker_ports_custom }}"
+
+# Envs
+threadfin_docker_envs_default:
+  - TZ: "{{ tz }}"
+  - THREADFIN_BRANCH: "main"
+  - THREADFIN_DEBUG: "0"
+threadfin_docker_envs_custom: {}
+threadfin_docker_envs: "{{ threadfin_docker_envs_default
+                       | combine(threadfin_docker_envs_custom) }}"
+
+# Commands
+threadfin_docker_commands_default: []
+threadfin_docker_commands_custom: []
+threadfin_docker_commands: "{{ threadfin_docker_commands_default
+                           + threadfin_docker_commands_custom }}"
+
+# Volumes
+threadfin_docker_volumes_default:
+  - "{{ threadfin_paths_location }}:/home/threadfin/conf:rw"
+threadfin_docker_volumes_custom: []
+threadfin_docker_volumes: "{{ threadfin_docker_volumes_default
+                          + threadfin_docker_volumes_custom }}"
+
+# Devices
+threadfin_docker_devices_default: []
+threadfin_docker_devices_custom: []
+threadfin_docker_devices: "{{ threadfin_docker_devices_default
+                          + threadfin_docker_devices_custom }}"
+
+# Hosts
+threadfin_docker_hosts_default: []
+threadfin_docker_hosts_custom: []
+threadfin_docker_hosts: "{{ docker_hosts_common
+                        | combine(threadfin_docker_hosts_default)
+                        | combine(threadfin_docker_hosts_custom) }}"
+
+# Labels
+threadfin_docker_labels_default: {}
+threadfin_docker_labels_custom: {}
+threadfin_docker_labels: "{{ docker_labels_common
+                         | combine(threadfin_docker_labels_default)
+                         | combine(threadfin_docker_labels_custom) }}"
+
+# Hostname
+threadfin_docker_hostname: "{{ threadfin_name }}"
+
+# Networks
+threadfin_docker_networks_alias: "{{ threadfin_name }}"
+threadfin_docker_networks_default: []
+threadfin_docker_networks_custom: []
+threadfin_docker_networks: "{{ docker_networks_common
+                           + threadfin_docker_networks_default
+                           + threadfin_docker_networks_custom }}"
+
+# Capabilities
+threadfin_docker_capabilities_default: []
+threadfin_docker_capabilities_custom: []
+threadfin_docker_capabilities: "{{ threadfin_docker_capabilities_default
+                               + threadfin_docker_capabilities_custom }}"
+
+# Security Opts
+threadfin_docker_security_opts_default: []
+threadfin_docker_security_opts_custom: []
+threadfin_docker_security_opts: "{{ threadfin_docker_security_opts_default
+                                + threadfin_docker_security_opts_custom }}"
+
+# Restart Policy
+threadfin_docker_restart_policy: unless-stopped
+
+# State
+threadfin_docker_state: started
+
+# User
+threadfin_docker_user: "{{ uid }}:{{ gid }}"
