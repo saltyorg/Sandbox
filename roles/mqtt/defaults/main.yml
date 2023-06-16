@@ -60,7 +60,7 @@ mqtt_docker_volumes_default:
   - "{{ mqtt_paths_location }}/config:/mosquitto/config"
   - "{{ mqtt_paths_location }}/data:/mosquitto/data"
   - "{{ mqtt_paths_location }}/log:/mosquitto/log"
-  - /etc/localtime:/etc/localtime:ro
+  - "/etc/localtime:/etc/localtime:ro"
 mqtt_docker_volumes_custom: []
 mqtt_docker_volumes: "{{ mqtt_docker_volumes_default
                          + mqtt_docker_volumes_custom }}"
