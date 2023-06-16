@@ -66,9 +66,9 @@ sb list
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/BeansIsFat>
-            <img src=https://avatars.githubusercontent.com/u/24848012?v=4 width="100;"  alt=BeansIsFat/>
+            <img src=https://avatars.githubusercontent.com/u/24848012?v=4 width="100;"  alt=Beans Baxter/>
             <br />
-            <sub style="font-size:14px"><b>BeansIsFat</b></sub>
+            <sub style="font-size:14px"><b>Beans Baxter</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -248,14 +248,21 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/benwaco>
+            <img src=https://avatars.githubusercontent.com/u/127471645?v=4 width="100;"  alt=benwaco/>
+            <br />
+            <sub style="font-size:14px"><b>benwaco</b></sub>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/markschrik>
             <img src=https://avatars.githubusercontent.com/u/56775030?v=4 width="100;"  alt=markschrik/>
             <br />
             <sub style="font-size:14px"><b>markschrik</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/tipdec-siblyn>
             <img src=https://avatars.githubusercontent.com/u/99356862?v=4 width="100;"  alt=~tipdec-siblyn/>
