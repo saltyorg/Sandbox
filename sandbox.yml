@@ -82,6 +82,7 @@
     - { role: kitana, tags: ['kitana'] }
     - { role: koel, tags: ['koel'] }
     - { role: komga, tags: ['komga'] }
+    - { role: krusader, tags: ['krusader'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: linkding, tags: ['linkding'] }
     - { role: logarr, tags: ['logarr'] }
