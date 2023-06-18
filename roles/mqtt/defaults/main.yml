@@ -38,17 +38,13 @@ mqtt_docker_image_tag: "latest"
 mqtt_docker_image: "eclipse-mosquitto:{{ mqtt_docker_image_tag }}"
 
 # Ports
-mqtt_docker_ports_defaults:
-  - "1883"
-  - "9001"
+mqtt_docker_ports_defaults: []
 
 mqtt_docker_ports: "{{ mqtt_docker_ports_defaults }}"
 
 # Envs
 mqtt_docker_envs_default:
   TZ: "{{ tz }}"
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
 mqtt_docker_envs_custom: {}
 mqtt_docker_envs: "{{ mqtt_docker_envs_default
                       | combine(mqtt_docker_envs_custom) }}"
@@ -64,7 +60,7 @@ mqtt_docker_volumes_default:
   - "{{ mqtt_paths_location }}/config:/mosquitto/config"
   - "{{ mqtt_paths_location }}/data:/mosquitto/data"
   - "{{ mqtt_paths_location }}/log:/mosquitto/log"
-  - /etc/localtime:/etc/localtime:ro
+  - "/etc/localtime:/etc/localtime:ro"
 mqtt_docker_volumes_custom: []
 mqtt_docker_volumes: "{{ mqtt_docker_volumes_default
                          + mqtt_docker_volumes_custom }}"
@@ -117,3 +113,6 @@ mqtt_docker_restart_policy: unless-stopped
 
 # State
 mqtt_docker_state: started
+
+# User
+mqtt_docker_user: "{{ uid }}:{{ gid }}"
