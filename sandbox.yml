@@ -152,6 +152,7 @@
     - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
+    - { role: threadfin, tags: ['threadfin'] }
     - { role: tika, tags: ['tika'] }
     - { role: tqm, tags: ['tqm'] }
     - { role: trackarr, tags: ['trackarr'] }
