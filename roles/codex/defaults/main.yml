@@ -31,7 +31,7 @@ codex_web_subdomain: "{{ codex_name }}"
 codex_web_domain: "{{ user.domain }}"
 codex_web_port: "9810"
 codex_web_url: "{{ 'https://' + lookup('vars', codex_name + '_web_subdomain', default=codex_web_subdomain)
-                    + '.' + lookup('vars', codex_name + '_web_domain', default=codex_web_domain) }}"
+                   + '.' + lookup('vars', codex_name + '_web_domain', default=codex_web_domain) }}"
 
 ################################
 # DNS
