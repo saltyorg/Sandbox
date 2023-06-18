@@ -99,7 +99,6 @@ codex_docker_commands: "{{ lookup('vars', codex_name + '_docker_commands_default
 # Volumes
 codex_docker_volumes_default:
   - "{{ codex_paths_location }}:/config"
-  - "/mnt:/mnt"
 codex_docker_volumes_custom: []
 codex_docker_volumes: "{{ lookup('vars', codex_name + '_docker_volumes_default', default=codex_docker_volumes_default)
                           + lookup('vars', codex_name + '_docker_volumes_custom', default=codex_docker_volumes_custom) }}"
