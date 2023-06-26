@@ -53,6 +53,7 @@
     - { role: filebrowser, tags: ['filebrowser'] }
     - { role: filezilla, tags: ['filezilla'] }
     - { role: flaresolverr, tags: ['flaresolverr'] }
+    - { role: forgejo, tags: ['forgejo'] }
     - { role: freshrss, tags: ['freshrss'] }
     - { role: funkwhale, tags: ['funkwhale'] }
     - { role: gaps, tags: ['gaps'] }
