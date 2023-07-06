@@ -56,7 +56,7 @@ forgejo_docker_container: "{{ forgejo_name }}"
 
 # Image
 forgejo_docker_image_pull: true
-forgejo_docker_image_tag: "1.19.3-0" # the Codeberg container registry does not provide a "latest" tag
+forgejo_docker_image_tag: "1.19" # the Codeberg container registry does not provide a "latest" tag
 forgejo_docker_image: "codeberg.org/forgejo/forgejo:{{ forgejo_docker_image_tag }}"
 
 # Ports
