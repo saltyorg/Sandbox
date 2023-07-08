@@ -24,7 +24,7 @@ code_server_paths_folders_list:
   - "{{ code_server_paths_location }}/project"
   - "{{ code_server_paths_location }}/.config"
   - "{{ code_server_paths_location }}/.local"
-  
+
 ################################
 # Web
 ################################
