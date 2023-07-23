@@ -12,10 +12,10 @@
   roles:
     # Reqs
     - { role: settings, tags: ['settings'] }
-    - { role: pre_tasks, tags: ['always', 'pre_tasks'] }
-    - { role: sanity_check, tags: ['always', 'sanity_check'] }
+    - { role: pre_tasks, tags: ['always', 'pre-tasks'] }
+    - { role: sanity_check, tags: ['always', 'sanity-check'] }
     # Apps Start
-    - { role: a_train, tags: ['a_train'] }
+    - { role: a_train, tags: ['a-train'] }
     - { role: adguardhome, tags: ['adguardhome'] }
     - { role: adminer, tags: ['adminer'] }
     - { role: airdcpp, tags: ['airdcpp'] }
@@ -35,7 +35,7 @@
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
     - { role: coder, tags: ['coder'] }
-    - { role: code_server, tags: ['code_server'] }
+    - { role: code_server, tags: ['code-server'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
     - { role: dashdot, tags: ['dashdot'] }
@@ -112,19 +112,19 @@
     - { role: pgadmin, tags: ['pgadmin'] }
     - { role: photoprism, tags: ['photoprism'] }
     - { role: phpmyadmin, tags: ['phpmyadmin'] }
-    - { role: plex_autoscan, tags: ['plex_autoscan'] }
-    - { role: plex_dupefinder, tags: ['plex_dupefinder'] }
+    - { role: plex_autoscan, tags: ['plex-autoscan'] }
+    - { role: plex_dupefinder, tags: ['plex-dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
-    - { role: plex_auto_languages, tags: ['plex_auto_languages'] }
-    - { role: plex_patrol, tags: ['plex_patrol'] }
-    - { role: plex_utills, tags: ['plex_utills'] }
+    - { role: plex_auto_languages, tags: ['plex-auto-languages'] }
+    - { role: plex_patrol, tags: ['plex-patrol'] }
+    - { role: plex_utills, tags: ['plex-utills'] }
     - { role: plexshare, tags: ['plexshare'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
     - { role: puddletag, tags: ['puddletag'] }
     - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
-    - { role: qbit_manage, tags: ['qbit_manage'] }
+    - { role: qbit_manage, tags: ['qbit-manage'] }
     - { role: qbittorrentvpn, tags: ['qbittorrentvpn'] }
     - { role: rdtclient, tags: ['rdtclient'] }
     - { role: recyclarr, tags: ['recyclarr'] }
@@ -145,14 +145,14 @@
     - { role: syncthing, tags: ['syncthing'] }
     - { role: tandoor, tags: ['tandoor'] }
     - { role: tdarr, tags: ['tdarr'] }
-    - { role: tdarr_node, tags: ['tdarr_node'] }
+    - { role: tdarr_node, tags: ['tdarr-node'] }
     - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: tika, tags: ['tika'] }
     - { role: tqm, tags: ['tqm'] }
     - { role: trackarr, tags: ['trackarr'] }
-    - { role: traefik_robotstxt, tags: ['traefik_robotstxt'] }
+    - { role: traefik_robotstxt, tags: ['traefik-robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
     - { role: transmissionx, tags: ['transmissionx'] }
