@@ -19,6 +19,8 @@ membarr_name: membarr
 
 membarr_paths_folder: "{{ membarr_name }}"
 membarr_paths_location: "{{ server_appdata_path }}/{{ membarr_paths_folder }}"
+membarr_paths_recursive: true
+membarr_paths_config_location: "{{ membarr_paths_location }}/config.ini"
 membarr_paths_folders_list:
   - "{{ membarr_paths_location }}"
 
