@@ -1,0 +1,185 @@
+##########################################################################
+# Title:         Saltbox: Maintainerr | Default Variables                #
+# Author(s):     dabigc                                                  #
+# URL:           https://github.com/saltyorg/Saltbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+maintainerr_instances: ["maintainerr"]
+
+################################
+# Paths
+################################
+
+maintainerr_paths_folder: "{{ maintainerr_name }}"
+maintainerr_paths_location: "{{ server_appdata_path }}/{{ maintainerr_paths_folder }}"
+maintainerr_paths_cache: "{{ maintainerr_paths_location }}/cache"
+maintainerr_paths_folders_list:
+  - "{{ maintainerr_paths_location }}"
+  - "{{ maintainerr_paths_cache }}"
+
+################################
+# Web
+################################
+
+maintainerr_web_subdomain: "{{ maintainerr_name }}"
+maintainerr_web_domain: "{{ user.domain }}"
+maintainerr_web_port: "80"
+maintainerr_web_url: "{{ 'https://' + lookup('vars', maintainerr_name + '_web_subdomain', default=maintainerr_web_subdomain)
+                       + '.' + lookup('vars', maintainerr_name + '_web_domain', default=maintainerr_web_domain) }}"
+
+################################
+# DNS
+################################
+
+maintainerr_dns_record: "{{ lookup('vars', maintainerr_name + '_web_subdomain', default=maintainerr_web_subdomain) }}"
+maintainerr_dns_zone: "{{ lookup('vars', maintainerr_name + '_web_domain', default=maintainerr_web_domain) }}"
+maintainerr_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Settings
+################################
+
+maintainerr_log_level: "info"
+
+################################
+# Traefik
+################################
+
+maintainerr_traefik_themepark_middleware: "{{ ',themepark-' + lookup('vars', maintainerr_name + '_name', default=maintainerr_name)
+                                         if (maintainerr_themepark_enabled and global_themepark_plugin_enabled)
+                                         else '' }}"
+maintainerr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+maintainerr_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                         + lookup('vars', maintainerr_name + '_traefik_sso_middleware', default=maintainerr_traefik_sso_middleware)
+                                      if (lookup('vars', maintainerr_name + '_traefik_sso_middleware', default=maintainerr_traefik_sso_middleware) | length > 0)
+                                      else traefik_default_middleware }}"
+maintainerr_traefik_middleware_custom: ""
+maintainerr_traefik_middleware: "{{ maintainerr_traefik_middleware_default + ','
+                                  + maintainerr_traefik_middleware_custom + ','
+                                  + maintainerr_traefik_themepark_middleware
+                               if (not maintainerr_traefik_middleware_custom.startswith(',') and maintainerr_traefik_middleware_custom | length > 0)
+                               else maintainerr_traefik_middleware_default
+                                  + maintainerr_traefik_middleware_custom
+                                  + maintainerr_traefik_themepark_middleware }}"
+
+maintainerr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+maintainerr_traefik_enabled: true
+
+################################
+# THEME
+################################
+
+# Options can be found at https://github.com/gilbN/theme.park
+maintainerr_themepark_enabled: false
+maintainerr_themepark_theme: "{{ global_themepark_theme }}"
+
+################################
+# Docker
+################################
+
+# Container
+maintainerr_docker_container: "{{ maintainerr_name }}"
+
+# Image
+maintainerr_docker_image_pull: true
+maintainerr_docker_image_repo: "jorenn92/maintainerr"
+maintainerr_docker_image_tag: "latest"
+maintainerr_docker_image: "{{ lookup('vars', maintainerr_name + '_docker_image_repo', default=maintainerr_docker_image_repo)
+                            + ':' + lookup('vars', maintainerr_name + '_docker_image_tag', default=maintainerr_docker_image_tag) }}"
+
+# Ports
+maintainerr_docker_ports_defaults: []
+maintainerr_docker_ports_custom: []
+maintainerr_docker_ports: "{{ lookup('vars', maintainerr_name + '_docker_ports_defaults', default=maintainerr_docker_ports_defaults)
+                            + lookup('vars', maintainerr_name + '_docker_ports_custom', default=maintainerr_docker_ports_custom) }}"
+
+# Envs
+maintainerr_docker_envs_default:
+  UMASK: "002"
+  TZ: "{{ tz }}"
+  LOG_LEVEL: "{{ maintainerr_log_level }}"
+maintainerr_docker_envs_custom: {}
+maintainerr_docker_envs: "{{ lookup('vars', maintainerr_name + '_docker_envs_default', default=maintainerr_docker_envs_default)
+                           | combine(lookup('vars', maintainerr_name + '_docker_envs_custom', default=maintainerr_docker_envs_custom)) }}"
+
+# Commands
+maintainerr_docker_commands_default: []
+maintainerr_docker_commands_custom: []
+maintainerr_docker_commands: "{{ lookup('vars', maintainerr_name + '_docker_commands_default', default=maintainerr_docker_commands_default)
+                               + lookup('vars', maintainerr_name + '_docker_docker_commands_custom', default=maintainerr_docker_commands_custom) }}"
+
+# Volumes
+maintainerr_docker_volumes_default:
+  - "{{ maintainerr_paths_location }}:/opt/data"
+maintainerr_docker_volumes_custom: []
+maintainerr_docker_volumes: "{{ lookup('vars', maintainerr_name + '_docker_volumes_default', default=maintainerr_docker_volumes_default)
+                              + lookup('vars', maintainerr_name + '_docker_volumes_custom', default=maintainerr_docker_volumes_custom) }}"
+
+# Devices
+maintainerr_docker_devices_default: []
+maintainerr_docker_devices_custom: []
+maintainerr_docker_devices: "{{ lookup('vars', maintainerr_name + '_docker_devices_default', default=maintainerr_docker_devices_default)
+                              + lookup('vars', maintainerr_name + '_docker_devices_custom', default=maintainerr_docker_devices_custom) }}"
+
+# Hosts
+maintainerr_docker_hosts_default: []
+maintainerr_docker_hosts_custom: []
+maintainerr_docker_hosts: "{{ docker_hosts_common
+                            | combine(lookup('vars', maintainerr_name + '_docker_hosts_default', default=maintainerr_docker_hosts_default))
+                            | combine(lookup('vars', maintainerr_name + '_docker_hosts_custom', default=maintainerr_docker_hosts_custom)) }}"
+
+# Labels
+maintainerr_docker_labels_default: {}
+maintainerr_docker_labels_custom: {}
+maintainerr_docker_labels_themepark:
+  - '{ "traefik.http.middlewares.themepark-{{ lookup("vars", maintainerr_name + "_name", default=maintainerr_name) }}.plugin.themepark.app": "maintainerr" }'
+  - '{ "traefik.http.middlewares.themepark-{{ lookup("vars", maintainerr_name + "_name", default=maintainerr_name) }}.plugin.themepark.theme": "{{ lookup("vars", maintainerr_name + "_themepark_theme", default=maintainerr_themepark_theme) }}" }'
+maintainerr_docker_labels: "{{ docker_labels_common
+                             | combine(lookup('vars', maintainerr_name + '_docker_labels_default', default=maintainerr_docker_labels_default))
+                             | combine((lookup('vars', maintainerr_name + '_docker_labels_themepark', default=maintainerr_docker_labels_themepark)
+                          if (maintainerr_themepark_enabled and global_themepark_plugin_enabled)
+                          else {}),
+                          lookup('vars', maintainerr_name + '_docker_labels_custom', default=maintainerr_docker_labels_custom)) }}"
+
+# Hostname
+maintainerr_docker_hostname: "{{ maintainerr_name }}"
+
+# Network Mode
+maintainerr_docker_network_mode_default: "{{ docker_networks_name_common }}"
+maintainerr_docker_network_mode: "{{ lookup('vars', maintainerr_name + '_docker_network_mode_default', default=maintainerr_docker_network_mode_default) }}"
+
+# Networks
+maintainerr_docker_networks_alias: "{{ maintainerr_name }}"
+maintainerr_docker_networks_default: []
+maintainerr_docker_networks_custom: []
+maintainerr_docker_networks: "{{ docker_networks_common
+                               + lookup('vars', maintainerr_name + '_docker_networks_default', default=maintainerr_docker_networks_default)
+                               + lookup('vars', maintainerr_name + '_docker_networks_custom', default=maintainerr_docker_networks_custom) }}"
+
+# Capabilities
+maintainerr_docker_capabilities_default: []
+maintainerr_docker_capabilities_custom: []
+maintainerr_docker_capabilities: "{{ lookup('vars', maintainerr_name + '_docker_capabilities_default', default=maintainerr_docker_capabilities_default)
+                                   + lookup('vars', maintainerr_name + '_docker_capabilities_custom', default=maintainerr_docker_capabilities_custom) }}"
+
+# Security Opts
+maintainerr_docker_security_opts_default: []
+maintainerr_docker_security_opts_custom: []
+maintainerr_docker_security_opts: "{{ lookup('vars', maintainerr_name + '_docker_security_opts_default', default=maintainerr_docker_security_opts_default)
+                                    + lookup('vars', maintainerr_name + '_docker_security_opts_custom', default=maintainerr_docker_security_opts_custom) }}"
+
+# Restart Policy
+maintainerr_docker_restart_policy: unless-stopped
+
+# State
+maintainerr_docker_state: started
+
+# User
+maintainerr_docker_user: "{{ uid }}:{{ gid }}"

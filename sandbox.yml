@@ -88,6 +88,7 @@
     - { role: linkding, tags: ['linkding'] }
     - { role: logarr, tags: ['logarr'] }
     - { role: lunasea, tags: ['lunasea'] }
+    - { role: maintainerr, tags: ['maintainerr'] }
     - { role: makemkv, tags: ['makemkv'] }
     - { role: mcrouter, tags: ['mcrouter'] }
     - { role: medusa, tags: ['medusa'] }
