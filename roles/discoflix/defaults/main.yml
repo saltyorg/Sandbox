@@ -68,7 +68,7 @@ discoflix_docker_ports: "{{ discoflix_docker_ports_defaults
                             + discoflix_docker_ports_custom }}"
 
 # Envs
-discoflix_docker_envs_default: {"internal_df_url" : "http://{{ discoflix_name }}:{{ discoflix_web_port }}"}
+discoflix_docker_envs_default: {"internal_df_url":"http://{{ discoflix_name }}:{{ discoflix_web_port }}"}
 discoflix_docker_envs_custom: {}
 discoflix_docker_envs: "{{ discoflix_docker_envs_default
                            | combine(discoflix_docker_envs_custom) }}"
