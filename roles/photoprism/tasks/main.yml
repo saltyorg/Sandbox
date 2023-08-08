@@ -21,18 +21,11 @@
     state: present
   ignore_errors: true
 
-- name: Permissions | Create photoprism group
+- name: Permissions | Delete photoprism group
   ansible.builtin.group:
     name: photoprism
-    state: present
+    state: absent
     gid: 1500
-  ignore_errors: true
-
-- name: Permissions | Add to photoprism group
-  ansible.builtin.user:
-    name: "{{ user.name }}"
-    groups: photoprism
-    append: yes
   ignore_errors: true
 
 - name: Add DNS record
