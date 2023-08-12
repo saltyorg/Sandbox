@@ -227,6 +227,13 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/nickheyer>
+            <img src=https://avatars.githubusercontent.com/u/60236014?v=4 width="100;"  alt=Nicholas W. Heyer/>
+            <br />
+            <sub style="font-size:14px"><b>Nicholas W. Heyer</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/nickstarkloff>
             <img src=https://avatars.githubusercontent.com/u/51816213?v=4 width="100;"  alt=Nick Starkloff/>
             <br />
@@ -247,6 +254,8 @@ sb list
             <sub style="font-size:14px"><b>ayykamp</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/azerial>
             <img src=https://avatars.githubusercontent.com/u/2659199?v=4 width="100;"  alt=azerial/>
@@ -254,8 +263,6 @@ sb list
             <sub style="font-size:14px"><b>azerial</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/benwaco>
             <img src=https://avatars.githubusercontent.com/u/127471645?v=4 width="100;"  alt=Ben Waco/>
