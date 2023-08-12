@@ -1,0 +1,137 @@
+##########################################################################
+# Title:         Sandbox: DiscoFlix | Default Variables                  #
+# Author(s):     nickheyer                                               #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+discoflix_name: discoflix
+
+################################
+# Paths
+################################
+
+discoflix_paths_folder: "{{ discoflix_name }}"
+discoflix_paths_location: "{{ server_appdata_path }}/{{ discoflix_paths_folder }}"
+discoflix_paths_folders_list:
+  - "{{ discoflix_paths_location }}"
+
+################################
+# Web
+################################
+
+discoflix_web_subdomain: "{{ discoflix_name }}"
+discoflix_web_domain: "{{ user.domain }}"
+discoflix_web_port: "5454"
+discoflix_web_url: "{{ 'https://' + discoflix_web_subdomain + '.' + discoflix_web_domain }}"
+
+################################
+# DNS
+################################
+
+discoflix_dns_record: "{{ discoflix_web_subdomain }}"
+discoflix_dns_zone: "{{ discoflix_web_domain }}"
+discoflix_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+discoflix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+discoflix_traefik_middleware: "{{ traefik_default_middleware + ',' + discoflix_traefik_sso_middleware
+                               if (discoflix_traefik_sso_middleware | length > 0)
+                               else traefik_default_middleware }}"
+discoflix_traefik_certresolver: "{{ traefik_default_certresolver }}"
+discoflix_traefik_enabled: true
+################################
+# Docker
+################################
+
+# Container
+discoflix_docker_container: "{{ discoflix_name }}"
+
+# Image
+discoflix_docker_image_pull: true
+discoflix_docker_image_tag: "latest"
+discoflix_docker_image: "nickheyer/discoflix:{{ discoflix_docker_image_tag }}"
+
+# Ports
+discoflix_docker_ports_defaults: []
+discoflix_docker_ports_custom: []
+discoflix_docker_ports: "{{ discoflix_docker_ports_defaults
+                            + discoflix_docker_ports_custom }}"
+
+# Envs
+discoflix_docker_envs_default: {"internal_df_url":"http://{{ discoflix_name }}:{{ discoflix_web_port }}"}
+discoflix_docker_envs_custom: {}
+discoflix_docker_envs: "{{ discoflix_docker_envs_default
+                           | combine(discoflix_docker_envs_custom) }}"
+
+# Commands
+discoflix_docker_commands_default: []
+discoflix_docker_commands_custom: []
+discoflix_docker_commands: "{{ discoflix_docker_commands_default
+                               + discoflix_docker_commands_custom }}"
+
+# Volumes
+discoflix_docker_volumes_default:
+  - "{{ discoflix_paths_location }}/db:/app/data"
+  - "{{ discoflix_paths_location }}/log:/app/log"
+discoflix_docker_volumes_custom: []
+discoflix_docker_volumes: "{{ discoflix_docker_volumes_default
+                              + discoflix_docker_volumes_custom }}"
+
+# Devices
+discoflix_docker_devices_default: []
+discoflix_docker_devices_custom: []
+discoflix_docker_devices: "{{ discoflix_docker_devices_default
+                              + discoflix_docker_devices_custom }}"
+
+# Hosts
+discoflix_docker_hosts_default: []
+discoflix_docker_hosts_custom: []
+discoflix_docker_hosts: "{{ docker_hosts_common
+                            | combine(discoflix_docker_hosts_default)
+                            | combine(discoflix_docker_hosts_custom) }}"
+
+# Labels
+discoflix_docker_labels_default: {}
+discoflix_docker_labels_custom: {}
+discoflix_docker_labels: "{{ docker_labels_common
+                             | combine(discoflix_docker_labels_default)
+                             | combine(discoflix_docker_labels_custom) }}"
+
+# Hostname
+discoflix_docker_hostname: "{{ discoflix_name }}"
+
+# Networks
+discoflix_docker_networks_alias: "{{ discoflix_name }}"
+discoflix_docker_networks_default: []
+discoflix_docker_networks_custom: []
+discoflix_docker_networks: "{{ docker_networks_common
+                               + discoflix_docker_networks_default
+                               + discoflix_docker_networks_custom }}"
+
+# Capabilities
+discoflix_docker_capabilities_default: []
+discoflix_docker_capabilities_custom: []
+discoflix_docker_capabilities: "{{ discoflix_docker_capabilities_default
+                                 + discoflix_docker_capabilities_custom }}"
+
+# Security Opts
+discoflix_docker_security_opts_default: []
+discoflix_docker_security_opts_custom: []
+discoflix_docker_security_opts: "{{ discoflix_docker_security_opts_default
+                                    + discoflix_docker_security_opts_custom }}"
+
+# Restart Policy
+discoflix_docker_restart_policy: unless-stopped
+
+# State
+discoflix_docker_state: started
