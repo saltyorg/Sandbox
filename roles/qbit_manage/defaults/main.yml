@@ -32,7 +32,7 @@ qbit_manage_docker_container: "{{ qbit_manage_name }}"
 # Image
 qbit_manage_docker_image_pull: true
 qbit_manage_docker_image_tag: "release"
-qbit_manage_docker_image: "cr.hotio.dev/hotio/qbitmanage:{{ qbit_manage_docker_image_tag }}"
+qbit_manage_docker_image: "ghcr.io/hotio/qbitmanage:{{ qbit_manage_docker_image_tag }}"
 
 # Ports
 qbit_manage_docker_ports_defaults: []
