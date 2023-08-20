@@ -74,7 +74,7 @@ stash_docker_container: "{{ stash_name }}"
 # Image
 stash_docker_image_pull: true
 stash_docker_image_tag: "latest"
-stash_docker_image: "cr.hotio.dev/hotio/stash:{{ stash_docker_image_tag }}"
+stash_docker_image: "ghcr.io/hotio/stash:{{ stash_docker_image_tag }}"
 
 # Ports
 stash_docker_ports_defaults: []

@@ -101,7 +101,7 @@ rflood_docker_container: "{{ rflood_name }}"
 # Image
 rflood_docker_image_pull: true
 rflood_docker_image_tag: "release"
-rflood_docker_image: "cr.hotio.dev/hotio/rflood:{{ rflood_docker_image_tag }}"
+rflood_docker_image: "ghcr.io/hotio/rflood:{{ rflood_docker_image_tag }}"
 
 # Ports
 # - Internal and External ports need to match for the next set of ports
