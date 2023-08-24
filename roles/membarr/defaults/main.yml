@@ -1,0 +1,116 @@
+##########################################################################
+# Title:            Sandbox: Membarr | Default Variables                 #
+# Author(s):        CHAIR/Raneydazed                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+membarr_name: membarr
+
+################################
+# Paths
+################################
+
+membarr_paths_folder: "{{ membarr_name }}"
+membarr_paths_location: "{{ server_appdata_path }}/{{ membarr_paths_folder }}"
+membarr_paths_recursive: true
+membarr_paths_config_location: "{{ membarr_paths_location }}/config.ini"
+membarr_paths_folders_list:
+  - "{{ membarr_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+membarr_docker_container: "{{ membarr_name }}"
+
+# Image
+membarr_docker_image_pull: true
+membarr_docker_image_tag: "latest"
+membarr_docker_image: "yoruio/membarr:{{ membarr_docker_image_tag }}"
+
+# Ports
+membarr_docker_ports_defaults: []
+membarr_docker_ports_custom: []
+membarr_docker_ports: "{{ membarr_docker_ports_defaults
+                          + membarr_docker_ports_custom }}"
+
+# Envs
+membarr_docker_envs_default:
+  TZ: "{{ tz }}"
+  token: "{{ membarr.discord_token }}"
+membarr_docker_envs_custom: {}
+membarr_docker_envs: "{{ membarr_docker_envs_default
+                         | combine(membarr_docker_envs_custom) }}"
+
+# Commands
+membarr_docker_commands_default: []
+membarr_docker_commands_custom: []
+membarr_docker_commands: "{{ membarr_docker_commands_default
+                             + membarr_docker_commands_custom }}"
+
+# Volumes
+membarr_docker_volumes_default:
+  - "{{ membarr_paths_location }}:/app/app/config"
+membarr_docker_volumes_custom: []
+membarr_docker_volumes: "{{ membarr_docker_volumes_default
+                            + membarr_docker_volumes_custom }}"
+
+# Devices
+membarr_docker_devices_default: []
+membarr_docker_devices_custom: []
+membarr_docker_devices: "{{ membarr_docker_devices_default
+                            + membarr_docker_devices_custom }}"
+
+# Hosts
+membarr_docker_hosts_default: []
+membarr_docker_hosts_custom: []
+membarr_docker_hosts: "{{ docker_hosts_common
+                          | combine(membarr_docker_hosts_default)
+                          | combine(membarr_docker_hosts_custom) }}"
+
+# Labels
+membarr_docker_labels_default: {}
+membarr_docker_labels_custom: {}
+membarr_docker_labels: "{{ docker_labels_common
+                           | combine(membarr_docker_labels_default)
+                           | combine(membarr_docker_labels_custom) }}"
+
+# Hostname
+membarr_docker_hostname: "{{ membarr_name }}"
+
+# Networks
+membarr_docker_networks_alias: "{{ membarr_name }}"
+membarr_docker_networks_default: []
+membarr_docker_networks_custom: []
+membarr_docker_networks: "{{ docker_networks_common
+                             + membarr_docker_networks_default
+                             + membarr_docker_networks_custom }}"
+
+# Capabilities
+membarr_docker_capabilities_default: []
+membarr_docker_capabilities_custom: []
+membarr_docker_capabilities: "{{ membarr_docker_capabilities_default
+                                 + membarr_docker_capabilities_custom }}"
+
+# Security Opts
+membarr_docker_security_opts_default: []
+membarr_docker_security_opts_custom: []
+membarr_docker_security_opts: "{{ membarr_docker_security_opts_default
+                                  + membarr_docker_security_opts_custom }}"
+
+# Restart Policy
+membarr_docker_restart_policy: always
+
+# State
+membarr_docker_state: started
+
+# User
+membarr_docker_user: "{{ uid }}:{{ gid }}"

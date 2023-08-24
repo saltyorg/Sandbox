@@ -33,6 +33,8 @@ handbrake:
   handbrake_pass: saltbox
 invoiceninja:
   app_key: 'base64:O1S3kAJEDgo92gPkXtxfdCJpoGShgKloUSdcaHMXmoY='
+membarr:
+  discord_token: your_discord_bot_token
 moviematch:
   libraries: Movies
   plex_url: http://plex:32400
