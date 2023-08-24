@@ -1,0 +1,63 @@
+##########################################################################
+# Title:            Sandbox: Membarr                                     #
+# Author(s):        CHAIR/Raneydazed                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Set Default Plex instance
+  ansible.builtin.set_fact:
+    plex_name: "{{ plex_instances[0] }}"
+  when: not plex_name is defined
+
+# Plex Tasks
+
+- name: "Settings | Check if '{{ plex_paths_config_location | basename }}' exists"
+  ansible.builtin.stat:
+    path: "{{ plex_paths_config_location }}"
+  register: preferences_xml
+
+- name: Settings | {{ plex_name }} info tasks
+  block:
+
+    - name: Settings | Fetch {{ plex_name }} info
+      community.general.xml:
+        path: "{{ plex_paths_config_location }}"
+        xpath: /Preferences
+        content: attribute
+      register: preferences_xml_resp
+      ignore_errors: true
+
+    - name: Settings | Register {{ plex_name }} Auth Token Value
+      ansible.builtin.set_fact:
+        plex_auth_token: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineToken }}"
+
+    - name: Settings | Register {{ plex_name }} Friendly Server Name
+      ansible.builtin.set_fact:
+        plex_friendly_name: "{{ preferences_xml_resp.matches[0].Preferences.FriendlyName }}"
+
+    - name: Settings | Register {{ plex_name }} User Name
+      ansible.builtin.set_fact:
+        plex_online_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
+
+  when: preferences_xml.stat.exists
+
+- name: Settings | Check if `{{ membarr_paths_config_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ membarr_paths_config_location }}"
+  register: membarr_config
+
+- name: Settings | New `{{ membarr_paths_config_location | basename }}` tasks
+  block:
+
+    - name: Settings | Import default `{{ membarr_paths_config_location | basename }}`
+      ansible.builtin.template:
+        src: config.ini.j2
+        dest: "{{ membarr_paths_config_location }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: 0775
+
+  when: not membarr_config.stat.exists
