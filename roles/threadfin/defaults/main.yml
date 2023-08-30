@@ -29,7 +29,6 @@ threadfin_paths_folders_list:
 threadfin_web_subdomain: "{{ threadfin_name }}"
 threadfin_web_domain: "{{ user.domain }}"
 threadfin_web_port: "34400"
-threadfin_web_url: "{{ 'https://' + threadfin_web_subdomain + '.' + threadfin_web_domain }}"
 
 ################################
 # DNS
@@ -44,13 +43,11 @@ threadfin_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 threadfin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-threadfin_traefik_middleware: "{{ traefik_default_middleware + ',' + threadfin_traefik_sso_middleware
-                               if (threadfin_traefik_sso_middleware | length > 0)
-                               else traefik_default_middleware }}"
+threadfin_traefik_middleware_default: "{{ traefik_default_middleware }}"
 threadfin_traefik_certresolver: "{{ traefik_default_certresolver }}"
 threadfin_traefik_enabled: true
 threadfin_traefik_api_enabled: true
-threadfin_traefik_api_endpoint: "`/api`,`/images`,`/data_images`"
+threadfin_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/images`) || PathPrefix(`/data_images`)"
 
 ################################
 # Docker
