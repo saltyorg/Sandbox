@@ -20,6 +20,7 @@
   register: preferences_xml
 
 - name: Settings | {{ plex_name }} info tasks
+  when: preferences_xml.stat.exists
   block:
 
     - name: Settings | Fetch {{ plex_name }} info
@@ -42,14 +43,13 @@
       ansible.builtin.set_fact:
         plex_online_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
 
-  when: preferences_xml.stat.exists
-
 - name: Settings | Check if `{{ membarr_paths_config_location | basename }}` exists
   ansible.builtin.stat:
     path: "{{ membarr_paths_config_location }}"
   register: membarr_config
 
 - name: Settings | New `{{ membarr_paths_config_location | basename }}` tasks
+  when: not membarr_config.stat.exists
   block:
 
     - name: Settings | Import default `{{ membarr_paths_config_location | basename }}`
@@ -58,6 +58,4 @@
         dest: "{{ membarr_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: 0775
-
-  when: not membarr_config.stat.exists
+        mode: "0775"
