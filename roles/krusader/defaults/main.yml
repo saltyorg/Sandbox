@@ -30,7 +30,6 @@ krusader_paths_folders_list:
 krusader_web_subdomain: "{{ krusader_name }}"
 krusader_web_domain: "{{ user.domain }}"
 krusader_web_port: "6080"
-krusader_web_url: "{{ 'https://' + krusader_web_subdomain + '.' + krusader_web_domain }}"
 
 ################################
 # DNS
@@ -45,12 +44,12 @@ krusader_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 krusader_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-krusader_traefik_middleware: "{{ traefik_default_middleware + ',' + krusader_traefik_sso_middleware
-                              if (krusader_traefik_sso_middleware | length > 0)
-                              else traefik_default_middleware }}"
+krusader_traefik_middleware_default: "{{ traefik_default_middleware }}"
 krusader_traefik_middleware_api: "{{ traefik_global_middleware }}"
 krusader_traefik_certresolver: "{{ traefik_default_certresolver }}"
 krusader_traefik_enabled: true
+krusader_traefik_api_enabled: false
+krusader_traefik_api_endpoint: ""
 
 ################################
 # Docker
