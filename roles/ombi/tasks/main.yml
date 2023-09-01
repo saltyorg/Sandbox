@@ -14,3 +14,4 @@
   with_items: "{{ ombi_instances }}"
   loop_control:
     loop_var: role
+  
