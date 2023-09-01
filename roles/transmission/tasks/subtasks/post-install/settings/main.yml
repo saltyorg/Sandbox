@@ -1,11 +1,11 @@
-####################################################################################
-# Title:         Sandbox: rflood | Post-Install | Settings | Existing Installs     #
-# Author(s):     salty                                                             #
-# URL:           https://github.com/saltyorg/Sandbox                               #
-# --                                                                               #
-####################################################################################
-#                   GNU General Public License v3.0                                #
-####################################################################################
+######################################################################################
+# Title:         Sandbox: Transmission | Post-Install | Settings | Existing Installs #
+# Author(s):     salty                                                               #
+# URL:           https://github.com/saltyorg/Sandbox                                 #
+# --                                                                                 #
+######################################################################################
+#                   GNU General Public License v3.0                                  #
+######################################################################################
 ---
 - name: Post-Install | Settings | Update 'settings.json' config settings
   ansible.builtin.shell: jq '."peer-port"={{ transmission_docker_ports_51413 }}' "{{ transmission_paths_setttings_location }}" | sponge "{{ transmission_paths_setttings_location }}"  # noqa 204
