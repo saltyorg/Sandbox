@@ -29,7 +29,7 @@ requestrr_paths_folders_list:
 requestrr_web_subdomain: "{{ requestrr_name }}"
 requestrr_web_domain: "{{ user.domain }}"
 requestrr_web_port: "4545"
-requestrr_web_url: "{{ 'https://' + lookup('vars', requestrr_name + '_web_subdomain', default=requestrr_web_subdomain) 
+requestrr_web_url: "{{ 'https://' + lookup('vars', requestrr_name + '_web_subdomain', default=requestrr_web_subdomain)
                         + '.' + lookup('vars', requestrr_name + '_web_domain', default=requestrr_web_domain) }}"
 
 ################################
