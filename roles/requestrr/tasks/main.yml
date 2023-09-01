@@ -14,4 +14,3 @@
   with_items: "{{ requestrr_instances }}"
   loop_control:
     loop_var: role
-    

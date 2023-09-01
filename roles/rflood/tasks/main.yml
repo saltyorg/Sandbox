@@ -13,4 +13,3 @@
   with_items: "{{ rflood_instances }}"
   loop_control:
     loop_var: role
-    
