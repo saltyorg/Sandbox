@@ -12,6 +12,11 @@
     tautulli_name: "{{ tautulli_instances[0] }}"
   when: not tautulli_name is defined
 
+- name: Set Default Ombi instance
+  ansible.builtin.set_fact:
+    ombi_name: "{{ ombi_instances[0] }}"
+  when: not ombi_name is defined
+
 - name: Set Default Sonarr instance
   ansible.builtin.set_fact:
     sonarr_name: "{{ sonarr_instances[0] }}"
