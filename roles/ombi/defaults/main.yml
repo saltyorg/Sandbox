@@ -21,7 +21,6 @@ ombi_paths_folder: "{{ ombi_name }}"
 ombi_paths_location: "{{ server_appdata_path }}/{{ ombi_paths_folder }}"
 ombi_paths_folders_list:
   - "{{ ombi_paths_location }}"
-ombi_paths_recursive: true
 
 ################################
 # Web
@@ -31,7 +30,7 @@ ombi_web_subdomain: "{{ ombi_name }}"
 ombi_web_domain: "{{ user.domain }}"
 ombi_web_port: "3579"
 ombi_web_url: "{{ 'https://' + lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain)
-                      + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain) }}"
+                  + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain) }}"
 
 ################################
 # DNS
@@ -65,7 +64,7 @@ ombi_docker_image_pull: true
 ombi_docker_image_repo: "lscr.io/linuxserver/ombi"
 ombi_docker_image_tag: "latest"
 ombi_docker_image: "{{ lookup('vars', ombi_name + '_docker_image_repo', default=ombi_docker_image_repo)
-                      + ':' + lookup('vars', ombi_name + '_docker_image_tag', default=ombi_docker_image_tag) }}"
+                       + ':' + lookup('vars', ombi_name + '_docker_image_tag', default=ombi_docker_image_tag) }}"
 
 # Ports
 ombi_docker_ports_defaults: []
@@ -93,13 +92,13 @@ ombi_docker_volumes_default:
   - "{{ ombi_paths_location }}:/config"
 ombi_docker_volumes_custom: []
 ombi_docker_volumes: "{{ lookup('vars', ombi_name + '_docker_volumes_default', default=ombi_docker_volumes_default)
-                        + lookup('vars', ombi_name + '_docker_volumes_custom', default=ombi_docker_volumes_custom) }}"
+                         + lookup('vars', ombi_name + '_docker_volumes_custom', default=ombi_docker_volumes_custom) }}"
 
 # Devices
 ombi_docker_devices_default: []
 ombi_docker_devices_custom: []
 ombi_docker_devices: "{{ lookup('vars', ombi_name + '_docker_devices_default', default=ombi_docker_devices_default)
-                        + lookup('vars', ombi_name + '_docker_devices_custom', default=ombi_docker_devices_custom) }}"
+                         + lookup('vars', ombi_name + '_docker_devices_custom', default=ombi_docker_devices_custom) }}"
 
 # Hosts
 ombi_docker_hosts_default: []
