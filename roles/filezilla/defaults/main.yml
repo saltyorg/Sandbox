@@ -31,8 +31,8 @@ filezilla_web_subdomain: "{{ filezilla_name }}"
 filezilla_web_domain: "{{ user.domain }}"
 filezilla_web_port: "5800"
 filezilla_web_url: "{{ 'https://' + (filezilla_web_subdomain + '.' + filezilla_web_domain
-                   if (filezilla_web_subdomain | length > 0)
-                   else filezilla_web_domain) }}"
+                    if (filezilla_web_subdomain | length > 0)
+                    else filezilla_web_domain) }}"
 
 ################################
 # DNS

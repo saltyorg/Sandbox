@@ -31,8 +31,8 @@ homeassistant_web_subdomain: "{{ homeassistant_name }}"
 homeassistant_web_domain: "{{ user.domain }}"
 homeassistant_web_port: "8123"
 homeassistant_web_url: "{{ 'https://' + (homeassistant_web_subdomain + '.' + homeassistant_web_domain
-                   if (homeassistant_web_subdomain | length > 0)
-                   else homeassistant_web_domain) }}"
+                        if (homeassistant_web_subdomain | length > 0)
+                        else homeassistant_web_domain) }}"
 
 ################################
 # DNS

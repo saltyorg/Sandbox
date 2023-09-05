@@ -36,8 +36,8 @@ airdcpp_web_subdomain: "{{ airdcpp_name }}"
 airdcpp_web_domain: "{{ user.domain }}"
 airdcpp_web_port: "5600"
 airdcpp_web_url: "{{ 'https://' + (airdcpp_web_subdomain + '.' + airdcpp_web_domain
-                   if (airdcpp_web_subdomain | length > 0)
-                   else airdcpp_web_domain) }}"
+                  if (airdcpp_web_subdomain | length > 0)
+                  else airdcpp_web_domain) }}"
 
 ################################
 # DNS

@@ -38,8 +38,8 @@ rflood_web_subdomain: "{{ rflood_name }}"
 rflood_web_domain: "{{ user.domain }}"
 rflood_web_port: "3000"
 rflood_web_url: "{{ 'https://' + (rflood_web_subdomain + '.' + rflood_web_domain
-                   if (rflood_web_subdomain | length > 0)
-                   else rflood_web_domain) }}"
+                 if (rflood_web_subdomain | length > 0)
+                 else rflood_web_domain) }}"
 
 ################################
 # DNS

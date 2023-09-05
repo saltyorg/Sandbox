@@ -36,8 +36,8 @@ delugevpn_web_subdomain: "{{ delugevpn_name }}"
 delugevpn_web_domain: "{{ user.domain }}"
 delugevpn_web_port: "8112"
 delugevpn_web_url: "{{ 'https://' + (delugevpn_web_subdomain + '.' + delugevpn_web_domain
-                   if (delugevpn_web_subdomain | length > 0)
-                   else delugevpn_web_domain) }}"
+                    if (delugevpn_web_subdomain | length > 0)
+                    else delugevpn_web_domain) }}"
 
 ################################
 # DNS

@@ -31,8 +31,8 @@ dashy_web_subdomain: "{{ dashy_name }}"
 dashy_web_domain: "{{ user.domain }}"
 dashy_web_port: "80"
 dashy_web_url: "{{ 'https://' + (dashy_web_subdomain + '.' + dashy_web_domain
-                   if (dashy_web_subdomain | length > 0)
-                   else dashy_web_domain) }}"
+                if (dashy_web_subdomain | length > 0)
+                else dashy_web_domain) }}"
 
 ################################
 # DNS

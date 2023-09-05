@@ -31,8 +31,8 @@ plex_utills_web_subdomain: "{{ plex_utills_name }}"
 plex_utills_web_domain: "{{ user.domain }}"
 plex_utills_web_port: "80"
 plex_utils_web_url: "{{ 'https://' + (plex_utils_web_subdomain + '.' + plex_utils_web_domain
-                   if (plex_utils_web_subdomain | length > 0)
-                   else plex_utils_web_domain) }}"
+                     if (plex_utils_web_subdomain | length > 0)
+                     else plex_utils_web_domain) }}"
 
 ################################
 # DNS

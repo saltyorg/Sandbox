@@ -30,8 +30,8 @@ wizarr_web_subdomain: "{{ wizarr_name }}"
 wizarr_web_domain: "{{ user.domain }}"
 wizarr_web_port: "5690"
 wizarr_web_url: "{{ 'https://' + (wizarr_web_subdomain + '.' + wizarr_web_domain
-                   if (wizarr_web_subdomain | length > 0)
-                   else wizarr_web_domain) }}"
+                 if (wizarr_web_subdomain | length > 0)
+                 else wizarr_web_domain) }}"
 
 ################################
 # DNS

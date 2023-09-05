@@ -32,8 +32,8 @@ comicstreamer_web_subdomain: "{{ comicstreamer_name }}"
 comicstreamer_web_domain: "{{ user.domain }}"
 comicstreamer_web_port: "32500"
 comicstreamer_web_url: "{{ 'https://' + (comicstreamer_web_subdomain + '.' + comicstreamer_web_domain
-                   if (comicstreamer_web_subdomain | length > 0)
-                   else comicstreamer_web_domain) }}"
+                        if (comicstreamer_web_subdomain | length > 0)
+                        else comicstreamer_web_domain) }}"
 
 ################################
 # DNS

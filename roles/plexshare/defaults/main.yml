@@ -30,8 +30,8 @@ plexshare_web_subdomain: "{{ plexshare_name }}"
 plexshare_web_domain: "{{ user.domain }}"
 plexshare_web_port: "80"
 plexshare_web_url: "{{ 'https://' + (plexshare_web_subdomain + '.' + plexshare_web_domain
-                   if (plexshare_web_subdomain | length > 0)
-                   else plexshare_web_domain) }}"
+                    if (plexshare_web_subdomain | length > 0)
+                    else plexshare_web_domain) }}"
 
 ################################
 # DNS

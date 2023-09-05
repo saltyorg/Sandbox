@@ -35,8 +35,8 @@ your_spotify_web_subdomain: "spotify"
 your_spotify_web_domain: "{{ user.domain }}"
 your_spotify_web_port: "80"
 your_spotify_web_url: "{{ 'https://' + (your_spotify_web_subdomain + '.' + your_spotify_web_domain
-                   if (your_spotify_web_subdomain | length > 0)
-                   else your_spotify_web_domain) }}"
+                       if (your_spotify_web_subdomain | length > 0)
+                       else your_spotify_web_domain) }}"
 
 ################################
 # DNS

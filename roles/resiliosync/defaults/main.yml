@@ -31,8 +31,8 @@ resiliosync_web_subdomain: "{{ resiliosync_name }}"
 resiliosync_web_domain: "{{ user.domain }}"
 resiliosync_web_port: "8888"
 resiliosync_web_url: "{{ 'https://' + (resiliosync_web_subdomain + '.' + resiliosync_web_domain
-                   if (resiliosync_web_subdomain | length > 0)
-                   else resiliosync_web_domain) }}"
+                      if (resiliosync_web_subdomain | length > 0)
+                      else resiliosync_web_domain) }}"
 
 ################################
 # DNS

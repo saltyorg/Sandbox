@@ -30,8 +30,8 @@ navidrome_web_subdomain: "{{ navidrome_name }}"
 navidrome_web_domain: "{{ user.domain }}"
 navidrome_web_port: "4533"
 navidrome_web_url: "{{ 'https://' + (navidrome_web_subdomain + '.' + navidrome_web_domain
-                   if (navidrome_web_subdomain | length > 0)
-                   else navidrome_web_domain) }}"
+                    if (navidrome_web_subdomain | length > 0)
+                    else navidrome_web_domain) }}"
 
 ################################
 # DNS

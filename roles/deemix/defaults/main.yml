@@ -30,8 +30,8 @@ deemix_web_subdomain: "{{ deemix_name }}"
 deemix_web_domain: "{{ user.domain }}"
 deemix_web_port: "6595"
 deemix_web_url: "{{ 'https://' + (deemix_web_subdomain + '.' + deemix_web_domain
-                   if (deemix_web_subdomain | length > 0)
-                   else deemix_web_domain) }}"
+                 if (deemix_web_subdomain | length > 0)
+                 else deemix_web_domain) }}"
 
 ################################
 # DNS
