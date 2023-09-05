@@ -33,7 +33,9 @@ koel_paths_folders_list:
 koel_web_subdomain: "{{ koel_name }}"
 koel_web_domain: "{{ user.domain }}"
 koel_web_port: "80"
-koel_web_url: "{{ 'https://' + koel_web_subdomain + '.' + koel_web_domain }}"
+koel_web_url: "{{ 'https://' + (koel_web_subdomain + '.' + koel_web_domain
+                   if (koel_web_subdomain | length > 0)
+                   else koel_web_domain) }}"
 
 ################################
 # DNS

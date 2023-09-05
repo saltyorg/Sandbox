@@ -34,7 +34,9 @@ paperless_ngx_paths_folders_list:
 paperless_ngx_web_subdomain: "{{ paperless_ngx_name }}"
 paperless_ngx_web_domain: "{{ user.domain }}"
 paperless_ngx_web_port: "8000"
-paperless_ngx_web_url: "{{ 'https://' + paperless_ngx_web_subdomain + '.' + paperless_ngx_web_domain }}"
+paperless_ngx_web_url: "{{ 'https://' + (paperless_ngx_web_subdomain + '.' + paperless_ngx_web_domain
+                   if (paperless_ngx_web_subdomain | length > 0)
+                   else paperless_ngx_web_domain) }}"
 
 ################################
 # DNS

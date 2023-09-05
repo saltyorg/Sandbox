@@ -29,7 +29,9 @@ xbackbone_paths_folders_list:
 xbackbone_web_subdomain: "{{ xbackbone_name }}"
 xbackbone_web_domain: "{{ user.domain }}"
 xbackbone_web_port: "80"
-xbackbone_web_url: "{{ 'https://' + xbackbone_web_subdomain + '.' + xbackbone_web_domain }}"
+xbackbone_web_url: "{{ 'https://' + (xbackbone_web_subdomain + '.' + xbackbone_web_domain
+                   if (xbackbone_web_subdomain | length > 0)
+                   else xbackbone_web_domain) }}"
 
 ################################
 # DNS

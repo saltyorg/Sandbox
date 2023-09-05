@@ -34,7 +34,9 @@ stash_paths_folders_list:
 stash_web_subdomain: "{{ stash_name }}"
 stash_web_domain: "{{ user.domain }}"
 stash_web_port: "9999"
-stash_web_url: "{{ 'https://' + stash_web_subdomain + '.' + stash_web_domain }}"
+stash_web_url: "{{ 'https://' + (stash_web_subdomain + '.' + stash_web_domain
+                   if (stash_web_subdomain | length > 0)
+                   else stash_web_domain) }}"
 
 ################################
 # DNS

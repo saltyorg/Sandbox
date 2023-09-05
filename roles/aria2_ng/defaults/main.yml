@@ -31,7 +31,9 @@ aria2_ng_paths_folders_list:
 aria2_ng_web_subdomain: "{{ aria2_ng_name }}"
 aria2_ng_web_domain: "{{ user.domain }}"
 aria2_ng_web_port: "8080"
-aria2_ng_web_url: "{{ 'https://' + aria2_ng_web_subdomain + '.' + aria2_ng_web_domain }}"
+aria2_ng_web_url: "{{ 'https://' + (aria2_ng_web_subdomain + '.' + aria2_ng_web_domain
+                   if (aria2_ng_web_subdomain | length > 0)
+                   else aria2_ng_web_domain) }}"
 
 ################################
 # DNS

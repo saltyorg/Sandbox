@@ -29,7 +29,9 @@ speedtest_paths_folders_list:
 speedtest_web_subdomain: "{{ speedtest_name }}"
 speedtest_web_domain: "{{ user.domain }}"
 speedtest_web_port: "80"
-speedtest_web_url: "{{ 'https://' + speedtest_web_subdomain + '.' + speedtest_web_domain }}"
+speedtest_web_url: "{{ 'https://' + (speedtest_web_subdomain + '.' + speedtest_web_domain
+                   if (speedtest_web_subdomain | length > 0)
+                   else speedtest_web_domain) }}"
 
 ################################
 # DNS

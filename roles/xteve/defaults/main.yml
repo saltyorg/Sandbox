@@ -29,7 +29,9 @@ xteve_paths_folders_list:
 xteve_web_subdomain: "{{ xteve_name }}"
 xteve_web_domain: "{{ user.domain }}"
 xteve_web_port: "34400"
-xteve_web_url: "{{ 'https://' + xteve_web_subdomain + '.' + xteve_web_domain }}"
+xteve_web_url: "{{ 'https://' + (xteve_web_subdomain + '.' + xteve_web_domain
+                   if (xteve_web_subdomain | length > 0)
+                   else xteve_web_domain) }}"
 
 ################################
 # DNS

@@ -29,7 +29,9 @@ requestrr_paths_folders_list:
 requestrr_web_subdomain: "{{ requestrr_name }}"
 requestrr_web_domain: "{{ user.domain }}"
 requestrr_web_port: "4545"
-requestrr_web_url: "{{ 'https://' + requestrr_web_subdomain + '.' + requestrr_web_domain }}"
+requestrr_web_url: "{{ 'https://' + (requestrr_web_subdomain + '.' + requestrr_web_domain
+                   if (requestrr_web_subdomain | length > 0)
+                   else requestrr_web_domain) }}"
 
 ################################
 # DNS

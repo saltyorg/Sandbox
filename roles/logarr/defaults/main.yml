@@ -31,7 +31,9 @@ logarr_paths_config_location: "{{ logarr_paths_location }}/userdata/config.json"
 logarr_web_subdomain: "{{ logarr_name }}"
 logarr_web_domain: "{{ user.domain }}"
 logarr_web_port: "80"
-logarr_web_url: "{{ 'https://' + logarr_web_subdomain + '.' + logarr_web_domain }}"
+logarr_web_url: "{{ 'https://' + (logarr_web_subdomain + '.' + logarr_web_domain
+                   if (logarr_web_subdomain | length > 0)
+                   else logarr_web_domain) }}"
 
 ################################
 # DNS

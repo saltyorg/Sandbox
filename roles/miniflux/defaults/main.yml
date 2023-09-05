@@ -39,7 +39,9 @@ miniflux_paths_folders_list:
 miniflux_web_subdomain: "{{ miniflux_name }}"
 miniflux_web_domain: "{{ user.domain }}"
 miniflux_web_port: "8080"
-miniflux_web_url: "{{ 'https://' + miniflux_web_subdomain + '.' + miniflux_web_domain }}"
+miniflux_web_url: "{{ 'https://' + (miniflux_web_subdomain + '.' + miniflux_web_domain
+                   if (miniflux_web_subdomain | length > 0)
+                   else miniflux_web_domain) }}"
 
 ################################
 # DNS

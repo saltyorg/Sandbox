@@ -29,7 +29,9 @@ trilium_paths_folders_list:
 trilium_web_subdomain: "{{ trilium_name }}"
 trilium_web_domain: "{{ user.domain }}"
 trilium_web_port: "8080"
-trilium_web_url: "{{ 'https://' + trilium_web_subdomain + '.' + trilium_web_domain }}"
+trilium_web_url: "{{ 'https://' + (trilium_web_subdomain + '.' + trilium_web_domain
+                   if (trilium_web_subdomain | length > 0)
+                   else trilium_web_domain) }}"
 
 ################################
 # DNS

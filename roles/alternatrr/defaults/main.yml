@@ -30,7 +30,9 @@ alternatrr_paths_folders_list:
 alternatrr_web_subdomain: "{{ alternatrr_name }}"
 alternatrr_web_domain: "{{ user.domain }}"
 alternatrr_web_port: "80"
-alternatrr_web_url: "{{ 'https://' + alternatrr_web_subdomain + '.' + alternatrr_web_domain }}"
+alternatrr_web_url: "{{ 'https://' + (alternatrr_web_subdomain + '.' + alternatrr_web_domain
+                   if (alternatrr_web_subdomain | length > 0)
+                   else alternatrr_web_domain) }}"
 
 ################################
 # DNS

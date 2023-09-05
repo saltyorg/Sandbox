@@ -32,7 +32,9 @@ tvheadend_paths_folders_list:
 tvheadend_web_subdomain: "{{ tvheadend_name }}"
 tvheadend_web_domain: "{{ user.domain }}"
 tvheadend_web_port: "9981"
-tvheadend_web_url: "{{ 'https://' + tvheadend_web_subdomain + '.' + tvheadend_web_domain }}"
+tvheadend_web_url: "{{ 'https://' + (tvheadend_web_subdomain + '.' + tvheadend_web_domain
+                   if (tvheadend_web_subdomain | length > 0)
+                   else tvheadend_web_domain) }}"
 
 ################################
 # DNS

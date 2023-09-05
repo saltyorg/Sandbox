@@ -31,7 +31,9 @@ filebrowser_paths_db_location: "{{ filebrowser_paths_location }}/filebrowser.db"
 filebrowser_web_subdomain: "{{ filebrowser_name }}"
 filebrowser_web_domain: "{{ user.domain }}"
 filebrowser_web_port: "80"
-filebrowser_web_url: "{{ 'https://' + filebrowser_web_subdomain + '.' + filebrowser_web_domain }}"
+filebrowser_web_url: "{{ 'https://' + (filebrowser_web_subdomain + '.' + filebrowser_web_domain
+                   if (filebrowser_web_subdomain | length > 0)
+                   else filebrowser_web_domain) }}"
 
 ################################
 # DNS

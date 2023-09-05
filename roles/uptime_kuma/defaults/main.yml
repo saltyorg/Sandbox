@@ -38,7 +38,9 @@ uptime_kuma_paths_recurse: true
 uptime_kuma_web_subdomain: "{{ uptime_kuma_name }}"
 uptime_kuma_web_domain: "{{ user.domain }}"
 uptime_kuma_web_port: "3001"
-uptime_kuma_web_url: "{{ 'https://' + uptime_kuma_web_subdomain + '.' + uptime_kuma_web_domain }}"
+uptime_kuma_web_url: "{{ 'https://' + (uptime_kuma_web_subdomain + '.' + uptime_kuma_web_domain
+                   if (uptime_kuma_web_subdomain | length > 0)
+                   else uptime_kuma_web_domain) }}"
 
 ################################
 # DNS

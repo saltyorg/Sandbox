@@ -29,7 +29,9 @@ gotify_paths_folders_list:
 gotify_web_subdomain: "{{ gotify_name }}"
 gotify_web_domain: "{{ user.domain }}"
 gotify_web_port: "80"
-gotify_web_url: "{{ 'https://' + gotify_web_subdomain + '.' + gotify_web_domain }}"
+gotify_web_url: "{{ 'https://' + (gotify_web_subdomain + '.' + gotify_web_domain
+                   if (gotify_web_subdomain | length > 0)
+                   else gotify_web_domain) }}"
 
 ################################
 # DNS

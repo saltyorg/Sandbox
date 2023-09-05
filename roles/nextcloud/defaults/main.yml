@@ -29,7 +29,9 @@ nextcloud_paths_folders_list:
 nextcloud_web_subdomain: "{{ nextcloud_name }}"
 nextcloud_web_domain: "{{ user.domain }}"
 nextcloud_web_port: "80"
-nextcloud_web_url: "{{ 'https://' + nextcloud_web_subdomain + '.' + nextcloud_web_domain }}"
+nextcloud_web_url: "{{ 'https://' + (nextcloud_web_subdomain + '.' + nextcloud_web_domain
+                   if (nextcloud_web_subdomain | length > 0)
+                   else nextcloud_web_domain) }}"
 
 ################################
 # DNS

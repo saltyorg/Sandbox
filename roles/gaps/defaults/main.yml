@@ -29,7 +29,9 @@ gaps_paths_folders_list:
 gaps_web_subdomain: "{{ gaps_name }}"
 gaps_web_domain: "{{ user.domain }}"
 gaps_web_port: "8484"
-gaps_web_url: "{{ 'https://' + gaps_web_subdomain + '.' + gaps_web_domain }}"
+gaps_web_url: "{{ 'https://' + (gaps_web_subdomain + '.' + gaps_web_domain
+                   if (gaps_web_subdomain | length > 0)
+                   else gaps_web_domain) }}"
 
 ################################
 # DNS

@@ -30,7 +30,9 @@ reposilite_paths_folders_list:
 reposilite_web_subdomain: "{{ reposilite_name }}"
 reposilite_web_domain: "{{ user.domain }}"
 reposilite_web_port: "8080"
-reposilite_web_url: "{{ 'https://' + reposilite_web_subdomain + '.' + reposilite_web_domain }}"
+respoilite_web_url: "{{ 'https://' + (respoilite_web_subdomain + '.' + respoilite_web_domain
+                   if (respoilite_web_subdomain | length > 0)
+                   else respoilite_web_domain) }}"
 
 ################################
 # DNS
