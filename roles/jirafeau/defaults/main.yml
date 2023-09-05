@@ -31,7 +31,9 @@ jirafeau_paths_folders_list:
 jirafeau_web_subdomain: "{{ jirafeau_name }}"
 jirafeau_web_domain: "{{ user.domain }}"
 jirafeau_web_port: "80"
-jirafeau_web_url: "{{ 'https://' + jirafeau_web_subdomain + '.' + jirafeau_web_domain }}"
+jirafeau_web_url: "{{ 'https://' + (jirafeau_web_subdomain + '.' + jirafeau_web_domain
+                   if (jirafeau_web_subdomain | length > 0)
+                   else jirafeau_web_domain) }}"
 
 ################################
 # DNS

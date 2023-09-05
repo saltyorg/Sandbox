@@ -29,7 +29,9 @@ thelounge_paths_folders_list:
 thelounge_web_subdomain: "{{ thelounge_name }}"
 thelounge_web_domain: "{{ user.domain }}"
 thelounge_web_port: "9000"
-thelounge_web_url: "{{ 'https://' + thelounge_web_subdomain + '.' + thelounge_web_domain }}"
+thelounge_web_url: "{{ 'https://' + (thelounge_web_subdomain + '.' + thelounge_web_domain
+                   if (thelounge_web_subdomain | length > 0)
+                   else thelounge_web_domain) }}"
 
 ################################
 # DNS

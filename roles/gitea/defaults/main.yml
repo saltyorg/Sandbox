@@ -29,7 +29,9 @@ gitea_paths_folders_list:
 gitea_web_subdomain: "{{ gitea_name }}"
 gitea_web_domain: "{{ user.domain }}"
 gitea_web_port: "3000"
-gitea_web_url: "{{ 'https://' + gitea_web_subdomain + '.' + gitea_web_domain }}"
+gitea_web_url: "{{ 'https://' + (gitea_web_subdomain + '.' + gitea_web_domain
+                   if (gitea_web_subdomain | length > 0)
+                   else gitea_web_domain) }}"
 
 ################################
 # DNS

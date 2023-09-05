@@ -30,7 +30,9 @@ docspell_paths_folders_list:
 docspell_web_subdomain: "{{ docspell_name }}"
 docspell_web_domain: "{{ user.domain }}"
 docspell_web_port: "7880"
-docspell_web_url: "{{ 'https://' + docspell_web_subdomain + '.' + docspell_web_domain }}"
+docspell_web_url: "{{ 'https://' + (docspell_web_subdomain + '.' + docspell_web_domain
+                   if (docspell_web_subdomain | length > 0)
+                   else docspell_web_domain) }}"
 
 ################################
 # DNS

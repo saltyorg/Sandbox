@@ -31,7 +31,9 @@ unmanic_paths_folders_list:
 unmanic_web_subdomain: "{{ unmanic_name }}"
 unmanic_web_domain: "{{ user.domain }}"
 unmanic_web_port: "8888"
-unmanic_web_url: "{{ 'https://' + unmanic_web_subdomain + '.' + unmanic_web_domain }}"
+unmanic_web_url: "{{ 'https://' + (unmanic_web_subdomain + '.' + unmanic_web_domain
+                   if (unmanic_web_subdomain | length > 0)
+                   else unmanic_web_domain) }}"
 
 ################################
 # DNS

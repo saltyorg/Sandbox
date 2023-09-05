@@ -29,8 +29,9 @@ jellyseerr_paths_folders_list:
 jellyseerr_web_subdomain: "{{ jellyseerr_name }}"
 jellyseerr_web_domain: "{{ user.domain }}"
 jellyseerr_web_port: "5055"
-jellyseerr_web_url: "{{ 'https://' + lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_web_subdomain)
-                        + '.' + lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_web_domain) }}"
+jellyseerr_web_url: "{{ 'https://' + (lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_web_subdomain) + '.' + lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_web_domain)
+                 if (lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_web_subdomain) | length > 0)
+                 else lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_web_domain)) }}"
 
 ################################
 # DNS

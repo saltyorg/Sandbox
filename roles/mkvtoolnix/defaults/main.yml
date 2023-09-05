@@ -29,7 +29,9 @@ mkvtoolnix_paths_folders_list:
 mkvtoolnix_web_subdomain: "{{ mkvtoolnix_name }}"
 mkvtoolnix_web_domain: "{{ user.domain }}"
 mkvtoolnix_web_port: "5800"
-mkvtoolnix_web_url: "{{ 'https://' + mkvtoolnix_web_subdomain + '.' + mkvtoolnix_web_domain }}"
+mkvtoolnix_web_url: "{{ 'https://' + (mkvtoolnix_web_subdomain + '.' + mkvtoolnix_web_domain
+                   if (mkvtoolnix_web_subdomain | length > 0)
+                   else mkvtoolnix_web_domain) }}"
 
 ################################
 # DNS

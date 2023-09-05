@@ -33,7 +33,9 @@ tubearchivist_paths_folders_list:
 tubearchivist_web_subdomain: "{{ tubearchivist_name }}"
 tubearchivist_web_domain: "{{ user.domain }}"
 tubearchivist_web_port: "8000"
-tubearchivist_web_url: "{{ 'https://' + tubearchivist_web_subdomain + '.' + tubearchivist_web_domain }}"
+tubearchivist_web_url: "{{ 'https://' + (tubearchivist_web_subdomain + '.' + tubearchivist_web_domain
+                   if (tubearchivist_web_subdomain | length > 0)
+                   else tubearchivist_web_domain) }}"
 
 ################################
 # DNS

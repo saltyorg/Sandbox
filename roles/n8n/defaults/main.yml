@@ -29,7 +29,9 @@ n8n_paths_folders_list:
 n8n_web_subdomain: "{{ n8n_name }}"
 n8n_web_domain: "{{ user.domain }}"
 n8n_web_port: "5678"
-n8n_web_url: "{{ 'https://' + n8n_web_subdomain + '.' + n8n_web_domain }}"
+n8n_web_url: "{{ 'https://' + (n8n_web_subdomain + '.' + n8n_web_domain
+                   if (n8n_web_subdomain | length > 0)
+                   else n8n_web_domain) }}"
 
 ################################
 # DNS

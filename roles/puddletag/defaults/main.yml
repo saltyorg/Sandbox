@@ -29,7 +29,9 @@ puddletag_paths_folders_list:
 puddletag_web_subdomain: "{{ puddletag_name }}"
 puddletag_web_domain: "{{ user.domain }}"
 puddletag_web_port: "8080"
-puddletag_web_url: "{{ 'https://' + puddletag_web_subdomain + '.' + puddletag_web_domain }}"
+puddletag_web_url: "{{ 'https://' + (puddletag_web_subdomain + '.' + puddletag_web_domain
+                   if (puddletag_web_subdomain | length > 0)
+                   else puddletag_web_domain) }}"
 
 ################################
 # DNS

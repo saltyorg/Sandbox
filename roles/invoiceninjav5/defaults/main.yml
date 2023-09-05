@@ -31,9 +31,9 @@ invoiceninjav5_paths_folders_list:
 invoiceninjav5_nginx_web_subdomain: "invoiceninja"
 invoiceninjav5_nginx_web_domain: "{{ user.domain }}"
 invoiceninjav5_nginx_web_port: "80"
-invoiceninjav5_nginx_web_url: "{{ 'https://' + invoiceninjav5_nginx_web_subdomain
-                                  + ('.' if (invoiceninjav5_nginx_web_subdomain | length > 0) else '')
-                                  + invoiceninjav5_nginx_web_domain }}"
+invoiceninjav5_nginx_web_url: "{{ 'https://' + (invoiceninjav5_nginx_web_subdomain + '.' + invoiceninjav5_nginx_web_domain
+                   if (invoiceninjav5_nginx_web_subdomain | length > 0)
+                   else invoiceninjav5_nginx_web_domain) }}"
 
 ################################
 # DNS

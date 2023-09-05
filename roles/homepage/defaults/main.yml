@@ -41,7 +41,9 @@ homepage_paths_folders_list:
 homepage_web_subdomain: "{{ homepage_name }}"
 homepage_web_domain: "{{ user.domain }}"
 homepage_web_port: "3000"
-homepage_web_url: "{{ 'https://' + homepage_web_subdomain + '.' + homepage_web_domain }}"
+homepage_web_url: "{{ 'https://' + (homepage_web_subdomain + '.' + homepage_web_domain
+                   if (homepage_web_subdomain | length > 0)
+                   else homepage_web_domain) }}"
 
 ################################
 # DNS

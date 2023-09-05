@@ -30,7 +30,9 @@ olivetin_paths_folders_list:
 olivetin_web_subdomain: "{{ olivetin_name }}"
 olivetin_web_domain: "{{ user.domain }}"
 olivetin_web_port: "1337"
-olivetin_web_url: "{{ 'https://' + olivetin_web_subdomain + '.' + olivetin_web_domain }}"
+olivetin_web_url: "{{ 'https://' + (olivetin_web_subdomain + '.' + olivetin_web_domain
+                   if (olivetin_web_subdomain | length > 0)
+                   else olivetin_web_domain) }}"
 
 ################################
 # DNS

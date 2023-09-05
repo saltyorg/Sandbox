@@ -34,7 +34,9 @@ jdownloader2_paths_folders_list:
 jdownloader2_web_subdomain: "{{ jdownloader2_name }}"
 jdownloader2_web_domain: "{{ user.domain }}"
 jdownloader2_web_port: "5800"
-jdownloader2_web_url: "{{ 'https://' + jdownloader2_web_subdomain + '.' + jdownloader2_web_domain }}"
+jdownloader2_web_url: "{{ 'https://' + (jdownloader2_web_subdomain + '.' + jdownloader2_web_domain
+                   if (jdownloader2_web_subdomain | length > 0)
+                   else jdownloader2_web_domain) }}"
 
 ################################
 # DNS

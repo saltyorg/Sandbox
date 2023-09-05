@@ -29,7 +29,9 @@ medusa_paths_folders_list:
 medusa_web_subdomain: "{{ medusa_name }}"
 medusa_web_domain: "{{ user.domain }}"
 medusa_web_port: "8081"
-medusa_web_url: "{{ 'https://' + medusa_web_subdomain + '.' + medusa_web_domain }}"
+medusa_web_url: "{{ 'https://' + (medusa_web_subdomain + '.' + medusa_web_domain
+                   if (medusa_web_subdomain | length > 0)
+                   else medusa_web_domain) }}"
 
 ################################
 # DNS

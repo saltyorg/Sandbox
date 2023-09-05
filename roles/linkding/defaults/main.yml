@@ -29,7 +29,9 @@ linkding_paths_folders_list:
 linkding_web_subdomain: "{{ linkding_name }}"
 linkding_web_domain: "{{ user.domain }}"
 linkding_web_port: "9090"
-linkding_web_url: "{{ 'https://' + linkding_web_subdomain + '.' + linkding_web_domain }}"
+linkding_web_url: "{{ 'https://' + (linkding_web_subdomain + '.' + linkding_web_domain
+                   if (linkding_web_subdomain | length > 0)
+                   else linkding_web_domain) }}"
 
 ################################
 # DNS

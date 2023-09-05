@@ -30,7 +30,9 @@ trackarr_paths_config_location: "{{ trackarr_paths_location }}/config.yaml"
 trackarr_web_subdomain: "{{ trackarr_name }}"
 trackarr_web_domain: "{{ user.domain }}"
 trackarr_web_port: "7337"
-trackarr_web_url: "{{ 'https://' + trackarr_web_subdomain + '.' + trackarr_web_domain }}"
+trackarr_web_url: "{{ 'https://' + (trackarr_web_subdomain + '.' + trackarr_web_domain
+                   if (trackarr_web_subdomain | length > 0)
+                   else trackarr_web_domain) }}"
 
 ################################
 # DNS

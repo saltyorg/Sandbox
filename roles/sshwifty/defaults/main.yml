@@ -31,7 +31,9 @@ sshwifty_paths_config_location: "{{ sshwifty_paths_location }}/config/sshwifty.c
 sshwifty_web_subdomain: "{{ sshwifty_name }}"
 sshwifty_web_domain: "{{ user.domain }}"
 sshwifty_web_port: "8182"
-sshwifty_web_url: "{{ 'https://' + sshwifty_web_subdomain + '.' + sshwifty_web_domain }}"
+sshwifty_web_url: "{{ 'https://' + (sshwifty_web_subdomain + '.' + sshwifty_web_domain
+                   if (sshwifty_web_subdomain | length > 0)
+                   else sshwifty_web_domain) }}"
 
 ################################
 # DNS

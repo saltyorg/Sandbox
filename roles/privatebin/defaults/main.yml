@@ -29,7 +29,9 @@ privatebin_paths_folders_list:
 privatebin_web_subdomain: "{{ privatebin_name }}"
 privatebin_web_domain: "{{ user.domain }}"
 privatebin_web_port: "8080"
-privatebin_web_url: "{{ 'https://' + privatebin_web_subdomain + '.' + privatebin_web_domain }}"
+privatebin_web_url: "{{ 'https://' + (privatebin_web_subdomain + '.' + privatebin_web_domain
+                   if (privatebin_web_subdomain | length > 0)
+                   else privatebin_web_domain) }}"
 
 ################################
 # DNS

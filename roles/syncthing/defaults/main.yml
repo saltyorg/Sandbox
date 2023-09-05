@@ -29,7 +29,9 @@ syncthing_paths_folders_list:
 syncthing_web_subdomain: "{{ syncthing_name }}"
 syncthing_web_domain: "{{ user.domain }}"
 syncthing_web_port: "8384"
-syncthing_web_url: "{{ 'https://' + syncthing_web_subdomain + '.' + syncthing_web_domain }}"
+syncthing_web_url: "{{ 'https://' + (syncthing_web_subdomain + '.' + syncthing_web_domain
+                   if (syncthing_web_subdomain | length > 0)
+                   else syncthing_web_domain) }}"
 
 ################################
 # DNS

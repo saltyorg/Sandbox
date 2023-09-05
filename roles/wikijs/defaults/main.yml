@@ -30,7 +30,9 @@ wikijs_paths_folders_list:
 wikijs_web_subdomain: "{{ wikijs_name }}"
 wikijs_web_domain: "{{ user.domain }}"
 wikijs_web_port: "3000"
-wikijs_web_url: "{{ 'https://' + wikijs_web_subdomain + '.' + wikijs_web_domain }}"
+wikijs_web_url: "{{ 'https://' + (wikijs_web_subdomain + '.' + wikijs_web_domain
+                   if (wikijs_web_subdomain | length > 0)
+                   else wikijs_web_domain) }}"
 
 ################################
 # DNS

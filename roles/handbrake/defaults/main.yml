@@ -31,7 +31,9 @@ handbrake_paths_folders_list:
 handbrake_web_subdomain: "{{ handbrake_name }}"
 handbrake_web_domain: "{{ user.domain }}"
 handbrake_web_port: "5800"
-handbrake_web_url: "{{ 'https://' + handbrake_web_subdomain + '.' + handbrake_web_domain }}"
+handbrake_web_url: "{{ 'https://' + (handbrake_web_subdomain + '.' + handbrake_web_domain
+                   if (handbrake_web_subdomain | length > 0)
+                   else handbrake_web_domain) }}"
 
 ################################
 # DNS

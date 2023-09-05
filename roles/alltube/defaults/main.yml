@@ -29,7 +29,9 @@ alltube_paths_folders_list:
 alltube_web_subdomain: "{{ alltube_name }}"
 alltube_web_domain: "{{ user.domain }}"
 alltube_web_port: "80"
-alltube_web_url: "{{ 'https://' + alltube_web_subdomain + '.' + alltube_web_domain }}"
+alltube_web_url: "{{ 'https://' + (alltube_web_subdomain + '.' + alltube_web_domain
+                   if (alltube_web_subdomain | length > 0)
+                   else alltube_web_domain) }}"
 
 ################################
 # DNS
