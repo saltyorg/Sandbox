@@ -30,8 +30,8 @@ homebox_web_subdomain: "{{ homebox_name }}"
 homebox_web_domain: "{{ user.domain }}"
 homebox_web_port: "7745"
 homebox_web_url: "{{ 'https://' + (homebox_web_subdomain + '.' + homebox_web_domain
-                   if (homebox_web_subdomain | length > 0)
-                   else homebox_web_domain) }}"
+                  if (homebox_web_subdomain | length > 0)
+                  else homebox_web_domain) }}"
 
 ################################
 # DNS

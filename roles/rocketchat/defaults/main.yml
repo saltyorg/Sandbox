@@ -31,8 +31,8 @@ rocketchat_web_subdomain: "{{ rocketchat_name }}"
 rocketchat_web_domain: "{{ user.domain }}"
 rocketchat_web_port: "3000"
 rocketchat_web_url: "{{ 'https://' + (rocketchat_web_subdomain + '.' + rocketchat_web_domain
-                   if (rocketchat_web_subdomain | length > 0)
-                   else rocketchat_web_domain) }}"
+                     if (rocketchat_web_subdomain | length > 0)
+                     else rocketchat_web_domain) }}"
 
 ################################
 # DNS

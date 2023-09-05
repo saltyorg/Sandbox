@@ -47,8 +47,8 @@ dashdot_web_subdomain: "{{ dashdot_name }}"
 dashdot_web_domain: "{{ user.domain }}"
 dashdot_web_port: "3001"
 dashdot_web_url: "{{ 'https://' + (dashdot_web_subdomain + '.' + dashdot_web_domain
-                   if (dashdot_web_subdomain | length > 0)
-                   else dashdot_web_domain) }}"
+                  if (dashdot_web_subdomain | length > 0)
+                  else dashdot_web_domain) }}"
 
 ################################
 # DNS

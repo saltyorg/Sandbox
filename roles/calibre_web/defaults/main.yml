@@ -31,8 +31,8 @@ calibre_web_web_subdomain: "{{ calibre_web_name }}"
 calibre_web_web_domain: "{{ user.domain }}"
 calibre_web_web_port: "8083"
 calibre_web_web_url: "{{ 'https://' + (calibre_web_web_subdomain + '.' + calibre_web_web_domain
-                   if (calibre_web_web_subdomain | length > 0)
-                   else calibre_web_web_domain) }}"
+                      if (calibre_web_web_subdomain | length > 0)
+                      else calibre_web_web_domain) }}"
 
 ################################
 # DNS

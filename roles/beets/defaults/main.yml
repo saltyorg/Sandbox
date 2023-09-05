@@ -31,8 +31,8 @@ beets_web_subdomain: "{{ beets_name }}"
 beets_web_domain: "{{ user.domain }}"
 beets_web_port: "8337"
 beets_web_url: "{{ 'https://' + (beets_web_subdomain + '.' + beets_web_domain
-                   if (beets_web_subdomain | length > 0)
-                   else beets_web_domain) }}"
+                if (beets_web_subdomain | length > 0)
+                else beets_web_domain) }}"
 
 ################################
 # DNS

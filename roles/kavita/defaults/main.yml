@@ -30,8 +30,8 @@ kavita_web_subdomain: "{{ kavita_name }}"
 kavita_web_domain: "{{ user.domain }}"
 kavita_web_port: "5000"
 kavita_web_url: "{{ 'https://' + (kavita_web_subdomain + '.' + kavita_web_domain
-                   if (kavita_web_subdomain | length > 0)
-                   else kavita_web_domain) }}"
+                 if (kavita_web_subdomain | length > 0)
+                 else kavita_web_domain) }}"
 
 ################################
 # DNS

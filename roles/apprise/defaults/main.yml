@@ -30,8 +30,8 @@ apprise_web_subdomain: "{{ apprise_name }}"
 apprise_web_domain: "{{ user.domain }}"
 apprise_web_port: "8000"
 apprise_web_url: "{{ 'https://' + (apprise_web_subdomain + '.' + apprise_web_domain
-                   if (apprise_web_subdomain | length > 0)
-                   else apprise_web_domain) }}"
+                  if (apprise_web_subdomain | length > 0)
+                  else apprise_web_domain) }}"
 
 ################################
 # DNS

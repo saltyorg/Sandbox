@@ -30,8 +30,8 @@ node_red_web_subdomain: "{{ node_red_name }}"
 node_red_web_domain: "{{ user.domain }}"
 node_red_web_port: "1880"
 node_red_web_url: "{{ 'https://' + (lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain) + '.' + lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain)
-                 if (lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain) | length > 0)
-                 else lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain)) }}"
+                   if (lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain) | length > 0)
+                   else lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain)) }}"
 
 ################################
 # DNS

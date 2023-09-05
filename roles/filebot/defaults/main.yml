@@ -31,8 +31,8 @@ filebot_web_subdomain: "{{ filebot_name }}"
 filebot_web_domain: "{{ user.domain }}"
 filebot_web_port: "5800"
 filebot_web_url: "{{ 'https://' + (filebot_web_subdomain + '.' + filebot_web_domain
-                   if (filebot_web_subdomain | length > 0)
-                   else filebot_web_domain) }}"
+                  if (filebot_web_subdomain | length > 0)
+                  else filebot_web_domain) }}"
 
 ################################
 # DNS

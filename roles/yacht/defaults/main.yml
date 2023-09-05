@@ -32,8 +32,8 @@ yacht_web_subdomain: "{{ yacht_name }}"
 yacht_web_domain: "{{ user.domain }}"
 yacht_web_port: "8000"
 yacht_web_url: "{{ 'https://' + (yacht_web_subdomain + '.' + yacht_web_domain
-                   if (yacht_web_subdomain | length > 0)
-                   else yacht_web_domain) }}"
+                if (yacht_web_subdomain | length > 0)
+                else yacht_web_domain) }}"
 
 ################################
 # DNS

@@ -36,8 +36,8 @@ wireguard_web_subdomain: "{{ wireguard_name }}"
 wireguard_web_domain: "{{ user.domain }}"
 wireguard_web_port: "51821"
 wireguard_web_url: "{{ 'https://' + (wireguard_web_subdomain + '.' + wireguard_web_domain
-                   if (wireguard_web_subdomain | length > 0)
-                   else wireguard_web_domain) }}"
+                    if (wireguard_web_subdomain | length > 0)
+                    else wireguard_web_domain) }}"
 
 ################################
 # DNS

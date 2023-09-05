@@ -30,8 +30,8 @@ threadfin_web_subdomain: "{{ threadfin_name }}"
 threadfin_web_domain: "{{ user.domain }}"
 threadfin_web_port: "34400"
 threadfin_web_url: "{{ 'https://' + (threadfin_web_subdomain + '.' + threadfin_web_domain
-                   if (threadfin_web_subdomain | length > 0)
-                   else threadfin_web_domain) }}"
+                    if (threadfin_web_subdomain | length > 0)
+                    else threadfin_web_domain) }}"
 
 ################################
 # DNS

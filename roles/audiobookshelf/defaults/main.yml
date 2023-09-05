@@ -34,8 +34,8 @@ audiobookshelf_web_subdomain: "{{ audiobookshelf_name }}"
 audiobookshelf_web_domain: "{{ user.domain }}"
 audiobookshelf_web_port: "80"
 audiobookshelf_web_url: "{{ 'https://' + (audiobookshelf_web_subdomain + '.' + audiobookshelf_web_domain
-                   if (audiobookshelf_web_subdomain | length > 0)
-                   else audiobookshelf_web_domain) }}"
+                         if (audiobookshelf_web_subdomain | length > 0)
+                         else audiobookshelf_web_domain) }}"
 
 ################################
 # DNS

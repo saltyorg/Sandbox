@@ -32,8 +32,8 @@ tandoor_web_subdomain: "{{ tandoor_name }}"
 tandoor_web_domain: "{{ user.domain }}"
 tandoor_web_port: "8080"
 tandoor_web_url: "{{ 'https://' + (tandoor_web_subdomain + '.' + tandoor_web_domain
-                   if (tandoor_web_subdomain | length > 0)
-                   else tandoor_web_domain) }}"
+                  if (tandoor_web_subdomain | length > 0)
+                  else tandoor_web_domain) }}"
 
 ################################
 # DNS

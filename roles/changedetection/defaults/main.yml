@@ -30,8 +30,8 @@ changedetection_web_subdomain: "{{ changedetection_name }}"
 changedetection_web_domain: "{{ user.domain }}"
 changedetection_web_port: "5000"
 changedetection_web_url: "{{ 'https://' + (changedetection_web_subdomain + '.' + changedetection_web_domain
-                   if (changedetection_web_subdomain | length > 0)
-                   else changedetection_web_domain) }}"
+                          if (changedetection_web_subdomain | length > 0)
+                          else changedetection_web_domain) }}"
 
 ################################
 # DNS

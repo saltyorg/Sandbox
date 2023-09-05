@@ -30,8 +30,8 @@ cherry_web_subdomain: "{{ cherry_name }}"
 cherry_web_domain: "{{ user.domain }}"
 cherry_web_port: "8000"
 charry_web_url: "{{ 'https://' + (charry_web_subdomain + '.' + charry_web_domain
-                   if (charry_web_subdomain | length > 0)
-                   else charry_web_domain) }}"
+                 if (charry_web_subdomain | length > 0)
+                 else charry_web_domain) }}"
 
 ################################
 # DNS
