@@ -36,7 +36,9 @@ transmissionvpn_paths_folders_list:
 transmissionvpn_web_subdomain: "{{ transmissionvpn_name }}"
 transmissionvpn_web_domain: "{{ user.domain }}"
 transmissionvpn_web_port: "9091"
-transmissionvpn_web_url: "{{ 'https://' + transmissionvpn_web_subdomain + '.' + transmissionvpn_web_domain }}"
+transmissionvpn_web_url: "{{ 'https://' + (transmissionvpn_web_subdomain + '.' + transmissionvpn_web_domain
+                          if (transmissionvpn_web_subdomain | length > 0)
+                          else transmissionvpn_web_domain) }}"
 
 ################################
 # DNS

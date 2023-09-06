@@ -37,7 +37,9 @@ tdarr_paths_folders_list:
 tdarr_web_subdomain: "{{ tdarr_name }}"
 tdarr_web_domain: "{{ user.domain }}"
 tdarr_web_port: "8265"
-tdarr_web_url: "{{ 'https://' + tdarr_web_subdomain + dns_record_suffix + '.' + tdarr_web_domain }}"
+tdarr_web_url: "{{ 'https://' + (tdarr_web_subdomain + '.' + tdarr_web_domain
+                if (tdarr_web_subdomain | length > 0)
+                else tdarr_web_domain) }}"
 
 ################################
 # DNS

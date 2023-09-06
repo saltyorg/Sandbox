@@ -30,7 +30,9 @@ homarr_paths_folders_list:
 homarr_web_subdomain: "{{ homarr_name }}"
 homarr_web_domain: "{{ user.domain }}"
 homarr_web_port: "7575"
-homarr_web_url: "{{ 'https://' + homarr_web_subdomain + '.' + homarr_web_domain }}"
+homarr_web_url: "{{ 'https://' + (homarr_web_subdomain + '.' + homarr_web_domain
+                 if (homarr_web_subdomain | length > 0)
+                 else homarr_web_domain) }}"
 
 ################################
 # DNS

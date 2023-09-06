@@ -29,7 +29,9 @@ bookstack_paths_folders_list:
 bookstack_web_subdomain: "{{ bookstack_name }}"
 bookstack_web_domain: "{{ user.domain }}"
 bookstack_web_port: "80"
-bookstack_web_url: "{{ 'https://' + bookstack_web_subdomain + '.' + bookstack_web_domain }}"
+bookstack_web_url: "{{ 'https://' + (bookstack_web_subdomain + '.' + bookstack_web_domain
+                    if (bookstack_web_subdomain | length > 0)
+                    else bookstack_web_domain) }}"
 
 ################################
 # DNS

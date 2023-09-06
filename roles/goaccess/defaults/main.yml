@@ -29,7 +29,9 @@ goaccess_paths_folders_list:
 goaccess_web_subdomain: "{{ goaccess_name }}"
 goaccess_web_domain: "{{ user.domain }}"
 goaccess_web_port: "7889"
-goaccess_web_url: "{{ 'https://' + goaccess_web_subdomain + '.' + goaccess_web_domain }}"
+goaccess_web_url: "{{ 'https://' + (goaccess_web_subdomain + '.' + goaccess_web_domain
+                   if (goaccess_web_subdomain | length > 0)
+                   else goaccess_web_domain) }}"
 
 ################################
 # DNS

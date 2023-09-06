@@ -32,7 +32,9 @@ photoprism_paths_folders_list:
 photoprism_web_subdomain: "{{ photoprism_name }}"
 photoprism_web_domain: "{{ user.domain }}"
 photoprism_web_port: "2342"
-photoprism_web_url: "{{ 'https://' + photoprism_web_subdomain + '.' + photoprism_web_domain }}"
+photoprism_web_url: "{{ 'https://' + (photoprism_web_subdomain + '.' + photoprism_web_domain
+                     if (photoprism_web_subdomain | length > 0)
+                     else photoprism_web_domain) }}"
 
 ################################
 # DNS

@@ -30,7 +30,9 @@ funkwhale_paths_folders_list:
 funkwhale_web_subdomain: "{{ funkwhale_name }}"
 funkwhale_web_domain: "{{ user.domain }}"
 funkwhale_web_port: "80"
-funkwhale_web_url: "{{ 'https://' + funkwhale_web_subdomain + '.' + funkwhale_web_domain }}"
+funkwhale_web_url: "{{ 'https://' + (funkwhale_web_subdomain + '.' + funkwhale_web_domain
+                    if (funkwhale_web_subdomain | length > 0)
+                    else funkwhale_web_domain) }}"
 
 ################################
 # DNS

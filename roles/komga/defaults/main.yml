@@ -30,7 +30,9 @@ komga_paths_folders_list:
 komga_web_subdomain: "{{ komga_name }}"
 komga_web_domain: "{{ user.domain }}"
 komga_web_port: "25600"
-komga_web_url: "{{ 'https://' + komga_web_subdomain + '.' + komga_web_domain }}"
+komga_web_url: "{{ 'https://' + (komga_web_subdomain + '.' + komga_web_domain
+                if (komga_web_subdomain | length > 0)
+                else komga_web_domain) }}"
 
 ################################
 # DNS

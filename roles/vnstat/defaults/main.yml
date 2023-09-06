@@ -20,7 +20,9 @@ vnstat_name: vnstat
 vnstat_web_subdomain: "{{ vnstat_name }}"
 vnstat_web_domain: "{{ user.domain }}"
 vnstat_web_port: "8685"
-vnstat_web_url: "{{ 'https://' + vnstat_web_subdomain + '.' + vnstat_web_domain }}"
+vnstat_web_url: "{{ 'https://' + (vnstat_web_subdomain + '.' + vnstat_web_domain
+                 if (vnstat_web_subdomain | length > 0)
+                 else vnstat_web_domain) }}"
 
 ################################
 # DNS

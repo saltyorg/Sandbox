@@ -29,7 +29,9 @@ moviematch_paths_folders_list:
 moviematch_web_subdomain: "{{ moviematch_name }}"
 moviematch_web_domain: "{{ user.domain }}"
 moviematch_web_port: "8000"
-moviematch_web_url: "{{ 'https://' + moviematch_web_subdomain + '.' + moviematch_web_domain }}"
+moviematch_web_url: "{{ 'https://' + (moviematch_web_subdomain + '.' + moviematch_web_domain
+                     if (moviematch_web_subdomain | length > 0)
+                     else moviematch_web_domain) }}"
 
 ################################
 # DNS

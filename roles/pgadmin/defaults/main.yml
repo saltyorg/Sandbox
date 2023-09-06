@@ -29,7 +29,9 @@ pgadmin_paths_folders_list:
 pgadmin_web_subdomain: "{{ pgadmin_name }}"
 pgadmin_web_domain: "{{ user.domain }}"
 pgadmin_web_port: "80"
-pgadmin_web_url: "{{ 'https://' + pgadmin_web_subdomain + '.' + pgadmin_web_domain }}"
+pgadmin_web_url: "{{ 'https://' + (pgadmin_web_subdomain + '.' + pgadmin_web_domain
+                  if (pgadmin_web_subdomain | length > 0)
+                  else pgadmin_web_domain) }}"
 
 ################################
 # DNS

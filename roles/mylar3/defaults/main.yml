@@ -30,7 +30,9 @@ mylar3_paths_folders_list:
 mylar3_web_subdomain: "{{ mylar3_name }}"
 mylar3_web_domain: "{{ user.domain }}"
 mylar3_web_port: "8090"
-mylar3_web_url: "{{ 'https://' + mylar3_web_subdomain + '.' + mylar3_web_domain }}"
+mylar3_web_url: "{{ 'https://' + (mylar3_web_subdomain + '.' + mylar3_web_domain
+                 if (mylar3_web_subdomain | length > 0)
+                 else mylar3_web_domain) }}"
 
 ################################
 # DNS

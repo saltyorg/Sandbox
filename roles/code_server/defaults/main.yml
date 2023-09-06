@@ -32,7 +32,9 @@ code_server_paths_folders_list:
 code_server_web_subdomain: "{{ code_server_name }}"
 code_server_web_domain: "{{ user.domain }}"
 code_server_web_port: "8080"
-code_server_web_url: "{{ 'https://' + code_server_web_subdomain + '.' + code_server_web_domain }}"
+code_server_web_url: "{{ 'https://' + (code_server_web_subdomain + '.' + code_server_web_domain
+                      if (code_server_web_subdomain | length > 0)
+                      else code_server_web_domain) }}"
 
 ################################
 # DNS

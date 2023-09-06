@@ -30,7 +30,9 @@ goplaxt_paths_folders_list:
 goplaxt_web_subdomain: "{{ goplaxt_name }}"
 goplaxt_web_domain: "{{ user.domain }}"
 goplaxt_web_port: "8000"
-goplaxt_web_url: "{{ 'https://' + goplaxt_web_subdomain + '.' + goplaxt_web_domain }}"
+goplaxt_web_url: "{{ 'https://' + (goplaxt_web_subdomain + '.' + goplaxt_web_domain
+                  if (goplaxt_web_subdomain | length > 0)
+                  else goplaxt_web_domain) }}"
 
 ################################
 # DNS

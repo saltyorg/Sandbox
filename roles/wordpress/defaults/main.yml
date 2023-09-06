@@ -30,7 +30,9 @@ wordpress_paths_recursive: true
 wordpress_web_subdomain: "{{ wordpress_name }}"
 wordpress_web_domain: "{{ user.domain }}"
 wordpress_web_port: "80"
-wordpress_web_url: "{{ 'https://' + wordpress_web_subdomain + '.' + wordpress_web_domain }}"
+wordpress_web_url: "{{ 'https://' + (wordpress_web_subdomain + '.' + wordpress_web_domain
+                    if (wordpress_web_subdomain | length > 0)
+                    else wordpress_web_domain) }}"
 
 ################################
 # DNS

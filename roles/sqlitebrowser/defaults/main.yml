@@ -29,7 +29,9 @@ sqlitebrowser_paths_folders_list:
 sqlitebrowser_web_subdomain: "{{ sqlitebrowser_name }}"
 sqlitebrowser_web_domain: "{{ user.domain }}"
 sqlitebrowser_web_port: "3000"
-sqlitebrowser_web_url: "{{ 'https://' + sqlitebrowser_web_subdomain + '.' + sqlitebrowser_web_domain }}"
+sqlitebrowser_web_url: "{{ 'https://' + (sqlitebrowser_web_subdomain + '.' + sqlitebrowser_web_domain
+                        if (sqlitebrowser_web_subdomain | length > 0)
+                        else sqlitebrowser_web_domain) }}"
 
 ################################
 # DNS

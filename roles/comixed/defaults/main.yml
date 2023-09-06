@@ -31,7 +31,9 @@ comixed_paths_folders_list:
 comixed_web_subdomain: "{{ comixed_name }}"
 comixed_web_domain: "{{ user.domain }}"
 comixed_web_port: "7171"
-comixed_web_url: "{{ 'https://' + comixed_web_subdomain + '.' + comixed_web_domain }}"
+comixed_web_url: "{{ 'https://' + (comixed_web_subdomain + '.' + comixed_web_domain
+                  if (comixed_web_subdomain | length > 0)
+                  else comixed_web_domain) }}"
 
 ################################
 # DNS

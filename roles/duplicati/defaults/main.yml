@@ -30,7 +30,9 @@ duplicati_paths_folders_list:
 duplicati_web_subdomain: "{{ duplicati_name }}"
 duplicati_web_domain: "{{ user.domain }}"
 duplicati_web_port: "8200"
-duplicati_web_url: "{{ 'https://' + duplicati_web_subdomain + '.' + duplicati_web_domain }}"
+duplicati_web_url: "{{ 'https://' + (duplicati_web_subdomain + '.' + duplicati_web_domain
+                    if (duplicati_web_subdomain | length > 0)
+                    else duplicati_web_domain) }}"
 
 ################################
 # DNS

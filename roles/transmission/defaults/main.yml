@@ -36,7 +36,9 @@ transmission_paths_setttings_location: "{{ transmission_paths_location }}/settin
 transmission_web_subdomain: "{{ transmission_name }}"
 transmission_web_domain: "{{ user.domain }}"
 transmission_web_port: "9091"
-transmission_web_url: "{{ 'https://' + transmission_web_subdomain + '.' + transmission_web_domain }}"
+transmission_web_url: "{{ 'https://' + (transmission_web_subdomain + '.' + transmission_web_domain
+                       if (transmission_web_subdomain | length > 0)
+                       else transmission_web_domain) }}"
 
 ################################
 # DNS

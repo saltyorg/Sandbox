@@ -34,7 +34,9 @@ adguardhome_paths_folders_list:
 adguardhome_web_subdomain: "{{ adguardhome_name }}"
 adguardhome_web_domain: "{{ user.domain }}"
 adguardhome_web_port: "3000"
-adguardhome_web_url: "{{ 'https://' + adguardhome_web_subdomain + '.' + adguardhome_web_domain }}"
+adguardhome_web_url: "{{ 'https://' + (adguardhome_web_subdomain + '.' + adguardhome_web_domain
+                      if (adguardhome_web_subdomain | length > 0)
+                      else adguardhome_web_domain) }}"
 
 ################################
 # DNS

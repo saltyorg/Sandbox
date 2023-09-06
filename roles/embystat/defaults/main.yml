@@ -30,7 +30,9 @@ embystat_paths_folders_list:
 embystat_web_subdomain: "{{ embystat_name }}"
 embystat_web_domain: "{{ user.domain }}"
 embystat_web_port: "6555"
-embystat_web_url: "{{ 'https://' + embystat_web_subdomain + '.' + embystat_web_domain }}"
+embystat_web_url: "{{ 'https://' + (embystat_web_subdomain + '.' + embystat_web_domain
+                   if (embystat_web_subdomain | length > 0)
+                   else embystat_web_domain) }}"
 
 ################################
 # DNS

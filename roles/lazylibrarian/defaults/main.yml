@@ -29,7 +29,9 @@ lazylibrarian_paths_folders_list:
 lazylibrarian_web_subdomain: "{{ lazylibrarian_name }}"
 lazylibrarian_web_domain: "{{ user.domain }}"
 lazylibrarian_web_port: "5299"
-lazylibrarian_web_url: "{{ 'https://' + lazylibrarian_web_subdomain + '.' + lazylibrarian_web_domain }}"
+lazylibrarian_web_url: "{{ 'https://' + (lazylibrarian_web_subdomain + '.' + lazylibrarian_web_domain
+                        if (lazylibrarian_web_subdomain | length > 0)
+                        else lazylibrarian_web_domain) }}"
 
 ################################
 # DNS

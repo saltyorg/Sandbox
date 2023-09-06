@@ -29,7 +29,9 @@ airsonic_paths_folders_list:
 airsonic_web_subdomain: "{{ airsonic_name }}"
 airsonic_web_domain: "{{ user.domain }}"
 airsonic_web_port: "4040"
-airsonic_web_url: "{{ 'https://' + airsonic_web_subdomain + '.' + airsonic_web_domain }}"
+airsonic_web_url: "{{ 'https://' + (airsonic_web_subdomain + '.' + airsonic_web_domain
+                   if (airsonic_web_subdomain | length > 0)
+                   else airsonic_web_domain) }}"
 
 ################################
 # DNS

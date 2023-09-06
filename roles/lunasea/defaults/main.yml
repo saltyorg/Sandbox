@@ -27,7 +27,9 @@ lunasea_paths_folders_list: []
 lunasea_web_subdomain: "{{ lunasea_name }}"
 lunasea_web_domain: "{{ user.domain }}"
 lunasea_web_port: "80"
-lunasea_web_url: "{{ 'https://' + lunasea_web_subdomain + '.' + lunasea_web_domain }}"
+lunasea_web_url: "{{ 'https://' + (lunasea_web_subdomain + '.' + lunasea_web_domain
+                  if (lunasea_web_subdomain | length > 0)
+                  else lunasea_web_domain) }}"
 
 ################################
 # DNS

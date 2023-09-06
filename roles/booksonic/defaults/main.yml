@@ -29,7 +29,9 @@ booksonic_paths_folders_list:
 booksonic_web_subdomain: "{{ booksonic_name }}"
 booksonic_web_domain: "{{ user.domain }}"
 booksonic_web_port: "4040"
-booksonic_web_url: "{{ 'https://' + booksonic_web_subdomain + '.' + booksonic_web_domain }}"
+booksonic_web_url: "{{ 'https://' + (booksonic_web_subdomain + '.' + booksonic_web_domain
+                    if (booksonic_web_subdomain | length > 0)
+                    else booksonic_web_domain) }}"
 
 ################################
 # DNS

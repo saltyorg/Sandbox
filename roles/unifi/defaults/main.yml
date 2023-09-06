@@ -31,7 +31,9 @@ unifi_web_domain: "{{ user.domain }}"
 unifi_web_port: "8443"
 unifi_web_scheme: "https"
 unifi_web_serverstransport: "skipverify@file"
-unifi_web_url: "{{ 'https://' + unifi_web_subdomain + '.' + unifi_web_domain }}"
+unifi_web_url: "{{ 'https://' + (unifi_web_subdomain + '.' + unifi_web_domain
+                if (unifi_web_subdomain | length > 0)
+                else unifi_web_domain) }}"
 
 ################################
 # DNS

@@ -21,7 +21,9 @@ phpmyadmin_name: phpmyadmin
 phpmyadmin_web_subdomain: "{{ phpmyadmin_name }}"
 phpmyadmin_web_domain: "{{ user.domain }}"
 phpmyadmin_web_port: "80"
-phpmyadmin_web_url: "{{ 'https://' + phpmyadmin_web_subdomain + '.' + phpmyadmin_web_domain }}"
+phpmyadmin_web_url: "{{ 'https://' + (phpmyadmin_web_subdomain + '.' + phpmyadmin_web_domain
+                     if (phpmyadmin_web_subdomain | length > 0)
+                     else phpmyadmin_web_domain) }}"
 
 ################################
 # DNS

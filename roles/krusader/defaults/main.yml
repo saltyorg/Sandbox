@@ -30,6 +30,9 @@ krusader_paths_folders_list:
 krusader_web_subdomain: "{{ krusader_name }}"
 krusader_web_domain: "{{ user.domain }}"
 krusader_web_port: "6080"
+krusader_web_url: "{{ 'https://' + (krusader_web_subdomain + '.' + krusader_web_domain
+                   if (krusader_web_subdomain | length > 0)
+                   else krusader_web_domain) }}"
 
 ################################
 # DNS

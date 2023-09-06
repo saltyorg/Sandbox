@@ -29,6 +29,9 @@ discoflix_paths_folders_list:
 discoflix_web_subdomain: "{{ discoflix_name }}"
 discoflix_web_domain: "{{ user.domain }}"
 discoflix_web_port: "5454"
+discoflix_web_url: "{{ 'https://' + (discoflix_web_subdomain + '.' + discoflix_web_domain
+                    if (discoflix_web_subdomain | length > 0)
+                    else discoflix_web_domain) }}"
 
 ################################
 # DNS

@@ -35,7 +35,9 @@ rdtclient_paths_folders_list:
 rdtclient_web_subdomain: "{{ rdtclient_name }}"
 rdtclient_web_domain: "{{ user.domain }}"
 rdtclient_web_port: "6500"
-rdtclient_web_url: "{{ 'https://' + rdtclient_web_subdomain + '.' + rdtclient_web_domain }}"
+rdtclient_web_url: "{{ 'https://' + (rdtclient_web_subdomain + '.' + rdtclient_web_domain
+                    if (rdtclient_web_subdomain | length > 0)
+                    else rdtclient_web_domain) }}"
 
 ################################
 # DNS

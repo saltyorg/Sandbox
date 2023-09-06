@@ -33,8 +33,9 @@ audiobookshelf_paths_folders_list:
 audiobookshelf_web_subdomain: "{{ audiobookshelf_name }}"
 audiobookshelf_web_domain: "{{ user.domain }}"
 audiobookshelf_web_port: "80"
-audiobookshelf_web_url: "{{ 'https://' + lookup('vars', audiobookshelf_name + '_web_subdomain', default=audiobookshelf_web_subdomain)
-                             + '.' + lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_web_domain) }}"
+audiobookshelf_web_url: "{{ 'https://' + (audiobookshelf_web_subdomain + '.' + audiobookshelf_web_domain
+                         if (audiobookshelf_web_subdomain | length > 0)
+                         else audiobookshelf_web_domain) }}"
 
 ################################
 # DNS

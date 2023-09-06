@@ -20,7 +20,9 @@ adminer_name: adminer
 adminer_web_subdomain: "{{ adminer_name }}"
 adminer_web_domain: "{{ user.domain }}"
 adminer_web_port: "8080"
-adminer_web_url: "{{ 'https://' + adminer_web_subdomain + '.' + adminer_web_domain }}"
+adminer_web_url: "{{ 'https://' + (adminer_web_subdomain + '.' + adminer_web_domain
+                  if (adminer_web_subdomain | length > 0)
+                  else adminer_web_domain) }}"
 
 ################################
 # DNS

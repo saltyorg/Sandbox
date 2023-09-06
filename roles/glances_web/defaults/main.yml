@@ -38,7 +38,9 @@ glances_web_paths_config_location: "{{ glances_web_paths_location }}/config/glan
 glances_web_web_subdomain: "{{ glances_web_name }}"
 glances_web_web_domain: "{{ user.domain }}"
 glances_web_web_port: "61208"
-glances_web_web_url: "{{ 'https://' + glances_web_web_subdomain + '.' + glances_web_web_domain }}"
+glances_web_web_url: "{{ 'https://' + (glances_web_web_subdomain + '.' + glances_web_web_domain
+                      if (glances_web_web_subdomain | length > 0)
+                      else glances_web_web_domain) }}"
 
 ################################
 # DNS

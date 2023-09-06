@@ -35,7 +35,9 @@ tautulli_api_key: "{{ (lookup('ini', 'api_key section=General file={{ notifiarr_
 notifiarr_web_subdomain: "{{ notifiarr_name }}"
 notifiarr_web_domain: "{{ user.domain }}"
 notifiarr_web_port: "5454"
-notifiarr_web_url: "{{ 'https://' + notifiarr_web_subdomain + '.' + notifiarr_web_domain }}"
+notifiarr_web_url: "{{ 'https://' + (notifiarr_web_subdomain + '.' + notifiarr_web_domain
+                    if (notifiarr_web_subdomain | length > 0)
+                    else notifiarr_web_domain) }}"
 
 ################################
 # DNS

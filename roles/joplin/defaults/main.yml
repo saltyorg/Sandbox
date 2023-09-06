@@ -29,7 +29,9 @@ joplin_paths_folders_list:
 joplin_web_subdomain: "{{ joplin_name }}"
 joplin_web_domain: "{{ user.domain }}"
 joplin_web_port: "22300"
-joplin_web_url: "{{ 'https://' + joplin_web_subdomain + '.' + joplin_web_domain }}"
+joplin_web_url: "{{ 'https://' + (joplin_web_subdomain + '.' + joplin_web_domain
+                 if (joplin_web_subdomain | length > 0)
+                 else joplin_web_domain) }}"
 
 ################################
 # DNS

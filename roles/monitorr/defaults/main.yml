@@ -29,7 +29,9 @@ monitorr_paths_folders_list:
 monitorr_web_subdomain: "{{ monitorr_name }}"
 monitorr_web_domain: "{{ user.domain }}"
 monitorr_web_port: "80"
-monitorr_web_url: "{{ 'https://' + monitorr_web_subdomain + '.' + monitorr_web_domain }}"
+monitorr_web_url: "{{ 'https://' + (monitorr_web_subdomain + '.' + monitorr_web_domain
+                   if (monitorr_web_subdomain | length > 0)
+                   else monitorr_web_domain) }}"
 
 ################################
 # DNS

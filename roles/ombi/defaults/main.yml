@@ -29,8 +29,9 @@ ombi_paths_folders_list:
 ombi_web_subdomain: "{{ ombi_name }}"
 ombi_web_domain: "{{ user.domain }}"
 ombi_web_port: "3579"
-ombi_web_url: "{{ 'https://' + lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain)
-                  + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain) }}"
+ombi_web_url: "{{ 'https://' + (lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain) + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain)
+               if (lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain) | length > 0)
+               else lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain)) }}"
 
 ################################
 # DNS
