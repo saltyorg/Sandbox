@@ -1,0 +1,152 @@
+##########################################################################
+# Title:         Sandbox: Firefox | Default Variables                    #
+# Author(s):     keldian                                                 #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+firefox_name: firefox
+
+################################
+# Paths
+################################
+
+firefox_paths_folder: "{{ firefox_name }}"
+firefox_paths_location: "{{ server_appdata_path }}/{{ firefox_paths_folder }}"
+firefox_paths_downloads_location: "{{ downloads_root_path }}/{{ firefox_paths_folder }}"
+firefox_paths_folders_list:
+  - "{{ firefox_paths_location }}"
+  - "{{ firefox_paths_downloads_location }}"
+firefox_paths_env_file_location: "{{ firefox_paths_location }}/.env"
+
+################################
+# Web
+################################
+
+firefox_web_subdomain: "{{ firefox_name }}"
+firefox_web_domain: "{{ user.domain }}"
+firefox_web_port: "5800"
+firefox_web_url: "{{ 'https://' + (firefox_web_subdomain + '.' + firefox_web_domain
+                  if (firefox_web_subdomain | length > 0)
+                  else firefox_web_domain) }}"
+
+################################
+# VNC
+################################
+
+firefox_vnc_port: "5900"
+
+################################
+# DNS
+################################
+
+firefox_dns_record: "{{ firefox_web_subdomain }}"
+firefox_dns_zone: "{{ firefox_web_domain }}"
+firefox_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+firefox_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+firefox_traefik_middleware_default: "{{ traefik_default_middleware + ',' + firefox_traefik_sso_middleware
+                                     if (firefox_traefik_sso_middleware | length > 0)
+                                     else traefik_default_middleware }}"
+firefox_traefik_middleware_custom: ""
+firefox_traefik_middleware: "{{ firefox_traefik_middleware_default + ',' + firefox_traefik_middleware_custom
+                             if (not firefox_traefik_middleware_custom.startswith(',')
+                                 and firefox_traefik_middleware_custom | length > 0)
+                             else firefox_traefik_middleware_default + firefox_traefik_middleware_custom }}"
+firefox_traefik_certresolver: "{{ traefik_default_certresolver }}"
+firefox_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+firefox_docker_container: "{{ firefox_name }}"
+
+# Image
+firefox_docker_image_pull: true
+firefox_docker_image_tag: "latest"
+firefox_docker_image: "jlesage/firefox:{{ firefox_docker_image_tag }}"
+
+# Ports
+firefox_docker_ports_defaults:
+  - "{{ ip_address_localhost }}:{{ firefox_vnc_port }}:{{ firefox_vnc_port }}"
+firefox_docker_ports_custom: []
+firefox_docker_ports: "{{ firefox_docker_ports_defaults
+                          + firefox_docker_ports_custom }}"
+
+# Envs
+firefox_docker_env_file: "{{ firefox_paths_env_file_location }}"
+
+# Commands
+firefox_docker_commands_default: []
+firefox_docker_commands_custom: []
+firefox_docker_commands: "{{ firefox_docker_commands_default
+                             + firefox_docker_commands_custom }}"
+
+# Volumes
+firefox_docker_volumes_default:
+  - "{{ firefox_paths_location }}:/config"
+firefox_docker_volumes_custom: []
+firefox_docker_volumes: "{{ firefox_docker_volumes_default
+                            + firefox_docker_volumes_custom }}"
+
+# Devices
+firefox_docker_devices_default: []
+firefox_docker_devices_custom: []
+firefox_docker_devices: "{{ firefox_docker_devices_default
+                            + firefox_docker_devices_custom }}"
+
+# Hosts
+firefox_docker_hosts_default: []
+firefox_docker_hosts_custom: []
+firefox_docker_hosts: "{{ docker_hosts_common
+                          | combine(firefox_docker_hosts_default)
+                          | combine(firefox_docker_hosts_custom) }}"
+
+# Labels
+firefox_docker_labels_default: {}
+firefox_docker_labels_custom: {}
+firefox_docker_labels: "{{ docker_labels_common
+                           | combine(firefox_docker_labels_default)
+                           | combine(firefox_docker_labels_custom) }}"
+
+# Hostname
+firefox_docker_hostname: "{{ firefox_name }}"
+
+# Networks
+firefox_docker_networks_alias: "{{ firefox_name }}"
+firefox_docker_networks_default: []
+firefox_docker_networks_custom: []
+firefox_docker_networks: "{{ docker_networks_common
+                             + firefox_docker_networks_default
+                             + firefox_docker_networks_custom }}"
+
+# Capabilities
+firefox_docker_capabilities_default:
+  - "SYS_NICE"
+firefox_docker_capabilities_custom: []
+firefox_docker_capabilities: "{{ firefox_docker_capabilities_default
+                                 + firefox_docker_capabilities_custom }}"
+
+# Security Opts
+firefox_docker_security_opts_default: []
+firefox_docker_security_opts_custom: []
+firefox_docker_security_opts: "{{ firefox_docker_security_opts_default
+                                  + firefox_docker_security_opts_custom }}"
+
+# Restart Policy
+firefox_docker_restart_policy: unless-stopped
+
+# State
+firefox_docker_state: started
