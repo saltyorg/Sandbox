@@ -52,6 +52,7 @@
     - { role: filebot, tags: ['filebot'] }
     - { role: filebrowser, tags: ['filebrowser'] }
     - { role: filezilla, tags: ['filezilla'] }
+    - { role: firefox, tags: ['firefox'] }
     - { role: flaresolverr, tags: ['flaresolverr'] }
     - { role: freshrss, tags: ['freshrss'] }
     - { role: funkwhale, tags: ['funkwhale'] }
