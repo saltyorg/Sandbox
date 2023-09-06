@@ -55,16 +55,12 @@ firefox_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 firefox_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-firefox_traefik_middleware_default: "{{ traefik_default_middleware + ',' + firefox_traefik_sso_middleware
-                                     if (firefox_traefik_sso_middleware | length > 0)
-                                     else traefik_default_middleware }}"
+firefox_traefik_middleware_default: "{{ traefik_default_middleware }}"
 firefox_traefik_middleware_custom: ""
-firefox_traefik_middleware: "{{ firefox_traefik_middleware_default + ',' + firefox_traefik_middleware_custom
-                             if (not firefox_traefik_middleware_custom.startswith(',')
-                                 and firefox_traefik_middleware_custom | length > 0)
-                             else firefox_traefik_middleware_default + firefox_traefik_middleware_custom }}"
 firefox_traefik_certresolver: "{{ traefik_default_certresolver }}"
 firefox_traefik_enabled: true
+firefox_traefik_api_enabled: false
+firefox_traefik_api_endpoint: ""
 
 ################################
 # Docker
