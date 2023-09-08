@@ -75,8 +75,7 @@ firefox_docker_image_tag: "latest"
 firefox_docker_image: "jlesage/firefox:{{ firefox_docker_image_tag }}"
 
 # Ports
-firefox_docker_ports_defaults:
-  - "{{ ip_address_localhost }}:{{ firefox_vnc_port }}:{{ firefox_vnc_port }}"
+firefox_docker_ports_defaults: []
 firefox_docker_ports_custom: []
 firefox_docker_ports: "{{ firefox_docker_ports_defaults
                           + firefox_docker_ports_custom }}"
