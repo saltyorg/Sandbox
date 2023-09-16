@@ -1,0 +1,166 @@
+##########################################################################
+# Title:            Sandbox: FoundryVTT                                  #
+# Author(s):        Grostim, kowalski                                    #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+foundry_name: foundry
+
+################################
+# Paths
+################################
+
+foundry_paths_folder: "{{ foundry_name }}"
+foundry_paths_location: "{{ server_appdata_path }}/{{ foundry_paths_folder }}"
+foundry_paths_folders_list:
+  - "{{ foundry_paths_location }}"
+  - "{{ foundry_paths_location }}/data"
+  - "{{ foundry_paths_location }}/container_cache"
+
+################################
+# Web
+################################
+
+foundry_web_subdomain: "{{ foundry_name }}"
+foundry_web_domain: "{{ user.domain }}"
+foundry_web_port: "30000"
+foundry_web_url: "{{ 'https://' + foundry_web_subdomain + '.' + foundry_web_domain }}"
+
+################################
+# DNS
+################################
+
+foundry_dns_record: "{{ foundry_web_subdomain }}"
+foundry_dns_zone: "{{ foundry_web_domain }}"
+foundry_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+foundry_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+foundry_traefik_middleware_default: "{{ traefik_default_middleware + ','
+                                      + lookup('vars', foundry_name + '_traefik_sso_middleware', default=foundry_traefik_sso_middleware)
+                                   if (lookup('vars', foundry_name + '_traefik_sso_middleware', default=foundry_traefik_sso_middleware) | length > 0)
+                                   else traefik_default_middleware }}"
+foundry_traefik_middleware_custom: ""
+foundry_traefik_middleware: "{{ foundry_traefik_middleware_default + ','
+                              + foundry_traefik_middleware_custom
+                           if (not foundry_traefik_middleware_custom.startswith(',') and foundry_traefik_middleware_custom | length > 0)
+                           else foundry_traefik_middleware_default
+                              + foundry_traefik_middleware_custom }}"
+foundry_traefik_certresolver: "{{ traefik_default_certresolver }}"
+foundry_traefik_enabled: true
+foundry_traefik_api_enabled: false
+foundry_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+foundry_docker_container: "{{ foundry_name }}"
+
+# Image
+foundry_docker_image_pull: true
+foundry_docker_image_tag: "release"
+foundry_docker_image: "felddy/foundryvtt:{{ foundry_docker_image_tag }}"
+
+# Envs
+foundry_docker_envs_default:
+  FOUNDRY_HOSTNAME: "foundry.{{ user.domain }}"
+  NESTED_PROXY: "1"
+  VIRTUAL_HOST: "foundry.{{ user.domain }}"
+  VIRTUAL_PORT: "{{ foundry_web_port }}"
+  LETSENCRYPT_HOST: "foundry.{{ user.domain }}"
+  LETSENCRYPT_EMAIL: "{{ user.email }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  FOUNDRY_ADMIN_KEY: "{{ user.pass }}"
+  FOUNDRY_GID: "{{ gid }}"
+  FOUNDRY_UID: "{{ uid }}"
+  CONTAINER_PRESERVE_CONFIG: "true"
+  CONTAINER_VERBOSE: "false"
+  CONTAINER_PRESERVE_OWNER: "/data"
+  FOUNDRY_LICENSE_KEY: "{{ foundry.app_key }}"
+  FOUNDRY_PROXY_SSL: "true"
+  FOUNDRY_USERNAME: "{{ foundry.user }}"
+  FOUNDRY_PASSWORD: "{{ foundry.pass }}"
+  TIMEZONE: "{{ tz }}"
+foundry_docker_envs_custom: {}
+foundry_docker_envs: "{{ foundry_docker_envs_default
+                              | combine(foundry_docker_envs_custom) }}"
+
+# Commands
+foundry_docker_commands_default: []
+foundry_docker_commands_custom: []
+foundry_docker_commands: "{{ foundry_docker_commands_default
+                                  + foundry_docker_commands_custom }}"
+
+# Volumes
+foundry_docker_volumes_default: ["/opt/foundry/data:/data", "/opt/foundry/container_cache:/container_cache", "/mnt/unionfs/Media/Foundry:/data/Data/Media"]
+foundry_docker_volumes_custom: []
+foundry_docker_volumes: "{{ foundry_docker_volumes_default
+                                 + foundry_docker_volumes_custom }}"
+
+# Devices
+foundry_docker_devices_default: []
+foundry_docker_devices_custom: []
+foundry_docker_devices: "{{ foundry_docker_devices_default
+                                 + foundry_docker_devices_custom }}"
+
+# Hosts
+foundry_docker_hosts_default: []
+foundry_docker_hosts_custom: []
+foundry_docker_hosts: "{{ docker_hosts_common
+                               | combine(foundry_docker_hosts_default)
+                               | combine(foundry_docker_hosts_custom) }}"
+
+# Labels
+foundry_docker_labels_default: {}
+foundry_docker_labels_custom: {}
+foundry_docker_labels: "{{ docker_labels_common
+                                | combine(foundry_docker_labels_default)
+                                | combine(foundry_docker_labels_custom) }}"
+
+# Hostname
+foundry_docker_hostname: "{{ foundry_name }}"
+
+# Ports
+foundry_docker_ports_defaults: ["{{ foundry_web_port }}:{{ foundry_web_port }}"]
+foundry_docker_ports_custom: []
+foundry_docker_ports: "{{ foundry_docker_ports_defaults
+                         + foundry_docker_ports_custom }}"
+
+# Networks
+foundry_docker_networks_alias: "{{ foundry_name }}"
+foundry_docker_networks_default: []
+foundry_docker_networks_custom: []
+foundry_docker_networks: "{{ docker_networks_common
+                                  + foundry_docker_networks_default
+                                  + foundry_docker_networks_custom }}"
+
+# Capabilities
+foundry_docker_capabilities_default: []
+foundry_docker_capabilities_custom: []
+foundry_docker_capabilities: "{{ foundry_docker_capabilities_default
+                                      + foundry_docker_capabilities_custom }}"
+
+# Security Opts
+foundry_docker_security_opts_default: []
+foundry_docker_security_opts_custom: []
+foundry_docker_security_opts: "{{ foundry_docker_security_opts_default
+                                       + foundry_docker_security_opts_custom }}"
+
+# Restart Policy
+foundry_docker_restart_policy: unless-stopped
+
+# State
+foundry_docker_state: started
