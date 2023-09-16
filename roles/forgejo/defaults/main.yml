@@ -29,7 +29,9 @@ forgejo_paths_folders_list:
 forgejo_web_subdomain: "{{ forgejo_name }}"
 forgejo_web_domain: "{{ user.domain }}"
 forgejo_web_port: "3000"
-forgejo_web_url: "{{ 'https://' + forgejo_web_subdomain + '.' + forgejo_web_domain }}"
+forgejo_web_url: "{{ 'https://' + (forgejo_web_subdomain + '.' + forgejo_web_domain
+                  if (forgejo_web_subdomain | length > 0)
+                  else forgejo_web_domain) }}"
 
 ################################
 # DNS
@@ -43,9 +45,13 @@ forgejo_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-forgejo_traefik_middleware: "{{ traefik_default_middleware }}"
+forgejo_traefik_sso_middleware: ""
+forgejo_traefik_middleware_default: "{{ traefik_default_middleware }}"
+forgejo_traefik_middleware_custom: ""
 forgejo_traefik_certresolver: "{{ traefik_default_certresolver }}"
 forgejo_traefik_enabled: true
+forgejo_traefik_api_enabled: false
+forgejo_traefik_api_endpoint: ""
 
 ################################
 # Docker
