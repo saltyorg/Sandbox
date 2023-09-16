@@ -1,0 +1,133 @@
+##########################################################################
+# Title:            Sandbox: Forgejo                                     #
+# Author(s):        Thomvh, kowalski                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+forgejo_name: forgejo
+
+################################
+# Paths
+################################
+
+forgejo_paths_folder: "{{ forgejo_name }}"
+forgejo_paths_location: "{{ server_appdata_path }}/{{ forgejo_paths_folder }}"
+forgejo_paths_folders_list:
+  - "{{ forgejo_paths_location }}"
+
+################################
+# Web
+################################
+
+forgejo_web_subdomain: "{{ forgejo_name }}"
+forgejo_web_domain: "{{ user.domain }}"
+forgejo_web_port: "3000"
+forgejo_web_url: "{{ 'https://' + forgejo_web_subdomain + '.' + forgejo_web_domain }}"
+
+################################
+# DNS
+################################
+
+forgejo_dns_record: "{{ forgejo_web_subdomain }}"
+forgejo_dns_zone: "{{ forgejo_web_domain }}"
+forgejo_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+forgejo_traefik_middleware: "{{ traefik_default_middleware }}"
+forgejo_traefik_certresolver: "{{ traefik_default_certresolver }}"
+forgejo_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+forgejo_docker_container: "{{ forgejo_name }}"
+
+# Image
+forgejo_docker_image_pull: true
+forgejo_docker_image_tag: "1.20" # the Codeberg container registry does not provide a "latest" tag
+forgejo_docker_image: "codeberg.org/forgejo/forgejo:{{ forgejo_docker_image_tag }}"
+
+# Ports
+forgejo_docker_ports_defaults: []
+forgejo_docker_ports_custom: []
+forgejo_docker_ports: "{{ forgejo_docker_ports_defaults + forgejo_docker_ports_custom }}"
+
+# Envs
+forgejo_docker_envs_default:
+  USER_UID: "{{ uid }}"
+  USER_GID: "{{ gid }}"
+  DB_TYPE: "mysql"
+  DB_HOST: "mariadb:3306"
+  DB_USER: "root"
+  DB_PASS: "password321"
+  DB_DATABASE: "forgejo"
+  DISABLE_SSH: "true"
+  RUN_MODE: "prod"
+  ROOT_URL: "{{ forgejo_web_url }}/"
+forgejo_docker_envs_custom: {}
+forgejo_docker_envs: "{{ forgejo_docker_envs_default | combine(forgejo_docker_envs_custom) }}"
+
+# Commands
+forgejo_docker_commands_default: []
+forgejo_docker_commands_custom: []
+forgejo_docker_commands: "{{ forgejo_docker_commands_default + forgejo_docker_commands_custom }}"
+
+# Volumes
+forgejo_docker_volumes_default:
+  - "{{ forgejo_paths_location }}:/data"
+  - /etc/timezone:/etc/timezone:ro
+  - /etc/localtime:/etc/localtime:ro
+forgejo_docker_volumes_custom: []
+forgejo_docker_volumes: "{{ forgejo_docker_volumes_default + forgejo_docker_volumes_custom }}"
+
+# Devices
+forgejo_docker_devices_default: []
+forgejo_docker_devices_custom: []
+forgejo_docker_devices: "{{ forgejo_docker_devices_default + forgejo_docker_devices_custom }}"
+
+# Hosts
+forgejo_docker_hosts_default: []
+forgejo_docker_hosts_custom: []
+forgejo_docker_hosts: "{{ docker_hosts_common | combine(forgejo_docker_hosts_default) | combine(forgejo_docker_hosts_custom) }}"
+
+# Labels
+forgejo_docker_labels_default: {}
+forgejo_docker_labels_custom: {}
+forgejo_docker_labels: "{{ docker_labels_common | combine(forgejo_docker_labels_default) | combine(forgejo_docker_labels_custom) }}"
+
+# Hostname
+forgejo_docker_hostname: "{{ forgejo_name }}"
+
+# Networks
+forgejo_docker_networks_alias: "{{ forgejo_name }}"
+forgejo_docker_networks_default: []
+forgejo_docker_networks_custom: []
+forgejo_docker_networks: "{{ docker_networks_common + forgejo_docker_networks_default + forgejo_docker_networks_custom }}"
+
+# Capabilities
+forgejo_docker_capabilities_default: []
+forgejo_docker_capabilities_custom: []
+forgejo_docker_capabilities: "{{ forgejo_docker_capabilities_default + forgejo_docker_capabilities_custom }}"
+
+# Security Opts
+forgejo_docker_security_opts_default: []
+forgejo_docker_security_opts_custom: []
+forgejo_docker_security_opts: "{{ forgejo_docker_security_opts_default + forgejo_docker_security_opts_custom }}"
+
+# Restart Policy
+forgejo_docker_restart_policy: unless-stopped
+
+# State
+forgejo_docker_state: started
