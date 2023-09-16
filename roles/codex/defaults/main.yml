@@ -30,8 +30,9 @@ codex_paths_folders_list:
 codex_web_subdomain: "{{ codex_name }}"
 codex_web_domain: "{{ user.domain }}"
 codex_web_port: "9810"
-codex_web_url: "{{ 'https://' + lookup('vars', codex_name + '_web_subdomain', default=codex_web_subdomain)
-                   + '.' + lookup('vars', codex_name + '_web_domain', default=codex_web_domain) }}"
+codex_web_url: "{{ 'https://' + (codex_web_subdomain + '.' + codex_web_domain
+                if (codex_web_subdomain | length > 0)
+                else codex_web_domain) }}"
 
 ################################
 # DNS
@@ -46,20 +47,12 @@ codex_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 codex_traefik_sso_middleware: ""
-
-codex_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                      + lookup('vars', codex_name + '_traefik_sso_middleware', default=codex_traefik_sso_middleware)
-                                   if (lookup('vars', codex_name + '_traefik_sso_middleware', default=codex_traefik_sso_middleware) | length > 0)
-                                   else traefik_default_middleware }}"
+codex_traefik_middleware_default: "{{ traefik_default_middleware }}"
 codex_traefik_middleware_custom: ""
-codex_traefik_middleware: "{{ codex_traefik_middleware_default + ','
-                              + codex_traefik_middleware_custom
-                           if (not codex_traefik_middleware_custom.startswith(',') and codex_traefik_middleware_custom | length > 0)
-                           else codex_traefik_middleware_default
-                              + codex_traefik_middleware_custom }}"
-
 codex_traefik_certresolver: "{{ traefik_default_certresolver }}"
 codex_traefik_enabled: true
+codex_traefik_api_enabled: false
+codex_traefik_api_endpoint: ""
 
 ################################
 # Docker
