@@ -48,7 +48,7 @@ code_server_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-code_server_traefik_sso_middleware: ""
+code_server_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 code_server_traefik_middleware_default: "{{ traefik_default_middleware }}"
 code_server_traefik_middleware_custom: ""
 code_server_traefik_certresolver: "{{ traefik_default_certresolver }}"
