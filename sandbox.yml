@@ -43,7 +43,6 @@
     - { role: dashy, tags: ['dashy'] }
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
-    - { role: discoflix, tags: ['discoflix'] }
     - { role: docspell, tags: ['docspell'] }
     - { role: doplarr, tags: ['doplarr'] }
     - { role: dozzle, tags: ['dozzle'] }
@@ -58,6 +57,7 @@
     - { role: flaresolverr, tags: ['flaresolverr'] }
     - { role: forgejo, tags: ['forgejo'] }
     - { role: freshrss, tags: ['freshrss'] }
+    - { role: foundry, tags: ['foundry'] }
     - { role: funkwhale, tags: ['funkwhale'] }
     - { role: gaps, tags: ['gaps'] }
     - { role: goaccess, tags: ['goaccess'] }
