@@ -91,6 +91,8 @@ gluetun_docker_envs_default:
   FIREWALL_VPN_INPUT_PORTS: "{{ gluetun_firewall_vpn_input_ports | default(omit) }}"
   FIREWALL_INPUT_PORTS: "{{ gluetun_firewall_input_ports | default(omit) }}"
   FIREWALL_OUTBOUND_SUBNETS: "{{ gluetun_firewall_outbound_subnets | default(omit) }}"
+  HTTPPROXY: "on"
+  HTTPPROXY_STEALTH: "on"
 gluetun_docker_envs_custom: {}
 gluetun_docker_envs: "{{ gluetun_docker_envs_default
                          | combine(gluetun_docker_envs_custom) }}"
