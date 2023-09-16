@@ -33,7 +33,7 @@ jobs:
           REPO_NAME: 'saltyorg/Sandbox'
           CONTRIBUTOR: '### Contributors'
           COLUMN_PER_ROW: '6'
-          ACCESS_TOKEN: ${{secrets.GH_TOKEN}}
+          ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
           IMG_WIDTH: '100'
           FONT_SIZE: '14'
           PATH: '/README.md'
@@ -54,7 +54,7 @@ jobs:
     needs: [ansible-lint, find-roles]
     runs-on: ubuntu-22.04
     strategy:
-      matrix: ${{fromJson(needs.find-roles.outputs.matrix)}}
+      matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
       fail-fast: false
 
     steps:
