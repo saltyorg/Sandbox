@@ -89,10 +89,10 @@ foundry_docker_envs_default:
   CONTAINER_PRESERVE_CONFIG: "true"
   CONTAINER_VERBOSE: "false"
   CONTAINER_PRESERVE_OWNER: "/data"
-  FOUNDRY_LICENSE_KEY: "{{ foundry.app_key  }}"
+  FOUNDRY_LICENSE_KEY: "{{ foundry.app_key }}"
   FOUNDRY_PROXY_SSL: "true"
-  FOUNDRY_USERNAME: "{{ foundry.user  }}"
-  FOUNDRY_PASSWORD: "{{ foundry.pass  }}"
+  FOUNDRY_USERNAME: "{{ foundry.user }}"
+  FOUNDRY_PASSWORD: "{{ foundry.pass }}"
   TIMEZONE: "{{ tz }}"
 foundry_docker_envs_custom: {}
 foundry_docker_envs: "{{ foundry_docker_envs_default
@@ -105,7 +105,7 @@ foundry_docker_commands: "{{ foundry_docker_commands_default
                                   + foundry_docker_commands_custom }}"
 
 # Volumes
-foundry_docker_volumes_default: ["/opt/foundry/data:/data","/opt/foundry/container_cache:/container_cache","/mnt/unionfs/Media/Foundry:/data/Data/Media"]
+foundry_docker_volumes_default: ["/opt/foundry/data:/data", "/opt/foundry/container_cache:/container_cache", "/mnt/unionfs/Media/Foundry:/data/Data/Media"]
 foundry_docker_volumes_custom: []
 foundry_docker_volumes: "{{ foundry_docker_volumes_default
                                  + foundry_docker_volumes_custom }}"
