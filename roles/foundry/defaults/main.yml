@@ -31,7 +31,9 @@ foundry_paths_folders_list:
 foundry_web_subdomain: "{{ foundry_name }}"
 foundry_web_domain: "{{ user.domain }}"
 foundry_web_port: "30000"
-foundry_web_url: "{{ 'https://' + foundry_web_subdomain + '.' + foundry_web_domain }}"
+foundry_web_url: "{{ 'https://' + (foundry_web_subdomain + '.' + foundry_web_domain
+                  if (foundry_web_subdomain | length > 0)
+                  else foundry_web_domain) }}"
 
 ################################
 # DNS
@@ -46,16 +48,8 @@ foundry_dns_proxy: "{{ dns.proxied }}"
 ################################
 
 foundry_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-foundry_traefik_middleware_default: "{{ traefik_default_middleware + ','
-                                      + lookup('vars', foundry_name + '_traefik_sso_middleware', default=foundry_traefik_sso_middleware)
-                                   if (lookup('vars', foundry_name + '_traefik_sso_middleware', default=foundry_traefik_sso_middleware) | length > 0)
-                                   else traefik_default_middleware }}"
+foundry_traefik_middleware_default: "{{ traefik_default_middleware }}"
 foundry_traefik_middleware_custom: ""
-foundry_traefik_middleware: "{{ foundry_traefik_middleware_default + ','
-                              + foundry_traefik_middleware_custom
-                           if (not foundry_traefik_middleware_custom.startswith(',') and foundry_traefik_middleware_custom | length > 0)
-                           else foundry_traefik_middleware_default
-                              + foundry_traefik_middleware_custom }}"
 foundry_traefik_certresolver: "{{ traefik_default_certresolver }}"
 foundry_traefik_enabled: true
 foundry_traefik_api_enabled: false
