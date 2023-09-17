@@ -52,7 +52,7 @@ watchtower_docker_commands: "{{ watchtower_docker_commands_default
 
 # Volumes
 watchtower_docker_volumes_default:
-  - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  - "/var/run/docker.sock:/var/run/docker.sock"
 watchtower_docker_volumes_custom: []
 watchtower_docker_volumes: "{{ watchtower_docker_volumes_default
                                + watchtower_docker_volumes_custom }}"
