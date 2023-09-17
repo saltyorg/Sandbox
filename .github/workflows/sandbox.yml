@@ -66,7 +66,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           shell: bash
-          command: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v -b traefik3 && ansible --version
+          command: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v && ansible --version
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
