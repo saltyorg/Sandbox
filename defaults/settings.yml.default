@@ -43,8 +43,6 @@ moviematch:
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
   ui_password: "username:password"
-ombix:
-  roles: ["4k"]
 plex_meta_manager:
   time: "03:00"
 qbit_manage:
@@ -73,10 +71,6 @@ qbittorrentvpn:
   vpn_client: wireguard
 recyclarr:
   cron_schedule: "@daily"
-requestrrx:
-  roles: ["1080p", "4k"]
-rfloodx:
-  roles: [""]
 sarotate:
   remotes: [""]
   sa_path: "your_sa_folder_path"
