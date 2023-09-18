@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-transmission_name: transmission
+transmission_instances: ["transmission"]
 
 ################################
 # Paths
@@ -36,16 +36,16 @@ transmission_paths_setttings_location: "{{ transmission_paths_location }}/settin
 transmission_web_subdomain: "{{ transmission_name }}"
 transmission_web_domain: "{{ user.domain }}"
 transmission_web_port: "9091"
-transmission_web_url: "{{ 'https://' + (transmission_web_subdomain + '.' + transmission_web_domain
-                       if (transmission_web_subdomain | length > 0)
-                       else transmission_web_domain) }}"
+transmission_web_url: "{{ 'https://' + (lookup('vars', transmission_name + '_web_subdomain', default=transmission_web_subdomain) + '.' + lookup('vars', transmission_name + '_web_domain', default=transmission_web_domain)
+                       if (lookup('vars', transmission_name + '_web_subdomain', default=transmission_web_subdomain) | length > 0)
+                       else lookup('vars', transmission_name + '_web_domain', default=transmission_web_domain)) }}"
 
 ################################
 # DNS
 ################################
 
-transmission_dns_record: "{{ transmission_web_subdomain }}"
-transmission_dns_zone: "{{ transmission_web_domain }}"
+transmission_dns_record: "{{ lookup('vars', transmission_name + '_web_subdomain', default=transmission_web_subdomain) }}"
+transmission_dns_zone: "{{ lookup('vars', transmission_name + '_web_domain', default=transmission_web_domain) }}"
 transmission_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -69,8 +69,10 @@ transmission_docker_container: "{{ transmission_name }}"
 
 # Image
 transmission_docker_image_pull: true
+transmission_docker_image_repo: "lscr.io/linuxserver/transmission"
 transmission_docker_image_tag: "latest"
-transmission_docker_image: "lscr.io/linuxserver/transmission:{{ transmission_docker_image_tag }}"
+transmission_docker_image: "{{ lookup('vars', transmission_name + '_docker_image_repo', default=transmission_docker_image_repo)
+                          + ':' + lookup('vars', transmission_name + '_docker_image_tag', default=transmission_docker_image_tag) }}"
 
 # Ports
 # - Internal and External ports need to match for the next set of ports
@@ -82,8 +84,8 @@ transmission_docker_ports_defaults:
   - "{{ transmission_docker_ports_51413 }}:{{ transmission_docker_ports_51413 }}"
   - "{{ transmission_docker_ports_51413 }}:{{ transmission_docker_ports_51413 }}/udp"
 transmission_docker_ports_custom: []
-transmission_docker_ports: "{{ transmission_docker_ports_defaults
-                               + transmission_docker_ports_custom }}"
+transmission_docker_ports: "{{ lookup('vars', transmission_name + '_docker_ports_defaults', default=transmission_docker_ports_defaults)
+                          + lookup('vars', transmission_name + '_docker_ports_custom', default=transmission_docker_ports_custom) }}"
 
 # Envs
 transmission_docker_envs_default:
@@ -94,14 +96,14 @@ transmission_docker_envs_default:
   USER: "{{ user.name }}"
   PASS: "{{ user.pass }}"
 transmission_docker_envs_custom: {}
-transmission_docker_envs: "{{ transmission_docker_envs_default
-                              | combine(transmission_docker_envs_custom) }}"
+transmission_docker_envs: "{{ lookup('vars', transmission_name + '_docker_envs_default', default=transmission_docker_envs_default)
+                         | combine(lookup('vars', transmission_name + '_docker_envs_custom', default=transmission_docker_envs_custom)) }}"
 
 # Commands
 transmission_docker_commands_default: []
 transmission_docker_commands_custom: []
-transmission_docker_commands: "{{ transmission_docker_commands_default
-                                  + transmission_docker_commands_custom }}"
+transmission_docker_commands: "{{ lookup('vars', transmission_name + '_docker_commands_default', default=transmission_docker_commands_default)
+                             + lookup('vars', transmission_name + '_docker_commands_custom', default=transmission_docker_commands_custom) }}"
 
 # Volumes
 transmission_docker_volumes_default:
@@ -109,51 +111,54 @@ transmission_docker_volumes_default:
   - "{{ server_appdata_path }}/scripts:/scripts"
   - "{{ transmission_paths_downloads_location }}/watched:/watch"
 transmission_docker_volumes_custom: []
-transmission_docker_volumes: "{{ transmission_docker_volumes_default
-                                 + transmission_docker_volumes_custom }}"
+transmission_docker_volumes: "{{ lookup('vars', transmission_name + '_docker_volumes_default', default=transmission_docker_volumes_default)
+                            + lookup('vars', transmission_name + '_docker_volumes_custom', default=transmission_docker_volumes_custom) }}"
 
 # Devices
 transmission_docker_devices_default: []
 transmission_docker_devices_custom: []
-transmission_docker_devices: "{{ transmission_docker_devices_default
-                                 + transmission_docker_devices_custom }}"
+transmission_docker_devices: "{{ lookup('vars', transmission_name + '_docker_devices_default', default=transmission_docker_devices_default)
+                            + lookup('vars', transmission_name + '_docker_devices_custom', default=transmission_docker_devices_custom) }}"
 
 # Hosts
 transmission_docker_hosts_default: []
 transmission_docker_hosts_custom: []
 transmission_docker_hosts: "{{ docker_hosts_common
-                               | combine(transmission_docker_hosts_default)
-                               | combine(transmission_docker_hosts_custom) }}"
+                          | combine(lookup('vars', transmission_name + '_docker_hosts_default', default=transmission_docker_hosts_default))
+                          | combine(lookup('vars', transmission_name + '_docker_hosts_custom', default=transmission_docker_hosts_custom)) }}"
 
 # Labels
 transmission_docker_labels_default: {}
 transmission_docker_labels_custom: {}
 transmission_docker_labels: "{{ docker_labels_common
-                                | combine(transmission_docker_labels_default)
-                                | combine(transmission_docker_labels_custom) }}"
+                           | combine(lookup('vars', transmission_name + '_docker_labels_default', default=transmission_docker_labels_default))
+                           | combine(lookup('vars', transmission_name + '_docker_labels_custom', default=transmission_docker_labels_custom)) }}"
 
 # Hostname
 transmission_docker_hostname: "{{ transmission_name }}"
+
+# Network Mode
+transmission_docker_network_mode_default: "{{ docker_networks_name_common }}"
+transmission_docker_network_mode: "{{ lookup('vars', transmission_name + '_docker_network_mode_default', default=transmission_docker_network_mode_default) }}"
 
 # Networks
 transmission_docker_networks_alias: "{{ transmission_name }}"
 transmission_docker_networks_default: []
 transmission_docker_networks_custom: []
 transmission_docker_networks: "{{ docker_networks_common
-                                  + transmission_docker_networks_default
-                                  + transmission_docker_networks_custom }}"
-
+                             + lookup('vars', transmission_name + '_docker_networks_default', default=transmission_docker_networks_default)
+                             + lookup('vars', transmission_name + '_docker_networks_custom', default=transmission_docker_networks_custom) }}"
 # Capabilities
 transmission_docker_capabilities_default: []
 transmission_docker_capabilities_custom: []
-transmission_docker_capabilities: "{{ transmission_docker_capabilities_default
-                                      + transmission_docker_capabilities_custom }}"
+transmission_docker_capabilities: "{{ lookup('vars', transmission_name + '_docker_capabilities_default', default=transmission_docker_capabilities_default)
+                                 + lookup('vars', transmission_name + '_docker_capabilities_custom', default=transmission_docker_capabilities_custom) }}"
 
 # Security Opts
 transmission_docker_security_opts_default: []
 transmission_docker_security_opts_custom: []
-transmission_docker_security_opts: "{{ transmission_docker_security_opts_default
-                                       + transmission_docker_security_opts_custom }}"
+transmission_docker_security_opts: "{{ lookup('vars', transmission_name + '_docker_security_opts_default', default=transmission_docker_security_opts_default)
+                                  + lookup('vars', transmission_name + '_docker_security_opts_custom', default=transmission_docker_security_opts_custom) }}"
 
 # Restart Policy
 transmission_docker_restart_policy: unless-stopped
