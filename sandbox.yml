@@ -22,7 +22,6 @@
     - { role: airsonic, tags: ['airsonic'] }
     - { role: alltube, tags: ['alltube'] }
     - { role: alternatrr, tags: ['alternatrr'] }
-    - { role: alternatrrx, tags: ['alternatrrx'] }
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
     - { role: aria2_ng, tags: ['aria2-ng'] }
@@ -159,7 +158,6 @@
     - { role: traefik_robotstxt, tags: ['traefik-robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }
-    - { role: transmissionx, tags: ['transmissionx'] }
     - { role: trilium, tags: ['trilium'] }
     - { role: tubearchivist, tags: ['tubearchivist'] }
     - { role: tvheadend, tags: ['tvheadend'] }
