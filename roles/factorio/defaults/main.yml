@@ -29,11 +29,6 @@ factorio_paths_folders_list:
 factorio_web_subdomain: "{{ factorio_name }}"
 factorio_web_domain: "{{ user.domain }}"
 factorio_web_port: ""
-factorio_web_scheme: "https"
-factorio_web_serverstransport: "skipverify@file"
-factorio_web_url: "{{ 'https://' + (factorio_web_subdomain + '.' + factorio_web_domain
-                if (factorio_web_subdomain | length > 0)
-                else factorio_web_domain) }}"
 
 ################################
 # DNS
@@ -41,19 +36,7 @@ factorio_web_url: "{{ 'https://' + (factorio_web_subdomain + '.' + factorio_web_
 
 factorio_dns_record: "{{ factorio_web_subdomain }}"
 factorio_dns_zone: "{{ factorio_web_domain }}"
-factorio_dns_proxy: "{{ dns.proxied }}"
-
-################################
-# Traefik
-################################
-
-factorio_traefik_sso_middleware: ""
-factorio_traefik_middleware_default: "{{ traefik_default_middleware }}"
-factorio_traefik_middleware_custom: ""
-factorio_traefik_certresolver: "{{ traefik_default_certresolver }}"
-factorio_traefik_enabled: true
-factorio_traefik_api_enabled: false
-factorio_traefik_api_endpoint: ""
+factorio_dns_proxy: false
 
 ################################
 # Docker
