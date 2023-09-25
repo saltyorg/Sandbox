@@ -84,8 +84,7 @@ discoflix_docker_commands: "{{ discoflix_docker_commands_default
 
 # Volumes
 discoflix_docker_volumes_default:
-  - "{{ discoflix_paths_location }}/db:/app/data"
-  - "{{ discoflix_paths_location }}/log:/app/log"
+  - "{{ discoflix_paths_location }}/db:/app/db.sqlite3"
 discoflix_docker_volumes_custom: []
 discoflix_docker_volumes: "{{ discoflix_docker_volumes_default
                               + discoflix_docker_volumes_custom }}"
