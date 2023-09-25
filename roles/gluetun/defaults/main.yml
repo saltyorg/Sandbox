@@ -126,7 +126,8 @@ gluetun_docker_hosts: "{{ docker_hosts_common
                           | combine(lookup('vars', gluetun_name + '_docker_hosts_custom', default=gluetun_docker_hosts_custom)) }}"
 
 # Labels
-gluetun_docker_labels_default: {}
+gluetun_docker_labels_default:
+  com.centurylinklabs.watchtower.enable: "false"
 gluetun_docker_labels_custom: {}
 gluetun_docker_labels: "{{ docker_labels_common
                            | combine(lookup('vars', gluetun_name + '_docker_labels_default', default=gluetun_docker_labels_default))
