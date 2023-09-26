@@ -1,0 +1,151 @@
+########################################################################
+# Title:         Sandbox: WatchState | Default Variables               #
+# Author(s):     keldian                                               #
+# URL:           https://github.com/saltyorg/Sandbox                   #
+# --                                                                   #
+########################################################################
+#                   GNU General Public License v3.0                    #
+########################################################################
+---
+################################
+# Basics
+################################
+
+watchstate_instances: ["watchstate"]
+
+################################
+# Paths
+################################
+
+watchstate_paths_folder: "{{ watchstate_name }}"
+watchstate_paths_location: "{{ server_appdata_path }}/{{ watchstate_paths_folder }}"
+watchstate_paths_folders_list:
+  - "{{ watchstate_paths_location }}"
+
+################################
+# Web
+################################
+
+watchstate_web_subdomain: "{{ watchstate_name }}"
+watchstate_web_domain: "{{ user.domain }}"
+watchstate_web_port: "8080"
+watchstate_web_url: "{{ 'https://' + (lookup('vars', watchstate_name + '_web_subdomain', default=watchstate_web_subdomain)
+                        + '.' + lookup('vars', watchstate_name + '_web_domain', default=watchstate_web_domain)
+                     if (lookup('vars', watchstate_name + '_web_subdomain', default=watchstate_web_subdomain) | length > 0)
+                     else lookup('vars', watchstate_name + '_web_domain', default=watchstate_web_domain)) }}"
+
+################################
+# DNS
+################################
+
+watchstate_dns_record: "{{ lookup('vars', watchstate_name + '_web_subdomain', default=watchstate_web_subdomain) }}"
+watchstate_dns_zone: "{{ lookup('vars', watchstate_name + '_web_domain', default=watchstate_web_domain) }}"
+watchstate_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+watchstate_traefik_sso_middleware: ""
+watchstate_traefik_middleware_default: "{{ traefik_default_middleware }}"
+watchstate_traefik_middleware_custom: ""
+watchstate_traefik_certresolver: "{{ traefik_default_certresolver }}"
+watchstate_traefik_enabled: true
+watchstate_traefik_api_enabled: false
+watchstate_traefik_api_endpoint: "PathPrefix(`/?apikey`)"
+
+################################
+# Docker
+################################
+
+# Container
+watchstate_docker_container: "{{ watchstate_name }}"
+
+# Image
+watchstate_docker_image_pull: true
+watchstate_docker_image_repo: "ghcr.io/arabcoders/watchstate"
+watchstate_docker_image_tag: "latest"
+watchstate_docker_image: "{{ lookup('vars', watchstate_name + '_docker_image_repo', default=watchstate_docker_image_repo)
+                             + ':' + lookup('vars', watchstate_name + '_docker_image_tag', default=watchstate_docker_image_tag) }}"
+
+# Ports
+watchstate_docker_ports_defaults: []
+watchstate_docker_ports_custom: []
+watchstate_docker_ports: "{{ lookup('vars', watchstate_name + '_docker_ports_defaults', default=watchstate_docker_ports_defaults)
+                             + lookup('vars', watchstate_name + '_docker_ports_custom', default=watchstate_docker_ports_custom) }}"
+
+# Envs
+watchstate_docker_envs_default:
+  WS_TZ: "{{ tz }}"
+watchstate_docker_envs_custom: {}
+watchstate_docker_envs: "{{ lookup('vars', watchstate_name + '_docker_envs_default', default=watchstate_docker_envs_default)
+                            | combine(lookup('vars', watchstate_name + '_docker_envs_custom', default=watchstate_docker_envs_custom)) }}"
+
+# Commands
+watchstate_docker_commands_default: []
+watchstate_docker_commands_custom: []
+watchstate_docker_commands: "{{ lookup('vars', watchstate_name + '_docker_commands_default', default=watchstate_docker_commands_default)
+                                + lookup('vars', watchstate_name + '_docker_commands_custom', default=watchstate_docker_commands_custom) }}"
+
+# Volumes
+watchstate_docker_volumes_default:
+  - "{{ watchstate_paths_location }}:/config"
+watchstate_docker_volumes_custom: []
+watchstate_docker_volumes: "{{ lookup('vars', watchstate_name + '_docker_volumes_default', default=watchstate_docker_volumes_default)
+                               + lookup('vars', watchstate_name + '_docker_volumes_custom', default=watchstate_docker_volumes_custom) }}"
+
+# Devices
+watchstate_docker_devices_default: []
+watchstate_docker_devices_custom: []
+watchstate_docker_devices: "{{ lookup('vars', watchstate_name + '_docker_devices_default', default=watchstate_docker_devices_default)
+                               + lookup('vars', watchstate_name + '_docker_devices_custom', default=watchstate_docker_devices_custom) }}"
+
+# Hosts
+watchstate_docker_hosts_default: []
+watchstate_docker_hosts_custom: []
+watchstate_docker_hosts: "{{ docker_hosts_common
+                             | combine(lookup('vars', watchstate_name + '_docker_hosts_default', default=watchstate_docker_hosts_default))
+                             | combine(lookup('vars', watchstate_name + '_docker_hosts_custom', default=watchstate_docker_hosts_custom)) }}"
+
+# Labels
+watchstate_docker_labels_default: {}
+watchstate_docker_labels_custom: {}
+watchstate_docker_labels: "{{ docker_labels_common
+                              | combine(lookup('vars', watchstate_name + '_docker_labels_default', default=watchstate_docker_labels_default))
+                              | combine(lookup('vars', watchstate_name + '_docker_labels_custom', default=watchstate_docker_labels_custom)) }}"
+
+# Hostname
+watchstate_docker_hostname: "{{ watchstate_name }}"
+
+# Network Mode
+watchstate_docker_network_mode_default: "{{ docker_networks_name_common }}"
+watchstate_docker_network_mode: "{{ lookup('vars', watchstate_name + '_docker_network_mode_default', default=watchstate_docker_network_mode_default) }}"
+
+# Networks
+watchstate_docker_networks_alias: "{{ watchstate_name }}"
+watchstate_docker_networks_default: []
+watchstate_docker_networks_custom: []
+watchstate_docker_networks: "{{ docker_networks_common
+                                + lookup('vars', watchstate_name + '_docker_networks_default', default=watchstate_docker_networks_default)
+                                + lookup('vars', watchstate_name + '_docker_networks_custom', default=watchstate_docker_networks_custom) }}"
+
+# Capabilities
+watchstate_docker_capabilities_default: []
+watchstate_docker_capabilities_custom: []
+watchstate_docker_capabilities: "{{ lookup('vars', watchstate_name + '_docker_capabilities_default', default=watchstate_docker_capabilities_default)
+                                    + lookup('vars', watchstate_name + '_docker_capabilities_custom', default=watchstate_docker_capabilities_custom) }}"
+
+# Security Opts
+watchstate_docker_security_opts_default: []
+watchstate_docker_security_opts_custom: []
+watchstate_docker_security_opts: "{{ lookup('vars', watchstate_name + '_docker_security_opts_default', default=watchstate_docker_security_opts_default)
+                                     + lookup('vars', watchstate_name + '_docker_security_opts_custom', default=watchstate_docker_security_opts_custom) }}"
+
+# Restart Policy
+watchstate_docker_restart_policy: unless-stopped
+
+# State
+watchstate_docker_state: started
+
+# User
+watchstate_docker_user: "{{ uid }}:{{ gid }}"
