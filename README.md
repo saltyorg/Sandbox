@@ -139,6 +139,13 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/nickheyer>
+            <img src=https://avatars.githubusercontent.com/u/60236014?v=4 width="100;"  alt=Nicholas W. Heyer/>
+            <br />
+            <sub style="font-size:14px"><b>Nicholas W. Heyer</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/TAPCollins>
             <img src=https://avatars.githubusercontent.com/u/13802426?v=4 width="100;"  alt=Tom Collins/>
             <br />
@@ -159,6 +166,8 @@ sb list
             <sub style="font-size:14px"><b>kxzaon</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/powerdude>
             <img src=https://avatars.githubusercontent.com/u/780882?v=4 width="100;"  alt=powerdude/>
@@ -166,8 +175,6 @@ sb list
             <sub style="font-size:14px"><b>powerdude</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/toutas>
             <img src=https://avatars.githubusercontent.com/u/61290992?v=4 width="100;"  alt=toutas/>
@@ -203,6 +210,8 @@ sb list
             <sub style="font-size:14px"><b>ChuckNorris9939</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/jolbol1>
             <img src=https://avatars.githubusercontent.com/u/5064896?v=4 width="100;"  alt=James Shopland/>
@@ -210,8 +219,6 @@ sb list
             <sub style="font-size:14px"><b>James Shopland</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/javi11>
             <img src=https://avatars.githubusercontent.com/u/3855051?v=4 width="100;"  alt=Javier Blanco/>
@@ -231,13 +238,6 @@ sb list
             <img src=https://avatars.githubusercontent.com/u/421589?v=4 width="100;"  alt=Matt Martinez/>
             <br />
             <sub style="font-size:14px"><b>Matt Martinez</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/nickheyer>
-            <img src=https://avatars.githubusercontent.com/u/60236014?v=4 width="100;"  alt=Nicholas W. Heyer/>
-            <br />
-            <sub style="font-size:14px"><b>Nicholas W. Heyer</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
