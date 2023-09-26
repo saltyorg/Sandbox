@@ -65,7 +65,7 @@ watchstate_docker_container: "{{ watchstate_name }}"
 watchstate_docker_image_pull: true
 watchstate_docker_image_repo: "ghcr.io/arabcoders/watchstate"
 watchstate_docker_image_tag: "latest"
-watchstate_docker_image: "{{ lookup('vars', watchstate_name + '_docker_image_repo', default=watchstate_docker_image_repo) 
+watchstate_docker_image: "{{ lookup('vars', watchstate_name + '_docker_image_repo', default=watchstate_docker_image_repo)
                              + ':' + lookup('vars', watchstate_name + '_docker_image_tag', default=watchstate_docker_image_tag) }}"
 
 # Ports
