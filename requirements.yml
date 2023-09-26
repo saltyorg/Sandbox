@@ -1,14 +1,5 @@
 ---
 collections:
-  - community.docker
-  - community.docker.docker_container
-  - community.docker.docker_container_exec
-  - community.docker.docker_volume
   - community.general
-  - community.general.cloudflare_dns
-  - community.general.ini_file
-  - community.general.ipinfoio_facts
-  - community.general.xml
+  - community.docker
   - community.mysql
-  - community.mysql.mysql_db
-  - community.mysql.mysql_query
