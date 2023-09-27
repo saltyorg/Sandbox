@@ -65,7 +65,7 @@ wizarr_docker_image_pull: true
 wizarr_docker_image_repo: "ghcr.io/wizarrrr/wizarr"
 wizarr_docker_image_tag: "latest"
 wizarr_docker_image: "{{ wizarr_docker_image_repo
-                        + ':' + wizarr_docker_image_tag }}"
+                         + ':' + wizarr_docker_image_tag }}"
 
 # Ports
 wizarr_docker_ports_defaults: []
