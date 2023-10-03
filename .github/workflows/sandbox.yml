@@ -23,6 +23,14 @@ jobs:
       - name: Lint Ansible Playbook
         uses: ansible-community/ansible-lint-action@v6.16.0
 
+  check_entries:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check Missing Entries
+        run: ./check_missing_entries.sh
+
   add-contributors:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/master'
@@ -51,7 +59,7 @@ jobs:
 
   install:
     name: '${{ matrix.roles }}'
-    needs: [ansible-lint, find-roles]
+    needs: [ansible-lint, check_entries, find-roles]
     runs-on: ubuntu-22.04
     strategy:
       matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
