@@ -13,7 +13,6 @@
   when: not plex_name is defined
 
 # Plex Tasks
-
 - name: "Settings | Check if '{{ plex_paths_config_location | basename }}' exists"
   ansible.builtin.stat:
     path: "{{ plex_paths_config_location }}"
@@ -22,7 +21,6 @@
 - name: Settings | {{ plex_name }} info tasks
   when: preferences_xml.stat.exists
   block:
-
     - name: Settings | Fetch {{ plex_name }} info
       community.general.xml:
         path: "{{ plex_paths_config_location }}"
@@ -51,7 +49,6 @@
 - name: Settings | New `{{ membarr_paths_config_location | basename }}` tasks
   when: not membarr_config.stat.exists
   block:
-
     - name: Settings | Import default `{{ membarr_paths_config_location | basename }}`
       ansible.builtin.template:
         src: config.ini.j2
