@@ -7,7 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
 - name: Fail when default membarr.discord_token is specified
   ansible.builtin.fail:
     msg: "You must specify a Discord bot token in the settings under membarr.discord_token."
