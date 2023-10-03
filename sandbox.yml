@@ -104,6 +104,7 @@
     - { role: n8n, tags: ['n8n'] }
     - { role: navidrome, tags: ['navidrome'] }
     - { role: nextcloud, tags: ['nextcloud'] }
+    - { role: membarr, tags: ['membarr'] }
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
     - { role: node_red, tags: ['node-red'] }
