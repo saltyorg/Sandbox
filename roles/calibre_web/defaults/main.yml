@@ -56,7 +56,7 @@ calibre_web_traefik_enabled: true
 # THEME
 ################################
 
-# Options can be found at https://github.com/gilbN/theme.park
+# Options can be found at https://github.com/themepark-dev/theme.park
 calibre_web_themepark_enabled: false
 calibre_web_themepark_theme: "{{ global_themepark_theme }}"
 calibre_web_themepark_domain: "{{ global_themepark_domain }}"
@@ -89,7 +89,7 @@ calibre_web_docker_envs_default:
   DOCKER_MODS: linuxserver/mods:universal-calibre
 calibre_web_docker_envs_custom: {}
 calibre_web_docker_envs_theme:
-  DOCKER_MODS: "linuxserver/mods:universal-calibre|ghcr.io/gilbn/theme.park:calibre-web"
+  DOCKER_MODS: "linuxserver/mods:universal-calibre|ghcr.io/themepark-dev/theme.park:calibre-web"
   TP_DOMAIN: "{{ calibre_web_themepark_domain }}"
   TP_THEME: "{{ calibre_web_themepark_theme }}"
 calibre_web_docker_envs: "{{ calibre_web_docker_envs_default
