@@ -174,7 +174,7 @@ calibre_docker_capabilities: "{{ lookup('vars', calibre_name + '_docker_capabili
 
 # Security Opts
 calibre_docker_security_opts_default:
-  - seccomp:unconfined
+  - seccomp=unconfined
 calibre_docker_security_opts_custom: []
 calibre_docker_security_opts: "{{ lookup('vars', calibre_name + '_docker_security_opts_default', default=calibre_docker_security_opts_default)
                                   + lookup('vars', calibre_name + '_docker_security_opts_custom', default=calibre_docker_security_opts_custom) }}"
