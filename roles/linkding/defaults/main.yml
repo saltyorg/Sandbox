@@ -52,6 +52,8 @@ linkding_traefik_certresolver: "{{ traefik_default_certresolver }}"
 linkding_traefik_enabled: true
 linkding_traefik_api_enabled: true
 linkding_traefik_api_endpoint: "PathPrefix(`/api`)"
+linkding_traefik_api_middleware_http: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_http_api }}"
+linkding_traefik_api_middleware: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_api }}"
 
 ################################
 # Docker
