@@ -162,8 +162,8 @@ photoprism_docker_capabilities: "{{ photoprism_docker_capabilities_default
 
 # Security Opts
 photoprism_docker_security_opts_default:
-  - "seccomp:unconfined"
-  - "apparmor:unconfined"
+  - "seccomp=unconfined"
+  - "apparmor=unconfined"
 photoprism_docker_security_opts_custom: []
 photoprism_docker_security_opts: "{{ photoprism_docker_security_opts_default
                                      + photoprism_docker_security_opts_custom }}"
