@@ -75,7 +75,7 @@ homepage_docker_container: "{{ homepage_name }}"
 # Image
 homepage_docker_image_pull: true
 homepage_docker_image_tag: "latest"
-homepage_docker_image: "ghcr.io/benphelps/homepage:{{ homepage_docker_image_tag }}"
+homepage_docker_image: "ghcr.io/gethomepage/homepage:{{ homepage_docker_image_tag }}"
 
 # Ports
 homepage_docker_ports_defaults: []
