@@ -107,6 +107,3 @@ gotenberg_docker_restart_policy: always
 
 # State
 gotenberg_docker_state: started
-
-# User
-gotenberg_docker_user: "{{ uid }}:{{ gid }}"

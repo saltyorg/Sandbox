@@ -32,14 +32,11 @@
     name: gotenberg
   vars:
     gotenberg_name: "{{ paperless_ngx_name }}_gotenberg"
-    gotenberg_docker_image_tag: "7-cloudrun"
+    gotenberg_docker_image_tag: "7.8"
     gotenberg_docker_commands_default:
       - "gotenberg"
-      - "--chromium-disable-routes=true"
-      - "--api-timeout=300s"
-      - "--uno-listener-restart-threshold=0"
-      - "--uno-listener-restart-threshold=300"
-      - "--uno-listener-start-timeout=300s"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
     gotenberg_paths_folder: "{{ paperless_ngx_name }}"
     gotenberg_paths_location: "{{ server_appdata_path }}/{{ gotenberg_paths_folder }}/gotenberg"
 
