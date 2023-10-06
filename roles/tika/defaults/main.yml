@@ -14,15 +14,6 @@
 tika_name: tika
 
 ################################
-# Paths
-################################
-
-tika_paths_folder: "{{ tika_name }}"
-tika_paths_location: "{{ server_appdata_path }}/{{ tika_paths_folder }}"
-tika_paths_folders_list:
-  - "{{ tika_paths_location }}"
-
-################################
 # Docker
 ################################
 
@@ -32,7 +23,7 @@ tika_docker_container: "{{ tika_name }}"
 # Image
 tika_docker_image_pull: true
 tika_docker_image_tag: "latest"
-tika_docker_image: "logicalspark/docker-tikaserver:{{ tika_docker_image_tag }}"
+tika_docker_image: "ghcr.io/paperless-ngx/tika:{{ tika_docker_image_tag }}"
 
 # Ports
 tika_docker_ports_defaults: []
@@ -54,8 +45,7 @@ tika_docker_commands: "{{ tika_docker_commands_default
                           + tika_docker_commands_custom }}"
 
 # Volumes
-tika_docker_volumes_default:
-  - "{{ tika_paths_location }}:/data"
+tika_docker_volumes_default: []
 tika_docker_volumes_custom: []
 tika_docker_volumes: "{{ tika_docker_volumes_default
                          + tika_docker_volumes_custom }}"
@@ -108,6 +98,3 @@ tika_docker_restart_policy: always
 
 # State
 tika_docker_state: started
-
-# User
-tika_docker_user: "{{ uid }}:{{ gid }}"
