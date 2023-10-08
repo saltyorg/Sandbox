@@ -37,8 +37,6 @@
       - "gotenberg"
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
-    gotenberg_paths_folder: "{{ paperless_ngx_name }}"
-    gotenberg_paths_location: "{{ server_appdata_path }}/{{ gotenberg_paths_folder }}/gotenberg"
 
 - name: Tika Role
   ansible.builtin.include_role:
@@ -46,8 +44,6 @@
   vars:
     tika_name: "{{ paperless_ngx_name }}_tika"
     tika_docker_image_tag: "latest"
-    tika_paths_folder: "{{ paperless_ngx_name }}"
-    tika_paths_location: "{{ server_appdata_path }}/{{ tika_paths_folder }}/tika"
 
 - name: "Generate Secret Key for sessions"
   ansible.builtin.shell: "openssl rand -base64 45"

@@ -14,15 +14,6 @@
 gotenberg_name: gotenberg
 
 ################################
-# Paths
-################################
-
-gotenberg_paths_folder: "{{ gotenberg_name }}"
-gotenberg_paths_location: "{{ server_appdata_path }}/{{ gotenberg_paths_folder }}"
-gotenberg_paths_folders_list:
-  - "{{ gotenberg_paths_location }}"
-
-################################
 # Docker
 ################################
 
