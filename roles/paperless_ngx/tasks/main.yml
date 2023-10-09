@@ -37,6 +37,7 @@
       - "gotenberg"
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
+      - "--api-timeout=300s"
 
 - name: Tika Role
   ansible.builtin.include_role:
