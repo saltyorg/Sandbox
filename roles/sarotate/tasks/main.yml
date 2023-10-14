@@ -33,7 +33,7 @@
 
 - name: Set variable for output of sarotate releases
   ansible.builtin.uri:
-    url: "{{ cvm }}https://api.github.com/repos/saltydk/sarotate/releases/latest"
+    url: "{{ svm }}https://api.github.com/repos/saltydk/sarotate/releases/latest"
   register: sarotate_releases
 
 - name: Get the url for latest x64 sarotate binary
