@@ -7,10 +7,16 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: "Execute Watchtower roles"
-  ansible.builtin.include_tasks: main2.yml
-  vars:
-    watchtower_name: "{{ role }}"
-  with_items: "{{ watchtower_instances }}"
-  loop_control:
-    loop_var: role
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: "Check if watchtower.env file exists"
+  ansible.builtin.stat:
+    path: "{{ watchtower_paths_location }}/watchtower.env"
+  register: watchtower_env
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
