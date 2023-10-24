@@ -42,7 +42,6 @@ moviematch:
   plex_url: http://plex:32400
 notifiarr:
   api_key: "api-key-from-notifiarr.com"
-  ui_password: "username:password"
 plex_meta_manager:
   time: "03:00"
 qbit_manage:
