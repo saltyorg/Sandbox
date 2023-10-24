@@ -63,7 +63,7 @@ kavita_docker_container: "{{ kavita_name }}"
 # Image
 kavita_docker_image_pull: true
 kavita_docker_image_tag: "latest"
-kavita_docker_image: "kizaing/kavita:{{ kavita_docker_image_tag }}"
+kavita_docker_image: "jvmilazz0/kavita:{{ kavita_docker_image_tag }}"
 
 # Ports
 kavita_docker_ports_defaults: []
