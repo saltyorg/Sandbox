@@ -12,7 +12,7 @@ api_key = "{{ notifiarr.api_key }}"
 ## Your auth proxy must pass the x-webauth-user header if you set this to "webauth".
 ## You may also set a custom auth header by setting to "webauth:<header>" e.g. "webauth:remote-user"
 ## Disable auth by setting this to "noauth". Not recommended. Requires "upstreams" being set.
-ui_password = "{{ notifiarr.ui_password }}"
+ui_password = "webauth:remote-user"
 
 ## The ip:port to listen on for incoming HTTP requests. 0.0.0.0 means all/any IP and is recommended!
 ## You may use "127.0.0.1:5454" to listen only on localhost; good if using a local proxy.
