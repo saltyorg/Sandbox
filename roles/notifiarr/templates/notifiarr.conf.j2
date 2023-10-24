@@ -1,15 +1,17 @@
 ###############################################
 # Notifiarr Client Example Configuration File #
-# Created by Notifiarr v0.2.1   @ 212910T0624 #
+# Created by Notifiarr v0.4.4   @ 232801T0734 #
 ###############################################
 
-# This API key must be copied from your notifiarr.com account.
+## This API key must be copied from your notifiarr.com account.
 api_key = "{{ notifiarr.api_key }}"
 
-## Setting a UI password enables the human accessible web GUI. Must be at least 16 characters.
+## Setting a UI password enables the human accessible web GUI. Must be at least 9 characters.
 ## The default username is admin; change it by setting ui_password to "username:password"
 ## Set to "webauth" to disable the login form and use only proxy authentication. See upstreams, below.
-## Your proxy auth must pass x-webauth-user header if you set this to "webauth".
+## Your auth proxy must pass the x-webauth-user header if you set this to "webauth".
+## You may also set a custom auth header by setting to "webauth:<header>" e.g. "webauth:remote-user"
+## Disable auth by setting this to "noauth". Not recommended. Requires "upstreams" being set.
 ui_password = "{{ notifiarr.ui_password }}"
 
 ## The ip:port to listen on for incoming HTTP requests. 0.0.0.0 means all/any IP and is recommended!
@@ -40,7 +42,11 @@ max_body = 0 # maximum body size for debug logs. 0 = no limit.
 ##
 urlbase = "/"
 
-## Allowed upstream networks. The networks here are allowed to send x-forwarded-for.
+## Allowed upstream networks. Networks here are allowed to send two special headers:
+## (1) x-forwarded-for (2) x-webauth-user
+## The first header sets the IPs in logs.
+## The second header allows an auth proxy to set a logged-in username. Be careful.
+##
 ## Set this to your reverse proxy server's IP or network. If you leave off the mask,
 ## then /32 or /128 is assumed depending on IP version. Empty by default. Example:
 ##
@@ -54,22 +60,28 @@ upstreams = [ "127.0.0.1/32", "::1/128", "172.19.0.0/16" ]
 
 ## If you set these, logs will be written to these files.
 ## If blank on windows or macOS, log file paths are chosen for you.
-log_file = '/config/notifiarr.log'
-http_log = '/config/notifiarr.http.log'
+#log_file = '~/.notifiarr/notifiarr.log'
+#http_log = '~/.notifiarr/notifiarr.http.log'
 ##
 ## Set this to the number of megabytes to rotate files.
-log_file_mb = 10
+log_file_mb = 100
 ##
 ## How many files to keep? 0 = all.
-log_files = 5
+log_files = 0
 ##
 ## Unix file mode for new log files. Umask also affects this.
 ## Missing, blank or 0 uses default of 0600. Permissive is 0644. Ignored by Windows.
 file_mode = "0600"
 
-## Web server and application timeouts.
+## Web server and website timeout.
 ##
-timeout = "1m0s"
+timeout = "1m"
+
+## This application can integrate with apt on Debian-based OSes.
+## Set apt to true to enable this integration. A true setting causes
+## notifiarr to relay apt package install/update hooks to notifiarr.com.
+##
+apt = false
 
 ## Setting serial to true makes the app use fewer threads when polling apps.
 ## This spreads CPU usage out and uses a bit less memory.
@@ -78,7 +90,7 @@ serial = false
 ## Retries controls how many times to retry requests to notifiarr.com.
 ## Sometimes cloudflare returns a 521, and this mitigates those problems.
 ## Setting this to 0 will take the default of 4. Use 1 to disable retrying.
-retries = 0
+retries = 4
 
 ##################
 # Starr Settings #
@@ -90,6 +102,7 @@ retries = 0
 ## See the Service Checks section below for information about setting the names.
 ##
 ## Examples follow. UNCOMMENT (REMOVE #), AT MINIMUM: [[header]], url, api_key
+## Setting any application timeout to "-1s" will disable that application.
 
 {% for instance in lidarr_info %}
 {% if lidarr_info[instance]['api_key'] != 'not installed' %}
@@ -131,6 +144,7 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 {% endif %}
 {% endfor %}
 
+
 # Download Client Configs (below) are used for dashboard state and service checks.
 
 #[[deluge]]
@@ -140,14 +154,28 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 
 
 #[[qbit]]
-#name     = "qbittorrent"  # Set a name to enable checks of your service.
-#url      = "http://qbittorrent:8080/"
+#name     = ""  # Set a name to enable checks of your service.
+#url      = "http://qbit:8080/"
+#user     = ""
+#pass     = ""
+
+
+#[[rtorrent]]
+#name     = ""  # Set a name to enable checks of your service.
+#url      = "http://rtorrent:5000/"
+#user     = ""
+#pass     = ""
+
+
+#[[nzbget]]
+#name     = ""  # Set a name to enable checks of your service.
+#url      = "http://nzbget:6789/"
 #user     = ""
 #pass     = ""
 
 
 #[[sabnzbd]]
-#name     = "sabnzbd"  # Set a name to enable checks of this application.
+#name     = ""  # Set a name to enable checks of this application.
 #url      = "http://sabnzbd:8080/"
 #api_key  = ""
 
@@ -194,6 +222,19 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 #user = "notifiarr"
 #pass = "password"
 
+###################
+# Nvidia Snapshot #
+###################
+
+# The app will automatically collect Nvidia data if nvidia-smi is present.
+# Use the settings below to disable Nvidia GPU collection, or restrict collection to only specific Bus IDs.
+# SMI Path is found automatically if left blank. Set it to path to nvidia-smi (nvidia-smi.exe on Windows).
+
+[snapshot.nvidia]
+disabled = false
+smi_path = ''''''
+bus_ids  = []
+
 ##################
 # Service Checks #
 ##################
@@ -201,23 +242,24 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 ## This application performs service checks on configured services at the specified interval.
 ## The service states are sent to Notifiarr.com. Failed services generate a notification.
 ## Setting names on Starr apps (above) enables service checks for that app.
+## Setting the Interval to "-1s" (Disabled in UI) will disable service checks on that named instance.
 ## Use the [[service]] directive to add more service checks. Example below.
 
 [services]
-  disabled = false   # Setting this to true disables all service checking routines.
-  parallel = 1       # How many services to check concurrently. 1 should be enough.
-  interval = "10m0s" # How often to send service states to Notifiarr.com. Minimum = 5m.
-  log_file = ''      # Service Check logs go to the app log by default. Change that by setting a services.log file here.
+  disabled = false # Setting this to true disables all service checking routines.
+  parallel = 1     # How many services to check concurrently. 1 should be enough.
+  interval = "10m" # How often to send service states to Notifiarr.com. Minimum = 5m.
+  log_file = ''    # Service Check logs go to the app log by default. Change that by setting a services.log file here.
 
 ## Uncomment the following section to create a service check on a URL or IP:port.
 ## You may include as many [[service]] sections as you have services to check.
-## Do not add Radarr, Sonarr, Readarr or Lidarr here! Add a name to enable their checks.
+## Do not add Radarr, Sonarr, Readarr, Prowlarr, or Lidarr here! Add a name to enable their checks.
 ##
 ## Example with comments follows.
 #[[service]]
 #  name     = "MyServer"          # name must be unique
 #  type     = "http"              # type can be "http" or "tcp"
-#  check    = 'http://127.0.0.1'  # url for 'http', host/IP:port for 'tcp'
+#  check    = 'http://127.0.0.1/'  # url for 'http', host/IP:port for 'tcp'
 #  expect   = "200"               # return code to expect (for http only)
 #  timeout  = "10s"               # how long to wait for tcp or http checks.
 #  interval = "5m"                # how often to check this service.
@@ -229,4 +271,43 @@ api_key   = "{{ sonarr_info[instance]['api_key'] }}"
 #  type    = "http"
 #  check   = 'http://10.1.1.2:6767/series/'
 #  expect  = "200"
+#  timeout = "10s"
+
+
+######################
+# File & Log Watcher #
+######################
+
+## Tail a log file, regex match lines, and send notifications.
+## Example:
+
+#[[watch_file]]
+#  path  = '/var/log/system.log'
+#  skip  = '''error'''
+#  regex = '''[Ee]rror'''
+#  poll  = false
+#  pipe  = false
+#  must_exist = false
+#  log_match  = true
+
+
+
+###################
+# Custom Commands #
+###################
+
+## Run and trigger custom commands.
+## Commands may have required arguments thet can be passed in when the command is run.
+## These use the format ({regex}) - a regular expression wrapped by curly braces and parens.
+## The example below allows a user to run any combination of ls -la on /usr, /home, or /tmp:
+## command = "/bin/ls ({-la|-al|-l|-a}) ({/usr|/home|/tmp})"
+##
+## Full Example (remove the leading # hashes to use it):
+
+#[[command]]
+#  name    = 'some-name-for-logs'
+#  command = '/var/log/system.log'
+#  shell   = false
+#  log     = true
+#  notify  = true
 #  timeout = "10s"
