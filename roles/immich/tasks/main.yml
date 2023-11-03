@@ -7,7 +7,7 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Redis Role
+- name: Import Redis Role
   ansible.builtin.include_role:
     name: redis
   vars:
@@ -16,7 +16,7 @@
     redis_paths_folder: "{{ immich_name }}"
     redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
 
-- name: PostgreSQL Role
+- name: Import PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
