@@ -82,10 +82,10 @@ immich_docker_envs_default:
   DB_PASSWORD: "{{ postgres_docker_env_password }}"
   DB_DATABASE_NAME: "{{ immich_name }}"
   REDIS_HOSTNAME: "{{ immich_name }}_redis"
-  DISABLE_MACHINE_LEARNING: false
-  DISABLE_TYPESENSE: false
-  MACHINE_LEARNING_WORKERS: 1
-  MACHINE_LEARNING_WORKER_TIMEOUT: 120
+  DISABLE_MACHINE_LEARNING: "false"
+  DISABLE_TYPESENSE: "false"
+  MACHINE_LEARNING_WORKERS: "1"
+  MACHINE_LEARNING_WORKER_TIMEOUT: "120"
 immich_docker_envs_custom: {}
 immich_docker_envs: "{{ immich_docker_envs_default
                         | combine(immich_docker_envs_custom) }}"
