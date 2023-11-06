@@ -100,7 +100,6 @@ immich_docker_commands: "{{ immich_docker_commands_default
 # Volumes
 immich_docker_volumes_default:
   - "{{ immich_paths_location }}:/config"
-  - "{{ immich_paths_location }}/machine-learning:/config/machine-learning"
   - "/mnt/unionfs/Media/Photos:/photos"
 immich_docker_volumes_custom: []
 immich_docker_volumes: "{{ immich_docker_volumes_default
