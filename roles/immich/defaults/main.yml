@@ -1,0 +1,155 @@
+##########################################################################
+# Title:            Sandbox: immich | Default Variables                  #
+# Author(s):        CHAIR/Raneydazed                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+immich_name: immich
+
+################################
+# Paths
+################################
+
+immich_paths_folder: "{{ immich_name }}"
+immich_paths_location: "{{ server_appdata_path }}/{{ immich_paths_folder }}"
+immich_paths_folders_list:
+  - "{{ immich_paths_location }}"
+  - "{{ immich_paths_location }}/machine-learning"
+  - /mnt/local/Media/Photos
+
+################################
+# Web
+################################
+
+immich_web_subdomain: "{{ immich_name }}"
+immich_web_domain: "{{ user.domain }}"
+immich_web_port: "8080"
+immich_web_url: "{{ 'https://' + (immich_web_subdomain + '.' + immich_web_domain
+                 if (immich_web_subdomain | length > 0)
+                 else immich_web_domain) }}"
+
+################################
+# DNS
+################################
+
+immich_dns_record: "{{ immich_web_subdomain }}"
+immich_dns_zone: "{{ immich_web_domain }}"
+immich_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+immich_traefik_sso_middleware: ""
+immich_traefik_middleware_default: "{{ traefik_default_middleware }}"
+immich_traefik_middleware_custom: ""
+immich_traefik_certresolver: "{{ traefik_default_certresolver }}"
+immich_traefik_enabled: true
+immich_traefik_api_enabled: false
+immich_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+immich_docker_container: "{{ immich_name }}"
+
+# Image
+immich_docker_image_pull: true
+immich_docker_image_tag: "latest"
+immich_docker_image: "ghcr.io/imagegenius/immich:{{ immich_docker_image_tag }}"
+
+# Ports
+immich_docker_ports_defaults: []
+immich_docker_ports_custom: []
+immich_docker_ports: "{{ immich_docker_ports_defaults
+                         + immich_docker_ports_custom }}"
+
+# Envs
+immich_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  DB_HOSTNAME: "{{ immich_name }}_postgres"
+  DB_USERNAME: "{{ postgres_docker_env_user }}"
+  DB_PASSWORD: "{{ postgres_docker_env_password }}"
+  DB_DATABASE_NAME: "{{ immich_name }}"
+  REDIS_HOSTNAME: "{{ immich_name }}_redis"
+  DISABLE_MACHINE_LEARNING: "false"
+  DISABLE_TYPESENSE: "false"
+  MACHINE_LEARNING_WORKERS: "1"
+  MACHINE_LEARNING_WORKER_TIMEOUT: "120"
+immich_docker_envs_custom: {}
+immich_docker_envs: "{{ immich_docker_envs_default
+                        | combine(immich_docker_envs_custom) }}"
+
+# Commands
+immich_docker_commands_default: []
+immich_docker_commands_custom: []
+immich_docker_commands: "{{ immich_docker_commands_default
+                            + immich_docker_commands_custom }}"
+
+# Volumes
+immich_docker_volumes_default:
+  - "{{ immich_paths_location }}:/config"
+  - "/mnt/unionfs/Media/Photos:/photos"
+immich_docker_volumes_custom: []
+immich_docker_volumes: "{{ immich_docker_volumes_default
+                           + immich_docker_volumes_custom }}"
+
+# Devices
+immich_docker_devices_default: []
+immich_docker_devices_custom: []
+immich_docker_devices: "{{ immich_docker_devices_default
+                           + immich_docker_devices_custom }}"
+
+# Hosts
+immich_docker_hosts_default: []
+immich_docker_hosts_custom: []
+immich_docker_hosts: "{{ docker_hosts_common
+                         | combine(immich_docker_hosts_default)
+                         | combine(immich_docker_hosts_custom) }}"
+
+# Labels
+immich_docker_labels_default: {}
+immich_docker_labels_custom: {}
+immich_docker_labels: "{{ docker_labels_common
+                          | combine(immich_docker_labels_default)
+                          | combine(immich_docker_labels_custom) }}"
+
+# Hostname
+immich_docker_hostname: "{{ immich_name }}"
+
+# Networks
+immich_docker_networks_alias: "{{ immich_name }}"
+immich_docker_networks_default: []
+immich_docker_networks_custom: []
+immich_docker_networks: "{{ docker_networks_common
+                            + immich_docker_networks_default
+                            + immich_docker_networks_custom }}"
+
+# Capabilities
+immich_docker_capabilities_default: []
+immich_docker_capabilities_custom: []
+immich_docker_capabilities: "{{ immich_docker_capabilities_default
+                                + immich_docker_capabilities_custom }}"
+
+# Security Opts
+immich_docker_security_opts_default: []
+immich_docker_security_opts_custom: []
+immich_docker_security_opts: "{{ immich_docker_security_opts_default
+                                 + immich_docker_security_opts_custom }}"
+
+# Restart Policy
+immich_docker_restart_policy: unless-stopped
+
+# State
+immich_docker_state: started
