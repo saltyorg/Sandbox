@@ -20,5 +20,23 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
+- name: "Unifi | Import init-mongo.js"
+  ansible.builtin.template:
+    src: init-mongo.js.j2
+    dest: '{{ unifi_paths_location }}/init-mongo.js'
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+    force: yes
+
+- name: MongoDB Role
+  ansible.builtin.include_role:
+    name: mongodb
+  vars:
+    mongodb_instances: ["{{ unifi_name }}_mongo"]
+    mongodb_paths_location: "{{ server_appdata_path }}/{{ unifi_name }}"
+    mongodb_docker_image_tag: "4.4"
+    mongodb_docker_volumes_custom: ["/opt/unifi/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
+
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

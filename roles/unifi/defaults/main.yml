@@ -14,6 +14,15 @@
 unifi_name: unifi
 
 ################################
+# Settings
+################################
+
+unifi_mongo_user: "unifi"
+unifi_mongo_pass: "password4321"
+unifi_mongo_port: "27017"
+unifi_mongo_dbname: "unifi"
+
+################################
 # Paths
 ################################
 
@@ -65,7 +74,8 @@ unifi_docker_container: "{{ unifi_name }}"
 # Image
 unifi_docker_image_pull: true
 unifi_docker_image_tag: "latest"
-unifi_docker_image: "lscr.io/linuxserver/unifi-controller:{{ unifi_docker_image_tag }}"
+unifi_docker_image_repo: "lscr.io/linuxserver/unifi-network-application"
+unifi_docker_image: "{{ unifi_docker_image_repo }}:{{ unifi_docker_image_tag }}"
 
 # Ports
 unifi_docker_ports_defaults:
@@ -81,6 +91,11 @@ unifi_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
+  MONGO_USER: "{{ unifi_mongo_user }}"
+  MONGO_PASS: "{{ unifi_mongo_pass }}"
+  MONGO_HOST: "{{ unifi_name }}_mongo"
+  MONGO_PORT: "{{ unifi_mongo_port }}"
+  MONGO_DBNAME: "{{ unifi_mongo_dbname }}"
 unifi_docker_envs_custom: {}
 unifi_docker_envs: "{{ unifi_docker_envs_default
                        | combine(unifi_docker_envs_custom) }}"
