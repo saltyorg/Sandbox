@@ -25,7 +25,7 @@ audiobookshelf_paths_folders_list:
   - "{{ audiobookshelf_paths_location }}/metadata"
   - "/mnt/unionfs/Media/Audiobooks"
   - "/mnt/unionfs/Media/Podcasts"
-audiobookshelf_paths_recurse: true
+audiobookshelf_paths_recursive: true
 
 ################################
 # Web
