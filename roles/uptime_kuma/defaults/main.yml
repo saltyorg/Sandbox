@@ -29,7 +29,7 @@ uptime_kuma_paths_folder: "{{ uptime_kuma_name }}"
 uptime_kuma_paths_location: "{{ server_appdata_path }}/{{ uptime_kuma_paths_folder }}"
 uptime_kuma_paths_folders_list:
   - "{{ uptime_kuma_paths_location }}"
-uptime_kuma_paths_recurse: true
+uptime_kuma_paths_recursive: true
 
 ################################
 # Web

@@ -21,7 +21,7 @@ plex_meta_manager_paths_folder: "{{ plex_meta_manager_name }}"
 plex_meta_manager_paths_location: "{{ server_appdata_path }}/{{ plex_meta_manager_paths_folder }}"
 plex_meta_manager_paths_folders_list:
   - "{{ plex_meta_manager_paths_location }}"
-plex_meta_manager_paths_recurse: true
+plex_meta_manager_paths_recursive: true
 
 ################################
 # Docker
