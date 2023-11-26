@@ -1,5 +1,5 @@
 #########################################################################
-# Title:            Sandbox: Unifi                                      #
+# Title:            Sandbox: Unifi Network Controller (Deprecated)      #
 # Author(s):        Grostim                                             #
 # URL:              https://github.com/saltyorg/Sandbox                 #
 # --                                                                    #
@@ -7,36 +7,7 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Add DNS record
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
-  vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
-- name: Create directories
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: "Unifi | Import init-mongo.js"
-  ansible.builtin.template:
-    src: init-mongo.js.j2
-    dest: '{{ unifi_paths_location }}/init-mongo.js'
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-    force: yes
-
-- name: MongoDB Role
-  ansible.builtin.include_role:
-    name: mongodb
-  vars:
-    mongodb_instances: ["{{ unifi_name }}_mongo"]
-    mongodb_paths_location: "{{ server_appdata_path }}/{{ unifi_name }}"
-    mongodb_docker_image_tag: "4.4"
-    mongodb_docker_volumes_custom: ["/opt/unifi/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
-
-- name: Create Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+- name: "Fail with deprecation warning"
+  ansible.builtin.fail:
+    msg: "The 'unifi' role which used the 'unifi-controller' image is deprecated in favour of the 'unifi-network-application' role using the 'unifi-network-application' image. If you are using 'unifi' role, perform a full backup of your Unifi Network Application from the Unifi interface. Then run 'sb install sandbox-unifi-network-controller' to deploy the new image and restore the backup when prompted by the setup wizard."
+  when: not continuous_integration
