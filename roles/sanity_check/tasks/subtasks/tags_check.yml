@@ -22,6 +22,6 @@
 - name: "Ensure valid tags were provided."
   ansible.builtin.assert:
     that:
-      - '"{{ item }}" in available_ansible_tags.stdout_lines'
+      - item in available_ansible_tags.stdout_lines
     msg: "You must supply valid tags.')"
   with_items: "{{ ansible_run_tags }}"
