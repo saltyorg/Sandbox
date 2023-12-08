@@ -14,6 +14,13 @@
 tdarr_name: tdarr
 
 ################################
+# Settings
+################################
+
+tdarr_server_port: "8266"
+tdarr_server_external: false
+
+################################
 # Paths
 ################################
 
@@ -74,9 +81,10 @@ tdarr_docker_image_tag: "latest"
 tdarr_docker_image: "haveagitgat/tdarr:{{ tdarr_docker_image_tag }}"
 
 # Ports
-tdarr_docker_ports_defaults: []
+tdarr_docker_ports_defaults:
+  - "{{ tdarr_server_port }}:{{ tdarr_server_port }}"
 tdarr_docker_ports_custom: []
-tdarr_docker_ports: "{{ tdarr_docker_ports_defaults
+tdarr_docker_ports: "{{ tdarr_docker_ports_defaults if (tdarr_server_external) else []
                         + tdarr_docker_ports_custom }}"
 
 # Envs
@@ -86,7 +94,7 @@ tdarr_docker_envs_default:
   TZ: "{{ tz }}"
   serverIP: "0.0.0.0"
   webUIPort: "8265"
-  serverPort: "8266"
+  serverPort: "{{ tdarr_server_port }}"
   internalNode: "true"
   nodeIP: "0.0.0.0"
   nodePort: "8267"
