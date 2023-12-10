@@ -165,6 +165,7 @@
     - { role: tubearchivist, tags: ['tubearchivist'] }
     - { role: tvheadend, tags: ['tvheadend'] }
     - { role: unifi, tags: ['unifi'] }
+    - { role: unifi_network_application, tags: ['unifi-network-application'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: uptime_kuma, tags: ['uptime-kuma'] }
     - { role: varken, tags: ['varken'] }
