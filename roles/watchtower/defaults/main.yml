@@ -17,7 +17,7 @@ watchtower_instances: ["watchtower"]
 # Settings
 ################################
 
-watchtower_poll_interval: 43200
+watchtower_poll_interval: "43200"
 
 ################################
 # Paths
