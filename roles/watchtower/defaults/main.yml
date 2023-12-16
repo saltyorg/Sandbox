@@ -14,6 +14,12 @@
 watchtower_instances: ["watchtower"]
 
 ################################
+# Settings
+################################
+
+watchtower_poll_interval: 43200
+
+################################
 # Paths
 ################################
 
@@ -40,7 +46,7 @@ watchtower_docker_image: "{{ lookup('vars', watchtower_name + '_docker_image_rep
 watchtower_docker_envs_default:
   TZ: "{{ tz }}"
   WATCHTOWER_CLEANUP: "true"
-  WATCHTOWER_POLL_INTERVAL: "86400"
+  WATCHTOWER_POLL_INTERVAL: "{{ watchtower_poll_interval }}"
 watchtower_docker_envs_custom: {}
 watchtower_docker_envs: "{{ lookup('vars', watchtower_name + '_docker_envs_default', default=watchtower_docker_envs_default)
                          | combine(lookup('vars', watchtower_name + '_docker_envs_custom', default=watchtower_docker_envs_custom)) }}"
