@@ -7,18 +7,6 @@
 #                   GNU General Public License v3.0                                #
 ####################################################################################
 ---
-- name: Post-Install | Settings | Update Port in 'qbittorrentvpn.conf' config settings
-  community.general.ini_file:
-    path: "{{ qbittorrentvpn_paths_conf }}"
-    section: BitTorrent
-    option: Session\Port
-    value: "{{ qbittorrentvpn_docker_ports_56881 }}"
-    no_extra_spaces: true
-    state: present
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-
 - name: Post-Install | Settings | Update HostHeaderValidation 'qbittorrentvpn.conf' config settings
   community.general.ini_file:
     path: "{{ qbittorrentvpn_paths_conf }}"
