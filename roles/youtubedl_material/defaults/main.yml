@@ -1,0 +1,157 @@
+##########################################################################
+# Title:            YoutubeDL-Material                                   #
+# Author(s):        Tzahi12345                                           #
+# URL:              https://github.com/Tzahi12345/YoutubeDL-Material     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+youtubedl_material_name: ytdl
+
+################################
+# Paths
+################################
+
+youtubedl_material_paths_folder: "{{ youtubedl_material_name }}"
+youtubedl_material_paths_location: "{{ server_appdata_path }}/{{ youtubedl_material_paths_folder }}"
+youtubedl_material_download_folder: "/mnt/unionfs/Media/{{ youtubedl_material_name }}"
+youtubedl_material_paths_folders_list:
+  - "{{ youtubedl_material_paths_location }}"
+  - "{{ youtubedl_material_paths_location }}/appdata"
+  - "{{ youtubedl_material_paths_location }}/users"
+  - "{{ youtubedl_material_download_folder }}"
+  - "{{ youtubedl_material_download_folder }}/audio"
+  - "{{ youtubedl_material_download_folder }}/video"
+  - "{{ youtubedl_material_download_folder }}/subscriptions"
+
+
+################################
+# Web
+################################
+
+youtubedl_material_web_subdomain: "{{ youtubedl_material_name }}"
+youtubedl_material_web_domain: "{{ user.domain }}"
+youtubedl_material_web_port: "17442"
+youtubedl_material_web_url: "{{ 'https://' + youtubedl_material_web_subdomain + '.' + youtubedl_material_web_domain
+                     if (youtubedl_material_web_subdomain | length > 0)
+                     else youtubedl_material_web_domain }}"
+
+################################
+# DNS
+################################
+
+youtubedl_material_dns_record: "{{ youtubedl_material_web_subdomain }}"
+youtubedl_material_dns_zone: "{{ youtubedl_material_web_domain }}"
+youtubedl_material_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+youtubedl_material_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}" #Remove this line if you don't need authelia authentication
+youtubedl_material_traefik_middleware: "{{ traefik_default_middleware + ',' + youtubedl_material_traefik_sso_middleware
+                                if (youtubedl_material_traefik_sso_middleware | length > 0)
+                                else traefik_default_middleware }}"
+youtubedl_material_traefik_certresolver: "{{ traefik_default_certresolver }}"
+youtubedl_material_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+youtubedl_material_docker_container: "{{ youtubedl_material_name }}"
+
+# Image
+youtubedl_material_docker_image_pull: true
+youtubedl_material_docker_image_tag: "latest"
+youtubedl_material_docker_image: "tzahi12345/youtubedl-material:{{ youtubedl_material_docker_image_tag }}"
+
+# Ports
+youtubedl_material_docker_ports_defaults: []
+youtubedl_material_docker_ports_custom: []
+youtubedl_material_docker_ports: "{{ youtubedl_material_docker_ports_defaults
+                             + youtubedl_material_docker_ports_custom }}"
+
+# Envs
+youtubedl_material_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  # ytdl_use_local_db: 'false'
+  write_ytdl_config: 'true'
+youtubedl_material_docker_envs_custom: {}
+youtubedl_material_docker_envs: "{{ youtubedl_material_docker_envs_default
+                            | combine(youtubedl_material_docker_envs_custom) }}"
+
+# Commands
+youtubedl_material_docker_commands_default: []
+youtubedl_material_docker_commands_custom: []
+youtubedl_material_docker_commands: "{{ youtubedl_material_docker_commands_default
+                                + youtubedl_material_docker_commands_custom }}"
+
+# Volumes
+youtubedl_material_docker_volumes_default:
+  - "{{ youtubedl_material_paths_location }}/appdata:/app/appdata"
+  - "{{ youtubedl_material_paths_location }}/users:/app/users"
+  - "{{ youtubedl_material_download_folder }}/audio:/app/audio"
+  - "{{ youtubedl_material_download_folder }}/video:/app/video"
+  - "{{ youtubedl_material_download_folder }}/subscriptions:/app/subscriptions"
+youtubedl_material_docker_volumes_custom: []
+youtubedl_material_docker_volumes: "{{ youtubedl_material_docker_volumes_default
+                               + youtubedl_material_docker_volumes_custom
+                               + docker_volumes_downloads_common }}"
+
+# Devices
+youtubedl_material_docker_devices_default: []
+youtubedl_material_docker_devices_custom: []
+youtubedl_material_docker_devices: "{{ youtubedl_material_docker_devices_default
+                               + youtubedl_material_docker_devices_custom }}"
+
+# Hosts
+youtubedl_material_docker_hosts_default: []
+youtubedl_material_docker_hosts_custom: []
+youtubedl_material_docker_hosts: "{{ docker_hosts_common
+                             | combine(youtubedl_material_docker_hosts_default)
+                             | combine(youtubedl_material_docker_hosts_custom) }}"
+
+# Labels
+youtubedl_material_docker_labels_default: {}
+youtubedl_material_docker_labels_custom: {}
+youtubedl_material_docker_labels: "{{ docker_labels_common
+                              | combine(youtubedl_material_docker_labels_default)
+                              | combine(youtubedl_material_docker_labels_custom) }}"
+
+# Hostname
+youtubedl_material_docker_hostname: "{{ youtubedl_material_name }}"
+
+# Networks
+youtubedl_material_docker_networks_alias: "{{ youtubedl_material_name }}"
+youtubedl_material_docker_networks_default: []
+youtubedl_material_docker_networks_custom: []
+youtubedl_material_docker_networks: "{{ docker_networks_common
+                                + youtubedl_material_docker_networks_default
+                                + youtubedl_material_docker_networks_custom }}"
+
+# Capabilities
+youtubedl_material_docker_capabilities_default: []
+youtubedl_material_docker_capabilities_custom: []
+youtubedl_material_docker_capabilities: "{{ youtubedl_material_docker_capabilities_default
+                                    + youtubedl_material_docker_capabilities_custom }}"
+
+# Security Opts
+youtubedl_material_docker_security_opts_default: []
+youtubedl_material_docker_security_opts_custom: []
+youtubedl_material_docker_security_opts: "{{ youtubedl_material_docker_security_opts_default
+                                     + youtubedl_material_docker_security_opts_custom }}"
+
+# Restart Policy
+youtubedl_material_docker_restart_policy: unless-stopped
+
+# State
+youtubedl_material_docker_state: started
