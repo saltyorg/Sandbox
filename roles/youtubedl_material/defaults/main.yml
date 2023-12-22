@@ -53,7 +53,7 @@ youtubedl_material_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-youtubedl_material_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}" #Remove this line if you don't need authelia authentication
+youtubedl_material_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 youtubedl_material_traefik_middleware: "{{ traefik_default_middleware + ',' + youtubedl_material_traefik_sso_middleware
                                 if (youtubedl_material_traefik_sso_middleware | length > 0)
                                 else traefik_default_middleware }}"
