@@ -22,7 +22,8 @@
   vars:
     postgres_instances: ["{{ immich_name }}_postgres"]
     postgres_docker_env_db: "{{ immich_name }}"
-    postgres_docker_image_tag: "14-alpine"
+    postgres_docker_image_tag: "pg14-v0.1.11"
+    postgres_docker_image_repo: "tensorchord/pgvecto-rs"
     postgres_paths_folder: "{{ immich_name }}"
     postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
 
