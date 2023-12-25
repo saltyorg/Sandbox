@@ -85,7 +85,7 @@ your_spotify_docker_envs_default:
   SPOTIFY_PUBLIC: "{{ your_spotify.public_key }}"
   SPOTIFY_SECRET: "{{ your_spotify.secret_key }}"
   CORS: "{{ your_spotify_web_url + ':443' }}"
-  MONGO_ENDPOINT: "mongodb://your_spotify_db:27017/your_spotify"
+  MONGO_ENDPOINT: "mongodb://your-spotify-db:27017/your_spotify"
 your_spotify_docker_envs_custom: {}
 your_spotify_docker_envs: "{{ your_spotify_docker_envs_default
                               | combine(your_spotify_docker_envs_custom) }}"

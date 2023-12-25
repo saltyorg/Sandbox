@@ -19,11 +19,16 @@
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
+- name: Remove old Database Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    _var_prefix: "your_spotify_db"
+
 - name: MongoDB Role
   ansible.builtin.include_role:
     name: mongodb
   vars:
-    mongodb_instances: ["your_spotify_db"]
+    mongodb_instances: ["your-spotify-db"]
     mongodb_paths_location: "{{ server_appdata_path }}/{{ your_spotify_name }}"
 
 - name: Remove existing Docker container
