@@ -1,0 +1,162 @@
+##########################################################################
+# Title:         Sandbox: Jellystat | Default Variables                  #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+jellystat_name: jellystat
+
+################################
+# Paths
+################################
+
+jellystat_paths_folder: "{{ jellystat_name }}"
+jellystat_paths_location: "{{ server_appdata_path }}/{{ jellystat_paths_folder }}"
+jellystat_paths_jwt_secret_file: "{{ jellystat_paths_location }}/jwt_secret.txt"
+jellystat_paths_folders_list:
+  - "{{ jellystat_paths_location }}"
+
+################################
+# Web
+################################
+
+jellystat_web_subdomain: "{{ jellystat_name }}"
+jellystat_web_domain: "{{ user.domain }}"
+jellystat_web_port: "3000"
+jellystat_web_url: "{{ 'https://' + (lookup('vars', jellystat_name + '_web_subdomain', default=jellystat_web_subdomain) + '.' + lookup('vars', jellystat_name + '_web_domain', default=jellystat_web_domain)
+                    if (lookup('vars', jellystat_name + '_web_subdomain', default=jellystat_web_subdomain) | length > 0)
+                    else lookup('vars', jellystat_name + '_web_domain', default=jellystat_web_domain)) }}"
+
+################################
+# DNS
+################################
+
+jellystat_dns_record: "{{ lookup('vars', jellystat_name + '_web_subdomain', default=jellystat_web_subdomain) }}"
+jellystat_dns_zone: "{{ lookup('vars', jellystat_name + '_web_domain', default=jellystat_web_domain) }}"
+jellystat_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Settings
+################################
+
+jellystat_log_level: "INFO"
+jellystat_emby: false
+
+################################
+# Traefik
+################################
+
+jellystat_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+jellystat_traefik_middleware_default: "{{ traefik_default_middleware }}"
+jellystat_traefik_middleware_custom: ""
+jellystat_traefik_certresolver: "{{ traefik_default_certresolver }}"
+jellystat_traefik_enabled: true
+jellystat_traefik_api_enabled: false
+jellystat_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+jellystat_docker_container: "{{ jellystat_name }}"
+
+# Image
+jellystat_docker_image_pull: true
+jellystat_docker_image_repo: "cyfershepard/jellystat"
+jellystat_docker_image_tag: "latest"
+jellystat_docker_image: "{{ lookup('vars', jellystat_name + '_docker_image_repo', default=jellystat_docker_image_repo)
+                            + ':' + lookup('vars', jellystat_name + '_docker_image_tag', default=jellystat_docker_image_tag) }}"
+
+# Ports
+jellystat_docker_ports_defaults: []
+jellystat_docker_ports_custom: []
+jellystat_docker_ports: "{{ lookup('vars', jellystat_name + '_docker_ports_defaults', default=jellystat_docker_ports_defaults)
+                            + lookup('vars', jellystat_name + '_docker_ports_custom', default=jellystat_docker_ports_custom) }}"
+
+# Envs
+jellystat_docker_envs_default:
+  POSTGRES_USER: "{{ postgres_docker_env_user }}"
+  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
+  POSTGRES_IP: "{{ jellystat_name }}-postgres"
+  POSTGRES_PORT: "5432"
+  JWT_SECRET: "{{ jwt_token.stdout }}"
+jellystat_docker_envs_custom: {}
+jellystat_docker_envs: "{{ lookup('vars', jellystat_name + '_docker_envs_default', default=jellystat_docker_envs_default)
+                           | combine(lookup('vars', jellystat_name + '_docker_envs_custom', default=jellystat_docker_envs_custom)) }}"
+
+# Commands
+jellystat_docker_commands_default: []
+jellystat_docker_commands_custom: []
+jellystat_docker_commands: "{{ lookup('vars', jellystat_name + '_docker_commands_default', default=jellystat_docker_commands_default)
+                               + lookup('vars', jellystat_name + '_docker_commands_custom', default=jellystat_docker_commands_custom) }}"
+
+# Volumes
+jellystat_docker_volumes_default:
+  - "{{ jellystat_paths_location }}:/app/backend/backup-data"
+jellystat_docker_volumes_custom: []
+jellystat_docker_volumes: "{{ lookup('vars', jellystat_name + '_docker_volumes_default', default=jellystat_docker_volumes_default)
+                              + lookup('vars', jellystat_name + '_docker_volumes_custom', default=jellystat_docker_volumes_custom) }}"
+
+# Devices
+jellystat_docker_devices_default: []
+jellystat_docker_devices_custom: []
+jellystat_docker_devices: "{{ lookup('vars', jellystat_name + '_docker_devices_default', default=jellystat_docker_devices_default)
+                               + lookup('vars', jellystat_name + '_docker_devices_custom', default=jellystat_docker_devices_custom) }}"
+
+# Hosts
+jellystat_docker_hosts_default: []
+jellystat_docker_hosts_custom: []
+jellystat_docker_hosts: "{{ docker_hosts_common
+                            | combine(lookup('vars', jellystat_name + '_docker_hosts_default', default=jellystat_docker_hosts_default))
+                            | combine(lookup('vars', jellystat_name + '_docker_hosts_custom', default=jellystat_docker_hosts_custom)) }}"
+
+# Labels
+jellystat_docker_labels_default: {}
+jellystat_docker_labels_custom: {}
+jellystat_docker_labels: "{{ docker_labels_common
+                             | combine(lookup('vars', jellystat_name + '_docker_labels_default', default=jellystat_docker_labels_default))
+                             | combine(lookup('vars', jellystat_name + '_docker_labels_custom', default=jellystat_docker_labels_custom)) }}"
+
+# Hostname
+jellystat_docker_hostname: "{{ jellystat_name }}"
+
+# Network Mode
+jellystat_docker_network_mode_default: "{{ docker_networks_name_common }}"
+jellystat_docker_network_mode: "{{ lookup('vars', jellystat_name + '_docker_network_mode_default', default=jellystat_docker_network_mode_default) }}"
+
+# Networks
+jellystat_docker_networks_alias: "{{ jellystat_name }}"
+jellystat_docker_networks_default: []
+jellystat_docker_networks_custom: []
+jellystat_docker_networks: "{{ docker_networks_common
+                               + lookup('vars', jellystat_name + '_docker_networks_default', default=jellystat_docker_networks_default)
+                               + lookup('vars', jellystat_name + '_docker_networks_custom', default=jellystat_docker_networks_custom) }}"
+
+# Capabilities
+jellystat_docker_capabilities_default: []
+jellystat_docker_capabilities_custom: []
+jellystat_docker_capabilities: "{{ lookup('vars', jellystat_name + '_docker_capabilities_default', default=jellystat_docker_capabilities_default)
+                                   + lookup('vars', jellystat_name + '_docker_capabilities_custom', default=jellystat_docker_capabilities_custom) }}"
+
+# Security Opts
+jellystat_docker_security_opts_default: []
+jellystat_docker_security_opts_custom: []
+jellystat_docker_security_opts: "{{ lookup('vars', jellystat_name + '_docker_security_opts_default', default=jellystat_docker_security_opts_default)
+                                    + lookup('vars', jellystat_name + '_docker_security_opts_custom', default=jellystat_docker_security_opts_custom) }}"
+
+# Restart Policy
+jellystat_docker_restart_policy: unless-stopped
+
+# State
+jellystat_docker_state: started
+
+# User
+jellystat_docker_user: "{{ uid }}:{{ gid }}"
