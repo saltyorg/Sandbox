@@ -116,7 +116,7 @@
   ansible.builtin.import_tasks: "subtasks/settings.yml"
 
 - name: Start 'plex_autoscan.service'
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     name: plex_autoscan
     state: started
     enabled: true
