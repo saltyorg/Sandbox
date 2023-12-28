@@ -13,7 +13,7 @@
   register: sarotate_service
 
 - name: Stop existing sarotate service
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: stopped
     name: sarotate
   when: sarotate_service.stat.exists
@@ -86,7 +86,7 @@
     force: true
 
 - name: Load sarotate service
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     name: sarotate
     state: started
     enabled: yes

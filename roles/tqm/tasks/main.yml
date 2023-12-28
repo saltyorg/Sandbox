@@ -13,7 +13,7 @@
   register: tqm_service
 
 - name: Stop existing 'tqm_service'
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: stopped
     name: tqm.service
   when: tqm_service.stat.exists
@@ -24,7 +24,7 @@
   register: tqm_timer
 
 - name: Stop existing 'tqm_timer'
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: stopped
     name: tqm.timer
   when: tqm_timer.stat.exists
@@ -73,7 +73,7 @@
     force: true
 
 - name: Load 'tqm_service'
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     name: tqm.service
     state: started
     enabled: yes
@@ -88,7 +88,7 @@
     force: true
 
 - name: Load 'tqm_timer'
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     name: tqm.timer
     state: started
     enabled: yes

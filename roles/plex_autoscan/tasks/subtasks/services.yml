@@ -23,7 +23,7 @@
         plex_autoscan_service_running: "{{ (services['plex_autoscan.service'] is defined) and (services['plex_autoscan.service']['state'] == 'running') }}"
 
     - name: Services | Stop 'plex_autoscan.service'
-      ansible.builtin.systemd:
+      ansible.builtin.systemd_service:
         name: plex_autoscan
         state: stopped
       when: plex_autoscan_service_running
