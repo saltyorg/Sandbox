@@ -157,6 +157,3 @@ jellystat_docker_restart_policy: unless-stopped
 
 # State
 jellystat_docker_state: started
-
-# User
-jellystat_docker_user: "{{ uid }}:{{ gid }}"
