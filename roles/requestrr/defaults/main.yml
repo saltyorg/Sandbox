@@ -61,7 +61,7 @@ requestrr_docker_container: "{{ requestrr_name }}"
 
 # Image
 requestrr_docker_image_pull: true
-requestrr_docker_image_repo: "saltydk/requestrr"
+requestrr_docker_image_repo: "darkalfx/requestrr"
 requestrr_docker_image_tag: "latest"
 requestrr_docker_image: "{{ lookup('vars', requestrr_name + '_docker_image_repo', default=requestrr_docker_image_repo)
                       + ':' + lookup('vars', requestrr_name + '_docker_image_tag', default=requestrr_docker_image_tag) }}"
@@ -90,7 +90,7 @@ requestrr_docker_commands: "{{ lookup('vars', requestrr_name + '_docker_commands
 
 # Volumes
 requestrr_docker_volumes_default:
-  - "{{ requestrr_paths_location }}:/config"
+  - "{{ requestrr_paths_location }}:/root/config"
 requestrr_docker_volumes_custom: []
 requestrr_docker_volumes: "{{ lookup('vars', requestrr_name + '_docker_volumes_default', default=requestrr_docker_volumes_default)
                               + lookup('vars', requestrr_name + '_docker_volumes_custom', default=requestrr_docker_volumes_custom) }}"
