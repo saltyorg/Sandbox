@@ -79,7 +79,7 @@ koel_docker_ports: "{{ koel_docker_ports_defaults
 koel_docker_envs_default:
   TZ: "{{ tz }}"
   DB_CONNECTION: "mysql"
-  DB_HOST: "{{ koel_name }}_mariadb"
+  DB_HOST: "{{ koel_name }}-mariadb"
   DB_PORT: "3306"
   DB_DATABASE: "{{ koel_name }}"
   DB_USERNAME: "root"
