@@ -76,7 +76,7 @@ wikijs_docker_ports: "{{ wikijs_docker_ports_defaults
 wikijs_docker_envs_default:
   TZ: "{{ tz }}"
   DB_TYPE: "postgres"
-  DB_HOST: "{{ wikijs_name }}_postgres"
+  DB_HOST: "{{ wikijs_name }}-postgres"
   DB_PORT: "5432"
   DB_USER: "{{ postgres_docker_env_user }}"
   DB_PASS: "{{ postgres_docker_env_password }}"

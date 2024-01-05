@@ -21,11 +21,16 @@
     redis_paths_folder: "{{ immich_name }}"
     redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
 
+- name: Remove legacy PostgreSQL Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ immich_name }}_postgres"
+
 - name: Import PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ immich_name }}_postgres"]
+    postgres_instances: ["{{ immich_name }}-postgres"]
     postgres_docker_env_db: "{{ immich_name }}"
     postgres_docker_image_tag: "pg14-v0.1.11"
     postgres_docker_image_repo: "tensorchord/pgvecto-rs"

@@ -85,7 +85,7 @@ miniflux_docker_ports: "{{ miniflux_docker_ports_defaults
 miniflux_postgres_username: "{{ lookup('vars', miniflux_name + '_postgres_docker_env_user', default=postgres_docker_env_user) }}"
 miniflux_postgres_password: "{{ lookup('vars', miniflux_name + '_postgres_docker_env_password', default=postgres_docker_env_password) }}"
 miniflux_docker_envs_default:
-  DATABASE_URL: "postgres://{{ miniflux_postgres_username }}:{{ miniflux_postgres_password }}@{{ miniflux_name }}_postgres/miniflux?sslmode=disable"
+  DATABASE_URL: "postgres://{{ miniflux_postgres_username }}:{{ miniflux_postgres_password }}@{{ miniflux_name }}-postgres/miniflux?sslmode=disable"
   RUN_MIGRATIONS: "{{ miniflux_run_migrations }}"
   CREATE_ADMIN: "{{ miniflux_create_admin }}"
   ADMIN_USERNAME: "{{ miniflux_admin_username }}"

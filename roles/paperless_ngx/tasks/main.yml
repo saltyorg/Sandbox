@@ -22,11 +22,16 @@
     redis_paths_folder: "{{ paperless_ngx_name }}"
     redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
 
+- name: Remove legacy PostgreSQL Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ paperless_ngx_name }}_postgres"
+
 - name: PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ paperless_ngx_name }}_postgres"]
+    postgres_instances: ["{{ paperless_ngx_name }}-postgres"]
     postgres_docker_env_db: "{{ paperless_ngx_name }}"
     postgres_docker_image_tag: "14-alpine"
     postgres_paths_folder: "{{ paperless_ngx_name }}"
