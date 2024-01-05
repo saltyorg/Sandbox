@@ -82,7 +82,7 @@ paperless_ngx_docker_envs_default:
   USERMAP_UID: "{{ uid }}"
   USERMAP_GID: "{{ gid }}"
   PAPERLESS_REDIS: "redis://{{ paperless_ngx_name }}-redis:6379"
-  PAPERLESS_DBHOST: "{{ paperless_ngx_name }}_postgres"
+  PAPERLESS_DBHOST: "{{ paperless_ngx_name }}-postgres"
   PAPERLESS_DBPORT: "5432"
   PAPERLESS_DBNAME: "{{ paperless_ngx_name }}"
   PAPERLESS_DBPASS: "{{ postgres_docker_env_password }}"

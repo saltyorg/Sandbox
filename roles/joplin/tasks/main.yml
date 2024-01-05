@@ -7,11 +7,17 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Remove legacy PostgreSQL Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ joplin_name }}_postgres"
+
+
 - name: PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ joplin_name }}_postgres"]
+    postgres_instances: ["{{ joplin_name }}-postgres"]
     postgres_docker_image_tag: "13"
     postgres_docker_env_db: "joplin"
     postgres_docker_env_user: "joplin"

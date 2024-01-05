@@ -80,7 +80,7 @@ joplin_docker_envs_default:
   POSTGRES_DATABASE: "joplin"
   POSTGRES_USER: "joplin"
   POSTGRES_PORT: "5432"
-  POSTGRES_HOST: "{{ joplin_name }}_postgres"
+  POSTGRES_HOST: "{{ joplin_name }}-postgres"
   DB_CLIENT: "pg"
 joplin_docker_envs_custom: {}
 joplin_docker_envs: "{{ joplin_docker_envs_default
