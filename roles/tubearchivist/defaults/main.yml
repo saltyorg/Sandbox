@@ -79,7 +79,7 @@ tubearchivist_docker_ports: "{{ tubearchivist_docker_ports_defaults
 tubearchivist_docker_envs_default:
   TZ: "{{ tz }}"
   ES_URL: "http://{{ tubearchivist_name }}_elasticsearch:9200"
-  REDIS_HOST: "{{ tubearchivist_name }}_redis"
+  REDIS_HOST: "{{ tubearchivist_name }}-redis"
   HOST_UID: "{{ uid }}"
   HOST_GID: "{{ gid }}"
   TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ tubearchivist_web_subdomain + '.' + tubearchivist_web_domain }}"

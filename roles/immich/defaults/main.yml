@@ -82,7 +82,7 @@ immich_docker_envs_default:
   DB_USERNAME: "{{ postgres_docker_env_user }}"
   DB_PASSWORD: "{{ postgres_docker_env_password }}"
   DB_DATABASE_NAME: "{{ immich_name }}"
-  REDIS_HOSTNAME: "{{ immich_name }}_redis"
+  REDIS_HOSTNAME: "{{ immich_name }}-redis"
   DISABLE_MACHINE_LEARNING: "false"
   MACHINE_LEARNING_WORKERS: "1"
   MACHINE_LEARNING_WORKER_TIMEOUT: "120"
