@@ -12,18 +12,23 @@
     path: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
   register: stat_koel_db_folder
 
+- name: Remove legacy MariaDB Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ koel_name }}_mariadb"
+
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_instances: ["{{ koel_name }}_mariadb"]
+    mariadb_instances: ["{{ koel_name }}-mariadb"]
     mariadb_paths_folder: "{{ koel_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ koel_paths_folder }}/db"
 
 - name: MariaDB | Create koel database
   community.mysql.mysql_db:
     name: "koel"
-    login_host: "{{ koel_name }}_mariadb"
+    login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
@@ -96,7 +101,7 @@
 - name: Edit Admin user
   community.mysql.mysql_query:
     login_db: "koel"
-    login_host: "{{ koel_name }}_mariadb"
+    login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
     login_password: "{{ mariadb_docker_env_password }}"
     query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `is_admin` = "1", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'

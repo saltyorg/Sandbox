@@ -13,11 +13,16 @@
     path: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}/mariadb"
   register: stat_plexshare_db_folder
 
+- name: Remove legacy MariaDB Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ plexshare_name }}_mariadb"
+
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_instances: ["{{ plexshare_name }}_mariadb"]
+    mariadb_instances: ["{{ plexshare_name }}-mariadb"]
     mariadb_docker_image_tag: "latest"
     mariadb_paths_folder: "{{ plexshare_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}/mariadb"
@@ -25,7 +30,7 @@
 - name: MariaDB | Create plexshare database
   community.mysql.mysql_db:
     name: "plexshare"
-    login_host: "{{ plexshare_name }}_mariadb"
+    login_host: "{{ plexshare_name }}-mariadb"
     login_user: "root"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present

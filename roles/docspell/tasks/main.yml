@@ -13,18 +13,23 @@
     path: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/mariadb"
   register: stat_docspell_db_folder
 
+- name: Remove legacy MariaDB Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ docspell_name }}_mariadb"
+
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_instances: ["{{ docspell_name }}_mariadb"]
+    mariadb_instances: ["{{ docspell_name }}-mariadb"]
     mariadb_paths_folder: "{{ docspell_name }}"
     mariadb_paths_location: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/mariadb"
 
 - name: Create docspell database
   community.mysql.mysql_db:
     name: "{{ docspell_name }}"
-    login_host: "{{ docspell_name }}_mariadb"
+    login_host: "{{ docspell_name }}-mariadb"
     login_user: "root"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
@@ -82,7 +87,7 @@
       DOCSPELL_JOEX_FULL__TEXT__SEARCH_ENABLED: "true"
       DOCSPELL_JOEX_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}_solr:{{ solr_docker_env_port }}/solr/{{ docspell_name }}"
       DOCSPELL_JOEX_JDBC_PASSWORD: "{{ mariadb_docker_env_password }}"
-      DOCSPELL_JOEX_JDBC_URL: "jdbc:mariadb://{{ docspell_name }}_mariadb:3306/{{ docspell_name }}"
+      DOCSPELL_JOEX_JDBC_URL: "jdbc:mariadb://{{ docspell_name }}-mariadb:3306/{{ docspell_name }}"
       DOCSPELL_JOEX_JDBC_USER: "root"
       DOCSPELL_JOEX_ADDONS_EXECUTOR__CONFIG_RUNNER: "docker,trivial"
       DOCSPELL_JOEX_CONVERT_HTML__CONVERTER: "weasyprint"
