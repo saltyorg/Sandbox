@@ -10,7 +10,7 @@
 ################################
 # Basics
 ################################
-traefik_robotstxt_name: traefik_robotstxt
+traefik_robotstxt_name: traefik-robotstxt
 
 ################################
 # Docker
