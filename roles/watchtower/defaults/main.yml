@@ -17,8 +17,8 @@ watchtower_instances: ["watchtower"]
 # Settings
 ################################
 
-watchtower_metrics_enable: "false"
-watchtower_metrics_external: "false"
+watchtower_metrics_enable: false
+watchtower_metrics_external: false
 watchtower_poll_interval: "43200"
 
 ################################
