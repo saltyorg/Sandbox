@@ -61,7 +61,7 @@ requestrr_docker_container: "{{ requestrr_name }}"
 
 # Image
 requestrr_docker_image_pull: true
-requestrr_docker_image_repo: "darkalfx/requestrr"
+requestrr_docker_image_repo: "thomst08/requestrr"
 requestrr_docker_image_tag: "latest"
 requestrr_docker_image: "{{ lookup('vars', requestrr_name + '_docker_image_repo', default=requestrr_docker_image_repo)
                             + ':' + lookup('vars', requestrr_name + '_docker_image_tag', default=requestrr_docker_image_tag) }}"
