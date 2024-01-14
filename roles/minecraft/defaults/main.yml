@@ -35,7 +35,7 @@ minecraft_web_domain: "{{ user.domain }}"
 ################################
 
 minecraft_dns_record: "{{ lookup('vars', minecraft_name + '_web_subdomain', default=minecraft_web_subdomain) }}"
-minecraft_dns_zone: "{{ minecraft_web_domain }}"
+minecraft_dns_zone: "{{ lookup('vars', minecraft_name + '_web_domain', default=minecraft_web_domain) }}"
 minecraft_dns_proxy: false
 
 ################################
