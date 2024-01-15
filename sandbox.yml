@@ -169,6 +169,7 @@
     - { role: unifi_network_application, tags: ['unifi-network-application'] }
     - { role: unmanic, tags: ['unmanic'] }
     - { role: uptime_kuma, tags: ['uptime-kuma'] }
+    - { role: valheim, tags: ['valheim'] }
     - { role: varken, tags: ['varken'] }
     - { role: vaultwarden, tags: ['vaultwarden'] }
     - { role: vnstat, tags: ['vnstat'] }
