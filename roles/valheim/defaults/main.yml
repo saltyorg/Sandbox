@@ -13,7 +13,6 @@
 
 valheim_name: valheim
 valheim_version: "LATEST"
-valheim_password: "{{ lookup('community.general.random_string') }}"
 
 ################################
 # Paths
@@ -64,7 +63,7 @@ valheim_docker_envs_default:
   UID: "{{ uid }}"
   GID: "{{ gid }}"
   PUBLIC: "0"
-  PASSWORD: "{{ valheim_password }}"
+  PASSWORD: "{{ lookup('community.general.random_string') }}"
 valheim_docker_envs_custom: {}
 valheim_docker_envs: "{{ valheim_docker_envs_default
                                    | combine(valheim_docker_envs_custom) }}"
