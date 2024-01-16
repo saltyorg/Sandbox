@@ -10,7 +10,6 @@
 ################################
 # Basics
 ################################
-minecraft_instances: ["minecraft"]
 
 mcrouter_name: mcrouter
 mcrouter_minecraft_port: "25565"
