@@ -22,6 +22,7 @@ minecraft_paths_folders_list:
   - "{{ minecraft_paths_location }}/"
   - "{{ minecraft_paths_location }}/{{ minecraft_name }}"
   - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data"
+minecraft_paths_recursive: true
 
 ################################
 # Web
@@ -56,8 +57,8 @@ minecraft_docker_image: "{{ lookup('vars', minecraft_name + '_docker_image_repo'
 minecraft_docker_envs_default:
   TZ: "{{ tz }}"
   EULA: "TRUE"
-  WHITELIST: "{{ uid }}"
-  OPS: "{{ uid }}"
+  UID: "{{ uid }}"
+  GID: "{{ gid }}"
 minecraft_docker_envs_custom: {}
 minecraft_docker_envs: "{{ lookup('vars', minecraft_name + '_docker_envs_default', default=minecraft_docker_envs_default)
                            | combine(lookup('vars', minecraft_name + '_docker_envs_custom', default=minecraft_docker_envs_custom)) }}"
