@@ -1,0 +1,132 @@
+##########################################################################
+# Title:         Sandbox: valheim | Default Variables                    #
+# Author(s):     scarabyte                                               #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+valheim_name: valheim
+valheim_version: "LATEST"
+
+################################
+# Paths
+################################
+
+valheim_paths_folder: "{{ valheim_name }}"
+valheim_paths_location: "{{ server_appdata_path }}/{{ valheim_paths_folder }}"
+valheim_paths_folders_list:
+  - "{{ valheim_paths_location }}"
+
+################################
+# Web
+################################
+
+valheim_web_subdomain: "{{ valheim_name }}"
+valheim_web_domain: "{{ user.domain }}"
+
+################################
+# DNS
+################################
+
+valheim_dns_record: "{{ lookup('vars', valheim_name + '_web_subdomain', default=valheim_web_subdomain) }}"
+valheim_dns_zone: "{{ lookup('vars', valheim_name + '_web_domain', default=valheim_web_domain) }}"
+valheim_dns_proxy: false
+
+################################
+# Docker
+################################
+
+# Container
+valheim_docker_container: "{{ valheim_name }}"
+
+# Image
+valheim_docker_image_pull: true
+valheim_docker_image_tag: "latest"
+valheim_docker_image: "mbround18/valheim:{{ valheim_docker_image_tag }}"
+
+# Ports
+valheim_docker_ports_defaults:
+  - "2456:2456/udp"
+  - "2457:2457/udp"
+  - "2458:2458/udp"
+valheim_docker_ports: "{{ valheim_docker_ports_defaults }}"
+
+# Envs
+valheim_docker_envs_default:
+  TZ: "{{ tz }}"
+  UID: "{{ uid }}"
+  GID: "{{ gid }}"
+  PUBLIC: "0"
+  PASSWORD: "{{ lookup('community.general.random_string') }}"
+valheim_docker_envs_custom: {}
+valheim_docker_envs: "{{ valheim_docker_envs_default
+                                   | combine(valheim_docker_envs_custom) }}"
+
+# Commands
+valheim_docker_commands_default: []
+valheim_docker_commands_custom: []
+valheim_docker_commands: "{{ valheim_docker_commands_default
+                                       + valheim_docker_commands_custom }}"
+
+# Volumes
+valheim_docker_volumes_default:
+  - "{{ valheim_paths_location }}/saves:/home/steam/.config/unity3d/IronGate/Valheim"
+  - "{{ valheim_paths_location }}/server:/home/steam/valheim"
+valheim_docker_volumes_custom: []
+valheim_docker_volumes: "{{ valheim_docker_volumes_default
+                                      + valheim_docker_volumes_custom }}"
+
+# Devices
+valheim_docker_devices_default: []
+valheim_docker_devices_custom: []
+valheim_docker_devices: "{{ valheim_docker_devices_default
+                                      + valheim_docker_devices_custom }}"
+
+# Hosts
+valheim_docker_hosts_default: []
+valheim_docker_hosts_custom: []
+valheim_docker_hosts: "{{ docker_hosts_common
+                                    | combine(valheim_docker_hosts_default)
+                                    | combine(valheim_docker_hosts_custom) }}"
+
+# Labels
+valheim_docker_labels_default: {}
+valheim_docker_labels_custom: {}
+valheim_docker_labels: "{{ docker_labels_common
+                                     | combine(valheim_docker_labels_default)
+                                     | combine(valheim_docker_labels_custom) }}"
+
+# Hostname
+valheim_docker_hostname: "{{ valheim_name }}"
+
+# Networks
+valheim_docker_networks_alias: "{{ valheim_name }}"
+valheim_docker_networks_default: []
+valheim_docker_networks_custom: []
+valheim_docker_networks: "{{ docker_networks_common
+                                       + valheim_docker_networks_default
+                                       + valheim_docker_networks_custom }}"
+
+# Capabilities
+valheim_docker_capabilities_default: []
+valheim_docker_capabilities_custom: []
+valheim_docker_capabilities: "{{ valheim_docker_capabilities_default
+                                           + valheim_docker_capabilities_custom }}"
+
+# Security Opts
+valheim_docker_security_opts_default: []
+valheim_docker_security_opts_custom: []
+valheim_docker_security_opts: "{{ valheim_docker_security_opts_default
+                                            + valheim_docker_security_opts_custom }}"
+
+# Restart Policy
+valheim_docker_restart_policy: unless-stopped
+
+# State
+valheim_docker_state: started
