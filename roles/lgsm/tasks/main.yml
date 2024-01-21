@@ -29,4 +29,3 @@
     loop_var: role
   when:
     - role != "lgsm"
-    

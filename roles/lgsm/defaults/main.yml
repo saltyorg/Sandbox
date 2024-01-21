@@ -47,7 +47,7 @@ lgsm_docker_container: "{{ lgsm_name }}"
 # Image
 lgsm_docker_image_pull: true
 lgsm_docker_image_repo: "gameservermanagers/gameserver"
-lgsm_docker_image_tag: "{{ lgsm_name | replace('lgsm_','') }}"
+lgsm_docker_image_tag: "{{ lgsm_name | replace('lgsm_', '') }}"
 lgsm_docker_image: "{{ lookup('vars', lgsm_name + '_docker_image_repo', default=lgsm_docker_image_repo)
                              + ':' + lookup('vars', lgsm_name + '_docker_image_tag', default=lgsm_docker_image_tag) }}"
 
