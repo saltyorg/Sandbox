@@ -1,0 +1,32 @@
+########################################################################
+# Title:            Sandbox: LGSM | Multi-instance Tasks               #
+# Author(s):        scarabyte                                          #
+# URL:              https://github.com/saltyorg/Sandbox                #
+# --                                                                   #
+########################################################################
+#                   GNU General Public License v3.0                    #
+########################################################################
+---
+- name: Ensure we have instances for lgsm to install
+  ansible.builtin.assert:
+    that:
+      - lgsm_instances is defined
+      - lgsm_instances is not string
+      - lgsm_instances is not mapping
+      - lgsm_instances is iterable
+      - lgsm_instances | length > 1
+    fail_msg: >-
+      LGSM was designed to use multi-instance configuration to install game servers properly. Check out https://docs.saltbox.dev/reference/multiple-instances/
+    success_msg: >-
+      Detected multi-instance configuration.
+
+- name: "Execute lgsm roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    lgsm_name: "{{ role }}"
+  with_items: "{{ lgsm_instances }}"
+  loop_control:
+    loop_var: role
+  when:
+    - role != "lgsm"
+    

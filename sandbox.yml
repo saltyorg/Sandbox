@@ -90,6 +90,7 @@
     - { role: komga, tags: ['komga'] }
     - { role: krusader, tags: ['krusader'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
+    - { role: lgsm, tags: ['lgsm'] }
     - { role: linkding, tags: ['linkding'] }
     - { role: logarr, tags: ['logarr'] }
     - { role: lunasea, tags: ['lunasea'] }
