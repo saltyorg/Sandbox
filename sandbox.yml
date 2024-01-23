@@ -185,3 +185,5 @@
     - { role: your_spotify, tags: ['your-spotify'] }
     - { role: znc, tags: ['znc'] }
     # Apps End
+    # No CI
+    - { role: lgsm, tags: ['lgsm'] }
