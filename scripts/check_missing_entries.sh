@@ -6,8 +6,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Assume sandbox.yml is in the project root, adjust if necessary
 PROJECT_ROOT="$SCRIPT_DIR/.."
 
-app_list=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' "$PROJECT_ROOT/sandbox.yml" | awk '!/#/' | awk -F',|:' '/role/ {print $2}' | tr -d ' ' | grep -v -E "(settings|sanity_check)" | sort -u | tr '\n' ',' | sed 's/,$//')
-folder_list=$(ls "$PROJECT_ROOT/roles" | grep -v -E "(settings|sanity_check)" | tr '\n' ',' | sed 's/,$//')
+app_list=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' "$PROJECT_ROOT/sandbox.yml" | awk '!/#/' | awk -F',|:' '/role/ {print $2}' | tr -d ' ' | grep -v -E "(settings|sanity_check|lgsm)" | sort -u | tr '\n' ',' | sed 's/,$//')
+folder_list=$(ls "$PROJECT_ROOT/roles" | grep -v -E "(settings|sanity_check|lgsm)" | tr '\n' ',' | sed 's/,$//')
 missing_app=$(comm -23 <(echo $app_list | tr ',' '\n' | sort) <(echo $folder_list | tr ',' '\n' | sort))
 missing_folder=$(comm -13 <(echo $app_list | tr ',' '\n' | sort) <(echo $folder_list | tr ',' '\n' | sort))
 
