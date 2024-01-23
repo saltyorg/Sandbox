@@ -28,7 +28,7 @@
     name: elasticsearch
   vars:
     elasticsearch_name: "{{ tubearchivist_name }}_elasticsearch"
-    elasticsearch_docker_image_tag: "8.5.0"
+    elasticsearch_docker_image: "bbilly1/tubearchivist-es"
     elasticsearch_paths_folder: "{{ tubearchivist_name }}"
     elasticsearch_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_paths_folder }}/elastiscsearch"
     elasticsearch_docker_envs_custom:
