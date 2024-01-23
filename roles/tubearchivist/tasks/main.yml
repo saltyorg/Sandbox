@@ -34,6 +34,7 @@
     elasticsearch_docker_envs_custom:
       path.repo: "/usr/share/elasticsearch/data/snapshot"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      xpack.security.enabled: "true"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
