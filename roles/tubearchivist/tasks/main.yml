@@ -19,7 +19,7 @@
   vars:
     redis_instances: ["{{ tubearchivist_name }}-redis"]
     redis_docker_image_tag: "{{ tubearchivist_redis_docker_image_tag }}"
-    redis_docker_image: "redis/redis-stack-server"
+    redis_docker_image_repo: "redis/redis-stack-server"
     redis_paths_folder: "{{ tubearchivist_name }}"
     redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
 
