@@ -40,8 +40,8 @@ elasticsearch_docker_container: "{{ elasticsearch_name }}"
 
 # Image
 elasticsearch_docker_image_pull: true
-elasticsearch_docker_image_tag: "8.5.0"
-elasticsearch_docker_image: "docker.elastic.co/elasticsearch/elasticsearch:{{ elasticsearch_docker_image_tag }}"
+elasticsearch_docker_image_tag: "8.11.0"
+elasticsearch_docker_image: "elasticsearch:{{ elasticsearch_docker_image_tag }}"
 
 # Ports
 elasticsearch_docker_ports_defaults: []
