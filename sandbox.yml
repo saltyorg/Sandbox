@@ -90,7 +90,6 @@
     - { role: komga, tags: ['komga'] }
     - { role: krusader, tags: ['krusader'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
-    - { role: lgsm, tags: ['lgsm'] }
     - { role: linkding, tags: ['linkding'] }
     - { role: logarr, tags: ['logarr'] }
     - { role: lunasea, tags: ['lunasea'] }
@@ -186,3 +185,5 @@
     - { role: your_spotify, tags: ['your-spotify'] }
     - { role: znc, tags: ['znc'] }
     # Apps End
+    # No CI
+    - { role: lgsm, tags: ['lgsm'] }
