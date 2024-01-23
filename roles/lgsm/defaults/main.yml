@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-lgsm_instances: ["lgsm"]
+lgsm_instances: []
 
 ################################
 # Paths
