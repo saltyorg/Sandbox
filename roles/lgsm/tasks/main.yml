@@ -10,6 +10,7 @@
 - name: Ensure we have instances for lgsm to install
   ansible.builtin.assert:
     that:
+      - lgsm_instances is not string
       - lgsm_instances is not mapping
       - lgsm_instances is iterable
       - lgsm_instances | length > 0
