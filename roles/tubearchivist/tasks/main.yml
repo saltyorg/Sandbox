@@ -27,7 +27,7 @@
   ansible.builtin.include_role:
     name: elasticsearch
   vars:
-    elasticsearch_name: "{{ tubearchivist_name }}_elasticsearch"
+    elasticsearch_name: "{{ tubearchivist_name }}-elasticsearch"
     elasticsearch_docker_image: "bbilly1/tubearchivist-es"
     elasticsearch_paths_folder: "{{ tubearchivist_name }}"
     elasticsearch_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_paths_folder }}/elastiscsearch"

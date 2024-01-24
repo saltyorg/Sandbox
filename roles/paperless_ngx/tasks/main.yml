@@ -37,11 +37,16 @@
     postgres_paths_folder: "{{ paperless_ngx_name }}"
     postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
 
+- name: Remove legacy Gotenberg Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ paperless_ngx_name }}_gotenberg"
+
 - name: Gotenberg Role
   ansible.builtin.include_role:
     name: gotenberg
   vars:
-    gotenberg_name: "{{ paperless_ngx_name }}_gotenberg"
+    gotenberg_name: "{{ paperless_ngx_name }}-gotenberg"
     gotenberg_docker_image_tag: "7.8"
     gotenberg_docker_commands_default:
       - "gotenberg"
@@ -51,11 +56,16 @@
       - "--uno-listener-restart-threshold=300"
       - "--uno-listener-start-timeout=300s"
 
+- name: Remove legacy Tika Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ paperless_ngx_name }}_tika"
+
 - name: Tika Role
   ansible.builtin.include_role:
     name: tika
   vars:
-    tika_name: "{{ paperless_ngx_name }}_tika"
+    tika_name: "{{ paperless_ngx_name }}-tika"
     tika_docker_image_tag: "latest"
 
 - name: "Generate Secret Key for sessions"
