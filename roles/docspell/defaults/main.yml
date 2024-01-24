@@ -83,7 +83,7 @@ docspell_docker_envs_default:
   DOCSPELL_SERVER_BACKEND_JDBC_USER: "root"
   DOCSPELL_SERVER_BIND_ADDRESS: "0.0.0.0"
   DOCSPELL_SERVER_FULL__TEXT__SEARCH_ENABLED: "true"
-  DOCSPELL_SERVER_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}_solr:{{ solr_docker_env_port }}/solr/{{ docspell_name }}"
+  DOCSPELL_SERVER_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}-solr:{{ solr_docker_env_port }}/solr/{{ docspell_name }}"
   DOCSPELL_SERVER_INTEGRATION__ENDPOINT_ENABLED: "true"
   DOCSPELL_SERVER_INTEGRATION__ENDPOINT_HTTP__HEADER_ENABLED: "true"
   DOCSPELL_SERVER_INTEGRATION__ENDPOINT_HTTP__HEADER_HEADER__VALUE: "{{ docspell_integration_key.stdout }}"
