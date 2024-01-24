@@ -34,37 +34,31 @@ watchtower_paths_folders_list:
 # Web
 ################################
 
-watchtower_metrics_web_subdomain: "{{ watchtower_name }}-metrics"
-watchtower_metrics_web_domain: "{{ user.domain }}"
-watchtower_metrics_web_port: "8080"
-watchtower_metrics_host: "{{ lookup('vars', watchtower_name + '_metrics_web_subdomain', default=watchtower_metrics_web_subdomain)
-                             + '.' + lookup('vars', watchtower_name + '_metrics_web_domain', default=watchtower_metrics_web_domain) }}"
+watchtower_web_subdomain: "{{ watchtower_name }}"
+watchtower_web_domain: "{{ user.domain }}"
+watchtower_web_port: "8080"
+watchtower_host: "{{ lookup('vars', watchtower_name + '_web_subdomain', default=watchtower_web_subdomain)
+                             + '.' + lookup('vars', watchtower_name + '_web_domain', default=watchtower_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-watchtower_metrics_dns_record: "{{ lookup('vars', watchtower_name + '_metrics_web_subdomain', default=watchtower_metrics_web_subdomain) }}"
-watchtower_metrics_dns_zone: "{{ lookup('vars', watchtower_name + '_metrics_web_domain', default=watchtower_metrics_web_domain) }}"
-watchtower_metrics_dns_proxy: "{{ dns.proxied }}"
+watchtower_dns_record: "{{ lookup('vars', watchtower_name + '_web_subdomain', default=watchtower_web_subdomain) }}"
+watchtower_dns_zone: "{{ lookup('vars', watchtower_name + '_web_domain', default=watchtower_web_domain) }}"
+watchtower_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-watchtower_metrics_traefik_sso_middleware: ""
-watchtower_metrics_traefik_middleware_default: "{{ traefik_default_middleware
-                                              + (',' + lookup('vars', watchtower_name + '_metrics_traefik_sso_middleware', default=watchtower_metrics_traefik_sso_middleware)
-                                                if (lookup('vars', watchtower_name + '_metrics_traefik_sso_middleware', default=watchtower_metrics_traefik_sso_middleware) | length > 0)
-                                                else '') }}"
-watchtower_metrics_traefik_middleware_custom: ""
-watchtower_metrics_traefik_middleware: "{{ watchtower_metrics_traefik_middleware_default
-                                      + (',' + watchtower_metrics_traefik_middleware_custom
-                                        if (not watchtower_metrics_traefik_middleware_custom.startswith(',') and watchtower_metrics_traefik_middleware_custom | length > 0)
-                                        else watchtower_metrics_traefik_middleware_custom) }}"
-watchtower_metrics_traefik_certresolver: "{{ traefik_default_certresolver }}"
-watchtower_metrics_traefik_router: "{{ lookup('vars', watchtower_name + '_metrics_web_subdomain', default=watchtower_metrics_web_subdomain) }}"
-
+watchtower_traefik_sso_middleware: ""
+watchtower_traefik_middleware_default: "{{ traefik_default_middleware }}"
+watchtower_traefik_middleware_custom: ""
+watchtower_traefik_certresolver: "{{ traefik_default_certresolver }}"
+watchtower_traefik_enabled: "{{ true if (watchtower_metrics_enable and watchtower_metrics_externa) else false }}"
+watchtower_traefik_api_enabled: false
+watchtower_traefik_api_endpoint: ""
 
 ################################
 # Docker
@@ -120,27 +114,10 @@ watchtower_docker_hosts: "{{ docker_hosts_common
 
 # Labels
 watchtower_docker_labels_default: {}
-watchtower_docker_labels_metrics:
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}-http.entrypoints": "web" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}-http.service": "{{ lookup("vars", watchtower_name + "_metrics_web_subdomain", default=watchtower_metrics_web_subdomain) }}" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}-http.rule": "Host(`{{ watchtower_metrics_host }}`)" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}-http.middlewares": "{{ traefik_default_middleware_http }}" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}-http.priority": "20" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.entrypoints": "websecure" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.service": "{{ lookup("vars", watchtower_name + "_metrics_web_subdomain", default=watchtower_metrics_web_subdomain) }}" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.rule": "Host(`{{ watchtower_metrics_host }}`)" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.tls.options": "securetls@file" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.tls.certresolver": "{{ watchtower_metrics_traefik_certresolver }}" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.middlewares": "{{ watchtower_metrics_traefik_middleware }}" }'
-  - '{ "traefik.http.routers.{{ watchtower_metrics_traefik_router }}.priority": "20" }'
-  - '{ "traefik.http.services.{{ watchtower_metrics_traefik_router }}.loadbalancer.server.port": "{{ watchtower_metrics_web_port }}" }'
 watchtower_docker_labels_custom: {}
 watchtower_docker_labels: "{{ docker_labels_common
-                              | combine(lookup('vars', watchtower_name + '_docker_labels_default', default=watchtower_docker_labels_default),
-                                        (lookup('vars', watchtower_name + '_docker_labels_metrics', default=watchtower_docker_labels_metrics)
-                                        if (watchtower_metrics_enable and watchtower_metrics_external)
-                                        else {}),
-                                        lookup('vars', watchtower_name + '_docker_labels_custom', default=watchtower_docker_labels_custom)) }}"
+                             | combine(lookup('vars', watchtower_name + '_docker_labels_default', default=watchtower_docker_labels_default))
+                             | combine(lookup('vars', watchtower_name + '_docker_labels_custom', default=watchtower_docker_labels_custom)) }}"
 
 # Hostname
 watchtower_docker_hostname: "{{ watchtower_name }}"
