@@ -14,6 +14,17 @@
 immich_name: immich
 
 ################################
+# Settings
+################################
+
+immich_postgres_name: "{{ immich_name }}-postgres"
+immich_postgres_docker_env_db: "{{ immich_name }}"
+immich_postgres_docker_image_tag: "pg14-v0.1.11"
+immich_postgres_docker_image_repo: "tensorchord/pgvecto-rs"
+immich_postgres_paths_folder: "{{ immich_name }}"
+immich_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+
+################################
 # Paths
 ################################
 
@@ -78,10 +89,10 @@ immich_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  DB_HOSTNAME: "{{ immich_name }}-postgres"
+  DB_HOSTNAME: "{{ immich_postgres_name }}"
   DB_USERNAME: "{{ postgres_docker_env_user }}"
   DB_PASSWORD: "{{ postgres_docker_env_password }}"
-  DB_DATABASE_NAME: "{{ immich_name }}"
+  DB_DATABASE_NAME: "{{ immich_postgres_docker_env_db }}"
   REDIS_HOSTNAME: "{{ immich_name }}-redis"
   DISABLE_MACHINE_LEARNING: "false"
   MACHINE_LEARNING_WORKERS: "1"
