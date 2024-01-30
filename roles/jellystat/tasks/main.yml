@@ -48,9 +48,10 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ jellystat_name }}-postgres"]
-    postgres_docker_env_db: "jfstat"
-    postgres_docker_image_tag: "15.2-alpine"
+    postgres_instances: ["{{ jellystat_postgres_name }}"]
+    postgres_docker_env_db: "{{ jellystat_postgres_docker_env_db }}"
+    postgres_docker_image_tag: "{{ jellystat_postgres_docker_image_tag }}"
+    postgres_docker_image_repo: "{{ jellystat_postgres_docker_image_repo }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
