@@ -17,11 +17,12 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ n8n_name }}-postgres"]
-    postgres_docker_env_db: "{{ n8n_name }}"
-    postgres_docker_image_tag: "14-alpine"
-    postgres_paths_folder: "{{ n8n_name }}"
-    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+    postgres_instances: ["{{ n8n_postgres_name }}"]
+    postgres_docker_env_db: "{{ n8n_postgres_docker_env_db }}"
+    postgres_docker_image_tag: "{{ n8n_postgres_docker_image_tag }}"
+    postgres_docker_image_repo: "{{ n8n_postgres_docker_image_repo }}"
+    postgres_paths_folder: "{{ n8n_postgres_paths_folder }}"
+    postgres_paths_location: "{{ n8n_postgres_paths_location }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
