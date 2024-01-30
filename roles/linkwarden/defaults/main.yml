@@ -29,7 +29,7 @@ linkwarden_paths_folders_list:
 linkwarden_web_subdomain: "{{ linkwarden_name }}"
 linkwarden_web_domain: "{{ user.domain }}"
 linkwarden_web_port: "3000"
-linkwarden_web_url: "{{ 'https://' + (linkwarden_web_subdomain + '.'   + linkwarden_web_domain
+linkwarden_web_url: "{{ 'https://' + (linkwarden_web_subdomain + '.' + linkwarden_web_domain
                      if (linkwarden_web_subdomain | length > 0)
                      else linkwarden_web_domain) }}"
 
