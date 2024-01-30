@@ -14,6 +14,18 @@
 joplin_name: joplin
 
 ################################
+# Settings
+################################
+
+joplin_postgres_name: "{{ joplin_name }}-postgres"
+joplin_postgres_docker_image_tag: "13"
+joplin_postgres_docker_image_repo: "postgres"
+joplin_postgres_docker_env_db: "joplin"
+joplin_postgres_docker_env_user: "joplin"
+joplin_postgres_docker_env_password: "joplin"
+joplin_postgres_paths_folder: "{{ joplin_name }}"
+
+################################
 # Paths
 ################################
 
@@ -76,11 +88,11 @@ joplin_docker_envs_default:
   TZ: "{{ tz }}"
   APP_BASE_URL: "{{ joplin_web_url }}"
   APP_PORT: "22300"
-  POSTGRES_PASSWORD: "joplin"
-  POSTGRES_DATABASE: "joplin"
-  POSTGRES_USER: "joplin"
+  POSTGRES_PASSWORD: "{{ joplin_postgres_docker_env_password }}"
+  POSTGRES_DATABASE: "{{ joplin_postgres_docker_env_db }}"
+  POSTGRES_USER: "{{ joplin_postgres_docker_env_user }}"
   POSTGRES_PORT: "5432"
-  POSTGRES_HOST: "{{ joplin_name }}-postgres"
+  POSTGRES_HOST: "{{ joplin_postgres_name }}"
   DB_CLIENT: "pg"
 joplin_docker_envs_custom: {}
 joplin_docker_envs: "{{ joplin_docker_envs_default

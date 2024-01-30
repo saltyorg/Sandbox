@@ -14,6 +14,15 @@
 jellystat_name: jellystat
 
 ################################
+# Settings
+################################
+
+jellystat_postgres_name: "{{ jellystat_name }}-postgres"
+jellystat_postgres_docker_env_db: "jfstat"
+jellystat_postgres_docker_image_tag: "15.2-alpine"
+jellystat_postgres_docker_image_repo: "postgres"
+
+################################
 # Paths
 ################################
 
@@ -85,7 +94,7 @@ jellystat_docker_ports: "{{ lookup('vars', jellystat_name + '_docker_ports_defau
 jellystat_docker_envs_default:
   POSTGRES_USER: "{{ postgres_docker_env_user }}"
   POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
-  POSTGRES_IP: "{{ jellystat_name }}-postgres"
+  POSTGRES_IP: "{{ jellystat_postgres_name }}"
   POSTGRES_PORT: "5432"
   JWT_SECRET: "{{ jwt_token.stdout }}"
 jellystat_docker_envs_custom: {}
