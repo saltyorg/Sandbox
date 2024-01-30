@@ -14,6 +14,17 @@
 wikijs_name: wikijs
 
 ################################
+# Settings
+################################
+
+wikijs_postgres_name: "{{ wikijs_name }}-postgres"
+wikijs_postgres_docker_env_db: "{{ wikijs_name }}"
+wikijs_postgres_docker_image_tag: "14-alpine"
+wikijs_postgres_docker_image_repo: "postgres"
+wikijs_postgres_paths_folder: "{{ wikijs_name }}"
+wikijs_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+
+################################
 # Paths
 ################################
 
@@ -76,11 +87,11 @@ wikijs_docker_ports: "{{ wikijs_docker_ports_defaults
 wikijs_docker_envs_default:
   TZ: "{{ tz }}"
   DB_TYPE: "postgres"
-  DB_HOST: "{{ wikijs_name }}-postgres"
+  DB_HOST: "{{ wikijs_postgres_name }}"
   DB_PORT: "5432"
   DB_USER: "{{ postgres_docker_env_user }}"
   DB_PASS: "{{ postgres_docker_env_password }}"
-  DB_NAME: "{{ wikijs_name }}"
+  DB_NAME: "{{ wikijs_postgres_docker_env_db }}"
 wikijs_docker_envs_custom: {}
 wikijs_docker_envs: "{{ wikijs_docker_envs_default
                         | combine(wikijs_docker_envs_custom) }}"
