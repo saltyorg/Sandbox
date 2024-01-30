@@ -31,11 +31,12 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ paperless_ngx_name }}-postgres"]
-    postgres_docker_env_db: "{{ paperless_ngx_name }}"
-    postgres_docker_image_tag: "14-alpine"
-    postgres_paths_folder: "{{ paperless_ngx_name }}"
-    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+    postgres_instances: ["{{ paperless_ngx_postgres_name }}"]
+    postgres_docker_env_db: "{{ paperless_ngx_postgres_docker_env_db }}"
+    postgres_docker_image_tag: "{{ paperless_ngx_postgres_docker_image_tag }}"
+    postgres_docker_image_repo: "{{ paperless_ngx_postgres_docker_image_repo }}"
+    postgres_paths_folder: "{{ paperless_ngx_postgres_paths_folder }}"
+    postgres_paths_location: "{{ paperless_ngx_postgres_paths_location }}"
 
 - name: Remove legacy Gotenberg Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
