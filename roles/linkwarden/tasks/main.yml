@@ -1,0 +1,41 @@
+#########################################################################
+# Title:            Sandbox: LInkWarden                                 #
+# Author(s):        CHAIR/Raneydazed                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: PostgreSQL Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ linkwarden_postgres_name }}"]
+    postgres_docker_env_user: "{{ linkwarden_postgres_docker_env_user }}"
+    postgres_docker_env_password: "{{ linkwarden_postgres_docker_env_password }}"
+    postgres_docker_env_db: "{{ linkwarden_postgres_docker_env_db }}"
+    postgres_docker_image_tag: "{{ linkwarden_postgres_docker_image_tag }}"
+    postgres_docker_image_repo: "{{ linkwarden_postgres_docker_image_repo }}"
+    postgres_paths_folder: "{{ linkwarden_postgres_paths_folder }}"
+    postgres_paths_location: "{{ linkwarden_postgres_paths_location }}"
+
+- name: "Generate Secret Key"
+  ansible.builtin.shell: "openssl rand -base64 45"
+  register: linkwarden_secret_key
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
