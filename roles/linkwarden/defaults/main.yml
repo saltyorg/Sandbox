@@ -18,7 +18,7 @@ linkwarden_name: linkwarden
 ################################
 
 linkwarden_postgres_name: "{{ linkwarden_name }}-postgres"
-linkwarden_postgres_docker_env_username: "{{ linkwarden_name }}"
+linkwarden_postgres_docker_env_user: "{{ linkwarden_name }}"
 linkwarden_postgres_docker_env_password: "{{ linkwarden_name }}"
 linkwarden_postgres_docker_env_db: "{{ linkwarden_name }}"
 linkwarden_postgres_docker_image_tag: "16-alpine"
@@ -91,7 +91,7 @@ linkwarden_docker_envs_default:
   STORAGE_FOLDER: "/data"
   NEXTAUTH_SECRET: "{{ linkwarden_secret_key.stdout }}"
   NEXTAUTH_URL: "{{ linkwarden_web_url }}/api/v1/auth"
-  DATABASE_URL: "postgresql://{{ linkwarden_postgres_docker_env_username }}:{{ linkwarden_postgres_docker_env_password }}@{{ linkwarden_postgres_name }}:5432/{{ linkwarden_postgres_docker_env_db }}"
+  DATABASE_URL: "postgresql://{{ linkwarden_postgres_docker_env_user }}:{{ linkwarden_postgres_docker_env_password }}@{{ linkwarden_postgres_name }}:5432/{{ linkwarden_postgres_docker_env_db }}"
 linkwarden_docker_envs_custom: {}
 linkwarden_docker_envs: "{{ linkwarden_docker_envs_default
                             | combine(linkwarden_docker_envs_custom) }}"

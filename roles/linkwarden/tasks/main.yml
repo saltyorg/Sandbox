@@ -12,7 +12,7 @@
     name: postgres
   vars:
     postgres_instances: ["{{ linkwarden_postgres_name }}"]
-    postgres_docker_env_username: "{{ linkwarden_postgres_docker_env_username }}"
+    postgres_docker_env_user: "{{ linkwarden_postgres_docker_env_user }}"
     postgres_docker_env_password: "{{ linkwarden_postgres_docker_env_password }}"
     postgres_docker_env_db: "{{ linkwarden_postgres_docker_env_db }}"
     postgres_docker_image_tag: "{{ linkwarden_postgres_docker_image_tag }}"
