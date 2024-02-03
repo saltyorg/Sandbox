@@ -79,7 +79,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Dependencies
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -99,7 +99,7 @@ jobs:
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
 
       - name: Install Saltbox Core
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 30
           max_attempts: 3
@@ -110,7 +110,7 @@ jobs:
         run: cp -n defaults/ansible.cfg.default ansible.cfg && cp -n defaults/settings.yml.default settings.yml
 
       - name: Install ${{ matrix.roles }}
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 30
           max_attempts: 3
