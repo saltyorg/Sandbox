@@ -123,7 +123,10 @@ jobs:
     needs: install
     if: always() && github.event_name != 'pull_request' && github.event.repository.fork == false
     steps:
-      - uses: technote-space/workflow-conclusion-action@v3
+      - uses: im-open/workflow-conclusion@v2.2.2
+        id: conclusion
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
       - uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
