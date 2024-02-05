@@ -8,6 +8,14 @@
 ##########################################################################
 ---
 ################################
+# Docker Socket Proxy
+################################
+
+homarr_docker_socket_proxy_envs:
+  CONTAINERS: "1"
+  POST: "0"
+
+################################
 # Basics
 ################################
 
@@ -79,6 +87,7 @@ homarr_docker_envs_default:
   TZ: "{{ tz }}"
   BASE_URL: "{{ homarr_web_subdomain + '.' + homarr_web_domain }}"
   PASSWORD: "{{ user.pass }}"
+  DOCKER_HOST: "tcp://{{ homarr_name }}-docker-socket-proxy:2375"
   NODE_TLS_REJECT_UNAUTHORIZED: "0"
 homarr_docker_envs_custom: {}
 homarr_docker_envs: "{{ homarr_docker_envs_default
@@ -94,7 +103,6 @@ homarr_docker_commands: "{{ homarr_docker_commands_default
 homarr_docker_volumes_default:
   - "{{ homarr_paths_location }}:/app/data/configs"
   - "{{ homarr_paths_location }}/icons:/app/public/icons"
-  - /var/run/docker.sock:/var/run/docker.sock
 homarr_docker_volumes_custom: []
 homarr_docker_volumes: "{{ homarr_docker_volumes_default
                            + homarr_docker_volumes_custom }}"
