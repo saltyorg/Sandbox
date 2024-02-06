@@ -10,7 +10,7 @@ page=1
 declare -A conclusion_counts
 
 # Initialize conclusions to avoid integer expression expected error
-for status in success failure cancelled skipped; do
+for status in success failure cancelled skipped unknown; do
   conclusion_counts[$status]=0
 done
 
@@ -30,9 +30,15 @@ while :; do
     if [ $? -eq 0 ]; then
       echo "API Request successful."
 
-      while read -r line; do
-        ((conclusion_counts[$line]++))
-      done < <(echo "$response" | jq -r '.jobs[].conclusion')
+      job_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion')
+      for line in $job_conclusions; do
+        # Handle null or unexpected values
+        if [[ -z "$line" || "$line" == "null" ]]; then
+          ((conclusion_counts[unknown]++))
+        else
+          ((conclusion_counts[$line]++))
+        fi
+      done
       
       success=true
       break # Break out of the retry loop
@@ -44,7 +50,7 @@ while :; do
 
   if [ "$success" = false ]; then
     echo "API requests failed after $max_attempts attempts, defaulting to failure."
-    exit 1  # Use 'exit 1' to indicate script failure
+    exit 1
   fi
 
   # Check for next page using the Link header
@@ -56,6 +62,11 @@ while :; do
 done
 
 # Determine overall workflow conclusion
+echo "Determining overall workflow conclusion..."
+for status in "${!conclusion_counts[@]}"; do
+  echo "$status: ${conclusion_counts[$status]}"
+done
+
 if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
   echo "Some jobs were cancelled."
   WORKFLOW_CONCLUSION="cancelled"
