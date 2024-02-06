@@ -129,6 +129,7 @@ jobs:
           page=1
           declare -A conclusion_counts
 
+          # Initialize counts for each conclusion status
           for status in success failure cancelled skipped; do
             conclusion_counts[$status]=0
           done
@@ -138,64 +139,55 @@ jobs:
             for attempt in $(seq 1 $max_attempts); do
               echo "Attempt $attempt of $max_attempts for page $page"
 
-              # Additional diagnostics
               echo "Fetching job conclusions for page: $page"
-
               response_with_headers=$(curl -sS -I -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
 
               link_header=$(echo "$response_with_headers" | grep -i '^Link:' | tr -d '\r')
               echo "Link header: $link_header"  # Diagnostic output
 
-              if [ -z "$link_header" ] && [ $page -eq 1 ]; then
-                  echo "No Link header found, possibly only a single page of results."
-              fi
-
               response=$(curl -sS -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
 
               if [ $? -eq 0 ]; then
                 echo "API Request successful."
+                echo "Processing job conclusions..."
+                job_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion' || echo "Failed to parse conclusions")
+                if [ "$job_conclusions" = "Failed to parse conclusions" ]; then
+                    echo "Failed to process job conclusions with jq."
+                    break  # Break attempt loop due to processing error
+                else
+                    echo "Conclusions processed successfully."
+                    for conclusion in $job_conclusions; do
+                      ((conclusion_counts[$conclusion]++))
+                    done
+                fi
+                success=true
+                break  # Break the attempt loop since we've successfully processed this page
               else
-                echo "API Request failed, retrying..."
+                echo "API Request failed, retrying in $((attempt * 2)) seconds..."
                 sleep $((attempt * 2))
-                continue
               fi
-
-              echo "Processing job conclusions..."
-              processed_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion' || echo "jq command failed")
-              if [ "$processed_conclusions" = "jq command failed" ]; then
-                  echo "Failed to process job conclusions with jq."
-                  exit 1
-              fi
-
-              while read -r line; do
-                  ((conclusion_counts[$line]++))
-              done <<< "$processed_conclusions"
-
-
-              success=true
-              break # Successful fetch, proceed to next page
             done
 
             if [ "$success" = false ]; then
               echo "Failed to fetch job conclusions after $max_attempts attempts."
-              exit 1
+              echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
+              exit 0  # Exiting gracefully, assuming failure in fetching data should not halt the workflow
             fi
 
-            # Diagnostic output for checking next page logic
+            # Check for the next page using the Link header
             if echo "$link_header" | grep -q 'rel="next"'; then
               echo "Found next page, proceeding..."
               page=$((page + 1))
             else
               echo "No more pages to fetch, finalizing..."
-              break
+              break  # Exit loop if no next page is found
             fi
           done
 
-          echo "Processing workflow conclusion based on job statuses..."
-
-          # Determine overall workflow conclusion
+          # Determine overall workflow conclusion based on job statuses
+          echo "Determining overall workflow conclusion..."
           if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
             echo "Some jobs were cancelled."
             WORKFLOW_CONCLUSION="cancelled"
