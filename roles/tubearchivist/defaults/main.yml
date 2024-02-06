@@ -97,8 +97,8 @@ tubearchivist_docker_envs_default:
   TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ tubearchivist_web_subdomain + '.' + tubearchivist_web_domain }} {{ tubearchivist_web_url }}"
   TA_ENABLE_AUTH_PROXY: "{{ 'true' if (tubearchivist_traefik_sso_middleware | length > 0) else omit }}"
   TA_AUTH_PROXY_USERNAME_HEADER: "{{ 'HTTP_REMOTE_USER' if (tubearchivist_traefik_sso_middleware | length > 0) else omit }}"
-  TA_USERNAME: "{{ user.name if (tubearchivist_traefik_sso_middleware | length == 0) else omit }}"
-  TA_PASSWORD: "{{ user.pass if (tubearchivist_traefik_sso_middleware | length == 0) else omit }}"
+  TA_USERNAME: "{{ user.name if (tubearchivist_traefik_sso_middleware | length = 0) else omit }}"
+  TA_PASSWORD: "{{ user.pass if (tubearchivist_traefik_sso_middleware | length = 0) else omit }}"
   ELASTIC_PASSWORD: "{{ elasticsearch_docker_env_password }}"
   ENABLE_CAST: "{{ tubearchivist_enable_cast }}"
 tubearchivist_docker_envs_custom: {}
