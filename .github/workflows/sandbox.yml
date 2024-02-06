@@ -126,40 +126,72 @@ jobs:
       - name: Determine Workflow Conclusion
         run: |
           max_attempts=5
-          attempt=0
-          while [ $attempt -lt $max_attempts ]; do
-            attempt=$((attempt + 1))
-            echo "Attempt $attempt of $max_attempts"
-            response=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
-            if [ "$?" -eq 0 ]; then
-              echo "API Request successful."
-              break
+          page=1
+          declare -A conclusion_counts
+
+          # Initialize conclusions
+          for status in success failure cancelled skipped; do
+            conclusion_counts[$status]=0
+          done
+
+          while :; do
+            success=false
+            for attempt in $(seq 1 $max_attempts); do
+              echo "Attempt $attempt of $max_attempts for page $page"
+
+              response_with_headers=$(curl -sS -I -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+                "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
+
+              link_header=$(echo "$response_with_headers" | grep -i '^Link:' | tr -d '\r')
+
+              response=$(curl -sS -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+                "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
+
+              if [ $? -eq 0 ]; then
+                echo "API Request successful."
+
+                while read -r line; do
+                  ((conclusion_counts[$line]++))
+                done < <(echo "$response" | jq -r '.jobs[].conclusion')
+
+                success=true
+                break # Break out of the retry loop
+              else
+                echo "API Request failed, retrying in $((attempt * 2)) seconds..."
+                sleep $((attempt * 2))
+              fi
+            done
+
+            if [ "$success" = false ]; then
+              echo "API requests failed after $max_attempts attempts, defaulting to failure."
+              echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
+              exit 1
+            fi
+
+            # Check for next page using the Link header
+            if echo "$link_header" | grep -q 'rel="next"'; then
+              page=$((page + 1))
             else
-              echo "API Request failed, retrying in $((attempt * 2)) seconds..."
-              sleep $((attempt * 2))
+              break # Exit loop if no next page is found
             fi
           done
 
-          if [ $attempt -eq $max_attempts ]; then
-            echo "API requests failed after $max_attempts attempts, defaulting to failure."
-            echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
+          # Determine overall workflow conclusion
+          if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
+            echo "Some jobs were cancelled."
+            WORKFLOW_CONCLUSION="cancelled"
+          elif [ ${conclusion_counts[failure]} -gt 0 ]; then
+            echo "Some jobs failed."
+            WORKFLOW_CONCLUSION="failure"
+          elif [ ${conclusion_counts[success]} -gt 0 ]; then
+            echo "All jobs succeeded."
+            WORKFLOW_CONCLUSION="success"
           else
-            conclusions=$(echo "$response" | jq '[.jobs[].conclusion] | unique | .[]')
-            if echo "$conclusions" | grep -q "cancelled"; then
-              echo "Some jobs were cancelled."
-              echo "WORKFLOW_CONCLUSION=cancelled" >> $GITHUB_ENV
-            elif echo "$conclusions" | grep -q "failure"; then
-              echo "Some jobs failed."
-              echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
-            elif echo "$conclusions" | grep -q "success"; then
-              echo "All jobs succeeded or were skipped."
-              echo "WORKFLOW_CONCLUSION=success" >> $GITHUB_ENV
-            else
-              echo "Defaulting to failure due to uncertain job conclusions."
-              echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
-            fi
+            echo "Defaulting to failure due to uncertain job conclusions."
+            WORKFLOW_CONCLUSION="failure"
           fi
+
+          echo "WORKFLOW_CONCLUSION=$WORKFLOW_CONCLUSION" >> $GITHUB_ENV
       - uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
