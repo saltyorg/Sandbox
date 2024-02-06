@@ -144,7 +144,7 @@ jobs:
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
 
               link_header=$(echo "$response_with_headers" | grep -i '^Link:' | tr -d '\r')
-              echo "Link header: $link_header"  # Diagnostic output
+              echo "Link header: $link_header"
 
               response=$(curl -sS -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
@@ -152,10 +152,9 @@ jobs:
               if [ $? -eq 0 ]; then
                 echo "API Request successful."
                 echo "Processing job conclusions..."
-                job_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion' || echo "Failed to parse conclusions")
-                if [ "$job_conclusions" = "Failed to parse conclusions" ]; then
-                    echo "Failed to process job conclusions with jq."
-                    break  # Break attempt loop due to processing error
+                job_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion')
+                if [ -z "$job_conclusions" ]; then
+                    echo "No job conclusions found or failed to process job conclusions with jq."
                 else
                     echo "Conclusions processed successfully."
                     for conclusion in $job_conclusions; do
@@ -163,7 +162,7 @@ jobs:
                     done
                 fi
                 success=true
-                break  # Break the attempt loop since we've successfully processed this page
+                break
               else
                 echo "API Request failed, retrying in $((attempt * 2)) seconds..."
                 sleep $((attempt * 2))
@@ -173,7 +172,7 @@ jobs:
             if [ "$success" = false ]; then
               echo "Failed to fetch job conclusions after $max_attempts attempts."
               echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
-              exit 0  # Exiting gracefully, assuming failure in fetching data should not halt the workflow
+              exit 0
             fi
 
             # Check for the next page using the Link header
@@ -182,11 +181,10 @@ jobs:
               page=$((page + 1))
             else
               echo "No more pages to fetch, finalizing..."
-              break  # Exit loop if no next page is found
+              break
             fi
           done
 
-          # Determine overall workflow conclusion based on job statuses
           echo "Determining overall workflow conclusion..."
           if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
             echo "Some jobs were cancelled."
@@ -203,6 +201,10 @@ jobs:
           fi
 
           echo "WORKFLOW_CONCLUSION=$WORKFLOW_CONCLUSION" >> $GITHUB_ENV
+          echo "Workflow conclusion determined: $WORKFLOW_CONCLUSION"
+
+          # Explicitly exit cleanly to avoid any default exit code issues
+          exit 0
       - uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
