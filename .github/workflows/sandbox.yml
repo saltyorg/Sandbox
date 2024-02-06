@@ -127,12 +127,11 @@ jobs:
         run: |
           max_attempts=5
           page=1
-          declare -A conclusion_counts
-
-          # Initialize counts for each conclusion status including a placeholder for 'null'
-          for status in success failure cancelled skipped null; do
-            conclusion_counts[$status]=0
-          done
+          success_count=0
+          failure_count=0
+          cancelled_count=0
+          skipped_count=0
+          null_count=0
 
           while :; do
             success=false
@@ -147,22 +146,23 @@ jobs:
                 echo "API Request successful."
                 echo "Processing job conclusions..."
                 job_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion')
-                echo "Job conclusions: $job_conclusions"  # Debug output to inspect the conclusions
+                echo "Job conclusions: $job_conclusions"
 
-                echo "Conclusions processed successfully."
-                IFS=$'\n'  # Change the Internal Field Separator (IFS) to handle newlines only
+                IFS=$'\n'
                 for conclusion in $job_conclusions; do
-                  if [[ $conclusion == "null" || -z "$conclusion" ]]; then
-                    echo "Skipping null or empty conclusion."
-                  else
-                    echo "Processing conclusion: $conclusion"
-                    ((conclusion_counts[$conclusion]++))
-                  fi
+                  echo "Processing conclusion: $conclusion"
+                  case $conclusion in
+                    success) ((success_count++)) ;;
+                    failure) ((failure_count++)) ;;
+                    cancelled) ((cancelled_count++)) ;;
+                    skipped) ((skipped_count++)) ;;
+                    null) ((null_count++)) ;;
+                  esac
                 done
-                unset IFS  # Reset IFS to default
+                unset IFS
                 echo "Conclusion counts processed successfully."
                 success=true
-                break  # Break the attempt loop since we've successfully processed this page
+                break
               else
                 echo "API Request failed, retrying in $((attempt * 2)) seconds..."
                 sleep $((attempt * 2))
@@ -175,7 +175,6 @@ jobs:
               exit 0
             fi
 
-            # Check for the next page using the Link header
             response_with_headers=$(curl -sS -I -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
               "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$((page+1))&per_page=100")
             link_header=$(echo "$response_with_headers" | grep -i '^Link:' | tr -d '\r')
@@ -189,18 +188,17 @@ jobs:
           done
 
           echo "Determining overall workflow conclusion..."
-          if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
+          echo "Success: $success_count, Failure: $failure_count, Cancelled: $cancelled_count, Skipped: $skipped_count, Null: $null_count"
+
+          if [ $cancelled_count -gt 0 ]; then
             echo "Some jobs were cancelled."
             WORKFLOW_CONCLUSION="cancelled"
-          elif [ ${conclusion_counts[failure]} -gt 0 ]; then
+          elif [ $failure_count -gt 0 ]; then
             echo "Some jobs failed."
             WORKFLOW_CONCLUSION="failure"
-          elif [ ${conclusion_counts[success]} -gt 0 ]; then
+          elif [ $success_count -gt 0 ] && [ $null_count -eq 0 ]; then
             echo "All jobs succeeded."
             WORKFLOW_CONCLUSION="success"
-          elif [ ${conclusion_counts[null]} -gt 0 ]; then
-            echo "Some jobs did not return a conclusion."
-            WORKFLOW_CONCLUSION="failure"
           else
             echo "Defaulting to failure due to uncertain job conclusions."
             WORKFLOW_CONCLUSION="failure"
@@ -209,8 +207,8 @@ jobs:
           echo "WORKFLOW_CONCLUSION=$WORKFLOW_CONCLUSION" >> $GITHUB_ENV
           echo "Workflow conclusion determined: $WORKFLOW_CONCLUSION"
 
-          # Explicitly exit cleanly to avoid any default exit code issues
           exit 0
+
       - uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
