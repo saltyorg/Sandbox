@@ -147,6 +147,10 @@ jobs:
               link_header=$(echo "$response_with_headers" | grep -i '^Link:' | tr -d '\r')
               echo "Link header: $link_header"  # Diagnostic output
 
+              if [ -z "$link_header" ] && [ $page -eq 1 ]; then
+                  echo "No Link header found, possibly only a single page of results."
+              fi
+
               response=$(curl -sS -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
 
