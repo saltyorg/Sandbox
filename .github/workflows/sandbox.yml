@@ -125,7 +125,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Determine Workflow Conclusion
-        run: ./scripts/workflow-status.sh ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} ${{ github.run_id }}
+        run: ./scripts/workflow-status.sh ${{ secrets.GH_TOKEN }} ${{ github.repository }} ${{ github.run_id }}
 
       - uses: sarisia/actions-status-discord@v1
         with:
