@@ -41,7 +41,7 @@ while :; do
       done
       
       success=true
-      break # Break out of the retry loop
+      break
     else
       echo "API Request failed, retrying in $((attempt * 2)) seconds..."
       sleep $((attempt * 2))
@@ -57,28 +57,20 @@ while :; do
   if echo "$link_header" | grep -q 'rel="next"'; then
     page=$((page + 1))
   else
-    break # Exit loop if no next page is found
+    break
   fi
 done
 
 # Determine overall workflow conclusion
-echo "Determining overall workflow conclusion..."
-for status in "${!conclusion_counts[@]}"; do
-  echo "$status: ${conclusion_counts[$status]}"
-done
-
 if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
-  echo "Some jobs were cancelled."
   WORKFLOW_CONCLUSION="cancelled"
 elif [ ${conclusion_counts[failure]} -gt 0 ]; then
-  echo "Some jobs failed."
   WORKFLOW_CONCLUSION="failure"
 elif [ ${conclusion_counts[success]} -gt 0 ]; then
-  echo "All jobs succeeded."
   WORKFLOW_CONCLUSION="success"
 else
-  echo "Defaulting to failure due to uncertain job conclusions."
   WORKFLOW_CONCLUSION="failure"
 fi
 
-echo "WORKFLOW_CONCLUSION=$WORKFLOW_CONCLUSION"
+# Export WORKFLOW_CONCLUSION to GitHub Actions environment
+echo "WORKFLOW_CONCLUSION=$WORKFLOW_CONCLUSION" >> $GITHUB_ENV
