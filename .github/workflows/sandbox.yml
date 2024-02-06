@@ -129,7 +129,6 @@ jobs:
           page=1
           declare -A conclusion_counts
 
-          # Initialize conclusions
           for status in success failure cancelled skipped; do
             conclusion_counts[$status]=0
           done
@@ -139,42 +138,51 @@ jobs:
             for attempt in $(seq 1 $max_attempts); do
               echo "Attempt $attempt of $max_attempts for page $page"
 
+              # Additional diagnostics
+              echo "Fetching job conclusions for page: $page"
+
               response_with_headers=$(curl -sS -I -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
 
               link_header=$(echo "$response_with_headers" | grep -i '^Link:' | tr -d '\r')
+              echo "Link header: $link_header"  # Diagnostic output
 
               response=$(curl -sS -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
 
               if [ $? -eq 0 ]; then
                 echo "API Request successful."
-
-                while read -r line; do
-                  ((conclusion_counts[$line]++))
-                done < <(echo "$response" | jq -r '.jobs[].conclusion')
-
-                success=true
-                break # Break out of the retry loop
               else
-                echo "API Request failed, retrying in $((attempt * 2)) seconds..."
+                echo "API Request failed, retrying..."
                 sleep $((attempt * 2))
+                continue
               fi
+
+              # Parse job conclusions and update counts
+              while read -r line; do
+                ((conclusion_counts[$line]++))
+              done < <(echo "$response" | jq -r '.jobs[].conclusion')
+
+              success=true
+              break # Successful fetch, proceed to next page
             done
 
             if [ "$success" = false ]; then
-              echo "API requests failed after $max_attempts attempts, defaulting to failure."
-              echo "WORKFLOW_CONCLUSION=failure" >> $GITHUB_ENV
+              echo "Failed to fetch job conclusions after $max_attempts attempts."
               exit 1
             fi
 
-            # Check for next page using the Link header
+            # Diagnostic output for checking next page logic
             if echo "$link_header" | grep -q 'rel="next"'; then
+              echo "Found next page, proceeding..."
               page=$((page + 1))
             else
-              break # Exit loop if no next page is found
+              echo "No more pages to fetch, finalizing..."
+              break
             fi
           done
+
+          echo "Processing workflow conclusion based on job statuses..."
 
           # Determine overall workflow conclusion
           if [ ${conclusion_counts[cancelled]} -gt 0 ]; then
