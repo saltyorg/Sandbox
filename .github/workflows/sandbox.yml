@@ -160,6 +160,7 @@ jobs:
                     for conclusion in $job_conclusions; do
                       ((conclusion_counts[$conclusion]++))
                     done
+                    echo "Conclusion counts processed successfully."
                 fi
                 success=true
                 break
