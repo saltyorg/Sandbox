@@ -129,8 +129,8 @@ jobs:
           page=1
           declare -A conclusion_counts
 
-          # Initialize counts for each conclusion status
-          for status in success failure cancelled skipped; do
+          # Initialize counts for each conclusion status including a placeholder for 'null'
+          for status in success failure cancelled skipped null; do
             conclusion_counts[$status]=0
           done
 
@@ -138,7 +138,7 @@ jobs:
             success=false
             for attempt in $(seq 1 $max_attempts); do
               echo "Attempt $attempt of $max_attempts for page $page"
-
+              
               echo "Fetching job conclusions for page: $page"
               response=$(curl -sS -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                 "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?page=$page&per_page=100")
@@ -149,18 +149,18 @@ jobs:
                 job_conclusions=$(echo "$response" | jq -r '.jobs[].conclusion')
                 echo "Job conclusions: $job_conclusions"  # Debug output to inspect the conclusions
 
-                if [ -z "$job_conclusions" ]; then
-                    echo "No job conclusions found or failed to process job conclusions with jq."
-                else
-                    echo "Conclusions processed successfully."
-                    IFS=$'\n'  # Change the Internal Field Separator (IFS) to handle newlines only
-                    for conclusion in $job_conclusions; do
-                      echo "Processing conclusion: $conclusion"  # Additional debug output
-                      ((conclusion_counts[$conclusion]++))
-                    done
-                    unset IFS  # Reset IFS to default
-                    echo "Conclusion counts processed successfully."
-                fi
+                echo "Conclusions processed successfully."
+                IFS=$'\n'  # Change the Internal Field Separator (IFS) to handle newlines only
+                for conclusion in $job_conclusions; do
+                  if [[ $conclusion == "null" || -z "$conclusion" ]]; then
+                    echo "Skipping null or empty conclusion."
+                  else
+                    echo "Processing conclusion: $conclusion"
+                    ((conclusion_counts[$conclusion]++))
+                  fi
+                done
+                unset IFS  # Reset IFS to default
+                echo "Conclusion counts processed successfully."
                 success=true
                 break  # Break the attempt loop since we've successfully processed this page
               else
@@ -198,6 +198,9 @@ jobs:
           elif [ ${conclusion_counts[success]} -gt 0 ]; then
             echo "All jobs succeeded."
             WORKFLOW_CONCLUSION="success"
+          elif [ ${conclusion_counts[null]} -gt 0 ]; then
+            echo "Some jobs did not return a conclusion."
+            WORKFLOW_CONCLUSION="failure"
           else
             echo "Defaulting to failure due to uncertain job conclusions."
             WORKFLOW_CONCLUSION="failure"
