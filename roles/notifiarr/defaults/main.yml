@@ -94,6 +94,7 @@ notifiarr_docker_commands: "{{ notifiarr_docker_commands_default
 notifiarr_docker_volumes_default:
   - "{{ notifiarr_paths_location }}:/config"
   - "/var/run/utmp:/var/run/utmp"
+  - "{{ notifiarr_paths_folder }}/tmp:/tmp"
 notifiarr_docker_volumes_custom: []
 notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
                               + notifiarr_docker_volumes_custom }}"
