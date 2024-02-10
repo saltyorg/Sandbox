@@ -68,7 +68,7 @@ notifiarr_docker_container: "{{ notifiarr_name }}"
 
 # Image
 notifiarr_docker_image_pull: true
-notifiarr_docker_image_tag: "latest"
+notifiarr_docker_image_tag: "unstable"
 notifiarr_docker_image: "ghcr.io/notifiarr/notifiarr:{{ notifiarr_docker_image_tag }}"
 
 # Ports
