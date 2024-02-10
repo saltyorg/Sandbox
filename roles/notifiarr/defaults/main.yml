@@ -98,7 +98,7 @@ notifiarr_docker_volumes_custom: []
 notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
                               + notifiarr_docker_volumes_custom }}"
 
-#Mounts
+# Mounts
 notifiarr_docker_mounts_default:
   - target: /tmp
     type: tmpfs
