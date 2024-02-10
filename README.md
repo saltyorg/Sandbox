@@ -176,6 +176,13 @@ sb list
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/Zairhn>
+            <img src=https://avatars.githubusercontent.com/u/16083155?v=4 width="100;"  alt=Sapphire/>
+            <br />
+            <sub style="font-size:14px"><b>Sapphire</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/nickheyer>
             <img src=https://avatars.githubusercontent.com/u/60236014?v=4 width="100;"  alt=Nicholas W. Heyer/>
             <br />
@@ -203,6 +210,8 @@ sb list
             <sub style="font-size:14px"><b>plinders</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/markschrik>
             <img src=https://avatars.githubusercontent.com/u/56775030?v=4 width="100;"  alt=markschrik/>
@@ -210,8 +219,6 @@ sb list
             <sub style="font-size:14px"><b>markschrik</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/delegreg>
             <img src=https://avatars.githubusercontent.com/u/10157065?v=4 width="100;"  alt=delegreg/>
@@ -247,6 +254,8 @@ sb list
             <sub style="font-size:14px"><b>ayykamp</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/addbee>
             <img src=https://avatars.githubusercontent.com/u/4490516?v=4 width="100;"  alt=adbe/>
@@ -254,20 +263,11 @@ sb list
             <sub style="font-size:14px"><b>adbe</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/heihachi>
             <img src=https://avatars.githubusercontent.com/u/1756242?v=4 width="100;"  alt=Scarabyte/>
             <br />
             <sub style="font-size:14px"><b>Scarabyte</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/Zairhn>
-            <img src=https://avatars.githubusercontent.com/u/16083155?v=4 width="100;"  alt=Sapphire/>
-            <br />
-            <sub style="font-size:14px"><b>Sapphire</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
