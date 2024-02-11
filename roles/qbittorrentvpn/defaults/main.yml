@@ -13,6 +13,15 @@
 qbittorrentvpn_instances: ["qbittorrentvpn"]
 
 ################################
+# Settings
+################################
+
+qbittorrentvpn_log_level_daemon: info
+qbittorrentvpn_log_level_web: info
+qbittorrentvpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
+qbittorrentvpn_lan_network: "172.19.0.0/16"
+
+################################
 # Paths
 ################################
 
@@ -79,15 +88,6 @@ qbittorrentvpn_docker_ports_defaults: []
 qbittorrentvpn_docker_ports_custom: []
 qbittorrentvpn_docker_ports: "{{ lookup('vars', qbittorrentvpn_name + '_docker_ports_defaults', default=qbittorrentvpn_docker_ports_defaults)
                                  + lookup('vars', qbittorrentvpn_name + '_docker_ports_custom', default=qbittorrentvpn_docker_ports_custom) }}"
-
-################################
-# Settings
-################################
-
-qbittorrentvpn_log_level_daemon: info
-qbittorrentvpn_log_level_web: info
-qbittorrentvpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
-qbittorrentvpn_lan_network: "172.19.0.0/16"
 
 # Envs
 qbittorrentvpn_docker_envs_default:

@@ -14,6 +14,12 @@
 notifiarr_name: notifiarr
 
 ################################
+# Settings
+################################
+
+notifiarr_privileged: false
+
+################################
 # Paths
 ################################
 
@@ -56,8 +62,8 @@ notifiarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
 notifiarr_traefik_middleware_custom: ""
 notifiarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 notifiarr_traefik_enabled: true
-notifiarr_traefik_api_enabled: false
-notifiarr_traefik_api_endpoint: ""
+notifiarr_traefik_api_enabled: true
+notifiarr_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/plex`)"
 
 ################################
 # Docker
@@ -98,6 +104,14 @@ notifiarr_docker_volumes_custom: []
 notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
                               + notifiarr_docker_volumes_custom }}"
 
+# Mounts
+notifiarr_docker_mounts_default:
+  - target: /tmp
+    type: tmpfs
+notifiarr_docker_mounts_custom: []
+notifiarr_docker_mounts: "{{ notifiarr_docker_mounts_default
+                             + notifiarr_docker_mounts_custom }}"
+
 # Devices
 notifiarr_docker_devices_default: []
 notifiarr_docker_devices_custom: []
@@ -134,6 +148,9 @@ notifiarr_docker_capabilities_default: []
 notifiarr_docker_capabilities_custom: []
 notifiarr_docker_capabilities: "{{ notifiarr_docker_capabilities_default
                                    + notifiarr_docker_capabilities_custom }}"
+
+# Privileged
+notifiarr_docker_privileged: "{{ notifiarr_privileged | bool }}"
 
 # Security Opts
 notifiarr_docker_security_opts_default: []

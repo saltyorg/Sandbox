@@ -15,6 +15,14 @@
 solr_name: solr
 
 ################################
+# Settings
+################################
+
+# solr_docker_env_password: "solr147"
+solr_docker_env_port: "8983"
+solr_docker_env_core_name: "{{ solr_name }}"
+
+################################
 # Paths
 ################################
 
@@ -22,14 +30,6 @@ solr_paths_folder: "{{ solr_name }}"
 solr_paths_location: "{{ server_appdata_path }}/{{ solr_paths_folder }}"
 solr_paths_folders_list:
   - "{{ solr_paths_location }}"
-
-################################
-# Settings
-################################
-
-# solr_docker_env_password: "solr147"
-solr_docker_env_port: "8983"
-solr_docker_env_core_name: "{{ solr_name }}"
 
 ################################
 # Docker
