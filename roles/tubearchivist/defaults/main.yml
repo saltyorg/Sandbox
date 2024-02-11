@@ -9,12 +9,6 @@
 ##########################################################################
 ---
 ################################
-# Settings
-################################
-
-tubearchivist_enable_cast: "false"
-
-################################
 # Basics
 ################################
 
@@ -25,6 +19,7 @@ tubearchivist_name: tubearchivist
 ################################
 
 tubearchivist_redis_docker_image_tag: "latest"
+tubearchivist_enable_cast: "false"
 
 ################################
 # Paths
