@@ -14,6 +14,13 @@
 jellyseerr_instances: ["jellyseerr"]
 
 ################################
+# Settings
+################################
+
+jellyseerr_log_level: "INFO"
+jellyseerr_emby: false
+
+################################
 # Paths
 ################################
 
@@ -40,13 +47,6 @@ jellyseerr_web_url: "{{ 'https://' + (lookup('vars', jellyseerr_name + '_web_sub
 jellyseerr_dns_record: "{{ lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_web_subdomain) }}"
 jellyseerr_dns_zone: "{{ lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_web_domain) }}"
 jellyseerr_dns_proxy: "{{ dns.proxied }}"
-
-################################
-# Settings
-################################
-
-jellyseerr_log_level: "INFO"
-jellyseerr_emby: false
 
 ################################
 # Traefik

@@ -14,6 +14,14 @@
 elasticsearch_name: elasticsearch
 
 ################################
+# Settings
+################################
+
+elasticsearch_docker_env_password: "elastic789"
+elasticsearch_docker_env_http_port: "9200"
+elasticsearch_docker_env_transport_port: "9300"
+
+################################
 # Paths
 ################################
 
@@ -22,14 +30,6 @@ elasticsearch_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_paths_
 elasticsearch_paths_folders_list:
   - "{{ elasticsearch_paths_location }}"
 elasticsearch_paths_recursive: true
-
-################################
-# Settings
-################################
-
-elasticsearch_docker_env_password: "elastic789"
-elasticsearch_docker_env_http_port: "9200"
-elasticsearch_docker_env_transport_port: "9300"
 
 ################################
 # Docker

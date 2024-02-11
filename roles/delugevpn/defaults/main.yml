@@ -14,6 +14,15 @@
 delugevpn_name: delugevpn
 
 ################################
+# Settings
+################################
+
+delugevpn_log_level_daemon: info
+delugevpn_log_level_web: info
+delugevpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
+delugevpn_lan_network: "172.19.0.0/16"
+
+################################
 # Paths
 ################################
 
@@ -58,15 +67,6 @@ delugevpn_traefik_certresolver: "{{ traefik_default_certresolver }}"
 delugevpn_traefik_enabled: true
 delugevpn_traefik_api_enabled: false
 delugevpn_traefik_api_endpoint: ""
-
-################################
-# Settings
-################################
-
-delugevpn_log_level_daemon: info
-delugevpn_log_level_web: info
-delugevpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
-delugevpn_lan_network: "172.19.0.0/16"
 
 ################################
 # Docker

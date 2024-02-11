@@ -14,6 +14,14 @@
 transmissionvpn_name: transmissionvpn
 
 ################################
+# Settings
+################################
+
+transmissionvpn_create_tun_device: "false"
+transmissionvpn_transmission_home: "/opt/transmissionvpn"
+transmissionvpn_umask_set: "022"
+
+################################
 # Paths
 ################################
 
@@ -59,14 +67,6 @@ transmissionvpn_traefik_certresolver: "{{ traefik_default_certresolver }}"
 transmissionvpn_traefik_enabled: true
 transmissionvpn_traefik_api_enabled: false
 transmissionvpn_traefik_api_endpoint: ""
-
-################################
-# Settings
-################################
-
-transmissionvpn_create_tun_device: "false"
-transmissionvpn_transmission_home: "/opt/transmissionvpn"
-transmissionvpn_umask_set: "022"
 
 ################################
 # Docker
