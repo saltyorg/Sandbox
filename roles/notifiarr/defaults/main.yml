@@ -8,6 +8,12 @@
 ##########################################################################
 ---
 ################################
+# Settings
+################################
+
+notifiarr_privileged: false
+
+################################
 # Basics
 ################################
 
@@ -142,6 +148,9 @@ notifiarr_docker_capabilities_default: []
 notifiarr_docker_capabilities_custom: []
 notifiarr_docker_capabilities: "{{ notifiarr_docker_capabilities_default
                                    + notifiarr_docker_capabilities_custom }}"
+
+# Privileged
+notifiarr_docker_privileged: "{{ notifiarr_privileged | bool }}"
 
 # Security Opts
 notifiarr_docker_security_opts_default: []
