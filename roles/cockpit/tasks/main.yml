@@ -25,8 +25,6 @@
     name: cockpit.socket
   when: cockpit_socket.stat.exists
 
-# Need to add a task to start the cockpit service as well
-
 - name: Check if 'cockpit_service' exists
   ansible.builtin.stat:
     path: "{{ cockpit_paths_service_location }}"
@@ -37,8 +35,6 @@
     state: stopped
     name: cockpit.service
   when: cockpit_service.stat.exists
-
-# Also need to fix the traefik file to include the correct settings
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
@@ -71,7 +67,6 @@
     group: "{{ gid }}"
   when:
     - not continuous_integration
-    # - not cockpit_socket.stat.exists
 
 - name: Install Cockpit from backports
   ansible.builtin.apt:
