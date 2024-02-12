@@ -32,6 +32,9 @@ cockpit_paths_folders_list:
 cockpit_web_subdomain: "{{ cockpit_name }}"
 cockpit_web_domain: "{{ user.domain }}"
 cockpit_web_port: "1337"
+cockpit_web_url: "{{ 'https://' + (cockpit_web_subdomain + '.' + cockpit_web_domain
+                  if (cockpit_web_subdomain | length > 0)
+                  else cockpit_web_domain) }}"
 
 ################################
 # DNS
@@ -39,16 +42,7 @@ cockpit_web_port: "1337"
 
 cockpit_dns_record: "{{ cockpit_web_subdomain }}"
 cockpit_dns_zone: "{{ cockpit_web_domain }}"
-
-# I removed 'https://' + from the beginning of line #46.
-
 cockpit_dns_proxy: "{{ dns.proxied }}"
-cockpit_web_url: "{{ (cockpit_web_subdomain + '.' + cockpit_web_domain
-                  if (cockpit_web_subdomain | length > 0)
-                  else cockpit_web_domain) }}"
-cockpit_web_url_http: "{{ 'http://' + (cockpit_web_subdomain + '.' + cockpit_web_domain
-                       if (cockpit_web_subdomain | length > 0)
-                       else cockpit_web_domain) }}"
 
 ################################
 # Traefik
@@ -60,3 +54,7 @@ cockpit_traefik_middleware_custom: ""
 cockpit_traefik_certresolver: "{{ traefik_default_certresolver }}"
 cockpit_traefik_enabled: true
 cockpit_traefik_api_enabled: false
+
+################################
+# Settings
+################################
