@@ -1,0 +1,44 @@
+#########################################################################
+# Title:         Sandbox: Cockpit | Systemd Tasks                       #
+# Author(s):     CHAIR/Raneydazed                                       #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: System | Import 'cockpit_config'
+  ansible.builtin.template:
+    src: cockpit.conf.j2
+    dest: "{{ cockpit_paths_config_location }}"
+    mode: "0664"
+    owner: root
+    group: root
+    force: true
+
+- name: System | Import 'cockpit_socket'
+  ansible.builtin.template:
+    src: listen.conf.j2
+    dest: "{{ cockpit_paths_socket_location }}"
+    mode: "0664"
+    owner: root
+    group: root
+    force: true
+
+- name: System | Import 'socket_override'
+  ansible.builtin.template:
+    src: override.conf.j2
+    dest: "{{ cockpit_paths_socket_override_location }}"
+    mode: "0664"
+    owner: root
+    group: root
+    force: true
+
+- name: System | Import 'service_override'
+  ansible.builtin.template:
+    src: override.conf.j2
+    dest: "{{ cockpit_paths_override_location }}"
+    mode: "0664"
+    owner: root
+    group: root
+    force: true

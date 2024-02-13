@@ -18,11 +18,14 @@ cockpit_name: cockpit
 ################################
 
 cockpit_paths_socket_location: "/etc/systemd/system/cockpit.socket.d/listen.conf"
+cockpit_paths_socket_override_location: "/etc/systemd/system/cockpit.socket.d/override.conf"
 cockpit_paths_config_location: "/etc/cockpit/cockpit.conf"
 cockpit_paths_traefik_location: "/opt/traefik/cockpit.yml"
 cockpit_paths_service_location: "/lib/systemd/system/cockpit.service"
+cockpit_paths_override_location: "/etc/systemd/system/cockpit.service.d/override.conf"
 cockpit_paths_folders_list:
   - "/etc/systemd/system/cockpit.socket.d"
+  - "/etc/systemd/system/cockpit.service.d"
   - "/etc/cockpit"
 
 ################################
@@ -58,3 +61,7 @@ cockpit_traefik_api_enabled: false
 ################################
 # Settings
 ################################
+
+cockpit_vm_enabled: false
+cockpit_service_after: docker.service
+put_cockpit_dpkg_into_hold: true
