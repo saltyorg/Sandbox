@@ -16,7 +16,7 @@ http:
       service: "{{ cockpit_name }}"
       tls:
         options: securetls@file
-        certResolver: {{ cockpit_traefik_certresolver}}
+        certResolver: {{ cockpit_traefik_certresolver }}
 
   services:
     {{ cockpit_name }}:
