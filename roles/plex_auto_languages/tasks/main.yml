@@ -44,7 +44,7 @@
         dest: "{{ plex_auto_languages_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
+        mode: "0664"
       when: not plex_auto_languages_config.stat.exists
 
     - name: Remove existing Docker container

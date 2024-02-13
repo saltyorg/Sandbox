@@ -35,7 +35,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     validate_certs: false
-    mode: "0775"
+    mode: "0664"
     force: true
   when: not conf_php.stat.exists
 

@@ -33,7 +33,7 @@
     dest: "/opt/telegraf/telegraf.conf"
     owner: "{{ uid }}"
     group: "{{ gid }}"
-    mode: "0775"
+    mode: "0664"
   when: not telegraf_conf.stat.exists
 
 - name: Create and start telegraf container
