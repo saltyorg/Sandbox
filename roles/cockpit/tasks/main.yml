@@ -54,6 +54,10 @@
 - name: "Import Package Tasks"
   ansible.builtin.include_tasks: "subtasks/package.yml"
 
+- name: "Import VM Tasks"
+  ansible.builtin.include_tasks: "subtasks/vm.yml"
+  when: cockpit_vm_enabled
+
 - name: Load 'cockpit_socket'
   ansible.builtin.systemd:
     name: cockpit.socket
