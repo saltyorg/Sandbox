@@ -43,7 +43,7 @@
   ansible.builtin.template:
     src: cockpit.yml.j2
     dest: "{{ cockpit_paths_traefik_location }}"
-    mode: "0775"
+    mode: "664"
     owner: "{{ uid }}"
     group: "{{ gid }}"
     force: true

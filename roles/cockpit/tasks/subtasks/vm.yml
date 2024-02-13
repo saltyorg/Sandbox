@@ -10,10 +10,29 @@
 - name: VM | Gather package facts
   ansible.builtin.package_facts:
 
+- name: VM | Release 'cockpit-machines' from hold
+  ansible.builtin.dpkg_selections:
+    name: "cockpit-machines"
+    selection: install
+  when: ("cockpit-machines" in ansible_facts.packages)
+
+- name: VM | Install 'cockpit-machines' from backports
+  ansible.builtin.apt:
+    name: "cockpit-machines"
+    default_release: "{{ ansible_distribution_release }}-backports"
+    state: latest
+    update_cache: true
+    allow_downgrade: true
+
+- name: VM | Put 'cockpit-machines' into hold
+  ansible.builtin.dpkg_selections:
+    name: "cockpit-machines"
+    selection: hold
+  when: put_cockpit_machines_dpkg_into_hold
+
 - name: VM | Install necessary packages for Cockpit Machines
   ansible.builtin.package:
     name:
-      - cockpit-machines
       - qemu
       - qemu-kvm
       - libvirt-clients

@@ -65,3 +65,4 @@ cockpit_traefik_api_enabled: false
 cockpit_vm_enabled: false
 cockpit_service_after: docker.service
 put_cockpit_dpkg_into_hold: true
+put_cockpit_machines_dpkg_into_hold: true
