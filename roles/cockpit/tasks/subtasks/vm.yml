@@ -12,7 +12,7 @@
 
 - name: VM | Install necessary packages for Cockpit Machines
   ansible.builtin.package:
-    name: 
+    name:
       - cockpit-machines
       - qemu
       - qemu-kvm
