@@ -24,7 +24,7 @@
     dest: "{{ mqtt_paths_config_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
 
   when: (not mqtt_config.stat.exists) and (not continuous_integration)
 

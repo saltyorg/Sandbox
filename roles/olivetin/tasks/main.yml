@@ -31,7 +31,7 @@
     dest: "{{ olivetin_config_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
   when: not olivetin_config.stat.exists
 
 - name: Create Docker container

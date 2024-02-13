@@ -19,7 +19,7 @@
     dest: "{{ plex_meta_manager_paths_location }}/config.yml.template"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
     force: yes
     validate_certs: no
   ignore_errors: true
