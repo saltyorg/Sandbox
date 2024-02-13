@@ -44,8 +44,8 @@
     src: cockpit.yml.j2
     dest: "{{ cockpit_paths_traefik_location }}"
     mode: "664"
-    owner: "{{ uid }}"
-    group: "{{ gid }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
     force: true
 
 - name: "Import Systemd Tasks"
