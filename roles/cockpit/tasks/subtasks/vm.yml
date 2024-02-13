@@ -22,7 +22,6 @@
     default_release: "{{ ansible_distribution_release }}-backports"
     state: latest
     update_cache: true
-    allow_downgrade: true
 
 - name: VM | Put 'cockpit-machines' into hold
   ansible.builtin.dpkg_selections:
