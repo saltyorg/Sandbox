@@ -44,6 +44,13 @@
     state: latest
     update_cache: true
 
+- name: VM | Check if default network in libvirt is active
+  ansible.builtin.command:
+    cmd: virsh net-info default
+  register: default_network_info
+  changed_when: false
+
 - name: VM | Start default network in libvirt
   ansible.builtin.command:
     cmd: virsh net-start default
+  when: not (default_network_info.stdout | regex_search('(Active:\\s*yes)', ignorecase=True))
