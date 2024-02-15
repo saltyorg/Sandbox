@@ -102,13 +102,10 @@ handbrake_docker_volumes: "{{ handbrake_docker_volumes_default
                               + handbrake_docker_volumes_custom }}"
 
 # Devices
-handbrake_docker_devices_default:
-  - "/dev/dri:/dev/dri"
+handbrake_docker_devices_default: []
 handbrake_docker_devices_custom: []
 handbrake_docker_devices: "{{ handbrake_docker_devices_default
-                              + handbrake_docker_devices_custom
-                           if (gpu.intel and dev_dri.stat.exists)
-                           else handbrake_docker_devices_custom }}"
+                              + handbrake_docker_devices_custom }}"
 
 # Hosts
 handbrake_docker_hosts_default: []
