@@ -17,5 +17,5 @@
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
   loop: "{{ rflood_config_rflood_rc_settings_list }}"

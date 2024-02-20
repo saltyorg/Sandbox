@@ -85,7 +85,7 @@
     dest: "/opt/python-plexlibrary/config.yml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
     force: false
   when: not python_plexlibrary_config.stat.exists
 

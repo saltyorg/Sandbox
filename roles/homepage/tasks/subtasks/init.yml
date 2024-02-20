@@ -17,7 +17,7 @@
         dest: "{{ homepage_paths_location }}/config"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
+        mode: "0664"
 
     - name: "Settings | Import docker.yaml"
       ansible.builtin.template:
@@ -25,7 +25,7 @@
         dest: '{{ homepage_paths_location }}/config/docker.yaml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
+        mode: "0664"
 
     - name: Settings | Import services.yaml`
       ansible.builtin.copy:
@@ -33,7 +33,7 @@
         dest: "{{ homepage_paths_location }}/config"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
+        mode: "0664"
 
     - name: "Settings | Import settings.yaml"
       ansible.builtin.template:
@@ -41,7 +41,7 @@
         dest: '{{ homepage_paths_location }}/config/settings.yaml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
+        mode: "0664"
 
     - name: Settings | Import widgets.yaml`
       ansible.builtin.copy:
@@ -49,4 +49,4 @@
         dest: "{{ homepage_paths_location }}/config"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
-        mode: "0775"
+        mode: "0664"

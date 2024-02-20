@@ -17,7 +17,7 @@
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
 
 - name: Post-Install | Settings | Update CSRFProtection 'qbittorrentvpn.conf' config settings
   community.general.ini_file:
@@ -29,7 +29,7 @@
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
 
 - name: Post-Install | Settings | Generate Password Hash
   qbittorrent_passwd:
@@ -45,7 +45,7 @@
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
 
 - name: Post-Install | Settings | Set qBittorrent 'WebUI\Password_PBKDF2'
   community.general.ini_file:
@@ -56,4 +56,4 @@
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
