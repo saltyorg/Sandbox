@@ -19,7 +19,7 @@ immich_name: immich
 
 immich_postgres_name: "{{ immich_name }}-postgres"
 immich_postgres_docker_env_db: "{{ immich_name }}"
-immich_postgres_docker_image_tag: "pg14-v0.1.11"
+immich_postgres_docker_image_tag: "pg14-v0.2.0"
 immich_postgres_docker_image_repo: "tensorchord/pgvecto-rs"
 immich_postgres_paths_folder: "{{ immich_name }}"
 immich_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
