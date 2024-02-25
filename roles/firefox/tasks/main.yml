@@ -40,6 +40,8 @@
   ansible.builtin.wait_for:
     host: "{{ firefox_docker_networks_alias }}"
     port: "{{ firefox_web_port }}"
+    timeout: 30
+  ignore_errors: true
 
 - name: Remove empty subdirectories of `{{ firefox_paths_location }}`
   ansible.builtin.shell: find "{{ firefox_paths_location }}" -maxdepth 1 -type d -empty -exec rmdir {} +
