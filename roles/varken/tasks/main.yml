@@ -67,7 +67,7 @@
   community.docker.docker_container:
     name: varken
     image: "ghcr.io/thezak48/varken:develop"
-    pull: yes
+    pull: true
     command_handling: compatibility
     container_default_behavior: compatibility
     default_host_ip: ""
