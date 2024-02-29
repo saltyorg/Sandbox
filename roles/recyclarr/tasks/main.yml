@@ -33,6 +33,7 @@
       '*': ignore
     auto_remove: yes
     state: started
+    pull: true
   when: (not recyclarr_config.stat.exists)
 
 - name: Create Docker container

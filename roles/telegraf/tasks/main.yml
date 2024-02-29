@@ -40,7 +40,7 @@
   community.docker.docker_container:
     name: telegraf
     image: "telegraf"
-    pull: yes
+    pull: true
     command_handling: compatibility
     container_default_behavior: compatibility
     default_host_ip: ""
