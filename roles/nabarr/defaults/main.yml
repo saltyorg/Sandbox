@@ -33,7 +33,7 @@ nabarr_docker_container: "{{ nabarr_name }}"
 # Image
 nabarr_docker_image_pull: true
 nabarr_docker_image_tag: "latest"
-nabarr_docker_image: "cloudb0x/nabarr:{{ nabarr_docker_image_tag }}"
+nabarr_docker_image: "saltydk/nabarr:{{ nabarr_docker_image_tag }}"
 
 # Envs
 nabarr_docker_envs_default:
