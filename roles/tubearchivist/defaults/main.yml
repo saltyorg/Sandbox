@@ -162,3 +162,8 @@ tubearchivist_docker_restart_policy: unless-stopped
 
 # State
 tubearchivist_docker_state: started
+
+# Dependencies
+tubearchivist_depends_on: "{{ tubearchivist_name }}-elasticsearch,{{ tubearchivist_name}}-redis"
+tubearchivist_depends_on_delay: "0"
+tubearchivist_depends_on_healthchecks: "false"

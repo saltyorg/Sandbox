@@ -165,6 +165,6 @@ immich_docker_restart_policy: unless-stopped
 immich_docker_state: started
 
 # Dependencies
-immich_depends_on: "{{ immich_postgres_name }}"
+immich_depends_on: "{{ immich_postgres_name }},{{ immich_name }}-redis"
 immich_depends_on_delay: "0"
 immich_depends_on_healthchecks: "false"
