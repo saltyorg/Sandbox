@@ -1,5 +1,6 @@
 ---
 name: Application request
+about: Suggest an app for this project
 description: Suggest an app for this project
 title: '[Req]: '
 labels: ''
