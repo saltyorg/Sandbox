@@ -1,65 +1,47 @@
---
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
-projects:
-assignees:
---
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
-  - type: textarea
-    id: what-happened
-    attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
-    validations:
-      required: true
-  - type: dropdown
-    id: version
-    attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-      default: 0
-    validations:
-      required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+---
+name: Bug report
+about: Report a bug in this project
+description: Report a bug in this project
+title: '[Bug]: '
+labels: ''
+assignees: ''
+
+---
+
+**Note: for support questions, please use stackoverflow**. This repository's issues are reserved for feature requests and bug reports.
+
+* **I'm submitting a ...**
+  - [ ] bug report
+  - [ ] feature request
+  - [ ] support request => Please do not submit support request here, see note at the top of this template.
+
+
+* **Do you want to request a *feature* or report a *bug*?**
+
+
+
+* **What is the current behavior?**
+
+
+
+* **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem** via
+https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
+
+
+
+* **What is the expected behavior?**
+
+
+
+* **What is the motivation / use case for changing the behavior?**
+
+
+
+* **Please tell us about your environment:**
+  
+  - Version: 2.0.0-beta.X
+  - Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
+  - Language: [all | TypeScript X.X | ES6/7 | ES5 | Dart]
+
+
+* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
