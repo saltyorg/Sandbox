@@ -161,3 +161,8 @@ miniflux_docker_restart_policy: unless-stopped
 
 # State
 miniflux_docker_state: started
+
+# Dependencies
+minuflux_depends_on: "{{ minuflux_postgres_name }}"
+minuflux_depends_on_delay: "0"
+minuflux_depends_on_healthchecks: "false"

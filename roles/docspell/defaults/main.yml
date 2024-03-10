@@ -154,3 +154,8 @@ docspell_docker_restart_policy: unless-stopped
 
 # State
 docspell_docker_state: started
+
+# Dependencies
+docspell_depends_on: "{{ docspell_name }}-mariadb"
+docspell_depends_on_delay: "0"
+docspell_depends_on_healthchecks: "false"

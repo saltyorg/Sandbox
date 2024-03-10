@@ -154,3 +154,8 @@ krusader_docker_restart_policy: unless-stopped
 
 # State
 krusader_docker_state: started
+
+# Dependencies
+krusader_depends_on: "{{ krusader_name }}-docker-socket-proxy"
+krusader_depends_on_delay: "0"
+krusader_depends_on_healthchecks: "false"

@@ -155,3 +155,8 @@ yacht_docker_restart_policy: unless-stopped
 
 # State
 yacht_docker_state: started
+
+# Dependencies
+yacht_depends_on: "{{ yacht_name }}-docker-socket-proxy"
+yacht_depends_on_delay: "0"
+yacht_depends_on_healthchecks: "false"

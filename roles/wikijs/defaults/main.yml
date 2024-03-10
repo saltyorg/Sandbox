@@ -162,3 +162,8 @@ wikijs_docker_state: started
 
 # User
 wikijs_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+wikijs_depends_on: "{{ wikijs_postgres_name }}"
+wikijs_depends_on_delay: "0"
+wikijs_depends_on_healthchecks: "false"

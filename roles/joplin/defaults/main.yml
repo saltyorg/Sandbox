@@ -158,3 +158,8 @@ joplin_docker_restart_policy: unless-stopped
 
 # State
 joplin_docker_state: started
+
+# Dependencies
+joplin_depends_on: "{{ joplin_postgres_name }}"
+joplin_depends_on_delay: "0"
+joplin_depends_on_healthchecks: "false"

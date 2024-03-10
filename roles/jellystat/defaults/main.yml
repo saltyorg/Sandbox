@@ -166,3 +166,8 @@ jellystat_docker_restart_policy: unless-stopped
 
 # State
 jellystat_docker_state: started
+
+# Dependencies
+jellystat_depends_on: "{{ jellystat_postgres_name }}"
+jellystat_depends_on_delay: "0"
+jellystat_depends_on_healthchecks: "false"
