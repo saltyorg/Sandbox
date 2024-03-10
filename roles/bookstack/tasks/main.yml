@@ -17,14 +17,12 @@
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
-
-- name: MariaDB | Create bookstackapp database
-  community.mysql.mysql_db:
-    name: "bookstackapp"
-    login_host: "mariadb"
-    login_user: "root"
-    login_password: "{{ mariadb_docker_env_password }}"
-    state: present
+  vars:
+    mariadb_instances: ["{{ bookstack_name }}_mariadb"]
+    mariadb_docker_env_db: "{{ bookstack_name }}"
+    mariadb_paths_folder: "{{ bookstack_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
+    mariadb_docker_user: ""
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

@@ -10,12 +10,18 @@
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
+  vars:
+    mariadb_instances: ["{{ invoiceninjav5_name }}_mariadb"]
+    mariadb_docker_env_db: "{{ invoiceninjav5_name }}"
+    mariadb_paths_folder: "{{ invoiceninjav5_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
+    mariadb_docker_user: ""
 
-- name: MariaDB | Create ninja database
+- name: MariaDB | Create invoiceninja database
   community.mysql.mysql_db:
-    name: "invoiceninjav5db"
-    login_host: "mariadb"
-    login_user: "root"
+    name: "{{ invoiceninjav5_name }}"
+    login_host: "{{ invoiceninjav5_name }}_mariadb"
+    login_user: "{{ mariadb_docker_env_user }}"
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
