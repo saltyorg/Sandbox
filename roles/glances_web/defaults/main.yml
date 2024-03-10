@@ -158,3 +158,8 @@ glances_web_docker_force_kill: yes
 
 # PID Mode
 glances_web_docker_pid_mode: host
+
+# Dependencies
+glances_web_depends_on: "{{ glances_web_name }}-docker-socket-proxy"
+glances_web_depends_on_delay: "0"
+glances_web_depends_on_healthchecks: "false"

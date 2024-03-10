@@ -154,3 +154,8 @@ koel_docker_restart_policy: unless-stopped
 
 # State
 koel_docker_state: started
+
+# Dependencies
+koel_depends_on: "{{ koel_name }}-mariadb"
+koel_depends_on_delay: "0"
+koel_depends_on_healthchecks: "false"

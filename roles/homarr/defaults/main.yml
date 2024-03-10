@@ -155,3 +155,8 @@ homarr_docker_restart_policy: unless-stopped
 
 # State
 homarr_docker_state: started
+
+# Dependencies
+homarr_depends_on: "{{ homarr_name }}-docker-socket-proxy"
+homarr_depends_on_delay: "0"
+homarr_depends_on_healthchecks: "false"

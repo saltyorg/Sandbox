@@ -161,3 +161,8 @@ n8n_docker_restart_policy: unless-stopped
 
 # State
 n8n_docker_state: started
+
+# Dependencies
+n8n_depends_on: "{{ n8n_postgres_name }}"
+n8n_depends_on_delay: "0"
+n8n_depends_on_healthchecks: "false"
