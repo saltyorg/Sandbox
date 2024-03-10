@@ -8,49 +8,40 @@ assignees: ''
 
 ---
 
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to request an application!
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
-  - type: textarea
-    id: what-is-it
-    attributes:
-      label: What is it?
-      description: What is the name of the application and what does it do?
-      placeholder: FooApp is useful for Binging Bangs to prepare them for Boing.
-      value: "Gimme Shock Treatment!"
-    validations:
-      required: true
+**Note: for support questions, please use stackoverflow**. This repository's issues are reserved for feature requests and bug reports.
 
-  - type: textarea
-    id: why-is-it
-    attributes:
-      label: Why does this belong in Sandbox?
-      description: What makes the application a good fit for Sandbox?
-      placeholder: Many people required well-binged bangs.
-      value: "Suzy is a Punk Rocker!"
-    validations:
-      required: true
-  - type: textarea
-    id: docker
-    attributes:
-      label: Link to docker
-      description: Please provide a link to the desired docker image.
-      render: shell
-    validations:
-      required: true
-  - type: textarea
-    id: docker
-    attributes:
-      label: Link to docs
-      description: Please provide a link to any available setup documentation.
-      render: shell
+* **I'm submitting a ...**
+  - [ ] bug report
+  - [ ] feature request
+  - [ ] support request => Please do not submit support request here, see note at the top of this template.
+
+
+* **Do you want to request a *feature* or report a *bug*?**
+
+
+
+* **What is the current behavior?**
+
+
+
+* **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem** via
+https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
+
+
+
+* **What is the expected behavior?**
+
+
+
+* **What is the motivation / use case for changing the behavior?**
+
+
+
+* **Please tell us about your environment:**
+  
+  - Version: 2.0.0-beta.X
+  - Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
+  - Language: [all | TypeScript X.X | ES6/7 | ES5 | Dart]
+
+
+* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
