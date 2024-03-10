@@ -8,40 +8,32 @@ assignees: ''
 
 ---
 
-**Note: for support questions, please use stackoverflow**. This repository's issues are reserved for feature requests and bug reports.
+**Note: for support questions, please use Discord**. This repository's issues are reserved for feature requests and bug reports.
 
 * **I'm submitting a ...**
-  - [ ] bug report
-  - [ ] feature request
+  - [ ] app request
   - [ ] support request => Please do not submit support request here, see note at the top of this template.
 
 
-* **Do you want to request a *feature* or report a *bug*?**
+* **What's the name of the application you want to see added to Sandbox?**
 
 
 
-* **What is the current behavior?**
+* **What does the app do?**
 
 
 
-* **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem** via
-https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
+* **What makes the app a goodfit for Sandbox?**
 
 
 
-* **What is the expected behavior?**
+* **Please provide a link to a current, maintained docker image for the application**: 
+
+
+* **Please provide a link to any current docs for the application**: 
 
 
 
-* **What is the motivation / use case for changing the behavior?**
+* **Other information** (e.g. detailed explanation, related applications, links for us to have context, etc)
 
 
-
-* **Please tell us about your environment:**
-  
-  - Version: 2.0.0-beta.X
-  - Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
-  - Language: [all | TypeScript X.X | ES6/7 | ES5 | Dart]
-
-
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
