@@ -147,3 +147,8 @@ wordpress_docker_state: started
 
 # User
 wordpress_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+wordpress_depends_on: "mariadb"
+wordpress_depends_on_delay: "0"
+wordpress_depends_on_healthchecks: "false"

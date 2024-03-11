@@ -165,3 +165,8 @@ invoiceninjav5_docker_restart_policy: unless-stopped
 
 # State
 invoiceninjav5_docker_state: started
+
+# Dependencies
+invoiceninjav5_depends_on: "mariadb"
+invoiceninjav5_depends_on_delay: "0"
+invoiceninjav5_depends_on_healthchecks: "false"

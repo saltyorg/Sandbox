@@ -179,3 +179,8 @@ photoprism_docker_state: started
 
 # User
 photoprism_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+photoprism_depends_on: "mariadb"
+photoprism_depends_on_delay: "0"
+photoprism_depends_on_healthchecks: "false"

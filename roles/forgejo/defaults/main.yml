@@ -137,3 +137,8 @@ forgejo_docker_restart_policy: unless-stopped
 
 # State
 forgejo_docker_state: started
+
+# Dependencies
+forgejo_depends_on: "mariadb"
+forgejo_depends_on_delay: "0"
+forgejo_depends_on_healthchecks: "false"

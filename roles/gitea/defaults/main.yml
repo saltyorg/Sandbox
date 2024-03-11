@@ -150,3 +150,8 @@ gitea_docker_restart_policy: unless-stopped
 
 # State
 gitea_docker_state: started
+
+# Dependencies
+gitea_depends_on: "mariadb"
+gitea_depends_on_delay: "0"
+gitea_depends_on_healthchecks: "false"
