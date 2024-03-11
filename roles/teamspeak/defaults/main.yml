@@ -150,3 +150,8 @@ teamspeak_docker_restart_policy: unless-stopped
 
 # State
 teamspeak_docker_state: started
+
+# Dependencies
+teamspeak_depends_on: "mariadb"
+teamspeak_depends_on_delay: "0"
+teamspeak_depends_on_healthchecks: "false"
