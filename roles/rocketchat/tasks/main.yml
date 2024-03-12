@@ -37,20 +37,20 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-# # this container's job is just to run the command to initialize the replica set.
-# # it will run the command and will later be removed automatically
-# - name: Initialize MongoDB Replica Set
-#   community.docker.docker_container:
-#     name: "rocketchat-mongo-init-replica"
-#     image: "mongo:latest"
-#     command: 'bash -c "for i in `seq 1 30`; do mongo rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
-#     networks:
-#       - name: saltbox
-#     comparisons:
-#       '*': ignore
-#     auto_remove: yes
-#     state: started
-#     pull: true
+# this container's job is just to run the command to initialize the replica set.
+# it will run the command and will later be removed automatically
+- name: Initialize MongoDB Replica Set
+  community.docker.docker_container:
+    name: "rocketchat-mongo-init-replica"
+    image: "mongo:5"
+    command: 'bash -c "for i in `seq 1 30`; do mongo rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
+    networks:
+      - name: saltbox
+    comparisons:
+      '*': ignore
+    auto_remove: yes
+    state: started
+    pull: true
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
