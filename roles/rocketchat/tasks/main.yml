@@ -15,6 +15,26 @@
     mongodb_docker_image_tag: "6"
     mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
 
+- name: MongoDB | Install 'pymongo' Python package (module requirement)
+  ansible.builtin.pip:
+    name:
+      - "pymongo"
+    state: "latest"
+
+- name: MongoDB | Ensure replicaset rs0 exists
+  community.mongodb.mongodb_replicaset:
+    login_host: "rocketchat_db"
+    replica_set: "rs0"
+    members: "localhost:27017"
+    validate: false
+
+- name: MongoDB | Wait for the replicaset to stabilise
+  community.mongodb.mongodb_status:
+    login_host: "rocketchat_db"
+    replica_set: "rs0"
+    poll: 5
+    interval: 10
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
@@ -33,21 +53,6 @@
     group: "65533"
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
-
-# this container's job is just to run the command to initialize the replica set.
-# it will run the command and will later be removed automatically
-- name: Initialize MongoDB Replica Set
-  community.docker.docker_container:
-    name: "rocketchat-mongo-init-replica"
-    image: "mongo:6"
-    command: 'bash -c "for i in `seq 1 30`; do mongosh rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
-    networks:
-      - name: saltbox
-    comparisons:
-      '*': ignore
-    auto_remove: yes
-    state: started
-    pull: true
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
