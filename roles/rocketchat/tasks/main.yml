@@ -12,7 +12,8 @@
     name: mongodb
   vars:
     mongodb_instances: ["rocketchat_db"]
-    mongodb_docker_commands: "mongod --oplogSize 128 --replSet rs0"
+    mongodb_docker_image_tag: "6"
+    mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
@@ -38,8 +39,8 @@
 - name: Initialize MongoDB Replica Set
   community.docker.docker_container:
     name: "rocketchat-mongo-init-replica"
-    image: "mongo:latest"
-    command: 'bash -c "for i in `seq 1 30`; do mongo rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
+    image: "mongo:6"
+    command: 'bash -c "for i in `seq 1 30`; do mongosh rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
     networks:
       - name: saltbox
     comparisons:
