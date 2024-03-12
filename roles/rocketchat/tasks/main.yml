@@ -13,10 +13,7 @@
   vars:
     mongodb_instances: ["rocketchat_db"]
     mongodb_docker_image_tag: "6"
-    mongodb_docker_envs_custom:
-      MONGODB_REPLICA_SET_MODE: "primary"
-      MONGODB_REPLICA_SET_NAME: "rs0"
-      MONGODB_ENABLE_JOURNAL: "true"
+    mongodb_docker_commands: "mongod --oplogSize 128 --replSet rs0"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
