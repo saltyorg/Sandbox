@@ -78,8 +78,8 @@ rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
 rocketchat_docker_envs_default:
   TZ: "{{ tz }}"
   ROOT_URL: "{{ rocketchat_web_url }}"
-  MONGO_URL: "mongodb://rocketchat_db:27017/rocketchat?replicaSet=rs0"
-  MONGO_OPLOG_URL: "mongodb://rocketchat_db:27017/local?replicaSet=rs0"
+  MONGO_URL: "mongodb://rocketchat_db:27017/rocketchat?replicaSet=rs0&directConnection=true"
+  MONGO_OPLOG_URL: "mongodb://rocketchat_db:27017/local?replicaSet=rs0&directConnection=true"
   DEPLOY_METHOD: "docker"
 rocketchat_docker_envs_custom: {}
 rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
@@ -88,7 +88,8 @@ rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
 # Commands
 rocketchat_docker_commands_default: bash -c 'for i in `seq 1 30`; do node main.js && s=$$? && break || s=$$?; echo "Tried $$i times. Waiting 5 secs..."; sleep 5; done; (exit $$s)'
 rocketchat_docker_commands_custom: []
-rocketchat_docker_commands: "{{ rocketchat_docker_commands_default }}"
+rocketchat_docker_commands: "{{ rocketchat_docker_commands_default
+                                + rocketchat_docker_commands_custom }}"
 
 # Volumes
 rocketchat_docker_volumes_default:
