@@ -7,23 +7,12 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: MongoDB Role
-  ansible.builtin.include_role:
-    name: mongodb
-  vars:
-    mongodb_instances: ["rocketchat_db"]
-    mongodb_docker_image_tag: "6"
-    mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
-
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
     dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.file:
@@ -34,20 +23,26 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
-# this container's job is just to run the command to initialize the replica set.
-# it will run the command and will later be removed automatically
-- name: Initialize MongoDB Replica Set
-  community.docker.docker_container:
-    name: "rocketchat-mongo-init-replica"
-    image: "mongo:6"
-    command: 'bash -c "for i in `seq 1 30`; do mongosh rocketchat_db/rocketchat --eval \"rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''localhost:27017'' } ]})\" && s=$$? && break || s=$$?; echo \"Tried $$i times. Waiting 5 secs...\"; sleep 5; done; (exit $$s)"'
-    networks:
-      - name: saltbox
-    comparisons:
-      '*': ignore
-    auto_remove: yes
-    state: started
-    pull: true
+- name: "RocketChat | Import init-mongo.js"
+  ansible.builtin.template:
+    src: init-mongo.js
+    dest: '{{ rocketchat_paths_location }}/init-mongo.js'
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+    force: yes
+
+- name: MongoDB Role
+  ansible.builtin.include_role:
+    name: mongodb
+  vars:
+    mongodb_instances: ["rocketchat_db"]
+    mongodb_docker_image_tag: "6"
+    mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
+    mongodb_docker_volumes_custom: ["{{ rocketchat_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
