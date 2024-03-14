@@ -34,8 +34,8 @@
 - name: Set Python version
   ansible.builtin.set_fact:
     python_plexlibrary_python: "{{ 'python3'
-                             if ansible_distribution_version is version('20.04', '==')
-                             else 'python3.8' }}"
+                                if ansible_distribution_version is version('20.04', '==')
+                                else 'python3.8' }}"
 
 - name: "Execute Python role"
   ansible.builtin.include_role:
@@ -120,15 +120,20 @@
 
 - name: "Copy helper scripts to '/opt/python-plexlibrary' folder"
   ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/opt/python-plexlibrary/{{ item }}"
+    src: "plexlibrary.sh"
+    dest: "/opt/python-plexlibrary/plexlibrary.sh"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
     force: true
-  loop:
-    - "plexlibrary.sh"
-    - "plexlibrary-cron-helper.sh"
+
+- name: "Import 'plexlibrary-cron-helper.sh'"
+  ansible.builtin.template:
+    src: plexlibrary-cron-helper.sh.j2
+    dest: "/opt/python-plexlibrary/plexlibrary-cron-helper.sh"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
 
 - name: "Create '/usr/local/bin' symlink"
   ansible.builtin.file:
