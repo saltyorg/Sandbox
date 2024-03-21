@@ -33,14 +33,14 @@
     dest: "/opt/telegraf/telegraf.conf"
     owner: "{{ uid }}"
     group: "{{ gid }}"
-    mode: "0775"
+    mode: "0664"
   when: not telegraf_conf.stat.exists
 
 - name: Create and start telegraf container
   community.docker.docker_container:
     name: telegraf
     image: "telegraf"
-    pull: yes
+    pull: true
     command_handling: compatibility
     container_default_behavior: compatibility
     default_host_ip: ""

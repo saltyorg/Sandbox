@@ -34,8 +34,8 @@
 - name: Set Python version
   ansible.builtin.set_fact:
     python_plexlibrary_python: "{{ 'python3'
-                             if ansible_distribution_version is version('20.04', '==')
-                             else 'python3.8' }}"
+                                if ansible_distribution_version is version('20.04', '==')
+                                else 'python3.8' }}"
 
 - name: "Execute Python role"
   ansible.builtin.include_role:
@@ -55,11 +55,37 @@
     state: absent
   when: python_plexlibrary_venv_folder.stat.exists
 
+- name: Create venv
+  ansible.builtin.command:
+    cmd: "{{ python_plexlibrary_python }} -m venv /opt/python-plexlibrary/venv"
+  args:
+    creates: "/opt/python-plexlibrary/venv"
+  become: true
+  become_user: "{{ user.name }}"
+
 - name: Install pip requirements
   ansible.builtin.pip:
     requirements: "/opt/python-plexlibrary/requirements.txt"
-    virtualenv_python: "{{ python_plexlibrary_python }}"
     virtualenv: "/opt/python-plexlibrary/venv"
+    virtualenv_command: "/opt/python-plexlibrary/venv/bin/python3 -m pip"
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Uninstall pip trakt
+  ansible.builtin.pip:
+    name: trakt
+    state: absent
+    virtualenv: "/opt/python-plexlibrary/venv"
+    virtualenv_command: "/opt/python-plexlibrary/venv/bin/python3 -m pip"
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Install pip pytrakt
+  ansible.builtin.pip:
+    name: pytrakt
+    state: present
+    virtualenv: "/opt/python-plexlibrary/venv"
+    virtualenv_command: "/opt/python-plexlibrary/venv/bin/python3 -m pip"
   become: true
   become_user: "{{ user.name }}"
 
@@ -85,7 +111,7 @@
     dest: "/opt/python-plexlibrary/config.yml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0775"
+    mode: "0664"
     force: false
   when: not python_plexlibrary_config.stat.exists
 
@@ -119,8 +145,8 @@
     - "recipes/*.yml"
 
 - name: "Copy helper scripts to '/opt/python-plexlibrary' folder"
-  ansible.builtin.copy:
-    src: "{{ item }}"
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
     dest: "/opt/python-plexlibrary/{{ item }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -147,11 +173,3 @@
     - "plexlibrary.sh"
     - "plexlibrary-cron-helper.sh"
     - "*.log"
-
-- name: "Schedule cron task for daily update."
-  ansible.builtin.cron:
-    name: "Python-PlexLibrary"
-    user: "{{ user.name }}"
-    job: "/opt/python-plexlibrary/plexlibrary-cron-helper.sh"
-    special_time: daily
-    state: present

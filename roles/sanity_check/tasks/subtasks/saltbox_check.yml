@@ -7,12 +7,12 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: "Check if 'saltbox' folder is present"
+- name: "Saltbox | Check if 'saltbox' folder is present"
   ansible.builtin.stat:
     path: "/srv/git/saltbox"
   register: saltbox_path
 
-- name: "Fail when 'saltbox' folder does not exist"
+- name: "Saltbox | Fail when 'saltbox' folder does not exist"
   ansible.builtin.fail:
     msg: "Saltbox installation is required before running the Sandbox roles."
   when: not saltbox_path.stat.exists

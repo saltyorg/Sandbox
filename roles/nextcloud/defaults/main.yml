@@ -14,6 +14,14 @@
 nextcloud_name: nextcloud
 
 ################################
+# Settings
+################################
+
+nextcloud_data_directory: "/var/www/html/data"
+nextcloud_php_memory_limit: "512M"
+nextcloud_php_upload_limit: "512M"
+
+################################
 # Paths
 ################################
 
@@ -52,14 +60,6 @@ nextcloud_traefik_certresolver: "{{ traefik_default_certresolver }}"
 nextcloud_traefik_enabled: true
 nextcloud_traefik_api_enabled: false
 nextcloud_traefik_api_endpoint: ""
-
-################################
-# Settings
-################################
-
-nextcloud_data_directory: "/var/www/html/data"
-nextcloud_php_memory_limit: "512M"
-nextcloud_php_upload_limit: "512M"
 
 ################################
 # Docker
@@ -166,3 +166,8 @@ nextcloud_docker_state: started
 
 # User
 nextcloud_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+nextcloud_depends_on: "mariadb"
+nextcloud_depends_on_delay: "0"
+nextcloud_depends_on_healthchecks: "false"

@@ -161,3 +161,8 @@ unifi_network_application_docker_restart_policy: unless-stopped
 
 # State
 unifi_network_application_docker_state: started
+
+# Dependencies
+unifi_network_application_depends_on: "{{ unifi_network_application_name }}-mongo"
+unifi_network_application_depends_on_delay: "0"
+unifi_network_application_depends_on_healthchecks: "false"

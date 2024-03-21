@@ -14,6 +14,13 @@
 vnstat_name: vnstat
 
 ################################
+# Settings
+################################
+
+vnstat_page_refresh: "0"
+vnstat_rate_unit: "1" # Used traffic rate unit, 0: bytes, 1: bits
+
+################################
 # Web
 ################################
 
@@ -43,13 +50,6 @@ vnstat_traefik_certresolver: "{{ traefik_default_certresolver }}"
 vnstat_traefik_enabled: true
 vnstat_traefik_api_enabled: false
 vnstat_traefik_api_endpoint: ""
-
-################################
-# Settings
-################################
-
-vnstat_page_refresh: "0"
-vnstat_rate_unit: "1" # Used traffic rate unit, 0: bytes, 1: bits
 
 ################################
 # Docker
