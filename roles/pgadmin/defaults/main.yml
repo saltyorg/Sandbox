@@ -17,6 +17,8 @@ pgadmin_name: pgadmin
 # Paths
 ################################
 
+pgadmin_paths_owner: "5050"
+pgadmin_paths_group: "5050"
 pgadmin_paths_folder: "{{ pgadmin_name }}"
 pgadmin_paths_location: "{{ server_appdata_path }}/{{ pgadmin_paths_folder }}"
 pgadmin_paths_folders_list:
