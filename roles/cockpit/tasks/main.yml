@@ -1,0 +1,75 @@
+#########################################################################
+# Title:         Sandbox: Cockpit Role                                  #
+# Author(s):     CHAIR/Raneydazed                                       #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Check if 'cockpit_socket' exists
+  ansible.builtin.stat:
+    path: "{{ cockpit_paths_socket_location }}"
+  register: cockpit_socket
+
+- name: Stop existing 'cockpit_socket'
+  ansible.builtin.systemd:
+    state: stopped
+    name: cockpit.socket
+  when: cockpit_socket.stat.exists
+
+- name: Check if 'cockpit_service' exists
+  ansible.builtin.stat:
+    path: "{{ cockpit_paths_service_location }}"
+  register: cockpit_service
+
+- name: Stop existing 'cockpit_service'
+  ansible.builtin.systemd:
+    state: stopped
+    name: cockpit.service
+  when: cockpit_service.stat.exists
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Import 'cockpit_traefik' Traefik Template
+  ansible.builtin.template:
+    src: cockpit.yml.j2
+    dest: "{{ cockpit_paths_traefik_location }}"
+    mode: "664"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    force: true
+
+- name: "Import Systemd Tasks"
+  ansible.builtin.include_tasks: "subtasks/systemd.yml"
+
+- name: "Import Package Tasks"
+  ansible.builtin.include_tasks: "subtasks/package.yml"
+
+- name: "Import VM Tasks"
+  ansible.builtin.include_tasks: "subtasks/vm.yml"
+  when: cockpit_vm_enabled
+
+- name: Load 'cockpit_socket'
+  ansible.builtin.systemd:
+    name: cockpit.socket
+    state: started
+    enabled: yes
+    daemon_reload: true
+  when: not continuous_integration
+
+- name: Load 'cockpit_service'
+  ansible.builtin.systemd:
+    name: cockpit.service
+    state: started
+    enabled: yes
+    daemon_reload: true
+  when: not continuous_integration
