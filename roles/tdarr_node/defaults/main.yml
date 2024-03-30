@@ -20,8 +20,6 @@ tdarr_node_name: tdarr_node
 tdarr_node_server_ip: "tdarr"
 tdarr_node_server_port: "8266"
 tdarr_node_node_id: "MainNode"
-tdarr_node_node_ip: "0.0.0.0"
-tdarr_node_node_port: "8267"
 tdarr_node_external: false
 
 ################################
@@ -50,9 +48,8 @@ tdarr_node_docker_envs_default:
   TZ: "{{ tz }}"
   serverIP: "{{ tdarr_node_server_ip }}"
   serverPort: "{{ tdarr_node_server_port }}"
-  nodeID: "{{ tdarr_node_node_id }}"
-  nodeIP: "{{ tdarr_node_node_ip }}"
-  nodePort: "{{ tdarr_node_node_port }}"
+  nodeName: "{{ tdarr_node_node_id }}"
+  inContainer: "true"
   NVIDIA_DRIVER_CAPABILITIES: "{{ 'compute,video,utility' if (gpu.nvidia) | default(false) else omit }}"
   NVIDIA_VISIBLE_DEVICES: "{{ 'all' if (gpu.nvidia) | default(false) else omit }}"
 tdarr_node_docker_envs_custom: {}
