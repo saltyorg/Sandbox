@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-tdarr_node_name: tdarr_node
+tdarr_node_name: tdarr-node
 
 ################################
 # Settings
