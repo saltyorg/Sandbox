@@ -41,6 +41,12 @@
     path: "{{ cockpit_paths_traefik_location }}"
   register: cockpit_traefik
 
+- name: Remove cockpit_traefik template if Traefik is not enabled
+  ansible.builtin.file:
+    path: "{{ cockpit_paths_traefik_location }}"
+    state: absent
+  when: not traefik_enabled
+
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
