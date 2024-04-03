@@ -19,10 +19,12 @@ SCRIPT_PATH='/opt/python-plexlibrary/plexlibrary/plexlibrary.py'
 echo $(date) | tee -a $LOG_PATH
 echo "" | tee -a $LOG_PATH
 
+cd /opt/python-plexlibrary
+
 for file in $RECIPES_PATH/*
 do
     if [ -f "${file}" ]; then
-        $PYTHON_PATH $SCRIPT_PATH $(basename "$file" .yml) | tee -a $LOG_PATH
+        $PYTHON_PATH plexlibrary $(basename "$file" .yml) | tee -a $LOG_PATH
         echo "" | tee -a $LOG_PATH
     fi
 done

@@ -144,3 +144,8 @@ bookstack_docker_restart_policy: unless-stopped
 
 # State
 bookstack_docker_state: started
+
+# Dependencies
+bookstack_depends_on: "mariadb"
+bookstack_depends_on_delay: "0"
+bookstack_depends_on_healthchecks: "false"

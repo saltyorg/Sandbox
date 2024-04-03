@@ -180,3 +180,8 @@ paperless_ngx_docker_restart_policy: unless-stopped
 
 # State
 paperless_ngx_docker_state: started
+
+# Dependencies
+paperless_ngx_depends_on: "{{ paperless_ngx_postgres_name }},{{ paperless_ngx_name }}-redis"
+paperless_ngx_depends_on_delay: "0"
+paperless_ngx_depends_on_healthchecks: "false"

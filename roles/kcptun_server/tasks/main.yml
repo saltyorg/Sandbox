@@ -44,7 +44,7 @@
   community.docker.docker_container:
     name: kcptun-server
     image: horjulf/kcptun:latest
-    pull: yes
+    pull: true
     env:
       TZ: "{{ tz }}"
     volumes:

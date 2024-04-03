@@ -133,7 +133,7 @@ notifiarr_docker_labels: "{{ docker_labels_common
                              | combine(notifiarr_docker_labels_custom) }}"
 
 # Hostname
-notifiarr_docker_hostname: "{{ notifiarr_name }}-{{ traefik_host }}"
+notifiarr_docker_hostname: "{{ traefik_host }}"
 
 # Networks
 notifiarr_docker_networks_alias: "{{ notifiarr_name }}"

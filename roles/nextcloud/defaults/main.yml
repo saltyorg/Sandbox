@@ -166,3 +166,8 @@ nextcloud_docker_state: started
 
 # User
 nextcloud_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+nextcloud_depends_on: "mariadb"
+nextcloud_depends_on_delay: "0"
+nextcloud_depends_on_healthchecks: "false"

@@ -150,3 +150,8 @@ uptime_kuma_docker_restart_policy: unless-stopped
 
 # State
 uptime_kuma_docker_state: started
+
+# Dependencies
+uptime_kuma_depends_on: "{{ uptime_kuma_name }}-docker-socket-proxy"
+uptime_kuma_depends_on_delay: "0"
+uptime_kuma_depends_on_healthchecks: "false"

@@ -10,6 +10,8 @@ offline: False
 
 mock_modules:
   - find_open_port
+  - saltbox_facts
+  - qbittorrent_passwd
 
 mock_roles:
   - pre_tasks

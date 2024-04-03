@@ -157,3 +157,8 @@ linkwarden_docker_restart_policy: unless-stopped
 
 # State
 linkwarden_docker_state: started
+
+# Dependencies
+linkwarden_depends_on: "{{ linkwarden_postgres_name }}"
+linkwarden_depends_on_delay: "0"
+linkwarden_depends_on_healthchecks: "false"

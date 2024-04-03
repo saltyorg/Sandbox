@@ -150,3 +150,8 @@ your_spotify_docker_restart_policy: unless-stopped
 
 # State
 your_spotify_docker_state: started
+
+# Dependencies
+your_spotify_depends_on: "your-spotify-db"
+your_spotify_depends_on_delay: "0"
+your_spotify_depends_on_healthchecks: "false"

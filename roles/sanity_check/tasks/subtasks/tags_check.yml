@@ -7,21 +7,40 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-# Source: http://blog.leifmadsen.com/blog/2017/01/04/finding-available-ansible-tags-in-playbooks-and-roles/
-- name: "Get all available tags"
-  ansible.builtin.shell: |
-    ansible-playbook sandbox.yml --list-tags 2>&1 | grep "TASK TAGS" \
-      | cut -d":" -f2 | awk '{sub(/\[/, "")sub(/\]/, "")}1' | sed -e 's/,//g' | xargs -n 1 | sort -u
-  register: available_ansible_tags
-  changed_when: false
+- name: Ansible Tags | Check if cache file exists
+  ansible.builtin.stat:
+    path: /srv/git/sb/cache.json
+  register: cache_file_stat
 
-- name: "List available tags"
-  ansible.builtin.debug:
-    msg: "{{ available_ansible_tags.stdout_lines | join(', ') }}"
+- name: Ansible Tags | Load tags from cache if available
+  when: cache_file_stat.stat.exists and (sanity_check_use_cache | bool)
+  block:
+    - name: Ansible Tags | Load tags from cache if available
+      ansible.builtin.set_fact:
+        loaded_tags: "{{ (lookup('file', '/srv/git/sb/cache.json') | from_json)['/opt/sandbox']['tags'] | default([]) + sanity_check_ansible_tags_extra_sandbox }}"
 
-- name: "Ensure valid tags were provided."
+  rescue:
+    - name: Ansible Tags | Delete '/srv/git/sb/cache.json'
+      ansible.builtin.file:
+        path: "/srv/git/sb/cache.json"
+        state: absent
+
+- name: Ansible Tags | Load tags without cache
+  when: (loaded_tags is defined and ((loaded_tags | length) == (sanity_check_ansible_tags_extra | length))) or loaded_tags is undefined
+  block:
+    - name: Ansible Tags | Get all available Ansible tags if cache is not available
+      ansible.builtin.shell: "{{ sanity_check_ansible_tags_lookup_command_sandbox }}"
+      register: available_ansible_tags
+      changed_when: false
+
+    - name: Ansible Tags | Set loaded tags from command if cache is not available
+      ansible.builtin.set_fact:
+        loaded_tags: "{{ available_ansible_tags.stdout_lines }}"
+
+- name: Ansible Tags | Ensure valid Ansible tag(s) were provided
   ansible.builtin.assert:
     that:
-      - item in available_ansible_tags.stdout_lines
-    msg: "You must supply valid tags.')"
+      - item in loaded_tags
+    msg: "You must supply valid tags."
+    quiet: true
   with_items: "{{ ansible_run_tags }}"
