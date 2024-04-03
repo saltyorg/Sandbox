@@ -45,7 +45,7 @@
   ansible.builtin.file:
     path: "{{ cockpit_paths_traefik_location }}"
     state: absent
-  when: not traefik_enabled
+  when: not cockpit_traefik_enabled
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
