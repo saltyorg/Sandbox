@@ -47,6 +47,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     force: true
+  when: cockpit_traefik_enabled
 
 - name: "Import Systemd Tasks"
   ansible.builtin.include_tasks: "subtasks/systemd.yml"
