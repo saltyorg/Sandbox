@@ -13,6 +13,7 @@
     dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+  when: not cockpit_traefik_enabled
 
 - name: Check if 'cockpit_socket' exists
   ansible.builtin.stat:
@@ -41,7 +42,7 @@
     path: "{{ cockpit_paths_traefik_location }}"
   register: cockpit_traefik
 
-- name: Remove cockpit_traefik template if Traefik is not enabled
+- name: Remove cockpit_traefik template
   ansible.builtin.file:
     path: "{{ cockpit_paths_traefik_location }}"
     state: absent
