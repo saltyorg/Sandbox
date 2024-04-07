@@ -154,6 +154,6 @@ tandoor_docker_restart_policy: unless-stopped
 tandoor_docker_state: started
 
 # Dependencies
-tandoor_depends_on: "mariadb"
+tandoor_depends_on: "postgres"
 tandoor_depends_on_delay: "0"
 tandoor_depends_on_healthchecks: "false"
