@@ -1,0 +1,13 @@
+# /etc/systemd/system/cockpit.service.d/override.conf
+#########################################################################
+# Title:         Sandbox: Cockpit Override                              #
+# Author(s):     CHAIR/Raneydazed                                       #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+
+[Unit]
+After={{ cockpit_service_after }}
+Requires={{ cockpit_service_after }}
