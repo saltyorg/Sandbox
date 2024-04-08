@@ -1,0 +1,41 @@
+#########################################################################
+# Title:         Sandbox: Cockpit | Package Tasks                       #
+# Author(s):     CHAIR/Raneydazed                                       #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Gather package facts
+  ansible.builtin.package_facts:
+
+- name: Package | Release 'cockpit' from hold
+  ansible.builtin.dpkg_selections:
+    name: "cockpit"
+    selection: install
+  when: ("cockpit" in ansible_facts.packages)
+
+- name: Package | Install 'cockpit' from backports
+  ansible.builtin.apt:
+    name: "cockpit"
+    default_release: "{{ ansible_distribution_release }}-backports"
+    state: latest
+    update_cache: true
+
+- name: Package | Put 'cockpit' into hold
+  ansible.builtin.dpkg_selections:
+    name: "cockpit"
+    selection: hold
+  when: put_cockpit_dpkg_into_hold
+
+- name: Package | Get 'cockpit' version
+  ansible.builtin.command: "cockpit-bridge --version"
+  register: cockpit_version
+  ignore_errors: true
+  changed_when: false
+
+- name: Package | Display 'cockpit' version
+  ansible.builtin.debug:
+    msg: "Cockpit version {{ cockpit_version.stdout.split()[1] }} installed."
+  when: cockpit_version is defined and cockpit_version.stdout is defined

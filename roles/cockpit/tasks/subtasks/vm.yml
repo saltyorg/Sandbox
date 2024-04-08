@@ -1,0 +1,56 @@
+#########################################################################
+# Title:         Sandbox: Cockpit | VM Tasks                            #
+# Author(s):     CHAIR/Raneydazed                                       #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: VM | Gather package facts
+  ansible.builtin.package_facts:
+
+- name: VM | Release 'cockpit-machines' from hold
+  ansible.builtin.dpkg_selections:
+    name: "cockpit-machines"
+    selection: install
+  when: ("cockpit-machines" in ansible_facts.packages)
+
+- name: VM | Install 'cockpit-machines' from backports
+  ansible.builtin.apt:
+    name: "cockpit-machines"
+    default_release: "{{ ansible_distribution_release }}-backports"
+    state: latest
+    update_cache: true
+
+- name: VM | Put 'cockpit-machines' into hold
+  ansible.builtin.dpkg_selections:
+    name: "cockpit-machines"
+    selection: hold
+  when: put_cockpit_machines_dpkg_into_hold
+
+- name: VM | Install necessary packages for Cockpit Machines
+  ansible.builtin.package:
+    name:
+      - qemu
+      - qemu-kvm
+      - libvirt-clients
+      - libvirt-daemon-system
+      - virtinst
+      - bridge-utils
+      - cracklib-runtime
+      - qemu-utils
+      - dnsmasq
+    state: latest
+    update_cache: true
+
+- name: VM | Check if default network in libvirt is active
+  ansible.builtin.command:
+    cmd: virsh net-info default
+  register: default_network_info
+  changed_when: false
+
+- name: VM | Start default network in libvirt
+  ansible.builtin.command:
+    cmd: virsh net-start default
+  when: not (default_network_info.stdout | regex_search('(Active:\\s*yes)', ignorecase=True))
