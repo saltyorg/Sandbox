@@ -8,7 +8,7 @@ on:
       - '.gitignore'
       - 'roles/settings/**'
     branches-ignore:
-      - 'dependabot/*'
+      - 'dependabot/**'
   pull_request:
     paths-ignore:
       - '*.md'
