@@ -97,8 +97,6 @@ tdarr_docker_envs_default:
   serverPort: "{{ tdarr_server_port }}"
   internalNode: "true"
   inContainer: "true"
-  NVIDIA_DRIVER_CAPABILITIES: "{{ 'compute,video,utility' if (gpu.nvidia) | default(false) else omit }}"
-  NVIDIA_VISIBLE_DEVICES: "{{ 'all' if (gpu.nvidia) | default(false) else omit }}"
 tdarr_docker_envs_custom: {}
 tdarr_docker_envs: "{{ tdarr_docker_envs_default
                        | combine(tdarr_docker_envs_custom) }}"
