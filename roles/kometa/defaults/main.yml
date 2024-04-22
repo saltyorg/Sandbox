@@ -53,7 +53,7 @@ kometa_docker_ports: "{{ lookup('vars', kometa_name + '_docker_ports_defaults', 
 kometa_docker_envs_default:
   TZ: "{{ tz }}"
   LOG_LEVEL: "DEBUG"
-  KOMETA_TIME: "{{ kometa_time }}"
+  KOMETA_TIME: "{{ lookup('vars', kometa_name + '_time', default=kometa_time) }}"
 kometa_docker_envs_custom: {}
 kometa_docker_envs: "{{ lookup('vars', kometa_name + '_docker_envs_default', default=kometa_docker_envs_default)
                      | combine(lookup('vars', kometa_name + '_docker_envs_custom', default=kometa_docker_envs_custom)) }}"
