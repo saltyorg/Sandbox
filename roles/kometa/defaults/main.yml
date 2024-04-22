@@ -33,7 +33,7 @@ kometa_docker_container: "{{ kometa_name }}"
 # Image
 kometa_docker_image_pull: true
 kometa_docker_image_tag: "latest"
-kometa_docker_image: "kometa-team/kometa:{{ kometa_docker_image_tag }}"
+kometa_docker_image: "kometateam/kometa:{{ kometa_docker_image_tag }}"
 
 # Ports
 kometa_docker_ports_defaults: []
