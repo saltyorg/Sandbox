@@ -14,6 +14,12 @@
 kometa_name: kometa
 
 ################################
+# Settings
+################################
+
+kometa_time: "03:00"
+
+################################
 # Paths
 ################################
 
@@ -45,7 +51,7 @@ kometa_docker_ports: "{{ kometa_docker_ports_defaults
 kometa_docker_envs_default:
   TZ: "{{ tz }}"
   LOG_LEVEL: "DEBUG"
-  KOMETA_TIME: "{{ kometa.time }}"
+  KOMETA_TIME: "{{ kometa_time }}"
 kometa_docker_envs_custom: {}
 kometa_docker_envs: "{{ kometa_docker_envs_default
                         | combine(kometa_docker_envs_custom) }}"
