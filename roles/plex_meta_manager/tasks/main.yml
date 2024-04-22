@@ -1,0 +1,17 @@
+#########################################################################
+# Title:         Sandbox: Plex Meta Manager                             #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "PMM to Kometa Migration"
+  ansible.builtin.include_tasks: migration.yml
+  when: not (continuous_integration) and ('pmm-kometa-migration' in ansible_run_tags)
+
+- name: "Fail with deprecation warning"
+  ansible.builtin.fail:
+    msg: "The 'plex-meta-manager' role is deprecated in favor of the 'kometa' role. Run 'sb install sandbox-pmm-kometa-migration' to migrate the appdata from a default Plex Meta Manager install to the default appdata path for Kometa."
+  when: not (continuous_integration and 'pmm-kometa-migration' in ansible_run_tags)
