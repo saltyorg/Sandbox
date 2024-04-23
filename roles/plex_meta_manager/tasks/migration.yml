@@ -17,7 +17,7 @@
     path: "/opt/plex-meta-manager"
   register: opt_pmm
 
-- name: "Check if '/opt/{{ plex_meta_manager_name }}' exists"
+- name: "Check if overridden path exists"
   ansible.builtin.stat:
     path: "/opt/{{ plex_meta_manager_name }}"
   register: opt_pmm_name
@@ -31,7 +31,6 @@
 - name: Migrate PMM appdata
   when: (opt_pmm.stat.exists or opt_pmm_name.stat.exists)
   block:
-
     - name: Relocate '/opt/kometa' to '/opt/kometa_bak'
       ansible.builtin.shell: "mv /opt/kometa /opt/kometa_bak"
       register: kometa_relocate
