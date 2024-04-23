@@ -21,7 +21,7 @@
   ansible.builtin.stat:
     path: "/opt/{{ plex_meta_manager_name }}"
   register: opt_pmm_name
-  when: (plex_meta_manager_name | length > 0)
+  when: (plex_meta_manager_name is defined and plex_meta_manager_name | length > 0)
 
 - name: "Check if '/opt/kometa' exists"
   ansible.builtin.stat:
@@ -44,4 +44,4 @@
     - name: Relocate '/opt/{{ plex_meta_manager_name }}' to '/opt/kometa'
       ansible.builtin.shell: "mv /opt/{{ plex_meta_manager_name }} /opt/kometa"
       register: pmm_name_relocate
-      when: opt_pmm_name.stat.exists
+      when: opt_pmm_name is defined and opt_pmm_name.stat.exists
