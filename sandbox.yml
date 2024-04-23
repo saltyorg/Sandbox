@@ -88,6 +88,7 @@
     - { role: kcptun_server, tags: ['kcptun-server'] }
     - { role: kitana, tags: ['kitana'] }
     - { role: koel, tags: ['koel'] }
+    - { role: kometa, tags: ['kometa'] }
     - { role: komga, tags: ['komga'] }
     - { role: krusader, tags: ['krusader'] }
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
@@ -122,7 +123,7 @@
     - { role: photoprism, tags: ['photoprism'] }
     - { role: phpmyadmin, tags: ['phpmyadmin'] }
     - { role: plex_dupefinder, tags: ['plex-dupefinder'] }
-    - { role: plex_meta_manager, tags: ['plex-meta-manager'] }
+    - { role: plex_meta_manager, tags: ['plex-meta-manager', 'pmm-kometa-migration'] }
     - { role: plex_auto_languages, tags: ['plex-auto-languages'] }
     - { role: plex_patrol, tags: ['plex-patrol'] }
     - { role: plex_utills, tags: ['plex-utills'] }
