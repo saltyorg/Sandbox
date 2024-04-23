@@ -29,7 +29,7 @@
   register: opt_kometa
 
 - name: Migrate PMM appdata
-  when: or (opt_pmm.stat.exists opt_pmm_name.stat.exists)
+  when: (opt_pmm.stat.exists or opt_pmm_name.stat.exists)
   block:
 
     - name: Relocate '/opt/kometa' to '/opt/kometa_bak'
