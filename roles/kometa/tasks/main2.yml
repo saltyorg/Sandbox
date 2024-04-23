@@ -1,0 +1,50 @@
+#########################################################################
+# Title:         Sandbox: Kometa                                        #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Remove legacy Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "plex-meta-manager"
+  when: kometa_name == 'kometa'
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Download config.yml.template
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/Kometa-Team/Kometa/master/config/config.yml.template
+    dest: "{{ kometa_paths_location }}/config.yml.template"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0664"
+    force: yes
+    validate_certs: no
+  ignore_errors: true
+
+- name: "Checking if 'config.yml' exists in {{ kometa_paths_location }}"
+  ansible.builtin.stat:
+    path: "{{ kometa_paths_location }}/config.yml"
+  register: kometa_config
+
+- name: "Fail when 'config.yml' is not present"
+  ansible.builtin.fail:
+    msg: "You need to setup your config file. https://kometa.wiki/en/latest/config/overview/"
+  when: (not kometa_config.stat.exists) and (not continuous_integration)
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Alert user to make and verify the config and auth.
+  ansible.builtin.debug:
+    msg:
+      - "You should attempt a manual run first to ensure the config is working and to use oAuth for Trakt config etc. To do this run the below command"
+      - "docker run --rm -it --network=saltbox -u '{{ uid }}:{{ gid }}' -e 'TZ={{ tz }}' -v {{ kometa_paths_location }}:/config {{ kometa_docker_image }} --run"

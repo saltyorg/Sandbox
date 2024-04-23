@@ -1,0 +1,128 @@
+##########################################################################
+# Title:         Sandbox: Kometa | Default Variables                     #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+kometa_instances: ["kometa"]
+
+################################
+# Settings
+################################
+
+kometa_time: "03:00"
+
+################################
+# Paths
+################################
+
+kometa_paths_folder: "{{ kometa_name }}"
+kometa_paths_location: "{{ server_appdata_path }}/{{ kometa_paths_folder }}"
+kometa_paths_folders_list:
+  - "{{ kometa_paths_location }}"
+kometa_paths_recursive: true
+
+################################
+# Docker
+################################
+
+# Container
+kometa_docker_container: "{{ kometa_name }}"
+
+# Image
+kometa_docker_image_pull: true
+kometa_docker_image_repo: "kometateam/kometa"
+kometa_docker_image_tag: "latest"
+kometa_docker_image: "{{ lookup('vars', kometa_name + '_docker_image_repo', default=kometa_docker_image_repo)
+                      + ':' + lookup('vars', kometa_name + '_docker_image_tag', default=kometa_docker_image_tag) }}"
+
+# Ports
+kometa_docker_ports_defaults: []
+kometa_docker_ports_custom: []
+kometa_docker_ports: "{{ lookup('vars', kometa_name + '_docker_ports_defaults', default=kometa_docker_ports_defaults)
+                      + lookup('vars', kometa_name + '_docker_ports_custom', default=kometa_docker_ports_custom) }}"
+
+# Envs
+kometa_docker_envs_default:
+  TZ: "{{ tz }}"
+  LOG_LEVEL: "DEBUG"
+  KOMETA_TIME: "{{ lookup('vars', kometa_name + '_time', default=kometa_time) }}"
+kometa_docker_envs_custom: {}
+kometa_docker_envs: "{{ lookup('vars', kometa_name + '_docker_envs_default', default=kometa_docker_envs_default)
+                     | combine(lookup('vars', kometa_name + '_docker_envs_custom', default=kometa_docker_envs_custom)) }}"
+
+# Commands
+kometa_docker_commands_default: []
+kometa_docker_commands_custom: []
+kometa_docker_commands: "{{ lookup('vars', kometa_name + '_docker_commands_default', default=kometa_docker_commands_default)
+                         + lookup('vars', kometa_name + '_docker_commands_custom', default=kometa_docker_commands_custom) }}"
+
+# Volumes
+kometa_docker_volumes_default:
+  - "{{ kometa_paths_location }}:/config"
+kometa_docker_volumes_custom: []
+kometa_docker_volumes: "{{ lookup('vars', kometa_name + '_docker_volumes_default', default=kometa_docker_volumes_default)
+                        + lookup('vars', kometa_name + '_docker_volumes_custom', default=kometa_docker_volumes_custom) }}"
+
+# Devices
+kometa_docker_devices_default: []
+kometa_docker_devices_custom: []
+kometa_docker_devices: "{{ lookup('vars', kometa_name + '_docker_devices_default', default=kometa_docker_devices_default)
+                        + lookup('vars', kometa_name + '_docker_devices_custom', default=kometa_docker_devices_custom) }}"
+
+# Hosts
+kometa_docker_hosts_default: []
+kometa_docker_hosts_custom: []
+kometa_docker_hosts: "{{ docker_hosts_common
+                      | combine(lookup('vars', kometa_name + '_docker_hosts_default', default=kometa_docker_hosts_default))
+                      | combine(lookup('vars', kometa_name + '_docker_hosts_custom', default=kometa_docker_hosts_custom)) }}"
+
+# Labels
+kometa_docker_labels_default: {}
+kometa_docker_labels_custom: {}
+kometa_docker_labels: "{{ docker_labels_common
+                       | combine(lookup('vars', kometa_name + '_docker_labels_default', default=kometa_docker_labels_default))
+                       | combine(lookup('vars', kometa_name + '_docker_labels_custom', default=kometa_docker_labels_custom)) }}"
+
+# Hostname
+kometa_docker_hostname: "{{ kometa_name }}"
+
+# Network Mode
+kometa_docker_network_mode_default: "{{ docker_networks_name_common }}"
+kometa_docker_network_mode: "{{ lookup('vars', kometa_name + '_docker_network_mode_default', default=kometa_docker_network_mode_default) }}"
+
+# Networks
+kometa_docker_networks_alias: "{{ kometa_name }}"
+kometa_docker_networks_default: []
+kometa_docker_networks_custom: []
+kometa_docker_networks: "{{ docker_networks_common
+                         + lookup('vars', kometa_name + '_docker_networks_default', default=kometa_docker_networks_default)
+                         + lookup('vars', kometa_name + '_docker_networks_custom', default=kometa_docker_networks_custom) }}"
+
+# Capabilities
+kometa_docker_capabilities_default: []
+kometa_docker_capabilities_custom: []
+kometa_docker_capabilities: "{{ lookup('vars', kometa_name + '_docker_capabilities_default', default=kometa_docker_capabilities_default)
+                             + lookup('vars', kometa_name + '_docker_capabilities_custom', default=kometa_docker_capabilities_custom) }}"
+
+# Security Opts
+kometa_docker_security_opts_default: []
+kometa_docker_security_opts_custom: []
+kometa_docker_security_opts: "{{ lookup('vars', kometa_name + '_docker_security_opts_default', default=kometa_docker_security_opts_default)
+                              + lookup('vars', kometa_name + '_docker_security_opts_custom', default=kometa_docker_security_opts_custom) }}"
+
+# Restart Policy
+kometa_docker_restart_policy: unless-stopped
+
+# State
+kometa_docker_state: started
+
+# User
+kometa_docker_user: "{{ uid }}:{{ gid }}"

@@ -1,0 +1,48 @@
+#########################################################################
+# Title:         Sandbox: Plex Meta Manager to Kometa Migration         #
+# Author(s):     owine                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Remove legacy Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "plex-meta-manager"
+
+- name: "Check if '/opt/plex-meta-manager' exists"
+  ansible.builtin.stat:
+    path: "/opt/plex-meta-manager"
+  register: opt_pmm
+
+- name: "Check if '/opt/{{ plex_meta_manager_name }}' exists"
+  ansible.builtin.stat:
+    path: "/opt/{{ plex_meta_manager_name }}"
+  register: opt_pmm_name
+  when: (plex_meta_manager_name | length > 0)
+
+- name: "Check if '/opt/kometa' exists"
+  ansible.builtin.stat:
+    path: "/opt/kometa"
+  register: opt_kometa
+
+- name: Migrate PMM appdata
+  when: (opt_pmm.stat.exists or opt_pmm_name.stat.exists)
+  block:
+
+    - name: Relocate '/opt/kometa' to '/opt/kometa_bak'
+      ansible.builtin.shell: "mv /opt/kometa /opt/kometa_bak"
+      register: kometa_relocate
+      when: opt_kometa.stat.exists
+
+    - name: Relocate '/opt/plex-meta-manager' to '/opt/kometa'
+      ansible.builtin.shell: "mv /opt/plex-meta-manager /opt/kometa"
+      register: pmm_relocate
+      when: opt_pmm.stat.exists
+
+    - name: Relocate '/opt/{{ plex_meta_manager_name }}' to '/opt/kometa'
+      ansible.builtin.shell: "mv /opt/{{ plex_meta_manager_name }} /opt/kometa"
+      register: pmm_name_relocate
+      when: opt_pmm_name.stat.exists
