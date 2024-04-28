@@ -45,3 +45,7 @@
       ansible.builtin.shell: "mv /opt/{{ plex_meta_manager_name }} /opt/kometa"
       register: pmm_name_relocate
       when: opt_pmm_name is defined and opt_pmm_name.stat is defined and opt_pmm_name.stat.exists
+
+    - name: Print Kometa tag instructions
+      ansible.builtin.debug:
+        msg: "Your appdata has been migrated to '/opt/kometa'. You may now run 'sb install sandbox-kometa' to deploy Kometa."
