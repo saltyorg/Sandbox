@@ -146,3 +146,10 @@ filebrowser_docker_state: started
 
 # User
 filebrowser_docker_user: "{{ uid }}:{{ gid }}"
+
+filebrowser_docker_healthcheck:
+  test: ["CMD", "curl", "--fail", "http://127.0.0.1:{{ filebrowser_web_port }}"]
+  interval: 5s
+  timeout: 3s
+  retries: 3
+  start_period: 2s
