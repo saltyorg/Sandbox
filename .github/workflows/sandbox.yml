@@ -94,7 +94,7 @@ jobs:
 
   webhook:
     name: 'webhook'
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     needs: [ansible-lint, check-entries, find-roles, install]
     if: always() && github.event_name != 'pull_request' && github.event.repository.fork == false
     steps:
