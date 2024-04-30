@@ -122,8 +122,8 @@ calibre_web_docker_devices: "{{ calibre_web_docker_devices_default
                                 + calibre_web_docker_devices_custom }}"
 
 # Hosts
-calibre_web_docker_hosts_default: []
-calibre_web_docker_hosts_custom: []
+calibre_web_docker_hosts_default: {}
+calibre_web_docker_hosts_custom: {}
 calibre_web_docker_hosts: "{{ docker_hosts_common
                               | combine(calibre_web_docker_hosts_default)
                               | combine(calibre_web_docker_hosts_custom) }}"

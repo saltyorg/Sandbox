@@ -125,8 +125,8 @@ calibre_docker_devices: "{{ lookup('vars', calibre_name + '_docker_devices_defau
                             + lookup('vars', calibre_name + '_docker_devices_custom', default=calibre_docker_devices_custom) }}"
 
 # Hosts
-calibre_docker_hosts_default: []
-calibre_docker_hosts_custom: []
+calibre_docker_hosts_default: {}
+calibre_docker_hosts_custom: {}
 calibre_docker_hosts: "{{ docker_hosts_common
                           | combine(lookup('vars', calibre_name + '_docker_hosts_default', default=calibre_docker_hosts_default))
                           | combine(lookup('vars', calibre_name + '_docker_hosts_custom', default=calibre_docker_hosts_custom)) }}"

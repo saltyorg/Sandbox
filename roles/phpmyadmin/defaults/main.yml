@@ -94,8 +94,8 @@ phpmyadmin_docker_devices: "{{ phpmyadmin_docker_devices_default
                                + phpmyadmin_docker_devices_custom }}"
 
 # Hosts
-phpmyadmin_docker_hosts_default: []
-phpmyadmin_docker_hosts_custom: []
+phpmyadmin_docker_hosts_default: {}
+phpmyadmin_docker_hosts_custom: {}
 phpmyadmin_docker_hosts: "{{ docker_hosts_common
                              | combine(phpmyadmin_docker_hosts_default)
                              | combine(phpmyadmin_docker_hosts_custom) }}"

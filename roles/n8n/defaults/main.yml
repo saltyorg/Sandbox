@@ -120,8 +120,8 @@ n8n_docker_devices: "{{ n8n_docker_devices_default
                         + n8n_docker_devices_custom }}"
 
 # Hosts
-n8n_docker_hosts_default: []
-n8n_docker_hosts_custom: []
+n8n_docker_hosts_default: {}
+n8n_docker_hosts_custom: {}
 n8n_docker_hosts: "{{ docker_hosts_common
                       | combine(n8n_docker_hosts_default)
                       | combine(n8n_docker_hosts_custom) }}"

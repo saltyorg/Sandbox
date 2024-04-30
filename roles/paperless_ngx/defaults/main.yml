@@ -139,8 +139,8 @@ paperless_ngx_docker_devices: "{{ paperless_ngx_docker_devices_default
                                   + paperless_ngx_docker_devices_custom }}"
 
 # Hosts
-paperless_ngx_docker_hosts_default: []
-paperless_ngx_docker_hosts_custom: []
+paperless_ngx_docker_hosts_default: {}
+paperless_ngx_docker_hosts_custom: {}
 paperless_ngx_docker_hosts: "{{ docker_hosts_common
                                 | combine(paperless_ngx_docker_hosts_default)
                                 | combine(paperless_ngx_docker_hosts_custom) }}"

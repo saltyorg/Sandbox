@@ -118,8 +118,8 @@ wikijs_docker_devices: "{{ wikijs_docker_devices_default
                            + wikijs_docker_devices_custom }}"
 
 # Hosts
-wikijs_docker_hosts_default: []
-wikijs_docker_hosts_custom: []
+wikijs_docker_hosts_default: {}
+wikijs_docker_hosts_custom: {}
 wikijs_docker_hosts: "{{ docker_hosts_common
                          | combine(wikijs_docker_hosts_default)
                          | combine(wikijs_docker_hosts_custom) }}"

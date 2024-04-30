@@ -100,8 +100,8 @@ vnstat_docker_devices: "{{ vnstat_docker_devices_default
                            + vnstat_docker_devices_custom }}"
 
 # Hosts
-vnstat_docker_hosts_default: []
-vnstat_docker_hosts_custom: []
+vnstat_docker_hosts_default: {}
+vnstat_docker_hosts_custom: {}
 vnstat_docker_hosts: "{{ docker_hosts_common
                          | combine(vnstat_docker_hosts_default)
                          | combine(vnstat_docker_hosts_custom) }}"

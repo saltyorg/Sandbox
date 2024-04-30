@@ -107,8 +107,8 @@ plexshare_docker_devices: "{{ plexshare_docker_devices_default
                               + plexshare_docker_devices_custom }}"
 
 # Hosts
-plexshare_docker_hosts_default: []
-plexshare_docker_hosts_custom: []
+plexshare_docker_hosts_default: {}
+plexshare_docker_hosts_custom: {}
 plexshare_docker_hosts: "{{ docker_hosts_common
                             | combine(plexshare_docker_hosts_default)
                             | combine(plexshare_docker_hosts_custom) }}"

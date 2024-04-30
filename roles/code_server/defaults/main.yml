@@ -105,8 +105,8 @@ code_server_docker_devices: "{{ code_server_docker_devices_default
                                 + code_server_docker_devices_custom }}"
 
 # Hosts
-code_server_docker_hosts_default: []
-code_server_docker_hosts_custom: []
+code_server_docker_hosts_default: {}
+code_server_docker_hosts_custom: {}
 code_server_docker_hosts: "{{ docker_hosts_common
                               | combine(code_server_docker_hosts_default)
                               | combine(code_server_docker_hosts_custom) }}"

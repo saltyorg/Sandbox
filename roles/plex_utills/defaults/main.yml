@@ -106,8 +106,8 @@ plex_utills_docker_devices: "{{ plex_utills_docker_devices_default
                                 + plex_utills_docker_devices_custom }}"
 
 # Hosts
-plex_utills_docker_hosts_default: []
-plex_utills_docker_hosts_custom: []
+plex_utills_docker_hosts_default: {}
+plex_utills_docker_hosts_custom: {}
 plex_utills_docker_hosts: "{{ docker_hosts_common
                               | combine(plex_utills_docker_hosts_default)
                               | combine(plex_utills_docker_hosts_custom) }}"

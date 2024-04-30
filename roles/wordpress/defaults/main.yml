@@ -103,8 +103,8 @@ wordpress_docker_devices: "{{ wordpress_docker_devices_default
                               + wordpress_docker_devices_custom }}"
 
 # Hosts
-wordpress_docker_hosts_default: []
-wordpress_docker_hosts_custom: []
+wordpress_docker_hosts_default: {}
+wordpress_docker_hosts_custom: {}
 wordpress_docker_hosts: "{{ docker_hosts_common
                             | combine(wordpress_docker_hosts_default)
                             | combine(wordpress_docker_hosts_custom) }}"

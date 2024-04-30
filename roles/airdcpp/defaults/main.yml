@@ -108,8 +108,8 @@ airdcpp_docker_devices: "{{ airdcpp_docker_devices_default
                             + airdcpp_docker_devices_custom }}"
 
 # Hosts
-airdcpp_docker_hosts_default: []
-airdcpp_docker_hosts_custom: []
+airdcpp_docker_hosts_default: {}
+airdcpp_docker_hosts_custom: {}
 airdcpp_docker_hosts: "{{ docker_hosts_common
                           | combine(airdcpp_docker_hosts_default)
                           | combine(airdcpp_docker_hosts_custom) }}"

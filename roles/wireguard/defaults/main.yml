@@ -108,8 +108,8 @@ wireguard_docker_devices: "{{ wireguard_docker_devices_default
                               + wireguard_docker_devices_custom }}"
 
 # Hosts
-wireguard_docker_hosts_default: []
-wireguard_docker_hosts_custom: []
+wireguard_docker_hosts_default: {}
+wireguard_docker_hosts_custom: {}
 wireguard_docker_hosts: "{{ docker_hosts_common
                             | combine(wireguard_docker_hosts_default)
                             | combine(wireguard_docker_hosts_custom) }}"

@@ -101,8 +101,8 @@ airsonic_docker_devices: "{{ airsonic_docker_devices_default
                              + airsonic_docker_devices_custom }}"
 
 # Hosts
-airsonic_docker_hosts_default: []
-airsonic_docker_hosts_custom: []
+airsonic_docker_hosts_default: {}
+airsonic_docker_hosts_custom: {}
 airsonic_docker_hosts: "{{ docker_hosts_common
                            | combine(airsonic_docker_hosts_default)
                            | combine(airsonic_docker_hosts_custom) }}"

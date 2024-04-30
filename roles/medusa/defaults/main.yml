@@ -103,8 +103,8 @@ medusa_docker_devices: "{{ medusa_docker_devices_default
                            + medusa_docker_devices_custom }}"
 
 # Hosts
-medusa_docker_hosts_default: []
-medusa_docker_hosts_custom: []
+medusa_docker_hosts_default: {}
+medusa_docker_hosts_custom: {}
 medusa_docker_hosts: "{{ docker_hosts_common
                          | combine(medusa_docker_hosts_default)
                          | combine(medusa_docker_hosts_custom) }}"

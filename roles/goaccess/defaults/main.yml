@@ -101,8 +101,8 @@ goaccess_docker_devices: "{{ goaccess_docker_devices_default
                              + goaccess_docker_devices_custom }}"
 
 # Hosts
-goaccess_docker_hosts_default: []
-goaccess_docker_hosts_custom: []
+goaccess_docker_hosts_default: {}
+goaccess_docker_hosts_custom: {}
 goaccess_docker_hosts: "{{ docker_hosts_common
                            | combine(goaccess_docker_hosts_default)
                            | combine(goaccess_docker_hosts_custom) }}"

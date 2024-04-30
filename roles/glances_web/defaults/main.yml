@@ -111,8 +111,8 @@ glances_web_docker_devices: "{{ glances_web_docker_devices_default
                                 + glances_web_docker_devices_custom }}"
 
 # Hosts
-glances_web_docker_hosts_default: []
-glances_web_docker_hosts_custom: []
+glances_web_docker_hosts_default: {}
+glances_web_docker_hosts_custom: {}
 glances_web_docker_hosts: "{{ docker_hosts_common
                               | combine(glances_web_docker_hosts_default)
                               | combine(glances_web_docker_hosts_custom) }}"

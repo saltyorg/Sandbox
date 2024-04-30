@@ -100,8 +100,8 @@ freshrss_docker_devices: "{{ freshrss_docker_devices_default
                              + freshrss_docker_devices_custom }}"
 
 # Hosts
-freshrss_docker_hosts_default: []
-freshrss_docker_hosts_custom: []
+freshrss_docker_hosts_default: {}
+freshrss_docker_hosts_custom: {}
 freshrss_docker_hosts: "{{ docker_hosts_common
                            | combine(freshrss_docker_hosts_default)
                            | combine(freshrss_docker_hosts_custom) }}"

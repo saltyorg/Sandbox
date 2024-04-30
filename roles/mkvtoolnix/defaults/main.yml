@@ -106,8 +106,8 @@ mkvtoolnix_docker_devices: "{{ mkvtoolnix_docker_devices_default
                                + mkvtoolnix_docker_devices_custom }}"
 
 # Hosts
-mkvtoolnix_docker_hosts_default: []
-mkvtoolnix_docker_hosts_custom: []
+mkvtoolnix_docker_hosts_default: {}
+mkvtoolnix_docker_hosts_custom: {}
 mkvtoolnix_docker_hosts: "{{ docker_hosts_common
                              | combine(mkvtoolnix_docker_hosts_default)
                              | combine(mkvtoolnix_docker_hosts_custom) }}"

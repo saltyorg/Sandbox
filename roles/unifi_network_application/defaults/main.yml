@@ -120,8 +120,8 @@ unifi_network_application_docker_devices: "{{ unifi_network_application_docker_d
                                               + unifi_network_application_docker_devices_custom }}"
 
 # Hosts
-unifi_network_application_docker_hosts_default: []
-unifi_network_application_docker_hosts_custom: []
+unifi_network_application_docker_hosts_default: {}
+unifi_network_application_docker_hosts_custom: {}
 unifi_network_application_docker_hosts: "{{ docker_hosts_common
                                             | combine(unifi_network_application_docker_hosts_default)
                                             | combine(unifi_network_application_docker_hosts_custom) }}"

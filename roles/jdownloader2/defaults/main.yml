@@ -112,8 +112,8 @@ jdownloader2_docker_devices: "{{ jdownloader2_docker_devices_default
                                  + jdownloader2_docker_devices_custom }}"
 
 # Hosts
-jdownloader2_docker_hosts_default: []
-jdownloader2_docker_hosts_custom: []
+jdownloader2_docker_hosts_default: {}
+jdownloader2_docker_hosts_custom: {}
 jdownloader2_docker_hosts: "{{ docker_hosts_common
                                | combine(jdownloader2_docker_hosts_default)
                                | combine(jdownloader2_docker_hosts_custom) }}"

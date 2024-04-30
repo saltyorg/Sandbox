@@ -89,8 +89,8 @@ qbit_manage_docker_devices: "{{ qbit_manage_docker_devices_default
                                 + qbit_manage_docker_devices_custom }}"
 
 # Hosts
-qbit_manage_docker_hosts_default: []
-qbit_manage_docker_hosts_custom: []
+qbit_manage_docker_hosts_default: {}
+qbit_manage_docker_hosts_custom: {}
 qbit_manage_docker_hosts: "{{ docker_hosts_common
                               | combine(qbit_manage_docker_hosts_default)
                               | combine(qbit_manage_docker_hosts_custom) }}"

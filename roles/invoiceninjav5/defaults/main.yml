@@ -124,8 +124,8 @@ invoiceninjav5_docker_devices: "{{ invoiceninjav5_docker_devices_default
                                    + invoiceninjav5_docker_devices_custom }}"
 
 # Hosts
-invoiceninjav5_docker_hosts_default: []
-invoiceninjav5_docker_hosts_custom: []
+invoiceninjav5_docker_hosts_default: {}
+invoiceninjav5_docker_hosts_custom: {}
 invoiceninjav5_docker_hosts: "{{ docker_hosts_common
                                  | combine(invoiceninjav5_docker_hosts_default)
                                  | combine(invoiceninjav5_docker_hosts_custom) }}"

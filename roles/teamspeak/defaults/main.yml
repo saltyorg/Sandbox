@@ -109,8 +109,8 @@ teamspeak_docker_devices: "{{ lookup('vars', teamspeak_name + '_docker_devices_d
                               + lookup('vars', teamspeak_name + '_docker_devices_custom', default=teamspeak_docker_devices_custom) }}"
 
 # Hosts
-teamspeak_docker_hosts_default: []
-teamspeak_docker_hosts_custom: []
+teamspeak_docker_hosts_default: {}
+teamspeak_docker_hosts_custom: {}
 teamspeak_docker_hosts: "{{ docker_hosts_common
                             | combine(lookup('vars', teamspeak_name + '_docker_hosts_default', default=teamspeak_docker_hosts_default))
                             | combine(lookup('vars', teamspeak_name + '_docker_hosts_custom', default=teamspeak_docker_hosts_custom)) }}"

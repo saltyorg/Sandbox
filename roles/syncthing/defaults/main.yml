@@ -103,8 +103,8 @@ syncthing_docker_devices: "{{ syncthing_docker_devices_default
                               + syncthing_docker_devices_custom }}"
 
 # Hosts
-syncthing_docker_hosts_default: []
-syncthing_docker_hosts_custom: []
+syncthing_docker_hosts_default: {}
+syncthing_docker_hosts_custom: {}
 syncthing_docker_hosts: "{{ docker_hosts_common
                             | combine(syncthing_docker_hosts_default)
                             | combine(syncthing_docker_hosts_custom) }}"

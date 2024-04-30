@@ -130,8 +130,8 @@ qbittorrentvpn_docker_devices: "{{ lookup('vars', qbittorrentvpn_name + '_docker
                                    + lookup('vars', qbittorrentvpn_name + '_docker_devices_custom', default=qbittorrentvpn_docker_devices_custom) }}"
 
 # Hosts
-qbittorrentvpn_docker_hosts_default: []
-qbittorrentvpn_docker_hosts_custom: []
+qbittorrentvpn_docker_hosts_default: {}
+qbittorrentvpn_docker_hosts_custom: {}
 qbittorrentvpn_docker_hosts: "{{ docker_hosts_common
                                  | combine(lookup('vars', qbittorrentvpn_name + '_docker_hosts_default', default=qbittorrentvpn_docker_hosts_default))
                                  | combine(lookup('vars', qbittorrentvpn_name + '_docker_hosts_custom', default=qbittorrentvpn_docker_hosts_custom)) }}"

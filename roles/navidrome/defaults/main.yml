@@ -98,8 +98,8 @@ navidrome_docker_devices: "{{ navidrome_docker_devices_default
                               + navidrome_docker_devices_custom }}"
 
 # Hosts
-navidrome_docker_hosts_default: []
-navidrome_docker_hosts_custom: []
+navidrome_docker_hosts_default: {}
+navidrome_docker_hosts_custom: {}
 navidrome_docker_hosts: "{{ docker_hosts_common
                             | combine(navidrome_docker_hosts_default)
                             | combine(navidrome_docker_hosts_custom) }}"

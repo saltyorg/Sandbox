@@ -103,8 +103,8 @@ filezilla_docker_devices: "{{ filezilla_docker_devices_default
                               + filezilla_docker_devices_custom }}"
 
 # Hosts
-filezilla_docker_hosts_default: []
-filezilla_docker_hosts_custom: []
+filezilla_docker_hosts_default: {}
+filezilla_docker_hosts_custom: {}
 filezilla_docker_hosts: "{{ docker_hosts_common
                             | combine(filezilla_docker_hosts_default)
                             | combine(filezilla_docker_hosts_custom) }}"

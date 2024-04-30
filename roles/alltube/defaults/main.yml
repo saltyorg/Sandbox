@@ -98,8 +98,8 @@ alltube_docker_devices: "{{ alltube_docker_devices_default
                             + alltube_docker_devices_custom }}"
 
 # Hosts
-alltube_docker_hosts_default: []
-alltube_docker_hosts_custom: []
+alltube_docker_hosts_default: {}
+alltube_docker_hosts_custom: {}
 alltube_docker_hosts: "{{ docker_hosts_common
                           | combine(alltube_docker_hosts_default)
                           | combine(alltube_docker_hosts_custom) }}"

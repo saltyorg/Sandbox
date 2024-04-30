@@ -101,8 +101,8 @@ sshwifty_docker_devices: "{{ sshwifty_docker_devices_default
                              + sshwifty_docker_devices_custom }}"
 
 # Hosts
-sshwifty_docker_hosts_default: []
-sshwifty_docker_hosts_custom: []
+sshwifty_docker_hosts_default: {}
+sshwifty_docker_hosts_custom: {}
 sshwifty_docker_hosts: "{{ docker_hosts_common
                            | combine(sshwifty_docker_hosts_default)
                            | combine(sshwifty_docker_hosts_custom) }}"

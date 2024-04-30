@@ -108,8 +108,8 @@ handbrake_docker_devices: "{{ handbrake_docker_devices_default
                               + handbrake_docker_devices_custom }}"
 
 # Hosts
-handbrake_docker_hosts_default: []
-handbrake_docker_hosts_custom: []
+handbrake_docker_hosts_default: {}
+handbrake_docker_hosts_custom: {}
 handbrake_docker_hosts: "{{ docker_hosts_common
                             | combine(handbrake_docker_hosts_default)
                             | combine(handbrake_docker_hosts_custom) }}"

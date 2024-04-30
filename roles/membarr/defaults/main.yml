@@ -70,8 +70,8 @@ membarr_docker_devices: "{{ membarr_docker_devices_default
                             + membarr_docker_devices_custom }}"
 
 # Hosts
-membarr_docker_hosts_default: []
-membarr_docker_hosts_custom: []
+membarr_docker_hosts_default: {}
+membarr_docker_hosts_custom: {}
 membarr_docker_hosts: "{{ docker_hosts_common
                           | combine(membarr_docker_hosts_default)
                           | combine(membarr_docker_hosts_custom) }}"

@@ -101,8 +101,8 @@ changedetection_docker_devices: "{{ changedetection_docker_devices_default
                                     + changedetection_docker_devices_custom }}"
 
 # Hosts
-changedetection_docker_hosts_default: []
-changedetection_docker_hosts_custom: []
+changedetection_docker_hosts_default: {}
+changedetection_docker_hosts_custom: {}
 changedetection_docker_hosts: "{{ docker_hosts_common
                                   | combine(changedetection_docker_hosts_default)
                                   | combine(changedetection_docker_hosts_custom) }}"

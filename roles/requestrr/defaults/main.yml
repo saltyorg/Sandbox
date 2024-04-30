@@ -102,8 +102,8 @@ requestrr_docker_devices: "{{ lookup('vars', requestrr_name + '_docker_devices_d
                               + lookup('vars', requestrr_name + '_docker_devices_custom', default=requestrr_docker_devices_custom) }}"
 
 # Hosts
-requestrr_docker_hosts_default: []
-requestrr_docker_hosts_custom: []
+requestrr_docker_hosts_default: {}
+requestrr_docker_hosts_custom: {}
 requestrr_docker_hosts: "{{ docker_hosts_common
                             | combine(lookup('vars', requestrr_name + '_docker_hosts_default', default=requestrr_docker_hosts_default))
                             | combine(lookup('vars', requestrr_name + '_docker_hosts_custom', default=requestrr_docker_hosts_custom)) }}"

@@ -101,8 +101,8 @@ lazylibrarian_docker_devices: "{{ lazylibrarian_docker_devices_default
                                   + lazylibrarian_docker_devices_custom }}"
 
 # Hosts
-lazylibrarian_docker_hosts_default: []
-lazylibrarian_docker_hosts_custom: []
+lazylibrarian_docker_hosts_default: {}
+lazylibrarian_docker_hosts_custom: {}
 lazylibrarian_docker_hosts: "{{ docker_hosts_common
                                 | combine(lazylibrarian_docker_hosts_default)
                                 | combine(lazylibrarian_docker_hosts_custom) }}"

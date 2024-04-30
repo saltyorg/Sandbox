@@ -120,8 +120,8 @@ nextcloud_docker_devices: "{{ nextcloud_docker_devices_default
                               + nextcloud_docker_devices_custom }}"
 
 # Hosts
-nextcloud_docker_hosts_default: []
-nextcloud_docker_hosts_custom: []
+nextcloud_docker_hosts_default: {}
+nextcloud_docker_hosts_custom: {}
 nextcloud_docker_hosts: "{{ docker_hosts_common
                             | combine(nextcloud_docker_hosts_default)
                             | combine(nextcloud_docker_hosts_custom) }}"

@@ -121,8 +121,8 @@ jellystat_docker_devices: "{{ lookup('vars', jellystat_name + '_docker_devices_d
                                + lookup('vars', jellystat_name + '_docker_devices_custom', default=jellystat_docker_devices_custom) }}"
 
 # Hosts
-jellystat_docker_hosts_default: []
-jellystat_docker_hosts_custom: []
+jellystat_docker_hosts_default: {}
+jellystat_docker_hosts_custom: {}
 jellystat_docker_hosts: "{{ docker_hosts_common
                             | combine(lookup('vars', jellystat_name + '_docker_hosts_default', default=jellystat_docker_hosts_default))
                             | combine(lookup('vars', jellystat_name + '_docker_hosts_custom', default=jellystat_docker_hosts_custom)) }}"

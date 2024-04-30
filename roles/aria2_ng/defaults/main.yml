@@ -107,8 +107,8 @@ aria2_ng_docker_devices: "{{ aria2_ng_docker_devices_default
                              + aria2_ng_docker_devices_custom }}"
 
 # Hosts
-aria2_ng_docker_hosts_default: []
-aria2_ng_docker_hosts_custom: []
+aria2_ng_docker_hosts_default: {}
+aria2_ng_docker_hosts_custom: {}
 aria2_ng_docker_hosts: "{{ docker_hosts_common
                            | combine(aria2_ng_docker_hosts_default)
                            | combine(aria2_ng_docker_hosts_custom) }}"

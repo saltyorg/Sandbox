@@ -98,8 +98,8 @@ archivebox_docker_devices: "{{ archivebox_docker_devices_default
                                + archivebox_docker_devices_custom }}"
 
 # Hosts
-archivebox_docker_hosts_default: []
-archivebox_docker_hosts_custom: []
+archivebox_docker_hosts_default: {}
+archivebox_docker_hosts_custom: {}
 archivebox_docker_hosts: "{{ docker_hosts_common
                              | combine(archivebox_docker_hosts_default)
                              | combine(archivebox_docker_hosts_custom) }}"

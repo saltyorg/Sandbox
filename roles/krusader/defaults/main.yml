@@ -113,8 +113,8 @@ krusader_docker_devices: "{{ krusader_docker_devices_default
                              + krusader_docker_devices_custom }}"
 
 # Hosts
-krusader_docker_hosts_default: []
-krusader_docker_hosts_custom: []
+krusader_docker_hosts_default: {}
+krusader_docker_hosts_custom: {}
 krusader_docker_hosts: "{{ docker_hosts_common
                            | combine(krusader_docker_hosts_default)
                            | combine(krusader_docker_hosts_custom) }}"

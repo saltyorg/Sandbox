@@ -100,8 +100,8 @@ monitorr_docker_devices: "{{ monitorr_docker_devices_default
                              + monitorr_docker_devices_custom }}"
 
 # Hosts
-monitorr_docker_hosts_default: []
-monitorr_docker_hosts_custom: []
+monitorr_docker_hosts_default: {}
+monitorr_docker_hosts_custom: {}
 monitorr_docker_hosts: "{{ docker_hosts_common
                            | combine(monitorr_docker_hosts_default)
                            | combine(monitorr_docker_hosts_custom) }}"

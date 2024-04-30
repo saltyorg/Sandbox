@@ -114,8 +114,8 @@ speedtest_docker_devices: "{{ speedtest_docker_devices_default
                               + speedtest_docker_devices_custom }}"
 
 # Hosts
-speedtest_docker_hosts_default: []
-speedtest_docker_hosts_custom: []
+speedtest_docker_hosts_default: {}
+speedtest_docker_hosts_custom: {}
 speedtest_docker_hosts: "{{ docker_hosts_common
                             | combine(speedtest_docker_hosts_default)
                             | combine(speedtest_docker_hosts_custom) }}"

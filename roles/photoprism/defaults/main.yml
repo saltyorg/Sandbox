@@ -130,8 +130,8 @@ photoprism_docker_devices: "{{ photoprism_docker_devices_default
                                + photoprism_docker_devices_custom }}"
 
 # Hosts
-photoprism_docker_hosts_default: []
-photoprism_docker_hosts_custom: []
+photoprism_docker_hosts_default: {}
+photoprism_docker_hosts_custom: {}
 photoprism_docker_hosts: "{{ docker_hosts_common
                              | combine(photoprism_docker_hosts_default)
                              | combine(photoprism_docker_hosts_custom) }}"

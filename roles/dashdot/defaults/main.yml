@@ -128,8 +128,8 @@ dashdot_docker_devices: "{{ dashdot_docker_devices_default
                             + dashdot_docker_devices_custom }}"
 
 # Hosts
-dashdot_docker_hosts_default: []
-dashdot_docker_hosts_custom: []
+dashdot_docker_hosts_default: {}
+dashdot_docker_hosts_custom: {}
 dashdot_docker_hosts: "{{ docker_hosts_common
                           | combine(dashdot_docker_hosts_default)
                           | combine(dashdot_docker_hosts_custom) }}"

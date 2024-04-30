@@ -100,8 +100,8 @@ xbackbone_docker_devices: "{{ xbackbone_docker_devices_default
                               + xbackbone_docker_devices_custom }}"
 
 # Hosts
-xbackbone_docker_hosts_default: []
-xbackbone_docker_hosts_custom: []
+xbackbone_docker_hosts_default: {}
+xbackbone_docker_hosts_custom: {}
 xbackbone_docker_hosts: "{{ docker_hosts_common
                             | combine(xbackbone_docker_hosts_default)
                             | combine(xbackbone_docker_hosts_custom) }}"

@@ -109,8 +109,8 @@ your_spotify_docker_devices: "{{ your_spotify_docker_devices_default
                                  + your_spotify_docker_devices_custom }}"
 
 # Hosts
-your_spotify_docker_hosts_default: []
-your_spotify_docker_hosts_custom: []
+your_spotify_docker_hosts_default: {}
+your_spotify_docker_hosts_custom: {}
 your_spotify_docker_hosts: "{{ docker_hosts_common
                                | combine(your_spotify_docker_hosts_default)
                                | combine(your_spotify_docker_hosts_custom) }}"

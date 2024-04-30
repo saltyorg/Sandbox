@@ -102,8 +102,8 @@ reposilite_docker_devices: "{{ reposilite_docker_devices_default
                                + reposilite_docker_devices_custom }}"
 
 # Hosts
-reposilite_docker_hosts_default: []
-reposilite_docker_hosts_custom: []
+reposilite_docker_hosts_default: {}
+reposilite_docker_hosts_custom: {}
 reposilite_docker_hosts: "{{ docker_hosts_common
                              | combine(reposilite_docker_hosts_default)
                              | combine(reposilite_docker_hosts_custom) }}"

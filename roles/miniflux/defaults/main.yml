@@ -120,8 +120,8 @@ miniflux_docker_devices: "{{ miniflux_docker_devices_default
                              + miniflux_docker_devices_custom }}"
 
 # Hosts
-miniflux_docker_hosts_default: []
-miniflux_docker_hosts_custom: []
+miniflux_docker_hosts_default: {}
+miniflux_docker_hosts_custom: {}
 miniflux_docker_hosts: "{{ docker_hosts_common
                            | combine(miniflux_docker_hosts_default)
                            | combine(miniflux_docker_hosts_custom) }}"

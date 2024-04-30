@@ -102,8 +102,8 @@ gotify_docker_devices: "{{ gotify_docker_devices_default
                            + gotify_docker_devices_custom }}"
 
 # Hosts
-gotify_docker_hosts_default: []
-gotify_docker_hosts_custom: []
+gotify_docker_hosts_default: {}
+gotify_docker_hosts_custom: {}
 gotify_docker_hosts: "{{ docker_hosts_common
                          | combine(gotify_docker_hosts_default)
                          | combine(gotify_docker_hosts_custom) }}"

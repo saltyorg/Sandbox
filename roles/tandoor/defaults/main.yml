@@ -111,8 +111,8 @@ tandoor_docker_devices: "{{ tandoor_docker_devices_default
                             + tandoor_docker_devices_custom }}"
 
 # Hosts
-tandoor_docker_hosts_default: []
-tandoor_docker_hosts_custom: []
+tandoor_docker_hosts_default: {}
+tandoor_docker_hosts_custom: {}
 tandoor_docker_hosts: "{{ docker_hosts_common
                           | combine(tandoor_docker_hosts_default)
                           | combine(tandoor_docker_hosts_custom) }}"

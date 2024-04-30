@@ -103,8 +103,8 @@ moviematch_docker_devices: "{{ moviematch_docker_devices_default
                                + moviematch_docker_devices_custom }}"
 
 # Hosts
-moviematch_docker_hosts_default: []
-moviematch_docker_hosts_custom: []
+moviematch_docker_hosts_default: {}
+moviematch_docker_hosts_custom: {}
 moviematch_docker_hosts: "{{ docker_hosts_common
                              | combine(moviematch_docker_hosts_default)
                              | combine(moviematch_docker_hosts_custom) }}"

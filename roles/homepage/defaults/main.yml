@@ -114,8 +114,8 @@ homepage_docker_devices: "{{ homepage_docker_devices_default
                              + homepage_docker_devices_custom }}"
 
 # Hosts
-homepage_docker_hosts_default: []
-homepage_docker_hosts_custom: []
+homepage_docker_hosts_default: {}
+homepage_docker_hosts_custom: {}
 homepage_docker_hosts: "{{ docker_hosts_common
                            | combine(homepage_docker_hosts_default)
                            | combine(homepage_docker_hosts_custom) }}"

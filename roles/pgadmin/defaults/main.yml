@@ -101,8 +101,8 @@ pgadmin_docker_devices: "{{ pgadmin_docker_devices_default
                             + pgadmin_docker_devices_custom }}"
 
 # Hosts
-pgadmin_docker_hosts_default: []
-pgadmin_docker_hosts_custom: []
+pgadmin_docker_hosts_default: {}
+pgadmin_docker_hosts_custom: {}
 pgadmin_docker_hosts: "{{ docker_hosts_common
                           | combine(pgadmin_docker_hosts_default)
                           | combine(pgadmin_docker_hosts_custom) }}"

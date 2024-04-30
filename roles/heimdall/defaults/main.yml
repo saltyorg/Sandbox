@@ -100,8 +100,8 @@ heimdall_docker_devices: "{{ heimdall_docker_devices_default
                              + heimdall_docker_devices_custom }}"
 
 # Hosts
-heimdall_docker_hosts_default: []
-heimdall_docker_hosts_custom: []
+heimdall_docker_hosts_default: {}
+heimdall_docker_hosts_custom: {}
 heimdall_docker_hosts: "{{ docker_hosts_common
                            | combine(heimdall_docker_hosts_default)
                            | combine(heimdall_docker_hosts_custom) }}"

@@ -100,8 +100,8 @@ beets_docker_devices: "{{ beets_docker_devices_default
                           + beets_docker_devices_custom }}"
 
 # Hosts
-beets_docker_hosts_default: []
-beets_docker_hosts_custom: []
+beets_docker_hosts_default: {}
+beets_docker_hosts_custom: {}
 beets_docker_hosts: "{{ docker_hosts_common
                         | combine(beets_docker_hosts_default)
                         | combine(beets_docker_hosts_custom) }}"

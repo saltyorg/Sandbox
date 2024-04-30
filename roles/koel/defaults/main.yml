@@ -113,8 +113,8 @@ koel_docker_devices: "{{ koel_docker_devices_default
                          + koel_docker_devices_custom }}"
 
 # Hosts
-koel_docker_hosts_default: []
-koel_docker_hosts_custom: []
+koel_docker_hosts_default: {}
+koel_docker_hosts_custom: {}
 koel_docker_hosts: "{{ docker_hosts_common
                        | combine(koel_docker_hosts_default)
                        | combine(koel_docker_hosts_custom) }}"

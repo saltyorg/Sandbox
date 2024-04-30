@@ -103,8 +103,8 @@ puddletag_docker_devices: "{{ puddletag_docker_devices_default
                               + puddletag_docker_devices_custom }}"
 
 # Hosts
-puddletag_docker_hosts_default: []
-puddletag_docker_hosts_custom: []
+puddletag_docker_hosts_default: {}
+puddletag_docker_hosts_custom: {}
 puddletag_docker_hosts: "{{ docker_hosts_common
                             | combine(puddletag_docker_hosts_default)
                             | combine(puddletag_docker_hosts_custom) }}"

@@ -114,8 +114,8 @@ yacht_docker_devices: "{{ yacht_docker_devices_default
                           + yacht_docker_devices_custom }}"
 
 # Hosts
-yacht_docker_hosts_default: []
-yacht_docker_hosts_custom: []
+yacht_docker_hosts_default: {}
+yacht_docker_hosts_custom: {}
 yacht_docker_hosts: "{{ docker_hosts_common
                         | combine(yacht_docker_hosts_default)
                         | combine(yacht_docker_hosts_custom) }}"

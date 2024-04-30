@@ -54,8 +54,8 @@ flaresolverr_docker_devices: "{{ flaresolverr_docker_devices_default
                                  + flaresolverr_docker_devices_custom }}"
 
 # Hosts
-flaresolverr_docker_hosts_default: []
-flaresolverr_docker_hosts_custom: []
+flaresolverr_docker_hosts_default: {}
+flaresolverr_docker_hosts_custom: {}
 flaresolverr_docker_hosts: "{{ docker_hosts_common
                                | combine(flaresolverr_docker_hosts_default)
                                | combine(flaresolverr_docker_hosts_custom) }}"

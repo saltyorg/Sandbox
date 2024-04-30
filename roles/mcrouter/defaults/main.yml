@@ -70,8 +70,8 @@ mcrouter_docker_devices: "{{ mcrouter_docker_devices_default
                              + mcrouter_docker_devices_custom }}"
 
 # Hosts
-mcrouter_docker_hosts_default: []
-mcrouter_docker_hosts_custom: []
+mcrouter_docker_hosts_default: {}
+mcrouter_docker_hosts_custom: {}
 mcrouter_docker_hosts: "{{ docker_hosts_common
                            | combine(mcrouter_docker_hosts_default)
                            | combine(mcrouter_docker_hosts_custom) }}"

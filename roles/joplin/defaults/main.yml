@@ -117,8 +117,8 @@ joplin_docker_devices: "{{ joplin_docker_devices_default
                            + joplin_docker_devices_custom }}"
 
 # Hosts
-joplin_docker_hosts_default: []
-joplin_docker_hosts_custom: []
+joplin_docker_hosts_default: {}
+joplin_docker_hosts_custom: {}
 joplin_docker_hosts: "{{ docker_hosts_common
                          | combine(joplin_docker_hosts_default)
                          | combine(joplin_docker_hosts_custom) }}"

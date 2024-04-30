@@ -110,8 +110,8 @@ jellyseerr_docker_devices: "{{ lookup('vars', jellyseerr_name + '_docker_devices
                                + lookup('vars', jellyseerr_name + '_docker_devices_custom', default=jellyseerr_docker_devices_custom) }}"
 
 # Hosts
-jellyseerr_docker_hosts_default: []
-jellyseerr_docker_hosts_custom: []
+jellyseerr_docker_hosts_default: {}
+jellyseerr_docker_hosts_custom: {}
 jellyseerr_docker_hosts: "{{ docker_hosts_common
                              | combine(lookup('vars', jellyseerr_name + '_docker_hosts_default', default=jellyseerr_docker_hosts_default))
                              | combine(lookup('vars', jellyseerr_name + '_docker_hosts_custom', default=jellyseerr_docker_hosts_custom)) }}"

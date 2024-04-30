@@ -105,8 +105,8 @@ adguardhome_docker_devices: "{{ adguardhome_docker_devices_default
                                 + adguardhome_docker_devices_custom }}"
 
 # Hosts
-adguardhome_docker_hosts_default: []
-adguardhome_docker_hosts_custom: []
+adguardhome_docker_hosts_default: {}
+adguardhome_docker_hosts_custom: {}
 adguardhome_docker_hosts: "{{ docker_hosts_common
                               | combine(adguardhome_docker_hosts_default)
                               | combine(adguardhome_docker_hosts_custom) }}"

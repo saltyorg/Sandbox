@@ -73,8 +73,8 @@ mqtt_docker_devices: "{{ mqtt_docker_devices_default
                          + mqtt_docker_devices_custom }}"
 
 # Hosts
-mqtt_docker_hosts_default: []
-mqtt_docker_hosts_custom: []
+mqtt_docker_hosts_default: {}
+mqtt_docker_hosts_custom: {}
 mqtt_docker_hosts: "{{ docker_hosts_common
                        | combine(mqtt_docker_hosts_default)
                        | combine(mqtt_docker_hosts_custom) }}"

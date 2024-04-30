@@ -104,8 +104,8 @@ filebot_docker_devices: "{{ filebot_docker_devices_default
                             + filebot_docker_devices_custom }}"
 
 # Hosts
-filebot_docker_hosts_default: []
-filebot_docker_hosts_custom: []
+filebot_docker_hosts_default: {}
+filebot_docker_hosts_custom: {}
 filebot_docker_hosts: "{{ docker_hosts_common
                           | combine(filebot_docker_hosts_default)
                           | combine(filebot_docker_hosts_custom) }}"

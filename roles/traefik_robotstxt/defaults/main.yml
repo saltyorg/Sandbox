@@ -49,8 +49,8 @@ traefik_robotstxt_docker_devices: "{{ traefik_robotstxt_docker_devices_default
                                       + traefik_robotstxt_docker_devices_custom }}"
 
 # Hosts
-traefik_robotstxt_docker_hosts_default: []
-traefik_robotstxt_docker_hosts_custom: []
+traefik_robotstxt_docker_hosts_default: {}
+traefik_robotstxt_docker_hosts_custom: {}
 traefik_robotstxt_docker_hosts: "{{ docker_hosts_common
                                     | combine(traefik_robotstxt_docker_hosts_default)
                                     | combine(traefik_robotstxt_docker_hosts_custom) }}"

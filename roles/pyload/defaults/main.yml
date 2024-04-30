@@ -100,8 +100,8 @@ pyload_docker_devices: "{{ pyload_docker_devices_default
                          + pyload_docker_devices_custom }}"
 
 # Hosts
-pyload_docker_hosts_default: []
-pyload_docker_hosts_custom: []
+pyload_docker_hosts_default: {}
+pyload_docker_hosts_custom: {}
 pyload_docker_hosts: "{{ docker_hosts_common
                          | combine(pyload_docker_hosts_default)
                          | combine(pyload_docker_hosts_custom) }}"

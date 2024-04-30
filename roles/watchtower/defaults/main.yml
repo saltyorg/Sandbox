@@ -106,8 +106,8 @@ watchtower_docker_devices: "{{ lookup('vars', watchtower_name + '_docker_devices
                                + lookup('vars', watchtower_name + '_docker_devices_custom', default=watchtower_docker_devices_custom) }}"
 
 # Hosts
-watchtower_docker_hosts_default: []
-watchtower_docker_hosts_custom: []
+watchtower_docker_hosts_default: {}
+watchtower_docker_hosts_custom: {}
 watchtower_docker_hosts: "{{ docker_hosts_common
                              | combine(lookup('vars', watchtower_name + '_docker_hosts_default', default=watchtower_docker_hosts_default))
                              | combine(lookup('vars', watchtower_name + '_docker_hosts_custom', default=watchtower_docker_hosts_custom)) }}"

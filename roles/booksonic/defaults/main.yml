@@ -102,8 +102,8 @@ booksonic_docker_devices: "{{ booksonic_docker_devices_default
                               + booksonic_docker_devices_custom }}"
 
 # Hosts
-booksonic_docker_hosts_default: []
-booksonic_docker_hosts_custom: []
+booksonic_docker_hosts_default: {}
+booksonic_docker_hosts_custom: {}
 booksonic_docker_hosts: "{{ docker_hosts_common
                             | combine(booksonic_docker_hosts_default)
                             | combine(booksonic_docker_hosts_custom) }}"
