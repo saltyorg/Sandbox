@@ -67,8 +67,8 @@ ouroboros_docker_devices: "{{ ouroboros_docker_devices_default
                               + ouroboros_docker_devices_custom }}"
 
 # Hosts
-ouroboros_docker_hosts_default: []
-ouroboros_docker_hosts_custom: []
+ouroboros_docker_hosts_default: {}
+ouroboros_docker_hosts_custom: {}
 ouroboros_docker_hosts: "{{ docker_hosts_common
                             | combine(ouroboros_docker_hosts_default)
                             | combine(ouroboros_docker_hosts_custom) }}"

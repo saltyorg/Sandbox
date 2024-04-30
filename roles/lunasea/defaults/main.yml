@@ -95,8 +95,8 @@ lunasea_docker_devices: "{{ lunasea_docker_devices_default
                             + lunasea_docker_devices_custom }}"
 
 # Hosts
-lunasea_docker_hosts_default: []
-lunasea_docker_hosts_custom: []
+lunasea_docker_hosts_default: {}
+lunasea_docker_hosts_custom: {}
 lunasea_docker_hosts: "{{ docker_hosts_common
                           | combine(lunasea_docker_hosts_default)
                           | combine(lunasea_docker_hosts_custom) }}"

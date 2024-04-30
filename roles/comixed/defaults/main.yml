@@ -98,8 +98,8 @@ comixed_docker_devices: "{{ comixed_docker_devices_default
                             + comixed_docker_devices_custom }}"
 
 # Hosts
-comixed_docker_hosts_default: []
-comixed_docker_hosts_custom: []
+comixed_docker_hosts_default: {}
+comixed_docker_hosts_custom: {}
 comixed_docker_hosts: "{{ docker_hosts_common
                           | combine(comixed_docker_hosts_default)
                           | combine(comixed_docker_hosts_custom) }}"

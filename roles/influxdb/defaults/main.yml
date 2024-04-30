@@ -66,8 +66,8 @@ influxdb_docker_devices: "{{ influxdb_docker_devices_default
                              + influxdb_docker_devices_custom }}"
 
 # Hosts
-influxdb_docker_hosts_default: []
-influxdb_docker_hosts_custom: []
+influxdb_docker_hosts_default: {}
+influxdb_docker_hosts_custom: {}
 influxdb_docker_hosts: "{{ docker_hosts_common
                            | combine(influxdb_docker_hosts_default)
                            | combine(influxdb_docker_hosts_custom) }}"

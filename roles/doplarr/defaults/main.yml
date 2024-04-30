@@ -69,8 +69,8 @@ doplarr_docker_devices: "{{ doplarr_docker_devices_default
                             + doplarr_docker_devices_custom }}"
 
 # Hosts
-doplarr_docker_hosts_default: []
-doplarr_docker_hosts_custom: []
+doplarr_docker_hosts_default: {}
+doplarr_docker_hosts_custom: {}
 doplarr_docker_hosts: "{{ docker_hosts_common
                           | combine(doplarr_docker_hosts_default)
                           | combine(doplarr_docker_hosts_custom) }}"

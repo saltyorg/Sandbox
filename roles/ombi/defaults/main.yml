@@ -102,8 +102,8 @@ ombi_docker_devices: "{{ lookup('vars', ombi_name + '_docker_devices_default', d
                          + lookup('vars', ombi_name + '_docker_devices_custom', default=ombi_docker_devices_custom) }}"
 
 # Hosts
-ombi_docker_hosts_default: []
-ombi_docker_hosts_custom: []
+ombi_docker_hosts_default: {}
+ombi_docker_hosts_custom: {}
 ombi_docker_hosts: "{{ docker_hosts_common
                        | combine(lookup('vars', ombi_name + '_docker_hosts_default', default=ombi_docker_hosts_default))
                        | combine(lookup('vars', ombi_name + '_docker_hosts_custom', default=ombi_docker_hosts_custom)) }}"

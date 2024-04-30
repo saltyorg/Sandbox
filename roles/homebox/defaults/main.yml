@@ -102,8 +102,8 @@ homebox_docker_devices: "{{ homebox_docker_devices_default
                             + homebox_docker_devices_custom }}"
 
 # Hosts
-homebox_docker_hosts_default: []
-homebox_docker_hosts_custom: []
+homebox_docker_hosts_default: {}
+homebox_docker_hosts_custom: {}
 homebox_docker_hosts: "{{ docker_hosts_common
                           | combine(homebox_docker_hosts_default)
                           | combine(homebox_docker_hosts_custom) }}"

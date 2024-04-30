@@ -101,8 +101,8 @@ trilium_docker_devices: "{{ trilium_docker_devices_default
                             + trilium_docker_devices_custom }}"
 
 # Hosts
-trilium_docker_hosts_default: []
-trilium_docker_hosts_custom: []
+trilium_docker_hosts_default: {}
+trilium_docker_hosts_custom: {}
 trilium_docker_hosts: "{{ docker_hosts_common
                           | combine(trilium_docker_hosts_default)
                           | combine(trilium_docker_hosts_custom) }}"

@@ -73,8 +73,8 @@ tauticord_docker_devices: "{{ tauticord_docker_devices_default
                               + tauticord_docker_devices_custom }}"
 
 # Hosts
-tauticord_docker_hosts_default: []
-tauticord_docker_hosts_custom: []
+tauticord_docker_hosts_default: {}
+tauticord_docker_hosts_custom: {}
 tauticord_docker_hosts: "{{ docker_hosts_common
                             | combine(tauticord_docker_hosts_default)
                             | combine(tauticord_docker_hosts_custom) }}"

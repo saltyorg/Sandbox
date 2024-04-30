@@ -130,8 +130,8 @@ tdarr_docker_devices: "{{ tdarr_docker_devices_default
                           + tdarr_docker_devices_custom }}"
 
 # Hosts
-tdarr_docker_hosts_default: []
-tdarr_docker_hosts_custom: []
+tdarr_docker_hosts_default: {}
+tdarr_docker_hosts_custom: {}
 tdarr_docker_hosts: "{{ docker_hosts_common
                         | combine(tdarr_docker_hosts_default)
                         | combine(tdarr_docker_hosts_custom) }}"

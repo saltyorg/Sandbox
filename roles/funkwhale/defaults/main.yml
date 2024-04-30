@@ -104,8 +104,8 @@ funkwhale_docker_devices: "{{ funkwhale_docker_devices_default
                               + funkwhale_docker_devices_custom }}"
 
 # Hosts
-funkwhale_docker_hosts_default: []
-funkwhale_docker_hosts_custom: []
+funkwhale_docker_hosts_default: {}
+funkwhale_docker_hosts_custom: {}
 funkwhale_docker_hosts: "{{ docker_hosts_common
                             | combine(funkwhale_docker_hosts_default)
                             | combine(funkwhale_docker_hosts_custom) }}"

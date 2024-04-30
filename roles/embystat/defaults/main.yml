@@ -98,8 +98,8 @@ embystat_docker_devices: "{{ embystat_docker_devices_default
                              + embystat_docker_devices_custom }}"
 
 # Hosts
-embystat_docker_hosts_default: []
-embystat_docker_hosts_custom: []
+embystat_docker_hosts_default: {}
+embystat_docker_hosts_custom: {}
 embystat_docker_hosts: "{{ docker_hosts_common
                            | combine(embystat_docker_hosts_default)
                            | combine(embystat_docker_hosts_custom) }}"

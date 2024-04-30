@@ -109,8 +109,8 @@ linkding_docker_devices: "{{ linkding_docker_devices_default
                              + linkding_docker_devices_custom }}"
 
 # Hosts
-linkding_docker_hosts_default: []
-linkding_docker_hosts_custom: []
+linkding_docker_hosts_default: {}
+linkding_docker_hosts_custom: {}
 linkding_docker_hosts: "{{ docker_hosts_common
                            | combine(linkding_docker_hosts_default)
                            | combine(linkding_docker_hosts_custom) }}"

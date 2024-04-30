@@ -102,8 +102,8 @@ filebrowser_docker_devices: "{{ filebrowser_docker_devices_default
                                 + filebrowser_docker_devices_custom }}"
 
 # Hosts
-filebrowser_docker_hosts_default: []
-filebrowser_docker_hosts_custom: []
+filebrowser_docker_hosts_default: {}
+filebrowser_docker_hosts_custom: {}
 filebrowser_docker_hosts: "{{ docker_hosts_common
                               | combine(filebrowser_docker_hosts_default)
                               | combine(filebrowser_docker_hosts_custom) }}"

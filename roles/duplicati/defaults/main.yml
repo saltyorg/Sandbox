@@ -103,8 +103,8 @@ duplicati_docker_devices: "{{ duplicati_docker_devices_default
                               + duplicati_docker_devices_custom }}"
 
 # Hosts
-duplicati_docker_hosts_default: []
-duplicati_docker_hosts_custom: []
+duplicati_docker_hosts_default: {}
+duplicati_docker_hosts_custom: {}
 duplicati_docker_hosts: "{{ docker_hosts_common
                             | combine(duplicati_docker_hosts_default)
                             | combine(duplicati_docker_hosts_custom) }}"

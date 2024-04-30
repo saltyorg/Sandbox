@@ -98,8 +98,8 @@ comicstreamer_docker_devices: "{{ comicstreamer_docker_devices_default
                                   + comicstreamer_docker_devices_custom }}"
 
 # Hosts
-comicstreamer_docker_hosts_default: []
-comicstreamer_docker_hosts_custom: []
+comicstreamer_docker_hosts_default: {}
+comicstreamer_docker_hosts_custom: {}
 comicstreamer_docker_hosts: "{{ docker_hosts_common
                                 | combine(comicstreamer_docker_hosts_default)
                                 | combine(comicstreamer_docker_hosts_custom) }}"

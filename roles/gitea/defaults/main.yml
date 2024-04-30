@@ -109,8 +109,8 @@ gitea_docker_devices: "{{ gitea_docker_devices_default
                           + gitea_docker_devices_custom }}"
 
 # Hosts
-gitea_docker_hosts_default: []
-gitea_docker_hosts_custom: []
+gitea_docker_hosts_default: {}
+gitea_docker_hosts_custom: {}
 gitea_docker_hosts: "{{ docker_hosts_common
                         | combine(gitea_docker_hosts_default)
                         | combine(gitea_docker_hosts_custom) }}"

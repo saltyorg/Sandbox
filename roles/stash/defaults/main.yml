@@ -109,8 +109,8 @@ stash_docker_devices: "{{ stash_docker_devices_default
                           + stash_docker_devices_custom }}"
 
 # Hosts
-stash_docker_hosts_default: []
-stash_docker_hosts_custom: []
+stash_docker_hosts_default: {}
+stash_docker_hosts_custom: {}
 stash_docker_hosts: "{{ docker_hosts_common
                         | combine(stash_docker_hosts_default)
                         | combine(stash_docker_hosts_custom) }}"

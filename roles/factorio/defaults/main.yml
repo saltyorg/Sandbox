@@ -87,8 +87,8 @@ factorio_docker_devices: "{{ factorio_docker_devices_default
                           + factorio_docker_devices_custom }}"
 
 # Hosts
-factorio_docker_hosts_default: []
-factorio_docker_hosts_custom: []
+factorio_docker_hosts_default: {}
+factorio_docker_hosts_custom: {}
 factorio_docker_hosts: "{{ docker_hosts_common
                         | combine(factorio_docker_hosts_default)
                         | combine(factorio_docker_hosts_custom) }}"

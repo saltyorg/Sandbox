@@ -101,8 +101,8 @@ watchstate_docker_devices: "{{ lookup('vars', watchstate_name + '_docker_devices
                                + lookup('vars', watchstate_name + '_docker_devices_custom', default=watchstate_docker_devices_custom) }}"
 
 # Hosts
-watchstate_docker_hosts_default: []
-watchstate_docker_hosts_custom: []
+watchstate_docker_hosts_default: {}
+watchstate_docker_hosts_custom: {}
 watchstate_docker_hosts: "{{ docker_hosts_common
                              | combine(lookup('vars', watchstate_name + '_docker_hosts_default', default=watchstate_docker_hosts_default))
                              | combine(lookup('vars', watchstate_name + '_docker_hosts_custom', default=watchstate_docker_hosts_custom)) }}"

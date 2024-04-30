@@ -99,8 +99,8 @@ komga_docker_devices: "{{ komga_docker_devices_default
                           + komga_docker_devices_custom }}"
 
 # Hosts
-komga_docker_hosts_default: []
-komga_docker_hosts_custom: []
+komga_docker_hosts_default: {}
+komga_docker_hosts_custom: {}
 komga_docker_hosts: "{{ docker_hosts_common
                         | combine(komga_docker_hosts_default)
                         | combine(komga_docker_hosts_custom) }}"

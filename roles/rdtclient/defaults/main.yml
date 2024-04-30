@@ -109,8 +109,8 @@ rdtclient_docker_devices: "{{ rdtclient_docker_devices_default
                               + rdtclient_docker_devices_custom }}"
 
 # Hosts
-rdtclient_docker_hosts_default: []
-rdtclient_docker_hosts_custom: []
+rdtclient_docker_hosts_default: {}
+rdtclient_docker_hosts_custom: {}
 rdtclient_docker_hosts: "{{ docker_hosts_common
                             | combine(rdtclient_docker_hosts_default)
                             | combine(rdtclient_docker_hosts_custom) }}"

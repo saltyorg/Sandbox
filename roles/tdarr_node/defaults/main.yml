@@ -83,8 +83,8 @@ tdarr_node_docker_devices: "{{ tdarr_node_docker_devices_default
                                + tdarr_node_docker_devices_custom }}"
 
 # Hosts
-tdarr_node_docker_hosts_default: []
-tdarr_node_docker_hosts_custom: []
+tdarr_node_docker_hosts_default: {}
+tdarr_node_docker_hosts_custom: {}
 tdarr_node_docker_hosts: "{{ docker_hosts_common
                              | combine(tdarr_node_docker_hosts_default)
                              | combine(tdarr_node_docker_hosts_custom) }}"

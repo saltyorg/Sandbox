@@ -101,8 +101,8 @@ gaps_docker_devices: "{{ gaps_docker_devices_default
                          + gaps_docker_devices_custom }}"
 
 # Hosts
-gaps_docker_hosts_default: []
-gaps_docker_hosts_custom: []
+gaps_docker_hosts_default: {}
+gaps_docker_hosts_custom: {}
 gaps_docker_hosts: "{{ docker_hosts_common
                        | combine(gaps_docker_hosts_default)
                        | combine(gaps_docker_hosts_custom) }}"

@@ -101,8 +101,8 @@ vaultwarden_docker_devices: "{{ vaultwarden_docker_devices_default
                                 + vaultwarden_docker_devices_custom }}"
 
 # Hosts
-vaultwarden_docker_hosts_default: []
-vaultwarden_docker_hosts_custom: []
+vaultwarden_docker_hosts_default: {}
+vaultwarden_docker_hosts_custom: {}
 vaultwarden_docker_hosts: "{{ docker_hosts_common
                               | combine(vaultwarden_docker_hosts_default)
                               | combine(vaultwarden_docker_hosts_custom) }}"

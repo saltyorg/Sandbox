@@ -106,8 +106,8 @@ audiobookshelf_docker_devices: "{{ lookup('vars', audiobookshelf_name + '_docker
                                    + lookup('vars', audiobookshelf_name + '_docker_devices_custom', default=audiobookshelf_docker_devices_custom) }}"
 
 # Hosts
-audiobookshelf_docker_hosts_default: []
-audiobookshelf_docker_hosts_custom: []
+audiobookshelf_docker_hosts_default: {}
+audiobookshelf_docker_hosts_custom: {}
 audiobookshelf_docker_hosts: "{{ docker_hosts_common
                                  | combine(lookup('vars', audiobookshelf_name + '_docker_hosts_default', default=audiobookshelf_docker_hosts_default))
                                  | combine(lookup('vars', audiobookshelf_name + '_docker_hosts_custom', default=audiobookshelf_docker_hosts_custom)) }}"

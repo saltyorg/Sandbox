@@ -104,8 +104,8 @@ logarr_docker_devices: "{{ logarr_docker_devices_default
                            + logarr_docker_devices_custom }}"
 
 # Hosts
-logarr_docker_hosts_default: []
-logarr_docker_hosts_custom: []
+logarr_docker_hosts_default: {}
+logarr_docker_hosts_custom: {}
 logarr_docker_hosts: "{{ docker_hosts_common
                          | combine(logarr_docker_hosts_default)
                          | combine(logarr_docker_hosts_custom) }}"

@@ -99,8 +99,8 @@ omegabrr_docker_devices: "{{ omegabrr_docker_devices_default
                              + omegabrr_docker_devices_custom }}"
 
 # Hosts
-omegabrr_docker_hosts_default: []
-omegabrr_docker_hosts_custom: []
+omegabrr_docker_hosts_default: {}
+omegabrr_docker_hosts_custom: {}
 omegabrr_docker_hosts: "{{ docker_hosts_common
                            | combine(omegabrr_docker_hosts_default)
                            | combine(omegabrr_docker_hosts_custom) }}"

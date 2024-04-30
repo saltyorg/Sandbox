@@ -64,8 +64,8 @@ plextraktsync_docker_devices: "{{ plextraktsync_docker_devices_default
                                   + plextraktsync_docker_devices_custom }}"
 
 # Hosts
-plextraktsync_docker_hosts_default: []
-plextraktsync_docker_hosts_custom: []
+plextraktsync_docker_hosts_default: {}
+plextraktsync_docker_hosts_custom: {}
 plextraktsync_docker_hosts: "{{ docker_hosts_common
                                 | combine(plextraktsync_docker_hosts_default)
                                 | combine(plextraktsync_docker_hosts_custom) }}"

@@ -121,8 +121,8 @@ tubearchivist_docker_devices: "{{ tubearchivist_docker_devices_default
                                   + tubearchivist_docker_devices_custom }}"
 
 # Hosts
-tubearchivist_docker_hosts_default: []
-tubearchivist_docker_hosts_custom: []
+tubearchivist_docker_hosts_default: {}
+tubearchivist_docker_hosts_custom: {}
 tubearchivist_docker_hosts: "{{ docker_hosts_common
                                 | combine(tubearchivist_docker_hosts_default)
                                 | combine(tubearchivist_docker_hosts_custom) }}"

@@ -114,8 +114,8 @@ homarr_docker_devices: "{{ homarr_docker_devices_default
                            + homarr_docker_devices_custom }}"
 
 # Hosts
-homarr_docker_hosts_default: []
-homarr_docker_hosts_custom: []
+homarr_docker_hosts_default: {}
+homarr_docker_hosts_custom: {}
 homarr_docker_hosts: "{{ docker_hosts_common
                          | combine(homarr_docker_hosts_default)
                          | combine(homarr_docker_hosts_custom) }}"

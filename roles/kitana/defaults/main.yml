@@ -100,8 +100,8 @@ kitana_docker_devices: "{{ kitana_docker_devices_default
                            + kitana_docker_devices_custom }}"
 
 # Hosts
-kitana_docker_hosts_default: []
-kitana_docker_hosts_custom: []
+kitana_docker_hosts_default: {}
+kitana_docker_hosts_custom: {}
 kitana_docker_hosts: "{{ docker_hosts_common
                          | combine(kitana_docker_hosts_default)
                          | combine(kitana_docker_hosts_custom) }}"

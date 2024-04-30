@@ -102,8 +102,8 @@ mylar3_docker_devices: "{{ mylar3_docker_devices_default
                            + mylar3_docker_devices_custom }}"
 
 # Hosts
-mylar3_docker_hosts_default: []
-mylar3_docker_hosts_custom: []
+mylar3_docker_hosts_default: {}
+mylar3_docker_hosts_custom: {}
 mylar3_docker_hosts: "{{ docker_hosts_common
                          | combine(mylar3_docker_hosts_default)
                          | combine(mylar3_docker_hosts_custom) }}"

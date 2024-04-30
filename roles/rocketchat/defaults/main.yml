@@ -114,8 +114,8 @@ rocketchat_docker_devices: "{{ rocketchat_docker_devices_default
                                + rocketchat_docker_devices_custom }}"
 
 # Hosts
-rocketchat_docker_hosts_default: []
-rocketchat_docker_hosts_custom: []
+rocketchat_docker_hosts_default: {}
+rocketchat_docker_hosts_custom: {}
 rocketchat_docker_hosts: "{{ docker_hosts_common
                              | combine(rocketchat_docker_hosts_default)
                              | combine(rocketchat_docker_hosts_custom) }}"

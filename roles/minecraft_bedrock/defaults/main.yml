@@ -88,8 +88,8 @@ minecraft_bedrock_docker_devices: "{{ minecraft_bedrock_docker_devices_default
                                       + minecraft_bedrock_docker_devices_custom }}"
 
 # Hosts
-minecraft_bedrock_docker_hosts_default: []
-minecraft_bedrock_docker_hosts_custom: []
+minecraft_bedrock_docker_hosts_default: {}
+minecraft_bedrock_docker_hosts_custom: {}
 minecraft_bedrock_docker_hosts: "{{ docker_hosts_common
                                     | combine(minecraft_bedrock_docker_hosts_default)
                                     | combine(minecraft_bedrock_docker_hosts_custom) }}"

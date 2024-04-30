@@ -78,8 +78,8 @@ kometa_docker_devices: "{{ lookup('vars', kometa_name + '_docker_devices_default
                         + lookup('vars', kometa_name + '_docker_devices_custom', default=kometa_docker_devices_custom) }}"
 
 # Hosts
-kometa_docker_hosts_default: []
-kometa_docker_hosts_custom: []
+kometa_docker_hosts_default: {}
+kometa_docker_hosts_custom: {}
 kometa_docker_hosts: "{{ docker_hosts_common
                       | combine(lookup('vars', kometa_name + '_docker_hosts_default', default=kometa_docker_hosts_default))
                       | combine(lookup('vars', kometa_name + '_docker_hosts_custom', default=kometa_docker_hosts_custom)) }}"

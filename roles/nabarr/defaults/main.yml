@@ -65,8 +65,8 @@ nabarr_docker_devices: "{{ nabarr_docker_devices_default
                            + nabarr_docker_devices_custom }}"
 
 # Hosts
-nabarr_docker_hosts_default: []
-nabarr_docker_hosts_custom: []
+nabarr_docker_hosts_default: {}
+nabarr_docker_hosts_custom: {}
 nabarr_docker_hosts: "{{ docker_hosts_common
                          | combine(nabarr_docker_hosts_default)
                          | combine(nabarr_docker_hosts_custom) }}"

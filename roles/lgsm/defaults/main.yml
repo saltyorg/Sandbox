@@ -83,8 +83,8 @@ lgsm_docker_devices: "{{ lookup('vars', lgsm_name + '_docker_devices_default', d
                                + lookup('vars', lgsm_name + '_docker_devices_custom', default=lgsm_docker_devices_custom) }}"
 
 # Hosts
-lgsm_docker_hosts_default: []
-lgsm_docker_hosts_custom: []
+lgsm_docker_hosts_default: {}
+lgsm_docker_hosts_custom: {}
 lgsm_docker_hosts: "{{ docker_hosts_common
                              | combine(lookup('vars', lgsm_name + '_docker_hosts_default', default=lgsm_docker_hosts_default))
                              | combine(lookup('vars', lgsm_name + '_docker_hosts_custom', default=lgsm_docker_hosts_custom)) }}"

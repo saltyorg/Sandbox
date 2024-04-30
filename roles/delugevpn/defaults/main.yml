@@ -132,8 +132,8 @@ delugevpn_docker_devices: "{{ delugevpn_docker_devices_default
                               + delugevpn_docker_devices_custom }}"
 
 # Hosts
-delugevpn_docker_hosts_default: []
-delugevpn_docker_hosts_custom: []
+delugevpn_docker_hosts_default: {}
+delugevpn_docker_hosts_custom: {}
 delugevpn_docker_hosts: "{{ docker_hosts_common
                             | combine(delugevpn_docker_hosts_default)
                             | combine(delugevpn_docker_hosts_custom) }}"

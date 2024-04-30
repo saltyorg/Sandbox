@@ -98,8 +98,8 @@ apprise_docker_devices: "{{ apprise_docker_devices_default
                             + apprise_docker_devices_custom }}"
 
 # Hosts
-apprise_docker_hosts_default: []
-apprise_docker_hosts_custom: []
+apprise_docker_hosts_default: {}
+apprise_docker_hosts_custom: {}
 apprise_docker_hosts: "{{ docker_hosts_common
                           | combine(apprise_docker_hosts_default)
                           | combine(apprise_docker_hosts_custom) }}"

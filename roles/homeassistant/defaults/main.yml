@@ -105,8 +105,8 @@ homeassistant_docker_devices: "{{ homeassistant_docker_devices_default
                                   + homeassistant_docker_devices_custom }}"
 
 # Hosts
-homeassistant_docker_hosts_default: []
-homeassistant_docker_hosts_custom: []
+homeassistant_docker_hosts_default: {}
+homeassistant_docker_hosts_custom: {}
 homeassistant_docker_hosts: "{{ docker_hosts_common
                                 | combine(homeassistant_docker_hosts_default)
                                 | combine(homeassistant_docker_hosts_custom) }}"

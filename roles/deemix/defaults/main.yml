@@ -102,8 +102,8 @@ deemix_docker_devices: "{{ deemix_docker_devices_default
                            + deemix_docker_devices_custom }}"
 
 # Hosts
-deemix_docker_hosts_default: []
-deemix_docker_hosts_custom: []
+deemix_docker_hosts_default: {}
+deemix_docker_hosts_custom: {}
 deemix_docker_hosts: "{{ docker_hosts_common
                          | combine(deemix_docker_hosts_default)
                          | combine(deemix_docker_hosts_custom) }}"

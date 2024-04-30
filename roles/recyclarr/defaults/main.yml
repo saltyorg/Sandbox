@@ -70,8 +70,8 @@ recyclarr_docker_devices: "{{ recyclarr_docker_devices_default
                               + recyclarr_docker_devices_custom }}"
 
 # Hosts
-recyclarr_docker_hosts_default: []
-recyclarr_docker_hosts_custom: []
+recyclarr_docker_hosts_default: {}
+recyclarr_docker_hosts_custom: {}
 recyclarr_docker_hosts: "{{ docker_hosts_common
                             | combine(recyclarr_docker_hosts_default)
                             | combine(recyclarr_docker_hosts_custom) }}"

@@ -107,8 +107,8 @@ healthchecks_docker_devices: "{{ healthchecks_docker_devices_default
                                  + healthchecks_docker_devices_custom }}"
 
 # Hosts
-healthchecks_docker_hosts_default: []
-healthchecks_docker_hosts_custom: []
+healthchecks_docker_hosts_default: {}
+healthchecks_docker_hosts_custom: {}
 healthchecks_docker_hosts: "{{ docker_hosts_common
                                | combine(healthchecks_docker_hosts_default)
                                | combine(healthchecks_docker_hosts_custom) }}"

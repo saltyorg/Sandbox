@@ -101,8 +101,8 @@ resiliosync_docker_devices: "{{ resiliosync_docker_devices_default
                                 + resiliosync_docker_devices_custom }}"
 
 # Hosts
-resiliosync_docker_hosts_default: []
-resiliosync_docker_hosts_custom: []
+resiliosync_docker_hosts_default: {}
+resiliosync_docker_hosts_custom: {}
 resiliosync_docker_hosts: "{{ docker_hosts_common
                               | combine(resiliosync_docker_hosts_default)
                               | combine(resiliosync_docker_hosts_custom) }}"

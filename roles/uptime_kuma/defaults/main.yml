@@ -109,8 +109,8 @@ uptime_kuma_docker_devices: "{{ uptime_kuma_docker_devices_default
                                 + uptime_kuma_docker_devices_custom }}"
 
 # Hosts
-uptime_kuma_docker_hosts_default: []
-uptime_kuma_docker_hosts_custom: []
+uptime_kuma_docker_hosts_default: {}
+uptime_kuma_docker_hosts_custom: {}
 uptime_kuma_docker_hosts: "{{ docker_hosts_common
                               | combine(uptime_kuma_docker_hosts_default)
                               | combine(uptime_kuma_docker_hosts_custom) }}"

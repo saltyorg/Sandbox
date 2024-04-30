@@ -101,8 +101,8 @@ thelounge_docker_devices: "{{ thelounge_docker_devices_default
                               + thelounge_docker_devices_custom }}"
 
 # Hosts
-thelounge_docker_hosts_default: []
-thelounge_docker_hosts_custom: []
+thelounge_docker_hosts_default: {}
+thelounge_docker_hosts_custom: {}
 thelounge_docker_hosts: "{{ docker_hosts_common
                             | combine(thelounge_docker_hosts_default)
                             | combine(thelounge_docker_hosts_custom) }}"

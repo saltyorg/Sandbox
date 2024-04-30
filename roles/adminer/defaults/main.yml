@@ -86,8 +86,8 @@ adminer_docker_devices: "{{ adminer_docker_devices_default
                             + adminer_docker_devices_custom }}"
 
 # Hosts
-adminer_docker_hosts_default: []
-adminer_docker_hosts_custom: []
+adminer_docker_hosts_default: {}
+adminer_docker_hosts_custom: {}
 adminer_docker_hosts: "{{ docker_hosts_common
                           | combine(adminer_docker_hosts_default)
                           | combine(adminer_docker_hosts_custom) }}"

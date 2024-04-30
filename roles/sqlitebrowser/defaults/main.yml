@@ -101,8 +101,8 @@ sqlitebrowser_docker_devices: "{{ sqlitebrowser_docker_devices_default
                                   + sqlitebrowser_docker_devices_custom }}"
 
 # Hosts
-sqlitebrowser_docker_hosts_default: []
-sqlitebrowser_docker_hosts_custom: []
+sqlitebrowser_docker_hosts_default: {}
+sqlitebrowser_docker_hosts_custom: {}
 sqlitebrowser_docker_hosts: "{{ docker_hosts_common
                                 | combine(sqlitebrowser_docker_hosts_default)
                                 | combine(sqlitebrowser_docker_hosts_custom) }}"

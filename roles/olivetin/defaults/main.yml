@@ -102,8 +102,8 @@ olivetin_docker_devices: "{{ olivetin_docker_devices_default
                              + olivetin_docker_devices_custom }}"
 
 # Hosts
-olivetin_docker_hosts_default: []
-olivetin_docker_hosts_custom: []
+olivetin_docker_hosts_default: {}
+olivetin_docker_hosts_custom: {}
 olivetin_docker_hosts: "{{ docker_hosts_common
                            | combine(olivetin_docker_hosts_default)
                            | combine(olivetin_docker_hosts_custom) }}"

@@ -116,8 +116,8 @@ linkwarden_docker_devices: "{{ linkwarden_docker_devices_default
                                + linkwarden_docker_devices_custom }}"
 
 # Hosts
-linkwarden_docker_hosts_default: []
-linkwarden_docker_hosts_custom: []
+linkwarden_docker_hosts_default: {}
+linkwarden_docker_hosts_custom: {}
 linkwarden_docker_hosts: "{{ docker_hosts_common
                              | combine(linkwarden_docker_hosts_default)
                              | combine(linkwarden_docker_hosts_custom) }}"

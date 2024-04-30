@@ -99,8 +99,8 @@ threadfin_docker_devices: "{{ threadfin_docker_devices_default
                               + threadfin_docker_devices_custom }}"
 
 # Hosts
-threadfin_docker_hosts_default: []
-threadfin_docker_hosts_custom: []
+threadfin_docker_hosts_default: {}
+threadfin_docker_hosts_custom: {}
 threadfin_docker_hosts: "{{ docker_hosts_common
                             | combine(threadfin_docker_hosts_default)
                             | combine(threadfin_docker_hosts_custom) }}"

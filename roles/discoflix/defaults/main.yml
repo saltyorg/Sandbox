@@ -96,8 +96,8 @@ discoflix_docker_devices: "{{ discoflix_docker_devices_default
                               + discoflix_docker_devices_custom }}"
 
 # Hosts
-discoflix_docker_hosts_default: []
-discoflix_docker_hosts_custom: []
+discoflix_docker_hosts_default: {}
+discoflix_docker_hosts_custom: {}
 discoflix_docker_hosts: "{{ docker_hosts_common
                             | combine(discoflix_docker_hosts_default)
                             | combine(discoflix_docker_hosts_custom) }}"

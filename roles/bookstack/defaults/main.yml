@@ -103,8 +103,8 @@ bookstack_docker_devices: "{{ bookstack_docker_devices_default
                               + bookstack_docker_devices_custom }}"
 
 # Hosts
-bookstack_docker_hosts_default: []
-bookstack_docker_hosts_custom: []
+bookstack_docker_hosts_default: {}
+bookstack_docker_hosts_custom: {}
 bookstack_docker_hosts: "{{ docker_hosts_common
                             | combine(bookstack_docker_hosts_default)
                             | combine(bookstack_docker_hosts_custom) }}"

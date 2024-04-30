@@ -122,8 +122,8 @@ immich_docker_devices: "{{ immich_docker_devices_default
                            + immich_docker_devices_custom }}"
 
 # Hosts
-immich_docker_hosts_default: []
-immich_docker_hosts_custom: []
+immich_docker_hosts_default: {}
+immich_docker_hosts_custom: {}
 immich_docker_hosts: "{{ docker_hosts_common
                          | combine(immich_docker_hosts_default)
                          | combine(immich_docker_hosts_custom) }}"

@@ -80,8 +80,8 @@ solr_docker_devices: "{{ solr_docker_devices_default
                          + solr_docker_devices_custom }}"
 
 # Hosts
-solr_docker_hosts_default: []
-solr_docker_hosts_custom: []
+solr_docker_hosts_default: {}
+solr_docker_hosts_custom: {}
 solr_docker_hosts: "{{ docker_hosts_common
                        | combine(solr_docker_hosts_default)
                        | combine(solr_docker_hosts_custom) }}"

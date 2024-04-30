@@ -82,8 +82,8 @@ elasticsearch_docker_devices: "{{ elasticsearch_docker_devices_default
                                   + elasticsearch_docker_devices_custom }}"
 
 # Hosts
-elasticsearch_docker_hosts_default: []
-elasticsearch_docker_hosts_custom: []
+elasticsearch_docker_hosts_default: {}
+elasticsearch_docker_hosts_custom: {}
 elasticsearch_docker_hosts: "{{ docker_hosts_common
                                 | combine(elasticsearch_docker_hosts_default)
                                 | combine(elasticsearch_docker_hosts_custom) }}"

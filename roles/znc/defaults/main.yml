@@ -102,8 +102,8 @@ znc_docker_devices: "{{ znc_docker_devices_default
                         + znc_docker_devices_custom }}"
 
 # Hosts
-znc_docker_hosts_default: []
-znc_docker_hosts_custom: []
+znc_docker_hosts_default: {}
+znc_docker_hosts_custom: {}
 znc_docker_hosts: "{{ docker_hosts_common
                       | combine(znc_docker_hosts_default)
                       | combine(znc_docker_hosts_custom) }}"

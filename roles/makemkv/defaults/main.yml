@@ -103,8 +103,8 @@ makemkv_docker_devices: "{{ makemkv_docker_devices_default
                             + makemkv_docker_devices_custom }}"
 
 # Hosts
-makemkv_docker_hosts_default: []
-makemkv_docker_hosts_custom: []
+makemkv_docker_hosts_default: {}
+makemkv_docker_hosts_custom: {}
 makemkv_docker_hosts: "{{ docker_hosts_common
                           | combine(makemkv_docker_hosts_default)
                           | combine(makemkv_docker_hosts_custom) }}"

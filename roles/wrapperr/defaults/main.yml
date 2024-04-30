@@ -97,8 +97,8 @@ wrapperr_docker_devices: "{{ wrapperr_docker_devices_default
                              + wrapperr_docker_devices_custom }}"
 
 # Hosts
-wrapperr_docker_hosts_default: []
-wrapperr_docker_hosts_custom: []
+wrapperr_docker_hosts_default: {}
+wrapperr_docker_hosts_custom: {}
 wrapperr_docker_hosts: "{{ docker_hosts_common
                            | combine(wrapperr_docker_hosts_default)
                            | combine(wrapperr_docker_hosts_custom) }}"

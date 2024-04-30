@@ -98,8 +98,8 @@ dashy_docker_devices: "{{ dashy_docker_devices_default
                           + dashy_docker_devices_custom }}"
 
 # Hosts
-dashy_docker_hosts_default: []
-dashy_docker_hosts_custom: []
+dashy_docker_hosts_default: {}
+dashy_docker_hosts_custom: {}
 dashy_docker_hosts: "{{ docker_hosts_common
                         | combine(dashy_docker_hosts_default)
                         | combine(dashy_docker_hosts_custom) }}"

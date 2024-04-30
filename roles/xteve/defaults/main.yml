@@ -104,8 +104,8 @@ xteve_docker_devices: "{{ xteve_docker_devices_default
                           + xteve_docker_devices_custom }}"
 
 # Hosts
-xteve_docker_hosts_default: []
-xteve_docker_hosts_custom: []
+xteve_docker_hosts_default: {}
+xteve_docker_hosts_custom: {}
 xteve_docker_hosts: "{{ docker_hosts_common
                         | combine(xteve_docker_hosts_default)
                         | combine(xteve_docker_hosts_custom) }}"

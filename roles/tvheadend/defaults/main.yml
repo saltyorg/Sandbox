@@ -104,8 +104,8 @@ tvheadend_docker_devices: "{{ tvheadend_docker_devices_default
                               + tvheadend_docker_devices_custom }}"
 
 # Hosts
-tvheadend_docker_hosts_default: []
-tvheadend_docker_hosts_custom: []
+tvheadend_docker_hosts_default: {}
+tvheadend_docker_hosts_custom: {}
 tvheadend_docker_hosts: "{{ docker_hosts_common
                             | combine(tvheadend_docker_hosts_default)
                             | combine(tvheadend_docker_hosts_custom) }}"

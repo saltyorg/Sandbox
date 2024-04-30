@@ -68,8 +68,8 @@ sabthrottle_docker_devices: "{{ sabthrottle_docker_devices_default
                                 + sabthrottle_docker_devices_custom }}"
 
 # Hosts
-sabthrottle_docker_hosts_default: []
-sabthrottle_docker_hosts_custom: []
+sabthrottle_docker_hosts_default: {}
+sabthrottle_docker_hosts_custom: {}
 sabthrottle_docker_hosts: "{{ docker_hosts_common
                               | combine(sabthrottle_docker_hosts_default)
                               | combine(sabthrottle_docker_hosts_custom) }}"

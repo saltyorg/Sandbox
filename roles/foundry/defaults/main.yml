@@ -111,8 +111,8 @@ foundry_docker_devices: "{{ foundry_docker_devices_default
                                  + foundry_docker_devices_custom }}"
 
 # Hosts
-foundry_docker_hosts_default: []
-foundry_docker_hosts_custom: []
+foundry_docker_hosts_default: {}
+foundry_docker_hosts_custom: {}
 foundry_docker_hosts: "{{ docker_hosts_common
                                | combine(foundry_docker_hosts_default)
                                | combine(foundry_docker_hosts_custom) }}"

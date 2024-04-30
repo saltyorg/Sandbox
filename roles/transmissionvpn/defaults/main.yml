@@ -126,8 +126,8 @@ transmissionvpn_docker_devices: "{{ transmissionvpn_docker_devices_default
                                     + transmissionvpn_docker_devices_custom }}"
 
 # Hosts
-transmissionvpn_docker_hosts_default: []
-transmissionvpn_docker_hosts_custom: []
+transmissionvpn_docker_hosts_default: {}
+transmissionvpn_docker_hosts_custom: {}
 transmissionvpn_docker_hosts: "{{ docker_hosts_common
                                   | combine(transmissionvpn_docker_hosts_default)
                                   | combine(transmissionvpn_docker_hosts_custom) }}"

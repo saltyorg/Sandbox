@@ -64,8 +64,8 @@ a_train_docker_devices: "{{ a_train_docker_devices_default
                             + a_train_docker_devices_custom }}"
 
 # Hosts
-a_train_docker_hosts_default: []
-a_train_docker_hosts_custom: []
+a_train_docker_hosts_default: {}
+a_train_docker_hosts_custom: {}
 a_train_docker_hosts: "{{ docker_hosts_common
                           | combine(a_train_docker_hosts_default)
                           | combine(a_train_docker_hosts_custom) }}"

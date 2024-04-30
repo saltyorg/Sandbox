@@ -104,8 +104,8 @@ forgejo_docker_devices_custom: []
 forgejo_docker_devices: "{{ forgejo_docker_devices_default + forgejo_docker_devices_custom }}"
 
 # Hosts
-forgejo_docker_hosts_default: []
-forgejo_docker_hosts_custom: []
+forgejo_docker_hosts_default: {}
+forgejo_docker_hosts_custom: {}
 forgejo_docker_hosts: "{{ docker_hosts_common | combine(forgejo_docker_hosts_default) | combine(forgejo_docker_hosts_custom) }}"
 
 # Labels

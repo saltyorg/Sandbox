@@ -98,8 +98,8 @@ kavita_docker_devices: "{{ kavita_docker_devices_default
                            + kavita_docker_devices_custom }}"
 
 # Hosts
-kavita_docker_hosts_default: []
-kavita_docker_hosts_custom: []
+kavita_docker_hosts_default: {}
+kavita_docker_hosts_custom: {}
 kavita_docker_hosts: "{{ docker_hosts_common
                          | combine(kavita_docker_hosts_default)
                          | combine(kavita_docker_hosts_custom) }}"

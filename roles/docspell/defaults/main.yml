@@ -113,8 +113,8 @@ docspell_docker_devices: "{{ docspell_docker_devices_default
                              + docspell_docker_devices_custom }}"
 
 # Hosts
-docspell_docker_hosts_default: []
-docspell_docker_hosts_custom: []
+docspell_docker_hosts_default: {}
+docspell_docker_hosts_custom: {}
 docspell_docker_hosts: "{{ docker_hosts_common
                            | combine(docspell_docker_hosts_default)
                            | combine(docspell_docker_hosts_custom) }}"

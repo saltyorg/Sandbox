@@ -119,8 +119,8 @@ notifiarr_docker_devices: "{{ notifiarr_docker_devices_default
                               + notifiarr_docker_devices_custom }}"
 
 # Hosts
-notifiarr_docker_hosts_default: []
-notifiarr_docker_hosts_custom: []
+notifiarr_docker_hosts_default: {}
+notifiarr_docker_hosts_custom: {}
 notifiarr_docker_hosts: "{{ docker_hosts_common
                             | combine(notifiarr_docker_hosts_default)
                             | combine(notifiarr_docker_hosts_custom) }}"

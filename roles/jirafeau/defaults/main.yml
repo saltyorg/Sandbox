@@ -103,8 +103,8 @@ jirafeau_docker_devices: "{{ jirafeau_docker_devices_default
                              + jirafeau_docker_devices_custom }}"
 
 # Hosts
-jirafeau_docker_hosts_default: []
-jirafeau_docker_hosts_custom: []
+jirafeau_docker_hosts_default: {}
+jirafeau_docker_hosts_custom: {}
 jirafeau_docker_hosts: "{{ docker_hosts_common
                            | combine(jirafeau_docker_hosts_default)
                            | combine(jirafeau_docker_hosts_custom) }}"

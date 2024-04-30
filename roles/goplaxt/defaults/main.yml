@@ -102,8 +102,8 @@ goplaxt_docker_devices: "{{ goplaxt_docker_devices_default
                             + goplaxt_docker_devices_custom }}"
 
 # Hosts
-goplaxt_docker_hosts_default: []
-goplaxt_docker_hosts_custom: []
+goplaxt_docker_hosts_default: {}
+goplaxt_docker_hosts_custom: {}
 goplaxt_docker_hosts: "{{ docker_hosts_common
                           | combine(goplaxt_docker_hosts_default)
                           | combine(goplaxt_docker_hosts_custom) }}"

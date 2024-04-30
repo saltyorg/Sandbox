@@ -111,8 +111,8 @@ privatebin_docker_devices: "{{ privatebin_docker_devices_default
                                + privatebin_docker_devices_custom }}"
 
 # Hosts
-privatebin_docker_hosts_default: []
-privatebin_docker_hosts_custom: []
+privatebin_docker_hosts_default: {}
+privatebin_docker_hosts_custom: {}
 privatebin_docker_hosts: "{{ docker_hosts_common
                              | combine(privatebin_docker_hosts_default)
                              | combine(privatebin_docker_hosts_custom) }}"

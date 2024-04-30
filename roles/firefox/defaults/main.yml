@@ -103,8 +103,8 @@ firefox_docker_devices: "{{ firefox_docker_devices_default
                             + firefox_docker_devices_custom }}"
 
 # Hosts
-firefox_docker_hosts_default: []
-firefox_docker_hosts_custom: []
+firefox_docker_hosts_default: {}
+firefox_docker_hosts_custom: {}
 firefox_docker_hosts: "{{ docker_hosts_common
                           | combine(firefox_docker_hosts_default)
                           | combine(firefox_docker_hosts_custom) }}"

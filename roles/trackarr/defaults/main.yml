@@ -110,8 +110,8 @@ trackarr_docker_devices: "{{ trackarr_docker_devices_default
                              + trackarr_docker_devices_custom }}"
 
 # Hosts
-trackarr_docker_hosts_default: []
-trackarr_docker_hosts_custom: []
+trackarr_docker_hosts_default: {}
+trackarr_docker_hosts_custom: {}
 trackarr_docker_hosts: "{{ docker_hosts_common
                            | combine(trackarr_docker_hosts_default)
                            | combine(trackarr_docker_hosts_custom) }}"

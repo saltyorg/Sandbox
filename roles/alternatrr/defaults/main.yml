@@ -109,8 +109,8 @@ alternatrr_docker_devices: "{{ lookup('vars', alternatrr_name + '_docker_devices
                             + lookup('vars', alternatrr_name + '_docker_devices_custom', default=alternatrr_docker_devices_custom) }}"
 
 # Hosts
-alternatrr_docker_hosts_default: []
-alternatrr_docker_hosts_custom: []
+alternatrr_docker_hosts_default: {}
+alternatrr_docker_hosts_custom: {}
 alternatrr_docker_hosts: "{{ docker_hosts_common
                           | combine(lookup('vars', alternatrr_name + '_docker_hosts_default', default=alternatrr_docker_hosts_default))
                           | combine(lookup('vars', alternatrr_name + '_docker_hosts_custom', default=alternatrr_docker_hosts_custom)) }}"

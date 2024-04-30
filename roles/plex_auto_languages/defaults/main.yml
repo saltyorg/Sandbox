@@ -62,8 +62,8 @@ plex_auto_languages_docker_devices: "{{ plex_auto_languages_docker_devices_defau
                                         + plex_auto_languages_docker_devices_custom }}"
 
 # Hosts
-plex_auto_languages_docker_hosts_default: []
-plex_auto_languages_docker_hosts_custom: []
+plex_auto_languages_docker_hosts_default: {}
+plex_auto_languages_docker_hosts_custom: {}
 plex_auto_languages_docker_hosts: "{{ docker_hosts_common
                                       | combine(plex_auto_languages_docker_hosts_default)
                                       | combine(plex_auto_languages_docker_hosts_custom) }}"

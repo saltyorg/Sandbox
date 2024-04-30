@@ -104,8 +104,8 @@ unmanic_docker_devices: "{{ unmanic_docker_devices_default
                             + unmanic_docker_devices_custom }}"
 
 # Hosts
-unmanic_docker_hosts_default: []
-unmanic_docker_hosts_custom: []
+unmanic_docker_hosts_default: {}
+unmanic_docker_hosts_custom: {}
 unmanic_docker_hosts: "{{ docker_hosts_common
                           | combine(unmanic_docker_hosts_default)
                           | combine(unmanic_docker_hosts_custom) }}"

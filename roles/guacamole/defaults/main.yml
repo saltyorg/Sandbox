@@ -102,8 +102,8 @@ guacamole_docker_devices: "{{ guacamole_docker_devices_default
                               + guacamole_docker_devices_custom }}"
 
 # Hosts
-guacamole_docker_hosts_default: []
-guacamole_docker_hosts_custom: []
+guacamole_docker_hosts_default: {}
+guacamole_docker_hosts_custom: {}
 guacamole_docker_hosts: "{{ docker_hosts_common
                             | combine(guacamole_docker_hosts_default)
                             | combine(guacamole_docker_hosts_custom) }}"

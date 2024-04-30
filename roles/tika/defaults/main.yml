@@ -57,8 +57,8 @@ tika_docker_devices: "{{ tika_docker_devices_default
                          + tika_docker_devices_custom }}"
 
 # Hosts
-tika_docker_hosts_default: []
-tika_docker_hosts_custom: []
+tika_docker_hosts_default: {}
+tika_docker_hosts_custom: {}
 tika_docker_hosts: "{{ docker_hosts_common
                        | combine(tika_docker_hosts_default)
                        | combine(tika_docker_hosts_custom) }}"
