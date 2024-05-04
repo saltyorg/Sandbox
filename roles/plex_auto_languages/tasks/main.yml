@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Report Plex Account Status
-  ansible.builtin.debug:
+  ansible.builtin.fail:
     msg: Requires Plex Account credentials to be entered in accounts.yml
   when: not plex_account_is_enabled
 
