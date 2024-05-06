@@ -42,18 +42,12 @@
     name: "python"
   vars:
     python_version: "3.8"
-  when: ansible_distribution_version is version('22.04', '==')
-
-- name: Check if venv folder exists
-  ansible.builtin.stat:
-    path: "/opt/python-plexlibrary/venv"
-  register: python_plexlibrary_venv_folder
+  when: ansible_distribution_version is version('20.04', '!=')
 
 - name: Delete venv folder
   ansible.builtin.file:
     path: "/opt/python-plexlibrary/venv"
     state: absent
-  when: python_plexlibrary_venv_folder.stat.exists
 
 - name: Create venv
   ansible.builtin.command:
