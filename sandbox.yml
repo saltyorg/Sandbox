@@ -77,6 +77,7 @@
     - { role: homepage, tags: ['homepage'] }
     - { role: immich, tags: ['immich'] }
     - { role: influxdb, tags: ['influxdb'] }
+    - { role: influxdb2, tags: ['influxdb2'] }
     - { role: invoiceninjav5, tags: ['invoiceninja'] }
     - { role: jdownloader2, tags: ['jdownloader2'] }
     - { role: jellyseerr, tags: ['jellyseerr'] }
