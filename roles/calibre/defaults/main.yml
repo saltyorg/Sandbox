@@ -37,9 +37,9 @@ calibre_web_url: "{{ 'https://' + (lookup('vars', calibre_name + '_web_subdomain
 calibre_web2_subdomain: "{{ calibre_name }}books"
 calibre_web2_domain: "{{ user.domain }}"
 calibre_web2_port: "8081"
-calibre_web2_web_url: "{{ 'https://' + (lookup('vars', calibre_web2_name + '_web_subdomain', default=calibre_web2_web_subdomain) + '.' + lookup('vars', calibre_web2_name + '_web_domain', default=calibre_web2_web_domain)
-                       if (lookup('vars', calibre_web2_name + '_web_subdomain', default=calibre_web2_web_subdomain) | length > 0)
-                       else lookup('vars', calibre_web2_name + '_web_domain', default=calibre_web2_web_domain)) }}"
+calibre_web2_web_url: "{{ 'https://' + (lookup('vars', calibre_name + '_web2_subdomain', default=calibre_web2_subdomain) + '.' + lookup('vars', calibre_name + '_web2_domain', default=calibre_web2_domain)
+                       if (lookup('vars', calibre_name + '_web2_subdomain', default=calibre_web2_subdomain) | length > 0)
+                       else lookup('vars', calibre_name + '_web2_domain', default=calibre_web2_domain)) }}"
 
 ################################
 # DNS
@@ -135,12 +135,12 @@ calibre_docker_hosts: "{{ docker_hosts_common
 calibre_docker_labels_default:
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.entrypoints": "web" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.service": "{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.rule": "Host(`{{ calibre_web2_subdomain + "." + calibre_web2_domain }}`)" }'
+  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.rule": "Host(`{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) + "." + lookup("vars", calibre_name + "_web2_domain", default=calibre_web2_domain) }}`)" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.middlewares": "{{ traefik_default_middleware_http }}" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.priority": "20" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.entrypoints": "websecure" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.service": "{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.rule": "Host(`{{ calibre_web2_subdomain + "." + calibre_web2_domain }}`)" }'
+  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.rule": "Host(`{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) + "." + lookup("vars", calibre_name + "_web2_domain", default=calibre_web2_domain) }}`)" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.middlewares": "{{ calibre_books_traefik_middleware }}" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.tls.options": "securetls@file" }'
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.tls.certresolver": "{{ calibre_traefik_certresolver }}" }'
