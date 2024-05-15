@@ -82,7 +82,7 @@ healthchecks_docker_envs_default:
   SITE_NAME: "{{ healthchecks_name }}"
   SUPERUSER_EMAIL: "{{ user.email }}"
   SUPERUSER_PASSWORD: "{{ user.pass }}"
-  SECRET_KEY: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=16') }}"
+  SECRET_KEY: "{{ lookup('password', '/dev/null', chars=['ascii_letters', 'digits'], length=16) }}"
 healthchecks_docker_envs_custom: {}
 healthchecks_docker_envs: "{{ healthchecks_docker_envs_default
                               | combine(healthchecks_docker_envs_custom) }}"
