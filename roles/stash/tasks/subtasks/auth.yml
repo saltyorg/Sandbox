@@ -26,13 +26,13 @@
 
 - name: Allow public access without auth
   ansible.builtin.shell: |
-    yyq e -i '.dangerous_allow_public_without_auth = "true"' {{ stash_paths_location }}/config/config.yml
+    yyq -i '.dangerous_allow_public_without_auth = "true"' {{ stash_paths_location }}/config/config.yml
   become: true
   become_user: "{{ user.name }}"
 
 - name: Remove tripwire
   ansible.builtin.shell: |
-    yyq e -i 'del(.security_tripwire_accessed_from_public_internet)' {{ stash_paths_location }}/config/config.yml
+    yyq -i 'del(.security_tripwire_accessed_from_public_internet)' {{ stash_paths_location }}/config/config.yml
   become: true
   become_user: "{{ user.name }}"
 
