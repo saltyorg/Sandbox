@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-wizarr_name: wizarr
+wizarr_instances: ["wizarr"]
 
 ################################
 # Paths
@@ -29,16 +29,16 @@ wizarr_paths_folders_list:
 wizarr_web_subdomain: "{{ wizarr_name }}"
 wizarr_web_domain: "{{ user.domain }}"
 wizarr_web_port: "5690"
-wizarr_web_url: "{{ 'https://' + (wizarr_web_subdomain + '.' + wizarr_web_domain
-                 if (wizarr_web_subdomain | length > 0)
-                 else wizarr_web_domain) }}"
+wizarr_web_url: "{{ 'https://' + (lookup('vars', wizarr_name + '_web_subdomain', default=wizarr_web_subdomain) + '.' + lookup('vars', wizarr_name + '_web_domain', default=wizarr_web_domain)
+                 if (lookup('vars', wizarr_name + '_web_subdomain', default=wizarr_web_subdomain) | length > 0)
+                 else lookup('vars', wizarr_name + '_web_domain', default=wizarr_web_domain)) }}"
 
 ################################
 # DNS
 ################################
 
-wizarr_dns_record: "{{ wizarr_web_subdomain }}"
-wizarr_dns_zone: "{{ wizarr_web_domain }}"
+wizarr_dns_record: "{{ lookup('vars', wizarr_name + '_web_subdomain', default=wizarr_web_subdomain) }}"
+wizarr_dns_zone: "{{ lookup('vars', wizarr_name + '_web_domain', default=wizarr_web_domain) }}"
 wizarr_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,55 +64,55 @@ wizarr_docker_container: "{{ wizarr_name }}"
 wizarr_docker_image_pull: true
 wizarr_docker_image_repo: "ghcr.io/wizarrrr/wizarr"
 wizarr_docker_image_tag: "latest"
-wizarr_docker_image: "{{ wizarr_docker_image_repo
-                         + ':' + wizarr_docker_image_tag }}"
+wizarr_docker_image: "{{ lookup('vars', wizarr_name + '_docker_image_repo', default=wizarr_docker_image_repo)
+                         + ':' + lookup('vars', wizarr_name + '_docker_image_tag', default=wizarr_docker_image_tag) }}"
 
 # Ports
 wizarr_docker_ports_defaults: []
 wizarr_docker_ports_custom: []
-wizarr_docker_ports: "{{ wizarr_docker_ports_defaults
-                         + wizarr_docker_ports_custom }}"
+wizarr_docker_ports: "{{ lookup('vars', wizarr_name + '_docker_ports_defaults', default=wizarr_docker_ports_defaults)
+                         + lookup('vars', wizarr_name + '_docker_ports_custom', default=wizarr_docker_ports_custom) }}"
 
 # Envs
 wizarr_docker_envs_default:
   APP_URL: "{{ wizarr_web_url }}"
   DISABLE_BUILTIN_AUTH: "true"
 wizarr_docker_envs_custom: {}
-wizarr_docker_envs: "{{ wizarr_docker_envs_default
-                        | combine(wizarr_docker_envs_custom) }}"
+wizarr_docker_envs: "{{ lookup('vars', wizarr_name + '_docker_envs_default', default=wizarr_docker_envs_default)
+                        | combine(lookup('vars', wizarr_name + '_docker_envs_custom', default=wizarr_docker_envs_custom)) }}"
 
 # Commands
 wizarr_docker_commands_default: []
 wizarr_docker_commands_custom: []
-wizarr_docker_commands: "{{ wizarr_docker_commands_default
-                            + wizarr_docker_commands_custom }}"
+wizarr_docker_commands: "{{ lookup('vars', wizarr_name + '_docker_commands_default', default=wizarr_docker_commands_default)
+                            + lookup('vars', wizarr_name + '_docker_commands_custom', default=wizarr_docker_commands_custom) }}"
 
 # Volumes
 wizarr_docker_volumes_default:
   - "{{ wizarr_paths_location }}:/data/database"
 wizarr_docker_volumes_custom: []
-wizarr_docker_volumes: "{{ wizarr_docker_volumes_default
-                           + wizarr_docker_volumes_custom }}"
+wizarr_docker_volumes: "{{ lookup('vars', wizarr_name + '_docker_volumes_default', default=wizarr_docker_volumes_default)
+                           + lookup('vars', wizarr_name + '_docker_volumes_custom', default=wizarr_docker_volumes_custom) }}"
 
 # Devices
 wizarr_docker_devices_default: []
 wizarr_docker_devices_custom: []
-wizarr_docker_devices: "{{ wizarr_docker_devices_default
-                           + wizarr_docker_devices_custom }}"
+wizarr_docker_devices: "{{ lookup('vars', wizarr_name + '_docker_devices_default', default=wizarr_docker_devices_default)
+                           + lookup('vars', wizarr_name + '_docker_devices_custom', default=wizarr_docker_devices_custom) }}"
 
 # Hosts
 wizarr_docker_hosts_default: {}
 wizarr_docker_hosts_custom: {}
 wizarr_docker_hosts: "{{ docker_hosts_common
-                         | combine(wizarr_docker_hosts_default)
-                         | combine(wizarr_docker_hosts_custom) }}"
+                         | combine(lookup('vars', wizarr_name + '_docker_hosts_default', default=wizarr_docker_hosts_default))
+                         | combine(lookup('vars', wizarr_name + '_docker_hosts_custom', default=wizarr_docker_hosts_custom)) }}"
 
 # Labels
 wizarr_docker_labels_default: {}
 wizarr_docker_labels_custom: {}
 wizarr_docker_labels: "{{ docker_labels_common
-                          | combine(wizarr_docker_labels_default)
-                          | combine(wizarr_docker_labels_custom) }}"
+                          | combine(lookup('vars', wizarr_name + '_docker_labels_default', default=wizarr_docker_labels_default))
+                          | combine(lookup('vars', wizarr_name + '_docker_labels_custom', default=wizarr_docker_labels_custom)) }}"
 
 # Hostname
 wizarr_docker_hostname: "{{ wizarr_name }}"
@@ -122,20 +122,20 @@ wizarr_docker_networks_alias: "{{ wizarr_name }}"
 wizarr_docker_networks_default: []
 wizarr_docker_networks_custom: []
 wizarr_docker_networks: "{{ docker_networks_common
-                            + wizarr_docker_networks_default
-                            + wizarr_docker_networks_custom }}"
+                            + lookup('vars', wizarr_name + '_docker_networks_default', default=wizarr_docker_networks_default)
+                            + lookup('vars', wizarr_name + '_docker_networks_custom', default=wizarr_docker_networks_custom) }}"
 
 # Capabilities
 wizarr_docker_capabilities_default: []
 wizarr_docker_capabilities_custom: []
-wizarr_docker_capabilities: "{{ wizarr_docker_capabilities_default
-                                + wizarr_docker_capabilities_custom }}"
+wizarr_docker_capabilities: "{{ lookup('vars', wizarr_name + '_docker_capabilities_default', default=wizarr_docker_capabilities_default)
+                                + lookup('vars', wizarr_name + '_docker_capabilities_custom', default=wizarr_docker_capabilities_custom) }}"
 
 # Security Opts
 wizarr_docker_security_opts_default: []
 wizarr_docker_security_opts_custom: []
-wizarr_docker_security_opts: "{{ wizarr_docker_security_opts_default
-                                 + wizarr_docker_security_opts_custom }}"
+wizarr_docker_security_opts: "{{ lookup('vars', wizarr_name + '_docker_security_opts_default', default=wizarr_docker_security_opts_default)
+                                 + lookup('vars', wizarr_name + '_docker_security_opts_default', default=wizarr_docker_security_opts_default) }}"
 
 # Restart Policy
 wizarr_docker_restart_policy: unless-stopped
