@@ -140,5 +140,8 @@ pgadmin_docker_security_opts: "{{ pgadmin_docker_security_opts_default
 # Restart Policy
 pgadmin_docker_restart_policy: unless-stopped
 
+# Restart attempts
+pgadmin_docker_restart_retries: 3
+
 # State
 pgadmin_docker_state: started
