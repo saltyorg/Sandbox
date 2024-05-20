@@ -14,17 +14,6 @@
 pgadmin_name: pgadmin
 
 ################################
-# Paths
-################################
-
-pgadmin_paths_owner: "5050"
-pgadmin_paths_group: "5050"
-pgadmin_paths_folder: "{{ pgadmin_name }}"
-pgadmin_paths_location: "{{ server_appdata_path }}/{{ pgadmin_paths_folder }}"
-pgadmin_paths_folders_list:
-  - "{{ pgadmin_paths_location }}"
-
-################################
 # Web
 ################################
 
@@ -89,7 +78,7 @@ pgadmin_docker_commands: "{{ pgadmin_docker_commands_default
 
 # Volumes
 pgadmin_docker_volumes_default:
-  - "{{ pgadmin_paths_location }}:/var/lib/pgadmin"
+  - "pgadmin:/var/lib/pgadmin"
 pgadmin_docker_volumes_custom: []
 pgadmin_docker_volumes: "{{ pgadmin_docker_volumes_default
                             + pgadmin_docker_volumes_custom }}"
@@ -138,10 +127,7 @@ pgadmin_docker_security_opts: "{{ pgadmin_docker_security_opts_default
                                   + pgadmin_docker_security_opts_custom }}"
 
 # Restart Policy
-pgadmin_docker_restart_policy: on-failure
-
-# Restart attempts
-pgadmin_docker_restart_retries: 3
+pgadmin_docker_restart_policy: unless-stopped
 
 # State
 pgadmin_docker_state: started
