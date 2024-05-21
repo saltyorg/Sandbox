@@ -20,6 +20,7 @@ tdarr_node_name: tdarr-node
 tdarr_node_server_ip: "tdarr"
 tdarr_node_server_port: "8266"
 tdarr_node_node_id: "MainNode"
+tdarr_node_node_port: "8267"
 tdarr_node_external: false
 
 ################################
