@@ -1,0 +1,137 @@
+##########################################################################
+# Title:         Saltbox: IT-Tools | Default Variables                   #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+it_tools_name: it-tools
+
+################################
+# Web
+################################
+
+it_tools_web_subdomain: "{{ it_tools_name }}"
+it_tools_web_domain: "{{ user.domain }}"
+it_tools_web_port: "80"
+it_tools_web_url: "{{ 'https://' + (it_tools_web_subdomain + '.' + it_tools_web_domain
+                   if (it_tools_web_subdomain | length > 0)
+                   else it_tools_web_domain) }}"
+
+################################
+# DNS
+################################
+
+it_tools_dns_record: "{{ it_tools_web_subdomain }}"
+it_tools_dns_zone: "{{ it_tools_web_domain }}"
+it_tools_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+it_tools_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+it_tools_traefik_middleware_default: "{{ traefik_default_middleware }}"
+it_tools_traefik_middleware_custom: ""
+it_tools_traefik_certresolver: "{{ traefik_default_certresolver }}"
+it_tools_traefik_enabled: true
+it_tools_traefik_api_enabled: false
+it_tools_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+it_tools_docker_container: "{{ it_tools_name }}"
+
+# Image
+it_tools_docker_image_pull: true
+it_tools_docker_image_tag: "latest"
+it_tools_docker_image: "corentinth/it-tools:{{ it_tools_docker_image_tag }}"
+
+# Ports
+it_tools_docker_ports_defaults: []
+it_tools_docker_ports_custom: []
+it_tools_docker_ports: "{{ it_tools_docker_ports_defaults
+                           + it_tools_docker_ports_custom }}"
+
+# Envs
+it_tools_docker_envs_default: {}
+it_tools_docker_envs_custom: {}
+it_tools_docker_envs: "{{ it_tools_docker_envs_default
+                          | combine(it_tools_docker_envs_custom) }}"
+
+# Commands
+it_tools_docker_volumes_global: false
+it_tools_docker_commands_default: []
+it_tools_docker_commands_custom: []
+it_tools_docker_commands: "{{ it_tools_docker_commands_default
+                              + it_tools_docker_commands_custom }}"
+
+# Volumes
+it_tools_docker_volumes_default: []
+it_tools_docker_volumes_custom: []
+it_tools_docker_volumes: "{{ it_tools_docker_volumes_default
+                             + it_tools_docker_volumes_custom }}"
+
+# Mounts
+it_tools_docker_mounts_default: []
+it_tools_docker_mounts_custom: []
+it_tools_docker_mounts: "{{ it_tools_docker_mounts_default
+                            + it_tools_docker_mounts_custom }}"
+
+# Devices
+it_tools_docker_devices_default: []
+it_tools_docker_devices_custom: []
+it_tools_docker_devices: "{{ it_tools_docker_devices_default
+                             + it_tools_docker_devices_custom }}"
+
+# Hosts
+it_tools_docker_hosts_default: {}
+it_tools_docker_hosts_custom: {}
+it_tools_docker_hosts: "{{ docker_hosts_common
+                           | combine(it_tools_docker_hosts_default)
+                           | combine(it_tools_docker_hosts_custom) }}"
+
+# Labels
+it_tools_docker_labels_default: {}
+it_tools_docker_labels_custom: {}
+it_tools_docker_labels: "{{ docker_labels_common
+                            | combine(it_tools_docker_labels_default)
+                            | combine(it_tools_docker_labels_custom) }}"
+
+# Hostname
+it_tools_docker_hostname: "{{ it_tools_name }}"
+
+# Networks
+it_tools_docker_networks_alias: "{{ it_tools_name }}"
+it_tools_docker_networks_default: []
+it_tools_docker_networks_custom: []
+it_tools_docker_networks: "{{ docker_networks_common
+                              + it_tools_docker_networks_default
+                              + it_tools_docker_networks_custom }}"
+
+# Capabilities
+it_tools_docker_capabilities_default: []
+it_tools_docker_capabilities_custom: []
+it_tools_docker_capabilities: "{{ it_tools_docker_capabilities_default
+                                  + it_tools_docker_capabilities_custom }}"
+
+# Security Opts
+it_tools_docker_security_opts_default: []
+it_tools_docker_security_opts_custom: []
+it_tools_docker_security_opts: "{{ it_tools_docker_security_opts_default
+                                   + it_tools_docker_security_opts_custom }}"
+
+# Restart Policy
+it_tools_docker_restart_policy: unless-stopped
+
+# State
+it_tools_docker_state: started
