@@ -71,7 +71,7 @@ glances_web_docker_container: "{{ glances_web_name }}"
 
 # Image
 glances_web_docker_image_pull: true
-glances_web_docker_image_tag: "alpine-latest-full"
+glances_web_docker_image_tag: "latest-full"
 glances_web_docker_image: "nicolargo/glances:{{ glances_web_docker_image_tag }}"
 
 # Ports
@@ -128,12 +128,7 @@ glances_web_docker_labels: "{{ docker_labels_common
 glances_web_docker_hostname: "{{ glances_web_name }}"
 
 # Networks
-glances_web_docker_networks_alias: "{{ glances_web_name }}"
-glances_web_docker_networks_default: []
-glances_web_docker_networks_custom: []
-glances_web_docker_networks: "{{ docker_networks_common
-                                 + glances_web_docker_networks_default
-                                 + glances_web_docker_networks_custom }}"
+glances_web_docker_network_mode: "host"
 
 # Capabilities
 glances_web_docker_capabilities_default: []
