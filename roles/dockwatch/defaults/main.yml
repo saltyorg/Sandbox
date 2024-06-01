@@ -42,8 +42,8 @@ dockwatch_web_subdomain: "{{ dockwatch_name }}"
 dockwatch_web_domain: "{{ user.domain }}"
 dockwatch_web_port: "80"
 dockwatch_web_url: "{{ 'https://' + (dockwatch_web_subdomain + '.' + dockwatch_web_domain
-                 if (dockwatch_web_subdomain | length > 0)
-                 else dockwatch_web_domain) }}"
+                    if (dockwatch_web_subdomain | length > 0)
+                    else dockwatch_web_domain) }}"
 
 ################################
 # DNS
