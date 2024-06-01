@@ -1,0 +1,161 @@
+##########################################################################
+# Title:            Sandbox: Dockwatch | Default Variables               #
+# Author(s):        owine                                                #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Docker Socket Proxy
+################################
+
+dockwatch_docker_socket_proxy_envs:
+  CONTAINERS: "1"
+  IMAGES: "1"
+  NETWORKS: "1"
+  PORTS: "1"
+  VOLUMES: "1"
+
+################################
+# Basics
+################################
+
+dockwatch_name: dockwatch
+
+################################
+# Paths
+################################
+
+dockwatch_paths_folder: "{{ dockwatch_name }}"
+dockwatch_paths_location: "{{ server_appdata_path }}/{{ dockwatch_paths_folder }}"
+dockwatch_paths_folders_list:
+  - "{{ dockwatch_paths_location }}"
+  - "{{ dockwatch_paths_location }}/icons"
+
+################################
+# Web
+################################
+
+dockwatch_web_subdomain: "{{ dockwatch_name }}"
+dockwatch_web_domain: "{{ user.domain }}"
+dockwatch_web_port: "80"
+dockwatch_web_url: "{{ 'https://' + (dockwatch_web_subdomain + '.' + dockwatch_web_domain
+                 if (dockwatch_web_subdomain | length > 0)
+                 else dockwatch_web_domain) }}"
+
+################################
+# DNS
+################################
+
+dockwatch_dns_record: "{{ dockwatch_web_subdomain }}"
+dockwatch_dns_zone: "{{ dockwatch_web_domain }}"
+dockwatch_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+dockwatch_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+dockwatch_traefik_middleware_default: "{{ traefik_default_middleware }}"
+dockwatch_traefik_middleware_custom: ""
+dockwatch_traefik_certresolver: "{{ traefik_default_certresolver }}"
+dockwatch_traefik_enabled: true
+dockwatch_traefik_api_enabled: false
+dockwatch_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+dockwatch_docker_container: "{{ dockwatch_name }}"
+
+# Image
+dockwatch_docker_image_pull: true
+dockwatch_docker_image_tag: "main"
+dockwatch_docker_image: "ghcr.io/notifiarr/dockwatch:{{ dockwatch_docker_image_tag }}"
+
+# Ports
+dockwatch_docker_ports_defaults: []
+dockwatch_docker_ports_custom: []
+dockwatch_docker_ports: "{{ dockwatch_docker_ports_defaults
+                         + dockwatch_docker_ports_custom }}"
+
+# Envs
+dockwatch_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  DOCKER_HOST: "{{ dockwatch_name }}-docker-socket-proxy:2375"
+dockwatch_docker_envs_custom: {}
+dockwatch_docker_envs: "{{ dockwatch_docker_envs_default
+                        | combine(dockwatch_docker_envs_custom) }}"
+
+# Commands
+dockwatch_docker_commands_default: []
+dockwatch_docker_commands_custom: []
+dockwatch_docker_commands: "{{ dockwatch_docker_commands_default
+                            + dockwatch_docker_commands_custom }}"
+
+# Volumes
+dockwatch_docker_volumes_default:
+  - "{{ dockwatch_paths_location }}:/config"
+dockwatch_docker_volumes_custom: []
+dockwatch_docker_volumes: "{{ dockwatch_docker_volumes_default
+                           + dockwatch_docker_volumes_custom }}"
+
+# Devices
+dockwatch_docker_devices_default: []
+dockwatch_docker_devices_custom: []
+dockwatch_docker_devices: "{{ dockwatch_docker_devices_default
+                           + dockwatch_docker_devices_custom }}"
+
+# Hosts
+dockwatch_docker_hosts_default: {}
+dockwatch_docker_hosts_custom: {}
+dockwatch_docker_hosts: "{{ docker_hosts_common
+                         | combine(dockwatch_docker_hosts_default)
+                         | combine(dockwatch_docker_hosts_custom) }}"
+
+# Labels
+dockwatch_docker_labels_default: {}
+dockwatch_docker_labels_custom: {}
+dockwatch_docker_labels: "{{ docker_labels_common
+                          | combine(dockwatch_docker_labels_default)
+                          | combine(dockwatch_docker_labels_custom) }}"
+
+# Hostname
+dockwatch_docker_hostname: "{{ dockwatch_name }}"
+
+# Networks
+dockwatch_docker_networks_alias: "{{ dockwatch_name }}"
+dockwatch_docker_networks_default: []
+dockwatch_docker_networks_custom: []
+dockwatch_docker_networks: "{{ docker_networks_common
+                            + dockwatch_docker_networks_default
+                            + dockwatch_docker_networks_custom }}"
+
+# Capabilities
+dockwatch_docker_capabilities_default: []
+dockwatch_docker_capabilities_custom: []
+dockwatch_docker_capabilities: "{{ dockwatch_docker_capabilities_default
+                                + dockwatch_docker_capabilities_custom }}"
+
+# Security Opts
+dockwatch_docker_security_opts_default: []
+dockwatch_docker_security_opts_custom: []
+dockwatch_docker_security_opts: "{{ dockwatch_docker_security_opts_default
+                                 + dockwatch_docker_security_opts_custom }}"
+
+# Restart Policy
+dockwatch_docker_restart_policy: unless-stopped
+
+# State
+dockwatch_docker_state: started
+
+# Dependencies
+dockwatch_depends_on: "{{ dockwatch_name }}-docker-socket-proxy"
+dockwatch_depends_on_delay: "0"
+dockwatch_depends_on_healthchecks: "false"
