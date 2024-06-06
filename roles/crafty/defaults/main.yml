@@ -172,3 +172,6 @@ crafty_docker_restart_policy: unless-stopped
 
 # State
 crafty_docker_state: started
+
+# Stop Timeout
+crafty_docker_stop_timeout: 900
