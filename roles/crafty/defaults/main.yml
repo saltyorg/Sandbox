@@ -1,0 +1,174 @@
+##########################################################################
+# Title:         Sandbox: Crafty Controller | Default Variables          #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+crafty_name: crafty
+
+################################
+# Paths
+################################
+
+crafty_paths_folder: "{{ crafty_name }}"
+crafty_paths_location: "{{ server_appdata_path }}/{{ crafty_paths_folder }}"
+crafty_paths_folders_list:
+  - "{{ crafty_paths_location }}"
+  - "{{ crafty_paths_location }}/backups"
+  - "{{ crafty_paths_location }}/logs"
+  - "{{ crafty_paths_location }}/servers"
+  - "{{ crafty_paths_location }}/config"
+  - "{{ crafty_paths_location }}/import"
+
+################################
+# Web
+################################
+
+crafty_web_subdomain: "{{ crafty_name }}"
+crafty_web_domain: "{{ user.domain }}"
+crafty_web_port: "8443"
+crafty_web_scheme: "https"
+crafty_web_serverstransport: "skipverify@file"
+crafty_web_url: "{{ 'https://' + (crafty_web_subdomain + '.' + crafty_web_domain
+                 if (crafty_web_subdomain | length > 0)
+                 else crafty_web_domain) }}"
+
+crafty_dynmap_web_subdomain: "{{ crafty_name }}-map"
+crafty_dynmap_web_domain: "{{ user.domain }}"
+crafty_dynmap_web_port: "8123"
+crafty_dynmap_host: "{{ crafty_dynmap_web_subdomain
+                        + '.' + crafty_dynmap_web_domain }}"
+
+################################
+# DNS
+################################
+
+crafty_dns_record: "{{ crafty_web_subdomain }}"
+crafty_dns_zone: "{{ crafty_web_domain }}"
+crafty_dns_proxy: "{{ dns.proxied }}"
+crafty_dynmap_dns_record: "{{ crafty_dynmap_web_subdomain }}"
+crafty_dynmap_dns_zone: "{{ crafty_web_domain }}"
+crafty_dynmap_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+crafty_traefik_sso_middleware: ""
+crafty_traefik_middleware_default: "{{ traefik_default_middleware }}"
+crafty_traefik_middleware_custom: ""
+crafty_traefik_certresolver: "{{ traefik_default_certresolver }}"
+crafty_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+crafty_docker_container: "{{ crafty_name }}"
+
+# Image
+crafty_docker_image_pull: true
+crafty_docker_image_tag: "latest"
+crafty_docker_image: "arcadiatechnology/crafty-4:{{ crafty_docker_image_tag }}"
+
+# Ports
+crafty_docker_ports_defaults:
+  - "19132:19132/udp"
+  - "25500-25600:25500-25600"
+crafty_docker_ports_custom: []
+crafty_docker_ports: "{{ crafty_docker_ports_defaults
+                         + crafty_docker_ports_custom }}"
+
+# Envs
+crafty_docker_envs_default:
+  TZ: "{{ tz }}"
+crafty_docker_envs_custom: {}
+crafty_docker_envs: "{{ crafty_docker_envs_default
+                        | combine(crafty_docker_envs_custom) }}"
+
+# Commands
+crafty_docker_commands_default: []
+crafty_docker_commands_custom: []
+crafty_docker_commands: "{{ crafty_docker_commands_default
+                            + crafty_docker_commands_custom }}"
+
+# Volumes
+crafty_docker_volumes_default:
+  - "{{ crafty_paths_location }}/backups:/crafty/backups"
+  - "{{ crafty_paths_location }}/logs:/crafty/logs"
+  - "{{ crafty_paths_location }}/servers:/crafty/servers"
+  - "{{ crafty_paths_location }}/config:/crafty/app/config"
+  - "{{ crafty_paths_location }}/import:/crafty/import"
+crafty_docker_volumes_custom: []
+crafty_docker_volumes: "{{ crafty_docker_volumes_default
+                           + crafty_docker_volumes_custom }}"
+
+# Devices
+crafty_docker_devices_default: []
+crafty_docker_devices_custom: []
+crafty_docker_devices: "{{ crafty_docker_devices_default
+                           + crafty_docker_devices_custom }}"
+
+# Hosts
+crafty_docker_hosts_default: {}
+crafty_docker_hosts_custom: {}
+crafty_docker_hosts: "{{ docker_hosts_common
+                         | combine(crafty_docker_hosts_default)
+                         | combine(crafty_docker_hosts_custom) }}"
+
+# Labels
+crafty_docker_labels_default:
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.entrypoints": "web" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.service": "{{ crafty_name }}-map" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.rule": "Host(`{{ crafty_dynmap_host }}`)" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.middlewares": "{{ traefik_default_middleware_http }}" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.priority": "20" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.entrypoints": "websecure" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.service": "{{ crafty_name }}-map" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.rule": "Host(`{{ crafty_dynmap_host }}`)" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.options": "securetls@file" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.certresolver": "{{ crafty_traefik_certresolver }}" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.middlewares": "{{ traefik_default_middleware }}" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.priority": "20" }'
+  - '{ "traefik.http.services.{{ crafty_name }}-map.loadbalancer.server.port": "{{ crafty_dynmap_web_port }}" }'
+crafty_docker_labels_custom: {}
+crafty_docker_labels: "{{ docker_labels_common
+                          | combine(crafty_docker_labels_default)
+                          | combine(crafty_docker_labels_custom) }}"
+
+# Hostname
+crafty_docker_hostname: "{{ crafty_name }}"
+
+# Networks
+crafty_docker_networks_alias: "{{ crafty_name }}"
+crafty_docker_networks_default: []
+crafty_docker_networks_custom: []
+crafty_docker_networks: "{{ docker_networks_common
+                            + crafty_docker_networks_default
+                            + crafty_docker_networks_custom }}"
+
+# Capabilities
+crafty_docker_capabilities_default: []
+crafty_docker_capabilities_custom: []
+crafty_docker_capabilities: "{{ crafty_docker_capabilities_default
+                                + crafty_docker_capabilities_custom }}"
+
+# Security Opts
+crafty_docker_security_opts_default: []
+crafty_docker_security_opts_custom: []
+crafty_docker_security_opts: "{{ crafty_docker_security_opts_default
+                                 + crafty_docker_security_opts_custom }}"
+
+# Restart Policy
+crafty_docker_restart_policy: unless-stopped
+
+# State
+crafty_docker_state: started
