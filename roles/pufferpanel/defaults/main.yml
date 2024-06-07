@@ -1,0 +1,144 @@
+##########################################################################
+# Title:         Sandbox: PufferPanel | Default Variables                #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+pufferpanel_name: pufferpanel
+
+################################
+# Paths
+################################
+
+pufferpanel_paths_folder: "{{ pufferpanel_name }}"
+pufferpanel_paths_location: "{{ server_appdata_path }}/{{ pufferpanel_paths_folder }}"
+pufferpanel_paths_folders_list:
+  - "{{ pufferpanel_paths_location }}/config"
+  - "{{ pufferpanel_paths_location }}/servers"
+
+################################
+# Web
+################################
+
+pufferpanel_web_subdomain: "{{ pufferpanel_name }}"
+pufferpanel_web_domain: "{{ user.domain }}"
+pufferpanel_web_port: "8080"
+pufferpanel_web_url: "{{ 'https://' + (pufferpanel_web_subdomain + '.' + pufferpanel_web_domain
+                      if (pufferpanel_web_subdomain | length > 0)
+                      else pufferpanel_web_domain) }}"
+
+################################
+# DNS
+################################
+
+pufferpanel_dns_record: "{{ pufferpanel_web_subdomain }}"
+pufferpanel_dns_zone: "{{ pufferpanel_web_domain }}"
+pufferpanel_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+pufferpanel_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+pufferpanel_traefik_middleware_default: "{{ traefik_default_middleware }}"
+pufferpanel_traefik_middleware_custom: ""
+pufferpanel_traefik_certresolver: "{{ traefik_default_certresolver }}"
+pufferpanel_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+pufferpanel_docker_container: "{{ pufferpanel_name }}"
+
+# Image
+pufferpanel_docker_image_pull: true
+pufferpanel_docker_image_tag: "latest"
+pufferpanel_docker_image: "pufferpanel/pufferpanel:{{ pufferpanel_docker_image_tag }}"
+
+# Ports
+pufferpanel_docker_ports_defaults:
+  - "5657:5657"
+pufferpanel_docker_ports_custom: []
+pufferpanel_docker_ports: "{{ pufferpanel_docker_ports_defaults
+                              + pufferpanel_docker_ports_custom }}"
+
+# Envs
+pufferpanel_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUFFER_DAEMON_DATA_SERVERS: "{{ pufferpanel_paths_location }}/servers"
+pufferpanel_docker_envs_custom: {}
+pufferpanel_docker_envs: "{{ pufferpanel_docker_envs_default
+                             | combine(pufferpanel_docker_envs_custom) }}"
+
+# Commands
+pufferpanel_docker_commands_default: []
+pufferpanel_docker_commands_custom: []
+pufferpanel_docker_commands: "{{ pufferpanel_docker_commands_default
+                                 + pufferpanel_docker_commands_custom }}"
+
+# Volumes
+pufferpanel_docker_volumes_default:
+  - "{{ pufferpanel_paths_location }}/config:/etc/pufferpanel"
+  - "{{ pufferpanel_paths_location }}/servers:{{ pufferpanel_paths_location }}/servers"
+  - "/var/run/docker.sock:/var/run/docker.sock"
+pufferpanel_docker_volumes_custom: []
+pufferpanel_docker_volumes: "{{ pufferpanel_docker_volumes_default
+                                + pufferpanel_docker_volumes_custom }}"
+
+# Devices
+pufferpanel_docker_devices_default: []
+pufferpanel_docker_devices_custom: []
+pufferpanel_docker_devices: "{{ pufferpanel_docker_devices_default
+                                + pufferpanel_docker_devices_custom }}"
+
+# Hosts
+pufferpanel_docker_hosts_default: {}
+pufferpanel_docker_hosts_custom: {}
+pufferpanel_docker_hosts: "{{ docker_hosts_common
+                              | combine(pufferpanel_docker_hosts_default)
+                              | combine(pufferpanel_docker_hosts_custom) }}"
+
+# Labels
+pufferpanel_docker_labels_default: {}
+pufferpanel_docker_labels_custom: {}
+pufferpanel_docker_labels: "{{ docker_labels_common
+                               | combine(pufferpanel_docker_labels_default)
+                               | combine(pufferpanel_docker_labels_custom) }}"
+
+# Hostname
+pufferpanel_docker_hostname: "{{ pufferpanel_name }}"
+
+# Networks
+pufferpanel_docker_networks_alias: "{{ pufferpanel_name }}"
+pufferpanel_docker_networks_default: []
+pufferpanel_docker_networks_custom: []
+pufferpanel_docker_networks: "{{ docker_networks_common
+                                 + pufferpanel_docker_networks_default
+                                 + pufferpanel_docker_networks_custom }}"
+
+# Capabilities
+pufferpanel_docker_capabilities_default: []
+pufferpanel_docker_capabilities_custom: []
+pufferpanel_docker_capabilities: "{{ pufferpanel_docker_capabilities_default
+                                     + pufferpanel_docker_capabilities_custom }}"
+
+# Security Opts
+pufferpanel_docker_security_opts_default: []
+pufferpanel_docker_security_opts_custom: []
+pufferpanel_docker_security_opts: "{{ pufferpanel_docker_security_opts_default
+                                      + pufferpanel_docker_security_opts_custom }}"
+
+# Restart Policy
+pufferpanel_docker_restart_policy: unless-stopped
+
+# State
+pufferpanel_docker_state: started
