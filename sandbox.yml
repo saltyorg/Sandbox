@@ -134,6 +134,7 @@
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
     - { role: puddletag, tags: ['puddletag'] }
+    - { role: pufferpanel, tags: ['pufferpanel'] }
     - { role: pyload, tags: ['pyload'] }
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit-manage'] }
