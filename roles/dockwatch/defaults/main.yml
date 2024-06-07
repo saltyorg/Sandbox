@@ -8,6 +8,12 @@
 ##########################################################################
 ---
 ################################
+# Settings
+################################
+
+dockwatch_post_enable: false
+
+################################
 # Docker Socket Proxy
 ################################
 
@@ -16,6 +22,7 @@ dockwatch_docker_socket_proxy_envs:
   IMAGES: "1"
   NETWORKS: "1"
   PORTS: "1"
+  POST: "{{ '1' if dockwatch_post_enable else omit }}"
   VOLUMES: "1"
 
 ################################
