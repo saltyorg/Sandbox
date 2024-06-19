@@ -20,6 +20,7 @@ elasticsearch_name: elasticsearch
 elasticsearch_docker_env_password: "elastic789"
 elasticsearch_docker_env_http_port: "9200"
 elasticsearch_docker_env_transport_port: "9300"
+elasticsearch_sysctl_vm_max_map_count: "262144"
 
 ################################
 # Paths
