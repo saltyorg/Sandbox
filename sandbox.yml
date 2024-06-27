@@ -11,6 +11,7 @@
     - ['/srv/git/saltbox/providers.yml', '/srv/git/saltbox/defaults/providers.yml.default']
   roles:
     # Reqs
+    - { role: user_check, tags: ['always'] }
     - { role: settings, tags: ['settings'] }
     - { role: pre_tasks, tags: ['always', 'pre-tasks'] }
     - { role: sanity_check, tags: ['always', 'sanity-check'] }
