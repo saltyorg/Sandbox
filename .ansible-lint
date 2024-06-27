@@ -15,6 +15,7 @@ mock_modules:
 
 mock_roles:
   - pre_tasks
+  - user_check
 
 skip_list:
   - braces
