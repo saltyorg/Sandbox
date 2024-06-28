@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-qbit_manage_name: qbit_manage
+qbit_manage_name: qbit-manage
 
 ################################
 # Paths
