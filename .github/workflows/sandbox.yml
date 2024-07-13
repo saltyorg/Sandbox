@@ -16,6 +16,10 @@ on:
       - 'roles/settings/**'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: write
+
 jobs:
   ansible-lint:
     runs-on: ubuntu-22.04
