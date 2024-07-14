@@ -28,6 +28,7 @@
     port: 19132
     account_api_token: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
+    solo: true
   when: cloudflare_is_enabled
 
 - name: Create directories
