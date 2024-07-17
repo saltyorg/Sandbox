@@ -36,6 +36,7 @@ jobs:
         run: pip install -r ./requirements/requirements-lint.txt
 
       - name: Run ansible linter
+        working-directory: ${{ github.workspace }}
         run: ansible-lint
 
       - name: Run salty linter
