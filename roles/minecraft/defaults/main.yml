@@ -1,6 +1,6 @@
 #########################################################################
 # Title:            Saltbox: minecraft                                  #
-# Author(s):        jolbol1                                             #
+# Author(s):        jolbol1, salty                                      #
 # URL:              https://github.com/saltyorg/Saltbox                 #
 #########################################################################
 #                   GNU General Public License v3.0                     #
@@ -40,6 +40,13 @@ minecraft_dns_zone: "{{ lookup('vars', minecraft_name + '_web_domain', default=m
 minecraft_dns_proxy: false
 
 ################################
+# Ports
+################################
+minecraft_docker_ports_25565: "{{ port_lookup_minecraft_tcp.meta.port
+                              if (port_lookup_minecraft_tcp.meta.port is defined) and (port_lookup_minecraft_tcp.meta.port | trim | length > 0)
+                              else '25565' }}"
+
+################################
 # Docker
 ################################
 
@@ -54,10 +61,11 @@ minecraft_docker_image: "{{ lookup('vars', minecraft_name + '_docker_image_repo'
                             + ':' + lookup('vars', minecraft_name + '_docker_image_tag', default=minecraft_docker_image_tag) }}"
 
 # Ports
-minecraft_docker_ports_defaults: []
+minecraft_docker_ports_defaults:
+  - "{{ minecraft_docker_ports_25565 }}:25565/tcp"
 minecraft_docker_ports_custom: []
-minecraft_docker_ports: "{{ minecraft_docker_ports_defaults
-                            + minecraft_docker_ports_custom }}"
+minecraft_docker_ports: "{{ lookup('vars', minecraft_name + '_docker_ports_defaults', default=minecraft_docker_ports_defaults)
+                            + lookup('vars', minecraft_name + '_docker_ports_custom', default=minecraft_docker_ports_custom) }}"
 
 # Envs
 minecraft_docker_envs_default:
