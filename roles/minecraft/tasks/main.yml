@@ -1,6 +1,6 @@
 #########################################################################
 # Title:         Saltbox: Minecraft                                     #
-# Author(s):     jolbol1                                                #
+# Author(s):     jolbol1, salty                                         #
 # URL:           https://github.com/saltyorg/Saltbox                    #
 # --                                                                    #
 #########################################################################
@@ -14,7 +14,3 @@
   with_items: "{{ minecraft_instances }}"
   loop_control:
     loop_var: role
-
-- name: McRouter Role
-  ansible.builtin.include_role:
-    name: mcrouter
