@@ -43,8 +43,8 @@ minecraft_dns_proxy: false
 # Ports
 ################################
 minecraft_docker_ports_25565: "{{ port_lookup_minecraft_tcp.meta.port
-                              if (port_lookup_minecraft_tcp.meta.port is defined) and (port_lookup_minecraft_tcp.meta.port | trim | length > 0)
-                              else '25565' }}"
+                               if (port_lookup_minecraft_tcp.meta.port is defined) and (port_lookup_minecraft_tcp.meta.port | trim | length > 0)
+                               else '25565' }}"
 
 ################################
 # Docker
