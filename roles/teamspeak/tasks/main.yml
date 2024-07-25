@@ -54,19 +54,21 @@
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
 - name: Add SRV record
-  community.general.cloudflare_dns:
+  cloudflare_dns_custom:
     account_api_key: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
-    zone: "{{ _dns_tasker_zone }}"
-    service: "{{ teamspeak_web_subdomain }}.{{ teamspeak_web_domain }}"
-    record: "{{ teamspeak_web_subdomain }}"
-    proto: udp
     port: "{{ teamspeak_docker_ports_9987 }}"
     priority: 10
-    weight: 20
-    type: SRV
-    value: "_ts3._udp.{{ teamspeak_web_subdomain }}.{{ teamspeak_web_domain }}"
+    proto: udp
+    proxied: false
+    record: "{{ _dns_tasker_record }}"
+    service: "ts3"
     solo: true
+    state: present
+    type: SRV
+    value: "{{ _dns_tasker_record }}.{{ _dns_tasker_zone }}"
+    weight: 20
+    zone: "{{ _dns_tasker_zone }}"
   when: cloudflare_is_enabled
 
 - name: Create directories
