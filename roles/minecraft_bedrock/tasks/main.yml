@@ -17,20 +17,6 @@
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
-- name: Add SRV record
-  community.general.cloudflare_dns:
-    zone: "{{ _dns_tasker_zone }}"
-    record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    type: SRV
-    proto: udp
-    service: minecraft
-    value: "{{ lookup('vars', role_name + '_dns_record') }}.{{ lookup('vars', role_name + '_dns_zone') }}"
-    port: 19132
-    account_api_token: "{{ cloudflare.api }}"
-    account_email: "{{ cloudflare.email }}"
-    solo: true
-  when: cloudflare_is_enabled
-
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
