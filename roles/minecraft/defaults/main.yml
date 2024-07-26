@@ -11,6 +11,7 @@
 ################################
 
 minecraft_instances: ["minecraft"]
+minecraft_dynmap_router_enabled: false
 
 ################################
 # Paths
@@ -30,6 +31,8 @@ minecraft_paths_recursive: true
 
 minecraft_web_subdomain: "{{ minecraft_name }}"
 minecraft_web_domain: "{{ user.domain }}"
+# Dynmap
+minecraft_web_port: "8123"
 
 ################################
 # DNS
@@ -38,6 +41,16 @@ minecraft_web_domain: "{{ user.domain }}"
 minecraft_dns_record: "{{ lookup('vars', minecraft_name + '_web_subdomain', default=minecraft_web_subdomain) }}"
 minecraft_dns_zone: "{{ lookup('vars', minecraft_name + '_web_domain', default=minecraft_web_domain) }}"
 minecraft_dns_proxy: false
+
+################################
+# Traefik
+################################
+
+minecraft_traefik_sso_middleware: ""
+minecraft_traefik_middleware_default: "{{ traefik_default_middleware }}"
+minecraft_traefik_middleware_custom: ""
+minecraft_traefik_certresolver: "{{ traefik_default_certresolver }}"
+minecraft_traefik_enabled: "{{ lookup('vars', minecraft_name + '_dynmap_router_enabled', default=minecraft_dynmap_router_enabled) }}"
 
 ################################
 # Ports
