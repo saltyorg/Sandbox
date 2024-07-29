@@ -30,8 +30,8 @@ openobserve_web_subdomain: "{{ openobserve_name }}"
 openobserve_web_domain: "{{ user.domain }}"
 openobserve_web_port: "5080"
 openobserve_web_url: "{{ 'https://' + (openobserve_web_subdomain + '.' + openobserve_web_domain
-                    if (openobserve_web_subdomain | length > 0)
-                    else openobserve_web_domain) }}"
+                      if (openobserve_web_subdomain | length > 0)
+                      else openobserve_web_domain) }}"
 
 ################################
 # DNS
