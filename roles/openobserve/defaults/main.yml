@@ -76,8 +76,8 @@ openobserve_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  ZO_ROOT_USER_EMAIL: "root@example.com"
-  ZO_ROOT_USER_PASSWORD: "Complexpass#123"
+  ZO_ROOT_USER_EMAIL: "{{ user.email }}"
+  ZO_ROOT_USER_PASSWORD: "{{ user.pass }}"
 openobserve_docker_envs_custom: {}
 openobserve_docker_envs: "{{ openobserve_docker_envs_default
                         | combine(openobserve_docker_envs_custom) }}"
