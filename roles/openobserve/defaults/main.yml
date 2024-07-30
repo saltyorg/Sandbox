@@ -1,0 +1,145 @@
+##########################################################################
+# Title:         Sandbox: openobserve | Default Variables                #
+# Author(s):     salty, Thundernerd                                      #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+openobserve_name: openobserve
+
+################################
+# Paths
+################################
+
+openobserve_paths_folder: "{{ openobserve_name }}"
+openobserve_paths_location: "{{ server_appdata_path }}/{{ openobserve_paths_folder }}"
+openobserve_paths_folders_list:
+  - "{{ openobserve_paths_location }}"
+
+################################
+# Web
+################################
+
+openobserve_web_subdomain: "{{ openobserve_name }}"
+openobserve_web_domain: "{{ user.domain }}"
+openobserve_web_port: "5080"
+openobserve_web_url: "{{ 'https://' + (openobserve_web_subdomain + '.' + openobserve_web_domain
+                      if (openobserve_web_subdomain | length > 0)
+                      else openobserve_web_domain) }}"
+
+################################
+# DNS
+################################
+
+openobserve_dns_record: "{{ openobserve_web_subdomain }}"
+openobserve_dns_zone: "{{ openobserve_web_domain }}"
+openobserve_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+openobserve_traefik_sso_middleware: ""
+openobserve_traefik_middleware_default: "{{ traefik_default_middleware }}"
+openobserve_traefik_middleware_custom: ""
+openobserve_traefik_certresolver: "{{ traefik_default_certresolver }}"
+openobserve_traefik_enabled: true
+openobserve_traefik_api_enabled: false
+openobserve_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+openobserve_docker_container: "{{ openobserve_name }}"
+
+# Image
+openobserve_docker_image_pull: true
+openobserve_docker_image_tag: "latest"
+openobserve_docker_image: "public.ecr.aws/zinclabs/openobserve:{{ openobserve_docker_image_tag }}"
+
+# Ports
+openobserve_docker_ports_defaults: []
+openobserve_docker_ports_custom: []
+openobserve_docker_ports: "{{ openobserve_docker_ports_defaults
+                         + openobserve_docker_ports_custom }}"
+
+# Envs
+openobserve_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  ZO_ROOT_USER_EMAIL: "{{ user.email }}"
+  ZO_ROOT_USER_PASSWORD: "{{ user.pass }}"
+openobserve_docker_envs_custom: {}
+openobserve_docker_envs: "{{ openobserve_docker_envs_default
+                        | combine(openobserve_docker_envs_custom) }}"
+
+# Commands
+openobserve_docker_commands_default: []
+openobserve_docker_commands_custom: []
+openobserve_docker_commands: "{{ openobserve_docker_commands_default
+                            + openobserve_docker_commands_custom }}"
+
+# Volumes
+openobserve_docker_volumes_default:
+  - "{{ openobserve_paths_location }}:/data"
+openobserve_docker_volumes_custom: []
+openobserve_docker_volumes: "{{ openobserve_docker_volumes_default
+                           + openobserve_docker_volumes_custom }}"
+
+# Devices
+openobserve_docker_devices_default: []
+openobserve_docker_devices_custom: []
+openobserve_docker_devices: "{{ openobserve_docker_devices_default
+                           + openobserve_docker_devices_custom }}"
+
+# Hosts
+openobserve_docker_hosts_default: {}
+openobserve_docker_hosts_custom: {}
+openobserve_docker_hosts: "{{ docker_hosts_common
+                         | combine(openobserve_docker_hosts_default)
+                         | combine(openobserve_docker_hosts_custom) }}"
+
+# Labels
+openobserve_docker_labels_default: {}
+openobserve_docker_labels_custom: {}
+openobserve_docker_labels: "{{ docker_labels_common
+                          | combine(openobserve_docker_labels_default)
+                          | combine(openobserve_docker_labels_custom) }}"
+
+# Hostname
+openobserve_docker_hostname: "{{ openobserve_name }}"
+
+# Networks
+openobserve_docker_networks_alias: "{{ openobserve_name }}"
+openobserve_docker_networks_default: []
+openobserve_docker_networks_custom: []
+openobserve_docker_networks: "{{ docker_networks_common
+                            + openobserve_docker_networks_default
+                            + openobserve_docker_networks_custom }}"
+
+# Capabilities
+openobserve_docker_capabilities_default: []
+openobserve_docker_capabilities_custom: []
+openobserve_docker_capabilities: "{{ openobserve_docker_capabilities_default
+                                + openobserve_docker_capabilities_custom }}"
+
+# Security Opts
+openobserve_docker_security_opts_default: []
+openobserve_docker_security_opts_custom: []
+openobserve_docker_security_opts: "{{ openobserve_docker_security_opts_default
+                                 + openobserve_docker_security_opts_custom }}"
+
+# Restart Policy
+openobserve_docker_restart_policy: unless-stopped
+
+# State
+openobserve_docker_state: started
