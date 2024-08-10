@@ -63,7 +63,7 @@ trilium_docker_container: "{{ trilium_name }}"
 # Image
 trilium_docker_image_pull: true
 trilium_docker_image_tag: "latest"
-trilium_docker_image: "zadam/trilium:{{ trilium_docker_image_tag }}"
+trilium_docker_image: "triliumnext/notes:{{ trilium_docker_image_tag }}"
 
 # Ports
 trilium_docker_ports_defaults: []
