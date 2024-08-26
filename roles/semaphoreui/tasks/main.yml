@@ -1,0 +1,54 @@
+#########################################################################
+# Title:            Sandbox: semaphoreui                                     #
+# Author(s):        Barrow1990                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Remove legacy PostgreSQL Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ semaphoreui_name }}_postgres"
+
+
+- name: PostgreSQL Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ semaphoreui_postgres_name }}"]
+    postgres_docker_image_tag: "{{ semaphoreui_postgres_docker_image_tag }}"
+    postgres_docker_image_repo: "{{ semaphoreui_postgres_docker_image_repo }}"
+    postgres_docker_env_db: "{{ semaphoreui_postgres_docker_env_db }}"
+    postgres_docker_env_user: "{{ semaphoreui_postgres_docker_env_user }}"
+    postgres_docker_env_password: "{{ semaphoreui_postgres_docker_env_password }}"
+    postgres_paths_folder: "{{ semaphoreui_postgres_paths_folder }}"
+    postgres_paths_location: "{{ semaphoreui_postgres_paths_location }}"
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: "Save Semaphoreui Saltbox facts"
+  saltbox_facts:
+    role: "semaphoreui"
+    instance: "semaphoreui"
+    keys:
+      secret_key: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=32') | b64encode }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+  register: semaphoreui_saltbox_facts
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

@@ -1,0 +1,170 @@
+##########################################################################
+# Title:         Sandbox: Semaphoreui | Default Variables                     #
+# Author(s):     Barrow1990                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+semaphoreui_name: semaphoreui
+
+################################
+# Settings
+################################
+
+semaphoreui_postgres_name: "{{ semaphoreui_name }}-postgres"
+semaphoreui_postgres_docker_image_tag: "15"
+semaphoreui_postgres_docker_image_repo: "postgres"
+semaphoreui_postgres_docker_env_db: "semaphoreui"
+semaphoreui_postgres_docker_env_user: "semaphoreui"
+semaphoreui_postgres_docker_env_password: "semaphoreui"
+semaphoreui_postgres_paths_folder: "{{ semaphoreui_name }}"
+semaphoreui_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+
+################################
+# Paths
+################################
+
+semaphoreui_paths_folder: "{{ semaphoreui_name }}"
+semaphoreui_paths_location: "{{ server_appdata_path }}/{{ semaphoreui_paths_folder }}"
+semaphoreui_paths_folders_list:
+  - "{{ server_appdata_path }}/{{ semaphoreui_paths_folder }}/playbooks"
+
+################################
+# Web
+################################
+
+semaphoreui_web_subdomain: "{{ semaphoreui_name }}"
+semaphoreui_web_domain: "{{ user.domain }}"
+semaphoreui_web_port: "3000"
+semaphoreui_web_url: "{{ 'https://' + (semaphoreui_web_subdomain + '.' + semaphoreui_web_domain
+                      if (semaphoreui_web_subdomain | length > 0)
+                      else semaphoreui_web_domain) }}"
+
+################################
+# DNS
+################################
+
+semaphoreui_dns_record: "{{ semaphoreui_web_subdomain }}"
+semaphoreui_dns_zone: "{{ semaphoreui_web_domain }}"
+semaphoreui_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+semaphoreui_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+semaphoreui_traefik_middleware_default: "{{ traefik_default_middleware }}"
+semaphoreui_traefik_middleware_custom: ""
+semaphoreui_traefik_certresolver: "{{ traefik_default_certresolver }}"
+semaphoreui_traefik_enabled: true
+semaphoreui_traefik_api_enabled: true
+semaphoreui_traefik_api_endpoint: "PathPrefix(`/api`)"
+
+################################
+# Docker
+################################
+
+# Container
+semaphoreui_docker_container: "{{ semaphoreui_name }}"
+
+# Image
+semaphoreui_docker_image_pull: true
+semaphoreui_docker_image_tag: "latest"
+semaphoreui_docker_image: "semaphoreui/semaphore:{{ semaphoreui_docker_image_tag }}"
+
+# Ports
+semaphoreui_docker_ports_defaults: []
+semaphoreui_docker_ports_custom: []
+semaphoreui_docker_ports: "{{ semaphoreui_docker_ports_defaults
+                         + semaphoreui_docker_ports_custom }}"
+
+# Envs
+semaphoreui_docker_envs_default:
+  - SEMAPHORE_DB_USER: semaphoreui
+  - SEMAPHORE_DB_PASS: semaphoreui
+  - SEMAPHORE_DB_HOST: "{{ semaphoreui_postgres_name }}" # for postgres, change to: postgres
+  - SEMAPHORE_DB_PORT: "5432" # change to 5432 for postgres
+  - SEMAPHORE_DB_DIALECT: postgres # for postgres, change to: postgres
+  - SEMAPHORE_DB: semaphoreui
+  - SEMAPHORE_PLAYBOOK_PATH: "{{ semaphoreui_paths_location }}/playbooks"
+  - SEMAPHORE_ADMIN_PASSWORD: "{{ user.pass }}"
+  - SEMAPHORE_ADMIN_NAME: "{{ user.name }}"
+  - SEMAPHORE_ADMIN_EMAIL: "{{ user.email }}"
+  - SEMAPHORE_ADMIN: "{{ user.name }}"
+  - SEMAPHORE_ACCESS_KEY_ENCRYPTION: "{{ semaphoreui_saltbox_facts.facts.secret_key }}"
+  - TZ: "{{ timezone }}"
+semaphoreui_docker_envs_custom: {}
+semaphoreui_docker_envs: "{{ semaphoreui_docker_envs_default
+                        | combine(semaphoreui_docker_envs_custom) }}"
+
+# Commands
+semaphoreui_docker_commands_default: []
+semaphoreui_docker_commands_custom: []
+semaphoreui_docker_commands: "{{ semaphoreui_docker_commands_default
+                            + semaphoreui_docker_commands_custom }}"
+
+# Volumes
+semaphoreui_docker_volumes_default: []
+semaphoreui_docker_volumes_custom: []
+semaphoreui_docker_volumes: "{{ semaphoreui_docker_volumes_default
+                           + semaphoreui_docker_volumes_custom }}"
+
+# Devices
+semaphoreui_docker_devices_default: []
+semaphoreui_docker_devices_custom: []
+semaphoreui_docker_devices: "{{ semaphoreui_docker_devices_default
+                           + semaphoreui_docker_devices_custom }}"
+
+# Hosts
+semaphoreui_docker_hosts_default: {}
+semaphoreui_docker_hosts_custom: {}
+semaphoreui_docker_hosts: "{{ docker_hosts_common
+                         | combine(semaphoreui_docker_hosts_default)
+                         | combine(semaphoreui_docker_hosts_custom) }}"
+
+# Labels
+semaphoreui_docker_labels_default: {}
+semaphoreui_docker_labels_custom: {}
+semaphoreui_docker_labels: "{{ docker_labels_common
+                          | combine(semaphoreui_docker_labels_default)
+                          | combine(semaphoreui_docker_labels_custom) }}"
+
+# Hostname
+semaphoreui_docker_hostname: "{{ semaphoreui_name }}"
+
+# Networks
+semaphoreui_docker_networks_alias: "{{ semaphoreui_name }}"
+semaphoreui_docker_networks_default: []
+semaphoreui_docker_networks_custom: []
+semaphoreui_docker_networks: "{{ docker_networks_common
+                            + semaphoreui_docker_networks_default
+                            + semaphoreui_docker_networks_custom }}"
+
+# Capabilities
+semaphoreui_docker_capabilities_default: []
+semaphoreui_docker_capabilities_custom: []
+semaphoreui_docker_capabilities: "{{ semaphoreui_docker_capabilities_default
+                                + semaphoreui_docker_capabilities_custom }}"
+
+# Security Opts
+semaphoreui_docker_security_opts_default: []
+semaphoreui_docker_security_opts_custom: []
+semaphoreui_docker_security_opts: "{{ semaphoreui_docker_security_opts_default
+                                 + semaphoreui_docker_security_opts_custom }}"
+
+# Restart Policy
+semaphoreui_docker_restart_policy: unless-stopped
+
+# State
+semaphoreui_docker_state: started
+
+# Dependencies
+semaphoreui_depends_on: "{{ semaphoreui_postgres_name }}"
+semaphoreui_depends_on_delay: "0"
+semaphoreui_depends_on_healthchecks: "false"
