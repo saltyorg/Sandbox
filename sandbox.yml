@@ -147,6 +147,7 @@
     - { role: rocketchat, tags: ['rocketchat'] }
     - { role: sabthrottle, tags: ['sabthrottle'] }
     - { role: sarotate, tags: ['sarotate'] }
+    - { role: semaphoreui, tags: ['semaphoreui'] }
     - { role: solr, tags: ['solr'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
