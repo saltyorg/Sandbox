@@ -78,11 +78,7 @@ plex_utills_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 plex_utills_docker_envs: "{{ plex_utills_docker_envs_default
-                             | combine(plex_utills_docker_envs_custom)
-                          if not (plex_utills_themepark_enabled)
-                          else plex_utills_docker_envs_default
-                             | combine(plex_utills_docker_envs_custom)
-                             | combine(plex_utills_docker_envs_theme) }}"
+                             | combine(plex_utills_docker_envs_custom) }}"
 
 # Commands
 plex_utills_docker_commands_default: []
