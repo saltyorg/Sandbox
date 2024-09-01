@@ -12,7 +12,6 @@
   vars:
     var_prefix: "{{ wikijs_name }}_postgres"
 
-
 - name: PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
