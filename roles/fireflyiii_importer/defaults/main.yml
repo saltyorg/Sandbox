@@ -30,8 +30,8 @@ fireflyiii_importer_web_subdomain: "{{ fireflyiii_importer_name }}"
 fireflyiii_importer_web_domain: "{{ user.domain }}"
 fireflyiii_importer_web_port: "8080"
 fireflyiii_importer_web_url: "{{ 'https://' + (fireflyiii_importer_web_subdomain + '.' + fireflyiii_importer_web_domain
-                             if (fireflyiii_importer_web_subdomain | length > 0)
-                             else fireflyiii_importer_web_domain) }}"
+                              if (fireflyiii_importer_web_subdomain | length > 0)
+                              else fireflyiii_importer_web_domain) }}"
 
 ################################
 # DNS

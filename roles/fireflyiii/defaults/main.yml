@@ -30,8 +30,8 @@ fireflyiii_web_subdomain: "{{ fireflyiii_name }}"
 fireflyiii_web_domain: "{{ user.domain }}"
 fireflyiii_web_port: "8080"
 fireflyiii_web_url: "{{ 'https://' + (fireflyiii_web_subdomain + '.' + fireflyiii_web_domain
-                    if (fireflyiii_web_subdomain | length > 0)
-                    else fireflyiii_web_domain) }}"
+                     if (fireflyiii_web_subdomain | length > 0)
+                     else fireflyiii_web_domain) }}"
 
 ################################
 # DNS
