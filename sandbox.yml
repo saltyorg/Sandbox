@@ -58,7 +58,7 @@
     - { role: filebrowser, tags: ['filebrowser'] }
     - { role: filezilla, tags: ['filezilla'] }
     - { role: fireflyiii, tags: ['fireflyiii'] }
-    - { role: fireflyiii_data_importer, tags: ['fireflyiii_importer'] }
+    - { role: fireflyiii_importer, tags: ['fireflyiii_importer'] }
     - { role: firefox, tags: ['firefox'] }
     - { role: flaresolverr, tags: ['flaresolverr'] }
     - { role: forgejo, tags: ['forgejo'] }
