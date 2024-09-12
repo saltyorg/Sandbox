@@ -1,0 +1,151 @@
+##########################################################################
+# Title:            Sandbox: Firefly-III-Importer                        #
+# Author(s):        Barrow1990                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+fireflyiii_importer_name: fireflyiii_importer
+
+################################
+# Paths
+################################
+
+fireflyiii_importer_paths_folder: "{{ fireflyiii_name }}"
+fireflyiii_importer_paths_location: "{{ server_appdata_path }}/{{ fireflyiii_importer_paths_folder }}"
+fireflyiii_importer_paths_folders_list:
+  - "{{ fireflyiii_importer_paths_location }}"
+
+################################
+# Web
+################################
+
+fireflyiii_importer_web_subdomain: "{{ fireflyiii_importer_name }}"
+fireflyiii_importer_web_domain: "{{ user.domain }}"
+fireflyiii_importer_web_port: "8080"
+fireflyiii_importer_web_url: "{{ 'https://' + (fireflyiii_importer_web_subdomain + '.' + fireflyiii_importer_web_domain
+                              if (fireflyiii_importer_web_subdomain | length > 0)
+                              else fireflyiii_importer_web_domain) }}"
+
+################################
+# DNS
+################################
+
+fireflyiii_importer_dns_record: "{{ fireflyiii_importer_web_subdomain }}"
+fireflyiii_importer_dns_zone: "{{ fireflyiii_importer_web_domain }}"
+fireflyiii_importer_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+fireflyiii_importer_traefik_sso_middleware: ""
+fireflyiii_importer_traefik_middleware_default: "{{ traefik_default_middleware }}"
+fireflyiii_importer_traefik_middleware_custom: ""
+fireflyiii_importer_traefik_certresolver: "{{ traefik_default_certresolver }}"
+fireflyiii_importer_traefik_enabled: true
+fireflyiii_importer_traefik_api_enabled: false
+fireflyiii_importer_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+fireflyiii_importer_docker_container: "{{ fireflyiii_importer_name }}"
+
+# Image
+fireflyiii_importer_docker_image_pull: true
+fireflyiii_importer_docker_image_tag: "latest"
+fireflyiii_importer_docker_image: "fireflyiii/data-importer:{{ fireflyiii_importer_docker_image_tag }}"
+
+# Ports
+fireflyiii_importer_docker_ports_defaults: []
+fireflyiii_importer_docker_ports_custom: []
+fireflyiii_importer_docker_ports: "{{ fireflyiii_importer_docker_ports_defaults
+                                  + fireflyiii_importer_docker_ports_custom }}"
+
+# Envs
+fireflyiii_importer_docker_envs_default:
+  FIREFLY_III_URL: "http://{{ fireflyiii_name }}:8080"
+  VANITY_URL: "{{ fireflyiii_web_url }}"
+  TRUSTED_PROXIES: "**"
+  TZ: "{{ tz }}"
+  FIREFLY_III_ACCESS_TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYzZiYjNkOTgxYzAyZDczNmY1Y2U5NzEwMjRlZmRlNzU2NTk0NGU2MWIzMTVkMzg3ZGZiNGJhNmRkODVkOWI3ZThiMWNkZTU4OTk4YmRkOTMiLCJpYXQiOjE3MjQ4Nzc1MzkuNjI3NDM1LCJuYmYiOjE3MjQ4Nzc1MzkuNjI3NDQsImV4cCI6MTc1NjQxMzUzOS41MjIyNTIsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.kTXH9YF1H22W62QGDOvjvO-PVBo-sTHkDpMKhySwM4BPWEPj24KQUVz5XH_Rt6xSAeRrw8A6OBwxzaf6h2Ixn_EhLSAuveitSa_Yp6O_V8FL9CwzrnkKTtpwfq1gfcwM79SI5Q8Ux6UivkRL7egkFqxG7nZAD2aeHtqdLccldGTE_TC_RHk9XCstHTL9JyLaahH8vUFcQ37olcq1S7f73IbwSK--sHIcqEKjmg6gy_3C4ENknqYDactI5EJpA2PqSVdVzrWWoxg6dVBTLU9dRFrdVreQCKgO3LtESABoYgOm9_BArY5n8aVzVcHhNCXnA9Q6Zx_XeLxgb4-SKTdNk6eTXu7BOui4xIaHQz2F-le-aFXFAivaF42kuPQDhpBUe2D7L_BF2EJIMHNzqRdX7kb2mVSMB-XHbDGJHm1sEKoPKM97B2AbHPX_cWg2N8P29_WKQNLrzro4aKs1HaVNAbOnDO04ig86Lq2VJZZ7m9WHz62bpzwQU2VtG0C7tfTcZ7nCjaqPISw3ng1PovoskndGRJyajLzdF_gzJv9tVJRoggFsqQ6y3hNymsvR-pGz60FtaSgyh-GWyCaiYALyHC2BKqBT9LPj0RFOvdnI7nxw6lvDQOle9U9SqSVMVzdeJtuyn2g6Nh5PR-eVDnq33EyyvifaP41vnveFN2LuszU"
+fireflyiii_importer_docker_envs_custom: {}
+fireflyiii_importer_docker_envs: "{{ fireflyiii_importer_docker_envs_default
+                                 | combine(fireflyiii_importer_docker_envs_custom) }}"
+
+# Commands
+fireflyiii_importer_docker_commands_default: []
+fireflyiii_importer_docker_commands_custom: []
+fireflyiii_importer_docker_commands: "{{ fireflyiii_importer_docker_commands_default
+                                     + fireflyiii_importer_docker_commands_custom }}"
+
+# Volumes
+fireflyiii_importer_docker_volumes_default:
+  - /etc/timezone:/etc/timezone:ro
+  - /etc/localtime:/etc/localtime:ro
+fireflyiii_importer_docker_volumes_custom: []
+fireflyiii_importer_docker_volumes: "{{ fireflyiii_importer_docker_volumes_default
+                                    + fireflyiii_importer_docker_volumes_custom }}"
+
+# Devices
+fireflyiii_importer_docker_devices_default: []
+fireflyiii_importer_docker_devices_custom: []
+fireflyiii_importer_docker_devices: "{{ fireflyiii_importer_docker_devices_default
+                                    + fireflyiii_importer_docker_devices_custom }}"
+
+# Hosts
+fireflyiii_importer_docker_hosts_default: {}
+fireflyiii_importer_docker_hosts_custom: {}
+fireflyiii_importer_docker_hosts: "{{ docker_hosts_common
+                                  | combine(fireflyiii_importer_docker_hosts_default)
+                                  | combine(fireflyiii_importer_docker_hosts_custom) }}"
+
+# Labels
+fireflyiii_importer_docker_labels_default: {}
+fireflyiii_importer_docker_labels_custom: {}
+fireflyiii_importer_docker_labels: "{{ docker_labels_common
+                                   | combine(fireflyiii_importer_docker_labels_default)
+                                   | combine(fireflyiii_importer_docker_labels_custom) }}"
+
+# Hostname
+fireflyiii_importer_docker_hostname: "{{ fireflyiii_importer_name }}"
+
+# Networks
+fireflyiii_importer_docker_networks_alias: "{{ fireflyiii_importer_name }}"
+fireflyiii_importer_docker_networks_default: []
+fireflyiii_importer_docker_networks_custom: []
+fireflyiii_importer_docker_networks: "{{ docker_networks_common
+                                     + fireflyiii_importer_docker_networks_default
+                                     + fireflyiii_importer_docker_networks_custom }}"
+
+# Capabilities
+fireflyiii_importer_docker_capabilities_default: []
+fireflyiii_importer_docker_capabilities_custom: []
+fireflyiii_importer_docker_capabilities: "{{ fireflyiii_importer_docker_capabilities_default
+                                         + fireflyiii_importer_docker_capabilities_custom }}"
+
+# Security Opts
+fireflyiii_importer_docker_security_opts_default: []
+fireflyiii_importer_docker_security_opts_custom: []
+fireflyiii_importer_docker_security_opts: "{{ fireflyiii_importer_docker_security_opts_default
+                                          + fireflyiii_importer_docker_security_opts_custom }}"
+
+# Restart Policy
+fireflyiii_importer_docker_restart_policy: unless-stopped
+
+# State
+fireflyiii_importer_docker_state: started
+
+# Dependencies
+fireflyiii_importer_depends_on: "{{ fireflyiii_name }}"
+fireflyiii_importer_depends_on_delay: "0"
+fireflyiii_importer_depends_on_healthchecks: "false"

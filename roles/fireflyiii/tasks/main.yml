@@ -1,0 +1,72 @@
+##########################################################################
+# Title:            Sandbox: Firefly-III                                 #
+# Author(s):        Barrow1990                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: "Save Fireflyiii Mariadb Password Saltbox facts"
+  saltbox_facts:
+    role: "fireflyiii"
+    instance: "fireflyiii_db_password"
+    keys:
+      secret_key: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=32') }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+  register: fireflyiii_db_password_saltbox_facts
+
+- name: "Save Fireflyiii AppKey Saltbox facts"
+  saltbox_facts:
+    role: "fireflyiii"
+    instance: "fireflyiii_appkey"
+    keys:
+      secret_key: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=32') }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+  register: fireflyiii_appkey_saltbox_facts
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+  vars:
+    mariadb_instances: "{{ fireflyiii_name }}-mariadb"
+    mariadb_paths_folder: "{{ fireflyiii_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
+    mariadb_docker_image_tag: "lts"
+    mariadb_docker_env_password: "{{ fireflyiii_db_password_saltbox_facts.facts.secret_key }}"
+
+- name: MariaDB | Create "{{ fireflyiii_name }}-mariadb" database
+  community.mysql.mysql_db:
+    name: "{{ fireflyiii_name }}-mariadb"
+    login_host: "{{ fireflyiii_name }}-mariadb"
+    login_user: "root"
+    login_password: "{{ fireflyiii_db_password_saltbox_facts.facts.secret_key }}"
+    state: present
+
+- name: Sleep for 30 seconds - To Allow MariaDB to be ready
+  ansible.builtin.wait_for:
+    timeout: 30
+
+- name: Firefly-III Importer Role
+  ansible.builtin.include_role:
+    name: fireflyiii_importer
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
