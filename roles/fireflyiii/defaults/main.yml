@@ -45,7 +45,7 @@ fireflyiii_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-fireflyiii_traefik_sso_middleware: ""
+fireflyiii_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 fireflyiii_traefik_middleware_default: "{{ traefik_default_middleware }}"
 fireflyiii_traefik_middleware_custom: ""
 fireflyiii_traefik_certresolver: "{{ traefik_default_certresolver }}"
