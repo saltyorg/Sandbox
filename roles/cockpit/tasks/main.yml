@@ -71,18 +71,21 @@
   ansible.builtin.include_tasks: "subtasks/vm.yml"
   when: cockpit_vm_enabled
 
-- name: Load 'cockpit_socket'
-  ansible.builtin.systemd:
-    name: cockpit.socket
-    state: started
-    enabled: yes
-    daemon_reload: true
+- name: Systemd services
   when: not continuous_integration
+  block:
+    - name: Reload systemd
+      ansible.builtin.systemd_service:
+        daemon_reload: true
 
-- name: Load 'cockpit_service'
-  ansible.builtin.systemd:
-    name: cockpit.service
-    state: started
-    enabled: yes
-    daemon_reload: true
-  when: not continuous_integration
+    - name: Load 'cockpit_socket'
+      ansible.builtin.systemd:
+        name: cockpit.socket
+        state: started
+        enabled: yes
+
+    - name: Load 'cockpit_service'
+      ansible.builtin.systemd:
+        name: cockpit.service
+        state: started
+        enabled: yes
