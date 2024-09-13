@@ -21,7 +21,6 @@
     name: "cockpit-machines"
     default_release: "{{ ansible_distribution_release }}-backports"
     state: latest
-    update_cache: true
 
 - name: VM | Put 'cockpit-machines' into hold
   ansible.builtin.dpkg_selections:
@@ -32,7 +31,6 @@
 - name: VM | Install necessary packages for Cockpit Machines
   ansible.builtin.package:
     name:
-      - qemu
       - qemu-kvm
       - libvirt-clients
       - libvirt-daemon-system
@@ -42,7 +40,6 @@
       - qemu-utils
       - dnsmasq
     state: latest
-    update_cache: true
 
 - name: VM | Check if default network in libvirt is active
   ansible.builtin.command:

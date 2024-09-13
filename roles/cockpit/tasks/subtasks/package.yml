@@ -21,7 +21,6 @@
     name: "cockpit"
     default_release: "{{ ansible_distribution_release }}-backports"
     state: latest
-    update_cache: true
 
 - name: Package | Put 'cockpit' into hold
   ansible.builtin.dpkg_selections:
