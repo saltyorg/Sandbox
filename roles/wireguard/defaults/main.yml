@@ -82,7 +82,7 @@ wireguard_docker_ports: "{{ wireguard_docker_ports_defaults
 wireguard_docker_envs_default:
   TZ: "{{ tz }}"
   WG_HOST: "{{ ip_address_public }}"
-  PASSWORD: "{{ user.pass }}"
+  PASSWORD_HASH: "{{ user.pass | password_hash('bcrypt') }}"
   WG_PORT: "{{ wireguard_listen_port }}"
 wireguard_docker_envs_custom: {}
 wireguard_docker_envs: "{{ wireguard_docker_envs_default
