@@ -27,6 +27,7 @@
     - { role: archivebox, tags: ['archivebox'] }
     - { role: aria2_ng, tags: ['aria2-ng'] }
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
+    - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
     - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }
@@ -72,6 +73,7 @@
     - { role: goplaxt, tags: ['goplaxt'] }
     - { role: gotenberg, tags: ['gotenberg'] }
     - { role: gotify, tags: ['gotify'] }
+    - { role: grocy, tags: ['grocy'] }
     - { role: guacamole, tags: ['guacamole'] }
     - { role: handbrake, tags: ['handbrake'] }
     - { role: healthchecks, tags: ['healthchecks'] }
