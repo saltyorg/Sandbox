@@ -1,0 +1,141 @@
+##########################################################################
+# Title:         Sandbox: Barcode Buddy | Default Variables              #
+# Author(s):     edzeg                                                   #
+# URL:           https://github.com/Forceu/barcodebuddy                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+barcodebuddy_name: barcodebuddy
+
+################################
+# Paths
+################################
+
+barcodebuddy_paths_folder: "{{ barcodebuddy_name }}"
+barcodebuddy_paths_location: "{{ server_appdata_path }}/{{ barcodebuddy_paths_folder }}"
+barcodebuddy_paths_folders_list:
+  - "{{ barcodebuddy_paths_location }}"
+
+################################
+# Web
+################################
+
+barcodebuddy_web_subdomain: "{{ barcodebuddy_name }}"
+barcodebuddy_web_domain: "{{ user.domain }}"
+barcodebuddy_web_port: "80"
+barcodebuddy_web_url: "{{ 'https://' + (barcodebuddy_web_subdomain + '.' + barcodebuddy_web_domain
+                       if (barcodebuddy_web_subdomain | length > 0)
+                       else barcodebuddy_web_domain) }}"
+
+################################
+# DNS
+################################
+
+barcodebuddy_dns_record: "{{ barcodebuddy_web_subdomain }}"
+barcodebuddy_dns_zone: "{{ barcodebuddy_web_domain }}"
+barcodebuddy_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+barcodebuddy_traefik_sso_middleware: ""
+barcodebuddy_traefik_middleware_default: "{{ traefik_default_middleware }}"
+barcodebuddy_traefik_middleware_custom: ""
+barcodebuddy_traefik_certresolver: "{{ traefik_default_certresolver }}"
+barcodebuddy_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+barcodebuddy_docker_container: "{{ barcodebuddy_name }}"
+
+# Image
+barcodebuddy_docker_image_pull: true
+barcodebuddy_docker_image_tag: "latest"
+barcodebuddy_docker_image: "f0rc3/barcodebuddy:{{ barcodebuddy_docker_image_tag }}"
+
+# Ports
+barcodebuddy_docker_ports_defaults: []
+barcodebuddy_docker_ports_custom: []
+barcodebuddy_docker_ports: "{{ barcodebuddy_docker_ports_defaults
+                               + barcodebuddy_docker_ports_custom }}"
+
+# Envs
+barcodebuddy_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+barcodebuddy_docker_envs_custom: {}
+barcodebuddy_docker_envs: "{{ barcodebuddy_docker_envs_default
+                              | combine(barcodebuddy_docker_envs_custom) }}"
+
+# Commands
+barcodebuddy_docker_commands_default: []
+barcodebuddy_docker_commands_custom: []
+barcodebuddy_docker_commands: "{{ barcodebuddy_docker_commands_default
+                                  + barcodebuddy_docker_commands_custom }}"
+
+# Volumes
+barcodebuddy_docker_volumes_default:
+  - "{{ barcodebuddy_paths_location }}:/config"
+barcodebuddy_docker_volumes_custom: []
+barcodebuddy_docker_volumes: "{{ barcodebuddy_docker_volumes_default
+                                 + barcodebuddy_docker_volumes_custom }}"
+
+# Devices
+barcodebuddy_docker_devices_default: []
+barcodebuddy_docker_devices_custom: []
+barcodebuddy_docker_devices: "{{ barcodebuddy_docker_devices_default
+                                 + barcodebuddy_docker_devices_custom }}"
+
+# Hosts
+barcodebuddy_docker_hosts_default: {}
+barcodebuddy_docker_hosts_custom: {}
+barcodebuddy_docker_hosts: "{{ docker_hosts_common
+                               | combine(barcodebuddy_docker_hosts_default)
+                               | combine(barcodebuddy_docker_hosts_custom) }}"
+
+# Labels
+barcodebuddy_docker_labels_default: {}
+barcodebuddy_docker_labels_custom: {}
+barcodebuddy_docker_labels: "{{ docker_labels_common
+                                | combine(barcodebuddy_docker_labels_default)
+                                | combine(barcodebuddy_docker_labels_custom) }}"
+
+# Hostname
+barcodebuddy_docker_hostname: "{{ barcodebuddy_name }}"
+
+# Networks
+barcodebuddy_docker_networks_alias: "{{ barcodebuddy_name }}"
+barcodebuddy_docker_networks_default: []
+barcodebuddy_docker_networks_custom: []
+barcodebuddy_docker_networks: "{{ docker_networks_common
+                                  + barcodebuddy_docker_networks_default
+                                  + barcodebuddy_docker_networks_custom }}"
+
+# Capabilities
+barcodebuddy_docker_capabilities_default: []
+barcodebuddy_docker_capabilities_custom: []
+barcodebuddy_docker_capabilities: "{{ barcodebuddy_docker_capabilities_default
+                                      + barcodebuddy_docker_capabilities_custom }}"
+
+# Security Opts
+barcodebuddy_docker_security_opts_default: []
+barcodebuddy_docker_security_opts_custom: []
+barcodebuddy_docker_security_opts: "{{ barcodebuddy_docker_security_opts_default
+                                       + barcodebuddy_docker_security_opts_custom }}"
+
+# Restart Policy
+barcodebuddy_docker_restart_policy: unless-stopped
+
+# State
+barcodebuddy_docker_state: started
