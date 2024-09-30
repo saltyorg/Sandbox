@@ -24,6 +24,9 @@
     state: present
     timeout: 600
 
+- name: Stop Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/stop_docker_container.yml"
+
 - name: Allow public access without auth
   ansible.builtin.shell: |
     yyq -i '.dangerous_allow_public_without_auth = "true"' {{ stash_paths_location }}/config/config.yml
@@ -37,4 +40,4 @@
   become_user: "{{ user.name }}"
 
 - name: Restart Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/restart_docker_container.yml"
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/start_docker_container.yml"
