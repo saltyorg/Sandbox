@@ -34,12 +34,12 @@
 
 - name: Set variable for output of tqm releases
   ansible.builtin.uri:
-    url: "{{ svm }}https://api.github.com/repos/l3uddz/tqm/releases/latest"
+    url: "{{ svm }}https://api.github.com/repos/saltydk/tqm/releases/latest"
   register: tqm_releases
 
 - name: Get the url for latest amd64 tqm binary
   ansible.builtin.set_fact:
-    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', '==', 'tqm_v1.5.0_linux_amd64') | map(attribute='browser_download_url') | join('') }}"
+    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', 'search', '_linux_amd64') | map(attribute='browser_download_url') | join('') }}"
 
 - name: Download tqm binary
   ansible.builtin.get_url:
