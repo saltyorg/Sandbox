@@ -54,7 +54,7 @@
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
 - name: Add SRV record
-  cloudflare_dns_custom:
+  community.general.cloudflare_dns:
     account_api_key: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
     port: "{{ teamspeak_docker_ports_9987 }}"

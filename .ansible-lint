@@ -12,7 +12,6 @@ mock_modules:
   - find_open_port
   - saltbox_facts
   - qbittorrent_passwd
-  - cloudflare_dns_custom
 
 mock_roles:
   - pre_tasks
