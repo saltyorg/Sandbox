@@ -24,7 +24,7 @@
   register: port_lookup_minecraft_tcp
 
 - name: Add SRV record
-  cloudflare_dns_custom:
+  community.general.cloudflare_dns:
     account_api_key: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
     port: "{{ minecraft_docker_ports_25565 }}"
