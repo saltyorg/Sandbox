@@ -110,6 +110,7 @@
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
     - { role: miniflux, tags: ['miniflux'] }
     - { role: monitorr, tags: ['monitorr'] }
+    - { role: mosquitto, tags: ['mosquitto'] }
     - { role: moviematch, tags: ['moviematch'] }
     - { role: mqtt, tags: ['mqtt'] }
     - { role: mylar3, tags: ['mylar3'] }
@@ -164,6 +165,7 @@
     - { role: tdarr_node, tags: ['tdarr-node'] }
     - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
+    - { role: teslamate, tags: ['teslamate'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: threadfin, tags: ['threadfin'] }
     - { role: tika, tags: ['tika'] }
@@ -194,7 +196,6 @@
     - { role: yacht, tags: ['yacht'] }
     - { role: your_spotify, tags: ['your-spotify'] }
     - { role: znc, tags: ['znc'] }
-    - { role: zurg_testing, tags: ['zurg-testing'] }
     # Apps End
     # No CI
     - { role: lgsm, tags: ['lgsm'] }
