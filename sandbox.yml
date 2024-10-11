@@ -194,6 +194,7 @@
     - { role: yacht, tags: ['yacht'] }
     - { role: your_spotify, tags: ['your-spotify'] }
     - { role: znc, tags: ['znc'] }
+    - { role: zurg_testing, tags: ['zurg-testing'] }
     # Apps End
     # No CI
     - { role: lgsm, tags: ['lgsm'] }
