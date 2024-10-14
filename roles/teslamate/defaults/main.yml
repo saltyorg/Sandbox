@@ -87,7 +87,7 @@ teslamate_docker_envs_default:
   DATABASE_HOST: "postgres"         # Set the database host to the PostgreSQL container
   DATABASE_PORT: "5432"             # Set the PostgreSQL port (default is 5432)
   MQTT_HOST: "mqtt"
-  CHECK_ORIGIN: "true"
+  CHECK_ORIGIN: "false"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
