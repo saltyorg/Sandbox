@@ -164,6 +164,7 @@
     - { role: tdarr_node, tags: ['tdarr-node'] }
     - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
+    - { role: teslamate, tags: ['teslamate'] }
     - { role: thelounge, tags: ['thelounge'] }
     - { role: threadfin, tags: ['threadfin'] }
     - { role: tika, tags: ['tika'] }
