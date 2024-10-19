@@ -64,7 +64,7 @@
 
 - name: Create TeslaMate database inside PostgreSQL
   ansible.builtin.command:
-    cmd: "docker exec "{{ teslamate_name }}-postgres" psql -U {{ teslamate_database_user }} -d postgres -c 'CREATE DATABASE {{ teslamate_database_name }};'"
+    cmd: docker exec "{{ teslamate_name }}-postgres" psql -U {{ teslamate_database_user }} -d postgres -c "CREATE DATABASE {{ teslamate_database_name }};"
   ignore_errors: true  # Ignore if the database already exists
 
 - name: Create directories
