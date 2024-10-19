@@ -17,6 +17,16 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
+- name: "Save Teslamate Postgres Saltbox facts"
+  saltbox_facts:
+    role: "teslamate_db"
+    instance: "teslamate"
+    keys:
+      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: teslamate_db_saltbox_facts
+
 - name: "Save Teslamate Saltbox facts"
   saltbox_facts:
     role: "teslamate"
@@ -30,6 +40,12 @@
 - name: Postgres Role
   ansible.builtin.include_role:
     name: postgres
+  vars:
+    postgres_instances: "{{ teslamate_name }}-postgres"
+    postgres_paths_folder: "{{ teslamate_name }}"
+    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+    postgres_docker_image_tag: "17"
+    postgres_docker_env_password: "{{ teslamate_db_saltbox_facts.facts.secret_key }}"
 
 - name: Grafana Role
   ansible.builtin.include_role:
@@ -48,7 +64,7 @@
 
 - name: Create TeslaMate database inside PostgreSQL
   ansible.builtin.command:
-    cmd: "docker exec postgres psql -U {{ TM_DB_USER }} -d postgres -c 'CREATE DATABASE {{ TM_DB_NAME }};'"
+    cmd: "docker exec "{{ teslamate_name }}-postgres" psql -U {{ teslamate_database_user }} -d postgres -c 'CREATE DATABASE {{ teslamate_database_name }};'"
   ignore_errors: true  # Ignore if the database already exists
 
 - name: Create directories
