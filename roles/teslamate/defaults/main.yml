@@ -57,7 +57,7 @@ teslamate_traefik_middleware_default: "{{ traefik_default_middleware }}"
 teslamate_traefik_middleware_custom: ""
 teslamate_traefik_certresolver: "{{ traefik_default_certresolver }}"
 teslamate_traefik_enabled: true
-teslamate_traefik_api_enabled: true
+teslamate_traefik_api_enabled: false
 teslamate_traefik_api_endpoint: ""
 
 ################################
