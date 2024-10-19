@@ -49,10 +49,6 @@
     postgres_docker_env_db: "{{ teslamate_postgres_docker_env_db }}"
     postgres_docker_env_password: "{{ teslamate_postgres_docker_env_password }}"
 
-- name: Grafana Role
-  ansible.builtin.include_role:
-    name: grafana
-
 - name: Mosquitto Role
   ansible.builtin.include_role:
     name: mqtt
