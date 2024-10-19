@@ -14,6 +14,17 @@
 fireflyiii_name: fireflyiii
 
 ################################
+# Settings
+################################
+
+fireflyiii_mariadb_name: "{{ fireflyiii_name }}-mariadb"
+fireflyiii_mariadb_paths_folder: "{{ fireflyiii_name }}"
+fireflyiii_mariadb_paths_location: "{{ server_appdata_path }}/{{ mariadb_paths_folder }}/mariadb"
+fireflyiii_mariadb_docker_image_tag: "lts"
+fireflyiii_mariadb_docker_env_password: "{{ fireflyiii_db_password_saltbox_facts.facts.secret_key }}"
+fireflyiii_mariadb_docker_env_db: "{{ fireflyiii_name }}-mariadb"
+
+################################
 # Paths
 ################################
 
