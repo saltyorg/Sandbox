@@ -41,7 +41,7 @@
     name: mariadb
   vars:
     mariadb_instances: ["{{ fireflyiii_mariadb_name }}"]
-    mariadb_paths_folder: "{{ fireflyiii_name_mariadb_paths_folder }}"
+    mariadb_paths_folder: "{{ fireflyiii_mariadb_paths_folder }}"
     mariadb_paths_location: "{{ fireflyiii_mariadb_paths_location }}"
     mariadb_docker_image_tag: "{{ fireflyiii_mariadb_docker_image_tag }}"
     mariadb_docker_env_db: "{{ fireflyiii_mariadb_docker_env_db }}"
