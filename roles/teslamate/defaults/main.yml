@@ -15,10 +15,15 @@ teslamate_name: teslamate
 # Settings
 ################################
 
-teslamate_database_user: "{{ user.name }}"
-teslamate_database_pass: "{{ teslamate_db_saltbox_facts.facts.secret_key }}"
-teslamate_database_name: "teslamate"
 teslamate_secret_key: "{{ teslamate_saltbox_facts.facts.secret_key }}"
+
+teslamate_postgres_name: "{{ teslmate_postgres_name }}-postgres"
+teslamate_postgres_docker_env_db: "{{ teslamate_name }}"
+teslamate_postgres_docker_env_password: "{{ teslamate_db_saltbox_facts.facts.secret_key }}"
+teslamate_postgres_docker_image_tag: "17"
+teslamate_postgres_docker_image_repo: "postgres"
+teslamate_postgres_paths_folder: "{{ teslamate_name }}"
+teslamate_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -37,8 +42,8 @@ teslamate_web_subdomain: "{{ teslamate_name }}"
 teslamate_web_domain: "{{ user.domain }}"
 teslamate_web_port: "4000"
 teslamate_web_url: "{{ 'https://' + (teslamate_web_subdomain + '.' + teslamate_web_domain
-                  if (teslamate_web_subdomain | length > 0)
-                  else teslamate_web_domain) }}"
+                    if (teslamate_web_subdomain | length > 0)
+                    else teslamate_web_domain) }}"
 
 ################################
 # DNS
@@ -80,11 +85,11 @@ teslamate_docker_ports: "{{ teslamate_docker_ports_defaults
 
 # Envs
 teslamate_docker_envs_default:
-  DATABASE_USER: "{{  teslamate_database_user }}"
-  DATABASE_PASS: "{{ teslamate_database_pass }}"
-  DATABASE_NAME: "{{ teslamate_database_name }}"
+  DATABASE_USER: "{{ postgres_docker_env_user }}"
+  DATABASE_PASS: "{{ postgres_docker_env_password }}"
+  DATABASE_NAME: "{{ postgres_docker_env_db }}"
   ENCRYPTION_KEY: "{{ teslamate_secret_key }}"
-  DATABASE_HOST: "{{ teslamate_name }}-postgres"
+  DATABASE_HOST: "{{ teslamate_postgres_name }}"
   DATABASE_PORT: "5432"
   MQTT_HOST: "mqtt"
   CHECK_ORIGIN: "false"

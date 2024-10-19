@@ -41,11 +41,13 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: "{{ teslamate_name }}-postgres"
-    postgres_paths_folder: "{{ teslamate_name }}"
-    postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
-    postgres_docker_image_tag: "17"
-    postgres_docker_env_password: "{{ teslamate_db_saltbox_facts.facts.secret_key }}"
+    postgres_instances: ["{{ teslamate_postgres_name }}"]
+    postgres_paths_folder: "{{ teslamate_postgres_paths_folder }}"
+    postgres_paths_location: "{{ teslamate_postgres_paths_location }}"
+    postgres_docker_image_repo: "{{ teslamate_postgres_docker_image_repo }}"
+    postgres_docker_image_tag: "{{ teslamate_postgres_docker_image_tag }}"
+    postgres_docker_env_db: "{{ teslamate_postgres_docker_env_db }}"
+    postgres_docker_env_password: "{{ teslamate_postgres_docker_env_password }}"
 
 - name: Grafana Role
   ansible.builtin.include_role:
@@ -54,18 +56,6 @@
 - name: Mosquitto Role
   ansible.builtin.include_role:
     name: mqtt
-
-- name: Wait for PostgreSQL to be ready
-  ansible.builtin.wait_for:
-    host: "postgres"
-    port: 5432
-    timeout: 30
-    state: started
-
-- name: Create TeslaMate database inside PostgreSQL
-  ansible.builtin.command:
-    cmd: docker exec "{{ teslamate_name }}-postgres" psql -U {{ teslamate_database_user }} -d postgres -c "CREATE DATABASE {{ teslamate_database_name }};"
-  ignore_errors: true  # Ignore if the database already exists
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
