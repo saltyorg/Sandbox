@@ -1,0 +1,60 @@
+##########################################################################
+# Title:            Sandbox: teslamate                                   #
+# Author(s):        maindust                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: "Save Teslamate Postgres Saltbox facts"
+  saltbox_facts:
+    role: "teslamate_db"
+    instance: "teslamate"
+    keys:
+      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: teslamate_db_saltbox_facts
+
+- name: "Save Teslamate Saltbox facts"
+  saltbox_facts:
+    role: "teslamate"
+    instance: "teslamate"
+    keys:
+      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: teslamate_saltbox_facts
+
+- name: Postgres Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ teslamate_postgres_name }}"]
+    postgres_paths_folder: "{{ teslamate_postgres_paths_folder }}"
+    postgres_paths_location: "{{ teslamate_postgres_paths_location }}"
+    postgres_docker_image_repo: "{{ teslamate_postgres_docker_image_repo }}"
+    postgres_docker_image_tag: "{{ teslamate_postgres_docker_image_tag }}"
+    postgres_docker_env_db: "{{ teslamate_postgres_docker_env_db }}"
+    postgres_docker_env_password: "{{ teslamate_postgres_docker_env_password }}"
+
+- name: Mosquitto Role
+  ansible.builtin.include_role:
+    name: mqtt
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
