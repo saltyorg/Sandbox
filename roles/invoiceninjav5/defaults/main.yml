@@ -10,7 +10,14 @@
 ################################
 # Basics
 ################################
+
 invoiceninjav5_name: "invoiceninja"
+
+################################
+# Settings
+################################
+
+invoiceninjav5_overwrite_nginx_config: true
 
 ################################
 # Paths
@@ -18,11 +25,13 @@ invoiceninjav5_name: "invoiceninja"
 
 invoiceninjav5_paths_folder: "{{ invoiceninjav5_name }}"
 invoiceninjav5_paths_location: "{{ server_appdata_path }}/{{ invoiceninjav5_paths_folder }}"
-invoiceninjav5_conf_path: "{{ server_appdata_path }}/{{ invoiceninjav5_paths_folder }}/in-vhost.conf"
 invoiceninjav5_paths_folders_list:
   - "{{ invoiceninjav5_paths_location }}"
   - "{{ invoiceninjav5_paths_location }}/public"
   - "{{ invoiceninjav5_paths_location }}/storage"
+invoiceninjav5_paths_recursive: true
+invoiceninjav5_paths_owner: "1500"
+invoiceninjav5_paths_group: "1500"
 
 ################################
 # Web
@@ -44,18 +53,6 @@ invoiceninjav5_nginx_dns_zone: "{{ invoiceninjav5_nginx_web_domain }}"
 invoiceninjav5_nginx_dns_proxy: "{{ dns.proxied }}"
 
 ################################
-# Traefik
-################################
-
-invoiceninjav5_nginx_traefik_sso_middleware: ""
-invoiceninjav5_nginx_traefik_middleware_default: "{{ traefik_default_middleware }}"
-invoiceninjav5_nginx_traefik_middleware_custom: ""
-invoiceninjav5_nginx_traefik_certresolver: "{{ traefik_default_certresolver }}"
-invoiceninjav5_nginx_traefik_enabled: true
-invoiceninjav5_nginx_traefik_api_enabled: false
-invoiceninjav5_nginx_traefik_api_endpoint: ""
-
-################################
 # Docker
 ################################
 
@@ -67,34 +64,28 @@ invoiceninjav5_docker_image_pull: true
 invoiceninjav5_docker_image_tag: "5"
 invoiceninjav5_docker_image: "invoiceninja/invoiceninja:{{ invoiceninjav5_docker_image_tag }}"
 
+# Ports
+invoiceninjav5_docker_ports_defaults: []
+invoiceninjav5_docker_ports_custom: []
+invoiceninjav5_docker_ports: "{{ invoiceninjav5_docker_ports_defaults
+                                 + invoiceninjav5_docker_ports_custom }}"
+
 # Envs
 invoiceninjav5_docker_envs_default:
   TZ: "{{ tz }}"
-  APP_URL: "https://{{ invoiceninjav5_nginx_web_subdomain + '.' + invoiceninjav5_nginx_web_domain }}"
+  APP_URL: "{{ invoiceninjav5_nginx_web_url }}"
   APP_KEY: "{{ invoiceninja.app_key | default('base64:O1S3kAJEDgo92gPkXtxfdCJpoGShgKloUSdcaHMXmoY=', true) }}"
   APP_ENV: "production"
   APP_DEBUG: "false"
-  APP_CIPHER: "AES-256-CBC"
   TRUSTED_PROXIES: "*"
   REQUIRE_HTTPS: "true"
-  DB_STRICT: "false"
   DB_TYPE: "mysql"
   DB_HOST: "mariadb"
   DB_USERNAME: "root"
   DB_PASSWORD: "password321"
   DB_DATABASE: "invoiceninjav5db"
   DB_PORT: "3306"
-  DB_HOST1: "mariadb"
-  DB_USERNAME1: "root"
-  DB_PASSWORD1: "password321"
-  DB_DATABASE1: "invoiceninjav5db"
-  DB_PORT1: "3306"
-  MYSQL_ROOT_PASSWORD: "password321"
-  MYSQL_USER: "root"
-  MYSQL_PASSWORD: "password321"
-  MYSQL_DATABASE: "invoiceninjav5db"
-  PDF_GENERATOR: "snappdf"
-  MULTI_DB_ENABLED: "false"
+  PDF_GENERATOR: "hosted_ninja"
   IS_DOCKER: "true"
   PHANTOMJS_PDF_GENERATION: "false"
   IN_USER_EMAIL: "{{ user.email }}"
@@ -113,6 +104,8 @@ invoiceninjav5_docker_commands: "{{ invoiceninjav5_docker_commands_default
 invoiceninjav5_docker_volumes_default:
   - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public"
   - "{{ invoiceninjav5_paths_location }}/storage:/var/www/app/storage"
+  - "{{ invoiceninjav5_paths_location }}/php.ini:/usr/local/etc/php/php.ini"
+  - "{{ invoiceninjav5_paths_location }}/php-cli.ini:/usr/local/etc/php/php-cli.ini"
 invoiceninjav5_docker_volumes_custom: []
 invoiceninjav5_docker_volumes: "{{ invoiceninjav5_docker_volumes_default
                                    + invoiceninjav5_docker_volumes_custom }}"
@@ -167,6 +160,6 @@ invoiceninjav5_docker_restart_policy: unless-stopped
 invoiceninjav5_docker_state: started
 
 # Dependencies
-invoiceninjav5_depends_on: "invoiceninja_nginx,mariadb"
+invoiceninjav5_depends_on: "invoiceninja-nginx,mariadb"
 invoiceninjav5_depends_on_delay: "0"
 invoiceninjav5_depends_on_healthchecks: "false"
