@@ -19,49 +19,37 @@
     login_password: "{{ mariadb_docker_env_password }}"
     state: present
 
-- name: Permissions | Create invoiceninja group
-  ansible.builtin.group:
-    name: invoiceninja
-    state: present
-    gid: 1500
-  ignore_errors: true
-
-- name: Permissions | Add to invoiceninja group
-  ansible.builtin.user:
-    name: "{{ user.name }}"
-    groups: invoiceninja
-    append: yes
-  ignore_errors: true
-
 - name: Create directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "1500"
-    group: "invoiceninja"
-    mode: "0775"
-    recurse: true
-  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: "Settings | Check if in-vhost.conf exists"
-  ansible.builtin.stat:
-    path: "{{ invoiceninjav5_conf_path }}"
-  register: invoiceninjav5_config
+# - name: Create directories
+#   ansible.builtin.file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: "1500"
+#     group: "invoiceninja"
+#     mode: "0775"
+#     recurse: true
+#   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
 - name: "Settings | Import in-vhost.conf"
   ansible.builtin.template:
-    src: in-vhost.conf.j2
-    dest: '{{ invoiceninjav5_conf_path }}'
+    src: "{{ item }}.j2"
+    dest: '{{ invoiceninjav5_paths_location }}/{{ item }}'
     owner: "{{ user.name }}"
-    group: "invoiceninja"
+    group: "{{ user.name }}"
     mode: "0664"
     force: yes
-  when: not invoiceninjav5_config.stat.exists
+  loop:
+    - "in-vhost.conf"
+    - "php-cli.ini"
+    - "php.ini"
+  when: invoiceninjav5_overwrite_nginx_config
 
-- name: Remove existing legacy PostgreSQL container
+- name: Remove existing legacy Nginx container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    _var_prefix: "invoiceninja-nginx"
+    _var_prefix: "invoiceninja_nginx"
 
 - name: "Execute nginx role"
   ansible.builtin.include_role:
@@ -75,12 +63,11 @@
     nginx_dns_record: "{{ invoiceninjav5_nginx_dns_record }}"
     nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
     nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
-    nginx_instances: ["invoiceninja_nginx"]
-    nginx_traefik_middleware: "{{ invoiceninjav5_nginx_traefik_middleware }}"
-    nginx_traefik_certresolver: "{{ invoiceninjav5_nginx_traefik_certresolver }}"
+    nginx_instances: ["invoiceninja-nginx"]
+    nginx_traefik_gzip_enabled: false
     nginx_docker_volumes_default:
       - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
-      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public"
+      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public:ro"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
