@@ -19,7 +19,7 @@ wikijs_name: wikijs
 
 wikijs_postgres_name: "{{ wikijs_name }}-postgres"
 wikijs_postgres_docker_env_db: "{{ wikijs_name }}"
-wikijs_postgres_docker_image_tag: "14-alpine"
+wikijs_postgres_docker_image_tag: "15-alpine"
 wikijs_postgres_docker_image_repo: "postgres"
 wikijs_postgres_paths_folder: "{{ wikijs_name }}"
 wikijs_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
@@ -103,10 +103,7 @@ wikijs_docker_commands: "{{ wikijs_docker_commands_default
                             + wikijs_docker_commands_custom }}"
 
 # Volumes
-wikijs_docker_volumes_default:
-  - "{{ wikijs_paths_location }}/config:/config"
-  - "{{ wikijs_paths_location }}/data:/data"
-  - /etc/localtime:/etc/localtime:ro
+wikijs_docker_volumes_default: []
 wikijs_docker_volumes_custom: []
 wikijs_docker_volumes: "{{ wikijs_docker_volumes_default
                            + wikijs_docker_volumes_custom }}"
@@ -159,9 +156,6 @@ wikijs_docker_restart_policy: unless-stopped
 
 # State
 wikijs_docker_state: started
-
-# User
-wikijs_docker_user: "{{ uid }}:{{ gid }}"
 
 # Dependencies
 wikijs_depends_on: "{{ wikijs_postgres_name }}"
