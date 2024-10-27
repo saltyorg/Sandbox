@@ -29,10 +29,9 @@ wikijs_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_fol
 ################################
 
 wikijs_paths_folder: "{{ wikijs_name }}"
-wikijs_paths_location: "{{ server_appdata_path }}/{{ wikijs_paths_folder }}/app"
+wikijs_paths_location: "{{ server_appdata_path }}/{{ wikijs_paths_folder }}"
 wikijs_paths_folders_list:
-  - "{{ wikijs_paths_location }}/config"
-  - "{{ wikijs_paths_location }}/data"
+  - "{{ wikijs_paths_location }}"
 
 ################################
 # Web
