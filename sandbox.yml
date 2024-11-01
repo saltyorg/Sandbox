@@ -116,6 +116,7 @@
     - { role: n8n, tags: ['n8n'] }
     - { role: navidrome, tags: ['navidrome'] }
     - { role: nextcloud, tags: ['nextcloud'] }
+    - { role: maintainerr, tags: ['maintainerr'] }
     - { role: membarr, tags: ['membarr'] }
     - { role: mkvtoolnix, tags: ['mkvtoolnix'] }
     - { role: nabarr, tags: ['nabarr'] }
