@@ -9,7 +9,7 @@
 - name: "Execute rflood roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    rflood_name: "{{ role }}"
+    rflood_name: "{{ instance }}"
   with_items: "{{ rflood_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance

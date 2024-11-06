@@ -10,7 +10,7 @@
 - name: "Execute Kometa roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    kometa_name: "{{ role }}"
+    kometa_name: "{{ instance }}"
   with_items: "{{ kometa_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance

@@ -10,7 +10,7 @@
 - name: "Execute Watchstate roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    watchstate_name: "{{ role }}"
+    watchstate_name: "{{ instance }}"
   with_items: "{{ watchstate_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance
