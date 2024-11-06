@@ -27,6 +27,9 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
   register: teslamate_saltbox_facts
+  tags:
+    - teslamate
+    - teslamate-grafana
 
 - name: Postgres Role
   ansible.builtin.include_role:
@@ -39,6 +42,12 @@
     postgres_docker_image_tag: "{{ teslamate_postgres_docker_image_tag }}"
     postgres_docker_env_db: "{{ teslamate_postgres_docker_env_db }}"
     postgres_docker_env_password: "{{ teslamate_postgres_docker_env_password }}"
+
+- name: Show Teslamate DB Password
+  ansible.builtin.debug:
+    msg: "{{ teslamate_postgres_docker_env_password }}"
+  tags:
+    - teslamate-grafana
 
 - name: Mosquitto Role
   ansible.builtin.include_role:
