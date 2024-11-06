@@ -10,7 +10,7 @@
 - name: "Execute Calibre roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    calibre_name: "{{ role }}"
+    calibre_name: "{{ instance }}"
   with_items: "{{ calibre_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance

@@ -10,7 +10,7 @@
 - name: "Execute Watchtower roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    watchtower_name: "{{ role }}"
+    watchtower_name: "{{ instance }}"
   with_items: "{{ watchtower_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance

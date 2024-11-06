@@ -10,7 +10,7 @@
 - name: "Execute InfluxDB2 roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    influxdb2_name: "{{ role }}"
+    influxdb2_name: "{{ instance }}"
   with_items: "{{ influxdb2_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance
