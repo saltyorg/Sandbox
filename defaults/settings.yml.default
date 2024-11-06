@@ -76,8 +76,6 @@ sarotate:
   rc_user:
   rc_pass:
   apprise:
-tandoor:
-  secret_key:
 tqm:
   download_client: "qbt"
 transmissionvpn:

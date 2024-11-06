@@ -7,10 +7,21 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Fail if secret_key has not been set
-  ansible.builtin.fail:
-    msg: "You need to edit 'tandoor.secret_key' in the settings.yml"
-  when: (tandoor.secret_key | default(None) | ternary('true', 'false') == 'false') and not continuous_integration
+- name: "Save Tandoor Saltbox facts"
+  saltbox_facts:
+    role: "tandoor"
+    instance: "tandoor"
+    keys:
+      secret_key: "{{ tandoor.secret_key
+                   if tandoor is defined and tandoor.secret_key is defined and tandoor.secret_key | length > 0
+                   else lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: tandoor_saltbox_facts
+
+- name: Remove legacy setting
+  ansible.builtin.shell: "yyq -i 'del(.tandoor)' {{ playbook_dir }}/settings.yml"
+  when: tandoor is defined
 
 - name: PostgreSQL Role
   ansible.builtin.include_role:
