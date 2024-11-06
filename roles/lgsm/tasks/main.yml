@@ -22,7 +22,7 @@
 - name: "Execute lgsm roles"
   ansible.builtin.include_tasks: main2.yml
   vars:
-    lgsm_name: "{{ role }}"
+    lgsm_name: "{{ instance }}"
   with_items: "{{ lgsm_instances }}"
   loop_control:
-    loop_var: role
+    loop_var: instance
