@@ -19,7 +19,7 @@ teslamate_secret_key: "{{ teslamate_saltbox_facts.facts.secret_key }}"
 
 teslamate_postgres_name: "{{ teslamate_name }}-postgres"
 teslamate_postgres_docker_env_db: "{{ teslamate_name }}"
-teslamate_postgres_docker_env_password: "{{ teslamate_db_saltbox_facts.facts.secret_key }}"
+teslamate_postgres_docker_env_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
 teslamate_postgres_docker_image_tag: "16"
 teslamate_postgres_docker_image_repo: "postgres"
 teslamate_postgres_paths_folder: "{{ teslamate_name }}"
