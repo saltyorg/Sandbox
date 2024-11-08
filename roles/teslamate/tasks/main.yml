@@ -17,15 +17,41 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: "Save Teslamate Postgres Saltbox facts"
-  saltbox_facts:
-    role: "teslamate_db"
-    instance: "teslamate"
-    keys:
-      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-  register: teslamate_db_saltbox_facts
+- name: Check if '/opt/saltbox/teslamate_db.ini' folder exists
+  ansible.builtin.stat:
+    path: "/opt/saltbox/teslamate_db.ini"
+  register: teslamate_db_stat
+
+- name: Migration Block
+  when: teslamate_db_stat.stat.exists
+  block:
+    - name: "Load legacy Teslamate Postgres Saltbox facts"
+      saltbox_facts:
+        role: "teslamate_db"
+        instance: "teslamate"
+        keys:
+          secret_key: ""
+        method: load
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+      register: teslamate_db_saltbox_facts
+
+    - name: "Save Teslamate Saltbox facts"
+      saltbox_facts:
+        role: "teslamate"
+        instance: "teslamate"
+        keys:
+          secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
+          postgres_password: "{{ teslamate_db_saltbox_facts.facts.secret_key }}"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+
+    - name: "Delete legacy Teslamate Postgres Saltbox facts"
+      saltbox_facts:
+        role: "teslamate_db"
+        instance: "teslamate"
+        delete_type: "role"
+        method: "delete"
 
 - name: "Save Teslamate Saltbox facts"
   saltbox_facts:
@@ -33,9 +59,13 @@
     instance: "teslamate"
     keys:
       secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
+      postgres_password: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=50) }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
   register: teslamate_saltbox_facts
+  tags:
+    - teslamate
+    - teslamate-postgres-password
 
 - name: Postgres Role
   ansible.builtin.include_role:
@@ -48,6 +78,12 @@
     postgres_docker_image_tag: "{{ teslamate_postgres_docker_image_tag }}"
     postgres_docker_env_db: "{{ teslamate_postgres_docker_env_db }}"
     postgres_docker_env_password: "{{ teslamate_postgres_docker_env_password }}"
+
+- name: Print Teslamate DB Password
+  ansible.builtin.debug:
+    msg: "{{ teslamate_postgres_docker_env_password }}"
+  tags:
+    - teslamate-postgres-password
 
 - name: Mosquitto Role
   ansible.builtin.include_role:
