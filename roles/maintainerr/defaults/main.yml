@@ -113,7 +113,7 @@ maintainerr_docker_commands: "{{ lookup('vars', maintainerr_name + '_docker_comm
 
 # Volumes
 maintainerr_docker_volumes_default:
-  - "{{ maintainerr_paths_location }}:/app/config"
+  - "{{ maintainerr_paths_location }}:/opt/data"
 maintainerr_docker_volumes_custom: []
 maintainerr_docker_volumes: "{{ lookup('vars', maintainerr_name + '_docker_volumes_default', default=maintainerr_docker_volumes_default)
                               + lookup('vars', maintainerr_name + '_docker_volumes_custom', default=maintainerr_docker_volumes_custom) }}"
