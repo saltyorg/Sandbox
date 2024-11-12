@@ -18,6 +18,9 @@ dockwatch_post_enable: false
 ################################
 
 dockwatch_docker_socket_proxy_envs:
+  ALLOW_START: "1"
+  ALLOW_STOP: "1"
+  ALLOW_RESTARTS: "1"
   CONTAINERS: "1"
   IMAGES: "1"
   NETWORKS: "1"
