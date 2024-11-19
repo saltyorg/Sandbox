@@ -1,0 +1,38 @@
+#########################################################################
+# Title:            Sandbox: Telegraf | Deployment Tasks                #
+# Author(s):        desimaniac, Zuke97, salty                           #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create required directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Check if config exists
+  ansible.builtin.stat:
+    path: "{{ telegraf_paths_location }}/{{ telegraf_name }}/telegraf.conf"
+  register: telegraf_conf
+
+- name: Import telegraf config if needed
+  ansible.builtin.copy:
+    src: "telegraf.conf"
+    dest: "{{ telegraf_paths_location }}/{{ telegraf_name }}/telegraf.conf"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+    mode: "0664"
+  when: not telegraf_conf.stat.exists
+
+- name: Create and start telegraf container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

@@ -1,68 +1,28 @@
 #########################################################################
-# Title:            Sandbox: Telegraf Role                              #
-# Author(s):        desimaniac, salty                                   #
-# URL:              https://github.com/saltyorg/Sandbox                 #
+# Title:         Saltbox: Telegraf | Multi-instance Tasks               #
+# Author(s):     Zuke97, salty                                          #
+# URL:           https://github.com/saltyorg/Saltbox                    #
 # --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Stop and remove any existing containers
-  community.docker.docker_container:
-    name: telegraf
-    container_default_behavior: compatibility
-    tls_hostname: localhost
-    state: absent
+- name: Ensure we have instances for telegraf to install
+  ansible.builtin.assert:
+    that:
+      - telegraf_instances is not string
+      - telegraf_instances is not mapping
+      - telegraf_instances is iterable
+      - telegraf_instances | length > 0
+    fail_msg: >-
+      Telegraf was designed to use multi-instance configuration to install properly. Check out https://docs.saltbox.dev/reference/multiple-instances/
+    success_msg: >-
+      Detected multi-instance configuration.
 
-- name: Create required directories
-  ansible.builtin.file:
-    path: "/opt/telegraf"
-    state: "directory"
-    mode: "0775"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-
-- name: Check if telegraf config exists
-  ansible.builtin.stat:
-    path: "/opt/telegraf/telegraf.conf"
-  register: telegraf_conf
-
-- name: Import telegraf config if needed
-  ansible.builtin.copy:
-    src: "telegraf.conf"
-    dest: "/opt/telegraf/telegraf.conf"
-    owner: "{{ uid }}"
-    group: "{{ gid }}"
-    mode: "0664"
-  when: not telegraf_conf.stat.exists
-
-- name: Create and start telegraf container
-  community.docker.docker_container:
-    name: telegraf
-    image: "telegraf"
-    pull: true
-    command_handling: compatibility
-    container_default_behavior: compatibility
-    default_host_ip: ""
-    volumes:
-      - "/opt/telegraf:/etc/telegraf:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/var/run/utmp:/var/run/utmp"
-      - "/:/host:ro"
-      - "/sys:/host/sys:ro"
-      - "/proc:/host/proc:ro"
-      - "/etc:/host/etc:ro"
-    labels:
-      "com.github.saltbox.saltbox_managed": "true"
-    networks:
-      - name: saltbox
-        aliases:
-          - telegraf
-    network_mode: "saltbox"
-    networks_cli_compatible: true
-    comparisons:
-      '*': ignore
-    user: "telegraf:{{ dockergid }}"
-    tls_hostname: localhost
-    restart_policy: unless-stopped
-    state: started
+- name: "Execute telegraf roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    telegraf_name: "{{ instance }}"
+  with_items: "{{ telegraf_instances }}"
+  loop_control:
+    loop_var: instance
