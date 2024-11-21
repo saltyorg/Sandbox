@@ -34,6 +34,8 @@
 - name: Telegraf Role
   ansible.builtin.include_role:
     name: telegraf
+  vars:
+    telegraf_instances: ["telegraf"]
 
 - name: Grafana Role
   ansible.builtin.include_role:
