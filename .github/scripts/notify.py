@@ -75,7 +75,7 @@ def get_event_field(event_name: str, workflow_data: Dict[str, Any]) -> Dict[str,
         
         return {
             "name": f"Event - {event_name}",
-            "value": f"[`{sha_url}) {truncated_msg}"
+            "value": f"[{sha_url}) {truncated_msg}"
         }
         
     elif event_name == "release":
