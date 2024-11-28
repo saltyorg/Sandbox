@@ -36,7 +36,6 @@
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
     - { role: cockpit, tags: ['cockpit'] }
-    - { role: coder, tags: ['coder'] }
     - { role: codex, tags: ['codex'] }
     - { role: code_server, tags: ['code-server'] }
     - { role: comicstreamer, tags: ['comicstreamer'] }
