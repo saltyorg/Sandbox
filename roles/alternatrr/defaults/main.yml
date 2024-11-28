@@ -70,13 +70,13 @@ alternatrr_docker_image_pull: true
 alternatrr_docker_image_repo: "theultimatecoder/alternatrr"
 alternatrr_docker_image_tag: "latest"
 alternatrr_docker_image: "{{ lookup('vars', alternatrr_name + '_docker_image_repo', default=alternatrr_docker_image_repo)
-                          + ':' + lookup('vars', alternatrr_name + '_docker_image_tag', default=alternatrr_docker_image_tag) }}"
+                             + ':' + lookup('vars', alternatrr_name + '_docker_image_tag', default=alternatrr_docker_image_tag) }}"
 
 # Ports
 alternatrr_docker_ports_defaults: []
 alternatrr_docker_ports_custom: []
 alternatrr_docker_ports: "{{ lookup('vars', alternatrr_name + '_docker_ports_defaults', default=alternatrr_docker_ports_defaults)
-                          + lookup('vars', alternatrr_name + '_docker_ports_custom', default=alternatrr_docker_ports_custom) }}"
+                             + lookup('vars', alternatrr_name + '_docker_ports_custom', default=alternatrr_docker_ports_custom) }}"
 
 # Envs
 alternatrr_docker_envs_default:
@@ -86,13 +86,13 @@ alternatrr_docker_envs_default:
   Login__Password: "{{ user.pass }}"
 alternatrr_docker_envs_custom: {}
 alternatrr_docker_envs: "{{ lookup('vars', alternatrr_name + '_docker_envs_default', default=alternatrr_docker_envs_default)
-                         | combine(lookup('vars', alternatrr_name + '_docker_envs_custom', default=alternatrr_docker_envs_custom)) }}"
+                            | combine(lookup('vars', alternatrr_name + '_docker_envs_custom', default=alternatrr_docker_envs_custom)) }}"
 
 # Commands
 alternatrr_docker_commands_default: []
 alternatrr_docker_commands_custom: []
 alternatrr_docker_commands: "{{ lookup('vars', alternatrr_name + '_docker_commands_default', default=alternatrr_docker_commands_default)
-                             + lookup('vars', alternatrr_name + '_docker_commands_custom', default=alternatrr_docker_commands_custom) }}"
+                                + lookup('vars', alternatrr_name + '_docker_commands_custom', default=alternatrr_docker_commands_custom) }}"
 
 # Volumes
 alternatrr_docker_volumes_default:
@@ -100,27 +100,27 @@ alternatrr_docker_volumes_default:
   - "{{ server_appdata_path + lookup('vars', alternatrr_name + '_sonarr_instance', default=alternatrr_sonarr_instance) }}:/opt/sonarr"
 alternatrr_docker_volumes_custom: []
 alternatrr_docker_volumes: "{{ lookup('vars', alternatrr_name + '_docker_volumes_default', default=alternatrr_docker_volumes_default)
-                            + lookup('vars', alternatrr_name + '_docker_volumes_custom', default=alternatrr_docker_volumes_custom) }}"
+                               + lookup('vars', alternatrr_name + '_docker_volumes_custom', default=alternatrr_docker_volumes_custom) }}"
 
 # Devices
 alternatrr_docker_devices_default: []
 alternatrr_docker_devices_custom: []
 alternatrr_docker_devices: "{{ lookup('vars', alternatrr_name + '_docker_devices_default', default=alternatrr_docker_devices_default)
-                            + lookup('vars', alternatrr_name + '_docker_devices_custom', default=alternatrr_docker_devices_custom) }}"
+                               + lookup('vars', alternatrr_name + '_docker_devices_custom', default=alternatrr_docker_devices_custom) }}"
 
 # Hosts
 alternatrr_docker_hosts_default: {}
 alternatrr_docker_hosts_custom: {}
 alternatrr_docker_hosts: "{{ docker_hosts_common
-                          | combine(lookup('vars', alternatrr_name + '_docker_hosts_default', default=alternatrr_docker_hosts_default))
-                          | combine(lookup('vars', alternatrr_name + '_docker_hosts_custom', default=alternatrr_docker_hosts_custom)) }}"
+                             | combine(lookup('vars', alternatrr_name + '_docker_hosts_default', default=alternatrr_docker_hosts_default))
+                             | combine(lookup('vars', alternatrr_name + '_docker_hosts_custom', default=alternatrr_docker_hosts_custom)) }}"
 
 # Labels
 alternatrr_docker_labels_default: {}
 alternatrr_docker_labels_custom: {}
 alternatrr_docker_labels: "{{ docker_labels_common
-                           | combine(lookup('vars', alternatrr_name + '_docker_labels_default', default=alternatrr_docker_labels_default))
-                           | combine(lookup('vars', alternatrr_name + '_docker_labels_custom', default=alternatrr_docker_labels_custom)) }}"
+                              | combine(lookup('vars', alternatrr_name + '_docker_labels_default', default=alternatrr_docker_labels_default))
+                              | combine(lookup('vars', alternatrr_name + '_docker_labels_custom', default=alternatrr_docker_labels_custom)) }}"
 
 # Hostname
 alternatrr_docker_hostname: "{{ alternatrr_name }}"
@@ -134,20 +134,20 @@ alternatrr_docker_networks_alias: "{{ alternatrr_name }}"
 alternatrr_docker_networks_default: []
 alternatrr_docker_networks_custom: []
 alternatrr_docker_networks: "{{ docker_networks_common
-                             + lookup('vars', alternatrr_name + '_docker_networks_default', default=alternatrr_docker_networks_default)
-                             + lookup('vars', alternatrr_name + '_docker_networks_custom', default=alternatrr_docker_networks_custom) }}"
+                                + lookup('vars', alternatrr_name + '_docker_networks_default', default=alternatrr_docker_networks_default)
+                                + lookup('vars', alternatrr_name + '_docker_networks_custom', default=alternatrr_docker_networks_custom) }}"
 
 # Capabilities
 alternatrr_docker_capabilities_default: []
 alternatrr_docker_capabilities_custom: []
 alternatrr_docker_capabilities: "{{ lookup('vars', alternatrr_name + '_docker_capabilities_default', default=alternatrr_docker_capabilities_default)
-                                 + lookup('vars', alternatrr_name + '_docker_capabilities_custom', default=alternatrr_docker_capabilities_custom) }}"
+                                    + lookup('vars', alternatrr_name + '_docker_capabilities_custom', default=alternatrr_docker_capabilities_custom) }}"
 
 # Security Opts
 alternatrr_docker_security_opts_default: []
 alternatrr_docker_security_opts_custom: []
 alternatrr_docker_security_opts: "{{ lookup('vars', alternatrr_name + '_docker_security_opts_default', default=alternatrr_docker_security_opts_default)
-                                  + lookup('vars', alternatrr_name + '_docker_security_opts_custom', default=alternatrr_docker_security_opts_custom) }}"
+                                     + lookup('vars', alternatrr_name + '_docker_security_opts_custom', default=alternatrr_docker_security_opts_custom) }}"
 
 # Restart Policy
 alternatrr_docker_restart_policy: unless-stopped
