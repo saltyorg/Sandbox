@@ -12,6 +12,26 @@
   vars:
     var_prefix: "qbit_manage"
 
+- name: Check if legacy folder exists
+  ansible.builtin.stat:
+    path: "/opt/qbit_manage"
+  register: qbit_manage_legacy_folder
+
+- name: Check if new folder exists
+  ansible.builtin.stat:
+    path: "/opt/qbit-manage"
+  register: qbit_manage_new_folder
+
+- name: Migrate qbit-manage directory
+  migrate_folder:
+    legacy_path: /opt/qbit_manage
+    new_path: /opt/qbit-manage
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0775'
+    recurse: false
+  when: qbit_manage_legacy_folder.stat.exists and not qbit_manage_new_folder.stat.exists
+
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
