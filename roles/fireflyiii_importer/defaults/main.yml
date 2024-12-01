@@ -21,6 +21,7 @@ fireflyiii_importer_paths_folder: "{{ fireflyiii_name }}"
 fireflyiii_importer_paths_location: "{{ server_appdata_path }}/{{ fireflyiii_importer_paths_folder }}"
 fireflyiii_importer_paths_folders_list:
   - "{{ fireflyiii_importer_paths_location }}"
+  - "{{ fireflyiii_importer_paths_location }}/import"
 
 ################################
 # Web
@@ -73,6 +74,7 @@ fireflyiii_importer_docker_ports: "{{ fireflyiii_importer_docker_ports_defaults
 
 # Envs
 fireflyiii_importer_docker_envs_default:
+  IMPORT_DIR_ALLOWLIST: /import
   FIREFLY_III_URL: "http://{{ fireflyiii_name }}:8080"
   VANITY_URL: "{{ fireflyiii_web_url }}"
   TRUSTED_PROXIES: "**"
@@ -89,6 +91,7 @@ fireflyiii_importer_docker_commands: "{{ fireflyiii_importer_docker_commands_def
 
 # Volumes
 fireflyiii_importer_docker_volumes_default:
+  - "{{ fireflyiii_paths_location }}/import:/import"
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
 fireflyiii_importer_docker_volumes_custom: []
