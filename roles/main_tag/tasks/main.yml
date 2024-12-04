@@ -1,0 +1,16 @@
+#########################################################################
+# Title:         Sandbox: sandbox_roles tag                             #
+# Author(s):     owine                                                  #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute Sandbox roles"
+  ansible.builtin.include_role:
+    name: "{{ sandbox_role }}"
+  with_items: "{{ sandbox_roles }}"
+  loop_control:
+    loop_var: sandbox_role
+  when: ('sandbox-roles' in ansible_run_tags)
