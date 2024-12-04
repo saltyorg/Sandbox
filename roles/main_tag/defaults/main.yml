@@ -1,0 +1,10 @@
+##########################################################################
+# Title:         Sandbox: sandbox_roles tag | Default Variables          #
+# Author(s):     owine                                                  #
+# URL:           https://github.com/saltyorg/Saltbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+sandbox_roles: []

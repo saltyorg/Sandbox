@@ -198,4 +198,5 @@
     # Apps End
     # No CI
     - { role: lgsm, tags: ['lgsm'] }
+    - { role: main_tag, tags: ['sandbox-roles'] }
     - { role: plex_auto_languages, tags: ['plex-auto-languages'] }
