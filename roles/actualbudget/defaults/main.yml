@@ -19,7 +19,6 @@ actualbudget_name: actualbudget
 
 actualbudget_paths_folder: "{{ actualbudget_name }}"
 actualbudget_paths_location: "{{ server_appdata_path }}/{{ actualbudget_paths_folder }}"
-actualbudget_config_location: "{{ actualbudget_paths_location }}/configuration.yaml"
 actualbudget_paths_folders_list:
   - "{{ actualbudget_paths_location }}"
 
@@ -90,9 +89,10 @@ actualbudget_docker_commands: "{{ actualbudget_docker_commands_default
 
 # Volumes
 actualbudget_docker_volumes_default:
-  - "{{ actualbudget_paths_location }}:/opt/data"
+  - "{{ actualbudget_paths_location }}:/data"
   - "/etc/localtime:/etc/localtime:ro"
-  - "/run/udev:/run/udev:ro"
+  - "/data/server-files"
+  - "/data/user-files"
 actualbudget_docker_volumes_custom: []
 actualbudget_docker_volumes: "{{ actualbudget_docker_volumes_default
                                  + actualbudget_docker_volumes_custom }}"
