@@ -90,9 +90,9 @@ actualbudget_docker_commands: "{{ actualbudget_docker_commands_default
 # Volumes
 actualbudget_docker_volumes_default:
   - "{{ actualbudget_paths_location }}:/data"
+  - "{{ actualbudget_paths_location }}:/data/server-files"
+  - "{{ actualbudget_paths_location }}:/data/user-files"
   - "/etc/localtime:/etc/localtime:ro"
-  - "/data/server-files"
-  - "/data/user-files"
 actualbudget_docker_volumes_custom: []
 actualbudget_docker_volumes: "{{ actualbudget_docker_volumes_default
                                  + actualbudget_docker_volumes_custom }}"
