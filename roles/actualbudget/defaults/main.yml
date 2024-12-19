@@ -1,0 +1,150 @@
+#########################################################################
+# Title:            Sandbox: Actual Budget                              #
+# Author(s):        blekbala                                            #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+actualbudget_name: actualbudget
+
+################################
+# Paths
+################################
+
+actualbudget_paths_folder: "{{ actualbudget_name }}"
+actualbudget_paths_location: "{{ server_appdata_path }}/{{ actualbudget_paths_folder }}"
+actualbudget_paths_folders_list:
+  - "{{ actualbudget_paths_location }}"
+  - "{{ actualbudget_paths_location }}:/server-files"
+  - "{{ actualbudget_paths_location }}:/user-files"
+
+################################
+# Web
+################################
+
+actualbudget_web_subdomain: "{{ actualbudget_name }}"
+actualbudget_web_domain: "{{ user.domain }}"
+actualbudget_web_port: "5006"
+actualbudget_web_url: "{{ 'https://' + (actualbudget_web_subdomain + '.' + actualbudget_web_domain
+                       if (actualbudget_web_subdomain | length > 0)
+                       else actualbudget_web_domain) }}"
+
+################################
+# DNS
+################################
+
+actualbudget_dns_record: "{{ actualbudget_web_subdomain }}"
+actualbudget_dns_zone: "{{ actualbudget_web_domain }}"
+actualbudget_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+actualbudget_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+actualbudget_traefik_middleware_default: "{{ traefik_default_middleware }}"
+actualbudget_traefik_certresolver: "{{ traefik_default_certresolver }}"
+actualbudget_traefik_middleware_custom: ""
+actualbudget_traefik_enabled: true
+actualbudget_traefik_api_enabled: false
+actualbudget_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+actualbudget_docker_container: "{{ actualbudget_name }}"
+
+# Image
+actualbudget_docker_image_pull: true
+actualbudget_docker_image_tag: "latest"
+actualbudget_docker_image: "actualbudget/actual-server:{{ actualbudget_docker_image_tag }}"
+
+# Ports
+actualbudget_docker_ports_defaults:
+  - "{{ actualbudget_web_port }}"
+actualbudget_docker_ports_custom: []
+actualbudget_docker_ports: "{{ actualbudget_docker_ports_defaults
+                               + actualbudget_docker_ports_custom
+                            if (not reverse_proxy_is_enabled)
+                            else actualbudget_docker_ports_custom }}"
+
+# Envs
+actualbudget_docker_envs_default:
+  TZ: "{{ tz }}"
+actualbudget_docker_envs_custom: {}
+actualbudget_docker_envs: "{{ actualbudget_docker_envs_default
+                              | combine(actualbudget_docker_envs_custom) }}"
+
+# Commands
+actualbudget_docker_commands_default: []
+actualbudget_docker_commands_custom: []
+actualbudget_docker_commands: "{{ actualbudget_docker_commands_default
+                                  + actualbudget_docker_commands_custom }}"
+
+# Volumes
+actualbudget_docker_volumes_default:
+  - "{{ actualbudget_paths_location }}:/data"
+  - "/etc/localtime:/etc/localtime:ro"
+actualbudget_docker_volumes_custom: []
+actualbudget_docker_volumes: "{{ actualbudget_docker_volumes_default
+                                 + actualbudget_docker_volumes_custom }}"
+
+# Devices
+actualbudget_docker_devices_default: []
+actualbudget_docker_devices_custom: []
+actualbudget_docker_devices: "{{ actualbudget_docker_devices_default
+                                 + actualbudget_docker_devices_custom }}"
+
+# Hosts
+actualbudget_docker_hosts_default: []
+actualbudget_docker_hosts_custom: []
+actualbudget_docker_hosts: "{{ docker_hosts_common
+                               | combine(actualbudget_docker_hosts_default)
+                               | combine(actualbudget_docker_hosts_custom) }}"
+
+# Labels
+actualbudget_docker_labels_default: {}
+actualbudget_docker_labels_custom: {}
+actualbudget_docker_labels: "{{ docker_labels_common
+                                | combine(actualbudget_docker_labels_default)
+                                | combine(actualbudget_docker_labels_custom) }}"
+
+# Hostname
+actualbudget_docker_hostname: "{{ actualbudget_name }}"
+
+# Networks
+actualbudget_docker_networks_alias: "{{ actualbudget_name }}"
+actualbudget_docker_networks_default: []
+actualbudget_docker_networks_custom: []
+actualbudget_docker_networks: "{{ docker_networks_common
+                                  + actualbudget_docker_networks_default
+                                  + actualbudget_docker_networks_custom }}"
+
+# Capabilities
+actualbudget_docker_capabilities_default: []
+actualbudget_docker_capabilities_custom: []
+actualbudget_docker_capabilities: "{{ actualbudget_docker_capabilities_default
+                                      + actualbudget_docker_capabilities_custom }}"
+
+# Security Opts
+actualbudget_docker_security_opts_default: []
+actualbudget_docker_security_opts_custom: []
+actualbudget_docker_security_opts: "{{ actualbudget_docker_security_opts_default
+                                       + actualbudget_docker_security_opts_custom }}"
+
+# Restart Policy
+actualbudget_docker_restart_policy: unless-stopped
+
+# State
+actualbudget_docker_state: started
+
+# User
+actualbudget_docker_user: "{{ uid }}:{{ gid }}"

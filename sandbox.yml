@@ -17,6 +17,7 @@
     - { role: sanity_check, tags: ['always', 'sanity-check'] }
     # Apps Start
     - { role: a_train, tags: ['a-train'] }
+    - { role: actualbudget, tags: ['actualbudget'] }
     - { role: adguardhome, tags: ['adguardhome'] }
     - { role: adminer, tags: ['adminer'] }
     - { role: airdcpp, tags: ['airdcpp'] }
