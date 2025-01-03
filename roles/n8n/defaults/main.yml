@@ -30,6 +30,7 @@ n8n_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder
 
 n8n_paths_folder: "{{ n8n_name }}"
 n8n_paths_location: "{{ server_appdata_path }}/{{ n8n_paths_folder }}/app"
+n8n_paths_permissions: "0700"
 n8n_paths_folders_list:
   - "{{ n8n_paths_location }}"
 
@@ -96,6 +97,7 @@ n8n_docker_envs_default:
   N8N_DIAGNOSTICS_ENABLED: "false"
   N8N_HIRING_BANNER_ENABLED: "false"
   N8N_USER_MANAGEMENT_DISABLED: "true"
+  N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
 n8n_docker_envs_custom: {}
 n8n_docker_envs: "{{ n8n_docker_envs_default
                      | combine(n8n_docker_envs_custom) }}"
@@ -166,3 +168,6 @@ n8n_docker_state: started
 n8n_depends_on: "{{ n8n_postgres_name }}"
 n8n_depends_on_delay: "0"
 n8n_depends_on_healthchecks: "false"
+
+# User
+n8n_docker_user: "{{ uid }}:{{ gid }}"
