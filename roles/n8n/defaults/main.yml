@@ -30,7 +30,6 @@ n8n_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder
 
 n8n_paths_folder: "{{ n8n_name }}"
 n8n_paths_location: "{{ server_appdata_path }}/{{ n8n_paths_folder }}/app"
-n8n_paths_permissions: "0700"
 n8n_paths_folders_list:
   - "{{ n8n_paths_location }}"
 
