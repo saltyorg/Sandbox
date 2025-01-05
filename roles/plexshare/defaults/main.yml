@@ -148,3 +148,8 @@ plexshare_docker_restart_policy: unless-stopped
 
 # State
 plexshare_docker_state: started
+
+# Dependencies
+plexshare_depends_on: "{{ plexshare_name }}-mariadb"
+plexshare_depends_on_delay: "0"
+plexshare_depends_on_healthchecks: "false"
