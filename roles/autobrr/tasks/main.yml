@@ -1,6 +1,6 @@
 #######################################################################
-# Title:            Sandbox: Omegabrr | Tasks                         #
-# Author(s):        keldian                                           #
+# Title:            Sandbox: Autobrr | Tasks                          #
+# Author(s):        owine                                           #
 # URL:              https://github.com/saltyorg/Sandbox               #
 # --                                                                  #
 #######################################################################
@@ -19,34 +19,6 @@
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: Check if `{{ omegabrr_paths_config_location | basename }}` exists
-  ansible.builtin.stat:
-    path: "{{ omegabrr_paths_config_location }}"
-  register: omegabrr_config
-
-- name: New `{{ omegabrr_paths_config_location | basename }}` tasks
-  when: not omegabrr_config.stat.exists
-  block:
-    - name: Get Instance Info
-      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
-      vars:
-        get_info_list:
-          - sonarr
-          - radarr
-
-    - name: Generate API token
-      ansible.builtin.set_fact:
-        omegabrr_apitoken: "{{ lookup('community.general.random_string', override_all='0123456789abcdef', length=32) }}"
-
-    - name: Import default `{{ omegabrr_paths_config_location | basename }}`
-      ansible.builtin.template:
-        src: config.yaml.j2
-        dest: "{{ omegabrr_paths_config_location }}"
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: "0664"
-        force: yes
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

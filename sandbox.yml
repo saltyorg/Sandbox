@@ -28,6 +28,7 @@
     - { role: archivebox, tags: ['archivebox'] }
     - { role: aria2_ng, tags: ['aria2-ng'] }
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
+    - { role: autobrr, tags: ['autobrr'] }
     - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
     - { role: booksonic, tags: ['booksonic'] }
@@ -124,7 +125,6 @@
     - { role: notifiarr, tags: ['notifiarr'] }
     - { role: olivetin, tags: ['olivetin'] }
     - { role: ombi, tags: ['ombi'] }
-    - { role: omegabrr, tags: ['omegabrr'] }
     - { role: openobserve, tags: ['openobserve'] }
     - { role: paperless_ngx, tags: ['paperless-ngx'] }
     - { role: pgadmin, tags: ['pgadmin'] }
