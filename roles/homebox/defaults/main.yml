@@ -63,7 +63,7 @@ homebox_docker_container: "{{ homebox_name }}"
 # Image
 homebox_docker_image_pull: true
 homebox_docker_image_tag: "latest"
-homebox_docker_image: "ghcr.io/hay-kot/homebox:{{ homebox_docker_image_tag }}"
+homebox_docker_image: "ghcr.io/sysadminsmedia/homebox:{{ homebox_docker_image_tag }}"
 
 # Ports
 homebox_docker_ports_defaults: []
