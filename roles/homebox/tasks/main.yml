@@ -26,4 +26,4 @@
 
 - name: Print Tweaking Info
   ansible.builtin.debug:
-    msg: "For custom docker envs, please visit: https://hay-kot.github.io/homebox/quick-start/"
+    msg: "For custom docker envs, please visit: https://homebox.software/en/quick-start.html"
