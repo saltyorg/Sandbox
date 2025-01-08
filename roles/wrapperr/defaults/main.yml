@@ -85,7 +85,7 @@ wrapperr_docker_commands: "{{ wrapperr_docker_commands_default
 
 # Volumes
 wrapperr_docker_volumes_default:
-  - "{{ wrapperr_paths_location }}:/var/www/html/config"
+  - "{{ wrapperr_paths_location }}:/app/config"
 wrapperr_docker_volumes_custom: []
 wrapperr_docker_volumes: "{{ wrapperr_docker_volumes_default
                              + wrapperr_docker_volumes_custom }}"
