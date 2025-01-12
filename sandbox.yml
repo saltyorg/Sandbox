@@ -78,6 +78,7 @@
     - { role: handbrake, tags: ['handbrake'] }
     - { role: healthchecks, tags: ['healthchecks'] }
     - { role: heimdall, tags: ['heimdall'] }
+    - { role: hoarder, tags: ['hoarder'] }
     - { role: homarr, tags: ['homarr'] }
     - { role: homeassistant, tags: ['homeassistant'] }
     - { role: homebox, tags: ['homebox'] }
