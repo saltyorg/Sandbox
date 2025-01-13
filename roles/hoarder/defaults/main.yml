@@ -66,8 +66,7 @@ hoarder_docker_image: "ghcr.io/hoarder-app/hoarder"
 hoarder_docker_image_tag: "release"
 
 # Ports
-hoarder_docker_ports_defaults:
-  - "3000:3000"
+hoarder_docker_ports_defaults: []
 hoarder_docker_ports_custom: []
 hoarder_docker_ports: "{{ hoarder_docker_ports_defaults
                           + hoarder_docker_ports_custom }}"
