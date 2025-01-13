@@ -8,7 +8,6 @@
 #########################################################################
 # Repository: https://github.com/hoarder-app/hoarder
 ---
-
 - name: Chrome role
   ansible.builtin.include_role:
     name: chrome
@@ -32,4 +31,3 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
