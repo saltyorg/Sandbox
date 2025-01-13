@@ -87,4 +87,5 @@ your_spotify:
   secret_key:
 hoarder:
   nextauth_secret:
+meilisearch:
   meili_master_key:

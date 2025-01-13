@@ -78,8 +78,10 @@ hoarder_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   HOARDER_VERSION: "release"
+  MEILI_ADDR: "http://meilisearch:7700"
+  BROWSER_WEB_URL: "http://chrome:9222"
   NEXTAUTH_SECRET: "{{ hoarder.nextauth_secret | default('', true) }}"
-  MEILI_MASTER_KEY: "{{ hoarder.meili_master_key | default('', true) }}"
+  MEILI_MASTER_KEY: "{{ meilisearch.meili_master_key | default('', true) }}"
   NEXTAUTH_URL: "{{ hoarder_web_url }}"
   DATA_DIR: "/data"
 hoarder_docker_envs_custom: {}
@@ -95,7 +97,6 @@ hoarder_docker_commands: "{{ hoarder_docker_commands_default
 # Volumes
 hoarder_docker_volumes_default:
   - "{{ hoarder_paths_location }}/data:/data"
-  - "{{ hoarder_paths_location }}/meili:/meili_data"
 hoarder_docker_volumes_custom: []
 hoarder_docker_volumes: "{{ hoarder_docker_volumes_default
                             + hoarder_docker_volumes_custom }}"

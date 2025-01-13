@@ -1,0 +1,115 @@
+##########################################################################
+# Title:            Sandbox: Meilisearch | Default Variables             #
+# Author(s):        Zuke97                                               #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+meilisearch_name: meilisearch
+
+################################
+# Paths
+################################
+
+meilisearch_paths_folder: "{{ meilisearch_name }}"
+meilisearch_paths_location: "{{ server_appdata_path }}/{{ meilisearch_paths_folder }}"
+meilisearch_paths_folders_list:
+  - "{{ meilisearch_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+meilisearch_docker_container: "{{ meilisearch_name }}"
+
+# Image
+meilisearch_docker_image_pull: true
+meilisearch_docker_image: "getmeili/meilisearch"
+meilisearch_docker_image_tag: "v1.11.1"
+
+# Ports
+meilisearch_docker_ports_defaults:
+  - "7700:7700"
+meilisearch_docker_ports_custom: []
+meilisearch_docker_ports: "{{ meilisearch_docker_ports_defaults
+                          + meilisearch_docker_ports_custom }}"
+
+# Envs
+meilisearch_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  MEILI_NO_ANALYTICS: "true"
+  MEILI_MASTER_KEY: "{{ meilisearch.meili_master_key }}"
+meilisearch_docker_envs_custom: {}
+meilisearch_docker_envs: "{{ meilisearch_docker_envs_default
+                         | combine(meilisearch_docker_envs_custom) }}"
+
+# Commands
+meilisearch_docker_commands_default: []
+meilisearch_docker_commands_custom: []
+meilisearch_docker_commands: "{{ meilisearch_docker_commands_default
+                             + meilisearch_docker_commands_custom }}"
+
+# Volumes
+meilisearch_docker_volumes_default:
+  - "{{ meilisearch_paths_location }}/data:/meili_data"
+meilisearch_docker_volumes_custom: []
+meilisearch_docker_volumes: "{{ meilisearch_docker_volumes_default
+                            + meilisearch_docker_volumes_custom }}"
+
+# Devices
+meilisearch_docker_devices_default: []
+meilisearch_docker_devices_custom: []
+meilisearch_docker_devices: "{{ meilisearch_docker_devices_default
+                            + meilisearch_docker_devices_custom }}"
+
+# Hosts
+meilisearch_docker_hosts_default: {}
+meilisearch_docker_hosts_custom: {}
+meilisearch_docker_hosts: "{{ docker_hosts_common
+                          | combine(meilisearch_docker_hosts_default)
+                          | combine(meilisearch_docker_hosts_custom) }}"
+
+# Labels
+meilisearch_docker_labels_default: {}
+meilisearch_docker_labels_custom: {}
+meilisearch_docker_labels: "{{ docker_labels_common
+                           | combine(meilisearch_docker_labels_default)
+                           | combine(meilisearch_docker_labels_custom) }}"
+
+# Hostname
+meilisearch_docker_hostname: "{{ meilisearch_name }}"
+
+# Networks
+meilisearch_docker_networks_alias: "{{ meilisearch_name }}"
+meilisearch_docker_networks_default: []
+meilisearch_docker_networks_custom: []
+meilisearch_docker_networks: "{{ docker_networks_common
+                             + meilisearch_docker_networks_default
+                             + meilisearch_docker_networks_custom }}"
+
+# Capabilities
+meilisearch_docker_capabilities_default: []
+meilisearch_docker_capabilities_custom: []
+meilisearch_docker_capabilities: "{{ meilisearch_docker_capabilities_default
+                                 + meilisearch_docker_capabilities_custom }}"
+
+# Security Opts
+meilisearch_docker_security_opts_default: []
+meilisearch_docker_security_opts_custom: []
+meilisearch_docker_security_opts: "{{ meilisearch_docker_security_opts_default
+                                  + meilisearch_docker_security_opts_custom }}"
+
+# Restart Policy
+meilisearch_docker_restart_policy: unless-stopped
+
+# State
+meilisearch_docker_state: started
