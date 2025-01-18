@@ -85,7 +85,3 @@ transmissionvpn:
 your_spotify:
   public_key:
   secret_key:
-hoarder:
-  nextauth_secret:
-meilisearch:
-  meili_master_key:

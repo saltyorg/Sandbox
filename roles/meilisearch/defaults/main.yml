@@ -47,7 +47,7 @@ meilisearch_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   MEILI_NO_ANALYTICS: "true"
-  MEILI_MASTER_KEY: "{{ meilisearch.meili_master_key }}"
+  MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
 meilisearch_docker_envs_custom: {}
 meilisearch_docker_envs: "{{ meilisearch_docker_envs_default
                          | combine(meilisearch_docker_envs_custom) }}"

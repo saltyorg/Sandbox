@@ -8,6 +8,18 @@
 #########################################################################
 # Repository: https://www.meilisearch.com/
 ---
+- name: "Save Meilisearch Saltbox Facts"
+  saltbox_facts:
+    role: "meilisearch"
+    instance: "meilisearch"
+    keys:
+      secret_key: "{{ meilisearch.secret_key
+                   if meilisearch is defined and meilisearch.secret_key is defined and meilisearch.secret_key | length > 0
+                   else lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=36) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: meilisearch_saltbox_facts
+
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 

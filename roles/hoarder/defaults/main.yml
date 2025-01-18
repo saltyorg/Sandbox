@@ -79,8 +79,8 @@ hoarder_docker_envs_default:
   HOARDER_VERSION: "release"
   MEILI_ADDR: "http://meilisearch:7700"
   BROWSER_WEB_URL: "http://chrome:9222"
-  NEXTAUTH_SECRET: "{{ hoarder.nextauth_secret | default('', true) }}"
-  MEILI_MASTER_KEY: "{{ meilisearch.meili_master_key | default('', true) }}"
+  NEXTAUTH_SECRET: "{{ hoarder_saltbox_facts.facts.secret_key }}"
+  MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
   NEXTAUTH_URL: "{{ hoarder_web_url }}"
   DATA_DIR: "/data"
 hoarder_docker_envs_custom: {}
