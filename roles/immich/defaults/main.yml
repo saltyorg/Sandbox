@@ -17,6 +17,7 @@ immich_name: immich
 # Settings
 ################################
 
+immich_photos_location: "/mnt/unionfs/Media/Photos"
 immich_postgres_name: "{{ immich_name }}-postgres"
 immich_postgres_docker_env_db: "{{ immich_name }}"
 immich_postgres_docker_image_tag: "pg14-v0.2.0-rootless"
@@ -37,6 +38,7 @@ immich_paths_folders_list:
   - "{{ immich_paths_location }}"
   - "{{ immich_paths_location }}/machine-learning"
   - /mnt/local/Media/Photos
+  - "{{ immich_photos_location }}"
 
 ################################
 # Web
@@ -113,7 +115,7 @@ immich_docker_commands: "{{ immich_docker_commands_default
 # Volumes
 immich_docker_volumes_default:
   - "{{ immich_paths_location }}:/config"
-  - "/mnt/unionfs/Media/Photos:/photos"
+  - "{{ immich_photos_location }}:/photos"
 immich_docker_volumes_custom: []
 immich_docker_volumes: "{{ immich_docker_volumes_default
                            + immich_docker_volumes_custom }}"
