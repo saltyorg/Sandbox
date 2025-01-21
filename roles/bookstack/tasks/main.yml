@@ -7,6 +7,31 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: File | Generate App Key
+  community.docker.docker_container:
+    name: bookstack-app-key
+    image: "{{ bookstack_docker_image }}"
+    command: "appkey"
+    detach: no
+    networks:
+      - name: saltbox
+    cleanup: yes
+    state: started
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+    pull: true
+  register: bookstack_generated_app_key
+
+- name: "Save Bookstack App Key Saltbox facts"
+  saltbox_facts:
+    role: "bookstack"
+    instance: "bookstack"
+    keys:
+      app_key: "{{ bookstack_generated_app_key.container.Output }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: bookstack_saltbox_facts
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
