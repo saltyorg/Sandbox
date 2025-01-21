@@ -76,7 +76,8 @@ bookstack_docker_envs_default:
   PGID: "{{ gid }}"
   APP_KEY: "{{ bookstack_saltbox_facts.facts.app_key }}"
   APP_URL: "https://{{ bookstack_web_subdomain + '.' + bookstack_web_domain }}"
-  DB_HOST: "mariadb:3306"
+  DB_HOST: "mariadb"
+  DB_PORT: "3306"
   DB_USERNAME: "root"
   DB_PASSWORD: "{{ mariadb_docker_env_password }}"
   DB_DATABASE: bookstackapp
