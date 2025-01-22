@@ -37,7 +37,6 @@ immich_paths_location: "{{ server_appdata_path }}/{{ immich_paths_folder }}"
 immich_paths_folders_list:
   - "{{ immich_paths_location }}"
   - "{{ immich_paths_location }}/machine-learning"
-  - /mnt/local/Media/Photos
   - "{{ immich_photos_location }}"
 
 ################################
