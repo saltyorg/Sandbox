@@ -36,6 +36,7 @@
     - { role: calibre_web, tags: ['calibre-web'] }
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
+    - { role: chrome, tags: ['chrome'] }
     - { role: cockpit, tags: ['cockpit'] }
     - { role: codex, tags: ['codex'] }
     - { role: code_server, tags: ['code-server'] }
@@ -78,6 +79,7 @@
     - { role: handbrake, tags: ['handbrake'] }
     - { role: healthchecks, tags: ['healthchecks'] }
     - { role: heimdall, tags: ['heimdall'] }
+    - { role: hoarder, tags: ['hoarder'] }
     - { role: homarr, tags: ['homarr'] }
     - { role: homeassistant, tags: ['homeassistant'] }
     - { role: homebox, tags: ['homebox'] }
@@ -106,6 +108,7 @@
     - { role: lunasea, tags: ['lunasea'] }
     - { role: makemkv, tags: ['makemkv'] }
     - { role: medusa, tags: ['medusa'] }
+    - { role: meilisearch, tags: ['meilisearch'] }
     - { role: minecraft, tags: ['minecraft'] }
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
     - { role: miniflux, tags: ['miniflux'] }
