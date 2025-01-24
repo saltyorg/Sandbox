@@ -52,12 +52,12 @@ chrome_docker_envs: "{{ chrome_docker_envs_default
 
 # Commands
 chrome_docker_commands_default:
-  - --no-sandbox
-  - --disable-gpu
-  - --disable-dev-shm-usage
-  - --remote-debugging-address=0.0.0.0
-  - --remote-debugging-port=9222
-  - --hide-scrollbars
+  - "--no-sandbox"
+  - "--disable-gpu"
+  - "--disable-dev-shm-usage"
+  - "--remote-debugging-address=0.0.0.0"
+  - "--remote-debugging-port=9222"
+  - "--hide-scrollbars"
 chrome_docker_commands_custom: []
 chrome_docker_commands: "{{ chrome_docker_commands_default
                              + chrome_docker_commands_custom }}"

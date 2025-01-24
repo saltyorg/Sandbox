@@ -60,6 +60,12 @@ hoarder_traefik_api_endpoint: ""
 # Container
 hoarder_docker_container: "{{ hoarder_name }}"
 
+# Dependant Container Settings
+hoarder_meili_name: "meilisearch"
+hoarder_meili_port: "7700"
+hoarder_chrome_name: "chrome"
+hoarder_chrome_port: "9222"
+
 # Image
 hoarder_docker_image_pull: true
 hoarder_docker_image: "ghcr.io/hoarder-app/hoarder"
@@ -77,8 +83,8 @@ hoarder_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   HOARDER_VERSION: "release"
-  MEILI_ADDR: "http://meilisearch:7700"
-  BROWSER_WEB_URL: "http://chrome:9222"
+  MEILI_ADDR: "{{ 'http://' + hoarder_meili_name + ':' + hoarder_meili_port }}"
+  BROWSER_WEB_URL: "{{ 'http://' + hoarder_chrome_name + ':' + hoarder_chrome_port }}"
   NEXTAUTH_SECRET: "{{ hoarder_saltbox_facts.facts.secret_key }}"
   MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
   NEXTAUTH_URL: "{{ hoarder_web_url }}"

@@ -35,8 +35,7 @@ meilisearch_docker_image: "getmeili/meilisearch"
 meilisearch_docker_image_tag: "v1.11.1"
 
 # Ports
-meilisearch_docker_ports_defaults:
-  - "7700:7700"
+meilisearch_docker_ports_defaults: []
 meilisearch_docker_ports_custom: []
 meilisearch_docker_ports: "{{ meilisearch_docker_ports_defaults
                           + meilisearch_docker_ports_custom }}"
