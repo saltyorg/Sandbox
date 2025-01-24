@@ -1,0 +1,43 @@
+#########################################################################
+# Title:            Sandbox: Hoarder                                    #
+# Author(s):        Zuke97                                              #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+# Repository: https://github.com/hoarder-app/hoarder
+---
+- name: "Save Hoarder Saltbox Facts"
+  saltbox_facts:
+    role: "hoarder"
+    instance: "hoarder"
+    keys:
+      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=36) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: hoarder_saltbox_facts
+
+- name: Chrome role
+  ansible.builtin.include_role:
+    name: chrome
+
+- name: Meilisearch role
+  ansible.builtin.include_role:
+    name: meilisearch
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

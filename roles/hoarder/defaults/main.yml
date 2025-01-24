@@ -1,0 +1,156 @@
+##########################################################################
+# Title:            Sandbox: Hoarder | Default Variables                 #
+# Author(s):        Zuke97                                               #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+hoarder_name: hoarder
+
+################################
+# Paths
+################################
+
+hoarder_paths_folder: "{{ hoarder_name }}"
+hoarder_paths_location: "{{ server_appdata_path }}/{{ hoarder_paths_folder }}"
+hoarder_paths_folders_list:
+  - "{{ hoarder_paths_location }}"
+
+################################
+# Web
+################################
+
+hoarder_web_subdomain: "{{ hoarder_name }}"
+hoarder_web_domain: "{{ user.domain }}"
+hoarder_web_port: "3000"
+hoarder_web_url: "{{ 'https://' + (hoarder_web_subdomain + '.' + hoarder_web_domain
+                  if (hoarder_web_subdomain | length > 0)
+                  else hoarder_web_domain) }}"
+
+################################
+# DNS
+################################
+
+hoarder_dns_record: "{{ hoarder_web_subdomain }}"
+hoarder_dns_zone: "{{ hoarder_web_domain }}"
+hoarder_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+hoarder_traefik_sso_middleware: ""
+hoarder_traefik_middleware_default: "{{ traefik_default_middleware }}"
+hoarder_traefik_middleware_custom: ""
+hoarder_traefik_certresolver: "{{ traefik_default_certresolver }}"
+hoarder_traefik_enabled: true
+hoarder_traefik_api_enabled: false
+hoarder_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+hoarder_docker_container: "{{ hoarder_name }}"
+
+# Dependant Container Settings
+hoarder_meili_name: "meilisearch"
+hoarder_meili_port: "7700"
+hoarder_chrome_name: "chrome"
+hoarder_chrome_port: "9222"
+
+# Image
+hoarder_docker_image_pull: true
+hoarder_docker_image: "ghcr.io/hoarder-app/hoarder"
+hoarder_docker_image_tag: "release"
+
+# Ports
+hoarder_docker_ports_defaults: []
+hoarder_docker_ports_custom: []
+hoarder_docker_ports: "{{ hoarder_docker_ports_defaults
+                          + hoarder_docker_ports_custom }}"
+
+# Envs
+hoarder_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  HOARDER_VERSION: "release"
+  MEILI_ADDR: "{{ 'http://' + hoarder_meili_name + ':' + hoarder_meili_port }}"
+  BROWSER_WEB_URL: "{{ 'http://' + hoarder_chrome_name + ':' + hoarder_chrome_port }}"
+  NEXTAUTH_SECRET: "{{ hoarder_saltbox_facts.facts.secret_key }}"
+  MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
+  NEXTAUTH_URL: "{{ hoarder_web_url }}"
+  DATA_DIR: "/data"
+hoarder_docker_envs_custom: {}
+hoarder_docker_envs: "{{ hoarder_docker_envs_default
+                         | combine(hoarder_docker_envs_custom) }}"
+
+# Commands
+hoarder_docker_commands_default: []
+hoarder_docker_commands_custom: []
+hoarder_docker_commands: "{{ hoarder_docker_commands_default
+                             + hoarder_docker_commands_custom }}"
+
+# Volumes
+hoarder_docker_volumes_default:
+  - "{{ hoarder_paths_location }}/data:/data"
+hoarder_docker_volumes_custom: []
+hoarder_docker_volumes: "{{ hoarder_docker_volumes_default
+                            + hoarder_docker_volumes_custom }}"
+
+# Devices
+hoarder_docker_devices_default: []
+hoarder_docker_devices_custom: []
+hoarder_docker_devices: "{{ hoarder_docker_devices_default
+                            + hoarder_docker_devices_custom }}"
+
+# Hosts
+hoarder_docker_hosts_default: {}
+hoarder_docker_hosts_custom: {}
+hoarder_docker_hosts: "{{ docker_hosts_common
+                          | combine(hoarder_docker_hosts_default)
+                          | combine(hoarder_docker_hosts_custom) }}"
+
+# Labels
+hoarder_docker_labels_default: {}
+hoarder_docker_labels_custom: {}
+hoarder_docker_labels: "{{ docker_labels_common
+                           | combine(hoarder_docker_labels_default)
+                           | combine(hoarder_docker_labels_custom) }}"
+
+# Hostname
+hoarder_docker_hostname: "{{ hoarder_name }}"
+
+# Networks
+hoarder_docker_networks_alias: "{{ hoarder_name }}"
+hoarder_docker_networks_default: []
+hoarder_docker_networks_custom: []
+hoarder_docker_networks: "{{ docker_networks_common
+                             + hoarder_docker_networks_default
+                             + hoarder_docker_networks_custom }}"
+
+# Capabilities
+hoarder_docker_capabilities_default: []
+hoarder_docker_capabilities_custom: []
+hoarder_docker_capabilities: "{{ hoarder_docker_capabilities_default
+                                 + hoarder_docker_capabilities_custom }}"
+
+# Security Opts
+hoarder_docker_security_opts_default: []
+hoarder_docker_security_opts_custom: []
+hoarder_docker_security_opts: "{{ hoarder_docker_security_opts_default
+                                  + hoarder_docker_security_opts_custom }}"
+
+# Restart Policy
+hoarder_docker_restart_policy: unless-stopped
+
+# State
+hoarder_docker_state: started

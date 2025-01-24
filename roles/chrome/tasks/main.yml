@@ -1,0 +1,18 @@
+#########################################################################
+# Title:            Sandbox: Chrome                                     #
+# Author(s):        Zuke97                                              #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+# Repository: https://console.cloud.google.com/artifacts/docker/zenika-hub/us/gcr.io/alpine-chrome/sha256:e38563d4475a3d791e986500a2e4125c9afd13798067138881cf770b1f6f3980;tab=install
+---
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
