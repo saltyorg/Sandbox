@@ -18,6 +18,7 @@ crafty_name: crafty
 ################################
 
 crafty_paths_folder: "{{ crafty_name }}"
+crafty_paths_group: "root"
 crafty_paths_location: "{{ server_appdata_path }}/{{ crafty_paths_folder }}"
 crafty_paths_folders_list:
   - "{{ crafty_paths_location }}"
@@ -26,6 +27,7 @@ crafty_paths_folders_list:
   - "{{ crafty_paths_location }}/servers"
   - "{{ crafty_paths_location }}/config"
   - "{{ crafty_paths_location }}/import"
+crafty_paths_recurse: true
 
 ################################
 # Web
