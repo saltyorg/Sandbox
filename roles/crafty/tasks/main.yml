@@ -37,7 +37,7 @@
     src: config.json.j2
     dest: "{{ crafty_paths_location }}/config/default.json"
     mode: "0664"
-    owner: root
+    owner: "{{ user.name }}"
     group: root
     force: true
   when: (not crafty_config.stat.exists)
