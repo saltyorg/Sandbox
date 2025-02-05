@@ -67,7 +67,7 @@ paperless_ngx_traefik_middleware_custom: ""
 paperless_ngx_traefik_certresolver: "{{ traefik_default_certresolver }}"
 paperless_ngx_traefik_enabled: true
 paperless_ngx_traefik_api_enabled: true
-paperless_ngx_traefik_api_endpoint: "PathPrefix(`/api`)"
+paperless_ngx_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/static`)"
 
 ################################
 # Docker
