@@ -9,6 +9,7 @@
 
 # Ansible
 /*.retry
+/.ansible/*
 
 # Sandbox
 /ansible.cfg
