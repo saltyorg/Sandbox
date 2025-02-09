@@ -128,6 +128,7 @@
     - { role: olivetin, tags: ['olivetin'] }
     - { role: ombi, tags: ['ombi'] }
     - { role: openobserve, tags: ['openobserve'] }
+    - { role: paperless_ai, tags: ['paperless-ai'] }
     - { role: paperless_ngx, tags: ['paperless-ngx'] }
     - { role: pgadmin, tags: ['pgadmin'] }
     - { role: photoprism, tags: ['photoprism'] }
