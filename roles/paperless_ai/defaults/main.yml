@@ -1,0 +1,143 @@
+##########################################################################
+# Title:            Sandbox: Paperless-AI | Default Variables            #
+# Author(s):        salty                                                #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+paperless_ai_name: paperless-ai
+
+################################
+# Paths
+################################
+
+paperless_ai_paths_folder: "{{ paperless_ai_name }}"
+paperless_ai_paths_location: "{{ server_appdata_path }}/{{ paperless_ai_paths_folder }}"
+paperless_ai_paths_folders_list:
+  - "{{ paperless_ai_paths_location }}"
+
+################################
+# Web
+################################
+
+paperless_ai_web_subdomain: "{{ paperless_ai_name }}"
+paperless_ai_web_domain: "{{ user.domain }}"
+paperless_ai_web_port: "3000"
+paperless_ai_web_url: "{{ 'https://' + (paperless_ai_web_subdomain + '.' + paperless_ai_web_domain
+                       if (paperless_ai_web_subdomain | length > 0)
+                       else paperless_ai_web_domain) }}"
+
+################################
+# DNS
+################################
+
+paperless_ai_dns_record: "{{ paperless_ai_web_subdomain }}"
+paperless_ai_dns_zone: "{{ paperless_ai_web_domain }}"
+paperless_ai_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+paperless_ai_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+paperless_ai_traefik_middleware_default: "{{ traefik_default_middleware }}"
+paperless_ai_traefik_middleware_custom: ""
+paperless_ai_traefik_certresolver: "{{ traefik_default_certresolver }}"
+paperless_ai_traefik_enabled: true
+paperless_ai_traefik_api_enabled: false
+paperless_ai_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+paperless_ai_docker_container: "{{ paperless_ai_name }}"
+
+# Image
+paperless_ai_docker_image_pull: true
+paperless_ai_docker_image_tag: "latest"
+paperless_ai_docker_image: "clusterzx/paperless-ai:{{ paperless_ai_docker_image_tag }}"
+
+# Ports
+paperless_ai_docker_ports_defaults: []
+paperless_ai_docker_ports_custom: []
+paperless_ai_docker_ports: "{{ paperless_ai_docker_ports_defaults
+                               + paperless_ai_docker_ports_custom }}"
+
+# Envs
+paperless_ai_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+paperless_ai_docker_envs_custom: {}
+paperless_ai_docker_envs: "{{ paperless_ai_docker_envs_default
+                              | combine(paperless_ai_docker_envs_custom) }}"
+
+# Commands
+paperless_ai_docker_commands_default: []
+paperless_ai_docker_commands_custom: []
+paperless_ai_docker_commands: "{{ paperless_ai_docker_commands_default
+                                  + paperless_ai_docker_commands_custom }}"
+
+# Volumes
+paperless_ai_docker_volumes_default:
+  - "{{ paperless_ai_paths_location }}:/app/data"
+paperless_ai_docker_volumes_custom: []
+paperless_ai_docker_volumes: "{{ paperless_ai_docker_volumes_default
+                                 + paperless_ai_docker_volumes_custom }}"
+
+# Devices
+paperless_ai_docker_devices_default: []
+paperless_ai_docker_devices_custom: []
+paperless_ai_docker_devices: "{{ paperless_ai_docker_devices_default
+                                 + paperless_ai_docker_devices_custom }}"
+
+# Hosts
+paperless_ai_docker_hosts_default: {}
+paperless_ai_docker_hosts_custom: {}
+paperless_ai_docker_hosts: "{{ docker_hosts_common
+                               | combine(paperless_ai_docker_hosts_default)
+                               | combine(paperless_ai_docker_hosts_custom) }}"
+
+# Labels
+paperless_ai_docker_labels_default: {}
+paperless_ai_docker_labels_custom: {}
+paperless_ai_docker_labels: "{{ docker_labels_common
+                                | combine(paperless_ai_docker_labels_default)
+                                | combine(paperless_ai_docker_labels_custom) }}"
+
+# Hostname
+paperless_ai_docker_hostname: "{{ paperless_ai_name }}"
+
+# Networks
+paperless_ai_docker_networks_alias: "{{ paperless_ai_name }}"
+paperless_ai_docker_networks_default: []
+paperless_ai_docker_networks_custom: []
+paperless_ai_docker_networks: "{{ docker_networks_common
+                                  + paperless_ai_docker_networks_default
+                                  + paperless_ai_docker_networks_custom }}"
+
+# Capabilities
+paperless_ai_docker_capabilities_default: []
+paperless_ai_docker_capabilities_custom: []
+paperless_ai_docker_capabilities: "{{ paperless_ai_docker_capabilities_default
+                                      + paperless_ai_docker_capabilities_custom }}"
+
+# Security Opts
+paperless_ai_docker_security_opts_default: []
+paperless_ai_docker_security_opts_custom: []
+paperless_ai_docker_security_opts: "{{ paperless_ai_docker_security_opts_default
+                                       + paperless_ai_docker_security_opts_custom }}"
+
+# Restart Policy
+paperless_ai_docker_restart_policy: unless-stopped
+
+# State
+paperless_ai_docker_state: started
