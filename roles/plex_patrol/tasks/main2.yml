@@ -13,13 +13,13 @@
     state: absent
     container_default_behavior: compatibility
     tls_hostname: localhost
-    
+
 - name: Stop and remove any existing container
   community.docker.docker_container:
     name: "{{ plex_name }}-patrol"
     state: absent
     container_default_behavior: compatibility
-    tls_hostname: localhost 
+    tls_hostname: localhost
 
 - name: Check if legacy folder exists
   ansible.builtin.stat:
