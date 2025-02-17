@@ -7,16 +7,38 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Stop and remove any existing container
+- name: Stop and remove any legacy container
   community.docker.docker_container:
     name: "{{ plex_name }}_patrol"
     state: absent
     container_default_behavior: compatibility
     tls_hostname: localhost
+    
+- name: Stop and remove any existing container
+  community.docker.docker_container:
+    name: "{{ plex_name }}-patrol"
+    state: absent
+    container_default_behavior: compatibility
+    tls_hostname: localhost 
+
+- name: Check if legacy folder exists
+  ansible.builtin.stat:
+    path: "/opt/{{ plex_name }}_patrol"
+  register: plex_patrol_legacy_folder
+
+- name: Migrate Plex Patrol directory
+  migrate_folder:
+    legacy_path: "/opt/{{ plex_name }}_patrol"
+    new_path: "/opt/{{ plex_name }}-patrol"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0775'
+    recurse: false
+  when: plex_patrol_legacy_folder.stat.exists
 
 - name: Create plex_patrol directories
   ansible.builtin.file:
-    path: "/opt/{{ plex_name }}_patrol"
+    path: "/opt/{{ plex_name }}-patrol"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -24,7 +46,7 @@
 
 - name: Check config exists
   ansible.builtin.stat:
-    path: "/opt/{{ plex_name }}_patrol/settings.ini"
+    path: "/opt/{{ plex_name }}-patrol/settings.ini"
   register: plex_patrol_config
 
 - name: Import Plex Auth Token role
@@ -35,7 +57,7 @@
 - name: Import default config
   ansible.builtin.template:
     src: settings.ini.j2
-    dest: "/opt/{{ plex_name }}_patrol/settings.ini"
+    dest: "/opt/{{ plex_name }}-patrol/settings.ini"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -44,12 +66,12 @@
 
 - name: Create and start container
   community.docker.docker_container:
-    name: "{{ plex_name }}_patrol"
+    name: "{{ plex_name }}-patrol"
     image: "cloudb0x/plex_patrol:latest"
     pull: true
     user: "{{ uid }}:{{ gid }}"
     volumes:
-      - "/opt/{{ plex_name }}_patrol:/config"
+      - "/opt/{{ plex_name }}-patrol:/config"
     env:
       TZ: "{{ tz }}"
     labels:
@@ -57,7 +79,7 @@
     networks:
       - name: saltbox
         aliases:
-          - "{{ plex_name }}_patrol"
+          - "{{ plex_name }}-patrol"
     networks_cli_compatible: true
     network_mode: "{{ docker_networks_name_common }}"
     comparisons:
