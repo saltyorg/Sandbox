@@ -29,7 +29,7 @@ dashy_paths_config_location: "{{ dashy_paths_location }}/conf.yml"
 
 dashy_web_subdomain: "{{ dashy_name }}"
 dashy_web_domain: "{{ user.domain }}"
-dashy_web_port: "80"
+dashy_web_port: "8080"
 dashy_web_url: "{{ 'https://' + (dashy_web_subdomain + '.' + dashy_web_domain
                 if (dashy_web_subdomain | length > 0)
                 else dashy_web_domain) }}"
@@ -86,7 +86,7 @@ dashy_docker_commands: "{{ dashy_docker_commands_default
 
 # Volumes
 dashy_docker_volumes_default:
-  - "{{ dashy_paths_location }}/conf.yml:/app/public/conf.yml"
+  - "{{ dashy_paths_location }}:/app/user-data"
 dashy_docker_volumes_custom: []
 dashy_docker_volumes: "{{ dashy_docker_volumes_default
                           + dashy_docker_volumes_custom }}"
