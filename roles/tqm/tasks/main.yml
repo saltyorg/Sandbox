@@ -34,7 +34,7 @@
 
 - name: Set variable for output of tqm releases
   ansible.builtin.uri:
-    url: "{{ svm }}https://api.github.com/repos/saltydk/tqm/releases/latest"
+    url: "{{ svm }}https://api.github.com/repos/autobrr/tqm/releases/latest"
   register: tqm_releases
 
 - name: Get the url for latest amd64 tqm binary
