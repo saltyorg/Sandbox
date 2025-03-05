@@ -82,13 +82,9 @@ homarr_docker_ports: "{{ homarr_docker_ports_defaults
 
 # Envs
 homarr_docker_envs_default:
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  BASE_URL: "{{ homarr_web_subdomain + '.' + homarr_web_domain }}"
-  PASSWORD: "{{ user.pass }}"
   DOCKER_HOST: "tcp://{{ homarr_name }}-docker-socket-proxy:2375"
-  NODE_TLS_REJECT_UNAUTHORIZED: "0"
+  SECRET_ENCRYPTION_KEY: "{{ homarr_saltbox_facts.facts.secret_key }}"
 homarr_docker_envs_custom: {}
 homarr_docker_envs: "{{ homarr_docker_envs_default
                         | combine(homarr_docker_envs_custom) }}"
