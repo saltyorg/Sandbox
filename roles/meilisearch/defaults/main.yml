@@ -31,7 +31,7 @@ meilisearch_docker_container: "{{ meilisearch_name }}"
 
 # Image
 meilisearch_docker_image_pull: true
-meilisearch_docker_image: "getmeili/meilisearch"
+meilisearch_docker_image: "getmeili/meilisearch:{{ meilisearch_docker_image_tag }}"
 meilisearch_docker_image_tag: "v1.11.1"
 
 # Ports
