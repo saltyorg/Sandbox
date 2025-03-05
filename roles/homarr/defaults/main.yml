@@ -71,7 +71,7 @@ homarr_docker_container: "{{ homarr_name }}"
 # Image
 homarr_docker_image_pull: true
 homarr_docker_image_tag: "latest"
-homarr_docker_image: "ghcr.io/homarr-labs/homarr:{{ homarr_docker_image_tag }}"
+homarr_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_docker_image_tag }}"
 
 # Ports
 homarr_docker_ports_defaults: []
