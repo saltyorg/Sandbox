@@ -68,7 +68,7 @@ wireguard_docker_container: "{{ wireguard_name }}"
 
 # Image
 wireguard_docker_image_pull: true
-wireguard_docker_image_tag: "latest"
+wireguard_docker_image_tag: "14"
 wireguard_docker_image: "ghcr.io/wg-easy/wg-easy:{{ wireguard_docker_image_tag }}"
 
 # Ports
