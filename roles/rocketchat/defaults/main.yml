@@ -14,6 +14,15 @@
 rocketchat_name: rocketchat
 
 ################################
+# Settings
+################################
+
+rocketchat_mongodb_docker_image_tag: "6"
+rocketchat_mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
+rocketchat_mongodb_docker_volumes_custom: ["{{ rocketchat_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
+rockatchat_mongodb_paths_location: "{{ rocketchat_paths_location }}/mongo"
+
+################################
 # Paths
 ################################
 

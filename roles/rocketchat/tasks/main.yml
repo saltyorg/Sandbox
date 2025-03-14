@@ -32,14 +32,40 @@
     mode: "0775"
     force: yes
 
+- name: Remove legacy rocketchat_db Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "rocketchat_db"
+
+- name: Check if legacy mongodb folder exists
+  ansible.builtin.stat:
+    path: "/opt/rocketchat_db"
+  register: rocketchat_db_legacy_folder
+
+- name: Check if new mongodb folder exists
+  ansible.builtin.stat:
+    path: "{{ rocketchat_paths_location }}/mongo"
+  register: rocketchat_db_new_folder
+
+- name: Migrate mongodb directory
+  migrate_folder:
+    legacy_path: "/opt/rocketchat_db"
+    new_path: "{{ rocketchat_paths_location }}/mongo"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0775'
+    recurse: false
+  when: rocketchat_db_legacy_folder.stat.exists and not rocketchat_db_new_folder.stat.exists
+
 - name: MongoDB Role
   ansible.builtin.include_role:
     name: mongodb
   vars:
-    mongodb_instances: ["rocketchat_db"]
-    mongodb_docker_image_tag: "6"
-    mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
-    mongodb_docker_volumes_custom: ["{{ rocketchat_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
+    mongodb_instances: ["{{ rocketchat_name }}-mongo"]
+    mongodb_docker_image_tag: "{{ rocketchat_mongodb_docker_image_tag }}"
+    mongodb_docker_commands: "{{ rocketchat_mongodb_docker_commands }}"
+    mongodb_docker_volumes_custom: "{{ rocketchat_mongodb_docker_volumes_custom }}"
+    mongodb_paths_location: "{{ rockatchat_mongodb_paths_location }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
