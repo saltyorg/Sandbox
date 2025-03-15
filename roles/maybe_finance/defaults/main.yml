@@ -41,8 +41,8 @@ maybe_finance_web_subdomain: "{{ maybe_finance_name }}"
 maybe_finance_web_domain: "{{ user.domain }}"
 maybe_finance_web_port: "3000"
 maybe_finance_web_url: "{{ 'https://' + (maybe_finance_web_subdomain + '.' + maybe_finance_web_domain
-                    if (maybe_finance_web_subdomain | length > 0)
-                    else maybe_finance_web_domain) }}"
+                         if (maybe_finance_web_subdomain | length > 0)
+                         else maybe_finance_web_domain) }}"
 
 ################################
 # DNS
