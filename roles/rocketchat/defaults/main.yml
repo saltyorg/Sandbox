@@ -102,7 +102,7 @@ rocketchat_docker_commands: "{{ rocketchat_docker_commands_default
 
 # Volumes
 rocketchat_docker_volumes_default:
-  - "{{ rocketchat_paths_location }}/uploads:/uploads"
+  - "{{ rocketchat_paths_location }}/uploads:/app/uploads"
 rocketchat_docker_volumes_custom: []
 rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
                                + rocketchat_docker_volumes_custom }}"
@@ -163,6 +163,9 @@ rocketchat_docker_restart_policy: unless-stopped
 
 # State
 rocketchat_docker_state: started
+
+# User
+rocketchat_docker_user: "{{ uid }}:{{ gid }}"
 
 # Dependencies
 rocketchat_depends_on: "rocketchat_db"
