@@ -87,8 +87,8 @@ rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
 rocketchat_docker_envs_default:
   TZ: "{{ tz }}"
   ROOT_URL: "{{ rocketchat_web_url }}"
-  MONGO_URL: "mongodb://rocketchat_db:27017/rocketchat?replicaSet=rs0&directConnection=true"
-  MONGO_OPLOG_URL: "mongodb://rocketchat_db:27017/local?replicaSet=rs0&directConnection=true"
+  MONGO_URL: "mongodb://rocketchat-mongo:27017/rocketchat?replicaSet=rs0&directConnection=true"
+  MONGO_OPLOG_URL: "mongodb://rocketchat-mongo:27017/local?replicaSet=rs0&directConnection=true"
   DEPLOY_METHOD: "docker"
 rocketchat_docker_envs_custom: {}
 rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
