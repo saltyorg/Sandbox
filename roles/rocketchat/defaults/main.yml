@@ -76,9 +76,7 @@ rocketchat_docker_image_tag: "latest"
 rocketchat_docker_image: "rocketchat/rocket.chat:{{ rocketchat_docker_image_tag }}"
 
 # Ports
-rocketchat_docker_ports_defaults:
-  - "9458:9458"
-  - "{{ rocketchat_web_port }}:{{ rocketchat_web_port }}"
+rocketchat_docker_ports_defaults: []
 rocketchat_docker_ports_custom: []
 rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
                              + rocketchat_docker_ports_custom }}"
