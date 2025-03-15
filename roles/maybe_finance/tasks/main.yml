@@ -1,0 +1,60 @@
+#########################################################################
+# Title:            Sandbox: maybe_finance                              #
+# Author(s):        cartermcalister                                     #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Generate Secret Key Base
+  community.docker.docker_container:
+    name: maybe_finance-secret-key
+    image: "{{ maybe_finance_docker_image }}"
+    command: "sh -c 'head -c 32 /dev/urandom | base64'"
+    detach: no
+    networks:
+      - name: saltbox
+    cleanup: yes
+    state: started
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+    pull: true
+  register: maybe_finance_generated_secret_key
+
+- name: "Save maybe_finance Secret Key Base Saltbox facts"
+  saltbox_facts:
+    role: "maybe_finance"
+    instance: "maybe_finance"
+    keys:
+      secret_key_base: "{{ maybe_finance_generated_secret_key.container.Output }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: maybe_finance_saltbox_facts
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Import PostgreSQL Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ maybe_finance_postgres_name }}"]
+    postgres_docker_env_db: "{{ maybe_finance_postgres_docker_env_db }}"
+    postgres_docker_image_tag: "{{ maybe_finance_postgres_docker_image_tag }}"
+    postgres_docker_image_repo: "{{ maybe_finance_postgres_docker_image_repo }}"
+    postgres_paths_folder: "{{ maybe_finance_postgres_paths_folder }}"
+    postgres_paths_location: "{{ maybe_finance_postgres_paths_location }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
