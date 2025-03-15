@@ -23,6 +23,14 @@
     mode: "0775"
   with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
 
+- name: Create upload directory
+  ansible.builtin.file:
+    path: "{{ rocketchat_paths_location }}/uploads"
+    state: directory
+    owner: "65533"
+    group: "65533"
+    mode: "0775"
+
 - name: "RocketChat | Import init-mongo.js"
   ansible.builtin.template:
     src: init-mongo.js
