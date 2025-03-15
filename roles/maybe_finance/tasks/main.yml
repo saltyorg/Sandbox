@@ -39,25 +39,16 @@
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
-- name: Create Docker volumes
-  docker_volume:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "app-storage"
-    - "postgres-data"
-
-- name: PostgreSQL Role
+- name: Import PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
     postgres_instances: ["{{ maybe_finance_postgres_name }}"]
+    postgres_docker_env_db: "{{ maybe_finance_postgres_docker_env_db }}"
     postgres_docker_image_tag: "{{ maybe_finance_postgres_docker_image_tag }}"
     postgres_docker_image_repo: "{{ maybe_finance_postgres_docker_image_repo }}"
-    postgres_docker_env_db: "{{ maybe_finance_postgres_docker_env_db }}"
-    postgres_docker_env_user: "{{ maybe_finance_postgres_docker_env_user }}"
-    postgres_docker_env_password: "{{ maybe_finance_postgres_docker_env_password }}"
     postgres_paths_folder: "{{ maybe_finance_postgres_paths_folder }}"
+    postgres_paths_location: "{{ maybe_finance_postgres_paths_location }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

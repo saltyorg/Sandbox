@@ -18,12 +18,11 @@ maybe_finance_name: maybe-finance
 ################################
 
 maybe_finance_postgres_name: "{{ maybe_finance_name }}-postgres"
-maybe_finance_postgres_docker_image_tag: "13"
+maybe_finance_postgres_docker_env_db: "{{ maybe_finance_name }}"
+maybe_finance_postgres_docker_image_tag: "16"
 maybe_finance_postgres_docker_image_repo: "postgres"
-maybe_finance_postgres_docker_env_db: "maybe_production"
-maybe_finance_postgres_docker_env_user: "maybe_user"
-maybe_finance_postgres_docker_env_password: "maybe_password"
 maybe_finance_postgres_paths_folder: "{{ maybe_finance_name }}"
+maybe_finance_postgres_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -94,10 +93,11 @@ maybe_finance_docker_envs_default:
   RAILS_ASSUME_SSL: "false"
   GOOD_JOB_EXECUTION_MODE: "async"
   SECRET_KEY_BASE: "{{ maybe_finance_saltbox_facts.facts.secret_key_base }}"
+  DB_USERNAME: "{{ postgres_docker_env_user }}"
+  DB_PASSWORD: "{{ postgres_docker_env_password }}"
   DB_HOST: "{{ maybe_finance_postgres_name }}"
-  POSTGRES_DB: "{{ maybe_finance_postgres_docker_env_db }}"
-  POSTGRES_USER: "{{ maybe_finance_postgres_docker_env_user }}"
-  POSTGRES_PASSWORD: "{{ maybe_finance_postgres_docker_env_password }}"
+  POSTGRES_USER: "{{ postgres_docker_env_user }}"
+  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
 maybe_finance_docker_envs_custom: {}
 maybe_finance_docker_envs: "{{ maybe_finance_docker_envs_default
                            | combine(maybe_finance_docker_envs_custom) }}"
@@ -110,7 +110,7 @@ maybe_finance_docker_commands: "{{ maybe_finance_docker_commands_default
 
 # Volumes
 maybe_finance_docker_volumes_default:
-  - "app-storage:/rails/storage"
+  - "{{ maybe_finance_paths_location }}:/rails/storage"
 maybe_finance_docker_volumes_custom: []
 maybe_finance_docker_volumes: "{{ maybe_finance_docker_volumes_default
                               + maybe_finance_docker_volumes_custom }}"
