@@ -14,6 +14,9 @@
 yacht_docker_socket_proxy_envs:
   CONTAINERS: "1"
   POST: "0"
+  IMAGES: "1"
+  VOLUMES: "1"
+  NETWORKS: "1"
 
 ################################
 # Basics
