@@ -62,7 +62,7 @@ mealie_docker_container: "{{ mealie_name }}"
 
 # Image
 mealie_docker_image_pull: true
-mealie_docker_image_tag: "v2.8.0"
+mealie_docker_image_tag: "latest"
 mealie_docker_image: "ghcr.io/mealie-recipes/mealie:{{ mealie_docker_image_tag }}"
 
 # Envs
