@@ -88,6 +88,7 @@ homepage_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
+  HOMEPAGE_ALLOWED_HOSTS: "{{ traefik_host + ',' + homepage_name + ':' + homepage_web_port }}"
 homepage_docker_envs_custom: {}
 homepage_docker_envs: "{{ homepage_docker_envs_default
                           | combine(homepage_docker_envs_custom) }}"

@@ -107,6 +107,7 @@
     - { role: logarr, tags: ['logarr'] }
     - { role: lunasea, tags: ['lunasea'] }
     - { role: makemkv, tags: ['makemkv'] }
+    - { role: maybe_finance, tags: ['maybe-finance'] }
     - { role: mealie, tags: ['mealie'] }
     - { role: medusa, tags: ['medusa'] }
     - { role: meilisearch, tags: ['meilisearch'] }

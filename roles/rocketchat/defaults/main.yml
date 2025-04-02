@@ -14,6 +14,15 @@
 rocketchat_name: rocketchat
 
 ################################
+# Settings
+################################
+
+rocketchat_mongodb_docker_image_tag: "6"
+rocketchat_mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
+rocketchat_mongodb_docker_volumes_custom: ["{{ rocketchat_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
+rockatchat_mongodb_paths_location: "{{ rocketchat_paths_location }}/mongo"
+
+################################
 # Paths
 ################################
 
@@ -67,9 +76,7 @@ rocketchat_docker_image_tag: "latest"
 rocketchat_docker_image: "rocketchat/rocket.chat:{{ rocketchat_docker_image_tag }}"
 
 # Ports
-rocketchat_docker_ports_defaults:
-  - "9458:9458"
-  - "{{ rocketchat_web_port }}:{{ rocketchat_web_port }}"
+rocketchat_docker_ports_defaults: []
 rocketchat_docker_ports_custom: []
 rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
                              + rocketchat_docker_ports_custom }}"
@@ -78,23 +85,22 @@ rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
 rocketchat_docker_envs_default:
   TZ: "{{ tz }}"
   ROOT_URL: "{{ rocketchat_web_url }}"
-  MONGO_URL: "mongodb://rocketchat_db:27017/rocketchat?replicaSet=rs0&directConnection=true"
-  MONGO_OPLOG_URL: "mongodb://rocketchat_db:27017/local?replicaSet=rs0&directConnection=true"
+  MONGO_URL: "mongodb://rocketchat-mongo:27017/rocketchat?replicaSet=rs0&directConnection=true"
+  MONGO_OPLOG_URL: "mongodb://rocketchat-mongo:27017/local?replicaSet=rs0&directConnection=true"
   DEPLOY_METHOD: "docker"
 rocketchat_docker_envs_custom: {}
 rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
                             | combine(rocketchat_docker_envs_custom) }}"
 
 # Commands
-rocketchat_docker_commands_default:
-  - bash -c 'for i in `seq 1 30`; do node main.js && s=$$? && break || s=$$?; echo "Tried $$i times. Waiting 5 secs..."; sleep 5; done; (exit $$s)'
+rocketchat_docker_commands_default: []
 rocketchat_docker_commands_custom: []
 rocketchat_docker_commands: "{{ rocketchat_docker_commands_default
                                 + rocketchat_docker_commands_custom }}"
 
 # Volumes
 rocketchat_docker_volumes_default:
-  - "{{ rocketchat_paths_location }}/uploads:/uploads"
+  - "{{ rocketchat_paths_location }}/uploads:/app/uploads"
 rocketchat_docker_volumes_custom: []
 rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
                                + rocketchat_docker_volumes_custom }}"

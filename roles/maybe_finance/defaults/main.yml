@@ -1,0 +1,170 @@
+#########################################################################
+# Title:            Sandbox: Maybe Finance                              #
+# Author(s):        cartermcalister                                     #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+maybe_finance_name: maybe-finance
+
+################################
+# Settings
+################################
+
+maybe_finance_postgres_name: "{{ maybe_finance_name }}-postgres"
+maybe_finance_postgres_docker_env_db: "{{ maybe_finance_name }}"
+maybe_finance_postgres_docker_image_tag: "16"
+maybe_finance_postgres_docker_image_repo: "postgres"
+maybe_finance_postgres_paths_folder: "{{ maybe_finance_name }}"
+maybe_finance_postgres_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_postgres_paths_folder }}/postgres"
+
+################################
+# Paths
+################################
+
+maybe_finance_paths_folder: "{{ maybe_finance_name }}"
+maybe_finance_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_paths_folder }}"
+maybe_finance_paths_folders_list:
+  - "{{ maybe_finance_paths_location }}"
+
+################################
+# Web
+################################
+
+maybe_finance_web_subdomain: "{{ maybe_finance_name }}"
+maybe_finance_web_domain: "{{ user.domain }}"
+maybe_finance_web_port: "3000"
+maybe_finance_web_url: "{{ 'https://' + (maybe_finance_web_subdomain + '.' + maybe_finance_web_domain
+                         if (maybe_finance_web_subdomain | length > 0)
+                         else maybe_finance_web_domain) }}"
+
+################################
+# DNS
+################################
+
+maybe_finance_dns_record: "{{ maybe_finance_web_subdomain }}"
+maybe_finance_dns_zone: "{{ maybe_finance_web_domain }}"
+maybe_finance_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+maybe_finance_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+maybe_finance_traefik_middleware_default: "{{ traefik_default_middleware }}"
+maybe_finance_traefik_middleware_custom: ""
+maybe_finance_traefik_certresolver: "{{ traefik_default_certresolver }}"
+maybe_finance_traefik_enabled: true
+maybe_finance_traefik_api_enabled: false
+maybe_finance_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+maybe_finance_docker_container: "{{ maybe_finance_name }}"
+
+# Image
+maybe_finance_docker_image_pull: true
+maybe_finance_docker_image_tag: "latest"
+maybe_finance_docker_image: "ghcr.io/maybe-finance/maybe:{{ maybe_finance_docker_image_tag }}"
+
+# Ports
+maybe_finance_docker_ports_defaults:
+  - "{{ maybe_finance_web_port }}"
+maybe_finance_docker_ports_custom: []
+maybe_finance_docker_ports: "{{ maybe_finance_docker_ports_defaults
+                            + maybe_finance_docker_ports_custom }}"
+
+# Envs
+maybe_finance_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  SELF_HOSTED: "true"
+  RAILS_FORCE_SSL: "false"
+  RAILS_ASSUME_SSL: "false"
+  GOOD_JOB_EXECUTION_MODE: "async"
+  SECRET_KEY_BASE: "{{ maybe_finance_saltbox_facts.facts.secret_key_base }}"
+  DB_USERNAME: "{{ postgres_docker_env_user }}"
+  DB_PASSWORD: "{{ postgres_docker_env_password }}"
+  DB_HOST: "{{ maybe_finance_postgres_name }}"
+  POSTGRES_USER: "{{ postgres_docker_env_user }}"
+  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
+maybe_finance_docker_envs_custom: {}
+maybe_finance_docker_envs: "{{ maybe_finance_docker_envs_default
+                           | combine(maybe_finance_docker_envs_custom) }}"
+
+# Commands
+maybe_finance_docker_commands_default: []
+maybe_finance_docker_commands_custom: []
+maybe_finance_docker_commands: "{{ maybe_finance_docker_commands_default
+                               + maybe_finance_docker_commands_custom }}"
+
+# Volumes
+maybe_finance_docker_volumes_default:
+  - "{{ maybe_finance_paths_location }}:/rails/storage"
+maybe_finance_docker_volumes_custom: []
+maybe_finance_docker_volumes: "{{ maybe_finance_docker_volumes_default
+                              + maybe_finance_docker_volumes_custom }}"
+
+# Devices
+maybe_finance_docker_devices_default: []
+maybe_finance_docker_devices_custom: []
+maybe_finance_docker_devices: "{{ maybe_finance_docker_devices_default
+                              + maybe_finance_docker_devices_custom }}"
+
+# Hosts
+maybe_finance_docker_hosts_default: {}
+maybe_finance_docker_hosts_custom: {}
+maybe_finance_docker_hosts: "{{ docker_hosts_common
+                            | combine(maybe_finance_docker_hosts_default)
+                            | combine(maybe_finance_docker_hosts_custom) }}"
+
+# Labels
+maybe_finance_docker_labels_default: {}
+maybe_finance_docker_labels_custom: {}
+maybe_finance_docker_labels: "{{ docker_labels_common
+                             | combine(maybe_finance_docker_labels_default)
+                             | combine(maybe_finance_docker_labels_custom) }}"
+
+# Hostname
+maybe_finance_docker_hostname: "{{ maybe_finance_name }}"
+
+# Networks
+maybe_finance_docker_networks_alias: "{{ maybe_finance_name }}"
+maybe_finance_docker_networks_default: []
+maybe_finance_docker_networks_custom: []
+maybe_finance_docker_networks: "{{ docker_networks_common
+                               + maybe_finance_docker_networks_default
+                               + maybe_finance_docker_networks_custom }}"
+
+# Capabilities
+maybe_finance_docker_capabilities_default: []
+maybe_finance_docker_capabilities_custom: []
+maybe_finance_docker_capabilities: "{{ maybe_finance_docker_capabilities_default
+                                   + maybe_finance_docker_capabilities_custom }}"
+
+# Security Opts
+maybe_finance_docker_security_opts_default: []
+maybe_finance_docker_security_opts_custom: []
+maybe_finance_docker_security_opts: "{{ maybe_finance_docker_security_opts_default
+                                    + maybe_finance_docker_security_opts_custom }}"
+
+# Restart Policy
+maybe_finance_docker_restart_policy: unless-stopped
+
+# State
+maybe_finance_docker_state: started
+
+# Dependencies
+maybe_finance_depends_on: "{{ maybe_finance_postgres_name }}"
+maybe_finance_depends_on_delay: "5"
+maybe_finance_depends_on_healthchecks: "true"

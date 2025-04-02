@@ -37,18 +37,47 @@
     url: "{{ svm }}https://api.github.com/repos/autobrr/tqm/releases/latest"
   register: tqm_releases
 
-- name: Get the url for latest amd64 tqm binary
+- name: Get the url for latest amd64 tqm binary archive
   ansible.builtin.set_fact:
-    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', 'search', '_linux_amd64') | map(attribute='browser_download_url') | join('') }}"
+    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', 'search', '_linux_amd64.tar.gz') | map(attribute='browser_download_url') | join('') }}"
 
-- name: Download tqm binary
+- name: Ensure that temp directory does not exist
+  ansible.builtin.file:
+    path: "/tmp/tqm_extract"
+    state: absent
+
+- name: Create temp directory
+  ansible.builtin.file:
+    path: "/tmp/tqm_extract"
+    state: directory
+    mode: '0755'
+
+- name: Download tqm archive
   ansible.builtin.get_url:
     url: "{{ tqm_latest }}"
+    dest: "/tmp/tqm_extract/tqm_archive.tar.gz"
+    mode: "0644"
+    force: true
+
+- name: Extract the tar.gz file
+  ansible.builtin.unarchive:
+    src: "/tmp/tqm_extract/tqm_archive.tar.gz"
+    dest: "/tmp/tqm_extract/"
+    remote_src: yes
+
+- name: Copy tqm binary to destination
+  ansible.builtin.copy:
+    src: "/tmp/tqm_extract/tqm"
     dest: "{{ tqm_paths_location }}/tqm"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
-    force: true
+    remote_src: yes
+
+- name: Clean up temporary files
+  ansible.builtin.file:
+    path: "/tmp/tqm_extract"
+    state: absent
 
 - name: Check if `{{ tqm_paths_config_location | basename }}` exists
   ansible.builtin.stat:
