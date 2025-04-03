@@ -19,10 +19,6 @@
   ansible.builtin.import_tasks: "subtasks/backup_check.yml"
   tags: always
 
-- name: "Tags Check"
-  ansible.builtin.import_tasks: "subtasks/tags_check.yml"
-  tags: always
-
 - name: "Repo Check"
   ansible.builtin.import_tasks: "subtasks/repo.yml"
   tags: always
