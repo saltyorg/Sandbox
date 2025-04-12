@@ -51,7 +51,7 @@ profilarr_traefik_middleware_custom: ""
 profilarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 profilarr_traefik_enabled: true
 profilarr_traefik_api_enabled: true
-profilarr_traefik_api_endpoint: "/api"
+profilarr_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
