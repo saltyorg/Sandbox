@@ -1,0 +1,142 @@
+##########################################################################
+# Title:         Sandbox: Profilarr | Default Variables                  #
+# Author(s):     keldian                                                 #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+profilarr_name: profilarr
+
+################################
+# Paths
+################################
+
+profilarr_paths_folder: "{{ profilarr_name }}"
+profilarr_paths_location: "{{ server_appdata_path }}/{{ profilarr_paths_folder }}"
+profilarr_paths_folders_list:
+  - "{{ profilarr_paths_location }}"
+
+################################
+# Web
+################################
+
+profilarr_web_subdomain: "{{ profilarr_name }}"
+profilarr_web_domain: "{{ user.domain }}"
+profilarr_web_port: "6868"
+profilarr_web_url: "{{ 'https://' + (profilarr_web_subdomain + '.' + profilarr_web_domain
+                    if (profilarr_web_subdomain | length > 0)
+                    else profilarr_web_domain) }}"
+
+################################
+# DNS
+################################
+
+profilarr_dns_record: "{{ profilarr_web_subdomain }}"
+profilarr_dns_zone: "{{ profilarr_web_domain }}"
+profilarr_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+profilarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+profilarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
+profilarr_traefik_middleware_custom: ""
+profilarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+profilarr_traefik_enabled: true
+profilarr_traefik_api_enabled: true
+profilarr_traefik_api_endpoint: "/api"
+
+################################
+# Docker
+################################
+
+# Container
+profilarr_docker_container: "{{ profilarr_name }}"
+
+# Image
+profilarr_docker_image_pull: true
+profilarr_docker_image_repo: "santiagosayshey/profilarr"
+profilarr_docker_image_tag: "latest"
+profilarr_docker_image: "{{ profilarr_docker_image_repo }}:{{ profilarr_docker_image_tag }}"
+
+# Ports
+profilarr_docker_ports_defaults: []
+profilarr_docker_ports_custom: []
+profilarr_docker_ports: "{{ profilarr_docker_ports_defaults
+                            + profilarr_docker_ports_custom }}"
+
+# Envs
+profilarr_docker_envs_default:
+  TZ: "{{ tz }}"
+profilarr_docker_envs_custom: {}
+profilarr_docker_envs: "{{ profilarr_docker_envs_default
+                           | combine(profilarr_docker_envs_custom) }}"
+
+# Commands
+profilarr_docker_commands_default: []
+profilarr_docker_commands_custom: []
+profilarr_docker_commands: "{{ profilarr_docker_commands_default
+                               + profilarr_docker_commands_custom }}"
+
+# Volumes
+profilarr_docker_volumes_default:
+  - "{{ profilarr_paths_location }}:/config"
+profilarr_docker_volumes_custom: []
+profilarr_docker_volumes: "{{ profilarr_docker_volumes_default
+                              + profilarr_docker_volumes_custom }}"
+
+# Devices
+profilarr_docker_devices_default: []
+profilarr_docker_devices_custom: []
+profilarr_docker_devices: "{{ profilarr_docker_devices_default
+                              + profilarr_docker_devices_custom }}"
+
+# Hosts
+profilarr_docker_hosts_default: []
+profilarr_docker_hosts_custom: []
+profilarr_docker_hosts: "{{ docker_hosts_common
+                            | combine(profilarr_docker_hosts_default)
+                            | combine(profilarr_docker_hosts_custom) }}"
+
+# Labels
+profilarr_docker_labels_default: {}
+profilarr_docker_labels_custom: {}
+profilarr_docker_labels: "{{ docker_labels_common
+                             | combine(profilarr_docker_labels_default)
+                             | combine(profilarr_docker_labels_custom) }}"
+
+# Hostname
+profilarr_docker_hostname: "{{ profilarr_name }}"
+
+# Networks
+profilarr_docker_networks_alias: "{{ profilarr_name }}"
+profilarr_docker_networks_default: []
+profilarr_docker_networks_custom: []
+profilarr_docker_networks: "{{ docker_networks_common
+                               + profilarr_docker_networks_default
+                               + profilarr_docker_networks_custom }}"
+
+# Capabilities
+profilarr_docker_capabilities_default: []
+profilarr_docker_capabilities_custom: []
+profilarr_docker_capabilities: "{{ profilarr_docker_capabilities_default
+                                   + profilarr_docker_capabilities_custom }}"
+
+# Security Opts
+profilarr_docker_security_opts_default: []
+profilarr_docker_security_opts_custom: []
+profilarr_docker_security_opts: "{{ profilarr_docker_security_opts_default
+                                    + profilarr_docker_security_opts_custom }}"
+
+# Restart Policy
+profilarr_docker_restart_policy: unless-stopped
+
+# State
+profilarr_docker_state: started
