@@ -1,0 +1,156 @@
+##########################################################################
+# Title:            Sandbox: Karakeep | Default Variables                #
+# Author(s):        Zuke97                                               #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+karakeep_name: karakeep
+
+################################
+# Paths
+################################
+
+karakeep_paths_folder: "{{ karakeep_name }}"
+karakeep_paths_location: "{{ server_appdata_path }}/{{ karakeep_paths_folder }}"
+karakeep_paths_folders_list:
+  - "{{ karakeep_paths_location }}"
+
+################################
+# Web
+################################
+
+karakeep_web_subdomain: "{{ karakeep_name }}"
+karakeep_web_domain: "{{ user.domain }}"
+karakeep_web_port: "3000"
+karakeep_web_url: "{{ 'https://' + (karakeep_web_subdomain + '.' + karakeep_web_domain
+                  if (karakeep_web_subdomain | length > 0)
+                  else karakeep_web_domain) }}"
+
+################################
+# DNS
+################################
+
+karakeep_dns_record: "{{ karakeep_web_subdomain }}"
+karakeep_dns_zone: "{{ karakeep_web_domain }}"
+karakeep_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+karakeep_traefik_sso_middleware: ""
+karakeep_traefik_middleware_default: "{{ traefik_default_middleware }}"
+karakeep_traefik_middleware_custom: ""
+karakeep_traefik_certresolver: "{{ traefik_default_certresolver }}"
+karakeep_traefik_enabled: true
+karakeep_traefik_api_enabled: false
+karakeep_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+karakeep_docker_container: "{{ karakeep_name }}"
+
+# Dependant Container Settings
+karakeep_meili_name: "meilisearch"
+karakeep_meili_port: "7700"
+karakeep_chrome_name: "chrome"
+karakeep_chrome_port: "9222"
+
+# Image
+karakeep_docker_image_pull: true
+karakeep_docker_image: "ghcr.io/karakeep-app/karakeep"
+karakeep_docker_image_tag: "release"
+
+# Ports
+karakeep_docker_ports_defaults: []
+karakeep_docker_ports_custom: []
+karakeep_docker_ports: "{{ karakeep_docker_ports_defaults
+                          + karakeep_docker_ports_custom }}"
+
+# Envs
+karakeep_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  HOARDER_VERSION: "release"
+  MEILI_ADDR: "{{ 'http://' + karakeep_meili_name + ':' + karakeep_meili_port }}"
+  BROWSER_WEB_URL: "{{ 'http://' + karakeep_chrome_name + ':' + karakeep_chrome_port }}"
+  NEXTAUTH_SECRET: "{{ karakeep_saltbox_facts.facts.secret_key }}"
+  MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
+  NEXTAUTH_URL: "{{ karakeep_web_url }}"
+  DATA_DIR: "/data"
+karakeep_docker_envs_custom: {}
+karakeep_docker_envs: "{{ karakeep_docker_envs_default
+                         | combine(karakeep_docker_envs_custom) }}"
+
+# Commands
+karakeep_docker_commands_default: []
+karakeep_docker_commands_custom: []
+karakeep_docker_commands: "{{ karakeep_docker_commands_default
+                             + karakeep_docker_commands_custom }}"
+
+# Volumes
+karakeep_docker_volumes_default:
+  - "{{ karakeep_paths_location }}/data:/data"
+karakeep_docker_volumes_custom: []
+karakeep_docker_volumes: "{{ karakeep_docker_volumes_default
+                            + karakeep_docker_volumes_custom }}"
+
+# Devices
+karakeep_docker_devices_default: []
+karakeep_docker_devices_custom: []
+karakeep_docker_devices: "{{ karakeep_docker_devices_default
+                            + karakeep_docker_devices_custom }}"
+
+# Hosts
+karakeep_docker_hosts_default: {}
+karakeep_docker_hosts_custom: {}
+karakeep_docker_hosts: "{{ docker_hosts_common
+                          | combine(karakeep_docker_hosts_default)
+                          | combine(karakeep_docker_hosts_custom) }}"
+
+# Labels
+karakeep_docker_labels_default: {}
+karakeep_docker_labels_custom: {}
+karakeep_docker_labels: "{{ docker_labels_common
+                           | combine(karakeep_docker_labels_default)
+                           | combine(karakeep_docker_labels_custom) }}"
+
+# Hostname
+karakeep_docker_hostname: "{{ karakeep_name }}"
+
+# Networks
+karakeep_docker_networks_alias: "{{ karakeep_name }}"
+karakeep_docker_networks_default: []
+karakeep_docker_networks_custom: []
+karakeep_docker_networks: "{{ docker_networks_common
+                             + karakeep_docker_networks_default
+                             + karakeep_docker_networks_custom }}"
+
+# Capabilities
+karakeep_docker_capabilities_default: []
+karakeep_docker_capabilities_custom: []
+karakeep_docker_capabilities: "{{ karakeep_docker_capabilities_default
+                                 + karakeep_docker_capabilities_custom }}"
+
+# Security Opts
+karakeep_docker_security_opts_default: []
+karakeep_docker_security_opts_custom: []
+karakeep_docker_security_opts: "{{ karakeep_docker_security_opts_default
+                                  + karakeep_docker_security_opts_custom }}"
+
+# Restart Policy
+karakeep_docker_restart_policy: unless-stopped
+
+# State
+karakeep_docker_state: started
