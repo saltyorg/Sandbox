@@ -93,6 +93,7 @@
     - { role: jellyseerr, tags: ['jellyseerr'] }
     - { role: jellystat, tags: ['jellystat'] }
     - { role: joplin, tags: ['joplin'] }
+    - { role: karakeep, tags: ['karakeep'] }
     - { role: kavita, tags: ['kavita'] }
     - { role: kcptun_client, tags: ['kcptun-client'] }
     - { role: kcptun_server, tags: ['kcptun-server'] }
