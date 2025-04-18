@@ -30,8 +30,8 @@ karakeep_web_subdomain: "{{ karakeep_name }}"
 karakeep_web_domain: "{{ user.domain }}"
 karakeep_web_port: "3000"
 karakeep_web_url: "{{ 'https://' + (karakeep_web_subdomain + '.' + karakeep_web_domain
-                  if (karakeep_web_subdomain | length > 0)
-                  else karakeep_web_domain) }}"
+                   if (karakeep_web_subdomain | length > 0)
+                   else karakeep_web_domain) }}"
 
 ################################
 # DNS
