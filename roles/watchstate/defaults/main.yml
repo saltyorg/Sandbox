@@ -14,6 +14,14 @@
 watchstate_instances: ["watchstate"]
 
 ################################
+# Settings
+################################
+
+watchstate_api_auto: true
+watchstate_trust_proxy: true
+watchstate_secure_api_endpoints: true
+
+################################
 # Paths
 ################################
 
@@ -52,7 +60,7 @@ watchstate_traefik_middleware_custom: ""
 watchstate_traefik_certresolver: "{{ traefik_default_certresolver }}"
 watchstate_traefik_enabled: true
 watchstate_traefik_api_enabled: true
-watchstate_traefik_api_endpoint: "PathPrefix(`/?apikey`)"
+watchstate_traefik_api_endpoint: "PathRegexp(`backend/[^/]+/webhook`)"
 
 ################################
 # Docker
@@ -76,9 +84,10 @@ watchstate_docker_ports: "{{ lookup('vars', watchstate_name + '_docker_ports_def
 
 # Envs
 watchstate_docker_envs_default:
-  WS_TRUST_PROXY: "true"
   WS_TZ: "{{ tz }}"
-  WS_SECURE_API_ENDPOINTS: "true"
+  WS_API_AUTO: "{{ 'true' if watchstate_api_auto else omit }}"
+  WS_TRUST_PROXY: "{{ 'true' if watchstate_trust_proxy else omit }}"
+  WS_SECURE_API_ENDPOINTS: "{{ 'true' if watchstate_secure_api_endpoints else omit }}"
 watchstate_docker_envs_custom: {}
 watchstate_docker_envs: "{{ lookup('vars', watchstate_name + '_docker_envs_default', default=watchstate_docker_envs_default)
                             | combine(lookup('vars', watchstate_name + '_docker_envs_custom', default=watchstate_docker_envs_custom)) }}"
