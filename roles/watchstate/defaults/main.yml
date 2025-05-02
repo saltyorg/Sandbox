@@ -60,7 +60,7 @@ watchstate_traefik_middleware_custom: ""
 watchstate_traefik_certresolver: "{{ traefik_default_certresolver }}"
 watchstate_traefik_enabled: true
 watchstate_traefik_api_enabled: true
-watchstate_traefik_api_endpoint: "PathPrefix(`/?apikey`)"
+watchstate_traefik_api_endpoint: "PathPrefix(`/v1/api`)"
 
 ################################
 # Docker
