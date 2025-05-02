@@ -84,7 +84,7 @@ watchstate_docker_ports: "{{ lookup('vars', watchstate_name + '_docker_ports_def
 
 # Envs
 watchstate_docker_envs_default:
-  TZ: "{{ tz }}"
+  WS_TZ: "{{ tz }}"
   WS_API_AUTO: "{{ 'true' if watchstate_api_auto else omit }}"
   WS_TRUST_PROXY: "{{ 'true' if watchstate_trust_proxy else omit }}"
   WS_SECURE_API_ENDPOINTS: "{{ 'true' if watchstate_secure_api_endpoints else omit }}"
