@@ -7,6 +7,13 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  loop:
+    - "{{ maybe_finance_name }}"
+    - "{{ maybe_finance_name }}-worker"
+    - "{{ maybe_finance_name }}-redis"
+
 - name: Generate Secret Key Base
   community.docker.docker_container:
     name: maybe_finance-secret-key
@@ -39,6 +46,14 @@
     dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
     dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
 
+- name: Import Redis Role
+  ansible.builtin.include_role:
+    name: redis
+  vars:
+    redis_instances: ["{{ maybe_finance_name }}-redis"]
+    redis_paths_folder: "{{ maybe_finance_name }}"
+    redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
+
 - name: Import PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
@@ -50,11 +65,12 @@
     postgres_paths_folder: "{{ maybe_finance_postgres_paths_folder }}"
     postgres_paths_location: "{{ maybe_finance_postgres_paths_location }}"
 
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: "Import Authentik Worker Role"
+  ansible.builtin.include_role:
+    name: maybe_finance_worker
