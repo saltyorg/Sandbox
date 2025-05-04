@@ -69,7 +69,7 @@ maybe_finance_worker_docker_commands: "{{ maybe_finance_worker_docker_commands_d
                                + maybe_finance_worker_docker_commands_custom }}"
 
 # Volumes
-maybe_finance_worker_docker_volumes_default:
+maybe_finance_worker_docker_volumes_default: []
 maybe_finance_worker_docker_volumes_custom: []
 maybe_finance_worker_docker_volumes: "{{ maybe_finance_worker_docker_volumes_default
                               + maybe_finance_worker_docker_volumes_custom }}"
