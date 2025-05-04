@@ -1,0 +1,129 @@
+#########################################################################
+# Title:            Sandbox: Maybe Finance Worker                       #
+# Author(s):        cartermcalister                                     #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+maybe_finance_worker_name: maybe-finance-worker
+
+################################
+# Paths
+################################
+
+maybe_finance_worker_paths_folder: "{{ maybe_finance_worker_name }}"
+maybe_finance_worker_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_worker_paths_folder }}"
+maybe_finance_worker_paths_folders_list:
+  - "{{ maybe_finance_worker_paths_location }}"
+
+################################
+# Docker
+################################
+
+# Container
+maybe_finance_worker_docker_container: "{{ maybe_finance_worker_name }}"
+
+# Image
+maybe_finance_worker_docker_image_pull: true
+maybe_finance_worker_docker_image_tag: "latest"
+maybe_finance_worker_docker_image: "ghcr.io/maybe-finance/maybe:{{ maybe_finance_worker_docker_image_tag }}"
+
+# Ports
+maybe_finance_worker_docker_ports_defaults: []
+maybe_finance_worker_docker_ports_custom: []
+maybe_finance_worker_docker_ports: "{{ maybe_finance_worker_docker_ports_defaults
+                            + maybe_finance_worker_docker_ports_custom }}"
+
+# Envs
+maybe_finance_worker_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  SELF_HOSTED: "true"
+  RAILS_FORCE_SSL: "false"
+  RAILS_ASSUME_SSL: "false"
+  GOOD_JOB_EXECUTION_MODE: "async"
+  SECRET_KEY_BASE: "{{ maybe_finance_saltbox_facts.facts.secret_key_base }}"
+  DB_USERNAME: "{{ postgres_docker_env_user }}"
+  DB_PASSWORD: "{{ postgres_docker_env_password }}"
+  DB_HOST: "{{ maybe_finance_postgres_name }}"
+  DB_PORT: "5432"
+  POSTGRES_USER: "{{ postgres_docker_env_user }}"
+  REDIS_URL: "redis://{{ maybe_finance_name }}-redis:6379/1"
+  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
+maybe_finance_worker_docker_envs_custom: {}
+maybe_finance_worker_docker_envs: "{{ maybe_finance_worker_docker_envs_default
+                           | combine(maybe_finance_worker_docker_envs_custom) }}"
+
+# Commands
+maybe_finance_worker_docker_commands_default:
+  - "bundle exec sidekiq"
+maybe_finance_worker_docker_commands_custom: []
+maybe_finance_worker_docker_commands: "{{ maybe_finance_worker_docker_commands_default
+                               + maybe_finance_worker_docker_commands_custom }}"
+
+# Volumes
+maybe_finance_worker_docker_volumes_default:
+maybe_finance_worker_docker_volumes_custom: []
+maybe_finance_worker_docker_volumes: "{{ maybe_finance_worker_docker_volumes_default
+                              + maybe_finance_worker_docker_volumes_custom }}"
+
+# Devices
+maybe_finance_worker_docker_devices_default: []
+maybe_finance_worker_docker_devices_custom: []
+maybe_finance_worker_docker_devices: "{{ maybe_finance_worker_docker_devices_default
+                              + maybe_finance_worker_docker_devices_custom }}"
+
+# Hosts
+maybe_finance_worker_docker_hosts_default: {}
+maybe_finance_worker_docker_hosts_custom: {}
+maybe_finance_worker_docker_hosts: "{{ docker_hosts_common
+                            | combine(maybe_finance_worker_docker_hosts_default)
+                            | combine(maybe_finance_worker_docker_hosts_custom) }}"
+
+# Labels
+maybe_finance_worker_docker_labels_default: {}
+maybe_finance_worker_docker_labels_custom: {}
+maybe_finance_worker_docker_labels: "{{ docker_labels_common
+                             | combine(maybe_finance_worker_docker_labels_default)
+                             | combine(maybe_finance_worker_docker_labels_custom) }}"
+
+# Hostname
+maybe_finance_worker_docker_hostname: "{{ maybe_finance_worker_name }}"
+
+# Networks
+maybe_finance_worker_docker_networks_alias: "{{ maybe_finance_worker_name }}"
+maybe_finance_worker_docker_networks_default: []
+maybe_finance_worker_docker_networks_custom: []
+maybe_finance_worker_docker_networks: "{{ docker_networks_common
+                               + maybe_finance_worker_docker_networks_default
+                               + maybe_finance_worker_docker_networks_custom }}"
+
+# Capabilities
+maybe_finance_worker_docker_capabilities_default: []
+maybe_finance_worker_docker_capabilities_custom: []
+maybe_finance_worker_docker_capabilities: "{{ maybe_finance_worker_docker_capabilities_default
+                                   + maybe_finance_worker_docker_capabilities_custom }}"
+
+# Security Opts
+maybe_finance_worker_docker_security_opts_default: []
+maybe_finance_worker_docker_security_opts_custom: []
+maybe_finance_worker_docker_security_opts: "{{ maybe_finance_worker_docker_security_opts_default
+                                    + maybe_finance_worker_docker_security_opts_custom }}"
+
+# Restart Policy
+maybe_finance_worker_docker_restart_policy: unless-stopped
+
+# State
+maybe_finance_worker_docker_state: started
+
+# Dependencies
+maybe_finance_worker_depends_on: "{{ maybe_finance_worker_postgres_name }}"
+maybe_finance_worker_depends_on_delay: "5"
+maybe_finance_worker_depends_on_healthchecks: "true"
