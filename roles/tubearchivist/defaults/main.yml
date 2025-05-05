@@ -18,7 +18,6 @@ tubearchivist_name: tubearchivist
 # Settings
 ################################
 
-tubearchivist_redis_docker_image_tag: "latest"
 tubearchivist_enable_cast: "false"
 
 ################################
