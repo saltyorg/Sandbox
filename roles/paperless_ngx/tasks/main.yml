@@ -18,7 +18,7 @@
     name: redis
   vars:
     redis_instances: ["{{ paperless_ngx_name }}-redis"]
-    redis_docker_image_tag: "7-alpine"
+    redis_docker_image_tag: "8-alpine"
     redis_paths_folder: "{{ paperless_ngx_name }}"
     redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
 
