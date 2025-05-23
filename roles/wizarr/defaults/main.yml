@@ -45,13 +45,13 @@ wizarr_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-wizarr_traefik_sso_middleware: ""
+wizarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 wizarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
 wizarr_traefik_middleware_custom: ""
 wizarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wizarr_traefik_enabled: true
-wizarr_traefik_api_enabled: false
-wizarr_traefik_api_endpoint: ""
+wizarr_traefik_api_enabled: true
+wizarr_traefik_api_endpoint: "PathPrefix(`/join`) || PathPrefix(`/j`) || PathPrefix(`/static`) || PathPrefix(`/setup`)"
 
 ################################
 # Docker
