@@ -17,8 +17,7 @@
     name: redis
   vars:
     redis_instances: ["{{ immich_name }}-redis"]
-    redis_docker_image_repo: "{{ immich_redis_docker_image_repo }}"
-    redis_docker_image_tag: "{{ immich_redis_docker_image_tag }}"
+    redis_docker_image_tag: "8-alpine"
     redis_paths_folder: "{{ immich_name }}"
     redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
 
