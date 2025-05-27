@@ -25,7 +25,7 @@ immich_postgres_docker_image_repo: "ghcr.io/immich-app/postgres"
 immich_postgres_paths_folder: "{{ immich_name }}"
 immich_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
 
-immich_redis_docker_image_repo: "valkey/valkey"
+immich_redis_docker_image_repo: "redis"
 immich_redis_docker_image_tag: "8-alpine"
 
 ################################
