@@ -64,7 +64,7 @@ esphome_docker_container: "{{ esphome_name }}"
 # Image
 esphome_docker_image_pull: true
 esphome_docker_image_tag: "latest"
-esphome_docker_image: "ghcr.io/esphome/esphome:{{ esphome_docker_image_tag }}"
+esphome_docker_image: "ghcr.io/imagegenius/esphome:latest"
 
 # Ports
 esphome_docker_ports_defaults: []
