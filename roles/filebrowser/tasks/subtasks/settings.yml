@@ -26,7 +26,7 @@
   when: filebrowser_json.stat.exists and not filebrowser_config_folder_json.stat.exists
   block:
     - name: Settings | Migrate filebrowser.json to settings.json
-      ansible.builtin.move:
+      ansible.builtin.copy:
         src: "{{ filebrowser_paths_config_location }}"
         dest: "{{ filebrowser_paths_config_folder }}/settings.json"
         owner: "{{ user.name }}"
@@ -63,7 +63,7 @@
   when: filebrowser_db.stat.exists and not filebrowser_db_folder_db.stat.exists
   block:
     - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
-      ansible.builtin.move:
+      ansible.builtin.copy:
         src: "{{ filebrowser_paths_fb_location }}"
         dest: "{{ filebrowser_paths_fb_folder }}/filebrowser.db"
         owner: "{{ user.name }}"
