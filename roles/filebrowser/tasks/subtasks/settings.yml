@@ -23,7 +23,7 @@
   register: filebrowser_config_folder_json
 
 - name: Settings | Migrate `{{ filebrowser_paths_config_location | basename }}` tasks
-  when: filebrowser_json.stat.exists and not filebrowser_config_folder_json.stat.exists
+  when: (filebrowser_json.stat.exists) and (not filebrowser_config_folder_json.stat.exists)
   block:
     - name: Settings | Migrate filebrowser.json to settings.json
       ansible.builtin.copy:
@@ -34,7 +34,7 @@
         mode: "0664"
 
 - name: Settings | New `{{ filebrowser_paths_config_location | basename }}` tasks
-  when: not filebrowser_json.stat.exists and filebrowser_config_folder.stat.exists not filebrowser_config_folder_json.stat.exists
+  when: (not filebrowser_json.stat.exists) and (not filebrowser_config_folder_json.stat.exists)
   block:
     - name: Settings | Import default settings.json
       ansible.builtin.template:
@@ -60,7 +60,7 @@
   register: filebrowser_db_folder_db
 
 - name: Settings | Migrate filebrowser.db tasks
-  when: filebrowser_db.stat.exists and not filebrowser_db_folder_db.stat.exists
+  when: (filebrowser_db.stat.exists) and (not filebrowser_db_folder_db.stat.exists)
   block:
     - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
       ansible.builtin.copy:
@@ -71,7 +71,7 @@
         mode: "0664"
 
 - name: Settings | New `{{ filebrowser_paths_db_location | basename }}` tasks
-  when: not filebrowser_db.stat.exists and not filebrowser_db_folder_db.stat.exists
+  when: (not filebrowser_db.stat.exists) and (not filebrowser_db_folder_db.stat.exists)
   block:
     - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
       ansible.builtin.file:
