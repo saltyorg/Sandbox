@@ -21,8 +21,12 @@ filebrowser_paths_folder: "{{ filebrowser_name }}"
 filebrowser_paths_location: "{{ server_appdata_path }}/{{ filebrowser_paths_folder }}"
 filebrowser_paths_folders_list:
   - "{{ filebrowser_paths_location }}"
+  - "{{ filebrowser_paths_location }}/config"
+  - "{{ filebrowser_paths_location }}/database"
 filebrowser_paths_config_location: "{{ filebrowser_paths_location }}/filebrowser.json"
+filebrowser_paths_config_folder: "{{ filebrowser_paths_location }}/config"
 filebrowser_paths_db_location: "{{ filebrowser_paths_location }}/filebrowser.db"
+filebrowser_paths_db_folder: "{{ filebrowser_paths_location }}/database"
 
 ################################
 # Web
@@ -64,7 +68,7 @@ filebrowser_docker_container: "{{ filebrowser_name }}"
 
 # Image
 filebrowser_docker_image_pull: true
-filebrowser_docker_image_tag: "latest"
+filebrowser_docker_image_tag: "s6"
 filebrowser_docker_image: "filebrowser/filebrowser:{{ filebrowser_docker_image_tag }}"
 
 # Ports
@@ -76,6 +80,8 @@ filebrowser_docker_ports: "{{ filebrowser_docker_ports_defaults
 # Envs
 filebrowser_docker_envs_default:
   TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
 filebrowser_docker_envs_custom: {}
 filebrowser_docker_envs: "{{ filebrowser_docker_envs_default
                              | combine(filebrowser_docker_envs_custom) }}"
@@ -88,8 +94,8 @@ filebrowser_docker_commands: "{{ filebrowser_docker_commands_default
 
 # Volumes
 filebrowser_docker_volumes_default:
-  - "{{ filebrowser_paths_db_location }}:/database.db"
-  - "{{ filebrowser_paths_config_location }}:/.filebrowser.json"
+  - "{{ filebrowser_paths_db_folder }}:/database"
+  - "{{ filebrowser_paths_config_folder }}:/config"
   - "/mnt/unionfs:/srv:rslave"
 filebrowser_docker_volumes_custom: []
 filebrowser_docker_volumes: "{{ filebrowser_docker_volumes_default

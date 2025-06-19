@@ -10,15 +10,36 @@
 - name: "Settings | Check if '{{ filebrowser_paths_config_location | basename }}' exists"
   ansible.builtin.stat:
     path: "{{ filebrowser_paths_config_location }}"
-  register: filebrowser_env
+  register: filebrowser_json
+
+- name: "Settings | Check if '{{ filebrowser_paths_config_folder | basename }}' exists"
+  ansible.builtin.stat:
+    path: "{{ filebrowser_paths_config_folder }}"
+  register: filebrowser_config_folder
+
+- name: "Settings | Check if '{{ filebrowser_paths_config_folder | basename }}/settings.json' exists"
+  ansible.builtin.stat:
+    path: "{{ filebrowser_paths_config_folder }}/settings.json"
+  register: filebrowser_config_folder_json
+
+- name: Settings | Migrate `{{ filebrowser_paths_config_location | basename }}` tasks
+  when: filebrowser_json.stat.exists and not filebrowser_config_folder_json.stat.exists
+  block:
+    - name: Settings | Migrate filebrowser.json to settings.json
+      ansible.builtin.move:
+        src: "{{ filebrowser_paths_config_location }}"
+        dest: "{{ filebrowser_paths_config_folder }}/settings.json"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: "0664"
 
 - name: Settings | New `{{ filebrowser_paths_config_location | basename }}` tasks
-  when: not filebrowser_env.stat.exists
+  when: not filebrowser_json.stat.exists and filebrowser_config_folder.stat.exists not filebrowser_config_folder_json.stat.exists
   block:
-    - name: Settings | Import default `{{ filebrowser_paths_config_location | basename }}`
+    - name: Settings | Import default settings.json
       ansible.builtin.template:
-        src: filebrowser.json.j2
-        dest: "{{ filebrowser_paths_config_location }}"
+        src: settings.json.j2
+        dest: "{{ filebrowser_paths_config_folder }}/settings.json"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
@@ -28,8 +49,29 @@
     path: "{{ filebrowser_paths_db_location }}"
   register: filebrowser_db
 
+- name: "Settings | Check if '{{ filebrowser_paths_db_folder | basename }}' exists"
+  ansible.builtin.stat:
+    path: "{{ filebrowser_paths_db_folder }}"
+  register: filebrowser_db_folder
+
+- name: "Settings | Check if '{{ filebrowser_paths_db_folder | basename }}/filebrowser.db' exists"
+  ansible.builtin.stat:
+    path: "{{ filebrowser_paths_db_folder }}/filebrowser.db"
+  register: filebrowser_db_folder_db
+
+- name: Settings | Migrate filebrowser.db tasks
+  when: filebrowser_db.stat.exists and not filebrowser_db_folder_db.stat.exists
+  block:
+    - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
+      ansible.builtin.move:
+        src: "{{ filebrowser_paths_fb_location }}"
+        dest: "{{ filebrowser_paths_fb_folder }}/filebrowser.db"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: "0664"
+
 - name: Settings | New `{{ filebrowser_paths_db_location | basename }}` tasks
-  when: not filebrowser_db.stat.exists
+  when: not filebrowser_db.stat.exists and not filebrowser_db_folder_db.stat.exists
   block:
     - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
       ansible.builtin.file:
