@@ -64,8 +64,8 @@
   block:
     - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
       ansible.builtin.copy:
-        src: "{{ filebrowser_paths_fb_location }}"
-        dest: "{{ filebrowser_paths_fb_folder }}/filebrowser.db"
+        src: "{{ filebrowser_paths_db_location }}"
+        dest: "{{ filebrowser_paths_db_folder }}/filebrowser.db"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
