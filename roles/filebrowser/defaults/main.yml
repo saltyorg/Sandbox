@@ -68,7 +68,7 @@ filebrowser_docker_container: "{{ filebrowser_name }}"
 
 # Image
 filebrowser_docker_image_pull: true
-filebrowser_docker_image_tag: "s6"
+filebrowser_docker_image_tag: "latest"
 filebrowser_docker_image: "filebrowser/filebrowser:{{ filebrowser_docker_image_tag }}"
 
 # Ports
@@ -80,8 +80,6 @@ filebrowser_docker_ports: "{{ filebrowser_docker_ports_defaults
 # Envs
 filebrowser_docker_envs_default:
   TZ: "{{ tz }}"
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
 filebrowser_docker_envs_custom: {}
 filebrowser_docker_envs: "{{ filebrowser_docker_envs_default
                              | combine(filebrowser_docker_envs_custom) }}"

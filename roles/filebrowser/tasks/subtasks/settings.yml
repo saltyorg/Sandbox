@@ -33,16 +33,10 @@
         group: "{{ user.name }}"
         mode: "0664"
 
-- name: Settings | New `{{ filebrowser_paths_config_location | basename }}` tasks
-  when: (not filebrowser_json.stat.exists) and (not filebrowser_config_folder_json.stat.exists)
-  block:
-    - name: Settings | Import default settings.json
-      ansible.builtin.template:
-        src: settings.json.j2
-        dest: "{{ filebrowser_paths_config_folder }}/settings.json"
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: "0664"
+    - name: Settings | Remove legacy filebrowser.json
+      ansible.builtin.file:
+        path: "{{ filebrowser_paths_config_location }}"
+        state: absent
 
 - name: "Settings | Check if '{{ filebrowser_paths_db_location | basename }}' exists"
   ansible.builtin.stat:
@@ -62,7 +56,7 @@
 - name: Settings | Migrate filebrowser.db tasks
   when: (filebrowser_db.stat.exists) and (not filebrowser_db_folder_db.stat.exists)
   block:
-    - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
+    - name: Settings | Migrate `{{ filebrowser_paths_db_location | basename }}`
       ansible.builtin.copy:
         src: "{{ filebrowser_paths_db_location }}"
         dest: "{{ filebrowser_paths_db_folder }}/filebrowser.db"
@@ -70,13 +64,7 @@
         group: "{{ user.name }}"
         mode: "0664"
 
-- name: Settings | New `{{ filebrowser_paths_db_location | basename }}` tasks
-  when: (not filebrowser_db.stat.exists) and (not filebrowser_db_folder_db.stat.exists)
-  block:
-    - name: Settings | Touch `{{ filebrowser_paths_db_location | basename }}`
+    - name: Settings | Remove legacy filebrowser.db
       ansible.builtin.file:
         path: "{{ filebrowser_paths_db_location }}"
-        owner: "{{ user.name }}"
-        group: "{{ user.name }}"
-        mode: "0664"
-        state: touch
+        state: absent
