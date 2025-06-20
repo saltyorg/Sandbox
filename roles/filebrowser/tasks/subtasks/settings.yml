@@ -32,7 +32,7 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
-    
+
     - name: Settings | Migrate JSON database path
       ansible.builtin.shell: jq '.database = "/database/filebrowser.json"' {{ filebrowser_paths_config_folder }}/settings.json | sponge {{ filebrowser_paths_config_folder }}/settings.json
 
