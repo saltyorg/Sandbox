@@ -39,8 +39,8 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-    force: yes
-  loop:
+    force: true
+  with_items:
     - "in-vhost.conf"
     - "php-cli.ini"
     - "php.ini"

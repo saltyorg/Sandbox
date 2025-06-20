@@ -26,7 +26,7 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0775"
-        force: no
+        force: false
       when: not sevenzip_1509.stat.exists
 
     - name: unzippers | Import 7zip 1509Linux
@@ -36,5 +36,5 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0775"
-        force: no
+        force: false
       when: not sevenzip_1509linux.stat.exists
