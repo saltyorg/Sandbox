@@ -28,9 +28,9 @@
 - name: "Settings | New AdGuardHome.yaml tasks"
   when: not adguardhome_config.stat.exists
   block:
-    - name: "Settings | Import AdGuardHome.yaml.js2"
+    - name: "Settings | Import AdGuardHome.yaml.j2"
       ansible.builtin.template:
-        src: AdGuardHome.yaml.js2
+        src: AdGuardHome.yaml.j2
         dest: '{{ adguardhome_config_path }}'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
