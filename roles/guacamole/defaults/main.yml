@@ -12,6 +12,13 @@
 ################################
 
 guacamole_totp_enable: false
+guacamole_ldap_enable: false
+guacamole_radius_enable: false
+guacamole_duo_enable: false
+guacamole_cas_enable: false
+guacamole_openid_enable: false
+guacamole_saml_enable: false
+guacamole_header_enable: false
 
 ################################
 # Basics
@@ -84,6 +91,13 @@ guacamole_docker_envs_default:
   PGID: "{{ gid }}"
   OPT_MYSQL: "Y"
   OPT_TOTP: "{{ 'Y' if guacamole_totp_enable else omit }}"
+  OPT_LDAP: "{{ 'Y' if guacamole_ldap_enable else omit }}"
+  OPT_RADIUS: "{{ 'Y' if guacamole_radius_enable else omit }}"
+  OPT_DUO: "{{ 'Y' if guacamole_duo_enable else omit }}"
+  OPT_CAS: "{{ 'Y' if guacamole_cas_enable else omit }}"
+  OPT_OPENID: "{{ 'Y' if guacamole_openid_enable else omit }}"
+  OPT_SAML: "{{ 'Y' if guacamole_saml_enable else omit }}"
+  OPT_HEADER: "{{ 'Y' if guacamole_header_enable else omit }}"
 guacamole_docker_envs_custom: {}
 guacamole_docker_envs: "{{ guacamole_docker_envs_default
                            | combine(guacamole_docker_envs_custom) }}"
