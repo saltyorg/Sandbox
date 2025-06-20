@@ -86,7 +86,7 @@
 - name: Find pip3 path
   ansible.builtin.find:
     paths: /opt/python-plexlibrary/venv
-    recurse: yes
+    recurse: true
     patterns: 'pip3'
   register: files
 
@@ -146,7 +146,7 @@
     group: "{{ user.name }}"
     mode: "0775"
     force: true
-  loop:
+  with_items:
     - "plexlibrary.sh"
     - "plexlibrary-cron-helper.sh"
 

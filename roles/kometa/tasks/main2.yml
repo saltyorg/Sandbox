@@ -26,8 +26,8 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-    force: yes
-    validate_certs: no
+    force: true
+    validate_certs: false
   ignore_errors: true
 
 - name: "Checking if 'config.yml' exists in {{ kometa_paths_location }}"

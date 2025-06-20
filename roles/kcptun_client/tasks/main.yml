@@ -34,7 +34,7 @@
   ansible.builtin.template:
     src: config.json.j2
     dest: /opt/kcptun-client/config/config.json
-    force: yes
+    force: true
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"

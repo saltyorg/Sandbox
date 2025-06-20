@@ -46,6 +46,6 @@
   ansible.builtin.file:
     path: "{{ code_server_paths_location }}"
     state: directory
-    recurse: yes
+    recurse: true
     owner: "{{ user.name }}"
     group: "{{ user.name }}"

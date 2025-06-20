@@ -28,6 +28,6 @@
       ansible.builtin.file:
         path: "{{ jdownloader2_paths_location }}"
         state: directory
-        recurse: yes
+        recurse: true
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
