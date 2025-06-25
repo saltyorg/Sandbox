@@ -17,8 +17,13 @@
     path: "{{ wizarr_paths_location }}/database"
   register: wizarr_role_paths_database_stat
 
+- name: Migration | Check if `{{ wizarr_paths_location }}/database.db` exists
+  ansible.builtin.stat:
+    path: "{{ wizarr_paths_location }}/database"
+  register: wizarr_role_paths_database_file_stat
+
 - name: Migration | Backup old database directory
-  when: wizarr_role_paths_location_stat.stat.exists and not wizarr_role_paths_database_stat.stat.exists
+  when: wizarr_role_paths_location_stat.stat.exists and wizarr_role_paths_database_file_stat.stat.exists and (not wizarr_role_paths_database_stat.stat.exists)
   block:
     - name: Migration | Check database version
       ansible.builtin.shell: sqlite3 -readonly "{{ wizarr_paths_location }}/database.db" "SELECT value FROM settings WHERE key='version'"
@@ -38,7 +43,7 @@
         mode: '0775'
         recurse: false
 
-    - name: Migration | Migrate old user data to backup location
+    - name: Migration | Migrate old user data to new location
       migrate_folder:
         legacy_path: "{{ wizarr_paths_location }}_backup"
         new_path: "{{ wizarr_paths_location }}/database"
