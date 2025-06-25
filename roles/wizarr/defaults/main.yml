@@ -21,6 +21,8 @@ wizarr_paths_folder: "{{ wizarr_name }}"
 wizarr_paths_location: "{{ server_appdata_path }}/{{ wizarr_paths_folder }}"
 wizarr_paths_folders_list:
   - "{{ wizarr_paths_location }}"
+  - "{{ wizarr_paths_location }}/database"
+  - "{{ wizarr_paths_location }}/wizard"
 
 ################################
 # Web
@@ -75,8 +77,10 @@ wizarr_docker_ports: "{{ lookup('vars', wizarr_name + '_docker_ports_defaults', 
 
 # Envs
 wizarr_docker_envs_default:
-  APP_URL: "{{ wizarr_web_url }}"
-  DISABLE_BUILTIN_AUTH: "true"
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  DISABLE_BUILTIN_AUTH: "{{ 'true' if (wizarr_traefik_sso_middleware | length > 0) else 'false' }}"
 wizarr_docker_envs_custom: {}
 wizarr_docker_envs: "{{ lookup('vars', wizarr_name + '_docker_envs_default', default=wizarr_docker_envs_default)
                         | combine(lookup('vars', wizarr_name + '_docker_envs_custom', default=wizarr_docker_envs_custom)) }}"
@@ -89,7 +93,8 @@ wizarr_docker_commands: "{{ lookup('vars', wizarr_name + '_docker_commands_defau
 
 # Volumes
 wizarr_docker_volumes_default:
-  - "{{ wizarr_paths_location }}:/data/database"
+  - "{{ wizarr_paths_location }}/database:/data/database"
+  - "{{ wizarr_paths_location }}/wizard:/data/wizard"
 wizarr_docker_volumes_custom: []
 wizarr_docker_volumes: "{{ lookup('vars', wizarr_name + '_docker_volumes_default', default=wizarr_docker_volumes_default)
                            + lookup('vars', wizarr_name + '_docker_volumes_custom', default=wizarr_docker_volumes_custom) }}"
