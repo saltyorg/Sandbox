@@ -1,0 +1,145 @@
+##########################################################################
+# Title:         Sandbox: Huntarr | Default Variables                    #
+# Author(s):     oryos                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+huntarr_name: huntarr
+
+################################
+# Paths
+################################
+
+huntarr_paths_folder: "{{ huntarr_name }}"
+huntarr_paths_location: "{{ server_appdata_path }}/{{ huntarr_paths_folder }}"
+huntarr_paths_folders_list:
+  - "{{ huntarr_paths_location }}"
+
+################################
+# Web
+################################
+
+huntarr_web_subdomain: "{{ huntarr_name }}"
+huntarr_web_domain: "{{ user.domain }}"
+huntarr_web_port: "9705"
+huntarr_web_url:
+  "{{ 'https://' + (huntarr_web_subdomain + '.' + huntarr_web_domain
+  if (huntarr_web_subdomain | length > 0)
+  else huntarr_web_domain) }}"
+
+################################
+# DNS
+################################
+
+huntarr_dns_record: "{{ huntarr_web_subdomain }}"
+huntarr_dns_zone: "{{ huntarr_web_domain }}"
+huntarr_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+huntarr_traefik_sso_middleware: ""
+huntarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
+huntarr_traefik_middleware_custom: ""
+huntarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
+huntarr_traefik_enabled: true
+huntarr_traefik_api_enabled: false
+huntarr_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+huntarr_docker_container: "{{ huntarr_name }}"
+
+# Image
+huntarr_docker_image_pull: true
+huntarr_docker_image_tag: "latest"
+huntarr_docker_image: "huntarr/huntarr:{{ huntarr_docker_image_tag }}"
+
+# Ports
+huntarr_docker_ports_defaults:
+  - "{{ huntarr_web_port }}:9705"
+huntarr_docker_ports_custom: []
+huntarr_docker_ports: "{{ huntarr_docker_ports_defaults
+  + huntarr_docker_ports_custom }}"
+
+# Envs
+huntarr_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+huntarr_docker_envs_custom: {}
+huntarr_docker_envs: "{{ huntarr_docker_envs_default
+  | combine(huntarr_docker_envs_custom) }}"
+
+# Commands
+huntarr_docker_commands_default: []
+huntarr_docker_commands_custom: []
+huntarr_docker_commands: "{{ huntarr_docker_commands_default
+  + huntarr_docker_commands_custom }}"
+
+# Volumes
+huntarr_docker_volumes_default:
+  - "{{ huntarr_paths_location }}:/config"
+huntarr_docker_volumes_custom: []
+huntarr_docker_volumes: "{{ huntarr_docker_volumes_default
+  + huntarr_docker_volumes_custom }}"
+
+# Devices
+huntarr_docker_devices_default: []
+huntarr_docker_devices_custom: []
+huntarr_docker_devices: "{{ huntarr_docker_devices_default
+  + huntarr_docker_devices_custom }}"
+
+# Hosts
+huntarr_docker_hosts_default: {}
+huntarr_docker_hosts_custom: {}
+huntarr_docker_hosts: "{{ docker_hosts_common
+  | combine(huntarr_docker_hosts_default)
+  | combine(huntarr_docker_hosts_custom) }}"
+
+# Labels
+huntarr_docker_labels_default: {}
+huntarr_docker_labels_custom: {}
+huntarr_docker_labels: "{{ docker_labels_common
+  | combine(huntarr_docker_labels_default)
+  | combine(huntarr_docker_labels_custom) }}"
+
+# Hostname
+huntarr_docker_hostname: "{{ huntarr_name }}"
+
+# Networks
+huntarr_docker_networks_alias: "{{ huntarr_name }}"
+huntarr_docker_networks_default: []
+huntarr_docker_networks_custom: []
+huntarr_docker_networks: "{{ docker_networks_common
+  + huntarr_docker_networks_default
+  + huntarr_docker_networks_custom }}"
+
+# Capabilities
+huntarr_docker_capabilities_default: []
+huntarr_docker_capabilities_custom: []
+huntarr_docker_capabilities: "{{ huntarr_docker_capabilities_default
+  + huntarr_docker_capabilities_custom }}"
+
+# Security Opts
+huntarr_docker_security_opts_default: []
+huntarr_docker_security_opts_custom: []
+huntarr_docker_security_opts: "{{ huntarr_docker_security_opts_default
+  + huntarr_docker_security_opts_custom }}"
+
+# Restart Policy
+huntarr_docker_restart_policy: unless-stopped
+
+# State
+huntarr_docker_state: started
