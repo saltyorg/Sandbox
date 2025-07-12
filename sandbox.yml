@@ -22,7 +22,6 @@
     - { role: adminer, tags: ['adminer'] }
     - { role: airdcpp, tags: ['airdcpp'] }
     - { role: airsonic, tags: ['airsonic'] }
-    - { role: alltube, tags: ['alltube'] }
     - { role: alternatrr, tags: ['alternatrr'] }
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
