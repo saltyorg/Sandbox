@@ -9,5 +9,5 @@
 ---
 - name: "Fail with deprecation warning"
   ansible.builtin.fail:
-    msg: "The 'unifi' role which used the 'unifi-controller' image is deprecated in favour of the 'unifi-network-application' role using the 'unifi-network-application' image. If you are using 'unifi' role, perform a full backup of your Unifi Network Application from the Unifi interface. Then rename your '/opt/unifi' folder to '/opt/unifi-controller' for backup purposes. Then run 'sb install sandbox-unifi-network-application' to deploy the new image and restore the backup when prompted by the setup wizard."
+    msg: "The 'unifi' role which used the 'unifi-controller' image is deprecated in favor of the 'unifi-network-application' role using the 'unifi-network-application' image. If you are using 'unifi' role, perform a full backup of your Unifi Network Application from the Unifi interface. Then rename your '/opt/unifi' folder to '/opt/unifi-controller' for backup purposes. Then run 'sb install sandbox-unifi-network-application' to deploy the new image and restore the backup when prompted by the setup wizard."
   when: not continuous_integration

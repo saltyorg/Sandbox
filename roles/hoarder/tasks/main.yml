@@ -10,5 +10,5 @@
 ---
 - name: "Fail with deprecation warning"
   ansible.builtin.fail:
-    msg: "The 'hoarder' role is deprecated in favour of the 'karakeep' role. The karakeep role will migrate your hoarder appdata to karakeep."
+    msg: "The 'hoarder' role is deprecated in favor of the 'karakeep' role. The karakeep role will migrate your hoarder appdata to karakeep."
   when: not continuous_integration
