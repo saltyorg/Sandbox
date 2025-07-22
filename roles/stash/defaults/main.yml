@@ -78,9 +78,9 @@ stash_docker_ports: "{{ stash_docker_ports_defaults
 
 # Envs
 stash_docker_envs_default:
-  - TZ: "{{ tz }}"
-  - PUID: "{{ uid }}"
-  - PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
 stash_docker_envs_custom: {}
 stash_docker_envs: "{{ stash_docker_envs_default
                        | combine(stash_docker_envs_custom) }}"
