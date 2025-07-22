@@ -1,0 +1,134 @@
+##########################################################################
+# Title:            ytdl-sub                                             #
+# Author(s):        Derek                                                #
+# URL:              https://github.com/jmbannon/ytdl_sub                 #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+ytdl_sub_name: ytdl-sub
+
+################################
+# Paths
+################################
+
+ytdl_sub_paths_folder: "{{ ytdl_sub_name }}"
+ytdl_sub_paths_location: "{{ server_appdata_path }}/{{ ytdl_sub_paths_folder }}"
+ytdl_sub_download_folder: "/mnt/unionfs/Media/Youtube/{{ ytdl_sub_name }}"
+ytdl_sub_paths_folders_list:
+  - "{{ ytdl_sub_paths_location }}"
+  - "{{ ytdl_sub_download_folder }}"
+  - "{{ ytdl_sub_download_folder }}/tv_shows"
+  - "{{ ytdl_sub_download_folder }}/movies"
+  - "{{ ytdl_sub_download_folder }}/music_videos"
+  - "{{ ytdl_sub_download_folder }}/music"
+
+################################
+# Docker
+################################
+
+# Container
+ytdl_sub_docker_container: "{{ ytdl_sub_name }}"
+
+# Image
+ytdl_sub_docker_image_pull: true
+ytdl_sub_docker_image_tag: "latest"
+ytdl_sub_docker_image: "ghcr.io/jmbannon/ytdl-sub:{{ ytdl_sub_docker_image_tag }}"
+
+# Ports
+ytdl_sub_docker_ports_defaults: []
+ytdl_sub_docker_ports_custom: []
+ytdl_sub_docker_ports: "{{ ytdl_sub_docker_ports_defaults
+                             + ytdl_sub_docker_ports_custom }}"
+
+# Envs
+ytdl_sub_cron_schedule: "0 */6 * * *"
+ytdl_sub_cron_on_start: "true"
+ytdl_sub_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  CRON_SCHEDULE: "{{ ytdl_sub_cron_schedule }}"
+  CRON_RUN_ON_START: "{{ ytdl_sub_cron_on_start }}"
+
+ytdl_sub_docker_envs_custom: []
+ytdl_sub_docker_envs: "{{ ytdl_sub_docker_envs_default
+                            | combine(ytdl_sub_docker_envs_custom) }}"
+
+# Commands
+ytdl_sub_docker_commands_default: []
+ytdl_sub_docker_commands_custom: []
+ytdl_sub_docker_commands: "{{ ytdl_sub_docker_commands_default
+                                + ytdl_sub_docker_commands_custom }}"
+
+# Volumes
+ytdl_sub_docker_volumes_default:
+  - "{{ ytdl_sub_paths_location }}:/config"
+  - "{{ ytdl_sub_download_folder }}:/ytdl_sub"
+  - "/etc/localtime:/etc/localtime:ro"
+  - "{{ ytdl_sub_download_folder }}/tv_shows:/tv_shows"
+  - "{{ ytdl_sub_download_folder }}/movies:/movies"
+  - "{{ ytdl_sub_download_folder }}/music_videos:/music_videos"
+  - "{{ ytdl_sub_download_folder }}/music:/music"
+ytdl_sub_docker_volumes_custom: []
+
+ytdl_sub_docker_volumes: "{{ ytdl_sub_docker_volumes_default
+                               + ytdl_sub_docker_volumes_custom
+                               + docker_volumes_downloads_common }}"
+
+# Devices
+ytdl_sub_docker_devices_default: 
+  - "/dev/dri:/dev/dri"
+ytdl_sub_docker_devices_custom: []
+ytdl_sub_docker_devices: "{{ ytdl_sub_docker_devices_default
+                               + ytdl_sub_docker_devices_custom 
+                            if (gpu.intel and dev_dri.stat.exists)
+                            else ytdl_sub_docker_devices_custom }}"
+
+# Hosts
+ytdl_sub_docker_hosts_default: []
+ytdl_sub_docker_hosts_custom: []
+ytdl_sub_docker_hosts: "{{ docker_hosts_common
+                             | combine(ytdl_sub_docker_hosts_default)
+                             | combine(ytdl_sub_docker_hosts_custom) }}"
+
+# Labels
+ytdl_sub_docker_labels_default: {}
+ytdl_sub_docker_labels_custom: {}
+ytdl_sub_docker_labels: "{{ docker_labels_common
+                              | combine(ytdl_sub_docker_labels_default)
+                              | combine(ytdl_sub_docker_labels_custom) }}"
+
+# Hostname
+ytdl_sub_docker_hostname: "{{ ytdl_sub_name }}"
+
+# Networks
+ytdl_sub_docker_networks_alias: "{{ ytdl_sub_name }}"
+ytdl_sub_docker_networks_default: []
+ytdl_sub_docker_networks_custom: []
+ytdl_sub_docker_networks: "{{ docker_networks_common
+                                + ytdl_sub_docker_networks_default
+                                + ytdl_sub_docker_networks_custom }}"
+
+# Capabilities
+ytdl_sub_docker_capabilities_default: []
+ytdl_sub_docker_capabilities_custom: []
+ytdl_sub_docker_capabilities: "{{ ytdl_sub_docker_capabilities_default
+                                    + ytdl_sub_docker_capabilities_custom }}"
+
+# Security Opts
+ytdl_sub_docker_security_opts_default: []
+ytdl_sub_docker_security_opts_custom: []
+ytdl_sub_docker_security_opts: "{{ ytdl_sub_docker_security_opts_default
+                                     + ytdl_sub_docker_security_opts_custom }}"
+
+# Restart Policy
+ytdl_sub_docker_restart_policy: unless-stopped
+
+# State
+ytdl_sub_docker_state: started
