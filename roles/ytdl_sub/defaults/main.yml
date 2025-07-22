@@ -82,8 +82,7 @@ ytdl_sub_docker_volumes: "{{ ytdl_sub_docker_volumes_default
                                + docker_volumes_downloads_common }}"
 
 # Devices
-ytdl_sub_docker_devices_default: 
-  - "/dev/dri:/dev/dri"
+ytdl_sub_docker_devices_default: []
 ytdl_sub_docker_devices_custom: []
 ytdl_sub_docker_devices: "{{ ytdl_sub_docker_devices_default
                                + ytdl_sub_docker_devices_custom 
