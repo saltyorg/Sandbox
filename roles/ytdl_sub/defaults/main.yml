@@ -85,7 +85,7 @@ ytdl_sub_docker_volumes: "{{ ytdl_sub_docker_volumes_default
 ytdl_sub_docker_devices_default: []
 ytdl_sub_docker_devices_custom: []
 ytdl_sub_docker_devices: "{{ ytdl_sub_docker_devices_default
-                               + ytdl_sub_docker_devices_custom 
+                               + ytdl_sub_docker_devices_custom
                             if (gpu.intel and dev_dri.stat.exists)
                             else ytdl_sub_docker_devices_custom }}"
 
