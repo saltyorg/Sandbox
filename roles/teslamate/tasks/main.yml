@@ -31,7 +31,6 @@
         instance: "teslamate"
         keys:
           secret_key: ""
-        method: load
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
       register: teslamate_db_saltbox_facts

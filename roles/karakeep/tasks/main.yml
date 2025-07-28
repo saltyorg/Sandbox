@@ -48,7 +48,6 @@
         instance: "hoarder"
         keys:
           secret_key: ""
-        method: load
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
       register: hoarder_saltbox_facts
