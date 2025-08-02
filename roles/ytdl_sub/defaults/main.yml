@@ -14,6 +14,13 @@
 ytdl_sub_name: ytdl-sub
 
 ################################
+# Settings
+################################
+
+ytdl_sub_cron_schedule: "0 */6 * * *"
+ytdl_sub_cron_on_start: "true"
+
+################################
 # Paths
 ################################
 
@@ -37,7 +44,7 @@ ytdl_sub_docker_container: "{{ ytdl_sub_name }}"
 
 # Image
 ytdl_sub_docker_image_pull: true
-ytdl_sub_docker_image_tag: "latest"
+ytdl_sub_docker_image_tag: "ubuntu-latest"
 ytdl_sub_docker_image: "ghcr.io/jmbannon/ytdl-sub:{{ ytdl_sub_docker_image_tag }}"
 
 # Ports
@@ -47,8 +54,6 @@ ytdl_sub_docker_ports: "{{ ytdl_sub_docker_ports_defaults
                              + ytdl_sub_docker_ports_custom }}"
 
 # Envs
-ytdl_sub_cron_schedule: "0 */6 * * *"
-ytdl_sub_cron_on_start: "true"
 ytdl_sub_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
@@ -70,7 +75,6 @@ ytdl_sub_docker_commands: "{{ ytdl_sub_docker_commands_default
 ytdl_sub_docker_volumes_default:
   - "{{ ytdl_sub_paths_location }}:/config"
   - "{{ ytdl_sub_download_folder }}:/ytdl_sub"
-  - "/etc/localtime:/etc/localtime:ro"
   - "{{ ytdl_sub_download_folder }}/tv_shows:/tv_shows"
   - "{{ ytdl_sub_download_folder }}/movies:/movies"
   - "{{ ytdl_sub_download_folder }}/music_videos:/music_videos"
@@ -85,9 +89,7 @@ ytdl_sub_docker_volumes: "{{ ytdl_sub_docker_volumes_default
 ytdl_sub_docker_devices_default: []
 ytdl_sub_docker_devices_custom: []
 ytdl_sub_docker_devices: "{{ ytdl_sub_docker_devices_default
-                               + ytdl_sub_docker_devices_custom
-                            if (gpu.intel and dev_dri.stat.exists)
-                            else ytdl_sub_docker_devices_custom }}"
+                               + ytdl_sub_docker_devices_custom }}"
 
 # Hosts
 ytdl_sub_docker_hosts_default: []
