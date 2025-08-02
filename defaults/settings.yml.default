@@ -1,6 +1,8 @@
 ---
 a_train:
   remotes: [""]
+cloudflared:
+  token:
 delugevpn:
   vpn_endpoint: netherlands.ovpn
   vpn_pass: your_vpn_password
