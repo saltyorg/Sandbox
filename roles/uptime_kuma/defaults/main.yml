@@ -71,7 +71,7 @@ uptime_kuma_docker_container: "{{ uptime_kuma_name }}"
 
 # Image
 uptime_kuma_docker_image_pull: true
-uptime_kuma_docker_image_tag: "latest"
+uptime_kuma_docker_image_tag: "1" # Temporary until v2 is released and migration is added
 uptime_kuma_docker_image: "louislam/uptime-kuma:{{ uptime_kuma_docker_image_tag }}"
 
 # Ports
