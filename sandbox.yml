@@ -202,6 +202,7 @@
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
     - { role: your_spotify, tags: ['your-spotify'] }
+    - { role: ytdl_sub, tags: ['ytdl-sub'] }
     - { role: znc, tags: ['znc'] }
     # Apps End
     # No CI
