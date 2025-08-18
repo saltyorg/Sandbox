@@ -67,38 +67,12 @@ factorio_docker_envs_custom: {}
 factorio_docker_envs: "{{ factorio_docker_envs_default
                        | combine(factorio_docker_envs_custom) }}"
 
-# Commands
-factorio_docker_commands_default: []
-factorio_docker_commands_custom: []
-factorio_docker_commands: "{{ factorio_docker_commands_default
-                           + factorio_docker_commands_custom }}"
-
 # Volumes
 factorio_docker_volumes_default:
   - "{{ factorio_paths_location }}:/factorio"
 factorio_docker_volumes_custom: []
 factorio_docker_volumes: "{{ factorio_docker_volumes_default
                           + factorio_docker_volumes_custom }}"
-
-# Devices
-factorio_docker_devices_default: []
-factorio_docker_devices_custom: []
-factorio_docker_devices: "{{ factorio_docker_devices_default
-                          + factorio_docker_devices_custom }}"
-
-# Hosts
-factorio_docker_hosts_default: {}
-factorio_docker_hosts_custom: {}
-factorio_docker_hosts: "{{ docker_hosts_common
-                        | combine(factorio_docker_hosts_default)
-                        | combine(factorio_docker_hosts_custom) }}"
-
-# Labels
-factorio_docker_labels_default: {}
-factorio_docker_labels_custom: {}
-factorio_docker_labels: "{{ docker_labels_common
-                         | combine(factorio_docker_labels_default)
-                         | combine(factorio_docker_labels_custom) }}"
 
 # Hostname
 factorio_docker_hostname: "{{ factorio_name }}"
@@ -110,18 +84,6 @@ factorio_docker_networks_custom: []
 factorio_docker_networks: "{{ docker_networks_common
                            + factorio_docker_networks_default
                            + factorio_docker_networks_custom }}"
-
-# Capabilities
-factorio_docker_capabilities_default: []
-factorio_docker_capabilities_custom: []
-factorio_docker_capabilities: "{{ factorio_docker_capabilities_default
-                               + factorio_docker_capabilities_custom }}"
-
-# Security Opts
-factorio_docker_security_opts_default: []
-factorio_docker_security_opts_custom: []
-factorio_docker_security_opts: "{{ factorio_docker_security_opts_default
-                                + factorio_docker_security_opts_custom }}"
 
 # Restart Policy
 factorio_docker_restart_policy: unless-stopped

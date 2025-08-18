@@ -66,12 +66,6 @@ healthchecks_docker_image_pull: true
 healthchecks_docker_image_tag: "latest"
 healthchecks_docker_image: "lscr.io/linuxserver/healthchecks:{{ healthchecks_docker_image_tag }}"
 
-# Ports
-healthchecks_docker_ports_defaults: []
-healthchecks_docker_ports_custom: []
-healthchecks_docker_ports: "{{ healthchecks_docker_ports_defaults
-                               + healthchecks_docker_ports_custom }}"
-
 # Envs
 healthchecks_docker_envs_default:
   PUID: "{{ uid }}"
@@ -87,38 +81,12 @@ healthchecks_docker_envs_custom: {}
 healthchecks_docker_envs: "{{ healthchecks_docker_envs_default
                               | combine(healthchecks_docker_envs_custom) }}"
 
-# Commands
-healthchecks_docker_commands_default: []
-healthchecks_docker_commands_custom: []
-healthchecks_docker_commands: "{{ healthchecks_docker_commands_default
-                                  + healthchecks_docker_commands_custom }}"
-
 # Volumes
 healthchecks_docker_volumes_default:
   - "{{ healthchecks_paths_location }}:/config"
 healthchecks_docker_volumes_custom: []
 healthchecks_docker_volumes: "{{ healthchecks_docker_volumes_default
                                  + healthchecks_docker_volumes_custom }}"
-
-# Devices
-healthchecks_docker_devices_default: []
-healthchecks_docker_devices_custom: []
-healthchecks_docker_devices: "{{ healthchecks_docker_devices_default
-                                 + healthchecks_docker_devices_custom }}"
-
-# Hosts
-healthchecks_docker_hosts_default: {}
-healthchecks_docker_hosts_custom: {}
-healthchecks_docker_hosts: "{{ docker_hosts_common
-                               | combine(healthchecks_docker_hosts_default)
-                               | combine(healthchecks_docker_hosts_custom) }}"
-
-# Labels
-healthchecks_docker_labels_default: {}
-healthchecks_docker_labels_custom: {}
-healthchecks_docker_labels: "{{ docker_labels_common
-                                | combine(healthchecks_docker_labels_default)
-                                | combine(healthchecks_docker_labels_custom) }}"
 
 # Hostname
 healthchecks_docker_hostname: "{{ healthchecks_name }}"
@@ -131,18 +99,6 @@ healthchecks_docker_networks: "{{ docker_networks_common
                                   + healthchecks_docker_networks_default
                                   + healthchecks_docker_networks_custom }}"
 
-# Capabilities
-healthchecks_docker_capabilities_default: []
-healthchecks_docker_capabilities_custom: []
-healthchecks_docker_capabilities: "{{ healthchecks_docker_capabilities_default
-                                      + healthchecks_docker_capabilities_custom }}"
-
-# Security Opts
-healthchecks_docker_security_opts_default: []
-healthchecks_docker_security_opts_custom: []
-healthchecks_docker_security_opts: "{{ healthchecks_docker_security_opts_default
-                                       + healthchecks_docker_security_opts_custom }}"
-
 # Restart Policy
 healthchecks_docker_restart_policy: unless-stopped
 
@@ -150,4 +106,4 @@ healthchecks_docker_restart_policy: unless-stopped
 healthchecks_docker_state: started
 
 # Force Kill
-healthchecks_docker_force_kill: yes
+healthchecks_docker_force_kill: true

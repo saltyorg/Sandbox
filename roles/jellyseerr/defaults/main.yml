@@ -74,12 +74,6 @@ jellyseerr_docker_image_tag: "latest"
 jellyseerr_docker_image: "{{ lookup('vars', jellyseerr_name + '_docker_image_repo', default=jellyseerr_docker_image_repo)
                              + ':' + lookup('vars', jellyseerr_name + '_docker_image_tag', default=jellyseerr_docker_image_tag) }}"
 
-# Ports
-jellyseerr_docker_ports_defaults: []
-jellyseerr_docker_ports_custom: []
-jellyseerr_docker_ports: "{{ lookup('vars', jellyseerr_name + '_docker_ports_defaults', default=jellyseerr_docker_ports_defaults)
-                             + lookup('vars', jellyseerr_name + '_docker_ports_custom', default=jellyseerr_docker_ports_custom) }}"
-
 # Envs
 jellyseerr_docker_envs_default:
   UMASK: "002"
@@ -90,12 +84,6 @@ jellyseerr_docker_envs_custom: {}
 jellyseerr_docker_envs: "{{ lookup('vars', jellyseerr_name + '_docker_envs_default', default=jellyseerr_docker_envs_default)
                             | combine(lookup('vars', jellyseerr_name + '_docker_envs_custom', default=jellyseerr_docker_envs_custom)) }}"
 
-# Commands
-jellyseerr_docker_commands_default: []
-jellyseerr_docker_commands_custom: []
-jellyseerr_docker_commands: "{{ lookup('vars', jellyseerr_name + '_docker_commands_default', default=jellyseerr_docker_commands_default)
-                                + lookup('vars', jellyseerr_name + '_docker_commands_custom', default=jellyseerr_docker_commands_custom) }}"
-
 # Volumes
 jellyseerr_docker_volumes_default:
   - "{{ jellyseerr_paths_location }}:/app/config"
@@ -103,32 +91,8 @@ jellyseerr_docker_volumes_custom: []
 jellyseerr_docker_volumes: "{{ lookup('vars', jellyseerr_name + '_docker_volumes_default', default=jellyseerr_docker_volumes_default)
                                + lookup('vars', jellyseerr_name + '_docker_volumes_custom', default=jellyseerr_docker_volumes_custom) }}"
 
-# Devices
-jellyseerr_docker_devices_default: []
-jellyseerr_docker_devices_custom: []
-jellyseerr_docker_devices: "{{ lookup('vars', jellyseerr_name + '_docker_devices_default', default=jellyseerr_docker_devices_default)
-                               + lookup('vars', jellyseerr_name + '_docker_devices_custom', default=jellyseerr_docker_devices_custom) }}"
-
-# Hosts
-jellyseerr_docker_hosts_default: {}
-jellyseerr_docker_hosts_custom: {}
-jellyseerr_docker_hosts: "{{ docker_hosts_common
-                             | combine(lookup('vars', jellyseerr_name + '_docker_hosts_default', default=jellyseerr_docker_hosts_default))
-                             | combine(lookup('vars', jellyseerr_name + '_docker_hosts_custom', default=jellyseerr_docker_hosts_custom)) }}"
-
-# Labels
-jellyseerr_docker_labels_default: {}
-jellyseerr_docker_labels_custom: {}
-jellyseerr_docker_labels: "{{ docker_labels_common
-                              | combine(lookup('vars', jellyseerr_name + '_docker_labels_default', default=jellyseerr_docker_labels_default))
-                              | combine(lookup('vars', jellyseerr_name + '_docker_labels_custom', default=jellyseerr_docker_labels_custom)) }}"
-
 # Hostname
 jellyseerr_docker_hostname: "{{ jellyseerr_name }}"
-
-# Network Mode
-jellyseerr_docker_network_mode_default: "{{ docker_networks_name_common }}"
-jellyseerr_docker_network_mode: "{{ lookup('vars', jellyseerr_name + '_docker_network_mode_default', default=jellyseerr_docker_network_mode_default) }}"
 
 # Networks
 jellyseerr_docker_networks_alias: "{{ jellyseerr_name }}"
@@ -137,18 +101,6 @@ jellyseerr_docker_networks_custom: []
 jellyseerr_docker_networks: "{{ docker_networks_common
                                 + lookup('vars', jellyseerr_name + '_docker_networks_default', default=jellyseerr_docker_networks_default)
                                 + lookup('vars', jellyseerr_name + '_docker_networks_custom', default=jellyseerr_docker_networks_custom) }}"
-
-# Capabilities
-jellyseerr_docker_capabilities_default: []
-jellyseerr_docker_capabilities_custom: []
-jellyseerr_docker_capabilities: "{{ lookup('vars', jellyseerr_name + '_docker_capabilities_default', default=jellyseerr_docker_capabilities_default)
-                                    + lookup('vars', jellyseerr_name + '_docker_capabilities_custom', default=jellyseerr_docker_capabilities_custom) }}"
-
-# Security Opts
-jellyseerr_docker_security_opts_default: []
-jellyseerr_docker_security_opts_custom: []
-jellyseerr_docker_security_opts: "{{ lookup('vars', jellyseerr_name + '_docker_security_opts_default', default=jellyseerr_docker_security_opts_default)
-                                     + lookup('vars', jellyseerr_name + '_docker_security_opts_custom', default=jellyseerr_docker_security_opts_custom) }}"
 
 # Restart Policy
 jellyseerr_docker_restart_policy: unless-stopped

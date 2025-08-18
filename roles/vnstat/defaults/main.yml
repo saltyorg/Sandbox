@@ -143,4 +143,4 @@ vnstat_docker_restart_policy: unless-stopped
 vnstat_docker_state: started
 
 # Force Kill
-vnstat_docker_force_kill: yes
+vnstat_docker_force_kill: true

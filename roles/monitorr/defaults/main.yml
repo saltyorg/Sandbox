@@ -65,12 +65,6 @@ monitorr_docker_image_pull: true
 monitorr_docker_image_tag: "develop"
 monitorr_docker_image: "monitorr/monitorr:{{ monitorr_docker_image_tag }}"
 
-# Ports
-monitorr_docker_ports_defaults: []
-monitorr_docker_ports_custom: []
-monitorr_docker_ports: "{{ monitorr_docker_ports_defaults
-                           + monitorr_docker_ports_custom }}"
-
 # Envs
 monitorr_docker_envs_default:
   PUID: "{{ uid }}"
@@ -80,38 +74,12 @@ monitorr_docker_envs_custom: {}
 monitorr_docker_envs: "{{ monitorr_docker_envs_default
                           | combine(monitorr_docker_envs_custom) }}"
 
-# Commands
-monitorr_docker_commands_default: []
-monitorr_docker_commands_custom: []
-monitorr_docker_commands: "{{ monitorr_docker_commands_default
-                              + monitorr_docker_commands_custom }}"
-
 # Volumes
 monitorr_docker_volumes_default:
   - "{{ monitorr_paths_location }}:/app"
 monitorr_docker_volumes_custom: []
 monitorr_docker_volumes: "{{ monitorr_docker_volumes_default
                              + monitorr_docker_volumes_custom }}"
-
-# Devices
-monitorr_docker_devices_default: []
-monitorr_docker_devices_custom: []
-monitorr_docker_devices: "{{ monitorr_docker_devices_default
-                             + monitorr_docker_devices_custom }}"
-
-# Hosts
-monitorr_docker_hosts_default: {}
-monitorr_docker_hosts_custom: {}
-monitorr_docker_hosts: "{{ docker_hosts_common
-                           | combine(monitorr_docker_hosts_default)
-                           | combine(monitorr_docker_hosts_custom) }}"
-
-# Labels
-monitorr_docker_labels_default: {}
-monitorr_docker_labels_custom: {}
-monitorr_docker_labels: "{{ docker_labels_common
-                            | combine(monitorr_docker_labels_default)
-                            | combine(monitorr_docker_labels_custom) }}"
 
 # Hostname
 monitorr_docker_hostname: "{{ monitorr_name }}"
@@ -123,18 +91,6 @@ monitorr_docker_networks_custom: []
 monitorr_docker_networks: "{{ docker_networks_common
                               + monitorr_docker_networks_default
                               + monitorr_docker_networks_custom }}"
-
-# Capabilities
-monitorr_docker_capabilities_default: []
-monitorr_docker_capabilities_custom: []
-monitorr_docker_capabilities: "{{ monitorr_docker_capabilities_default
-                                  + monitorr_docker_capabilities_custom }}"
-
-# Security Opts
-monitorr_docker_security_opts_default: []
-monitorr_docker_security_opts_custom: []
-monitorr_docker_security_opts: "{{ monitorr_docker_security_opts_default
-                                   + monitorr_docker_security_opts_custom }}"
 
 # Restart Policy
 monitorr_docker_restart_policy: unless-stopped

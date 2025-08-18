@@ -67,12 +67,6 @@ handbrake_docker_image_pull: true
 handbrake_docker_image_tag: "latest"
 handbrake_docker_image: "jlesage/handbrake:{{ handbrake_docker_image_tag }}"
 
-# Ports
-handbrake_docker_ports_defaults: []
-handbrake_docker_ports_custom: []
-handbrake_docker_ports: "{{ handbrake_docker_ports_defaults
-                            + handbrake_docker_ports_custom }}"
-
 # Envs
 handbrake_docker_envs_default:
   USER_ID: "{{ uid }}"
@@ -85,12 +79,6 @@ handbrake_docker_envs_custom: {}
 handbrake_docker_envs: "{{ handbrake_docker_envs_default
                            | combine(handbrake_docker_envs_custom) }}"
 
-# Commands
-handbrake_docker_commands_default: []
-handbrake_docker_commands_custom: []
-handbrake_docker_commands: "{{ handbrake_docker_commands_default
-                               + handbrake_docker_commands_custom }}"
-
 # Volumes
 handbrake_docker_volumes_default:
   - "{{ handbrake_paths_location }}:/config:rw"
@@ -100,26 +88,6 @@ handbrake_docker_volumes_default:
 handbrake_docker_volumes_custom: []
 handbrake_docker_volumes: "{{ handbrake_docker_volumes_default
                               + handbrake_docker_volumes_custom }}"
-
-# Devices
-handbrake_docker_devices_default: []
-handbrake_docker_devices_custom: []
-handbrake_docker_devices: "{{ handbrake_docker_devices_default
-                              + handbrake_docker_devices_custom }}"
-
-# Hosts
-handbrake_docker_hosts_default: {}
-handbrake_docker_hosts_custom: {}
-handbrake_docker_hosts: "{{ docker_hosts_common
-                            | combine(handbrake_docker_hosts_default)
-                            | combine(handbrake_docker_hosts_custom) }}"
-
-# Labels
-handbrake_docker_labels_default: {}
-handbrake_docker_labels_custom: {}
-handbrake_docker_labels: "{{ docker_labels_common
-                             | combine(handbrake_docker_labels_default)
-                             | combine(handbrake_docker_labels_custom) }}"
 
 # Hostname
 handbrake_docker_hostname: "{{ handbrake_name }}"
@@ -131,18 +99,6 @@ handbrake_docker_networks_custom: []
 handbrake_docker_networks: "{{ docker_networks_common
                                + handbrake_docker_networks_default
                                + handbrake_docker_networks_custom }}"
-
-# Capabilities
-handbrake_docker_capabilities_default: []
-handbrake_docker_capabilities_custom: []
-handbrake_docker_capabilities: "{{ handbrake_docker_capabilities_default
-                                   + handbrake_docker_capabilities_custom }}"
-
-# Security Opts
-handbrake_docker_security_opts_default: []
-handbrake_docker_security_opts_custom: []
-handbrake_docker_security_opts: "{{ handbrake_docker_security_opts_default
-                                    + handbrake_docker_security_opts_custom }}"
 
 # Restart Policy
 handbrake_docker_restart_policy: unless-stopped

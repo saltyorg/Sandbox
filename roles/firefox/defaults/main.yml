@@ -74,20 +74,8 @@ firefox_docker_image_pull: true
 firefox_docker_image_tag: "latest"
 firefox_docker_image: "jlesage/firefox:{{ firefox_docker_image_tag }}"
 
-# Ports
-firefox_docker_ports_defaults: []
-firefox_docker_ports_custom: []
-firefox_docker_ports: "{{ firefox_docker_ports_defaults
-                          + firefox_docker_ports_custom }}"
-
 # Envs
 firefox_docker_env_file: "{{ firefox_paths_env_file_location }}"
-
-# Commands
-firefox_docker_commands_default: []
-firefox_docker_commands_custom: []
-firefox_docker_commands: "{{ firefox_docker_commands_default
-                             + firefox_docker_commands_custom }}"
 
 # Volumes
 firefox_docker_volumes_default:
@@ -95,26 +83,6 @@ firefox_docker_volumes_default:
 firefox_docker_volumes_custom: []
 firefox_docker_volumes: "{{ firefox_docker_volumes_default
                             + firefox_docker_volumes_custom }}"
-
-# Devices
-firefox_docker_devices_default: []
-firefox_docker_devices_custom: []
-firefox_docker_devices: "{{ firefox_docker_devices_default
-                            + firefox_docker_devices_custom }}"
-
-# Hosts
-firefox_docker_hosts_default: {}
-firefox_docker_hosts_custom: {}
-firefox_docker_hosts: "{{ docker_hosts_common
-                          | combine(firefox_docker_hosts_default)
-                          | combine(firefox_docker_hosts_custom) }}"
-
-# Labels
-firefox_docker_labels_default: {}
-firefox_docker_labels_custom: {}
-firefox_docker_labels: "{{ docker_labels_common
-                           | combine(firefox_docker_labels_default)
-                           | combine(firefox_docker_labels_custom) }}"
 
 # Hostname
 firefox_docker_hostname: "{{ firefox_name }}"
@@ -133,12 +101,6 @@ firefox_docker_capabilities_default:
 firefox_docker_capabilities_custom: []
 firefox_docker_capabilities: "{{ firefox_docker_capabilities_default
                                  + firefox_docker_capabilities_custom }}"
-
-# Security Opts
-firefox_docker_security_opts_default: []
-firefox_docker_security_opts_custom: []
-firefox_docker_security_opts: "{{ firefox_docker_security_opts_default
-                                  + firefox_docker_security_opts_custom }}"
 
 # Restart Policy
 firefox_docker_restart_policy: unless-stopped

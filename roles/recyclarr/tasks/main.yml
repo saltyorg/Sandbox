@@ -31,7 +31,7 @@
       - name: saltbox
     comparisons:
       '*': ignore
-    auto_remove: yes
+    auto_remove: true
     state: started
     pull: true
   when: (not recyclarr_config.stat.exists)

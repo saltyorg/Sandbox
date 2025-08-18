@@ -63,12 +63,6 @@ apprise_docker_image_pull: true
 apprise_docker_image_tag: "latest"
 apprise_docker_image: "lscr.io/linuxserver/apprise-api:{{ apprise_docker_image_tag }}"
 
-# Ports
-apprise_docker_ports_defaults: []
-apprise_docker_ports_custom: []
-apprise_docker_ports: "{{ apprise_docker_ports_defaults
-                          + apprise_docker_ports_custom }}"
-
 # Envs
 apprise_docker_envs_default:
   PUID: "{{ uid }}"
@@ -78,38 +72,12 @@ apprise_docker_envs_custom: {}
 apprise_docker_envs: "{{ apprise_docker_envs_default
                          | combine(apprise_docker_envs_custom) }}"
 
-# Commands
-apprise_docker_commands_default: []
-apprise_docker_commands_custom: []
-apprise_docker_commands: "{{ apprise_docker_commands_default
-                             + apprise_docker_commands_custom }}"
-
 # Volumes
 apprise_docker_volumes_default:
   - "{{ apprise_paths_location }}:/config"
 apprise_docker_volumes_custom: []
 apprise_docker_volumes: "{{ apprise_docker_volumes_default
                             + apprise_docker_volumes_custom }}"
-
-# Devices
-apprise_docker_devices_default: []
-apprise_docker_devices_custom: []
-apprise_docker_devices: "{{ apprise_docker_devices_default
-                            + apprise_docker_devices_custom }}"
-
-# Hosts
-apprise_docker_hosts_default: {}
-apprise_docker_hosts_custom: {}
-apprise_docker_hosts: "{{ docker_hosts_common
-                          | combine(apprise_docker_hosts_default)
-                          | combine(apprise_docker_hosts_custom) }}"
-
-# Labels
-apprise_docker_labels_default: {}
-apprise_docker_labels_custom: {}
-apprise_docker_labels: "{{ docker_labels_common
-                           | combine(apprise_docker_labels_default)
-                           | combine(apprise_docker_labels_custom) }}"
 
 # Hostname
 apprise_docker_hostname: "{{ apprise_name }}"
@@ -121,18 +89,6 @@ apprise_docker_networks_custom: []
 apprise_docker_networks: "{{ docker_networks_common
                              + apprise_docker_networks_default
                              + apprise_docker_networks_custom }}"
-
-# Capabilities
-apprise_docker_capabilities_default: []
-apprise_docker_capabilities_custom: []
-apprise_docker_capabilities: "{{ apprise_docker_capabilities_default
-                                 + apprise_docker_capabilities_custom }}"
-
-# Security Opts
-apprise_docker_security_opts_default: []
-apprise_docker_security_opts_custom: []
-apprise_docker_security_opts: "{{ apprise_docker_security_opts_default
-                                  + apprise_docker_security_opts_custom }}"
 
 # Restart Policy
 apprise_docker_restart_policy: unless-stopped

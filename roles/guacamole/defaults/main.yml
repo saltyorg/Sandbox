@@ -79,12 +79,6 @@ guacamole_docker_image_pull: true
 guacamole_docker_image_tag: "latest"
 guacamole_docker_image: "jasonbean/guacamole:{{ guacamole_docker_image_tag }}"
 
-# Ports
-guacamole_docker_ports_defaults: []
-guacamole_docker_ports_custom: []
-guacamole_docker_ports: "{{ guacamole_docker_ports_defaults
-                            + guacamole_docker_ports_custom }}"
-
 # Envs
 guacamole_docker_envs_default:
   PUID: "{{ uid }}"
@@ -102,38 +96,12 @@ guacamole_docker_envs_custom: {}
 guacamole_docker_envs: "{{ guacamole_docker_envs_default
                            | combine(guacamole_docker_envs_custom) }}"
 
-# Commands
-guacamole_docker_commands_default: []
-guacamole_docker_commands_custom: []
-guacamole_docker_commands: "{{ guacamole_docker_commands_default
-                               + guacamole_docker_commands_custom }}"
-
 # Volumes
 guacamole_docker_volumes_default:
   - "{{ guacamole_paths_location }}/config:/config"
 guacamole_docker_volumes_custom: []
 guacamole_docker_volumes: "{{ guacamole_docker_volumes_default
                               + guacamole_docker_volumes_custom }}"
-
-# Devices
-guacamole_docker_devices_default: []
-guacamole_docker_devices_custom: []
-guacamole_docker_devices: "{{ guacamole_docker_devices_default
-                              + guacamole_docker_devices_custom }}"
-
-# Hosts
-guacamole_docker_hosts_default: {}
-guacamole_docker_hosts_custom: {}
-guacamole_docker_hosts: "{{ docker_hosts_common
-                            | combine(guacamole_docker_hosts_default)
-                            | combine(guacamole_docker_hosts_custom) }}"
-
-# Labels
-guacamole_docker_labels_default: {}
-guacamole_docker_labels_custom: {}
-guacamole_docker_labels: "{{ docker_labels_common
-                             | combine(guacamole_docker_labels_default)
-                             | combine(guacamole_docker_labels_custom) }}"
 
 # Hostname
 guacamole_docker_hostname: "{{ guacamole_name }}"
@@ -145,18 +113,6 @@ guacamole_docker_networks_custom: []
 guacamole_docker_networks: "{{ docker_networks_common
                                + guacamole_docker_networks_default
                                + guacamole_docker_networks_custom }}"
-
-# Capabilities
-guacamole_docker_capabilities_default: []
-guacamole_docker_capabilities_custom: []
-guacamole_docker_capabilities: "{{ guacamole_docker_capabilities_default
-                                   + guacamole_docker_capabilities_custom }}"
-
-# Security Opts
-guacamole_docker_security_opts_default: []
-guacamole_docker_security_opts_custom: []
-guacamole_docker_security_opts: "{{ guacamole_docker_security_opts_default
-                                    + guacamole_docker_security_opts_custom }}"
 
 # Restart Policy
 guacamole_docker_restart_policy: unless-stopped

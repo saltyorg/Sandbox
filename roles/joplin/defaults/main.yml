@@ -77,12 +77,6 @@ joplin_docker_image_pull: true
 joplin_docker_image_tag: "latest"
 joplin_docker_image: "joplin/server:{{ joplin_docker_image_tag }}"
 
-# Ports
-joplin_docker_ports_defaults: []
-joplin_docker_ports_custom: []
-joplin_docker_ports: "{{ joplin_docker_ports_defaults
-                         + joplin_docker_ports_custom }}"
-
 # Envs
 joplin_docker_envs_default:
   TZ: "{{ tz }}"
@@ -98,38 +92,6 @@ joplin_docker_envs_custom: {}
 joplin_docker_envs: "{{ joplin_docker_envs_default
                         | combine(joplin_docker_envs_custom) }}"
 
-# Commands
-joplin_docker_commands_default: []
-joplin_docker_commands_custom: []
-joplin_docker_commands: "{{ joplin_docker_commands_default
-                            + joplin_docker_commands_custom }}"
-
-# Volumes
-joplin_docker_volumes_default: []
-joplin_docker_volumes_custom: []
-joplin_docker_volumes: "{{ joplin_docker_volumes_default
-                           + joplin_docker_volumes_custom }}"
-
-# Devices
-joplin_docker_devices_default: []
-joplin_docker_devices_custom: []
-joplin_docker_devices: "{{ joplin_docker_devices_default
-                           + joplin_docker_devices_custom }}"
-
-# Hosts
-joplin_docker_hosts_default: {}
-joplin_docker_hosts_custom: {}
-joplin_docker_hosts: "{{ docker_hosts_common
-                         | combine(joplin_docker_hosts_default)
-                         | combine(joplin_docker_hosts_custom) }}"
-
-# Labels
-joplin_docker_labels_default: {}
-joplin_docker_labels_custom: {}
-joplin_docker_labels: "{{ docker_labels_common
-                          | combine(joplin_docker_labels_default)
-                          | combine(joplin_docker_labels_custom) }}"
-
 # Hostname
 joplin_docker_hostname: "{{ joplin_name }}"
 
@@ -140,18 +102,6 @@ joplin_docker_networks_custom: []
 joplin_docker_networks: "{{ docker_networks_common
                             + joplin_docker_networks_default
                             + joplin_docker_networks_custom }}"
-
-# Capabilities
-joplin_docker_capabilities_default: []
-joplin_docker_capabilities_custom: []
-joplin_docker_capabilities: "{{ joplin_docker_capabilities_default
-                                + joplin_docker_capabilities_custom }}"
-
-# Security Opts
-joplin_docker_security_opts_default: []
-joplin_docker_security_opts_custom: []
-joplin_docker_security_opts: "{{ joplin_docker_security_opts_default
-                                 + joplin_docker_security_opts_custom }}"
 
 # Restart Policy
 joplin_docker_restart_policy: unless-stopped

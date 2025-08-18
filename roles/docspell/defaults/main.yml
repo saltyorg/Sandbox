@@ -66,12 +66,6 @@ docspell_docker_image_pull: true
 docspell_docker_image_tag: "latest"
 docspell_docker_image: "docspell/restserver:{{ docspell_docker_image_tag }}"
 
-# Ports
-docspell_docker_ports_defaults: []
-docspell_docker_ports_custom: []
-docspell_docker_ports: "{{ docspell_docker_ports_defaults
-                           + docspell_docker_ports_custom }}"
-
 # Envs
 docspell_docker_envs_default:
   TZ: "{{ tz }}"
@@ -94,38 +88,6 @@ docspell_docker_envs_custom: {}
 docspell_docker_envs: "{{ docspell_docker_envs_default
                           | combine(docspell_docker_envs_custom) }}"
 
-# Commands
-docspell_docker_commands_default: []
-docspell_docker_commands_custom: []
-docspell_docker_commands: "{{ docspell_docker_commands_default
-                              + docspell_docker_commands_custom }}"
-
-# Volumes
-docspell_docker_volumes_default: []
-docspell_docker_volumes_custom: []
-docspell_docker_volumes: "{{ docspell_docker_volumes_default
-                             + docspell_docker_volumes_custom }}"
-
-# Devices
-docspell_docker_devices_default: []
-docspell_docker_devices_custom: []
-docspell_docker_devices: "{{ docspell_docker_devices_default
-                             + docspell_docker_devices_custom }}"
-
-# Hosts
-docspell_docker_hosts_default: {}
-docspell_docker_hosts_custom: {}
-docspell_docker_hosts: "{{ docker_hosts_common
-                           | combine(docspell_docker_hosts_default)
-                           | combine(docspell_docker_hosts_custom) }}"
-
-# Labels
-docspell_docker_labels_default: {}
-docspell_docker_labels_custom: {}
-docspell_docker_labels: "{{ docker_labels_common
-                            | combine(docspell_docker_labels_default)
-                            | combine(docspell_docker_labels_custom) }}"
-
 # Hostname
 docspell_docker_hostname: "{{ docspell_name }}"
 
@@ -136,18 +98,6 @@ docspell_docker_networks_custom: []
 docspell_docker_networks: "{{ docker_networks_common
                               + docspell_docker_networks_default
                               + docspell_docker_networks_custom }}"
-
-# Capabilities
-docspell_docker_capabilities_default: []
-docspell_docker_capabilities_custom: []
-docspell_docker_capabilities: "{{ docspell_docker_capabilities_default
-                                  + docspell_docker_capabilities_custom }}"
-
-# Security Opts
-docspell_docker_security_opts_default: []
-docspell_docker_security_opts_custom: []
-docspell_docker_security_opts: "{{ docspell_docker_security_opts_default
-                                   + docspell_docker_security_opts_custom }}"
 
 # Restart Policy
 docspell_docker_restart_policy: unless-stopped

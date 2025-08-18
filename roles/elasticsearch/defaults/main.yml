@@ -44,12 +44,6 @@ elasticsearch_docker_image_pull: true
 elasticsearch_docker_image_tag: "8.11.0"
 elasticsearch_docker_image: "docker.elastic.co/elasticsearch/elasticsearch:{{ elasticsearch_docker_image_tag }}"
 
-# Ports
-elasticsearch_docker_ports_defaults: []
-elasticsearch_docker_ports_custom: []
-elasticsearch_docker_ports: "{{ elasticsearch_docker_ports_defaults
-                                + elasticsearch_docker_ports_custom }}"
-
 # Envs
 elasticsearch_docker_envs_default:
   TZ: "{{ tz }}"
@@ -63,38 +57,12 @@ elasticsearch_docker_envs_custom: {}
 elasticsearch_docker_envs: "{{ elasticsearch_docker_envs_default
                                | combine(elasticsearch_docker_envs_custom) }}"
 
-# Commands
-elasticsearch_docker_commands_default: []
-elasticsearch_docker_commands_custom: []
-elasticsearch_docker_commands: "{{ elasticsearch_docker_commands_default
-                                   + elasticsearch_docker_commands_custom }}"
-
 # Volumes
 elasticsearch_docker_volumes_default:
   - "{{ elasticsearch_paths_location }}:/usr/share/elasticsearch/data"
 elasticsearch_docker_volumes_custom: []
 elasticsearch_docker_volumes: "{{ elasticsearch_docker_volumes_default
                                   + elasticsearch_docker_volumes_custom }}"
-
-# Devices
-elasticsearch_docker_devices_default: []
-elasticsearch_docker_devices_custom: []
-elasticsearch_docker_devices: "{{ elasticsearch_docker_devices_default
-                                  + elasticsearch_docker_devices_custom }}"
-
-# Hosts
-elasticsearch_docker_hosts_default: {}
-elasticsearch_docker_hosts_custom: {}
-elasticsearch_docker_hosts: "{{ docker_hosts_common
-                                | combine(elasticsearch_docker_hosts_default)
-                                | combine(elasticsearch_docker_hosts_custom) }}"
-
-# Labels
-elasticsearch_docker_labels_default: {}
-elasticsearch_docker_labels_custom: {}
-elasticsearch_docker_labels: "{{ docker_labels_common
-                                 | combine(elasticsearch_docker_labels_default)
-                                 | combine(elasticsearch_docker_labels_custom) }}"
 
 # Hostname
 elasticsearch_docker_hostname: "{{ elasticsearch_name }}"
@@ -106,18 +74,6 @@ elasticsearch_docker_networks_custom: []
 elasticsearch_docker_networks: "{{ docker_networks_common
                                    + elasticsearch_docker_networks_default
                                    + elasticsearch_docker_networks_custom }}"
-
-# Capabilities
-elasticsearch_docker_capabilities_default: []
-elasticsearch_docker_capabilities_custom: []
-elasticsearch_docker_capabilities: "{{ elasticsearch_docker_capabilities_default
-                                       + elasticsearch_docker_capabilities_custom }}"
-
-# Security Opts
-elasticsearch_docker_security_opts_default: []
-elasticsearch_docker_security_opts_custom: []
-elasticsearch_docker_security_opts: "{{ elasticsearch_docker_security_opts_default
-                                        + elasticsearch_docker_security_opts_custom }}"
 
 # Restart Policy
 elasticsearch_docker_restart_policy: always

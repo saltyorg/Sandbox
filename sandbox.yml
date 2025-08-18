@@ -39,7 +39,6 @@
     - { role: cockpit, tags: ['cockpit'] }
     - { role: codex, tags: ['codex'] }
     - { role: code_server, tags: ['code-server'] }
-    - { role: comicstreamer, tags: ['comicstreamer'] }
     - { role: comixed, tags: ['comixed'] }
     - { role: crafty, tags: ['crafty'] }
     - { role: dashdot, tags: ['dashdot'] }

@@ -79,12 +79,6 @@ booksonic_docker_envs_custom: {}
 booksonic_docker_envs: "{{ booksonic_docker_envs_default
                            | combine(booksonic_docker_envs_custom) }}"
 
-# Commands
-booksonic_docker_commands_default: []
-booksonic_docker_commands_custom: []
-booksonic_docker_commands: "{{ booksonic_docker_commands_default
-                               + booksonic_docker_commands_custom }}"
-
 # Volumes
 booksonic_docker_volumes_default:
   - "{{ booksonic_paths_location }}:/config"
@@ -94,26 +88,6 @@ booksonic_docker_volumes_default:
 booksonic_docker_volumes_custom: []
 booksonic_docker_volumes: "{{ booksonic_docker_volumes_default
                               + booksonic_docker_volumes_custom }}"
-
-# Devices
-booksonic_docker_devices_default: []
-booksonic_docker_devices_custom: []
-booksonic_docker_devices: "{{ booksonic_docker_devices_default
-                              + booksonic_docker_devices_custom }}"
-
-# Hosts
-booksonic_docker_hosts_default: {}
-booksonic_docker_hosts_custom: {}
-booksonic_docker_hosts: "{{ docker_hosts_common
-                            | combine(booksonic_docker_hosts_default)
-                            | combine(booksonic_docker_hosts_custom) }}"
-
-# Labels
-booksonic_docker_labels_default: {}
-booksonic_docker_labels_custom: {}
-booksonic_docker_labels: "{{ docker_labels_common
-                             | combine(booksonic_docker_labels_default)
-                             | combine(booksonic_docker_labels_custom) }}"
 
 # Hostname
 booksonic_docker_hostname: "{{ booksonic_name }}"
@@ -125,18 +99,6 @@ booksonic_docker_networks_custom: []
 booksonic_docker_networks: "{{ docker_networks_common
                                + booksonic_docker_networks_default
                                + booksonic_docker_networks_custom }}"
-
-# Capabilities
-booksonic_docker_capabilities_default: []
-booksonic_docker_capabilities_custom: []
-booksonic_docker_capabilities: "{{ booksonic_docker_capabilities_default
-                                   + booksonic_docker_capabilities_custom }}"
-
-# Security Opts
-booksonic_docker_security_opts_default: []
-booksonic_docker_security_opts_custom: []
-booksonic_docker_security_opts: "{{ booksonic_docker_security_opts_default
-                                    + booksonic_docker_security_opts_custom }}"
 
 # Restart Policy
 booksonic_docker_restart_policy: unless-stopped

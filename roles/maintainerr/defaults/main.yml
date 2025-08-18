@@ -67,24 +67,12 @@ maintainerr_docker_image_tag: "latest"
 maintainerr_docker_image: "{{ lookup('vars', maintainerr_name + '_docker_image_repo', default=maintainerr_docker_image_repo)
                               + ':' + lookup('vars', maintainerr_name + '_docker_image_tag', default=maintainerr_docker_image_tag) }}"
 
-# Ports
-maintainerr_docker_ports_defaults: []
-maintainerr_docker_ports_custom: []
-maintainerr_docker_ports: "{{ lookup('vars', maintainerr_name + '_docker_ports_defaults', default=maintainerr_docker_ports_defaults)
-                              + lookup('vars', maintainerr_name + '_docker_ports_custom', default=maintainerr_docker_ports_custom) }}"
-
 # Envs
 maintainerr_docker_envs_default:
   TZ: "{{ tz }}"
 maintainerr_docker_envs_custom: {}
 maintainerr_docker_envs: "{{ lookup('vars', maintainerr_name + '_docker_envs_default', default=maintainerr_docker_envs_default)
                              | combine(lookup('vars', maintainerr_name + '_docker_envs_custom', default=maintainerr_docker_envs_custom)) }}"
-
-# Commands
-maintainerr_docker_commands_default: []
-maintainerr_docker_commands_custom: []
-maintainerr_docker_commands: "{{ lookup('vars', maintainerr_name + '_docker_commands_default', default=maintainerr_docker_commands_default)
-                                 + lookup('vars', maintainerr_name + '_docker_commands_custom', default=maintainerr_docker_commands_custom) }}"
 
 # Volumes
 maintainerr_docker_volumes_default:
@@ -93,32 +81,8 @@ maintainerr_docker_volumes_custom: []
 maintainerr_docker_volumes: "{{ lookup('vars', maintainerr_name + '_docker_volumes_default', default=maintainerr_docker_volumes_default)
                                 + lookup('vars', maintainerr_name + '_docker_volumes_custom', default=maintainerr_docker_volumes_custom) }}"
 
-# Devices
-maintainerr_docker_devices_default: []
-maintainerr_docker_devices_custom: []
-maintainerr_docker_devices: "{{ lookup('vars', maintainerr_name + '_docker_devices_default', default=maintainerr_docker_devices_default)
-                                + lookup('vars', maintainerr_name + '_docker_devices_custom', default=maintainerr_docker_devices_custom) }}"
-
-# Hosts
-maintainerr_docker_hosts_default: {}
-maintainerr_docker_hosts_custom: {}
-maintainerr_docker_hosts: "{{ docker_hosts_common
-                              | combine(lookup('vars', maintainerr_name + '_docker_hosts_default', default=maintainerr_docker_hosts_default))
-                              | combine(lookup('vars', maintainerr_name + '_docker_hosts_custom', default=maintainerr_docker_hosts_custom)) }}"
-
-# Labels
-maintainerr_docker_labels_default: {}
-maintainerr_docker_labels_custom: {}
-maintainerr_docker_labels: "{{ docker_labels_common
-                               | combine(lookup('vars', maintainerr_name + '_docker_labels_default', default=maintainerr_docker_labels_default))
-                               | combine(lookup('vars', maintainerr_name + '_docker_labels_custom', default=maintainerr_docker_labels_custom)) }}"
-
 # Hostname
 maintainerr_docker_hostname: "{{ maintainerr_name }}"
-
-# Network Mode
-maintainerr_docker_network_mode_default: "{{ docker_networks_name_common }}"
-maintainerr_docker_network_mode: "{{ lookup('vars', maintainerr_name + '_docker_network_mode_default', default=maintainerr_docker_network_mode_default) }}"
 
 # Networks
 maintainerr_docker_networks_alias: "{{ maintainerr_name }}"
@@ -127,18 +91,6 @@ maintainerr_docker_networks_custom: []
 maintainerr_docker_networks: "{{ docker_networks_common
                                  + lookup('vars', maintainerr_name + '_docker_networks_default', default=maintainerr_docker_networks_default)
                                  + lookup('vars', maintainerr_name + '_docker_networks_custom', default=maintainerr_docker_networks_custom) }}"
-
-# Capabilities
-maintainerr_docker_capabilities_default: []
-maintainerr_docker_capabilities_custom: []
-maintainerr_docker_capabilities: "{{ lookup('vars', maintainerr_name + '_docker_capabilities_default', default=maintainerr_docker_capabilities_default)
-                                     + lookup('vars', maintainerr_name + '_docker_capabilities_custom', default=maintainerr_docker_capabilities_custom) }}"
-
-# Security Opts
-maintainerr_docker_security_opts_default: []
-maintainerr_docker_security_opts_custom: []
-maintainerr_docker_security_opts: "{{ lookup('vars', maintainerr_name + '_docker_security_opts_default', default=maintainerr_docker_security_opts_default)
-                                      + lookup('vars', maintainerr_name + '_docker_security_opts_custom', default=maintainerr_docker_security_opts_custom) }}"
 
 # Restart Policy
 maintainerr_docker_restart_policy: unless-stopped

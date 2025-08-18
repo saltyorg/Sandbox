@@ -68,12 +68,6 @@ codex_docker_image_tag: "latest"
 codex_docker_image: "{{ lookup('vars', codex_name + '_docker_image_repo', default=codex_docker_image_repo)
                         + ':' + lookup('vars', codex_name + '_docker_image_tag', default=codex_docker_image_tag) }}"
 
-# Ports
-codex_docker_ports_defaults: []
-codex_docker_ports_custom: []
-codex_docker_ports: "{{ lookup('vars', codex_name + '_docker_ports_defaults', default=codex_docker_ports_defaults)
-                        + lookup('vars', codex_name + '_docker_ports_custom', default=codex_docker_ports_custom) }}"
-
 # Envs
 codex_docker_envs_default:
   PUID: "{{ uid }}"
@@ -83,38 +77,12 @@ codex_docker_envs_custom: {}
 codex_docker_envs: "{{ lookup('vars', codex_name + '_docker_envs_default', default=codex_docker_envs_default)
                        | combine(lookup('vars', codex_name + '_docker_envs_custom', default=codex_docker_envs_custom)) }}"
 
-# Commands
-codex_docker_commands_default: []
-codex_docker_commands_custom: []
-codex_docker_commands: "{{ lookup('vars', codex_name + '_docker_commands_default', default=codex_docker_commands_default)
-                           + lookup('vars', codex_name + '_docker_docker_commands_custom', default=codex_docker_commands_custom) }}"
-
 # Volumes
 codex_docker_volumes_default:
   - "{{ codex_paths_location }}:/config"
 codex_docker_volumes_custom: []
 codex_docker_volumes: "{{ lookup('vars', codex_name + '_docker_volumes_default', default=codex_docker_volumes_default)
                           + lookup('vars', codex_name + '_docker_volumes_custom', default=codex_docker_volumes_custom) }}"
-
-# Devices
-codex_docker_devices_default: []
-codex_docker_devices_custom: []
-codex_docker_devices: "{{ lookup('vars', codex_name + '_docker_devices_default', default=codex_docker_devices_default)
-                          + lookup('vars', codex_name + '_docker_devices_custom', default=codex_docker_devices_custom) }}"
-
-# Hosts
-codex_docker_hosts_default: {}
-codex_docker_hosts_custom: {}
-codex_docker_hosts: "{{ docker_hosts_common
-                        | combine(lookup('vars', codex_name + '_docker_hosts_default', default=codex_docker_hosts_default))
-                        | combine(lookup('vars', codex_name + '_docker_hosts_custom', default=codex_docker_hosts_custom)) }}"
-
-# Labels
-codex_docker_labels_default: {}
-codex_docker_labels_custom: {}
-codex_docker_labels: "{{ docker_labels_common
-                         | combine(lookup('vars', codex_name + '_docker_labels_default', default=codex_docker_labels_default))
-                         | combine(lookup('vars', codex_name + '_docker_labels_custom', default=codex_docker_labels_custom)) }}"
 
 # Hostname
 codex_docker_hostname: "{{ codex_name }}"
@@ -126,18 +94,6 @@ codex_docker_networks_custom: []
 codex_docker_networks: "{{ docker_networks_common
                            + lookup('vars', codex_name + '_docker_networks_default', default=codex_docker_networks_default)
                            + lookup('vars', codex_name + '_docker_networks_custom', default=codex_docker_networks_custom) }}"
-
-# Capabilities
-codex_docker_capabilities_default: []
-codex_docker_capabilities_custom: []
-codex_docker_capabilities: "{{ lookup('vars', codex_name + '_docker_capabilities_default', default=codex_docker_capabilities_default)
-                               + lookup('vars', codex_name + '_docker_capabilities_custom', default=codex_docker_capabilities_custom) }}"
-
-# Security Opts
-codex_docker_security_opts_default: []
-codex_docker_security_opts_custom: []
-codex_docker_security_opts: "{{ lookup('vars', codex_name + '_docker_security_opts_default', default=codex_docker_security_opts_default)
-                                + lookup('vars', codex_name + '_docker_security_opts_custom', default=codex_docker_security_opts_custom) }}"
 
 # Restart Policy
 codex_docker_restart_policy: unless-stopped

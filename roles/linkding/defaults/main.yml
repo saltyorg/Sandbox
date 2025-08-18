@@ -67,12 +67,6 @@ linkding_docker_image_pull: true
 linkding_docker_image_tag: "latest"
 linkding_docker_image: "sissbruecker/linkding:{{ linkding_docker_image_tag }}"
 
-# Ports
-linkding_docker_ports_defaults: []
-linkding_docker_ports_custom: []
-linkding_docker_ports: "{{ linkding_docker_ports_defaults
-                           + linkding_docker_ports_custom }}"
-
 # Envs
 linkding_docker_envs_default:
   TZ: "{{ tz }}"
@@ -89,38 +83,12 @@ linkding_docker_envs_custom: {}
 linkding_docker_envs: "{{ linkding_docker_envs_default
                           | combine(linkding_docker_envs_custom) }}"
 
-# Commands
-linkding_docker_commands_default: []
-linkding_docker_commands_custom: []
-linkding_docker_commands: "{{ linkding_docker_commands_default
-                              + linkding_docker_commands_custom }}"
-
 # Volumes
 linkding_docker_volumes_default:
   - "{{ linkding_paths_location }}:/etc/linkding/data"
 linkding_docker_volumes_custom: []
 linkding_docker_volumes: "{{ linkding_docker_volumes_default
                              + linkding_docker_volumes_custom }}"
-
-# Devices
-linkding_docker_devices_default: []
-linkding_docker_devices_custom: []
-linkding_docker_devices: "{{ linkding_docker_devices_default
-                             + linkding_docker_devices_custom }}"
-
-# Hosts
-linkding_docker_hosts_default: {}
-linkding_docker_hosts_custom: {}
-linkding_docker_hosts: "{{ docker_hosts_common
-                           | combine(linkding_docker_hosts_default)
-                           | combine(linkding_docker_hosts_custom) }}"
-
-# Labels
-linkding_docker_labels_default: {}
-linkding_docker_labels_custom: {}
-linkding_docker_labels: "{{ docker_labels_common
-                            | combine(linkding_docker_labels_default)
-                            | combine(linkding_docker_labels_custom) }}"
 
 # Hostname
 linkding_docker_hostname: "{{ linkding_name }}"
@@ -132,18 +100,6 @@ linkding_docker_networks_custom: []
 linkding_docker_networks: "{{ docker_networks_common
                               + linkding_docker_networks_default
                               + linkding_docker_networks_custom }}"
-
-# Capabilities
-linkding_docker_capabilities_default: []
-linkding_docker_capabilities_custom: []
-linkding_docker_capabilities: "{{ linkding_docker_capabilities_default
-                                  + linkding_docker_capabilities_custom }}"
-
-# Security Opts
-linkding_docker_security_opts_default: []
-linkding_docker_security_opts_custom: []
-linkding_docker_security_opts: "{{ linkding_docker_security_opts_default
-                                   + linkding_docker_security_opts_custom }}"
 
 # Restart Policy
 linkding_docker_restart_policy: unless-stopped

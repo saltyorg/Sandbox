@@ -36,12 +36,6 @@ membarr_docker_image_pull: true
 membarr_docker_image_tag: "latest"
 membarr_docker_image: "yoruio/membarr:{{ membarr_docker_image_tag }}"
 
-# Ports
-membarr_docker_ports_defaults: []
-membarr_docker_ports_custom: []
-membarr_docker_ports: "{{ membarr_docker_ports_defaults
-                          + membarr_docker_ports_custom }}"
-
 # Envs
 membarr_docker_envs_default:
   TZ: "{{ tz }}"
@@ -50,38 +44,12 @@ membarr_docker_envs_custom: {}
 membarr_docker_envs: "{{ membarr_docker_envs_default
                          | combine(membarr_docker_envs_custom) }}"
 
-# Commands
-membarr_docker_commands_default: []
-membarr_docker_commands_custom: []
-membarr_docker_commands: "{{ membarr_docker_commands_default
-                             + membarr_docker_commands_custom }}"
-
 # Volumes
 membarr_docker_volumes_default:
   - "{{ membarr_paths_location }}:/app/app/config"
 membarr_docker_volumes_custom: []
 membarr_docker_volumes: "{{ membarr_docker_volumes_default
                             + membarr_docker_volumes_custom }}"
-
-# Devices
-membarr_docker_devices_default: []
-membarr_docker_devices_custom: []
-membarr_docker_devices: "{{ membarr_docker_devices_default
-                            + membarr_docker_devices_custom }}"
-
-# Hosts
-membarr_docker_hosts_default: {}
-membarr_docker_hosts_custom: {}
-membarr_docker_hosts: "{{ docker_hosts_common
-                          | combine(membarr_docker_hosts_default)
-                          | combine(membarr_docker_hosts_custom) }}"
-
-# Labels
-membarr_docker_labels_default: {}
-membarr_docker_labels_custom: {}
-membarr_docker_labels: "{{ docker_labels_common
-                           | combine(membarr_docker_labels_default)
-                           | combine(membarr_docker_labels_custom) }}"
 
 # Hostname
 membarr_docker_hostname: "{{ membarr_name }}"
@@ -93,18 +61,6 @@ membarr_docker_networks_custom: []
 membarr_docker_networks: "{{ docker_networks_common
                              + membarr_docker_networks_default
                              + membarr_docker_networks_custom }}"
-
-# Capabilities
-membarr_docker_capabilities_default: []
-membarr_docker_capabilities_custom: []
-membarr_docker_capabilities: "{{ membarr_docker_capabilities_default
-                                 + membarr_docker_capabilities_custom }}"
-
-# Security Opts
-membarr_docker_security_opts_default: []
-membarr_docker_security_opts_custom: []
-membarr_docker_security_opts: "{{ membarr_docker_security_opts_default
-                                  + membarr_docker_security_opts_custom }}"
 
 # Restart Policy
 membarr_docker_restart_policy: always

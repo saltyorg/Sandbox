@@ -76,38 +76,12 @@ mealie_docker_envs_custom: {}
 mealie_docker_envs: "{{ mealie_docker_envs_default
                               | combine(mealie_docker_envs_custom) }}"
 
-# Commands
-mealie_docker_commands_default: []
-mealie_docker_commands_custom: []
-mealie_docker_commands: "{{ mealie_docker_commands_default
-                                  + mealie_docker_commands_custom }}"
-
 # Volumes
 mealie_docker_volumes_default:
   - "{{ mealie_paths_location }}:/app/data"
 mealie_docker_volumes_custom: []
 mealie_docker_volumes: "{{ mealie_docker_volumes_default
                                  + mealie_docker_volumes_custom }}"
-
-# Devices
-mealie_docker_devices_default: []
-mealie_docker_devices_custom: []
-mealie_docker_devices: "{{ mealie_docker_devices_default
-                                 + mealie_docker_devices_custom }}"
-
-# Hosts
-mealie_docker_hosts_default: {}
-mealie_docker_hosts_custom: {}
-mealie_docker_hosts: "{{ docker_hosts_common
-                               | combine(mealie_docker_hosts_default)
-                               | combine(mealie_docker_hosts_custom) }}"
-
-# Labels
-mealie_docker_labels_default: {}
-mealie_docker_labels_custom: {}
-mealie_docker_labels: "{{ docker_labels_common
-                                | combine(mealie_docker_labels_default)
-                                | combine(mealie_docker_labels_custom) }}"
 
 # Hostname
 mealie_docker_hostname: "{{ mealie_name }}"
@@ -119,18 +93,6 @@ mealie_docker_networks_custom: []
 mealie_docker_networks: "{{ docker_networks_common
                                   + mealie_docker_networks_default
                                   + mealie_docker_networks_custom }}"
-
-# Capabilities
-mealie_docker_capabilities_default: []
-mealie_docker_capabilities_custom: []
-mealie_docker_capabilities: "{{ mealie_docker_capabilities_default
-                                      + mealie_docker_capabilities_custom }}"
-
-# Security Opts
-mealie_docker_security_opts_default: []
-mealie_docker_security_opts_custom: []
-mealie_docker_security_opts: "{{ mealie_docker_security_opts_default
-                                       + mealie_docker_security_opts_custom }}"
 
 # Restart Policy
 mealie_docker_restart_policy: unless-stopped

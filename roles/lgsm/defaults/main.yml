@@ -51,24 +51,6 @@ lgsm_docker_image_tag: "{{ lgsm_name | replace('lgsm_', '') }}"
 lgsm_docker_image: "{{ lookup('vars', lgsm_name + '_docker_image_repo', default=lgsm_docker_image_repo)
                              + ':' + lookup('vars', lgsm_name + '_docker_image_tag', default=lgsm_docker_image_tag) }}"
 
-# Ports
-lgsm_docker_ports_defaults: []
-lgsm_docker_ports_custom: []
-lgsm_docker_ports: "{{ lookup('vars', lgsm_name + '_docker_ports_defaults', default=lgsm_docker_ports_defaults)
-                             + lookup('vars', lgsm_name + '_docker_ports_custom', default=lgsm_docker_ports_custom) }}"
-
-# Envs
-lgsm_docker_envs_default: {}
-lgsm_docker_envs_custom: {}
-lgsm_docker_envs: "{{ lookup('vars', lgsm_name + '_docker_envs_default', default=lgsm_docker_envs_default)
-                            | combine(lookup('vars', lgsm_name + '_docker_envs_custom', default=lgsm_docker_envs_custom)) }}"
-
-# Commands
-lgsm_docker_commands_default: []
-lgsm_docker_commands_custom: []
-lgsm_docker_commands: "{{ lookup('vars', lgsm_name + '_docker_commands_default', default=lgsm_docker_commands_default)
-                                + lookup('vars', lgsm_name + '_docker_commands_custom', default=lgsm_docker_commands_custom) }}"
-
 # Volumes
 lgsm_docker_volumes_default:
   - "{{ lgsm_paths_location }}:/data"
@@ -76,32 +58,8 @@ lgsm_docker_volumes_custom: []
 lgsm_docker_volumes: "{{ lookup('vars', lgsm_name + '_docker_volumes_default', default=lgsm_docker_volumes_default)
                                + lookup('vars', lgsm_name + '_docker_volumes_custom', default=lgsm_docker_volumes_custom) }}"
 
-# Devices
-lgsm_docker_devices_default: []
-lgsm_docker_devices_custom: []
-lgsm_docker_devices: "{{ lookup('vars', lgsm_name + '_docker_devices_default', default=lgsm_docker_devices_default)
-                               + lookup('vars', lgsm_name + '_docker_devices_custom', default=lgsm_docker_devices_custom) }}"
-
-# Hosts
-lgsm_docker_hosts_default: {}
-lgsm_docker_hosts_custom: {}
-lgsm_docker_hosts: "{{ docker_hosts_common
-                             | combine(lookup('vars', lgsm_name + '_docker_hosts_default', default=lgsm_docker_hosts_default))
-                             | combine(lookup('vars', lgsm_name + '_docker_hosts_custom', default=lgsm_docker_hosts_custom)) }}"
-
-# Labels
-lgsm_docker_labels_default: {}
-lgsm_docker_labels_custom: {}
-lgsm_docker_labels: "{{ docker_labels_common
-                              | combine(lookup('vars', lgsm_name + '_docker_labels_default', default=lgsm_docker_labels_default))
-                              | combine(lookup('vars', lgsm_name + '_docker_labels_custom', default=lgsm_docker_labels_custom)) }}"
-
 # Hostname
 lgsm_docker_hostname: "{{ lgsm_name }}"
-
-# Network Mode
-lgsm_docker_network_mode_default: "{{ docker_networks_name_common }}"
-lgsm_docker_network_mode: "{{ lookup('vars', lgsm_name + '_docker_network_mode_default', default=lgsm_docker_network_mode_default) }}"
 
 # Networks
 lgsm_docker_networks_alias: "{{ lgsm_name }}"
@@ -110,18 +68,6 @@ lgsm_docker_networks_custom: []
 lgsm_docker_networks: "{{ docker_networks_common
                                 + lookup('vars', lgsm_name + '_docker_networks_default', default=lgsm_docker_networks_default)
                                 + lookup('vars', lgsm_name + '_docker_networks_custom', default=lgsm_docker_networks_custom) }}"
-
-# Capabilities
-lgsm_docker_capabilities_default: []
-lgsm_docker_capabilities_custom: []
-lgsm_docker_capabilities: "{{ lookup('vars', lgsm_name + '_docker_capabilities_default', default=lgsm_docker_capabilities_default)
-                                    + lookup('vars', lgsm_name + '_docker_capabilities_custom', default=lgsm_docker_capabilities_custom) }}"
-
-# Security Opts
-lgsm_docker_security_opts_default: []
-lgsm_docker_security_opts_custom: []
-lgsm_docker_security_opts: "{{ lookup('vars', lgsm_name + '_docker_security_opts_default', default=lgsm_docker_security_opts_default)
-                                     + lookup('vars', lgsm_name + '_docker_security_opts_custom', default=lgsm_docker_security_opts_custom) }}"
 
 # Restart Policy
 lgsm_docker_restart_policy: unless-stopped

@@ -56,56 +56,8 @@ it_tools_docker_image_pull: true
 it_tools_docker_image_tag: "latest"
 it_tools_docker_image: "corentinth/it-tools:{{ it_tools_docker_image_tag }}"
 
-# Ports
-it_tools_docker_ports_defaults: []
-it_tools_docker_ports_custom: []
-it_tools_docker_ports: "{{ it_tools_docker_ports_defaults
-                           + it_tools_docker_ports_custom }}"
-
-# Envs
-it_tools_docker_envs_default: {}
-it_tools_docker_envs_custom: {}
-it_tools_docker_envs: "{{ it_tools_docker_envs_default
-                          | combine(it_tools_docker_envs_custom) }}"
-
-# Commands
-it_tools_docker_volumes_global: false
-it_tools_docker_commands_default: []
-it_tools_docker_commands_custom: []
-it_tools_docker_commands: "{{ it_tools_docker_commands_default
-                              + it_tools_docker_commands_custom }}"
-
 # Volumes
-it_tools_docker_volumes_default: []
-it_tools_docker_volumes_custom: []
-it_tools_docker_volumes: "{{ it_tools_docker_volumes_default
-                             + it_tools_docker_volumes_custom }}"
-
-# Mounts
-it_tools_docker_mounts_default: []
-it_tools_docker_mounts_custom: []
-it_tools_docker_mounts: "{{ it_tools_docker_mounts_default
-                            + it_tools_docker_mounts_custom }}"
-
-# Devices
-it_tools_docker_devices_default: []
-it_tools_docker_devices_custom: []
-it_tools_docker_devices: "{{ it_tools_docker_devices_default
-                             + it_tools_docker_devices_custom }}"
-
-# Hosts
-it_tools_docker_hosts_default: {}
-it_tools_docker_hosts_custom: {}
-it_tools_docker_hosts: "{{ docker_hosts_common
-                           | combine(it_tools_docker_hosts_default)
-                           | combine(it_tools_docker_hosts_custom) }}"
-
-# Labels
-it_tools_docker_labels_default: {}
-it_tools_docker_labels_custom: {}
-it_tools_docker_labels: "{{ docker_labels_common
-                            | combine(it_tools_docker_labels_default)
-                            | combine(it_tools_docker_labels_custom) }}"
+it_tools_docker_volumes_global: false
 
 # Hostname
 it_tools_docker_hostname: "{{ it_tools_name }}"
@@ -117,18 +69,6 @@ it_tools_docker_networks_custom: []
 it_tools_docker_networks: "{{ docker_networks_common
                               + it_tools_docker_networks_default
                               + it_tools_docker_networks_custom }}"
-
-# Capabilities
-it_tools_docker_capabilities_default: []
-it_tools_docker_capabilities_custom: []
-it_tools_docker_capabilities: "{{ it_tools_docker_capabilities_default
-                                  + it_tools_docker_capabilities_custom }}"
-
-# Security Opts
-it_tools_docker_security_opts_default: []
-it_tools_docker_security_opts_custom: []
-it_tools_docker_security_opts: "{{ it_tools_docker_security_opts_default
-                                   + it_tools_docker_security_opts_custom }}"
 
 # Restart Policy
 it_tools_docker_restart_policy: unless-stopped

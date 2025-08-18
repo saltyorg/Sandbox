@@ -64,12 +64,6 @@ beets_docker_image_pull: true
 beets_docker_image_tag: "latest"
 beets_docker_image: "lscr.io/linuxserver/beets:{{ beets_docker_image_tag }}"
 
-# Ports
-beets_docker_ports_defaults: []
-beets_docker_ports_custom: []
-beets_docker_ports: "{{ beets_docker_ports_defaults
-                        + beets_docker_ports_custom }}"
-
 # Envs
 beets_docker_envs_default:
   PUID: "{{ uid }}"
@@ -79,12 +73,6 @@ beets_docker_envs_custom: {}
 beets_docker_envs: "{{ beets_docker_envs_default
                        | combine(beets_docker_envs_custom) }}"
 
-# Commands
-beets_docker_commands_default: []
-beets_docker_commands_custom: []
-beets_docker_commands: "{{ beets_docker_commands_default
-                           + beets_docker_commands_custom }}"
-
 # Volumes
 beets_docker_volumes_default:
   - "{{ beets_paths_location }}:/config"
@@ -92,26 +80,6 @@ beets_docker_volumes_default:
 beets_docker_volumes_custom: []
 beets_docker_volumes: "{{ beets_docker_volumes_default
                           + beets_docker_volumes_custom }}"
-
-# Devices
-beets_docker_devices_default: []
-beets_docker_devices_custom: []
-beets_docker_devices: "{{ beets_docker_devices_default
-                          + beets_docker_devices_custom }}"
-
-# Hosts
-beets_docker_hosts_default: {}
-beets_docker_hosts_custom: {}
-beets_docker_hosts: "{{ docker_hosts_common
-                        | combine(beets_docker_hosts_default)
-                        | combine(beets_docker_hosts_custom) }}"
-
-# Labels
-beets_docker_labels_default: {}
-beets_docker_labels_custom: {}
-beets_docker_labels: "{{ docker_labels_common
-                         | combine(beets_docker_labels_default)
-                         | combine(beets_docker_labels_custom) }}"
 
 # Hostname
 beets_docker_hostname: "{{ beets_name }}"
@@ -123,18 +91,6 @@ beets_docker_networks_custom: []
 beets_docker_networks: "{{ docker_networks_common
                            + beets_docker_networks_default
                            + beets_docker_networks_custom }}"
-
-# Capabilities
-beets_docker_capabilities_default: []
-beets_docker_capabilities_custom: []
-beets_docker_capabilities: "{{ beets_docker_capabilities_default
-                               + beets_docker_capabilities_custom }}"
-
-# Security Opts
-beets_docker_security_opts_default: []
-beets_docker_security_opts_custom: []
-beets_docker_security_opts: "{{ beets_docker_security_opts_default
-                                + beets_docker_security_opts_custom }}"
 
 # Restart Policy
 beets_docker_restart_policy: unless-stopped

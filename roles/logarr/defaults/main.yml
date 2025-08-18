@@ -67,12 +67,6 @@ logarr_docker_image_pull: true
 logarr_docker_image_tag: "latest"
 logarr_docker_image: "monitorr/logarr-alpha:{{ logarr_docker_image_tag }}"
 
-# Ports
-logarr_docker_ports_defaults: []
-logarr_docker_ports_custom: []
-logarr_docker_ports: "{{ logarr_docker_ports_defaults
-                         + logarr_docker_ports_custom }}"
-
 # Envs
 logarr_docker_envs_default:
   PUID: "{{ uid }}"
@@ -82,12 +76,6 @@ logarr_docker_envs_custom: {}
 logarr_docker_envs: "{{ logarr_docker_envs_default
                         | combine(logarr_docker_envs_custom) }}"
 
-# Commands
-logarr_docker_commands_default: []
-logarr_docker_commands_custom: []
-logarr_docker_commands: "{{ logarr_docker_commands_default
-                            + logarr_docker_commands_custom }}"
-
 # Volumes
 logarr_docker_volumes_default:
   - "{{ logarr_paths_location }}:/app"
@@ -96,26 +84,6 @@ logarr_docker_volumes_default:
 logarr_docker_volumes_custom: []
 logarr_docker_volumes: "{{ logarr_docker_volumes_default
                            + logarr_docker_volumes_custom }}"
-
-# Devices
-logarr_docker_devices_default: []
-logarr_docker_devices_custom: []
-logarr_docker_devices: "{{ logarr_docker_devices_default
-                           + logarr_docker_devices_custom }}"
-
-# Hosts
-logarr_docker_hosts_default: {}
-logarr_docker_hosts_custom: {}
-logarr_docker_hosts: "{{ docker_hosts_common
-                         | combine(logarr_docker_hosts_default)
-                         | combine(logarr_docker_hosts_custom) }}"
-
-# Labels
-logarr_docker_labels_default: {}
-logarr_docker_labels_custom: {}
-logarr_docker_labels: "{{ docker_labels_common
-                          | combine(logarr_docker_labels_default)
-                          | combine(logarr_docker_labels_custom) }}"
 
 # Hostname
 logarr_docker_hostname: "{{ logarr_name }}"
@@ -127,18 +95,6 @@ logarr_docker_networks_custom: []
 logarr_docker_networks: "{{ docker_networks_common
                             + logarr_docker_networks_default
                             + logarr_docker_networks_custom }}"
-
-# Capabilities
-logarr_docker_capabilities_default: []
-logarr_docker_capabilities_custom: []
-logarr_docker_capabilities: "{{ logarr_docker_capabilities_default
-                                + logarr_docker_capabilities_custom }}"
-
-# Security Opts
-logarr_docker_security_opts_default: []
-logarr_docker_security_opts_custom: []
-logarr_docker_security_opts: "{{ logarr_docker_security_opts_default
-                                 + logarr_docker_security_opts_custom }}"
 
 # Restart Policy
 logarr_docker_restart_policy: unless-stopped

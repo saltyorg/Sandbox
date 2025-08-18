@@ -65,12 +65,6 @@ mkvtoolnix_docker_image_pull: true
 mkvtoolnix_docker_image_tag: "latest"
 mkvtoolnix_docker_image: "jlesage/mkvtoolnix:{{ mkvtoolnix_docker_image_tag }}"
 
-# Ports
-mkvtoolnix_docker_ports_defaults: []
-mkvtoolnix_docker_ports_custom: []
-mkvtoolnix_docker_ports: "{{ mkvtoolnix_docker_ports_defaults
-                             + mkvtoolnix_docker_ports_custom }}"
-
 # Envs
 mkvtoolnix_docker_envs_default:
   USER_ID: "{{ uid }}"
@@ -85,12 +79,6 @@ mkvtoolnix_docker_envs_custom: {}
 mkvtoolnix_docker_envs: "{{ mkvtoolnix_docker_envs_default
                             | combine(mkvtoolnix_docker_envs_custom) }}"
 
-# Commands
-mkvtoolnix_docker_commands_default: []
-mkvtoolnix_docker_commands_custom: []
-mkvtoolnix_docker_commands: "{{ mkvtoolnix_docker_commands_default
-                                + mkvtoolnix_docker_commands_custom }}"
-
 # Volumes
 mkvtoolnix_docker_volumes_default:
   - "{{ mkvtoolnix_paths_location }}:/config:rw"
@@ -98,26 +86,6 @@ mkvtoolnix_docker_volumes_default:
 mkvtoolnix_docker_volumes_custom: []
 mkvtoolnix_docker_volumes: "{{ mkvtoolnix_docker_volumes_default
                                + mkvtoolnix_docker_volumes_custom }}"
-
-# Devices
-mkvtoolnix_docker_devices_default: []
-mkvtoolnix_docker_devices_custom: []
-mkvtoolnix_docker_devices: "{{ mkvtoolnix_docker_devices_default
-                               + mkvtoolnix_docker_devices_custom }}"
-
-# Hosts
-mkvtoolnix_docker_hosts_default: {}
-mkvtoolnix_docker_hosts_custom: {}
-mkvtoolnix_docker_hosts: "{{ docker_hosts_common
-                             | combine(mkvtoolnix_docker_hosts_default)
-                             | combine(mkvtoolnix_docker_hosts_custom) }}"
-
-# Labels
-mkvtoolnix_docker_labels_default: {}
-mkvtoolnix_docker_labels_custom: {}
-mkvtoolnix_docker_labels: "{{ docker_labels_common
-                              | combine(mkvtoolnix_docker_labels_default)
-                              | combine(mkvtoolnix_docker_labels_custom) }}"
 
 # Hostname
 mkvtoolnix_docker_hostname: "{{ mkvtoolnix_name }}"
@@ -129,18 +97,6 @@ mkvtoolnix_docker_networks_custom: []
 mkvtoolnix_docker_networks: "{{ docker_networks_common
                                 + mkvtoolnix_docker_networks_default
                                 + mkvtoolnix_docker_networks_custom }}"
-
-# Capabilities
-mkvtoolnix_docker_capabilities_default: []
-mkvtoolnix_docker_capabilities_custom: []
-mkvtoolnix_docker_capabilities: "{{ mkvtoolnix_docker_capabilities_default
-                                    + mkvtoolnix_docker_capabilities_custom }}"
-
-# Security Opts
-mkvtoolnix_docker_security_opts_default: []
-mkvtoolnix_docker_security_opts_custom: []
-mkvtoolnix_docker_security_opts: "{{ mkvtoolnix_docker_security_opts_default
-                                     + mkvtoolnix_docker_security_opts_custom }}"
 
 # Restart Policy
 mkvtoolnix_docker_restart_policy: unless-stopped

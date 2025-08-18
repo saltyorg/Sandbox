@@ -66,12 +66,6 @@ funkwhale_docker_image_pull: true
 funkwhale_docker_image_tag: "latest"
 funkwhale_docker_image: "funkwhale/all-in-one:{{ funkwhale_docker_image_tag }}"
 
-# Ports
-funkwhale_docker_ports_defaults: []
-funkwhale_docker_ports_custom: []
-funkwhale_docker_ports: "{{ funkwhale_docker_ports_defaults
-                            + funkwhale_docker_ports_custom }}"
-
 # Envs
 funkwhale_docker_envs_default:
   FUNKWHALE_HOSTNAME: "{{ funkwhale_web_subdomain + '.' + funkwhale_web_domain }}"
@@ -83,12 +77,6 @@ funkwhale_docker_envs_custom: {}
 funkwhale_docker_envs: "{{ funkwhale_docker_envs_default
                            | combine(funkwhale_docker_envs_custom) }}"
 
-# Commands
-funkwhale_docker_commands_default: []
-funkwhale_docker_commands_custom: []
-funkwhale_docker_commands: "{{ funkwhale_docker_commands_default
-                               + funkwhale_docker_commands_custom }}"
-
 # Volumes
 funkwhale_docker_volumes_default:
   - "{{ funkwhale_paths_location }}/data:/data"
@@ -96,26 +84,6 @@ funkwhale_docker_volumes_default:
 funkwhale_docker_volumes_custom: []
 funkwhale_docker_volumes: "{{ funkwhale_docker_volumes_default
                               + funkwhale_docker_volumes_custom }}"
-
-# Devices
-funkwhale_docker_devices_default: []
-funkwhale_docker_devices_custom: []
-funkwhale_docker_devices: "{{ funkwhale_docker_devices_default
-                              + funkwhale_docker_devices_custom }}"
-
-# Hosts
-funkwhale_docker_hosts_default: {}
-funkwhale_docker_hosts_custom: {}
-funkwhale_docker_hosts: "{{ docker_hosts_common
-                            | combine(funkwhale_docker_hosts_default)
-                            | combine(funkwhale_docker_hosts_custom) }}"
-
-# Labels
-funkwhale_docker_labels_default: {}
-funkwhale_docker_labels_custom: {}
-funkwhale_docker_labels: "{{ docker_labels_common
-                             | combine(funkwhale_docker_labels_default)
-                             | combine(funkwhale_docker_labels_custom) }}"
 
 # Hostname
 funkwhale_docker_hostname: "{{ funkwhale_name }}"
@@ -127,18 +95,6 @@ funkwhale_docker_networks_custom: []
 funkwhale_docker_networks: "{{ docker_networks_common
                                + funkwhale_docker_networks_default
                                + funkwhale_docker_networks_custom }}"
-
-# Capabilities
-funkwhale_docker_capabilities_default: []
-funkwhale_docker_capabilities_custom: []
-funkwhale_docker_capabilities: "{{ funkwhale_docker_capabilities_default
-                                   + funkwhale_docker_capabilities_custom }}"
-
-# Security Opts
-funkwhale_docker_security_opts_default: []
-funkwhale_docker_security_opts_custom: []
-funkwhale_docker_security_opts: "{{ funkwhale_docker_security_opts_default
-                                    + funkwhale_docker_security_opts_custom }}"
 
 # Restart Policy
 funkwhale_docker_restart_policy: unless-stopped

@@ -157,4 +157,4 @@ speedtest_docker_restart_policy: unless-stopped
 speedtest_docker_state: started
 
 # Force Kill
-speedtest_docker_force_kill: yes
+speedtest_docker_force_kill: true

@@ -12,11 +12,11 @@
     name: bookstack-app-key
     image: "{{ bookstack_docker_image }}"
     command: "appkey"
-    detach: no
+    detach: false
     entrypoint: "/bin/bash"
     networks:
       - name: saltbox
-    cleanup: yes
+    cleanup: true
     state: started
     container_default_behavior: compatibility
     tls_hostname: localhost

@@ -50,38 +50,6 @@ doplarr_docker_envs_custom: []
 doplarr_docker_envs: "{{ doplarr_docker_envs_default
                          | combine(doplarr_docker_envs_custom) }}"
 
-# Commands
-doplarr_docker_commands_default: []
-doplarr_docker_commands_custom: []
-doplarr_docker_commands: "{{ doplarr_docker_commands_default
-                             + doplarr_docker_commands_custom }}"
-
-# Volumes
-doplarr_docker_volumes_default: []
-doplarr_docker_volumes_custom: []
-doplarr_docker_volumes: "{{ doplarr_docker_volumes_default
-                            + doplarr_docker_volumes_custom }}"
-
-# Devices
-doplarr_docker_devices_default: []
-doplarr_docker_devices_custom: []
-doplarr_docker_devices: "{{ doplarr_docker_devices_default
-                            + doplarr_docker_devices_custom }}"
-
-# Hosts
-doplarr_docker_hosts_default: {}
-doplarr_docker_hosts_custom: {}
-doplarr_docker_hosts: "{{ docker_hosts_common
-                          | combine(doplarr_docker_hosts_default)
-                          | combine(doplarr_docker_hosts_custom) }}"
-
-# Labels
-doplarr_docker_labels_default: {}
-doplarr_docker_labels_custom: {}
-doplarr_docker_labels: "{{ docker_labels_common
-                           | combine(doplarr_docker_labels_default)
-                           | combine(doplarr_docker_labels_custom) }}"
-
 # Hostname
 doplarr_docker_hostname: "{{ doplarr_name }}"
 
@@ -92,18 +60,6 @@ doplarr_docker_networks_custom: []
 doplarr_docker_networks: "{{ docker_networks_common
                              + doplarr_docker_networks_default
                              + doplarr_docker_networks_custom }}"
-
-# Capabilities
-doplarr_docker_capabilities_default: []
-doplarr_docker_capabilities_custom: []
-doplarr_docker_capabilities: "{{ doplarr_docker_capabilities_default
-                                 + doplarr_docker_capabilities_custom }}"
-
-# Security Opts
-doplarr_docker_security_opts_default: []
-doplarr_docker_security_opts_custom: []
-doplarr_docker_security_opts: "{{ doplarr_docker_security_opts_default
-                                  + doplarr_docker_security_opts_custom }}"
 
 # Restart Policy
 doplarr_docker_restart_policy: unless-stopped

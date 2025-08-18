@@ -73,12 +73,6 @@ calibre_web_docker_image_pull: true
 calibre_web_docker_image_tag: "latest"
 calibre_web_docker_image: "lscr.io/linuxserver/calibre-web:{{ calibre_web_docker_image_tag }}"
 
-# Ports
-calibre_web_docker_ports_defaults: []
-calibre_web_docker_ports_custom: []
-calibre_web_docker_ports: "{{ calibre_web_docker_ports_defaults
-                              + calibre_web_docker_ports_custom }}"
-
 # Envs
 calibre_web_docker_envs_default:
   PUID: "{{ uid }}"
@@ -87,23 +81,14 @@ calibre_web_docker_envs_default:
   CACHE_DIR: "/cache/"
   USE_CONFIG_DIR: "true"
   DOCKER_MODS: linuxserver/mods:universal-calibre
-calibre_web_docker_envs_custom: {}
 calibre_web_docker_envs_theme:
   DOCKER_MODS: "linuxserver/mods:universal-calibre|ghcr.io/themepark-dev/theme.park:calibre-web"
   TP_DOMAIN: "{{ calibre_web_themepark_domain }}"
   TP_THEME: "{{ calibre_web_themepark_theme }}"
+calibre_web_docker_envs_custom: {}
 calibre_web_docker_envs: "{{ calibre_web_docker_envs_default
-                             | combine(calibre_web_docker_envs_custom)
-                          if not (calibre_web_themepark_enabled)
-                          else calibre_web_docker_envs_default
-                             | combine(calibre_web_docker_envs_custom)
-                             | combine(calibre_web_docker_envs_theme) }}"
-
-# Commands
-calibre_web_docker_commands_default: []
-calibre_web_docker_commands_custom: []
-calibre_web_docker_commands: "{{ calibre_web_docker_commands_default
-                                 + calibre_web_docker_commands_custom }}"
+                             | combine(calibre_web_docker_envs_theme if calibre_web_themepark_enabled else {})
+                             | combine(calibre_web_docker_envs_custom) }}"
 
 # Volumes
 calibre_web_docker_volumes_default:
@@ -115,25 +100,11 @@ calibre_web_docker_volumes_custom: []
 calibre_web_docker_volumes: "{{ calibre_web_docker_volumes_default
                                 + calibre_web_docker_volumes_custom }}"
 
-# Devices
-calibre_web_docker_devices_default: []
-calibre_web_docker_devices_custom: []
-calibre_web_docker_devices: "{{ calibre_web_docker_devices_default
-                                + calibre_web_docker_devices_custom }}"
-
-# Hosts
-calibre_web_docker_hosts_default: {}
-calibre_web_docker_hosts_custom: {}
-calibre_web_docker_hosts: "{{ docker_hosts_common
-                              | combine(calibre_web_docker_hosts_default)
-                              | combine(calibre_web_docker_hosts_custom) }}"
-
 # Labels
 calibre_web_docker_labels_default:
   traefik.http.middlewares.kobo-sync-headers.headers.customrequestheaders.X-Scheme: "https"
 calibre_web_docker_labels_custom: {}
-calibre_web_docker_labels: "{{ docker_labels_common
-                               | combine(calibre_web_docker_labels_default)
+calibre_web_docker_labels: "{{ calibre_web_docker_labels_default
                                | combine(calibre_web_docker_labels_custom) }}"
 
 # Hostname
@@ -146,18 +117,6 @@ calibre_web_docker_networks_custom: []
 calibre_web_docker_networks: "{{ docker_networks_common
                                  + calibre_web_docker_networks_default
                                  + calibre_web_docker_networks_custom }}"
-
-# Capabilities
-calibre_web_docker_capabilities_default: []
-calibre_web_docker_capabilities_custom: []
-calibre_web_docker_capabilities: "{{ calibre_web_docker_capabilities_default
-                                     + calibre_web_docker_capabilities_custom }}"
-
-# Security Opts
-calibre_web_docker_security_opts_default: []
-calibre_web_docker_security_opts_custom: []
-calibre_web_docker_security_opts: "{{ calibre_web_docker_security_opts_default
-                                      + calibre_web_docker_security_opts_custom }}"
 
 # Restart Policy
 calibre_web_docker_restart_policy: unless-stopped

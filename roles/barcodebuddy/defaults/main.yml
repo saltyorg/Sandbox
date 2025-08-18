@@ -63,12 +63,6 @@ barcodebuddy_docker_image_pull: true
 barcodebuddy_docker_image_tag: "latest"
 barcodebuddy_docker_image: "f0rc3/barcodebuddy:{{ barcodebuddy_docker_image_tag }}"
 
-# Ports
-barcodebuddy_docker_ports_defaults: []
-barcodebuddy_docker_ports_custom: []
-barcodebuddy_docker_ports: "{{ barcodebuddy_docker_ports_defaults
-                               + barcodebuddy_docker_ports_custom }}"
-
 # Envs
 barcodebuddy_docker_envs_default:
   PUID: "{{ uid }}"
@@ -78,38 +72,12 @@ barcodebuddy_docker_envs_custom: {}
 barcodebuddy_docker_envs: "{{ barcodebuddy_docker_envs_default
                               | combine(barcodebuddy_docker_envs_custom) }}"
 
-# Commands
-barcodebuddy_docker_commands_default: []
-barcodebuddy_docker_commands_custom: []
-barcodebuddy_docker_commands: "{{ barcodebuddy_docker_commands_default
-                                  + barcodebuddy_docker_commands_custom }}"
-
 # Volumes
 barcodebuddy_docker_volumes_default:
   - "{{ barcodebuddy_paths_location }}:/config"
 barcodebuddy_docker_volumes_custom: []
 barcodebuddy_docker_volumes: "{{ barcodebuddy_docker_volumes_default
                                  + barcodebuddy_docker_volumes_custom }}"
-
-# Devices
-barcodebuddy_docker_devices_default: []
-barcodebuddy_docker_devices_custom: []
-barcodebuddy_docker_devices: "{{ barcodebuddy_docker_devices_default
-                                 + barcodebuddy_docker_devices_custom }}"
-
-# Hosts
-barcodebuddy_docker_hosts_default: {}
-barcodebuddy_docker_hosts_custom: {}
-barcodebuddy_docker_hosts: "{{ docker_hosts_common
-                               | combine(barcodebuddy_docker_hosts_default)
-                               | combine(barcodebuddy_docker_hosts_custom) }}"
-
-# Labels
-barcodebuddy_docker_labels_default: {}
-barcodebuddy_docker_labels_custom: {}
-barcodebuddy_docker_labels: "{{ docker_labels_common
-                                | combine(barcodebuddy_docker_labels_default)
-                                | combine(barcodebuddy_docker_labels_custom) }}"
 
 # Hostname
 barcodebuddy_docker_hostname: "{{ barcodebuddy_name }}"
@@ -121,18 +89,6 @@ barcodebuddy_docker_networks_custom: []
 barcodebuddy_docker_networks: "{{ docker_networks_common
                                   + barcodebuddy_docker_networks_default
                                   + barcodebuddy_docker_networks_custom }}"
-
-# Capabilities
-barcodebuddy_docker_capabilities_default: []
-barcodebuddy_docker_capabilities_custom: []
-barcodebuddy_docker_capabilities: "{{ barcodebuddy_docker_capabilities_default
-                                      + barcodebuddy_docker_capabilities_custom }}"
-
-# Security Opts
-barcodebuddy_docker_security_opts_default: []
-barcodebuddy_docker_security_opts_custom: []
-barcodebuddy_docker_security_opts: "{{ barcodebuddy_docker_security_opts_default
-                                       + barcodebuddy_docker_security_opts_custom }}"
 
 # Restart Policy
 barcodebuddy_docker_restart_policy: unless-stopped

@@ -78,12 +78,6 @@ linkwarden_docker_image_pull: true
 linkwarden_docker_image_tag: "latest"
 linkwarden_docker_image: "ghcr.io/linkwarden/linkwarden:{{ linkwarden_docker_image_tag }}"
 
-# Ports
-linkwarden_docker_ports_defaults: []
-linkwarden_docker_ports_custom: []
-linkwarden_docker_ports: "{{ linkwarden_docker_ports_defaults
-                             + linkwarden_docker_ports_custom }}"
-
 # Envs
 linkwarden_docker_envs_default:
   TZ: "{{ tz }}"
@@ -96,38 +90,12 @@ linkwarden_docker_envs_custom: {}
 linkwarden_docker_envs: "{{ linkwarden_docker_envs_default
                             | combine(linkwarden_docker_envs_custom) }}"
 
-# Commands
-linkwarden_docker_commands_default: []
-linkwarden_docker_commands_custom: []
-linkwarden_docker_commands: "{{ linkwarden_docker_commands_default
-                                + linkwarden_docker_commands_custom }}"
-
 # Volumes
 linkwarden_docker_volumes_default:
   - "{{ linkwarden_paths_location }}:/data/data"
 linkwarden_docker_volumes_custom: []
 linkwarden_docker_volumes: "{{ linkwarden_docker_volumes_default
                                + linkwarden_docker_volumes_custom }}"
-
-# Devices
-linkwarden_docker_devices_default: []
-linkwarden_docker_devices_custom: []
-linkwarden_docker_devices: "{{ linkwarden_docker_devices_default
-                               + linkwarden_docker_devices_custom }}"
-
-# Hosts
-linkwarden_docker_hosts_default: {}
-linkwarden_docker_hosts_custom: {}
-linkwarden_docker_hosts: "{{ docker_hosts_common
-                             | combine(linkwarden_docker_hosts_default)
-                             | combine(linkwarden_docker_hosts_custom) }}"
-
-# Labels
-linkwarden_docker_labels_default: {}
-linkwarden_docker_labels_custom: {}
-linkwarden_docker_labels: "{{ docker_labels_common
-                              | combine(linkwarden_docker_labels_default)
-                              | combine(linkwarden_docker_labels_custom) }}"
 
 # Hostname
 linkwarden_docker_hostname: "{{ linkwarden_name }}"
@@ -139,18 +107,6 @@ linkwarden_docker_networks_custom: []
 linkwarden_docker_networks: "{{ docker_networks_common
                                 + linkwarden_docker_networks_default
                                 + linkwarden_docker_networks_custom }}"
-
-# Capabilities
-linkwarden_docker_capabilities_default: []
-linkwarden_docker_capabilities_custom: []
-linkwarden_docker_capabilities: "{{ linkwarden_docker_capabilities_default
-                                    + linkwarden_docker_capabilities_custom }}"
-
-# Security Opts
-linkwarden_docker_security_opts_default: []
-linkwarden_docker_security_opts_custom: []
-linkwarden_docker_security_opts: "{{ linkwarden_docker_security_opts_default
-                                     + linkwarden_docker_security_opts_custom }}"
 
 # Restart Policy
 linkwarden_docker_restart_policy: unless-stopped

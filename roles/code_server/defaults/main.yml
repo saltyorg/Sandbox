@@ -66,12 +66,6 @@ code_server_docker_image_pull: true
 code_server_docker_image_tag: "latest"
 code_server_docker_image: "codercom/code-server:{{ code_server_docker_image_tag }}"
 
-# Ports
-code_server_docker_ports_defaults: []
-code_server_docker_ports_custom: []
-code_server_docker_ports: "{{ code_server_docker_ports_defaults
-                              + code_server_docker_ports_custom }}"
-
 # Envs
 code_server_docker_envs_default:
   UMASK: "002"
@@ -81,12 +75,6 @@ code_server_docker_envs_default:
 code_server_docker_envs_custom: {}
 code_server_docker_envs: "{{ code_server_docker_envs_default
                              | combine(code_server_docker_envs_custom) }}"
-
-# Commands
-code_server_docker_commands_default: []
-code_server_docker_commands_custom: []
-code_server_docker_commands: "{{ code_server_docker_commands_default
-                                 + code_server_docker_commands_custom }}"
 
 # Volumes
 code_server_docker_volumes_default:
@@ -98,26 +86,6 @@ code_server_docker_volumes_custom: []
 code_server_docker_volumes: "{{ code_server_docker_volumes_default
                                 + code_server_docker_volumes_custom }}"
 
-# Devices
-code_server_docker_devices_default: []
-code_server_docker_devices_custom: []
-code_server_docker_devices: "{{ code_server_docker_devices_default
-                                + code_server_docker_devices_custom }}"
-
-# Hosts
-code_server_docker_hosts_default: {}
-code_server_docker_hosts_custom: {}
-code_server_docker_hosts: "{{ docker_hosts_common
-                              | combine(code_server_docker_hosts_default)
-                              | combine(code_server_docker_hosts_custom) }}"
-
-# Labels
-code_server_docker_labels_default: {}
-code_server_docker_labels_custom: {}
-code_server_docker_labels: "{{ docker_labels_common
-                               | combine(code_server_docker_labels_default)
-                               | combine(code_server_docker_labels_custom) }}"
-
 # Hostname
 code_server_docker_hostname: "{{ code_server_name }}"
 
@@ -128,18 +96,6 @@ code_server_docker_networks_custom: []
 code_server_docker_networks: "{{ docker_networks_common
                                  + code_server_docker_networks_default
                                  + code_server_docker_networks_custom }}"
-
-# Capabilities
-code_server_docker_capabilities_default: []
-code_server_docker_capabilities_custom: []
-code_server_docker_capabilities: "{{ code_server_docker_capabilities_default
-                                     + code_server_docker_capabilities_custom }}"
-
-# Security Opts
-code_server_docker_security_opts_default: []
-code_server_docker_security_opts_custom: []
-code_server_docker_security_opts: "{{ code_server_docker_security_opts_default
-                                      + code_server_docker_security_opts_custom }}"
 
 # Restart Policy
 code_server_docker_restart_policy: unless-stopped

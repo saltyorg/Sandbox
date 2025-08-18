@@ -66,12 +66,6 @@ esphome_docker_image_pull: true
 esphome_docker_image_tag: "latest"
 esphome_docker_image: "ghcr.io/imagegenius/esphome:latest"
 
-# Ports
-esphome_docker_ports_defaults: []
-esphome_docker_ports_custom: []
-esphome_docker_ports: "{{ esphome_docker_ports_defaults
-                                + esphome_docker_ports_custom }}"
-
 # Envs
 esphome_docker_envs_default:
   TZ: "{{ tz }}"
@@ -81,12 +75,6 @@ esphome_docker_envs_custom: {}
 esphome_docker_envs: "{{ esphome_docker_envs_default
                                | combine(esphome_docker_envs_custom) }}"
 
-# Commands
-esphome_docker_commands_default: []
-esphome_docker_commands_custom: []
-esphome_docker_commands: "{{ esphome_docker_commands_default
-                                   + esphome_docker_commands_custom }}"
-
 # Volumes
 esphome_docker_volumes_default:
   - "{{ esphome_paths_location }}:/config"
@@ -94,29 +82,6 @@ esphome_docker_volumes_default:
 esphome_docker_volumes_custom: []
 esphome_docker_volumes: "{{ esphome_docker_volumes_default
                                   + esphome_docker_volumes_custom }}"
-
-# Extended Privileges
-esphome_docker_privileged: "yes"
-
-# Devices
-esphome_docker_devices_default: []
-esphome_docker_devices_custom: []
-esphome_docker_devices: "{{ esphome_docker_devices_default
-                                  + esphome_docker_devices_custom }}"
-
-# Hosts
-esphome_docker_hosts_default: {}
-esphome_docker_hosts_custom: {}
-esphome_docker_hosts: "{{ docker_hosts_common
-                                | combine(esphome_docker_hosts_default)
-                                | combine(esphome_docker_hosts_custom) }}"
-
-# Labels
-esphome_docker_labels_default: {}
-esphome_docker_labels_custom: {}
-esphome_docker_labels: "{{ docker_labels_common
-                                 | combine(esphome_docker_labels_default)
-                                 | combine(esphome_docker_labels_custom) }}"
 
 # Hostname
 esphome_docker_hostname: "{{ esphome_name }}"
@@ -129,23 +94,14 @@ esphome_docker_networks: "{{ docker_networks_common
                                    + esphome_docker_networks_default
                                    + esphome_docker_networks_custom }}"
 
-# Capabilities
-esphome_docker_capabilities_default: []
-esphome_docker_capabilities_custom: []
-esphome_docker_capabilities: "{{ esphome_docker_capabilities_default
-                                       + esphome_docker_capabilities_custom }}"
-
 # Network Mode
 esphome_docker_network_mode: "host"
-
-# Security Opts
-esphome_docker_security_opts_default: []
-esphome_docker_security_opts_custom: []
-esphome_docker_security_opts: "{{ esphome_docker_security_opts_default
-                                        + esphome_docker_security_opts_custom }}"
 
 # Restart Policy
 esphome_docker_restart_policy: unless-stopped
 
 # State
 esphome_docker_state: started
+
+# Privileged
+esphome_docker_privileged: "yes"

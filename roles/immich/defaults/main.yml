@@ -82,12 +82,6 @@ immich_docker_image_pull: true
 immich_docker_image_tag: "latest"
 immich_docker_image: "ghcr.io/imagegenius/immich:{{ immich_docker_image_tag }}"
 
-# Ports
-immich_docker_ports_defaults: []
-immich_docker_ports_custom: []
-immich_docker_ports: "{{ immich_docker_ports_defaults
-                         + immich_docker_ports_custom }}"
-
 # Envs
 immich_docker_envs_default:
   PUID: "{{ uid }}"
@@ -105,12 +99,6 @@ immich_docker_envs_custom: {}
 immich_docker_envs: "{{ immich_docker_envs_default
                         | combine(immich_docker_envs_custom) }}"
 
-# Commands
-immich_docker_commands_default: []
-immich_docker_commands_custom: []
-immich_docker_commands: "{{ immich_docker_commands_default
-                            + immich_docker_commands_custom }}"
-
 # Volumes
 immich_docker_volumes_default:
   - "{{ immich_paths_location }}:/config"
@@ -118,26 +106,6 @@ immich_docker_volumes_default:
 immich_docker_volumes_custom: []
 immich_docker_volumes: "{{ immich_docker_volumes_default
                            + immich_docker_volumes_custom }}"
-
-# Devices
-immich_docker_devices_default: []
-immich_docker_devices_custom: []
-immich_docker_devices: "{{ immich_docker_devices_default
-                           + immich_docker_devices_custom }}"
-
-# Hosts
-immich_docker_hosts_default: {}
-immich_docker_hosts_custom: {}
-immich_docker_hosts: "{{ docker_hosts_common
-                         | combine(immich_docker_hosts_default)
-                         | combine(immich_docker_hosts_custom) }}"
-
-# Labels
-immich_docker_labels_default: {}
-immich_docker_labels_custom: {}
-immich_docker_labels: "{{ docker_labels_common
-                          | combine(immich_docker_labels_default)
-                          | combine(immich_docker_labels_custom) }}"
 
 # Hostname
 immich_docker_hostname: "{{ immich_name }}"
@@ -149,18 +117,6 @@ immich_docker_networks_custom: []
 immich_docker_networks: "{{ docker_networks_common
                             + immich_docker_networks_default
                             + immich_docker_networks_custom }}"
-
-# Capabilities
-immich_docker_capabilities_default: []
-immich_docker_capabilities_custom: []
-immich_docker_capabilities: "{{ immich_docker_capabilities_default
-                                + immich_docker_capabilities_custom }}"
-
-# Security Opts
-immich_docker_security_opts_default: []
-immich_docker_security_opts_custom: []
-immich_docker_security_opts: "{{ immich_docker_security_opts_default
-                                 + immich_docker_security_opts_custom }}"
 
 # Restart Policy
 immich_docker_restart_policy: unless-stopped

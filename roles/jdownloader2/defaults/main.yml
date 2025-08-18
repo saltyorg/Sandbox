@@ -70,12 +70,6 @@ jdownloader2_docker_image_pull: true
 jdownloader2_docker_image_tag: "latest"
 jdownloader2_docker_image: "jlesage/jdownloader-2:{{ jdownloader2_docker_image_tag }}"
 
-# Ports
-jdownloader2_docker_ports_defaults: []
-jdownloader2_docker_ports_custom: []
-jdownloader2_docker_ports: "{{ jdownloader2_docker_ports_defaults
-                               + jdownloader2_docker_ports_custom }}"
-
 # Envs
 jdownloader2_docker_envs_default:
   USER_ID: "{{ uid }}"
@@ -91,12 +85,6 @@ jdownloader2_docker_envs_custom: {}
 jdownloader2_docker_envs: "{{ jdownloader2_docker_envs_default
                               | combine(jdownloader2_docker_envs_custom) }}"
 
-# Commands
-jdownloader2_docker_commands_default: []
-jdownloader2_docker_commands_custom: []
-jdownloader2_docker_commands: "{{ jdownloader2_docker_commands_default
-                                  + jdownloader2_docker_commands_custom }}"
-
 # Volumes
 jdownloader2_docker_volumes_default:
   - "{{ jdownloader2_paths_location }}/config:/config"
@@ -104,26 +92,6 @@ jdownloader2_docker_volumes_default:
 jdownloader2_docker_volumes_custom: []
 jdownloader2_docker_volumes: "{{ jdownloader2_docker_volumes_default
                                  + jdownloader2_docker_volumes_custom }}"
-
-# Devices
-jdownloader2_docker_devices_default: []
-jdownloader2_docker_devices_custom: []
-jdownloader2_docker_devices: "{{ jdownloader2_docker_devices_default
-                                 + jdownloader2_docker_devices_custom }}"
-
-# Hosts
-jdownloader2_docker_hosts_default: {}
-jdownloader2_docker_hosts_custom: {}
-jdownloader2_docker_hosts: "{{ docker_hosts_common
-                               | combine(jdownloader2_docker_hosts_default)
-                               | combine(jdownloader2_docker_hosts_custom) }}"
-
-# Labels
-jdownloader2_docker_labels_default: {}
-jdownloader2_docker_labels_custom: {}
-jdownloader2_docker_labels: "{{ docker_labels_common
-                                | combine(jdownloader2_docker_labels_default)
-                                | combine(jdownloader2_docker_labels_custom) }}"
 
 # Hostname
 jdownloader2_docker_hostname: "{{ jdownloader2_name }}"
@@ -135,18 +103,6 @@ jdownloader2_docker_networks_custom: []
 jdownloader2_docker_networks: "{{ docker_networks_common
                                   + jdownloader2_docker_networks_default
                                   + jdownloader2_docker_networks_custom }}"
-
-# Capabilities
-jdownloader2_docker_capabilities_default: []
-jdownloader2_docker_capabilities_custom: []
-jdownloader2_docker_capabilities: "{{ jdownloader2_docker_capabilities_default
-                                      + jdownloader2_docker_capabilities_custom }}"
-
-# Security Opts
-jdownloader2_docker_security_opts_default: []
-jdownloader2_docker_security_opts_custom: []
-jdownloader2_docker_security_opts: "{{ jdownloader2_docker_security_opts_default
-                                       + jdownloader2_docker_security_opts_custom }}"
 
 # Restart Policy
 jdownloader2_docker_restart_policy: unless-stopped

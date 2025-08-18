@@ -148,7 +148,7 @@ privatebin_docker_security_opts: "{{ privatebin_docker_security_opts_default
                                      + privatebin_docker_security_opts_custom }}"
 
 # Read Only
-privatebin_docker_read_only: yes
+privatebin_docker_read_only: true
 
 # Restart Policy
 privatebin_docker_restart_policy: unless-stopped

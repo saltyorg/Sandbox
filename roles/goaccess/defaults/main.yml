@@ -65,12 +65,6 @@ goaccess_docker_image_pull: true
 goaccess_docker_image_tag: "latest"
 goaccess_docker_image: "gregyankovoy/goaccess:{{ goaccess_docker_image_tag }}"
 
-# Ports
-goaccess_docker_ports_defaults: []
-goaccess_docker_ports_custom: []
-goaccess_docker_ports: "{{ goaccess_docker_ports_defaults
-                           + goaccess_docker_ports_custom }}"
-
 # Envs
 goaccess_docker_envs_default:
   TZ: "{{ tz }}"
@@ -80,12 +74,6 @@ goaccess_docker_envs_custom: {}
 goaccess_docker_envs: "{{ goaccess_docker_envs_default
                           | combine(goaccess_docker_envs_custom) }}"
 
-# Commands
-goaccess_docker_commands_default: []
-goaccess_docker_commands_custom: []
-goaccess_docker_commands: "{{ goaccess_docker_commands_default
-                              + goaccess_docker_commands_custom }}"
-
 # Volumes
 goaccess_docker_volumes_default:
   - "{{ goaccess_paths_location }}:/config"
@@ -93,26 +81,6 @@ goaccess_docker_volumes_default:
 goaccess_docker_volumes_custom: []
 goaccess_docker_volumes: "{{ goaccess_docker_volumes_default
                              + goaccess_docker_volumes_custom }}"
-
-# Devices
-goaccess_docker_devices_default: []
-goaccess_docker_devices_custom: []
-goaccess_docker_devices: "{{ goaccess_docker_devices_default
-                             + goaccess_docker_devices_custom }}"
-
-# Hosts
-goaccess_docker_hosts_default: {}
-goaccess_docker_hosts_custom: {}
-goaccess_docker_hosts: "{{ docker_hosts_common
-                           | combine(goaccess_docker_hosts_default)
-                           | combine(goaccess_docker_hosts_custom) }}"
-
-# Labels
-goaccess_docker_labels_default: {}
-goaccess_docker_labels_custom: {}
-goaccess_docker_labels: "{{ docker_labels_common
-                            | combine(goaccess_docker_labels_default)
-                            | combine(goaccess_docker_labels_custom) }}"
 
 # Hostname
 goaccess_docker_hostname: "{{ goaccess_name }}"
@@ -124,18 +92,6 @@ goaccess_docker_networks_custom: []
 goaccess_docker_networks: "{{ docker_networks_common
                               + goaccess_docker_networks_default
                               + goaccess_docker_networks_custom }}"
-
-# Capabilities
-goaccess_docker_capabilities_default: []
-goaccess_docker_capabilities_custom: []
-goaccess_docker_capabilities: "{{ goaccess_docker_capabilities_default
-                                  + goaccess_docker_capabilities_custom }}"
-
-# Security Opts
-goaccess_docker_security_opts_default: []
-goaccess_docker_security_opts_custom: []
-goaccess_docker_security_opts: "{{ goaccess_docker_security_opts_default
-                                   + goaccess_docker_security_opts_custom }}"
 
 # Restart Policy
 goaccess_docker_restart_policy: unless-stopped

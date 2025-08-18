@@ -82,10 +82,10 @@
       ansible.builtin.systemd:
         name: cockpit.socket
         state: started
-        enabled: yes
+        enabled: true
 
     - name: Load 'cockpit_service'
       ansible.builtin.systemd:
         name: cockpit.service
         state: started
-        enabled: yes
+        enabled: true

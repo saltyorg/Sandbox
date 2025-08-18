@@ -63,12 +63,6 @@ archivebox_docker_image_pull: true
 archivebox_docker_image_tag: "latest"
 archivebox_docker_image: "archivebox/archivebox:{{ archivebox_docker_image_tag }}"
 
-# Ports
-archivebox_docker_ports_defaults: []
-archivebox_docker_ports_custom: []
-archivebox_docker_ports: "{{ archivebox_docker_ports_defaults
-                             + archivebox_docker_ports_custom }}"
-
 # Envs
 archivebox_docker_envs_default:
   PUID: "{{ uid }}"
@@ -78,38 +72,12 @@ archivebox_docker_envs_custom: {}
 archivebox_docker_envs: "{{ archivebox_docker_envs_default
                             | combine(archivebox_docker_envs_custom) }}"
 
-# Commands
-archivebox_docker_commands_default: []
-archivebox_docker_commands_custom: []
-archivebox_docker_commands: "{{ archivebox_docker_commands_default
-                                + archivebox_docker_commands_custom }}"
-
 # Volumes
 archivebox_docker_volumes_default:
   - "{{ archivebox_paths_location }}:/data"
 archivebox_docker_volumes_custom: []
 archivebox_docker_volumes: "{{ archivebox_docker_volumes_default
                                + archivebox_docker_volumes_custom }}"
-
-# Devices
-archivebox_docker_devices_default: []
-archivebox_docker_devices_custom: []
-archivebox_docker_devices: "{{ archivebox_docker_devices_default
-                               + archivebox_docker_devices_custom }}"
-
-# Hosts
-archivebox_docker_hosts_default: {}
-archivebox_docker_hosts_custom: {}
-archivebox_docker_hosts: "{{ docker_hosts_common
-                             | combine(archivebox_docker_hosts_default)
-                             | combine(archivebox_docker_hosts_custom) }}"
-
-# Labels
-archivebox_docker_labels_default: {}
-archivebox_docker_labels_custom: {}
-archivebox_docker_labels: "{{ docker_labels_common
-                              | combine(archivebox_docker_labels_default)
-                              | combine(archivebox_docker_labels_custom) }}"
 
 # Hostname
 archivebox_docker_hostname: "{{ archivebox_name }}"
@@ -121,18 +89,6 @@ archivebox_docker_networks_custom: []
 archivebox_docker_networks: "{{ docker_networks_common
                                 + archivebox_docker_networks_default
                                 + archivebox_docker_networks_custom }}"
-
-# Capabilities
-archivebox_docker_capabilities_default: []
-archivebox_docker_capabilities_custom: []
-archivebox_docker_capabilities: "{{ archivebox_docker_capabilities_default
-                                    + archivebox_docker_capabilities_custom }}"
-
-# Security Opts
-archivebox_docker_security_opts_default: []
-archivebox_docker_security_opts_custom: []
-archivebox_docker_security_opts: "{{ archivebox_docker_security_opts_default
-                                     + archivebox_docker_security_opts_custom }}"
 
 # Restart Policy
 archivebox_docker_restart_policy: unless-stopped

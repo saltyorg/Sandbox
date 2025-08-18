@@ -25,50 +25,12 @@ gotenberg_docker_image_pull: true
 gotenberg_docker_image_tag: "latest"
 gotenberg_docker_image: "gotenberg/gotenberg:{{ gotenberg_docker_image_tag }}"
 
-# Ports
-gotenberg_docker_ports_defaults: []
-gotenberg_docker_ports_custom: []
-gotenberg_docker_ports: "{{ gotenberg_docker_ports_defaults
-                            + gotenberg_docker_ports_custom }}"
-
 # Envs
 gotenberg_docker_envs_default:
   TZ: "{{ tz }}"
 gotenberg_docker_envs_custom: {}
 gotenberg_docker_envs: "{{ gotenberg_docker_envs_default
                            | combine(gotenberg_docker_envs_custom) }}"
-
-# Commands
-gotenberg_docker_commands_default: []
-gotenberg_docker_commands_custom: []
-gotenberg_docker_commands: "{{ gotenberg_docker_commands_default
-                               + gotenberg_docker_commands_custom }}"
-
-# Volumes
-gotenberg_docker_volumes_default: []
-gotenberg_docker_volumes_custom: []
-gotenberg_docker_volumes: "{{ gotenberg_docker_volumes_default
-                              + gotenberg_docker_volumes_custom }}"
-
-# Devices
-gotenberg_docker_devices_default: []
-gotenberg_docker_devices_custom: []
-gotenberg_docker_devices: "{{ gotenberg_docker_devices_default
-                              + gotenberg_docker_devices_custom }}"
-
-# Hosts
-gotenberg_docker_hosts_default: {}
-gotenberg_docker_hosts_custom: {}
-gotenberg_docker_hosts: "{{ docker_hosts_common
-                            | combine(gotenberg_docker_hosts_default)
-                            | combine(gotenberg_docker_hosts_custom) }}"
-
-# Labels
-gotenberg_docker_labels_default: {}
-gotenberg_docker_labels_custom: {}
-gotenberg_docker_labels: "{{ docker_labels_common
-                             | combine(gotenberg_docker_labels_default)
-                             | combine(gotenberg_docker_labels_custom) }}"
 
 # Hostname
 gotenberg_docker_hostname: "{{ gotenberg_name }}"
@@ -80,18 +42,6 @@ gotenberg_docker_networks_custom: []
 gotenberg_docker_networks: "{{ docker_networks_common
                                + gotenberg_docker_networks_default
                                + gotenberg_docker_networks_custom }}"
-
-# Capabilities
-gotenberg_docker_capabilities_default: []
-gotenberg_docker_capabilities_custom: []
-gotenberg_docker_capabilities: "{{ gotenberg_docker_capabilities_default
-                                   + gotenberg_docker_capabilities_custom }}"
-
-# Security Opts
-gotenberg_docker_security_opts_default: []
-gotenberg_docker_security_opts_custom: []
-gotenberg_docker_security_opts: "{{ gotenberg_docker_security_opts_default
-                                    + gotenberg_docker_security_opts_custom }}"
 
 # Restart Policy
 gotenberg_docker_restart_policy: always

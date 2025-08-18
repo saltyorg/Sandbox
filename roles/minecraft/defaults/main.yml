@@ -90,12 +90,6 @@ minecraft_docker_envs_custom: {}
 minecraft_docker_envs: "{{ lookup('vars', minecraft_name + '_docker_envs_default', default=minecraft_docker_envs_default)
                            | combine(lookup('vars', minecraft_name + '_docker_envs_custom', default=minecraft_docker_envs_custom)) }}"
 
-# Commands
-minecraft_docker_commands_default: []
-minecraft_docker_commands_custom: []
-minecraft_docker_commands: "{{ lookup('vars', minecraft_name + '_docker_commands_default', default=minecraft_docker_commands_default)
-                               + lookup('vars', minecraft_name + '_docker_commands_custom', default=minecraft_docker_commands_custom) }}"
-
 # Volumes
 minecraft_docker_volumes_default:
   - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data:/data"
@@ -103,32 +97,8 @@ minecraft_docker_volumes_custom: []
 minecraft_docker_volumes: "{{ lookup('vars', minecraft_name + '_docker_volumes_default', default=minecraft_docker_volumes_default)
                               + lookup('vars', minecraft_name + '_docker_volumes_custom', default=minecraft_docker_volumes_custom) }}"
 
-# Devices
-minecraft_docker_devices_default: []
-minecraft_docker_devices_custom: []
-minecraft_docker_devices: "{{ lookup('vars', minecraft_name + '_docker_devices_default', default=minecraft_docker_devices_default)
-                              + lookup('vars', minecraft_name + '_docker_devices_custom', default=minecraft_docker_devices_custom) }}"
-
-# Hosts
-minecraft_docker_hosts_default: {}
-minecraft_docker_hosts_custom: {}
-minecraft_docker_hosts: "{{ docker_hosts_common
-                            | combine(lookup('vars', minecraft_name + '_docker_hosts_default', default=minecraft_docker_hosts_default))
-                            | combine(lookup('vars', minecraft_name + '_docker_hosts_custom', default=minecraft_docker_hosts_custom)) }}"
-
-# Labels
-minecraft_docker_labels_default: {}
-minecraft_docker_labels_custom: {}
-minecraft_docker_labels: "{{ docker_labels_common
-                             | combine(lookup('vars', minecraft_name + '_docker_labels_default', default=minecraft_docker_labels_default))
-                             | combine(lookup('vars', minecraft_name + '_docker_labels_custom', default=minecraft_docker_labels_custom)) }}"
-
 # Hostname
 minecraft_docker_hostname: "{{ minecraft_name }}"
-
-# Network Mode
-minecraft_docker_network_mode_default: "{{ docker_networks_name_common }}"
-minecraft_docker_network_mode: "{{ lookup('vars', minecraft_name + '_docker_network_mode_default', default=minecraft_docker_network_mode_default) }}"
 
 # Networks
 minecraft_docker_networks_alias: "{{ minecraft_name }}"
@@ -137,18 +107,6 @@ minecraft_docker_networks_custom: []
 minecraft_docker_networks: "{{ docker_networks_common
                                + lookup('vars', minecraft_name + '_docker_networks_default', default=minecraft_docker_networks_default)
                                + lookup('vars', minecraft_name + '_docker_networks_custom', default=minecraft_docker_networks_custom) }}"
-
-# Capabilities
-minecraft_docker_capabilities_default: []
-minecraft_docker_capabilities_custom: []
-minecraft_docker_capabilities: "{{ lookup('vars', minecraft_name + '_docker_capabilities_default', default=minecraft_docker_capabilities_default)
-                                   + lookup('vars', minecraft_name + '_docker_capabilities_custom', default=minecraft_docker_capabilities_custom) }}"
-
-# Security Opts
-minecraft_docker_security_opts_default: []
-minecraft_docker_security_opts_custom: []
-minecraft_docker_security_opts: "{{ lookup('vars', minecraft_name + '_docker_security_opts_default', default=minecraft_docker_security_opts_default)
-                                    + lookup('vars', minecraft_name + '_docker_security_opts_custom', default=minecraft_docker_security_opts_custom) }}"
 
 # Restart Policy
 minecraft_docker_restart_policy: unless-stopped

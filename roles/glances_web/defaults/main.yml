@@ -74,12 +74,6 @@ glances_web_docker_image_pull: true
 glances_web_docker_image_tag: "latest-full"
 glances_web_docker_image: "nicolargo/glances:{{ glances_web_docker_image_tag }}"
 
-# Ports
-glances_web_docker_ports_defaults: []
-glances_web_docker_ports_custom: []
-glances_web_docker_ports: "{{ glances_web_docker_ports_defaults
-                              + glances_web_docker_ports_custom }}"
-
 # Envs
 glances_web_docker_envs_default:
   UID: "{{ uid }}"
@@ -91,12 +85,6 @@ glances_web_docker_envs_custom: {}
 glances_web_docker_envs: "{{ glances_web_docker_envs_default
                              | combine(glances_web_docker_envs_custom) }}"
 
-# Commands
-glances_web_docker_commands_default: []
-glances_web_docker_commands_custom: []
-glances_web_docker_commands: "{{ glances_web_docker_commands_default
-                                 + glances_web_docker_commands_custom }}"
-
 # Volumes
 glances_web_docker_volumes_default:
   - "{{ glances_web_paths_config_location }}:/glances/conf/glances.conf:rw"
@@ -104,43 +92,11 @@ glances_web_docker_volumes_custom: []
 glances_web_docker_volumes: "{{ glances_web_docker_volumes_default
                                 + glances_web_docker_volumes_custom }}"
 
-# Devices
-glances_web_docker_devices_default: []
-glances_web_docker_devices_custom: []
-glances_web_docker_devices: "{{ glances_web_docker_devices_default
-                                + glances_web_docker_devices_custom }}"
-
-# Hosts
-glances_web_docker_hosts_default: {}
-glances_web_docker_hosts_custom: {}
-glances_web_docker_hosts: "{{ docker_hosts_common
-                              | combine(glances_web_docker_hosts_default)
-                              | combine(glances_web_docker_hosts_custom) }}"
-
-# Labels
-glances_web_docker_labels_default: {}
-glances_web_docker_labels_custom: {}
-glances_web_docker_labels: "{{ docker_labels_common
-                               | combine(glances_web_docker_labels_default)
-                               | combine(glances_web_docker_labels_custom) }}"
-
 # Hostname
 glances_web_docker_hostname: "{{ glances_web_name }}"
 
 # Networks
 glances_web_docker_network_mode: "host"
-
-# Capabilities
-glances_web_docker_capabilities_default: []
-glances_web_docker_capabilities_custom: []
-glances_web_docker_capabilities: "{{ glances_web_docker_capabilities_default
-                                     + glances_web_docker_capabilities_custom }}"
-
-# Security Opts
-glances_web_docker_security_opts_default: []
-glances_web_docker_security_opts_custom: []
-glances_web_docker_security_opts: "{{ glances_web_docker_security_opts_default
-                                      + glances_web_docker_security_opts_custom }}"
 
 # Restart Policy
 glances_web_docker_restart_policy: unless-stopped
@@ -149,7 +105,7 @@ glances_web_docker_restart_policy: unless-stopped
 glances_web_docker_state: started
 
 # Force Kill
-glances_web_docker_force_kill: yes
+glances_web_docker_force_kill: true
 
 # PID Mode
 glances_web_docker_pid_mode: host

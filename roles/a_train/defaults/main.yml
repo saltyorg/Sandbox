@@ -44,38 +44,12 @@ a_train_docker_envs_custom: {}
 a_train_docker_envs: "{{ a_train_docker_envs_default
                          | combine(a_train_docker_envs_custom) }}"
 
-# Commands
-a_train_docker_commands_default: []
-a_train_docker_commands_custom: []
-a_train_docker_commands: "{{ a_train_docker_commands_default
-                             + a_train_docker_commands_custom }}"
-
 # Volumes
 a_train_docker_volumes_default:
   - "{{ a_train_paths_location }}:/data"
 a_train_docker_volumes_custom: []
 a_train_docker_volumes: "{{ a_train_docker_volumes_default
                             + a_train_docker_volumes_custom }}"
-
-# Devices
-a_train_docker_devices_default: []
-a_train_docker_devices_custom: []
-a_train_docker_devices: "{{ a_train_docker_devices_default
-                            + a_train_docker_devices_custom }}"
-
-# Hosts
-a_train_docker_hosts_default: {}
-a_train_docker_hosts_custom: {}
-a_train_docker_hosts: "{{ docker_hosts_common
-                          | combine(a_train_docker_hosts_default)
-                          | combine(a_train_docker_hosts_custom) }}"
-
-# Labels
-a_train_docker_labels_default: {}
-a_train_docker_labels_custom: {}
-a_train_docker_labels: "{{ docker_labels_common
-                           | combine(a_train_docker_labels_default)
-                           | combine(a_train_docker_labels_custom) }}"
 
 # Hostname
 a_train_docker_hostname: "{{ a_train_name }}"
@@ -87,18 +61,6 @@ a_train_docker_networks_custom: []
 a_train_docker_networks: "{{ docker_networks_common
                              + a_train_docker_networks_default
                              + a_train_docker_networks_custom }}"
-
-# Capabilities
-a_train_docker_capabilities_default: []
-a_train_docker_capabilities_custom: []
-a_train_docker_capabilities: "{{ a_train_docker_capabilities_default
-                                 + a_train_docker_capabilities_custom }}"
-
-# Security Opts
-a_train_docker_security_opts_default: []
-a_train_docker_security_opts_custom: []
-a_train_docker_security_opts: "{{ a_train_docker_security_opts_default
-                                  + a_train_docker_security_opts_custom }}"
 
 # Restart Policy
 a_train_docker_restart_policy: unless-stopped

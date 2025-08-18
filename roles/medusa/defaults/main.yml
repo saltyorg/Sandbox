@@ -65,12 +65,6 @@ medusa_docker_image_pull: true
 medusa_docker_image_tag: "latest"
 medusa_docker_image: "lscr.io/linuxserver/medusa:{{ medusa_docker_image_tag }}"
 
-# Ports
-medusa_docker_ports_defaults: []
-medusa_docker_ports_custom: []
-medusa_docker_ports: "{{ medusa_docker_ports_defaults
-                         + medusa_docker_ports_custom }}"
-
 # Envs
 medusa_docker_envs_default:
   PUID: "{{ uid }}"
@@ -81,12 +75,6 @@ medusa_docker_envs_custom: {}
 medusa_docker_envs: "{{ medusa_docker_envs_default
                         | combine(medusa_docker_envs_custom) }}"
 
-# Commands
-medusa_docker_commands_default: []
-medusa_docker_commands_custom: []
-medusa_docker_commands: "{{ medusa_docker_commands_default
-                            + medusa_docker_commands_custom }}"
-
 # Volumes
 medusa_docker_volumes_default:
   - "{{ medusa_paths_location }}:/config"
@@ -95,26 +83,6 @@ medusa_docker_volumes_default:
 medusa_docker_volumes_custom: []
 medusa_docker_volumes: "{{ medusa_docker_volumes_default
                            + medusa_docker_volumes_custom }}"
-
-# Devices
-medusa_docker_devices_default: []
-medusa_docker_devices_custom: []
-medusa_docker_devices: "{{ medusa_docker_devices_default
-                           + medusa_docker_devices_custom }}"
-
-# Hosts
-medusa_docker_hosts_default: {}
-medusa_docker_hosts_custom: {}
-medusa_docker_hosts: "{{ docker_hosts_common
-                         | combine(medusa_docker_hosts_default)
-                         | combine(medusa_docker_hosts_custom) }}"
-
-# Labels
-medusa_docker_labels_default: {}
-medusa_docker_labels_custom: {}
-medusa_docker_labels: "{{ docker_labels_common
-                          | combine(medusa_docker_labels_default)
-                          | combine(medusa_docker_labels_custom) }}"
 
 # Hostname
 medusa_docker_hostname: "{{ medusa_name }}"
@@ -126,18 +94,6 @@ medusa_docker_networks_custom: []
 medusa_docker_networks: "{{ docker_networks_common
                             + medusa_docker_networks_default
                             + medusa_docker_networks_custom }}"
-
-# Capabilities
-medusa_docker_capabilities_default: []
-medusa_docker_capabilities_custom: []
-medusa_docker_capabilities: "{{ medusa_docker_capabilities_default
-                                + medusa_docker_capabilities_custom }}"
-
-# Security Opts
-medusa_docker_security_opts_default: []
-medusa_docker_security_opts_custom: []
-medusa_docker_security_opts: "{{ medusa_docker_security_opts_default
-                                 + medusa_docker_security_opts_custom }}"
 
 # Restart Policy
 medusa_docker_restart_policy: unless-stopped

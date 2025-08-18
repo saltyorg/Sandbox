@@ -66,50 +66,12 @@ embystat_docker_image_pull: true
 embystat_docker_image_tag: "beta-linux-x64"
 embystat_docker_image: "uping/embystat:{{ embystat_docker_image_tag }}"
 
-# Ports
-embystat_docker_ports_defaults: []
-embystat_docker_ports_custom: []
-embystat_docker_ports: "{{ embystat_docker_ports_defaults
-                           + embystat_docker_ports_custom }}"
-
-# Envs
-embystat_docker_envs_default: {}
-embystat_docker_envs_custom: {}
-embystat_docker_envs: "{{ embystat_docker_envs_default
-                          | combine(embystat_docker_envs_custom) }}"
-
-# Commands
-embystat_docker_commands_default: []
-embystat_docker_commands_custom: []
-embystat_docker_commands: "{{ embystat_docker_commands_default
-                              + embystat_docker_commands_custom }}"
-
 # Volumes
 embystat_docker_volumes_default:
   - "{{ embystat_paths_location }}/config:/app/data"
 embystat_docker_volumes_custom: []
 embystat_docker_volumes: "{{ embystat_docker_volumes_default
                              + embystat_docker_volumes_custom }}"
-
-# Devices
-embystat_docker_devices_default: []
-embystat_docker_devices_custom: []
-embystat_docker_devices: "{{ embystat_docker_devices_default
-                             + embystat_docker_devices_custom }}"
-
-# Hosts
-embystat_docker_hosts_default: {}
-embystat_docker_hosts_custom: {}
-embystat_docker_hosts: "{{ docker_hosts_common
-                           | combine(embystat_docker_hosts_default)
-                           | combine(embystat_docker_hosts_custom) }}"
-
-# Labels
-embystat_docker_labels_default: {}
-embystat_docker_labels_custom: {}
-embystat_docker_labels: "{{ docker_labels_common
-                            | combine(embystat_docker_labels_default)
-                            | combine(embystat_docker_labels_custom) }}"
 
 # Hostname
 embystat_docker_hostname: "{{ embystat_name }}"
@@ -121,18 +83,6 @@ embystat_docker_networks_custom: []
 embystat_docker_networks: "{{ docker_networks_common
                               + embystat_docker_networks_default
                               + embystat_docker_networks_custom }}"
-
-# Capabilities
-embystat_docker_capabilities_default: []
-embystat_docker_capabilities_custom: []
-embystat_docker_capabilities: "{{ embystat_docker_capabilities_default
-                                  + embystat_docker_capabilities_custom }}"
-
-# Security Opts
-embystat_docker_security_opts_default: []
-embystat_docker_security_opts_custom: []
-embystat_docker_security_opts: "{{ embystat_docker_security_opts_default
-                                   + embystat_docker_security_opts_custom }}"
 
 # Restart Policy
 embystat_docker_restart_policy: unless-stopped

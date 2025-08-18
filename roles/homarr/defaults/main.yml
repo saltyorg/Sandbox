@@ -74,12 +74,6 @@ homarr_docker_image_pull: true
 homarr_docker_image_tag: "latest"
 homarr_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_docker_image_tag }}"
 
-# Ports
-homarr_docker_ports_defaults: []
-homarr_docker_ports_custom: []
-homarr_docker_ports: "{{ homarr_docker_ports_defaults
-                         + homarr_docker_ports_custom }}"
-
 # Envs
 homarr_docker_envs_default:
   TZ: "{{ tz }}"
@@ -91,12 +85,6 @@ homarr_docker_envs_custom: {}
 homarr_docker_envs: "{{ homarr_docker_envs_default
                         | combine(homarr_docker_envs_custom) }}"
 
-# Commands
-homarr_docker_commands_default: []
-homarr_docker_commands_custom: []
-homarr_docker_commands: "{{ homarr_docker_commands_default
-                            + homarr_docker_commands_custom }}"
-
 # Volumes
 homarr_docker_volumes_default:
   - "{{ homarr_paths_location }}:/app/data/configs"
@@ -104,26 +92,6 @@ homarr_docker_volumes_default:
 homarr_docker_volumes_custom: []
 homarr_docker_volumes: "{{ homarr_docker_volumes_default
                            + homarr_docker_volumes_custom }}"
-
-# Devices
-homarr_docker_devices_default: []
-homarr_docker_devices_custom: []
-homarr_docker_devices: "{{ homarr_docker_devices_default
-                           + homarr_docker_devices_custom }}"
-
-# Hosts
-homarr_docker_hosts_default: {}
-homarr_docker_hosts_custom: {}
-homarr_docker_hosts: "{{ docker_hosts_common
-                         | combine(homarr_docker_hosts_default)
-                         | combine(homarr_docker_hosts_custom) }}"
-
-# Labels
-homarr_docker_labels_default: {}
-homarr_docker_labels_custom: {}
-homarr_docker_labels: "{{ docker_labels_common
-                          | combine(homarr_docker_labels_default)
-                          | combine(homarr_docker_labels_custom) }}"
 
 # Hostname
 homarr_docker_hostname: "{{ homarr_name }}"
@@ -135,18 +103,6 @@ homarr_docker_networks_custom: []
 homarr_docker_networks: "{{ docker_networks_common
                             + homarr_docker_networks_default
                             + homarr_docker_networks_custom }}"
-
-# Capabilities
-homarr_docker_capabilities_default: []
-homarr_docker_capabilities_custom: []
-homarr_docker_capabilities: "{{ homarr_docker_capabilities_default
-                                + homarr_docker_capabilities_custom }}"
-
-# Security Opts
-homarr_docker_security_opts_default: []
-homarr_docker_security_opts_custom: []
-homarr_docker_security_opts: "{{ homarr_docker_security_opts_default
-                                 + homarr_docker_security_opts_custom }}"
 
 # Restart Policy
 homarr_docker_restart_policy: unless-stopped

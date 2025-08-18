@@ -71,12 +71,6 @@ karakeep_docker_image_pull: true
 karakeep_docker_image: "ghcr.io/karakeep-app/karakeep"
 karakeep_docker_image_tag: "release"
 
-# Ports
-karakeep_docker_ports_defaults: []
-karakeep_docker_ports_custom: []
-karakeep_docker_ports: "{{ karakeep_docker_ports_defaults
-                          + karakeep_docker_ports_custom }}"
-
 # Envs
 karakeep_docker_envs_default:
   TZ: "{{ tz }}"
@@ -93,38 +87,12 @@ karakeep_docker_envs_custom: {}
 karakeep_docker_envs: "{{ karakeep_docker_envs_default
                          | combine(karakeep_docker_envs_custom) }}"
 
-# Commands
-karakeep_docker_commands_default: []
-karakeep_docker_commands_custom: []
-karakeep_docker_commands: "{{ karakeep_docker_commands_default
-                             + karakeep_docker_commands_custom }}"
-
 # Volumes
 karakeep_docker_volumes_default:
   - "{{ karakeep_paths_location }}/data:/data"
 karakeep_docker_volumes_custom: []
 karakeep_docker_volumes: "{{ karakeep_docker_volumes_default
                             + karakeep_docker_volumes_custom }}"
-
-# Devices
-karakeep_docker_devices_default: []
-karakeep_docker_devices_custom: []
-karakeep_docker_devices: "{{ karakeep_docker_devices_default
-                            + karakeep_docker_devices_custom }}"
-
-# Hosts
-karakeep_docker_hosts_default: {}
-karakeep_docker_hosts_custom: {}
-karakeep_docker_hosts: "{{ docker_hosts_common
-                          | combine(karakeep_docker_hosts_default)
-                          | combine(karakeep_docker_hosts_custom) }}"
-
-# Labels
-karakeep_docker_labels_default: {}
-karakeep_docker_labels_custom: {}
-karakeep_docker_labels: "{{ docker_labels_common
-                           | combine(karakeep_docker_labels_default)
-                           | combine(karakeep_docker_labels_custom) }}"
 
 # Hostname
 karakeep_docker_hostname: "{{ karakeep_name }}"
@@ -136,18 +104,6 @@ karakeep_docker_networks_custom: []
 karakeep_docker_networks: "{{ docker_networks_common
                              + karakeep_docker_networks_default
                              + karakeep_docker_networks_custom }}"
-
-# Capabilities
-karakeep_docker_capabilities_default: []
-karakeep_docker_capabilities_custom: []
-karakeep_docker_capabilities: "{{ karakeep_docker_capabilities_default
-                                 + karakeep_docker_capabilities_custom }}"
-
-# Security Opts
-karakeep_docker_security_opts_default: []
-karakeep_docker_security_opts_custom: []
-karakeep_docker_security_opts: "{{ karakeep_docker_security_opts_default
-                                  + karakeep_docker_security_opts_custom }}"
 
 # Restart Policy
 karakeep_docker_restart_policy: unless-stopped

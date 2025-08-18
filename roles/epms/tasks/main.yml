@@ -26,7 +26,6 @@
     stop_timeout: "180"
     comparisons:
       '*': ignore
-
   when: ('plex' in docker_running_containers)
 
 - name: Create Extended Personal Media Scanner directories
@@ -84,5 +83,4 @@
     tls_hostname: localhost
     comparisons:
       '*': ignore
-
   when: ('plex' in docker_running_containers)

@@ -54,50 +54,12 @@ adminer_docker_image_pull: true
 adminer_docker_image_tag: "latest"
 adminer_docker_image: "adminer:{{ adminer_docker_image_tag }}"
 
-# Ports
-adminer_docker_ports_defaults: []
-adminer_docker_ports_custom: []
-adminer_docker_ports: "{{ adminer_docker_ports_defaults
-                          + adminer_docker_ports_custom }}"
-
 # Envs
 adminer_docker_envs_default:
   ADMINER_DEFAULT_SERVER: "mysql"
 adminer_docker_envs_custom: {}
 adminer_docker_envs: "{{ adminer_docker_envs_default
                          | combine(adminer_docker_envs_custom) }}"
-
-# Commands
-adminer_docker_commands_default: []
-adminer_docker_commands_custom: []
-adminer_docker_commands: "{{ adminer_docker_commands_default
-                             + adminer_docker_commands_custom }}"
-
-# Volumes
-adminer_docker_volumes_default: []
-adminer_docker_volumes_custom: []
-adminer_docker_volumes: "{{ adminer_docker_volumes_default
-                            + adminer_docker_volumes_custom }}"
-
-# Devices
-adminer_docker_devices_default: []
-adminer_docker_devices_custom: []
-adminer_docker_devices: "{{ adminer_docker_devices_default
-                            + adminer_docker_devices_custom }}"
-
-# Hosts
-adminer_docker_hosts_default: {}
-adminer_docker_hosts_custom: {}
-adminer_docker_hosts: "{{ docker_hosts_common
-                          | combine(adminer_docker_hosts_default)
-                          | combine(adminer_docker_hosts_custom) }}"
-
-# Labels
-adminer_docker_labels_default: {}
-adminer_docker_labels_custom: {}
-adminer_docker_labels: "{{ docker_labels_common
-                           | combine(adminer_docker_labels_default)
-                           | combine(adminer_docker_labels_custom) }}"
 
 # Hostname
 adminer_docker_hostname: "{{ adminer_name }}"
@@ -109,18 +71,6 @@ adminer_docker_networks_custom: []
 adminer_docker_networks: "{{ docker_networks_common
                              + adminer_docker_networks_default
                              + adminer_docker_networks_custom }}"
-
-# Capabilities
-adminer_docker_capabilities_default: []
-adminer_docker_capabilities_custom: []
-adminer_docker_capabilities: "{{ adminer_docker_capabilities_default
-                                 + adminer_docker_capabilities_custom }}"
-
-# Security Opts
-adminer_docker_security_opts_default: []
-adminer_docker_security_opts_custom: []
-adminer_docker_security_opts: "{{ adminer_docker_security_opts_default
-                                  + adminer_docker_security_opts_custom }}"
 
 # Restart Policy
 adminer_docker_restart_policy: unless-stopped

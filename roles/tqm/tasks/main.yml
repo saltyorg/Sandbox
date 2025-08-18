@@ -63,7 +63,7 @@
   ansible.builtin.unarchive:
     src: "/tmp/tqm_extract/tqm_archive.tar.gz"
     dest: "/tmp/tqm_extract/"
-    remote_src: yes
+    remote_src: true
 
 - name: Copy tqm binary to destination
   ansible.builtin.copy:
@@ -72,7 +72,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
-    remote_src: yes
+    remote_src: true
 
 - name: Clean up temporary files
   ansible.builtin.file:
@@ -105,7 +105,7 @@
   ansible.builtin.systemd_service:
     name: tqm.service
     state: started
-    enabled: yes
+    enabled: true
     daemon_reload: true
   when: not continuous_integration
 
@@ -120,6 +120,6 @@
   ansible.builtin.systemd_service:
     name: tqm.timer
     state: started
-    enabled: yes
+    enabled: true
     daemon_reload: true
   when: not continuous_integration

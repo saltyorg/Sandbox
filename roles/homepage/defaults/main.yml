@@ -77,12 +77,6 @@ homepage_docker_image_pull: true
 homepage_docker_image_tag: "latest"
 homepage_docker_image: "ghcr.io/gethomepage/homepage:{{ homepage_docker_image_tag }}"
 
-# Ports
-homepage_docker_ports_defaults: []
-homepage_docker_ports_custom: []
-homepage_docker_ports: "{{ homepage_docker_ports_defaults
-                           + homepage_docker_ports_custom }}"
-
 # Envs
 homepage_docker_envs_default:
   TZ: "{{ tz }}"
@@ -93,12 +87,6 @@ homepage_docker_envs_custom: {}
 homepage_docker_envs: "{{ homepage_docker_envs_default
                           | combine(homepage_docker_envs_custom) }}"
 
-# Commands
-homepage_docker_commands_default: []
-homepage_docker_commands_custom: []
-homepage_docker_commands: "{{ homepage_docker_commands_default
-                              + homepage_docker_commands_custom }}"
-
 # Volumes
 homepage_docker_volumes_default:
   - "{{ homepage_paths_location }}/config:/app/config"
@@ -107,26 +95,6 @@ homepage_docker_volumes_default:
 homepage_docker_volumes_custom: []
 homepage_docker_volumes: "{{ homepage_docker_volumes_default
                              + homepage_docker_volumes_custom }}"
-
-# Devices
-homepage_docker_devices_default: []
-homepage_docker_devices_custom: []
-homepage_docker_devices: "{{ homepage_docker_devices_default
-                             + homepage_docker_devices_custom }}"
-
-# Hosts
-homepage_docker_hosts_default: {}
-homepage_docker_hosts_custom: {}
-homepage_docker_hosts: "{{ docker_hosts_common
-                           | combine(homepage_docker_hosts_default)
-                           | combine(homepage_docker_hosts_custom) }}"
-
-# Labels
-homepage_docker_labels_default: {}
-homepage_docker_labels_custom: {}
-homepage_docker_labels: "{{ docker_labels_common
-                            | combine(homepage_docker_labels_default)
-                            | combine(homepage_docker_labels_custom) }}"
 
 # Hostname
 homepage_docker_hostname: "{{ homepage_name }}"
@@ -138,18 +106,6 @@ homepage_docker_networks_custom: []
 homepage_docker_networks: "{{ docker_networks_common
                               + homepage_docker_networks_default
                               + homepage_docker_networks_custom }}"
-
-# Capabilities
-homepage_docker_capabilities_default: []
-homepage_docker_capabilities_custom: []
-homepage_docker_capabilities: "{{ homepage_docker_capabilities_default
-                                  + homepage_docker_capabilities_custom }}"
-
-# Security Opts
-homepage_docker_security_opts_default: []
-homepage_docker_security_opts_custom: []
-homepage_docker_security_opts: "{{ homepage_docker_security_opts_default
-                                   + homepage_docker_security_opts_custom }}"
 
 # Restart Policy
 homepage_docker_restart_policy: unless-stopped

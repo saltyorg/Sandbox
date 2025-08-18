@@ -70,12 +70,6 @@ adguardhome_docker_image_pull: true
 adguardhome_docker_image_tag: "latest"
 adguardhome_docker_image: "adguard/adguardhome:{{ adguardhome_docker_image_tag }}"
 
-# Ports
-adguardhome_docker_ports_defaults: []
-adguardhome_docker_ports_custom: []
-adguardhome_docker_ports: "{{ adguardhome_docker_ports_defaults
-                              + adguardhome_docker_ports_custom }}"
-
 # Envs
 adguardhome_docker_envs_default:
   PUID: "{{ uid }}"
@@ -85,38 +79,12 @@ adguardhome_docker_envs_custom: {}
 adguardhome_docker_envs: "{{ adguardhome_docker_envs_default
                              | combine(adguardhome_docker_envs_custom) }}"
 
-# Commands
-adguardhome_docker_commands_default: []
-adguardhome_docker_commands_custom: []
-adguardhome_docker_commands: "{{ adguardhome_docker_commands_default
-                                 + adguardhome_docker_commands_custom }}"
-
 # Volumes
 adguardhome_docker_volumes_default:
   - "{{ adguardhome_paths_location }}/work:/opt/adguardhome/work"
   - "{{ adguardhome_paths_location }}/conf:/opt/adguardhome/conf"
 adguardhome_docker_volumes_custom: []
 adguardhome_docker_volumes: "{{ adguardhome_docker_volumes_default }}"
-
-# Devices
-adguardhome_docker_devices_default: []
-adguardhome_docker_devices_custom: []
-adguardhome_docker_devices: "{{ adguardhome_docker_devices_default
-                                + adguardhome_docker_devices_custom }}"
-
-# Hosts
-adguardhome_docker_hosts_default: {}
-adguardhome_docker_hosts_custom: {}
-adguardhome_docker_hosts: "{{ docker_hosts_common
-                              | combine(adguardhome_docker_hosts_default)
-                              | combine(adguardhome_docker_hosts_custom) }}"
-
-# Labels
-adguardhome_docker_labels_default: {}
-adguardhome_docker_labels_custom: {}
-adguardhome_docker_labels: "{{ docker_labels_common
-                               | combine(adguardhome_docker_labels_default)
-                               | combine(adguardhome_docker_labels_custom) }}"
 
 # Hostname
 adguardhome_docker_hostname: "{{ adguardhome_name }}"
@@ -128,18 +96,6 @@ adguardhome_docker_networks_custom: []
 adguardhome_docker_networks: "{{ docker_networks_common
                                  + adguardhome_docker_networks_default
                                  + adguardhome_docker_networks_custom }}"
-
-# Capabilities
-adguardhome_docker_capabilities_default: []
-adguardhome_docker_capabilities_custom: []
-adguardhome_docker_capabilities: "{{ adguardhome_docker_capabilities_default
-                                     + adguardhome_docker_capabilities_custom }}"
-
-# Security Opts
-adguardhome_docker_security_opts_default: []
-adguardhome_docker_security_opts_custom: []
-adguardhome_docker_security_opts: "{{ adguardhome_docker_security_opts_default
-                                      + adguardhome_docker_security_opts_custom }}"
 
 # Restart Policy
 adguardhome_docker_restart_policy: unless-stopped

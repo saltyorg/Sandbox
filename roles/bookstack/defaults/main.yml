@@ -63,19 +63,13 @@ bookstack_docker_image_pull: true
 bookstack_docker_image_tag: "latest"
 bookstack_docker_image: "lscr.io/linuxserver/bookstack:{{ bookstack_docker_image_tag }}"
 
-# Ports
-bookstack_docker_ports_defaults: []
-bookstack_docker_ports_custom: []
-bookstack_docker_ports: "{{ bookstack_docker_ports_defaults
-                            + bookstack_docker_ports_custom }}"
-
 # Envs
 bookstack_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   APP_KEY: "{{ bookstack_saltbox_facts.facts.app_key }}"
-  APP_URL: "https://{{ bookstack_web_subdomain + '.' + bookstack_web_domain }}"
+  APP_URL: "{{ bookstack_web_url }}"
   DB_HOST: "mariadb"
   DB_PORT: "3306"
   DB_USERNAME: "root"
@@ -85,38 +79,12 @@ bookstack_docker_envs_custom: {}
 bookstack_docker_envs: "{{ bookstack_docker_envs_default
                            | combine(bookstack_docker_envs_custom) }}"
 
-# Commands
-bookstack_docker_commands_default: []
-bookstack_docker_commands_custom: []
-bookstack_docker_commands: "{{ bookstack_docker_commands_default
-                               + bookstack_docker_commands_custom }}"
-
 # Volumes
 bookstack_docker_volumes_default:
   - "{{ bookstack_paths_location }}:/config"
 bookstack_docker_volumes_custom: []
 bookstack_docker_volumes: "{{ bookstack_docker_volumes_default
                               + bookstack_docker_volumes_custom }}"
-
-# Devices
-bookstack_docker_devices_default: []
-bookstack_docker_devices_custom: []
-bookstack_docker_devices: "{{ bookstack_docker_devices_default
-                              + bookstack_docker_devices_custom }}"
-
-# Hosts
-bookstack_docker_hosts_default: {}
-bookstack_docker_hosts_custom: {}
-bookstack_docker_hosts: "{{ docker_hosts_common
-                            | combine(bookstack_docker_hosts_default)
-                            | combine(bookstack_docker_hosts_custom) }}"
-
-# Labels
-bookstack_docker_labels_default: {}
-bookstack_docker_labels_custom: {}
-bookstack_docker_labels: "{{ docker_labels_common
-                             | combine(bookstack_docker_labels_default)
-                             | combine(bookstack_docker_labels_custom) }}"
 
 # Hostname
 bookstack_docker_hostname: "{{ bookstack_name }}"
@@ -128,18 +96,6 @@ bookstack_docker_networks_custom: []
 bookstack_docker_networks: "{{ docker_networks_common
                                + bookstack_docker_networks_default
                                + bookstack_docker_networks_custom }}"
-
-# Capabilities
-bookstack_docker_capabilities_default: []
-bookstack_docker_capabilities_custom: []
-bookstack_docker_capabilities: "{{ bookstack_docker_capabilities_default
-                                   + bookstack_docker_capabilities_custom }}"
-
-# Security Opts
-bookstack_docker_security_opts_default: []
-bookstack_docker_security_opts_custom: []
-bookstack_docker_security_opts: "{{ bookstack_docker_security_opts_default
-                                    + bookstack_docker_security_opts_custom }}"
 
 # Restart Policy
 bookstack_docker_restart_policy: unless-stopped

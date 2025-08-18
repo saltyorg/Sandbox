@@ -70,24 +70,12 @@ audiobookshelf_docker_image_tag: "latest"
 audiobookshelf_docker_image: "{{ lookup('vars', audiobookshelf_name + '_docker_image_repo', default=audiobookshelf_docker_image_repo)
                                  + ':' + lookup('vars', audiobookshelf_name + '_docker_image_tag', default=audiobookshelf_docker_image_tag) }}"
 
-# Ports
-audiobookshelf_docker_ports_defaults: []
-audiobookshelf_docker_ports_custom: []
-audiobookshelf_docker_ports: "{{ lookup('vars', audiobookshelf_name + '_docker_ports_defaults', default=audiobookshelf_docker_ports_defaults)
-                                 + lookup('vars', audiobookshelf_name + '_docker_ports_custom', default=audiobookshelf_docker_ports_custom) }}"
-
 # Envs
 audiobookshelf_docker_envs_default:
   TZ: "{{ tz }}"
 audiobookshelf_docker_envs_custom: {}
 audiobookshelf_docker_envs: "{{ lookup('vars', audiobookshelf_name + '_docker_envs_default', default=audiobookshelf_docker_envs_default)
                                 | combine(lookup('vars', audiobookshelf_name + '_docker_envs_custom', default=audiobookshelf_docker_envs_custom)) }}"
-
-# Commands
-audiobookshelf_docker_commands_default: []
-audiobookshelf_docker_commands_custom: []
-audiobookshelf_docker_commands: "{{ lookup('vars', audiobookshelf_name + '_docker_commands_default', default=audiobookshelf_docker_commands_default)
-                                    + lookup('vars', audiobookshelf_name + '_docker_commands_custom', default=audiobookshelf_docker_commands_custom) }}"
 
 # Volumes
 audiobookshelf_docker_volumes_default:
@@ -99,26 +87,6 @@ audiobookshelf_docker_volumes_custom: []
 audiobookshelf_docker_volumes: "{{ lookup('vars', audiobookshelf_name + '_docker_volumes_default', default=audiobookshelf_docker_volumes_default)
                                    + lookup('vars', audiobookshelf_name + '_docker_volumes_custom', default=audiobookshelf_docker_volumes_custom) }}"
 
-# Devices
-audiobookshelf_docker_devices_default: []
-audiobookshelf_docker_devices_custom: []
-audiobookshelf_docker_devices: "{{ lookup('vars', audiobookshelf_name + '_docker_devices_default', default=audiobookshelf_docker_devices_default)
-                                   + lookup('vars', audiobookshelf_name + '_docker_devices_custom', default=audiobookshelf_docker_devices_custom) }}"
-
-# Hosts
-audiobookshelf_docker_hosts_default: {}
-audiobookshelf_docker_hosts_custom: {}
-audiobookshelf_docker_hosts: "{{ docker_hosts_common
-                                 | combine(lookup('vars', audiobookshelf_name + '_docker_hosts_default', default=audiobookshelf_docker_hosts_default))
-                                 | combine(lookup('vars', audiobookshelf_name + '_docker_hosts_custom', default=audiobookshelf_docker_hosts_custom)) }}"
-
-# Labels
-audiobookshelf_docker_labels_default: {}
-audiobookshelf_docker_labels_custom: {}
-audiobookshelf_docker_labels: "{{ docker_labels_common
-                                  | combine(lookup('vars', audiobookshelf_name + '_docker_labels_default', default=audiobookshelf_docker_labels_default))
-                                  | combine(lookup('vars', audiobookshelf_name + '_docker_labels_custom', default=audiobookshelf_docker_labels_custom)) }}"
-
 # Hostname
 audiobookshelf_docker_hostname: "{{ audiobookshelf_name }}"
 
@@ -129,18 +97,6 @@ audiobookshelf_docker_networks_custom: []
 audiobookshelf_docker_networks: "{{ docker_networks_common
                                     + lookup('vars', audiobookshelf_name + '_docker_networks_default', default=audiobookshelf_docker_networks_default)
                                     + lookup('vars', audiobookshelf_name + '_docker_networks_custom', default=audiobookshelf_docker_networks_custom) }}"
-
-# Capabilities
-audiobookshelf_docker_capabilities_default: []
-audiobookshelf_docker_capabilities_custom: []
-audiobookshelf_docker_capabilities: "{{ lookup('vars', audiobookshelf_name + '_docker_capabilities_default', default=audiobookshelf_docker_capabilities_default)
-                                        + lookup('vars', audiobookshelf_name + '_docker_capabilities_custom', default=audiobookshelf_docker_capabilities_custom) }}"
-
-# Security Opts
-audiobookshelf_docker_security_opts_default: []
-audiobookshelf_docker_security_opts_custom: []
-audiobookshelf_docker_security_opts: "{{ lookup('vars', audiobookshelf_name + '_docker_security_opts_default', default=audiobookshelf_docker_security_opts_default)
-                                         + lookup('vars', audiobookshelf_name + '_docker_security_opts_custom', default=audiobookshelf_docker_security_opts_custom) }}"
 
 # Restart Policy
 audiobookshelf_docker_restart_policy: unless-stopped

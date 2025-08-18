@@ -21,7 +21,7 @@ calibre_paths_folder: "{{ calibre_name }}"
 calibre_paths_location: "{{ server_appdata_path }}/{{ calibre_paths_folder }}"
 calibre_paths_folders_list:
   - "{{ calibre_paths_location }}"
-  - /mnt/local/Media/Books
+  - "/mnt/local/Media/Books"
 
 ################################
 # Web
@@ -87,12 +87,6 @@ calibre_docker_image_tag: "latest"
 calibre_docker_image: "{{ lookup('vars', calibre_name + '_docker_image_repo', default=calibre_docker_image_repo)
                           + ':' + lookup('vars', calibre_name + '_docker_image_tag', default=calibre_docker_image_tag) }}"
 
-# Ports
-calibre_docker_ports_defaults: []
-calibre_docker_ports_custom: []
-calibre_docker_ports: "{{ lookup('vars', calibre_name + '_docker_ports_defaults', default=calibre_docker_ports_defaults)
-                          + lookup('vars', calibre_name + '_docker_ports_custom', default=calibre_docker_ports_custom) }}"
-
 # Envs
 calibre_docker_envs_default:
   PUID: "{{ uid }}"
@@ -105,12 +99,6 @@ calibre_docker_envs_custom: {}
 calibre_docker_envs: "{{ lookup('vars', calibre_name + '_docker_envs_default', default=calibre_docker_envs_default)
                          | combine(lookup('vars', calibre_name + '_docker_envs_custom', default=calibre_docker_envs_custom)) }}"
 
-# Commands
-calibre_docker_commands_default: []
-calibre_docker_commands_custom: []
-calibre_docker_commands: "{{ lookup('vars', calibre_name + '_docker_commands_default', default=calibre_docker_commands_default)
-                             + lookup('vars', calibre_name + '_docker_commands_custom', default=calibre_docker_commands_custom) }}"
-
 # Volumes
 calibre_docker_volumes_default:
   - "{{ calibre_paths_location }}:/config"
@@ -118,19 +106,6 @@ calibre_docker_volumes_default:
 calibre_docker_volumes_custom: []
 calibre_docker_volumes: "{{ lookup('vars', calibre_name + '_docker_volumes_default', default=calibre_docker_volumes_default)
                             + lookup('vars', calibre_name + '_docker_volumes_custom', default=calibre_docker_volumes_custom) }}"
-
-# Devices
-calibre_docker_devices_default: []
-calibre_docker_devices_custom: []
-calibre_docker_devices: "{{ lookup('vars', calibre_name + '_docker_devices_default', default=calibre_docker_devices_default)
-                            + lookup('vars', calibre_name + '_docker_devices_custom', default=calibre_docker_devices_custom) }}"
-
-# Hosts
-calibre_docker_hosts_default: {}
-calibre_docker_hosts_custom: {}
-calibre_docker_hosts: "{{ docker_hosts_common
-                          | combine(lookup('vars', calibre_name + '_docker_hosts_default', default=calibre_docker_hosts_default))
-                          | combine(lookup('vars', calibre_name + '_docker_hosts_custom', default=calibre_docker_hosts_custom)) }}"
 
 # Labels
 calibre_docker_labels_default:
@@ -148,16 +123,11 @@ calibre_docker_labels_default:
   - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.priority": "20" }'
   - '{ "traefik.http.services.{{ calibre_books_traefik_router }}.loadbalancer.server.port": "{{ calibre_web2_port }}" }'
 calibre_docker_labels_custom: {}
-calibre_docker_labels: "{{ docker_labels_common
-                           | combine(lookup('vars', calibre_name + '_docker_labels_default', default=calibre_docker_labels_default))
+calibre_docker_labels: "{{ lookup('vars', calibre_name + '_docker_labels_default', default=calibre_docker_labels_default)
                            | combine(lookup('vars', calibre_name + '_docker_labels_custom', default=calibre_docker_labels_custom)) }}"
 
 # Hostname
 calibre_docker_hostname: "{{ calibre_name }}"
-
-# Network Mode
-calibre_docker_network_mode_default: "{{ docker_networks_name_common }}"
-calibre_docker_network_mode: "{{ lookup('vars', calibre_name + '_docker_network_mode_default', default=calibre_docker_network_mode_default) }}"
 
 # Networks
 calibre_docker_networks_alias: "{{ calibre_name }}"
@@ -166,12 +136,6 @@ calibre_docker_networks_custom: []
 calibre_docker_networks: "{{ docker_networks_common
                              + lookup('vars', calibre_name + '_docker_networks_default', default=calibre_docker_networks_default)
                              + lookup('vars', calibre_name + '_docker_networks_custom', default=calibre_docker_networks_custom) }}"
-
-# Capabilities
-calibre_docker_capabilities_default: []
-calibre_docker_capabilities_custom: []
-calibre_docker_capabilities: "{{ lookup('vars', calibre_name + '_docker_capabilities_default', default=calibre_docker_capabilities_default)
-                                 + lookup('vars', calibre_name + '_docker_capabilities_custom', default=calibre_docker_capabilities_custom) }}"
 
 # Security Opts
 calibre_docker_security_opts_default:

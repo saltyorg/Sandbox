@@ -69,12 +69,6 @@ koel_docker_image_pull: true
 koel_docker_image_tag: "latest"
 koel_docker_image: "phanan/koel:{{ koel_docker_image_tag }}"
 
-# Ports
-koel_docker_ports_defaults: []
-koel_docker_ports_custom: []
-koel_docker_ports: "{{ koel_docker_ports_defaults
-                       + koel_docker_ports_custom }}"
-
 # Envs
 koel_docker_envs_default:
   TZ: "{{ tz }}"
@@ -91,12 +85,6 @@ koel_docker_envs_custom: {}
 koel_docker_envs: "{{ koel_docker_envs_default
                       | combine(koel_docker_envs_custom) }}"
 
-# Commands
-koel_docker_commands_default: []
-koel_docker_commands_custom: []
-koel_docker_commands: "{{ koel_docker_commands_default
-                          + koel_docker_commands_custom }}"
-
 # Volumes
 koel_docker_volumes_default:
   - "/mnt/unionfs/Media/Music:/music:ro"
@@ -105,26 +93,6 @@ koel_docker_volumes_default:
 koel_docker_volumes_custom: []
 koel_docker_volumes: "{{ koel_docker_volumes_default
                          + koel_docker_volumes_custom }}"
-
-# Devices
-koel_docker_devices_default: []
-koel_docker_devices_custom: []
-koel_docker_devices: "{{ koel_docker_devices_default
-                         + koel_docker_devices_custom }}"
-
-# Hosts
-koel_docker_hosts_default: {}
-koel_docker_hosts_custom: {}
-koel_docker_hosts: "{{ docker_hosts_common
-                       | combine(koel_docker_hosts_default)
-                       | combine(koel_docker_hosts_custom) }}"
-
-# Labels
-koel_docker_labels_default: {}
-koel_docker_labels_custom: {}
-koel_docker_labels: "{{ docker_labels_common
-                        | combine(koel_docker_labels_default)
-                        | combine(koel_docker_labels_custom) }}"
 
 # Hostname
 koel_docker_hostname: "{{ koel_name }}"
@@ -136,18 +104,6 @@ koel_docker_networks_custom: []
 koel_docker_networks: "{{ docker_networks_common
                           + koel_docker_networks_default
                           + koel_docker_networks_custom }}"
-
-# Capabilities
-koel_docker_capabilities_default: []
-koel_docker_capabilities_custom: []
-koel_docker_capabilities: "{{ koel_docker_capabilities_default
-                              + koel_docker_capabilities_custom }}"
-
-# Security Opts
-koel_docker_security_opts_default: []
-koel_docker_security_opts_custom: []
-koel_docker_security_opts: "{{ koel_docker_security_opts_default
-                               + koel_docker_security_opts_custom }}"
 
 # Restart Policy
 koel_docker_restart_policy: unless-stopped

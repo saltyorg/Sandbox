@@ -63,50 +63,12 @@ lunasea_docker_image_pull: true
 lunasea_docker_image_tag: "stable"
 lunasea_docker_image: "ghcr.io/jagandeepbrar/lunasea:{{ lunasea_docker_image_tag }}"
 
-# Ports
-lunasea_docker_ports_defaults: []
-lunasea_docker_ports_custom: []
-lunasea_docker_ports: "{{ lunasea_docker_ports_defaults
-                          + lunasea_docker_ports_custom }}"
-
 # Envs
 lunasea_docker_envs_default:
   TZ: "{{ tz }}"
 lunasea_docker_envs_custom: {}
 lunasea_docker_envs: "{{ lunasea_docker_envs_default
                          | combine(lunasea_docker_envs_custom) }}"
-
-# Commands
-lunasea_docker_commands_default: []
-lunasea_docker_commands_custom: []
-lunasea_docker_commands: "{{ lunasea_docker_commands_default
-                             + lunasea_docker_commands_custom }}"
-
-# Volumes
-lunasea_docker_volumes_default: []
-lunasea_docker_volumes_custom: []
-lunasea_docker_volumes: "{{ lunasea_docker_volumes_default
-                            + lunasea_docker_volumes_custom }}"
-
-# Devices
-lunasea_docker_devices_default: []
-lunasea_docker_devices_custom: []
-lunasea_docker_devices: "{{ lunasea_docker_devices_default
-                            + lunasea_docker_devices_custom }}"
-
-# Hosts
-lunasea_docker_hosts_default: {}
-lunasea_docker_hosts_custom: {}
-lunasea_docker_hosts: "{{ docker_hosts_common
-                          | combine(lunasea_docker_hosts_default)
-                          | combine(lunasea_docker_hosts_custom) }}"
-
-# Labels
-lunasea_docker_labels_default: {}
-lunasea_docker_labels_custom: {}
-lunasea_docker_labels: "{{ docker_labels_common
-                           | combine(lunasea_docker_labels_default)
-                           | combine(lunasea_docker_labels_custom) }}"
 
 # Hostname
 lunasea_docker_hostname: "{{ lunasea_name }}"
@@ -118,18 +80,6 @@ lunasea_docker_networks_custom: []
 lunasea_docker_networks: "{{ docker_networks_common
                              + lunasea_docker_networks_default
                              + lunasea_docker_networks_custom }}"
-
-# Capabilities
-lunasea_docker_capabilities_default: []
-lunasea_docker_capabilities_custom: []
-lunasea_docker_capabilities: "{{ lunasea_docker_capabilities_default
-                                 + lunasea_docker_capabilities_custom }}"
-
-# Security Opts
-lunasea_docker_security_opts_default: []
-lunasea_docker_security_opts_custom: []
-lunasea_docker_security_opts: "{{ lunasea_docker_security_opts_default
-                                  + lunasea_docker_security_opts_custom }}"
 
 # Restart Policy
 lunasea_docker_restart_policy: unless-stopped

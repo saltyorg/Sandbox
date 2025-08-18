@@ -19,10 +19,10 @@
     name: maybe_finance-secret-key
     image: "{{ maybe_finance_docker_image }}"
     command: "sh -c 'head -c 32 /dev/urandom | base64'"
-    detach: no
+    detach: false
     networks:
       - name: saltbox
-    cleanup: yes
+    cleanup: true
     state: started
     container_default_behavior: compatibility
     tls_hostname: localhost

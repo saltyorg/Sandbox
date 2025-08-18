@@ -82,12 +82,6 @@ dashdot_docker_image_pull: true
 dashdot_docker_image_tag: "latest"
 dashdot_docker_image: "mauricenino/dashdot:{{ dashdot_docker_image_tag }}"
 
-# Ports
-dashdot_docker_ports_defaults: []
-dashdot_docker_ports_custom: []
-dashdot_docker_ports: "{{ dashdot_docker_ports_defaults
-                          + dashdot_docker_ports_custom }}"
-
 # Envs
 dashdot_docker_envs_default:
   DASHDOT_SHOW_HOST: "{{ dashdot_show_host }}"
@@ -108,38 +102,12 @@ dashdot_docker_envs_custom: {}
 dashdot_docker_envs: "{{ dashdot_docker_envs_default
                          | combine(dashdot_docker_envs_custom) }}"
 
-# Commands
-dashdot_docker_commands_default: []
-dashdot_docker_commands_custom: []
-dashdot_docker_commands: "{{ dashdot_docker_commands_default
-                             + dashdot_docker_commands_custom }}"
-
 # Volumes
 dashdot_docker_volumes_default:
   - "/:/mnt/host:ro"
 dashdot_docker_volumes_custom: []
 dashdot_docker_volumes: "{{ dashdot_docker_volumes_default
                             + dashdot_docker_volumes_custom }}"
-
-# Devices
-dashdot_docker_devices_default: []
-dashdot_docker_devices_custom: []
-dashdot_docker_devices: "{{ dashdot_docker_devices_default
-                            + dashdot_docker_devices_custom }}"
-
-# Hosts
-dashdot_docker_hosts_default: {}
-dashdot_docker_hosts_custom: {}
-dashdot_docker_hosts: "{{ docker_hosts_common
-                          | combine(dashdot_docker_hosts_default)
-                          | combine(dashdot_docker_hosts_custom) }}"
-
-# Labels
-dashdot_docker_labels_default: {}
-dashdot_docker_labels_custom: {}
-dashdot_docker_labels: "{{ docker_labels_common
-                           | combine(dashdot_docker_labels_default)
-                           | combine(dashdot_docker_labels_custom) }}"
 
 # Hostname
 dashdot_docker_hostname: "{{ dashdot_name }}"
@@ -151,18 +119,6 @@ dashdot_docker_networks_custom: []
 dashdot_docker_networks: "{{ docker_networks_common
                              + dashdot_docker_networks_default
                              + dashdot_docker_networks_custom }}"
-
-# Capabilities
-dashdot_docker_capabilities_default: []
-dashdot_docker_capabilities_custom: []
-dashdot_docker_capabilities: "{{ dashdot_docker_capabilities_default
-                                 + dashdot_docker_capabilities_custom }}"
-
-# Security Opts
-dashdot_docker_security_opts_default: []
-dashdot_docker_security_opts_custom: []
-dashdot_docker_security_opts: "{{ dashdot_docker_security_opts_default
-                                  + dashdot_docker_security_opts_custom }}"
 
 # Restart Policy
 dashdot_docker_restart_policy: unless-stopped

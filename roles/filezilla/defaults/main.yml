@@ -66,12 +66,6 @@ filezilla_docker_image_pull: true
 filezilla_docker_image_tag: "latest"
 filezilla_docker_image: "jlesage/filezilla:{{ filezilla_docker_image_tag }}"
 
-# Ports
-filezilla_docker_ports_defaults: []
-filezilla_docker_ports_custom: []
-filezilla_docker_ports: "{{ filezilla_docker_ports_defaults
-                            + filezilla_docker_ports_custom }}"
-
 # Envs
 filezilla_docker_envs_default:
   USER_ID: "{{ uid }}"
@@ -82,12 +76,6 @@ filezilla_docker_envs_custom: {}
 filezilla_docker_envs: "{{ filezilla_docker_envs_default
                            | combine(filezilla_docker_envs_custom) }}"
 
-# Commands
-filezilla_docker_commands_default: []
-filezilla_docker_commands_custom: []
-filezilla_docker_commands: "{{ filezilla_docker_commands_default
-                               + filezilla_docker_commands_custom }}"
-
 # Volumes
 filezilla_docker_volumes_default:
   - "{{ filezilla_paths_location }}/config:/config"
@@ -95,26 +83,6 @@ filezilla_docker_volumes_default:
 filezilla_docker_volumes_custom: []
 filezilla_docker_volumes: "{{ filezilla_docker_volumes_default
                               + filezilla_docker_volumes_custom }}"
-
-# Devices
-filezilla_docker_devices_default: []
-filezilla_docker_devices_custom: []
-filezilla_docker_devices: "{{ filezilla_docker_devices_default
-                              + filezilla_docker_devices_custom }}"
-
-# Hosts
-filezilla_docker_hosts_default: {}
-filezilla_docker_hosts_custom: {}
-filezilla_docker_hosts: "{{ docker_hosts_common
-                            | combine(filezilla_docker_hosts_default)
-                            | combine(filezilla_docker_hosts_custom) }}"
-
-# Labels
-filezilla_docker_labels_default: {}
-filezilla_docker_labels_custom: {}
-filezilla_docker_labels: "{{ docker_labels_common
-                             | combine(filezilla_docker_labels_default)
-                             | combine(filezilla_docker_labels_custom) }}"
 
 # Hostname
 filezilla_docker_hostname: "{{ filezilla_name }}"
@@ -126,18 +94,6 @@ filezilla_docker_networks_custom: []
 filezilla_docker_networks: "{{ docker_networks_common
                                + filezilla_docker_networks_default
                                + filezilla_docker_networks_custom }}"
-
-# Capabilities
-filezilla_docker_capabilities_default: []
-filezilla_docker_capabilities_custom: []
-filezilla_docker_capabilities: "{{ filezilla_docker_capabilities_default
-                                   + filezilla_docker_capabilities_custom }}"
-
-# Security Opts
-filezilla_docker_security_opts_default: []
-filezilla_docker_security_opts_custom: []
-filezilla_docker_security_opts: "{{ filezilla_docker_security_opts_default
-                                    + filezilla_docker_security_opts_custom }}"
 
 # Restart Policy
 filezilla_docker_restart_policy: unless-stopped

@@ -71,24 +71,12 @@ filebrowser_docker_image_pull: true
 filebrowser_docker_image_tag: "latest"
 filebrowser_docker_image: "filebrowser/filebrowser:{{ filebrowser_docker_image_tag }}"
 
-# Ports
-filebrowser_docker_ports_defaults: []
-filebrowser_docker_ports_custom: []
-filebrowser_docker_ports: "{{ filebrowser_docker_ports_defaults
-                              + filebrowser_docker_ports_custom }}"
-
 # Envs
 filebrowser_docker_envs_default:
   TZ: "{{ tz }}"
 filebrowser_docker_envs_custom: {}
 filebrowser_docker_envs: "{{ filebrowser_docker_envs_default
                              | combine(filebrowser_docker_envs_custom) }}"
-
-# Commands
-filebrowser_docker_commands_default: []
-filebrowser_docker_commands_custom: []
-filebrowser_docker_commands: "{{ filebrowser_docker_commands_default
-                                 + filebrowser_docker_commands_custom }}"
 
 # Volumes
 filebrowser_docker_volumes_default:
@@ -98,26 +86,6 @@ filebrowser_docker_volumes_default:
 filebrowser_docker_volumes_custom: []
 filebrowser_docker_volumes: "{{ filebrowser_docker_volumes_default
                                 + filebrowser_docker_volumes_custom }}"
-
-# Devices
-filebrowser_docker_devices_default: []
-filebrowser_docker_devices_custom: []
-filebrowser_docker_devices: "{{ filebrowser_docker_devices_default
-                                + filebrowser_docker_devices_custom }}"
-
-# Hosts
-filebrowser_docker_hosts_default: {}
-filebrowser_docker_hosts_custom: {}
-filebrowser_docker_hosts: "{{ docker_hosts_common
-                              | combine(filebrowser_docker_hosts_default)
-                              | combine(filebrowser_docker_hosts_custom) }}"
-
-# Labels
-filebrowser_docker_labels_default: {}
-filebrowser_docker_labels_custom: {}
-filebrowser_docker_labels: "{{ docker_labels_common
-                               | combine(filebrowser_docker_labels_default)
-                               | combine(filebrowser_docker_labels_custom) }}"
 
 # Hostname
 filebrowser_docker_hostname: "{{ filebrowser_name }}"
@@ -129,18 +97,6 @@ filebrowser_docker_networks_custom: []
 filebrowser_docker_networks: "{{ docker_networks_common
                                  + filebrowser_docker_networks_default
                                  + filebrowser_docker_networks_custom }}"
-
-# Capabilities
-filebrowser_docker_capabilities_default: []
-filebrowser_docker_capabilities_custom: []
-filebrowser_docker_capabilities: "{{ filebrowser_docker_capabilities_default
-                                     + filebrowser_docker_capabilities_custom }}"
-
-# Security Opts
-filebrowser_docker_security_opts_default: []
-filebrowser_docker_security_opts_custom: []
-filebrowser_docker_security_opts: "{{ filebrowser_docker_security_opts_default
-                                      + filebrowser_docker_security_opts_custom }}"
 
 # Restart Policy
 filebrowser_docker_restart_policy: unless-stopped

@@ -76,12 +76,6 @@ fireflyiii_docker_image_pull: true
 fireflyiii_docker_image_tag: "latest"
 fireflyiii_docker_image: "fireflyiii/core:{{ fireflyiii_docker_image_tag }}"
 
-# Ports
-fireflyiii_docker_ports_defaults: []
-fireflyiii_docker_ports_custom: []
-fireflyiii_docker_ports: "{{ fireflyiii_docker_ports_defaults
-                         + fireflyiii_docker_ports_custom }}"
-
 # Envs
 fireflyiii_docker_envs_default:
   APP_ENV: "production"
@@ -107,12 +101,6 @@ fireflyiii_docker_envs_custom: {}
 fireflyiii_docker_envs: "{{ fireflyiii_docker_envs_default
                        | combine(fireflyiii_docker_envs_custom) }}"
 
-# Commands
-fireflyiii_docker_commands_default: []
-fireflyiii_docker_commands_custom: []
-fireflyiii_docker_commands: "{{ fireflyiii_docker_commands_default
-                            + fireflyiii_docker_commands_custom }}"
-
 # Volumes
 fireflyiii_docker_volumes_default:
   - "{{ fireflyiii_paths_location }}/upload:/var/www/html/storage/upload"
@@ -121,26 +109,6 @@ fireflyiii_docker_volumes_default:
 fireflyiii_docker_volumes_custom: []
 fireflyiii_docker_volumes: "{{ fireflyiii_docker_volumes_default
                            + fireflyiii_docker_volumes_custom }}"
-
-# Devices
-fireflyiii_docker_devices_default: []
-fireflyiii_docker_devices_custom: []
-fireflyiii_docker_devices: "{{ fireflyiii_docker_devices_default
-                           + fireflyiii_docker_devices_custom }}"
-
-# Hosts
-fireflyiii_docker_hosts_default: {}
-fireflyiii_docker_hosts_custom: {}
-fireflyiii_docker_hosts: "{{ docker_hosts_common
-                         | combine(fireflyiii_docker_hosts_default)
-                         | combine(fireflyiii_docker_hosts_custom) }}"
-
-# Labels
-fireflyiii_docker_labels_default: {}
-fireflyiii_docker_labels_custom: {}
-fireflyiii_docker_labels: "{{ docker_labels_common
-                          | combine(fireflyiii_docker_labels_default)
-                          | combine(fireflyiii_docker_labels_custom) }}"
 
 # Hostname
 fireflyiii_docker_hostname: "{{ fireflyiii_name }}"
@@ -152,18 +120,6 @@ fireflyiii_docker_networks_custom: []
 fireflyiii_docker_networks: "{{ docker_networks_common
                             + fireflyiii_docker_networks_default
                             + fireflyiii_docker_networks_custom }}"
-
-# Capabilities
-fireflyiii_docker_capabilities_default: []
-fireflyiii_docker_capabilities_custom: []
-fireflyiii_docker_capabilities: "{{ fireflyiii_docker_capabilities_default
-                                + fireflyiii_docker_capabilities_custom }}"
-
-# Security Opts
-fireflyiii_docker_security_opts_default: []
-fireflyiii_docker_security_opts_custom: []
-fireflyiii_docker_security_opts: "{{ fireflyiii_docker_security_opts_default
-                                 + fireflyiii_docker_security_opts_custom }}"
 
 # Restart Policy
 fireflyiii_docker_restart_policy: unless-stopped

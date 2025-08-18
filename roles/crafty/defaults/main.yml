@@ -96,12 +96,6 @@ crafty_docker_envs_custom: {}
 crafty_docker_envs: "{{ crafty_docker_envs_default
                         | combine(crafty_docker_envs_custom) }}"
 
-# Commands
-crafty_docker_commands_default: []
-crafty_docker_commands_custom: []
-crafty_docker_commands: "{{ crafty_docker_commands_default
-                            + crafty_docker_commands_custom }}"
-
 # Volumes
 crafty_docker_volumes_default:
   - "{{ crafty_paths_location }}/backups:/crafty/backups"
@@ -112,19 +106,6 @@ crafty_docker_volumes_default:
 crafty_docker_volumes_custom: []
 crafty_docker_volumes: "{{ crafty_docker_volumes_default
                            + crafty_docker_volumes_custom }}"
-
-# Devices
-crafty_docker_devices_default: []
-crafty_docker_devices_custom: []
-crafty_docker_devices: "{{ crafty_docker_devices_default
-                           + crafty_docker_devices_custom }}"
-
-# Hosts
-crafty_docker_hosts_default: {}
-crafty_docker_hosts_custom: {}
-crafty_docker_hosts: "{{ docker_hosts_common
-                         | combine(crafty_docker_hosts_default)
-                         | combine(crafty_docker_hosts_custom) }}"
 
 # Labels
 crafty_docker_labels_default:
@@ -156,18 +137,6 @@ crafty_docker_networks_custom: []
 crafty_docker_networks: "{{ docker_networks_common
                             + crafty_docker_networks_default
                             + crafty_docker_networks_custom }}"
-
-# Capabilities
-crafty_docker_capabilities_default: []
-crafty_docker_capabilities_custom: []
-crafty_docker_capabilities: "{{ crafty_docker_capabilities_default
-                                + crafty_docker_capabilities_custom }}"
-
-# Security Opts
-crafty_docker_security_opts_default: []
-crafty_docker_security_opts_custom: []
-crafty_docker_security_opts: "{{ crafty_docker_security_opts_default
-                                 + crafty_docker_security_opts_custom }}"
 
 # Restart Policy
 crafty_docker_restart_policy: unless-stopped

@@ -42,7 +42,7 @@
 - name: Read JWT Token Secret from file
   ansible.builtin.shell: cat "{{ jellystat_paths_jwt_secret_file }}"
   register: jwt_token
-  changed_when: False
+  changed_when: false
 
 - name: PostgreSQL Role
   ansible.builtin.include_role:

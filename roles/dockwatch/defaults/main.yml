@@ -87,12 +87,6 @@ dockwatch_docker_image_pull: true
 dockwatch_docker_image_tag: "main"
 dockwatch_docker_image: "ghcr.io/notifiarr/dockwatch:{{ dockwatch_docker_image_tag }}"
 
-# Ports
-dockwatch_docker_ports_defaults: []
-dockwatch_docker_ports_custom: []
-dockwatch_docker_ports: "{{ dockwatch_docker_ports_defaults
-                            + dockwatch_docker_ports_custom }}"
-
 # Envs
 dockwatch_docker_envs_default:
   PUID: "{{ uid }}"
@@ -103,38 +97,12 @@ dockwatch_docker_envs_custom: {}
 dockwatch_docker_envs: "{{ dockwatch_docker_envs_default
                            | combine(dockwatch_docker_envs_custom) }}"
 
-# Commands
-dockwatch_docker_commands_default: []
-dockwatch_docker_commands_custom: []
-dockwatch_docker_commands: "{{ dockwatch_docker_commands_default
-                               + dockwatch_docker_commands_custom }}"
-
 # Volumes
 dockwatch_docker_volumes_default:
   - "{{ dockwatch_paths_location }}:/config"
 dockwatch_docker_volumes_custom: []
 dockwatch_docker_volumes: "{{ dockwatch_docker_volumes_default
                               + dockwatch_docker_volumes_custom }}"
-
-# Devices
-dockwatch_docker_devices_default: []
-dockwatch_docker_devices_custom: []
-dockwatch_docker_devices: "{{ dockwatch_docker_devices_default
-                              + dockwatch_docker_devices_custom }}"
-
-# Hosts
-dockwatch_docker_hosts_default: {}
-dockwatch_docker_hosts_custom: {}
-dockwatch_docker_hosts: "{{ docker_hosts_common
-                            | combine(dockwatch_docker_hosts_default)
-                            | combine(dockwatch_docker_hosts_custom) }}"
-
-# Labels
-dockwatch_docker_labels_default: {}
-dockwatch_docker_labels_custom: {}
-dockwatch_docker_labels: "{{ docker_labels_common
-                             | combine(dockwatch_docker_labels_default)
-                             | combine(dockwatch_docker_labels_custom) }}"
 
 # Hostname
 dockwatch_docker_hostname: "{{ dockwatch_name }}"
@@ -146,18 +114,6 @@ dockwatch_docker_networks_custom: []
 dockwatch_docker_networks: "{{ docker_networks_common
                                + dockwatch_docker_networks_default
                                + dockwatch_docker_networks_custom }}"
-
-# Capabilities
-dockwatch_docker_capabilities_default: []
-dockwatch_docker_capabilities_custom: []
-dockwatch_docker_capabilities: "{{ dockwatch_docker_capabilities_default
-                                   + dockwatch_docker_capabilities_custom }}"
-
-# Security Opts
-dockwatch_docker_security_opts_default: []
-dockwatch_docker_security_opts_custom: []
-dockwatch_docker_security_opts: "{{ dockwatch_docker_security_opts_default
-                                    + dockwatch_docker_security_opts_custom }}"
 
 # Restart Policy
 dockwatch_docker_restart_policy: unless-stopped

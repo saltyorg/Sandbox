@@ -66,24 +66,6 @@ komga_docker_image_pull: true
 komga_docker_image_tag: "latest"
 komga_docker_image: "gotson/komga:{{ komga_docker_image_tag }}"
 
-# Ports
-komga_docker_ports_defaults: []
-komga_docker_ports_custom: []
-komga_docker_ports: "{{ komga_docker_ports_defaults
-                        + komga_docker_ports_custom }}"
-
-# Envs
-komga_docker_envs_default: {}
-komga_docker_envs_custom: {}
-komga_docker_envs: "{{ komga_docker_envs_default
-                       | combine(komga_docker_envs_custom) }}"
-
-# Commands
-komga_docker_commands_default: []
-komga_docker_commands_custom: []
-komga_docker_commands: "{{ komga_docker_commands_default
-                           + komga_docker_commands_custom }}"
-
 # Volumes
 komga_docker_volumes_default:
   - "{{ komga_paths_location }}:/config"
@@ -91,26 +73,6 @@ komga_docker_volumes_default:
 komga_docker_volumes_custom: []
 komga_docker_volumes: "{{ komga_docker_volumes_default
                           + komga_docker_volumes_custom }}"
-
-# Devices
-komga_docker_devices_default: []
-komga_docker_devices_custom: []
-komga_docker_devices: "{{ komga_docker_devices_default
-                          + komga_docker_devices_custom }}"
-
-# Hosts
-komga_docker_hosts_default: {}
-komga_docker_hosts_custom: {}
-komga_docker_hosts: "{{ docker_hosts_common
-                        | combine(komga_docker_hosts_default)
-                        | combine(komga_docker_hosts_custom) }}"
-
-# Labels
-komga_docker_labels_default: {}
-komga_docker_labels_custom: {}
-komga_docker_labels: "{{ docker_labels_common
-                         | combine(komga_docker_labels_default)
-                         | combine(komga_docker_labels_custom) }}"
 
 # Hostname
 komga_docker_hostname: "{{ komga_name }}"
@@ -122,18 +84,6 @@ komga_docker_networks_custom: []
 komga_docker_networks: "{{ docker_networks_common
                            + komga_docker_networks_default
                            + komga_docker_networks_custom }}"
-
-# Capabilities
-komga_docker_capabilities_default: []
-komga_docker_capabilities_custom: []
-komga_docker_capabilities: "{{ komga_docker_capabilities_default
-                               + komga_docker_capabilities_custom }}"
-
-# Security Opts
-komga_docker_security_opts_default: []
-komga_docker_security_opts_custom: []
-komga_docker_security_opts: "{{ komga_docker_security_opts_default
-                                + komga_docker_security_opts_custom }}"
 
 # Restart Policy
 komga_docker_restart_policy: unless-stopped

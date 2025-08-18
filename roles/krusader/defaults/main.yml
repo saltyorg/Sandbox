@@ -74,12 +74,6 @@ krusader_docker_image_pull: true
 krusader_docker_image_tag: "latest"
 krusader_docker_image: "binhex/arch-krusader:{{ krusader_docker_image_tag }}"
 
-# Ports
-krusader_docker_ports_defaults: []
-krusader_docker_ports_custom: []
-krusader_docker_ports: "{{ krusader_docker_ports_defaults
-                           + krusader_docker_ports_custom }}"
-
 # Envs
 krusader_docker_envs_default:
   TZ: "{{ tz }}"
@@ -93,38 +87,12 @@ krusader_docker_envs_custom: {}
 krusader_docker_envs: "{{ krusader_docker_envs_default
                           | combine(krusader_docker_envs_custom) }}"
 
-# Commands
-krusader_docker_commands_default: []
-krusader_docker_commands_custom: []
-krusader_docker_commands: "{{ krusader_docker_commands_default
-                              + krusader_docker_commands_custom }}"
-
 # Volumes
 krusader_docker_volumes_default:
   - "{{ krusader_paths_location }}/config:/config"
 krusader_docker_volumes_custom: []
 krusader_docker_volumes: "{{ krusader_docker_volumes_default
                              + krusader_docker_volumes_custom }}"
-
-# Devices
-krusader_docker_devices_default: []
-krusader_docker_devices_custom: []
-krusader_docker_devices: "{{ krusader_docker_devices_default
-                             + krusader_docker_devices_custom }}"
-
-# Hosts
-krusader_docker_hosts_default: {}
-krusader_docker_hosts_custom: {}
-krusader_docker_hosts: "{{ docker_hosts_common
-                           | combine(krusader_docker_hosts_default)
-                           | combine(krusader_docker_hosts_custom) }}"
-
-# Labels
-krusader_docker_labels_default: {}
-krusader_docker_labels_custom: {}
-krusader_docker_labels: "{{ docker_labels_common
-                            | combine(krusader_docker_labels_default)
-                            | combine(krusader_docker_labels_custom) }}"
 
 # Hostname
 krusader_docker_hostname: "{{ krusader_name }}"
@@ -136,18 +104,6 @@ krusader_docker_networks_custom: []
 krusader_docker_networks: "{{ docker_networks_common
                               + krusader_docker_networks_default
                               + krusader_docker_networks_custom }}"
-
-# Capabilities
-krusader_docker_capabilities_default: []
-krusader_docker_capabilities_custom: []
-krusader_docker_capabilities: "{{ krusader_docker_capabilities_default
-                                  + krusader_docker_capabilities_custom }}"
-
-# Security Opts
-krusader_docker_security_opts_default: []
-krusader_docker_security_opts_custom: []
-krusader_docker_security_opts: "{{ krusader_docker_security_opts_default
-                                   + krusader_docker_security_opts_custom }}"
 
 # Restart Policy
 krusader_docker_restart_policy: unless-stopped

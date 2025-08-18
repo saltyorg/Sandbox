@@ -65,11 +65,6 @@ forgejo_docker_image_pull: true
 forgejo_docker_image_tag: "1.20" # the Codeberg container registry does not provide a "latest" tag
 forgejo_docker_image: "codeberg.org/forgejo/forgejo:{{ forgejo_docker_image_tag }}"
 
-# Ports
-forgejo_docker_ports_defaults: []
-forgejo_docker_ports_custom: []
-forgejo_docker_ports: "{{ forgejo_docker_ports_defaults + forgejo_docker_ports_custom }}"
-
 # Envs
 forgejo_docker_envs_default:
   USER_UID: "{{ uid }}"
@@ -85,11 +80,6 @@ forgejo_docker_envs_default:
 forgejo_docker_envs_custom: {}
 forgejo_docker_envs: "{{ forgejo_docker_envs_default | combine(forgejo_docker_envs_custom) }}"
 
-# Commands
-forgejo_docker_commands_default: []
-forgejo_docker_commands_custom: []
-forgejo_docker_commands: "{{ forgejo_docker_commands_default + forgejo_docker_commands_custom }}"
-
 # Volumes
 forgejo_docker_volumes_default:
   - "{{ forgejo_paths_location }}:/data"
@@ -97,21 +87,6 @@ forgejo_docker_volumes_default:
   - /etc/localtime:/etc/localtime:ro
 forgejo_docker_volumes_custom: []
 forgejo_docker_volumes: "{{ forgejo_docker_volumes_default + forgejo_docker_volumes_custom }}"
-
-# Devices
-forgejo_docker_devices_default: []
-forgejo_docker_devices_custom: []
-forgejo_docker_devices: "{{ forgejo_docker_devices_default + forgejo_docker_devices_custom }}"
-
-# Hosts
-forgejo_docker_hosts_default: {}
-forgejo_docker_hosts_custom: {}
-forgejo_docker_hosts: "{{ docker_hosts_common | combine(forgejo_docker_hosts_default) | combine(forgejo_docker_hosts_custom) }}"
-
-# Labels
-forgejo_docker_labels_default: {}
-forgejo_docker_labels_custom: {}
-forgejo_docker_labels: "{{ docker_labels_common | combine(forgejo_docker_labels_default) | combine(forgejo_docker_labels_custom) }}"
 
 # Hostname
 forgejo_docker_hostname: "{{ forgejo_name }}"
@@ -121,16 +96,6 @@ forgejo_docker_networks_alias: "{{ forgejo_name }}"
 forgejo_docker_networks_default: []
 forgejo_docker_networks_custom: []
 forgejo_docker_networks: "{{ docker_networks_common + forgejo_docker_networks_default + forgejo_docker_networks_custom }}"
-
-# Capabilities
-forgejo_docker_capabilities_default: []
-forgejo_docker_capabilities_custom: []
-forgejo_docker_capabilities: "{{ forgejo_docker_capabilities_default + forgejo_docker_capabilities_custom }}"
-
-# Security Opts
-forgejo_docker_security_opts_default: []
-forgejo_docker_security_opts_custom: []
-forgejo_docker_security_opts: "{{ forgejo_docker_security_opts_default + forgejo_docker_security_opts_custom }}"
 
 # Restart Policy
 forgejo_docker_restart_policy: unless-stopped

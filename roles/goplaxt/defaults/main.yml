@@ -66,12 +66,6 @@ goplaxt_docker_image_pull: true
 goplaxt_docker_image_tag: "latest"
 goplaxt_docker_image: "xanderstrike/goplaxt:{{ goplaxt_docker_image_tag }}"
 
-# Ports
-goplaxt_docker_ports_defaults: []
-goplaxt_docker_ports_custom: []
-goplaxt_docker_ports: "{{ goplaxt_docker_ports_defaults
-                          + goplaxt_docker_ports_custom }}"
-
 # Envs
 goplaxt_docker_envs_default:
   TZ: "{{ tz }}"
@@ -82,38 +76,12 @@ goplaxt_docker_envs_custom: {}
 goplaxt_docker_envs: "{{ goplaxt_docker_envs_default
                          | combine(goplaxt_docker_envs_custom) }}"
 
-# Commands
-goplaxt_docker_commands_default: []
-goplaxt_docker_commands_custom: []
-goplaxt_docker_commands: "{{ goplaxt_docker_commands_default
-                             + goplaxt_docker_commands_custom }}"
-
 # Volumes
 goplaxt_docker_volumes_default:
   - "{{ goplaxt_paths_location }}:/app/keystore"
 goplaxt_docker_volumes_custom: []
 goplaxt_docker_volumes: "{{ goplaxt_docker_volumes_default
                             + goplaxt_docker_volumes_custom }}"
-
-# Devices
-goplaxt_docker_devices_default: []
-goplaxt_docker_devices_custom: []
-goplaxt_docker_devices: "{{ goplaxt_docker_devices_default
-                            + goplaxt_docker_devices_custom }}"
-
-# Hosts
-goplaxt_docker_hosts_default: {}
-goplaxt_docker_hosts_custom: {}
-goplaxt_docker_hosts: "{{ docker_hosts_common
-                          | combine(goplaxt_docker_hosts_default)
-                          | combine(goplaxt_docker_hosts_custom) }}"
-
-# Labels
-goplaxt_docker_labels_default: {}
-goplaxt_docker_labels_custom: {}
-goplaxt_docker_labels: "{{ docker_labels_common
-                           | combine(goplaxt_docker_labels_default)
-                           | combine(goplaxt_docker_labels_custom) }}"
 
 # Hostname
 goplaxt_docker_hostname: "{{ goplaxt_name }}"
@@ -125,18 +93,6 @@ goplaxt_docker_networks_custom: []
 goplaxt_docker_networks: "{{ docker_networks_common
                              + goplaxt_docker_networks_default
                              + goplaxt_docker_networks_custom }}"
-
-# Capabilities
-goplaxt_docker_capabilities_default: []
-goplaxt_docker_capabilities_custom: []
-goplaxt_docker_capabilities: "{{ goplaxt_docker_capabilities_default
-                                 + goplaxt_docker_capabilities_custom }}"
-
-# Security Opts
-goplaxt_docker_security_opts_default: []
-goplaxt_docker_security_opts_custom: []
-goplaxt_docker_security_opts: "{{ goplaxt_docker_security_opts_default
-                                  + goplaxt_docker_security_opts_custom }}"
 
 # Restart Policy
 goplaxt_docker_restart_policy: unless-stopped

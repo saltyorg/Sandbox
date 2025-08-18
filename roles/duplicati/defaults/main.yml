@@ -66,12 +66,6 @@ duplicati_docker_image_pull: true
 duplicati_docker_image_tag: "latest"
 duplicati_docker_image: "linuxserver/duplicati:{{ duplicati_docker_image_tag }}"
 
-# Ports
-duplicati_docker_ports_defaults: []
-duplicati_docker_ports_custom: []
-duplicati_docker_ports: "{{ duplicati_docker_ports_defaults
-                            + duplicati_docker_ports_custom }}"
-
 # Envs
 duplicati_docker_envs_default:
   TZ: "{{ tz }}"
@@ -81,12 +75,6 @@ duplicati_docker_envs_custom: {}
 duplicati_docker_envs: "{{ duplicati_docker_envs_default
                            | combine(duplicati_docker_envs_custom) }}"
 
-# Commands
-duplicati_docker_commands_default: []
-duplicati_docker_commands_custom: []
-duplicati_docker_commands: "{{ duplicati_docker_commands_default
-                               + duplicati_docker_commands_custom }}"
-
 # Volumes
 duplicati_docker_volumes_default:
   - "{{ duplicati_paths_location }}:/config"
@@ -95,26 +83,6 @@ duplicati_docker_volumes_default:
 duplicati_docker_volumes_custom: []
 duplicati_docker_volumes: "{{ duplicati_docker_volumes_default
                               + duplicati_docker_volumes_custom }}"
-
-# Devices
-duplicati_docker_devices_default: []
-duplicati_docker_devices_custom: []
-duplicati_docker_devices: "{{ duplicati_docker_devices_default
-                              + duplicati_docker_devices_custom }}"
-
-# Hosts
-duplicati_docker_hosts_default: {}
-duplicati_docker_hosts_custom: {}
-duplicati_docker_hosts: "{{ docker_hosts_common
-                            | combine(duplicati_docker_hosts_default)
-                            | combine(duplicati_docker_hosts_custom) }}"
-
-# Labels
-duplicati_docker_labels_default: {}
-duplicati_docker_labels_custom: {}
-duplicati_docker_labels: "{{ docker_labels_common
-                             | combine(duplicati_docker_labels_default)
-                             | combine(duplicati_docker_labels_custom) }}"
 
 # Hostname
 duplicati_docker_hostname: "{{ duplicati_name }}"
@@ -126,18 +94,6 @@ duplicati_docker_networks_custom: []
 duplicati_docker_networks: "{{ docker_networks_common
                                + duplicati_docker_networks_default
                                + duplicati_docker_networks_custom }}"
-
-# Capabilities
-duplicati_docker_capabilities_default: []
-duplicati_docker_capabilities_custom: []
-duplicati_docker_capabilities: "{{ duplicati_docker_capabilities_default
-                                   + duplicati_docker_capabilities_custom }}"
-
-# Security Opts
-duplicati_docker_security_opts_default: []
-duplicati_docker_security_opts_custom: []
-duplicati_docker_security_opts: "{{ duplicati_docker_security_opts_default
-                                    + duplicati_docker_security_opts_custom }}"
 
 # Restart Policy
 duplicati_docker_restart_policy: unless-stopped

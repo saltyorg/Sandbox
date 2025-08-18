@@ -89,5 +89,5 @@
   ansible.builtin.systemd_service:
     name: sarotate
     state: started
-    enabled: yes
+    enabled: true
     daemon_reload: true

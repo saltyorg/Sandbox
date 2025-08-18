@@ -32,14 +32,7 @@ chrome_docker_container: "{{ chrome_name }}"
 # Image
 chrome_docker_image_pull: true
 chrome_docker_image: "gcr.io/zenika-hub/alpine-chrome"
-chrome_docker_image_tag: "123"
-
-# Ports
-chrome_docker_ports_defaults:
-  - "9222:9222"
-chrome_docker_ports_custom: []
-chrome_docker_ports: "{{ chrome_docker_ports_defaults
-                          + chrome_docker_ports_custom }}"
+chrome_docker_image_tag: "124"
 
 # Envs
 chrome_docker_envs_default:
@@ -62,32 +55,6 @@ chrome_docker_commands_custom: []
 chrome_docker_commands: "{{ chrome_docker_commands_default
                              + chrome_docker_commands_custom }}"
 
-# Volumes
-chrome_docker_volumes_default: []
-chrome_docker_volumes_custom: []
-chrome_docker_volumes: "{{ chrome_docker_volumes_default
-                            + chrome_docker_volumes_custom }}"
-
-# Devices
-chrome_docker_devices_default: []
-chrome_docker_devices_custom: []
-chrome_docker_devices: "{{ chrome_docker_devices_default
-                            + chrome_docker_devices_custom }}"
-
-# Hosts
-chrome_docker_hosts_default: {}
-chrome_docker_hosts_custom: {}
-chrome_docker_hosts: "{{ docker_hosts_common
-                          | combine(chrome_docker_hosts_default)
-                          | combine(chrome_docker_hosts_custom) }}"
-
-# Labels
-chrome_docker_labels_default: {}
-chrome_docker_labels_custom: {}
-chrome_docker_labels: "{{ docker_labels_common
-                           | combine(chrome_docker_labels_default)
-                           | combine(chrome_docker_labels_custom) }}"
-
 # Hostname
 chrome_docker_hostname: "{{ chrome_name }}"
 
@@ -98,18 +65,6 @@ chrome_docker_networks_custom: []
 chrome_docker_networks: "{{ docker_networks_common
                              + chrome_docker_networks_default
                              + chrome_docker_networks_custom }}"
-
-# Capabilities
-chrome_docker_capabilities_default: []
-chrome_docker_capabilities_custom: []
-chrome_docker_capabilities: "{{ chrome_docker_capabilities_default
-                                 + chrome_docker_capabilities_custom }}"
-
-# Security Opts
-chrome_docker_security_opts_default: []
-chrome_docker_security_opts_custom: []
-chrome_docker_security_opts: "{{ chrome_docker_security_opts_default
-                                  + chrome_docker_security_opts_custom }}"
 
 # Restart Policy
 chrome_docker_restart_policy: unless-stopped
