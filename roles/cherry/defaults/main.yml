@@ -76,25 +76,12 @@ cherry_docker_envs_custom: {}
 cherry_docker_envs: "{{ cherry_docker_envs_default
                         | combine(cherry_docker_envs_custom) }}"
 
-# Commands
-cherry_docker_commands_default: []
-cherry_docker_commands_custom: []
-cherry_docker_commands: "{{ cherry_docker_commands_default
-                            + cherry_docker_commands_custom }}"
-
 # Volumes
 cherry_docker_volumes_default:
   - "{{ cherry_paths_location }}:/data"
 cherry_docker_volumes_custom: []
 cherry_docker_volumes: "{{ cherry_docker_volumes_default
                            + cherry_docker_volumes_custom }}"
-
-# Labels
-cherry_docker_labels_default: {}
-cherry_docker_labels_custom: {}
-cherry_docker_labels: "{{ docker_labels_common
-                          | combine(cherry_docker_labels_default)
-                          | combine(cherry_docker_labels_custom) }}"
 
 # Hostname
 cherry_docker_hostname: "{{ cherry_name }}"

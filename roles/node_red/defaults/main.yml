@@ -67,12 +67,6 @@ node_red_docker_image_tag: "latest"
 node_red_docker_image: "{{ lookup('vars', node_red_name + '_docker_image_repo', default=node_red_docker_image_repo)
                            + ':' + lookup('vars', node_red_name + '_docker_image_tag', default=node_red_docker_image_tag) }}"
 
-# Ports
-node_red_docker_ports_defaults: []
-node_red_docker_ports_custom: []
-node_red_docker_ports: "{{ lookup('vars', node_red_name + '_docker_ports_defaults', default=node_red_docker_ports_defaults)
-                           + lookup('vars', node_red_name + '_docker_ports_custom', default=node_red_docker_ports_custom) }}"
-
 # Envs
 node_red_docker_envs_default:
   TZ: "{{ tz }}"
@@ -80,38 +74,12 @@ node_red_docker_envs_custom: {}
 node_red_docker_envs: "{{ lookup('vars', node_red_name + '_docker_envs_default', default=node_red_docker_envs_default)
                           | combine(lookup('vars', node_red_name + '_docker_envs_custom', default=node_red_docker_envs_custom)) }}"
 
-# Commands
-node_red_docker_commands_default: []
-node_red_docker_commands_custom: []
-node_red_docker_commands: "{{ lookup('vars', node_red_name + '_docker_commands_default', default=node_red_docker_commands_default)
-                              + lookup('vars', node_red_name + '_docker_commands_custom', default=node_red_docker_commands_custom) }}"
-
 # Volumes
 node_red_docker_volumes_default:
   - "{{ node_red_paths_location }}:/data"
 node_red_docker_volumes_custom: []
 node_red_docker_volumes: "{{ lookup('vars', node_red_name + '_docker_volumes_default', default=node_red_docker_volumes_default)
                              + lookup('vars', node_red_name + '_docker_volumes_custom', default=node_red_docker_volumes_custom) }}"
-
-# Devices
-node_red_docker_devices_default: []
-node_red_docker_devices_custom: []
-node_red_docker_devices: "{{ lookup('vars', node_red_name + '_docker_devices_default', default=node_red_docker_devices_default)
-                             + lookup('vars', node_red_name + '_docker_devices_custom', default=node_red_docker_devices_custom) }}"
-
-# Hosts
-node_red_docker_hosts_default: {}
-node_red_docker_hosts_custom: {}
-node_red_docker_hosts: "{{ docker_hosts_common
-                           | combine(lookup('vars', node_red_name + '_docker_hosts_default', default=node_red_docker_hosts_default))
-                           | combine(lookup('vars', node_red_name + '_docker_hosts_custom', default=node_red_docker_hosts_custom)) }}"
-
-# Labels
-node_red_docker_labels_default: {}
-node_red_docker_labels_custom: {}
-node_red_docker_labels: "{{ docker_labels_common
-                            | combine(lookup('vars', node_red_name + '_docker_labels_default', default=node_red_docker_labels_default))
-                            | combine(lookup('vars', node_red_name + '_docker_labels_custom', default=node_red_docker_labels_custom)) }}"
 
 # Hostname
 node_red_docker_hostname: "{{ node_red_name }}"
@@ -123,18 +91,6 @@ node_red_docker_networks_custom: []
 node_red_docker_networks: "{{ docker_networks_common
                               + lookup('vars', node_red_name + '_docker_networks_default', default=node_red_docker_networks_default)
                               + lookup('vars', node_red_name + '_docker_networks_custom', default=node_red_docker_networks_custom) }}"
-
-# Capabilities
-node_red_docker_capabilities_default: []
-node_red_docker_capabilities_custom: []
-node_red_docker_capabilities: "{{ lookup('vars', node_red_name + '_docker_capabilities_default', default=node_red_docker_capabilities_default)
-                                  + lookup('vars', node_red_name + '_docker_capabilities_custom', default=node_red_docker_capabilities_custom) }}"
-
-# Security Opts
-node_red_docker_security_opts_default: []
-node_red_docker_security_opts_custom: []
-node_red_docker_security_opts: "{{ lookup('vars', node_red_name + '_docker_security_opts_default', default=node_red_docker_security_opts_default)
-                                   + lookup('vars', node_red_name + '_docker_security_opts_custom', default=node_red_docker_security_opts_custom) }}"
 
 # Restart Policy
 node_red_docker_restart_policy: unless-stopped

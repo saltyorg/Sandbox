@@ -68,24 +68,12 @@ olivetin_docker_image_pull: true
 olivetin_docker_image_tag: "latest"
 olivetin_docker_image: "jamesread/olivetin:{{ olivetin_docker_image_tag }}"
 
-# Ports
-olivetin_docker_ports_defaults: []
-olivetin_docker_ports_custom: []
-olivetin_docker_ports: "{{ olivetin_docker_ports_defaults
-                           + olivetin_docker_ports_custom }}"
-
 # Envs
 olivetin_docker_envs_default:
   TZ: "{{ tz }}"
 olivetin_docker_envs_custom: {}
 olivetin_docker_envs: "{{ olivetin_docker_envs_default
                           | combine(olivetin_docker_envs_custom) }}"
-
-# Commands
-olivetin_docker_commands_default: []
-olivetin_docker_commands_custom: []
-olivetin_docker_commands: "{{ olivetin_docker_commands_default
-                              + olivetin_docker_commands_custom }}"
 
 # Volumes
 olivetin_docker_volumes_default:
@@ -94,26 +82,6 @@ olivetin_docker_volumes_default:
 olivetin_docker_volumes_custom: []
 olivetin_docker_volumes: "{{ olivetin_docker_volumes_default
                              + olivetin_docker_volumes_custom }}"
-
-# Devices
-olivetin_docker_devices_default: []
-olivetin_docker_devices_custom: []
-olivetin_docker_devices: "{{ olivetin_docker_devices_default
-                             + olivetin_docker_devices_custom }}"
-
-# Hosts
-olivetin_docker_hosts_default: {}
-olivetin_docker_hosts_custom: {}
-olivetin_docker_hosts: "{{ docker_hosts_common
-                           | combine(olivetin_docker_hosts_default)
-                           | combine(olivetin_docker_hosts_custom) }}"
-
-# Labels
-olivetin_docker_labels_default: {}
-olivetin_docker_labels_custom: {}
-olivetin_docker_labels: "{{ docker_labels_common
-                            | combine(olivetin_docker_labels_default)
-                            | combine(olivetin_docker_labels_custom) }}"
 
 # Hostname
 olivetin_docker_hostname: "{{ olivetin_name }}"
@@ -125,18 +93,6 @@ olivetin_docker_networks_custom: []
 olivetin_docker_networks: "{{ docker_networks_common
                               + olivetin_docker_networks_default
                               + olivetin_docker_networks_custom }}"
-
-# Capabilities
-olivetin_docker_capabilities_default: []
-olivetin_docker_capabilities_custom: []
-olivetin_docker_capabilities: "{{ olivetin_docker_capabilities_default
-                                  + olivetin_docker_capabilities_custom }}"
-
-# Security Opts
-olivetin_docker_security_opts_default: []
-olivetin_docker_security_opts_custom: []
-olivetin_docker_security_opts: "{{ olivetin_docker_security_opts_default
-                                   + olivetin_docker_security_opts_custom }}"
 
 # Restart Policy
 olivetin_docker_restart_policy: unless-stopped

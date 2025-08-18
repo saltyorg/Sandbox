@@ -123,8 +123,7 @@ crafty_docker_labels_default:
   - '{ "traefik.http.routers.{{ crafty_name }}-map.priority": "20" }'
   - '{ "traefik.http.services.{{ crafty_name }}-map.loadbalancer.server.port": "{{ crafty_dynmap_web_port }}" }'
 crafty_docker_labels_custom: {}
-crafty_docker_labels: "{{ docker_labels_common
-                          | combine(crafty_docker_labels_default)
+crafty_docker_labels: "{{ crafty_docker_labels_default
                           | combine(crafty_docker_labels_custom) }}"
 
 # Hostname

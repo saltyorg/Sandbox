@@ -67,12 +67,6 @@ tandoor_docker_image_pull: true
 tandoor_docker_image_tag: "latest"
 tandoor_docker_image: "vabene1111/recipes:{{ tandoor_docker_image_tag }}"
 
-# Ports
-tandoor_docker_ports_defaults: []
-tandoor_docker_ports_custom: []
-tandoor_docker_ports: "{{ tandoor_docker_ports_defaults
-                          + tandoor_docker_ports_custom }}"
-
 # Envs
 tandoor_docker_envs_default:
   TZ: "{{ tz }}"
@@ -90,12 +84,6 @@ tandoor_docker_envs_custom: {}
 tandoor_docker_envs: "{{ tandoor_docker_envs_default
                          | combine(tandoor_docker_envs_custom) }}"
 
-# Commands
-tandoor_docker_commands_default: []
-tandoor_docker_commands_custom: []
-tandoor_docker_commands: "{{ tandoor_docker_commands_default
-                             + tandoor_docker_commands_custom }}"
-
 # Volumes
 tandoor_docker_volumes_default:
   - "{{ tandoor_paths_location }}/staticfiles:/opt/recipes/staticfiles"
@@ -103,26 +91,6 @@ tandoor_docker_volumes_default:
 tandoor_docker_volumes_custom: []
 tandoor_docker_volumes: "{{ tandoor_docker_volumes_default
                             + tandoor_docker_volumes_custom }}"
-
-# Devices
-tandoor_docker_devices_default: []
-tandoor_docker_devices_custom: []
-tandoor_docker_devices: "{{ tandoor_docker_devices_default
-                            + tandoor_docker_devices_custom }}"
-
-# Hosts
-tandoor_docker_hosts_default: {}
-tandoor_docker_hosts_custom: {}
-tandoor_docker_hosts: "{{ docker_hosts_common
-                          | combine(tandoor_docker_hosts_default)
-                          | combine(tandoor_docker_hosts_custom) }}"
-
-# Labels
-tandoor_docker_labels_default: {}
-tandoor_docker_labels_custom: {}
-tandoor_docker_labels: "{{ docker_labels_common
-                           | combine(tandoor_docker_labels_default)
-                           | combine(tandoor_docker_labels_custom) }}"
 
 # Hostname
 tandoor_docker_hostname: "{{ tandoor_name }}"
@@ -134,18 +102,6 @@ tandoor_docker_networks_custom: []
 tandoor_docker_networks: "{{ docker_networks_common
                              + tandoor_docker_networks_default
                              + tandoor_docker_networks_custom }}"
-
-# Capabilities
-tandoor_docker_capabilities_default: []
-tandoor_docker_capabilities_custom: []
-tandoor_docker_capabilities: "{{ tandoor_docker_capabilities_default
-                                 + tandoor_docker_capabilities_custom }}"
-
-# Security Opts
-tandoor_docker_security_opts_default: []
-tandoor_docker_security_opts_custom: []
-tandoor_docker_security_opts: "{{ tandoor_docker_security_opts_default
-                                  + tandoor_docker_security_opts_custom }}"
 
 # Restart Policy
 tandoor_docker_restart_policy: unless-stopped

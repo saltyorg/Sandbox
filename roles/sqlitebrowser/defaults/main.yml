@@ -66,12 +66,6 @@ sqlitebrowser_docker_image_pull: true
 sqlitebrowser_docker_image_tag: "latest"
 sqlitebrowser_docker_image: "lscr.io/linuxserver/sqlitebrowser:{{ sqlitebrowser_docker_image_tag }}"
 
-# Ports
-sqlitebrowser_docker_ports_defaults: []
-sqlitebrowser_docker_ports_custom: []
-sqlitebrowser_docker_ports: "{{ sqlitebrowser_docker_ports_defaults
-                                + sqlitebrowser_docker_ports_custom }}"
-
 # Envs
 sqlitebrowser_docker_envs_default:
   TZ: "{{ tz }}"
@@ -81,38 +75,12 @@ sqlitebrowser_docker_envs_custom: {}
 sqlitebrowser_docker_envs: "{{ sqlitebrowser_docker_envs_default
                                | combine(sqlitebrowser_docker_envs_custom) }}"
 
-# Commands
-sqlitebrowser_docker_commands_default: []
-sqlitebrowser_docker_commands_custom: []
-sqlitebrowser_docker_commands: "{{ sqlitebrowser_docker_commands_default
-                                   + sqlitebrowser_docker_commands_custom }}"
-
 # Volumes
 sqlitebrowser_docker_volumes_default:
   - "{{ sqlitebrowser_paths_location }}:/config"
 sqlitebrowser_docker_volumes_custom: []
 sqlitebrowser_docker_volumes: "{{ sqlitebrowser_docker_volumes_default
                                   + sqlitebrowser_docker_volumes_custom }}"
-
-# Devices
-sqlitebrowser_docker_devices_default: []
-sqlitebrowser_docker_devices_custom: []
-sqlitebrowser_docker_devices: "{{ sqlitebrowser_docker_devices_default
-                                  + sqlitebrowser_docker_devices_custom }}"
-
-# Hosts
-sqlitebrowser_docker_hosts_default: {}
-sqlitebrowser_docker_hosts_custom: {}
-sqlitebrowser_docker_hosts: "{{ docker_hosts_common
-                                | combine(sqlitebrowser_docker_hosts_default)
-                                | combine(sqlitebrowser_docker_hosts_custom) }}"
-
-# Labels
-sqlitebrowser_docker_labels_default: {}
-sqlitebrowser_docker_labels_custom: {}
-sqlitebrowser_docker_labels: "{{ docker_labels_common
-                                 | combine(sqlitebrowser_docker_labels_default)
-                                 | combine(sqlitebrowser_docker_labels_custom) }}"
 
 # Hostname
 sqlitebrowser_docker_hostname: "{{ sqlitebrowser_name }}"
@@ -124,18 +92,6 @@ sqlitebrowser_docker_networks_custom: []
 sqlitebrowser_docker_networks: "{{ docker_networks_common
                                    + sqlitebrowser_docker_networks_default
                                    + sqlitebrowser_docker_networks_custom }}"
-
-# Capabilities
-sqlitebrowser_docker_capabilities_default: []
-sqlitebrowser_docker_capabilities_custom: []
-sqlitebrowser_docker_capabilities: "{{ sqlitebrowser_docker_capabilities_default
-                                       + sqlitebrowser_docker_capabilities_custom }}"
-
-# Security Opts
-sqlitebrowser_docker_security_opts_default: []
-sqlitebrowser_docker_security_opts_custom: []
-sqlitebrowser_docker_security_opts: "{{ sqlitebrowser_docker_security_opts_default
-                                        + sqlitebrowser_docker_security_opts_custom }}"
 
 # Restart Policy
 sqlitebrowser_docker_restart_policy: unless-stopped

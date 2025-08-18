@@ -68,12 +68,6 @@ tvheadend_docker_image_pull: true
 tvheadend_docker_image_tag: "latest"
 tvheadend_docker_image: "lscr.io/linuxserver/tvheadend:{{ tvheadend_docker_image_tag }}"
 
-# Ports
-tvheadend_docker_ports_defaults: []
-tvheadend_docker_ports_custom: []
-tvheadend_docker_ports: "{{ tvheadend_docker_ports_defaults
-                            + tvheadend_docker_ports_custom }}"
-
 # Envs
 tvheadend_docker_envs_default:
   TZ: "{{ tz }}"
@@ -83,12 +77,6 @@ tvheadend_docker_envs_custom: {}
 tvheadend_docker_envs: "{{ tvheadend_docker_envs_default
                            | combine(tvheadend_docker_envs_custom) }}"
 
-# Commands
-tvheadend_docker_commands_default: []
-tvheadend_docker_commands_custom: []
-tvheadend_docker_commands: "{{ tvheadend_docker_commands_default
-                               + tvheadend_docker_commands_custom }}"
-
 # Volumes
 tvheadend_docker_volumes_default:
   - "{{ tvheadend_paths_location }}:/config"
@@ -96,26 +84,6 @@ tvheadend_docker_volumes_default:
 tvheadend_docker_volumes_custom: []
 tvheadend_docker_volumes: "{{ tvheadend_docker_volumes_default
                               + tvheadend_docker_volumes_custom }}"
-
-# Devices
-tvheadend_docker_devices_default: []
-tvheadend_docker_devices_custom: []
-tvheadend_docker_devices: "{{ tvheadend_docker_devices_default
-                              + tvheadend_docker_devices_custom }}"
-
-# Hosts
-tvheadend_docker_hosts_default: {}
-tvheadend_docker_hosts_custom: {}
-tvheadend_docker_hosts: "{{ docker_hosts_common
-                            | combine(tvheadend_docker_hosts_default)
-                            | combine(tvheadend_docker_hosts_custom) }}"
-
-# Labels
-tvheadend_docker_labels_default: {}
-tvheadend_docker_labels_custom: {}
-tvheadend_docker_labels: "{{ docker_labels_common
-                             | combine(tvheadend_docker_labels_default)
-                             | combine(tvheadend_docker_labels_custom) }}"
 
 # Hostname
 tvheadend_docker_hostname: "{{ tvheadend_name }}"
@@ -127,18 +95,6 @@ tvheadend_docker_networks_custom: []
 tvheadend_docker_networks: "{{ docker_networks_common
                                + tvheadend_docker_networks_default
                                + tvheadend_docker_networks_custom }}"
-
-# Capabilities
-tvheadend_docker_capabilities_default: []
-tvheadend_docker_capabilities_custom: []
-tvheadend_docker_capabilities: "{{ tvheadend_docker_capabilities_default
-                                   + tvheadend_docker_capabilities_custom }}"
-
-# Security Opts
-tvheadend_docker_security_opts_default: []
-tvheadend_docker_security_opts_custom: []
-tvheadend_docker_security_opts: "{{ tvheadend_docker_security_opts_default
-                                    + tvheadend_docker_security_opts_custom }}"
 
 # Restart Policy
 tvheadend_docker_restart_policy: unless-stopped

@@ -76,12 +76,6 @@ wikijs_docker_image_pull: true
 wikijs_docker_image_tag: "2"
 wikijs_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_docker_image_tag }}"
 
-# Ports
-wikijs_docker_ports_defaults: []
-wikijs_docker_ports_custom: []
-wikijs_docker_ports: "{{ wikijs_docker_ports_defaults
-                         + wikijs_docker_ports_custom }}"
-
 # Envs
 wikijs_docker_envs_default:
   TZ: "{{ tz }}"
@@ -95,38 +89,6 @@ wikijs_docker_envs_custom: {}
 wikijs_docker_envs: "{{ wikijs_docker_envs_default
                         | combine(wikijs_docker_envs_custom) }}"
 
-# Commands
-wikijs_docker_commands_default: []
-wikijs_docker_commands_custom: []
-wikijs_docker_commands: "{{ wikijs_docker_commands_default
-                            + wikijs_docker_commands_custom }}"
-
-# Volumes
-wikijs_docker_volumes_default: []
-wikijs_docker_volumes_custom: []
-wikijs_docker_volumes: "{{ wikijs_docker_volumes_default
-                           + wikijs_docker_volumes_custom }}"
-
-# Devices
-wikijs_docker_devices_default: []
-wikijs_docker_devices_custom: []
-wikijs_docker_devices: "{{ wikijs_docker_devices_default
-                           + wikijs_docker_devices_custom }}"
-
-# Hosts
-wikijs_docker_hosts_default: {}
-wikijs_docker_hosts_custom: {}
-wikijs_docker_hosts: "{{ docker_hosts_common
-                         | combine(wikijs_docker_hosts_default)
-                         | combine(wikijs_docker_hosts_custom) }}"
-
-# Labels
-wikijs_docker_labels_default: {}
-wikijs_docker_labels_custom: {}
-wikijs_docker_labels: "{{ docker_labels_common
-                          | combine(wikijs_docker_labels_default)
-                          | combine(wikijs_docker_labels_custom) }}"
-
 # Hostname
 wikijs_docker_hostname: "{{ wikijs_name }}"
 
@@ -137,18 +99,6 @@ wikijs_docker_networks_custom: []
 wikijs_docker_networks: "{{ docker_networks_common
                             + wikijs_docker_networks_default
                             + wikijs_docker_networks_custom }}"
-
-# Capabilities
-wikijs_docker_capabilities_default: []
-wikijs_docker_capabilities_custom: []
-wikijs_docker_capabilities: "{{ wikijs_docker_capabilities_default
-                                + wikijs_docker_capabilities_custom }}"
-
-# Security Opts
-wikijs_docker_security_opts_default: []
-wikijs_docker_security_opts_custom: []
-wikijs_docker_security_opts: "{{ wikijs_docker_security_opts_default
-                                 + wikijs_docker_security_opts_custom }}"
 
 # Restart Policy
 wikijs_docker_restart_policy: unless-stopped

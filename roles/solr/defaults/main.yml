@@ -43,12 +43,6 @@ solr_docker_image_pull: true
 solr_docker_image_tag: "latest"
 solr_docker_image: "solr:{{ solr_docker_image_tag }}"
 
-# Ports
-solr_docker_ports_defaults: []
-solr_docker_ports_custom: []
-solr_docker_ports: "{{ solr_docker_ports_defaults
-                       + solr_docker_ports_custom }}"
-
 # Envs
 solr_docker_envs_default:
   TZ: "{{ tz }}"
@@ -73,26 +67,6 @@ solr_docker_volumes_custom: []
 solr_docker_volumes: "{{ solr_docker_volumes_default
                          + solr_docker_volumes_custom }}"
 
-# Devices
-solr_docker_devices_default: []
-solr_docker_devices_custom: []
-solr_docker_devices: "{{ solr_docker_devices_default
-                         + solr_docker_devices_custom }}"
-
-# Hosts
-solr_docker_hosts_default: {}
-solr_docker_hosts_custom: {}
-solr_docker_hosts: "{{ docker_hosts_common
-                       | combine(solr_docker_hosts_default)
-                       | combine(solr_docker_hosts_custom) }}"
-
-# Labels
-solr_docker_labels_default: {}
-solr_docker_labels_custom: {}
-solr_docker_labels: "{{ docker_labels_common
-                        | combine(solr_docker_labels_default)
-                        | combine(solr_docker_labels_custom) }}"
-
 # Hostname
 solr_docker_hostname: "{{ solr_name }}"
 
@@ -103,18 +77,6 @@ solr_docker_networks_custom: []
 solr_docker_networks: "{{ docker_networks_common
                           + solr_docker_networks_default
                           + solr_docker_networks_custom }}"
-
-# Capabilities
-solr_docker_capabilities_default: []
-solr_docker_capabilities_custom: []
-solr_docker_capabilities: "{{ solr_docker_capabilities_default
-                              + solr_docker_capabilities_custom }}"
-
-# Security Opts
-solr_docker_security_opts_default: []
-solr_docker_security_opts_custom: []
-solr_docker_security_opts: "{{ solr_docker_security_opts_default
-                               + solr_docker_security_opts_custom }}"
 
 # Restart Policy
 solr_docker_restart_policy: always

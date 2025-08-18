@@ -64,16 +64,9 @@ qbit_manage_docker_envs_default:
   QBT_WIDTH: "{{ qbit_manage.qbt_width }}"
   QBT_DEBUG: "{{ qbit_manage.qbt_debug }}"
   QBT_TRACE: "{{ qbit_manage.qbt_trace }}"
-
 qbit_manage_docker_envs_custom: {}
 qbit_manage_docker_envs: "{{ qbit_manage_docker_envs_default
                              | combine(qbit_manage_docker_envs_custom) }}"
-
-# Commands
-qbit_manage_docker_commands_default: []
-qbit_manage_docker_commands_custom: []
-qbit_manage_docker_commands: "{{ qbit_manage_docker_commands_default
-                                 + qbit_manage_docker_commands_custom }}"
 
 # Volumes
 qbit_manage_docker_volumes_default:
@@ -81,26 +74,6 @@ qbit_manage_docker_volumes_default:
 qbit_manage_docker_volumes_custom: []
 qbit_manage_docker_volumes: "{{ qbit_manage_docker_volumes_default
                                 + qbit_manage_docker_volumes_custom }}"
-
-# Devices
-qbit_manage_docker_devices_default: []
-qbit_manage_docker_devices_custom: []
-qbit_manage_docker_devices: "{{ qbit_manage_docker_devices_default
-                                + qbit_manage_docker_devices_custom }}"
-
-# Hosts
-qbit_manage_docker_hosts_default: {}
-qbit_manage_docker_hosts_custom: {}
-qbit_manage_docker_hosts: "{{ docker_hosts_common
-                              | combine(qbit_manage_docker_hosts_default)
-                              | combine(qbit_manage_docker_hosts_custom) }}"
-
-# Labels
-qbit_manage_docker_labels_default: {}
-qbit_manage_docker_labels_custom: {}
-qbit_manage_docker_labels: "{{ docker_labels_common
-                               | combine(qbit_manage_docker_labels_default)
-                               | combine(qbit_manage_docker_labels_custom) }}"
 
 # Hostname
 qbit_manage_docker_hostname: "{{ qbit_manage_name }}"
@@ -112,18 +85,6 @@ qbit_manage_docker_networks_custom: []
 qbit_manage_docker_networks: "{{ docker_networks_common
                                  + qbit_manage_docker_networks_default
                                  + qbit_manage_docker_networks_custom }}"
-
-# Capabilities
-qbit_manage_docker_capabilities_default: []
-qbit_manage_docker_capabilities_custom: []
-qbit_manage_docker_capabilities: "{{ qbit_manage_docker_capabilities_default
-                                     + qbit_manage_docker_capabilities_custom }}"
-
-# Security Opts
-qbit_manage_docker_security_opts_default: []
-qbit_manage_docker_security_opts_custom: []
-qbit_manage_docker_security_opts: "{{ qbit_manage_docker_security_opts_default
-                                      + qbit_manage_docker_security_opts_custom }}"
 
 # Restart Policy
 qbit_manage_docker_restart_policy: on-failure

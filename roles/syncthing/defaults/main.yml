@@ -83,38 +83,12 @@ syncthing_docker_envs_custom: {}
 syncthing_docker_envs: "{{ syncthing_docker_envs_default
                            | combine(syncthing_docker_envs_custom) }}"
 
-# Commands
-syncthing_docker_commands_default: []
-syncthing_docker_commands_custom: []
-syncthing_docker_commands: "{{ syncthing_docker_commands_default
-                               + syncthing_docker_commands_custom }}"
-
 # Volumes
 syncthing_docker_volumes_default:
   - "{{ syncthing_paths_location }}:/config"
 syncthing_docker_volumes_custom: []
 syncthing_docker_volumes: "{{ syncthing_docker_volumes_default
                               + syncthing_docker_volumes_custom }}"
-
-# Devices
-syncthing_docker_devices_default: []
-syncthing_docker_devices_custom: []
-syncthing_docker_devices: "{{ syncthing_docker_devices_default
-                              + syncthing_docker_devices_custom }}"
-
-# Hosts
-syncthing_docker_hosts_default: {}
-syncthing_docker_hosts_custom: {}
-syncthing_docker_hosts: "{{ docker_hosts_common
-                            | combine(syncthing_docker_hosts_default)
-                            | combine(syncthing_docker_hosts_custom) }}"
-
-# Labels
-syncthing_docker_labels_default: {}
-syncthing_docker_labels_custom: {}
-syncthing_docker_labels: "{{ docker_labels_common
-                             | combine(syncthing_docker_labels_default)
-                             | combine(syncthing_docker_labels_custom) }}"
 
 # Hostname
 syncthing_docker_hostname: "{{ syncthing_name }}"
@@ -126,18 +100,6 @@ syncthing_docker_networks_custom: []
 syncthing_docker_networks: "{{ docker_networks_common
                                + syncthing_docker_networks_default
                                + syncthing_docker_networks_custom }}"
-
-# Capabilities
-syncthing_docker_capabilities_default: []
-syncthing_docker_capabilities_custom: []
-syncthing_docker_capabilities: "{{ syncthing_docker_capabilities_default
-                                   + syncthing_docker_capabilities_custom }}"
-
-# Security Opts
-syncthing_docker_security_opts_default: []
-syncthing_docker_security_opts_custom: []
-syncthing_docker_security_opts: "{{ syncthing_docker_security_opts_default
-                                    + syncthing_docker_security_opts_custom }}"
 
 # Restart Policy
 syncthing_docker_restart_policy: unless-stopped

@@ -73,12 +73,6 @@ nextcloud_docker_image_pull: true
 nextcloud_docker_image_tag: "latest"
 nextcloud_docker_image: "nextcloud:{{ nextcloud_docker_image_tag }}"
 
-# Ports
-nextcloud_docker_ports_defaults: []
-nextcloud_docker_ports_custom: []
-nextcloud_docker_ports: "{{ nextcloud_docker_ports_defaults
-                            + nextcloud_docker_ports_custom }}"
-
 # Envs
 nextcloud_docker_envs_default:
   TZ: "{{ tz }}"
@@ -100,12 +94,6 @@ nextcloud_docker_envs_custom: {}
 nextcloud_docker_envs: "{{ nextcloud_docker_envs_default
                            | combine(nextcloud_docker_envs_custom) }}"
 
-# Commands
-nextcloud_docker_commands_default: []
-nextcloud_docker_commands_custom: []
-nextcloud_docker_commands: "{{ nextcloud_docker_commands_default
-                               + nextcloud_docker_commands_custom }}"
-
 # Volumes
 nextcloud_docker_volumes_default:
   - "{{ nextcloud_paths_location }}:/var/www/html"
@@ -113,26 +101,12 @@ nextcloud_docker_volumes_custom: []
 nextcloud_docker_volumes: "{{ nextcloud_docker_volumes_default
                               + nextcloud_docker_volumes_custom }}"
 
-# Devices
-nextcloud_docker_devices_default: []
-nextcloud_docker_devices_custom: []
-nextcloud_docker_devices: "{{ nextcloud_docker_devices_default
-                              + nextcloud_docker_devices_custom }}"
-
-# Hosts
-nextcloud_docker_hosts_default: {}
-nextcloud_docker_hosts_custom: {}
-nextcloud_docker_hosts: "{{ docker_hosts_common
-                            | combine(nextcloud_docker_hosts_default)
-                            | combine(nextcloud_docker_hosts_custom) }}"
-
 # Labels
 nextcloud_docker_labels_default:
   traefik.http.middlewares.nextcloud-caldav.replacepathregex.regex: "^/.well-known/ca(l|rd)dav"
   traefik.http.middlewares.nextcloud-caldav.replacepathregex.replacement: "/remote.php/dav/"
 nextcloud_docker_labels_custom: {}
-nextcloud_docker_labels: "{{ docker_labels_common
-                             | combine(nextcloud_docker_labels_default)
+nextcloud_docker_labels: "{{ nextcloud_docker_labels_default
                              | combine(nextcloud_docker_labels_custom) }}"
 
 # Hostname
@@ -145,18 +119,6 @@ nextcloud_docker_networks_custom: []
 nextcloud_docker_networks: "{{ docker_networks_common
                                + nextcloud_docker_networks_default
                                + nextcloud_docker_networks_custom }}"
-
-# Capabilities
-nextcloud_docker_capabilities_default: []
-nextcloud_docker_capabilities_custom: []
-nextcloud_docker_capabilities: "{{ nextcloud_docker_capabilities_default
-                                   + nextcloud_docker_capabilities_custom }}"
-
-# Security Opts
-nextcloud_docker_security_opts_default: []
-nextcloud_docker_security_opts_custom: []
-nextcloud_docker_security_opts: "{{ nextcloud_docker_security_opts_default
-                                    + nextcloud_docker_security_opts_custom }}"
 
 # Restart Policy
 nextcloud_docker_restart_policy: unless-stopped

@@ -70,12 +70,6 @@ your_spotify_docker_image_pull: true
 your_spotify_docker_image_tag: "latest"
 your_spotify_docker_image: "lscr.io/linuxserver/your_spotify:{{ your_spotify_docker_image_tag }}"
 
-# Ports
-your_spotify_docker_ports_defaults: []
-your_spotify_docker_ports_custom: []
-your_spotify_docker_ports: "{{ your_spotify_docker_ports_defaults
-                               + your_spotify_docker_ports_custom }}"
-
 # Envs
 your_spotify_docker_envs_default:
   TZ: "{{ tz }}"
@@ -90,38 +84,6 @@ your_spotify_docker_envs_custom: {}
 your_spotify_docker_envs: "{{ your_spotify_docker_envs_default
                               | combine(your_spotify_docker_envs_custom) }}"
 
-# Commands
-your_spotify_docker_commands_default: []
-your_spotify_docker_commands_custom: []
-your_spotify_docker_commands: "{{ your_spotify_docker_commands_default
-                                  + your_spotify_docker_commands_custom }}"
-
-# Volumes
-your_spotify_docker_volumes_default: []
-your_spotify_docker_volumes_custom: []
-your_spotify_docker_volumes: "{{ your_spotify_docker_volumes_default
-                                 + your_spotify_docker_volumes_custom }}"
-
-# Devices
-your_spotify_docker_devices_default: []
-your_spotify_docker_devices_custom: []
-your_spotify_docker_devices: "{{ your_spotify_docker_devices_default
-                                 + your_spotify_docker_devices_custom }}"
-
-# Hosts
-your_spotify_docker_hosts_default: {}
-your_spotify_docker_hosts_custom: {}
-your_spotify_docker_hosts: "{{ docker_hosts_common
-                               | combine(your_spotify_docker_hosts_default)
-                               | combine(your_spotify_docker_hosts_custom) }}"
-
-# Labels
-your_spotify_docker_labels_default: {}
-your_spotify_docker_labels_custom: {}
-your_spotify_docker_labels: "{{ docker_labels_common
-                                | combine(your_spotify_docker_labels_default)
-                                | combine(your_spotify_docker_labels_custom) }}"
-
 # Hostname
 your_spotify_docker_hostname: "{{ your_spotify_name }}"
 
@@ -132,18 +94,6 @@ your_spotify_docker_networks_custom: []
 your_spotify_docker_networks: "{{ docker_networks_common
                                   + your_spotify_docker_networks_default
                                   + your_spotify_docker_networks_custom }}"
-
-# Capabilities
-your_spotify_docker_capabilities_default: []
-your_spotify_docker_capabilities_custom: []
-your_spotify_docker_capabilities: "{{ your_spotify_docker_capabilities_default
-                                      + your_spotify_docker_capabilities_custom }}"
-
-# Security Opts
-your_spotify_docker_security_opts_default: []
-your_spotify_docker_security_opts_custom: []
-your_spotify_docker_security_opts: "{{ your_spotify_docker_security_opts_default
-                                       + your_spotify_docker_security_opts_custom }}"
 
 # Restart Policy
 your_spotify_docker_restart_policy: unless-stopped

@@ -66,12 +66,6 @@ ombi_docker_image_repo: "lscr.io/linuxserver/ombi"
 ombi_docker_image_tag: "latest"
 ombi_docker_image: "{{ lookup('vars', ombi_name + '_docker_image_repo', default=ombi_docker_image_repo)
                        + ':' + lookup('vars', ombi_name + '_docker_image_tag', default=ombi_docker_image_tag) }}"
-
-# Ports
-ombi_docker_ports_defaults: []
-ombi_docker_ports_custom: []
-ombi_docker_ports: "{{ lookup('vars', ombi_name + '_docker_ports_defaults', default=ombi_docker_ports_defaults)
-                       + lookup('vars', ombi_name + '_docker_ports_custom', default=ombi_docker_ports_custom) }}"
 # Envs
 ombi_docker_envs_default:
   PUID: "{{ uid }}"
@@ -82,38 +76,12 @@ ombi_docker_envs_custom: {}
 ombi_docker_envs: "{{ lookup('vars', ombi_name + '_docker_envs_default', default=ombi_docker_envs_default)
                       | combine(lookup('vars', ombi_name + '_docker_envs_custom', default=ombi_docker_envs_custom)) }}"
 
-# Commands
-ombi_docker_commands_default: []
-ombi_docker_commands_custom: []
-ombi_docker_commands: "{{ lookup('vars', ombi_name + '_docker_commands_default', default=ombi_docker_commands_default)
-                          + lookup('vars', ombi_name + '_docker_commands_custom', default=ombi_docker_commands_custom) }}"
-
 # Volumes
 ombi_docker_volumes_default:
   - "{{ ombi_paths_location }}:/config"
 ombi_docker_volumes_custom: []
 ombi_docker_volumes: "{{ lookup('vars', ombi_name + '_docker_volumes_default', default=ombi_docker_volumes_default)
                          + lookup('vars', ombi_name + '_docker_volumes_custom', default=ombi_docker_volumes_custom) }}"
-
-# Devices
-ombi_docker_devices_default: []
-ombi_docker_devices_custom: []
-ombi_docker_devices: "{{ lookup('vars', ombi_name + '_docker_devices_default', default=ombi_docker_devices_default)
-                         + lookup('vars', ombi_name + '_docker_devices_custom', default=ombi_docker_devices_custom) }}"
-
-# Hosts
-ombi_docker_hosts_default: {}
-ombi_docker_hosts_custom: {}
-ombi_docker_hosts: "{{ docker_hosts_common
-                       | combine(lookup('vars', ombi_name + '_docker_hosts_default', default=ombi_docker_hosts_default))
-                       | combine(lookup('vars', ombi_name + '_docker_hosts_custom', default=ombi_docker_hosts_custom)) }}"
-
-# Labels
-ombi_docker_labels_default: {}
-ombi_docker_labels_custom: {}
-ombi_docker_labels: "{{ docker_labels_common
-                        | combine(lookup('vars', ombi_name + '_docker_labels_default', default=ombi_docker_labels_default))
-                        | combine(lookup('vars', ombi_name + '_docker_labels_custom', default=ombi_docker_labels_custom)) }}"
 
 # Hostname
 ombi_docker_hostname: "{{ ombi_name }}"
@@ -125,18 +93,6 @@ ombi_docker_networks_custom: []
 ombi_docker_networks: "{{ docker_networks_common
                           + lookup('vars', ombi_name + '_docker_networks_default', default=ombi_docker_networks_default)
                           + lookup('vars', ombi_name + '_docker_networks_custom', default=ombi_docker_networks_custom) }}"
-
-# Capabilities
-ombi_docker_capabilities_default: []
-ombi_docker_capabilities_custom: []
-ombi_docker_capabilities: "{{ lookup('vars', ombi_name + '_docker_capabilities_default', default=ombi_docker_capabilities_default)
-                              + lookup('vars', ombi_name + '_docker_capabilities_custom', default=ombi_docker_capabilities_custom) }}"
-
-# Security Opts
-ombi_docker_security_opts_default: []
-ombi_docker_security_opts_custom: []
-ombi_docker_security_opts: "{{ lookup('vars', ombi_name + '_docker_security_opts_default', default=ombi_docker_security_opts_default)
-                               + lookup('vars', ombi_name + '_docker_security_opts_custom', default=ombi_docker_security_opts_custom) }}"
 
 # Restart Policy
 ombi_docker_restart_policy: unless-stopped

@@ -68,12 +68,6 @@ sshwifty_docker_image_pull: true
 sshwifty_docker_image_tag: "latest"
 sshwifty_docker_image: "niruix/sshwifty:{{ sshwifty_docker_image_tag }}"
 
-# Ports
-sshwifty_docker_ports_defaults: []
-sshwifty_docker_ports_custom: []
-sshwifty_docker_ports: "{{ sshwifty_docker_ports_defaults
-                           + sshwifty_docker_ports_custom }}"
-
 # Envs
 sshwifty_docker_envs_default:
   SSHWIFTY_CONFIG: "/config/sshwifty.conf.json"
@@ -81,38 +75,12 @@ sshwifty_docker_envs_custom: {}
 sshwifty_docker_envs: "{{ sshwifty_docker_envs_default
                           | combine(sshwifty_docker_envs_custom) }}"
 
-# Commands
-sshwifty_docker_commands_default: []
-sshwifty_docker_commands_custom: []
-sshwifty_docker_commands: "{{ sshwifty_docker_commands_default
-                              + sshwifty_docker_commands_custom }}"
-
 # Volumes
 sshwifty_docker_volumes_default:
   - "{{ sshwifty_paths_location }}/config:/config"
 sshwifty_docker_volumes_custom: []
 sshwifty_docker_volumes: "{{ sshwifty_docker_volumes_default
                              + sshwifty_docker_volumes_custom }}"
-
-# Devices
-sshwifty_docker_devices_default: []
-sshwifty_docker_devices_custom: []
-sshwifty_docker_devices: "{{ sshwifty_docker_devices_default
-                             + sshwifty_docker_devices_custom }}"
-
-# Hosts
-sshwifty_docker_hosts_default: {}
-sshwifty_docker_hosts_custom: {}
-sshwifty_docker_hosts: "{{ docker_hosts_common
-                           | combine(sshwifty_docker_hosts_default)
-                           | combine(sshwifty_docker_hosts_custom) }}"
-
-# Labels
-sshwifty_docker_labels_default: {}
-sshwifty_docker_labels_custom: {}
-sshwifty_docker_labels: "{{ docker_labels_common
-                            | combine(sshwifty_docker_labels_default)
-                            | combine(sshwifty_docker_labels_custom) }}"
 
 # Hostname
 sshwifty_docker_hostname: "{{ sshwifty_name }}"
@@ -124,18 +92,6 @@ sshwifty_docker_networks_custom: []
 sshwifty_docker_networks: "{{ docker_networks_common
                               + sshwifty_docker_networks_default
                               + sshwifty_docker_networks_custom }}"
-
-# Capabilities
-sshwifty_docker_capabilities_default: []
-sshwifty_docker_capabilities_custom: []
-sshwifty_docker_capabilities: "{{ sshwifty_docker_capabilities_default
-                                  + sshwifty_docker_capabilities_custom }}"
-
-# Security Opts
-sshwifty_docker_security_opts_default: []
-sshwifty_docker_security_opts_custom: []
-sshwifty_docker_security_opts: "{{ sshwifty_docker_security_opts_default
-                                   + sshwifty_docker_security_opts_custom }}"
 
 # Restart Policy
 sshwifty_docker_restart_policy: unless-stopped

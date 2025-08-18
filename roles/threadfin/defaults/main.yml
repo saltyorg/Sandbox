@@ -64,12 +64,6 @@ threadfin_docker_image_pull: true
 threadfin_docker_image_tag: "latest"
 threadfin_docker_image: "fyb3roptik/threadfin:{{ threadfin_docker_image_tag }}"
 
-# Ports
-threadfin_docker_ports_defaults: []
-threadfin_docker_ports_custom: []
-threadfin_docker_ports: "{{ threadfin_docker_ports_defaults
-                            + threadfin_docker_ports_custom }}"
-
 # Envs
 threadfin_docker_envs_default:
   - TZ: "{{ tz }}"
@@ -79,38 +73,12 @@ threadfin_docker_envs_custom: {}
 threadfin_docker_envs: "{{ threadfin_docker_envs_default
                            | combine(threadfin_docker_envs_custom) }}"
 
-# Commands
-threadfin_docker_commands_default: []
-threadfin_docker_commands_custom: []
-threadfin_docker_commands: "{{ threadfin_docker_commands_default
-                               + threadfin_docker_commands_custom }}"
-
 # Volumes
 threadfin_docker_volumes_default:
   - "{{ threadfin_paths_location }}:/home/threadfin/conf:rw"
 threadfin_docker_volumes_custom: []
 threadfin_docker_volumes: "{{ threadfin_docker_volumes_default
                               + threadfin_docker_volumes_custom }}"
-
-# Devices
-threadfin_docker_devices_default: []
-threadfin_docker_devices_custom: []
-threadfin_docker_devices: "{{ threadfin_docker_devices_default
-                              + threadfin_docker_devices_custom }}"
-
-# Hosts
-threadfin_docker_hosts_default: {}
-threadfin_docker_hosts_custom: {}
-threadfin_docker_hosts: "{{ docker_hosts_common
-                            | combine(threadfin_docker_hosts_default)
-                            | combine(threadfin_docker_hosts_custom) }}"
-
-# Labels
-threadfin_docker_labels_default: {}
-threadfin_docker_labels_custom: {}
-threadfin_docker_labels: "{{ docker_labels_common
-                             | combine(threadfin_docker_labels_default)
-                             | combine(threadfin_docker_labels_custom) }}"
 
 # Hostname
 threadfin_docker_hostname: "{{ threadfin_name }}"
@@ -122,18 +90,6 @@ threadfin_docker_networks_custom: []
 threadfin_docker_networks: "{{ docker_networks_common
                                + threadfin_docker_networks_default
                                + threadfin_docker_networks_custom }}"
-
-# Capabilities
-threadfin_docker_capabilities_default: []
-threadfin_docker_capabilities_custom: []
-threadfin_docker_capabilities: "{{ threadfin_docker_capabilities_default
-                                   + threadfin_docker_capabilities_custom }}"
-
-# Security Opts
-threadfin_docker_security_opts_default: []
-threadfin_docker_security_opts_custom: []
-threadfin_docker_security_opts: "{{ threadfin_docker_security_opts_default
-                                    + threadfin_docker_security_opts_custom }}"
 
 # Restart Policy
 threadfin_docker_restart_policy: unless-stopped

@@ -70,12 +70,6 @@ stash_docker_image_pull: true
 stash_docker_image_tag: "latest"
 stash_docker_image: "ghcr.io/hotio/stash:{{ stash_docker_image_tag }}"
 
-# Ports
-stash_docker_ports_defaults: []
-stash_docker_ports_custom: []
-stash_docker_ports: "{{ stash_docker_ports_defaults
-                        + stash_docker_ports_custom }}"
-
 # Envs
 stash_docker_envs_default:
   TZ: "{{ tz }}"
@@ -84,12 +78,6 @@ stash_docker_envs_default:
 stash_docker_envs_custom: {}
 stash_docker_envs: "{{ stash_docker_envs_default
                        | combine(stash_docker_envs_custom) }}"
-
-# Commands
-stash_docker_commands_default: []
-stash_docker_commands_custom: []
-stash_docker_commands: "{{ stash_docker_commands_default
-                           + stash_docker_commands_custom }}"
 
 # Volumes
 stash_docker_volumes_default:
@@ -102,26 +90,6 @@ stash_docker_volumes_custom: []
 stash_docker_volumes: "{{ stash_docker_volumes_default
                           + stash_docker_volumes_custom }}"
 
-# Devices
-stash_docker_devices_default: []
-stash_docker_devices_custom: []
-stash_docker_devices: "{{ stash_docker_devices_default
-                          + stash_docker_devices_custom }}"
-
-# Hosts
-stash_docker_hosts_default: {}
-stash_docker_hosts_custom: {}
-stash_docker_hosts: "{{ docker_hosts_common
-                        | combine(stash_docker_hosts_default)
-                        | combine(stash_docker_hosts_custom) }}"
-
-# Labels
-stash_docker_labels_default: {}
-stash_docker_labels_custom: {}
-stash_docker_labels: "{{ docker_labels_common
-                         | combine(stash_docker_labels_default)
-                         | combine(stash_docker_labels_custom) }}"
-
 # Hostname
 stash_docker_hostname: "{{ stash_name }}"
 
@@ -132,18 +100,6 @@ stash_docker_networks_custom: []
 stash_docker_networks: "{{ docker_networks_common
                            + stash_docker_networks_default
                            + stash_docker_networks_custom }}"
-
-# Capabilities
-stash_docker_capabilities_default: []
-stash_docker_capabilities_custom: []
-stash_docker_capabilities: "{{ stash_docker_capabilities_default
-                               + stash_docker_capabilities_custom }}"
-
-# Security Opts
-stash_docker_security_opts_default: []
-stash_docker_security_opts_custom: []
-stash_docker_security_opts: "{{ stash_docker_security_opts_default
-                                + stash_docker_security_opts_custom }}"
 
 # Restart Policy
 stash_docker_restart_policy: unless-stopped

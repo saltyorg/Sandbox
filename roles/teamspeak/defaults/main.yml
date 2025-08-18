@@ -89,38 +89,12 @@ teamspeak_docker_envs_custom: {}
 teamspeak_docker_envs: "{{ lookup('vars', teamspeak_name + '_docker_envs_default', default=teamspeak_docker_envs_default)
                            | combine(lookup('vars', teamspeak_name + '_docker_envs_custom', default=teamspeak_docker_envs_custom)) }}"
 
-# Commands
-teamspeak_docker_commands_default: []
-teamspeak_docker_commands_custom: []
-teamspeak_docker_commands: "{{ lookup('vars', teamspeak_name + '_docker_commands_default', default=teamspeak_docker_commands_default)
-                               + lookup('vars', teamspeak_name + '_docker_commands_custom', default=teamspeak_docker_commands_custom) }}"
-
 # Volumes
 teamspeak_docker_volumes_default:
   - "{{ teamspeak_paths_location }}:/var/ts3server"
 teamspeak_docker_volumes_custom: []
 teamspeak_docker_volumes: "{{ lookup('vars', teamspeak_name + '_docker_volumes_default', default=teamspeak_docker_volumes_default)
                               + lookup('vars', teamspeak_name + '_docker_volumes_custom', default=teamspeak_docker_volumes_custom) }}"
-
-# Devices
-teamspeak_docker_devices_default: []
-teamspeak_docker_devices_custom: []
-teamspeak_docker_devices: "{{ lookup('vars', teamspeak_name + '_docker_devices_default', default=teamspeak_docker_devices_default)
-                              + lookup('vars', teamspeak_name + '_docker_devices_custom', default=teamspeak_docker_devices_custom) }}"
-
-# Hosts
-teamspeak_docker_hosts_default: {}
-teamspeak_docker_hosts_custom: {}
-teamspeak_docker_hosts: "{{ docker_hosts_common
-                            | combine(lookup('vars', teamspeak_name + '_docker_hosts_default', default=teamspeak_docker_hosts_default))
-                            | combine(lookup('vars', teamspeak_name + '_docker_hosts_custom', default=teamspeak_docker_hosts_custom)) }}"
-
-# Labels
-teamspeak_docker_labels_default: {}
-teamspeak_docker_labels_custom: {}
-teamspeak_docker_labels: "{{ docker_labels_common
-                             | combine(lookup('vars', teamspeak_name + '_docker_labels_default', default=teamspeak_docker_labels_default))
-                             | combine(lookup('vars', teamspeak_name + '_docker_labels_custom', default=teamspeak_docker_labels_custom)) }}"
 
 # Hostname
 teamspeak_docker_hostname: "{{ teamspeak_name }}"
@@ -132,18 +106,6 @@ teamspeak_docker_networks_custom: []
 teamspeak_docker_networks: "{{ docker_networks_common
                                + lookup('vars', teamspeak_name + '_docker_networks_default', default=teamspeak_docker_networks_default)
                                + lookup('vars', teamspeak_name + '_docker_networks_custom', default=teamspeak_docker_networks_custom) }}"
-
-# Capabilities
-teamspeak_docker_capabilities_default: []
-teamspeak_docker_capabilities_custom: []
-teamspeak_docker_capabilities: "{{ lookup('vars', teamspeak_name + '_docker_capabilities_default', default=teamspeak_docker_capabilities_default)
-                                   + lookup('vars', teamspeak_name + '_docker_capabilities_custom', default=teamspeak_docker_capabilities_custom) }}"
-
-# Security Opts
-teamspeak_docker_security_opts_default: []
-teamspeak_docker_security_opts_custom: []
-teamspeak_docker_security_opts: "{{ lookup('vars', teamspeak_name + '_docker_security_opts_default', default=teamspeak_docker_security_opts_default)
-                                    + lookup('vars', teamspeak_name + '_docker_security_opts_custom', default=teamspeak_docker_security_opts_custom) }}"
 
 # Restart Policy
 teamspeak_docker_restart_policy: unless-stopped

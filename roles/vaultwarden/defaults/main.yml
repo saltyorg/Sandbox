@@ -66,12 +66,6 @@ vaultwarden_docker_image_pull: true
 vaultwarden_docker_image_tag: "latest"
 vaultwarden_docker_image: "vaultwarden/server:{{ vaultwarden_docker_image_tag }}"
 
-# Ports
-vaultwarden_docker_ports_defaults: []
-vaultwarden_docker_ports_custom: []
-vaultwarden_docker_ports: "{{ vaultwarden_docker_ports_defaults
-                              + vaultwarden_docker_ports_custom }}"
-
 # Envs
 vaultwarden_docker_envs_default:
   TZ: "{{ tz }}"
@@ -80,12 +74,6 @@ vaultwarden_docker_envs_custom: {}
 vaultwarden_docker_envs: "{{ vaultwarden_docker_envs_default
                              | combine(vaultwarden_docker_envs_custom) }}"
 
-# Commands
-vaultwarden_docker_commands_default: []
-vaultwarden_docker_commands_custom: []
-vaultwarden_docker_commands: "{{ vaultwarden_docker_commands_default
-                                 + vaultwarden_docker_commands_custom }}"
-
 # Volumes
 vaultwarden_docker_volumes_default:
   - "{{ vaultwarden_paths_location }}:/data"
@@ -93,26 +81,6 @@ vaultwarden_docker_volumes_default:
 vaultwarden_docker_volumes_custom: []
 vaultwarden_docker_volumes: "{{ vaultwarden_docker_volumes_default
                                 + vaultwarden_docker_volumes_custom }}"
-
-# Devices
-vaultwarden_docker_devices_default: []
-vaultwarden_docker_devices_custom: []
-vaultwarden_docker_devices: "{{ vaultwarden_docker_devices_default
-                                + vaultwarden_docker_devices_custom }}"
-
-# Hosts
-vaultwarden_docker_hosts_default: {}
-vaultwarden_docker_hosts_custom: {}
-vaultwarden_docker_hosts: "{{ docker_hosts_common
-                              | combine(vaultwarden_docker_hosts_default)
-                              | combine(vaultwarden_docker_hosts_custom) }}"
-
-# Labels
-vaultwarden_docker_labels_default: {}
-vaultwarden_docker_labels_custom: {}
-vaultwarden_docker_labels: "{{ docker_labels_common
-                               | combine(vaultwarden_docker_labels_default)
-                               | combine(vaultwarden_docker_labels_custom) }}"
 
 # Hostname
 vaultwarden_docker_hostname: "{{ vaultwarden_name }}"
@@ -124,18 +92,6 @@ vaultwarden_docker_networks_custom: []
 vaultwarden_docker_networks: "{{ docker_networks_common
                                  + vaultwarden_docker_networks_default
                                  + vaultwarden_docker_networks_custom }}"
-
-# Capabilities
-vaultwarden_docker_capabilities_default: []
-vaultwarden_docker_capabilities_custom: []
-vaultwarden_docker_capabilities: "{{ vaultwarden_docker_capabilities_default
-                                     + vaultwarden_docker_capabilities_custom }}"
-
-# Security Opts
-vaultwarden_docker_security_opts_default: []
-vaultwarden_docker_security_opts_custom: []
-vaultwarden_docker_security_opts: "{{ vaultwarden_docker_security_opts_default
-                                      + vaultwarden_docker_security_opts_custom }}"
 
 # Restart Policy
 vaultwarden_docker_restart_policy: unless-stopped

@@ -83,12 +83,6 @@ qbittorrentvpn_docker_image_tag: "latest"
 qbittorrentvpn_docker_image: "{{ lookup('vars', qbittorrentvpn_name + '_docker_image_repo', default=qbittorrentvpn_docker_image_repo)
                                  + ':' + lookup('vars', qbittorrentvpn_name + '_docker_image_tag', default=qbittorrentvpn_docker_image_tag) }}"
 
-# Ports
-qbittorrentvpn_docker_ports_defaults: []
-qbittorrentvpn_docker_ports_custom: []
-qbittorrentvpn_docker_ports: "{{ lookup('vars', qbittorrentvpn_name + '_docker_ports_defaults', default=qbittorrentvpn_docker_ports_defaults)
-                                 + lookup('vars', qbittorrentvpn_name + '_docker_ports_custom', default=qbittorrentvpn_docker_ports_custom) }}"
-
 # Envs
 qbittorrentvpn_docker_envs_default:
   PUID: "{{ uid }}"
@@ -104,16 +98,9 @@ qbittorrentvpn_docker_envs_default:
   ENABLE_PRIVOXY: "no"
   LAN_NETWORK: "{{ qbittorrentvpn_lan_network }}"
   NAME_SERVERS: "{{ qbittorrentvpn_name_servers }}"
-
 qbittorrentvpn_docker_envs_custom: {}
 qbittorrentvpn_docker_envs: "{{ lookup('vars', qbittorrentvpn_name + '_docker_envs_default', default=qbittorrentvpn_docker_envs_default)
                                 | combine(lookup('vars', qbittorrentvpn_name + '_docker_envs_custom', default=qbittorrentvpn_docker_envs_custom)) }}"
-
-# Commands
-qbittorrentvpn_docker_commands_default: []
-qbittorrentvpn_docker_commands_custom: []
-qbittorrentvpn_docker_commands: "{{ lookup('vars', qbittorrentvpn_name + '_docker_commands_default', default=qbittorrentvpn_docker_commands_default)
-                                    + lookup('vars', qbittorrentvpn_name + '_docker_commands_custom', default=qbittorrentvpn_docker_commands_custom) }}"
 
 # Volumes
 qbittorrentvpn_docker_volumes_default:
@@ -123,32 +110,8 @@ qbittorrentvpn_docker_volumes_custom: []
 qbittorrentvpn_docker_volumes: "{{ lookup('vars', qbittorrentvpn_name + '_docker_volumes_default', default=qbittorrentvpn_docker_volumes_default)
                                    + lookup('vars', qbittorrentvpn_name + '_docker_volumes_custom', default=qbittorrentvpn_docker_volumes_custom) }}"
 
-# Devices
-qbittorrentvpn_docker_devices_default: []
-qbittorrentvpn_docker_devices_custom: []
-qbittorrentvpn_docker_devices: "{{ lookup('vars', qbittorrentvpn_name + '_docker_devices_default', default=qbittorrentvpn_docker_devices_default)
-                                   + lookup('vars', qbittorrentvpn_name + '_docker_devices_custom', default=qbittorrentvpn_docker_devices_custom) }}"
-
-# Hosts
-qbittorrentvpn_docker_hosts_default: {}
-qbittorrentvpn_docker_hosts_custom: {}
-qbittorrentvpn_docker_hosts: "{{ docker_hosts_common
-                                 | combine(lookup('vars', qbittorrentvpn_name + '_docker_hosts_default', default=qbittorrentvpn_docker_hosts_default))
-                                 | combine(lookup('vars', qbittorrentvpn_name + '_docker_hosts_custom', default=qbittorrentvpn_docker_hosts_custom)) }}"
-
-# Labels
-qbittorrentvpn_docker_labels_default: {}
-qbittorrentvpn_docker_labels_custom: {}
-qbittorrentvpn_docker_labels: "{{ docker_labels_common
-                                  | combine(lookup('vars', qbittorrentvpn_name + '_docker_labels_default', default=qbittorrentvpn_docker_labels_default))
-                                  | combine(lookup('vars', qbittorrentvpn_name + '_docker_labels_custom', default=qbittorrentvpn_docker_labels_custom)) }}"
-
 # Hostname
 qbittorrentvpn_docker_hostname: "{{ qbittorrentvpn_name }}"
-
-# Network Mode
-qbittorrentvpn_docker_network_mode_default: "{{ docker_networks_name_common }}"
-qbittorrentvpn_docker_network_mode: "{{ lookup('vars', qbittorrentvpn_name + '_docker_network_mode_default', default=qbittorrentvpn_docker_network_mode_default) }}"
 
 # Networks
 qbittorrentvpn_docker_networks_alias: "{{ qbittorrentvpn_name }}"
@@ -165,11 +128,6 @@ qbittorrentvpn_docker_capabilities_custom: []
 qbittorrentvpn_docker_capabilities: "{{ qbittorrentvpn_docker_capabilities_default
                                         + qbittorrentvpn_docker_capabilities_custom }}"
 
-# Security Opts
-qbittorrentvpn_docker_security_opts_default: []
-qbittorrentvpn_docker_security_opts_custom: []
-qbittorrentvpn_docker_security_opts: "{{ lookup('vars', qbittorrentvpn_name + '_docker_security_opts_default', default=qbittorrentvpn_docker_security_opts_default)
-                                         + lookup('vars', qbittorrentvpn_name + '_docker_security_opts_custom', default=qbittorrentvpn_docker_security_opts_custom) }}"
 # Sysctls
 qbittorrentvpn_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"
@@ -184,4 +142,4 @@ qbittorrentvpn_docker_stop_timeout: 900
 qbittorrentvpn_docker_state: started
 
 # Privileged
-qbittorrentvpn_docker_privileged: "yes"
+qbittorrentvpn_docker_privileged: true

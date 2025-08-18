@@ -81,12 +81,6 @@ paperless_ngx_docker_image_pull: true
 paperless_ngx_docker_image_tag: "latest"
 paperless_ngx_docker_image: "ghcr.io/paperless-ngx/paperless-ngx:{{ paperless_ngx_docker_image_tag }}"
 
-# Ports
-paperless_ngx_docker_ports_defaults: []
-paperless_ngx_docker_ports_custom: []
-paperless_ngx_docker_ports: "{{ paperless_ngx_docker_ports_defaults
-                                + paperless_ngx_docker_ports_custom }}"
-
 # Envs
 paperless_ngx_docker_envs_default:
   PAPERLESS_TIME_ZONE: "{{ tz }}"
@@ -115,12 +109,6 @@ paperless_ngx_docker_envs_custom: {}
 paperless_ngx_docker_envs: "{{ paperless_ngx_docker_envs_default
                                | combine(paperless_ngx_docker_envs_custom) }}"
 
-# Commands
-paperless_ngx_docker_commands_default: []
-paperless_ngx_docker_commands_custom: []
-paperless_ngx_docker_commands: "{{ paperless_ngx_docker_commands_default
-                                   + paperless_ngx_docker_commands_custom }}"
-
 # Volumes
 paperless_ngx_docker_volumes_default:
   - "{{ paperless_ngx_paths_location }}/data:/usr/src/paperless/data"
@@ -132,26 +120,6 @@ paperless_ngx_docker_volumes_custom: []
 paperless_ngx_docker_volumes: "{{ paperless_ngx_docker_volumes_default
                                   + paperless_ngx_docker_volumes_custom }}"
 
-# Devices
-paperless_ngx_docker_devices_default: []
-paperless_ngx_docker_devices_custom: []
-paperless_ngx_docker_devices: "{{ paperless_ngx_docker_devices_default
-                                  + paperless_ngx_docker_devices_custom }}"
-
-# Hosts
-paperless_ngx_docker_hosts_default: {}
-paperless_ngx_docker_hosts_custom: {}
-paperless_ngx_docker_hosts: "{{ docker_hosts_common
-                                | combine(paperless_ngx_docker_hosts_default)
-                                | combine(paperless_ngx_docker_hosts_custom) }}"
-
-# Labels
-paperless_ngx_docker_labels_default: {}
-paperless_ngx_docker_labels_custom: {}
-paperless_ngx_docker_labels: "{{ docker_labels_common
-                                 | combine(paperless_ngx_docker_labels_default)
-                                 | combine(paperless_ngx_docker_labels_custom) }}"
-
 # Hostname
 paperless_ngx_docker_hostname: "{{ paperless_ngx_name }}"
 
@@ -162,18 +130,6 @@ paperless_ngx_docker_networks_custom: []
 paperless_ngx_docker_networks: "{{ docker_networks_common
                                    + paperless_ngx_docker_networks_default
                                    + paperless_ngx_docker_networks_custom }}"
-
-# Capabilities
-paperless_ngx_docker_capabilities_default: []
-paperless_ngx_docker_capabilities_custom: []
-paperless_ngx_docker_capabilities: "{{ paperless_ngx_docker_capabilities_default
-                                       + paperless_ngx_docker_capabilities_custom }}"
-
-# Security Opts
-paperless_ngx_docker_security_opts_default: []
-paperless_ngx_docker_security_opts_custom: []
-paperless_ngx_docker_security_opts: "{{ paperless_ngx_docker_security_opts_default
-                                        + paperless_ngx_docker_security_opts_custom }}"
 
 # Restart Policy
 paperless_ngx_docker_restart_policy: unless-stopped

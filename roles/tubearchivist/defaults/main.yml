@@ -75,12 +75,6 @@ tubearchivist_docker_image_pull: true
 tubearchivist_docker_image_tag: "v0.4.13"
 tubearchivist_docker_image: "bbilly1/tubearchivist:{{ tubearchivist_docker_image_tag }}"
 
-# Ports
-tubearchivist_docker_ports_defaults: []
-tubearchivist_docker_ports_custom: []
-tubearchivist_docker_ports: "{{ tubearchivist_docker_ports_defaults
-                                + tubearchivist_docker_ports_custom }}"
-
 # Envs
 tubearchivist_docker_envs_http_header: "{{ 'HTTP_REMOTE_USER'
                                         if ('authelia' in tubearchivist_traefik_sso_middleware)
@@ -104,12 +98,6 @@ tubearchivist_docker_envs_custom: {}
 tubearchivist_docker_envs: "{{ tubearchivist_docker_envs_default
                                | combine(tubearchivist_docker_envs_custom) }}"
 
-# Commands
-tubearchivist_docker_commands_default: []
-tubearchivist_docker_commands_custom: []
-tubearchivist_docker_commands: "{{ tubearchivist_docker_commands_default
-                                   + tubearchivist_docker_commands_custom }}"
-
 # Volumes
 tubearchivist_docker_volumes_default:
   - "{{ tubearchivist_paths_downloads_location }}/:/youtube"
@@ -117,26 +105,6 @@ tubearchivist_docker_volumes_default:
 tubearchivist_docker_volumes_custom: []
 tubearchivist_docker_volumes: "{{ tubearchivist_docker_volumes_default
                                   + tubearchivist_docker_volumes_custom }}"
-
-# Devices
-tubearchivist_docker_devices_default: []
-tubearchivist_docker_devices_custom: []
-tubearchivist_docker_devices: "{{ tubearchivist_docker_devices_default
-                                  + tubearchivist_docker_devices_custom }}"
-
-# Hosts
-tubearchivist_docker_hosts_default: {}
-tubearchivist_docker_hosts_custom: {}
-tubearchivist_docker_hosts: "{{ docker_hosts_common
-                                | combine(tubearchivist_docker_hosts_default)
-                                | combine(tubearchivist_docker_hosts_custom) }}"
-
-# Labels
-tubearchivist_docker_labels_default: {}
-tubearchivist_docker_labels_custom: {}
-tubearchivist_docker_labels: "{{ docker_labels_common
-                                 | combine(tubearchivist_docker_labels_default)
-                                 | combine(tubearchivist_docker_labels_custom) }}"
 
 # Hostname
 tubearchivist_docker_hostname: "{{ tubearchivist_name }}"
@@ -148,18 +116,6 @@ tubearchivist_docker_networks_custom: []
 tubearchivist_docker_networks: "{{ docker_networks_common
                                    + tubearchivist_docker_networks_default
                                    + tubearchivist_docker_networks_custom }}"
-
-# Capabilities
-tubearchivist_docker_capabilities_default: []
-tubearchivist_docker_capabilities_custom: []
-tubearchivist_docker_capabilities: "{{ tubearchivist_docker_capabilities_default
-                                       + tubearchivist_docker_capabilities_custom }}"
-
-# Security Opts
-tubearchivist_docker_security_opts_default: []
-tubearchivist_docker_security_opts_custom: []
-tubearchivist_docker_security_opts: "{{ tubearchivist_docker_security_opts_default
-                                        + tubearchivist_docker_security_opts_custom }}"
 
 # Restart Policy
 tubearchivist_docker_restart_policy: unless-stopped

@@ -73,17 +73,6 @@ resiliosync_docker_ports_custom: []
 resiliosync_docker_ports: "{{ resiliosync_docker_ports_defaults
                               + resiliosync_docker_ports_custom }}"
 
-# Envs
-resiliosync_docker_envs_default: {}
-resiliosync_docker_envs_custom: {}
-resiliosync_docker_envs: "{{ resiliosync_docker_envs_default
-                             | combine(resiliosync_docker_envs_custom) }}"
-# Commands
-resiliosync_docker_commands_default: []
-resiliosync_docker_commands_custom: []
-resiliosync_docker_commands: "{{ resiliosync_docker_commands_default
-                                 + resiliosync_docker_commands_custom }}"
-
 # Volumes
 resiliosync_docker_volumes_global: false
 resiliosync_docker_volumes_default:
@@ -93,26 +82,6 @@ resiliosync_docker_volumes_default:
 resiliosync_docker_volumes_custom: []
 resiliosync_docker_volumes: "{{ resiliosync_docker_volumes_default
                                 + resiliosync_docker_volumes_custom }}"
-
-# Devices
-resiliosync_docker_devices_default: []
-resiliosync_docker_devices_custom: []
-resiliosync_docker_devices: "{{ resiliosync_docker_devices_default
-                                + resiliosync_docker_devices_custom }}"
-
-# Hosts
-resiliosync_docker_hosts_default: {}
-resiliosync_docker_hosts_custom: {}
-resiliosync_docker_hosts: "{{ docker_hosts_common
-                              | combine(resiliosync_docker_hosts_default)
-                              | combine(resiliosync_docker_hosts_custom) }}"
-
-# Labels
-resiliosync_docker_labels_default: {}
-resiliosync_docker_labels_custom: {}
-resiliosync_docker_labels: "{{ docker_labels_common
-                               | combine(resiliosync_docker_labels_default)
-                               | combine(resiliosync_docker_labels_custom) }}"
 
 # Hostname
 resiliosync_docker_hostname: "{{ resiliosync_name }}"
@@ -124,18 +93,6 @@ resiliosync_docker_networks_custom: []
 resiliosync_docker_networks: "{{ docker_networks_common
                                  + resiliosync_docker_networks_default
                                  + resiliosync_docker_networks_custom }}"
-
-# Capabilities
-resiliosync_docker_capabilities_default: []
-resiliosync_docker_capabilities_custom: []
-resiliosync_docker_capabilities: "{{ resiliosync_docker_capabilities_default
-                                     + resiliosync_docker_capabilities_custom }}"
-
-# Security Opts
-resiliosync_docker_security_opts_default: []
-resiliosync_docker_security_opts_custom: []
-resiliosync_docker_security_opts: "{{ resiliosync_docker_security_opts_default
-                                      + resiliosync_docker_security_opts_custom }}"
 
 # Restart Policy
 resiliosync_docker_restart_policy: unless-stopped

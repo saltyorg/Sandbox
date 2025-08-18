@@ -82,38 +82,12 @@ znc_docker_envs_custom: {}
 znc_docker_envs: "{{ znc_docker_envs_default
                      | combine(znc_docker_envs_custom) }}"
 
-# Commands
-znc_docker_commands_default: []
-znc_docker_commands_custom: []
-znc_docker_commands: "{{ znc_docker_commands_default
-                         + znc_docker_commands_custom }}"
-
 # Volumes
 znc_docker_volumes_default:
   - "{{ znc_paths_location }}:/config"
 znc_docker_volumes_custom: []
 znc_docker_volumes: "{{ znc_docker_volumes_default
                         + znc_docker_volumes_custom }}"
-
-# Devices
-znc_docker_devices_default: []
-znc_docker_devices_custom: []
-znc_docker_devices: "{{ znc_docker_devices_default
-                        + znc_docker_devices_custom }}"
-
-# Hosts
-znc_docker_hosts_default: {}
-znc_docker_hosts_custom: {}
-znc_docker_hosts: "{{ docker_hosts_common
-                      | combine(znc_docker_hosts_default)
-                      | combine(znc_docker_hosts_custom) }}"
-
-# Labels
-znc_docker_labels_default: {}
-znc_docker_labels_custom: {}
-znc_docker_labels: "{{ docker_labels_common
-                       | combine(znc_docker_labels_default)
-                       | combine(znc_docker_labels_custom) }}"
 
 # Hostname
 znc_docker_hostname: "{{ znc_name }}"
@@ -125,18 +99,6 @@ znc_docker_networks_custom: []
 znc_docker_networks: "{{ docker_networks_common
                          + znc_docker_networks_default
                          + znc_docker_networks_custom }}"
-
-# Capabilities
-znc_docker_capabilities_default: []
-znc_docker_capabilities_custom: []
-znc_docker_capabilities: "{{ znc_docker_capabilities_default
-                             + znc_docker_capabilities_custom }}"
-
-# Security Opts
-znc_docker_security_opts_default: []
-znc_docker_security_opts_custom: []
-znc_docker_security_opts: "{{ znc_docker_security_opts_default
-                              + znc_docker_security_opts_custom }}"
 
 # Restart Policy
 znc_docker_restart_policy: unless-stopped

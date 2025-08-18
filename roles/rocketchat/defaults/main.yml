@@ -75,12 +75,6 @@ rocketchat_docker_image_pull: true
 rocketchat_docker_image_tag: "latest"
 rocketchat_docker_image: "rocketchat/rocket.chat:{{ rocketchat_docker_image_tag }}"
 
-# Ports
-rocketchat_docker_ports_defaults: []
-rocketchat_docker_ports_custom: []
-rocketchat_docker_ports: "{{ rocketchat_docker_ports_defaults
-                             + rocketchat_docker_ports_custom }}"
-
 # Envs
 rocketchat_docker_envs_default:
   TZ: "{{ tz }}"
@@ -91,12 +85,6 @@ rocketchat_docker_envs_default:
 rocketchat_docker_envs_custom: {}
 rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
                             | combine(rocketchat_docker_envs_custom) }}"
-
-# Commands
-rocketchat_docker_commands_default: []
-rocketchat_docker_commands_custom: []
-rocketchat_docker_commands: "{{ rocketchat_docker_commands_default
-                                + rocketchat_docker_commands_custom }}"
 
 # Volumes
 rocketchat_docker_volumes_default:
@@ -113,26 +101,6 @@ rocketchat_docker_mounts_custom: []
 rocketchat_docker_mounts: "{{ rocketchat_docker_mounts_default
                               + rocketchat_docker_mounts_custom }}"
 
-# Devices
-rocketchat_docker_devices_default: []
-rocketchat_docker_devices_custom: []
-rocketchat_docker_devices: "{{ rocketchat_docker_devices_default
-                               + rocketchat_docker_devices_custom }}"
-
-# Hosts
-rocketchat_docker_hosts_default: {}
-rocketchat_docker_hosts_custom: {}
-rocketchat_docker_hosts: "{{ docker_hosts_common
-                             | combine(rocketchat_docker_hosts_default)
-                             | combine(rocketchat_docker_hosts_custom) }}"
-
-# Labels
-rocketchat_docker_labels_default: {}
-rocketchat_docker_labels_custom: {}
-rocketchat_docker_labels: "{{ docker_labels_common
-                              | combine(rocketchat_docker_labels_default)
-                              | combine(rocketchat_docker_labels_custom) }}"
-
 # Hostname
 rocketchat_docker_hostname: "{{ rocketchat_name }}"
 
@@ -143,18 +111,6 @@ rocketchat_docker_networks_custom: []
 rocketchat_docker_networks: "{{ docker_networks_common
                                 + rocketchat_docker_networks_default
                                 + rocketchat_docker_networks_custom }}"
-
-# Capabilities
-rocketchat_docker_capabilities_default: []
-rocketchat_docker_capabilities_custom: []
-rocketchat_docker_capabilities: "{{ rocketchat_docker_capabilities_default
-                                    + rocketchat_docker_capabilities_custom }}"
-
-# Security Opts
-rocketchat_docker_security_opts_default: []
-rocketchat_docker_security_opts_custom: []
-rocketchat_docker_security_opts: "{{ rocketchat_docker_security_opts_default
-                                     + rocketchat_docker_security_opts_custom }}"
 
 # Restart Policy
 rocketchat_docker_restart_policy: unless-stopped

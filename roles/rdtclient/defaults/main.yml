@@ -71,12 +71,6 @@ rdtclient_docker_image_pull: true
 rdtclient_docker_image_tag: "latest"
 rdtclient_docker_image: "rogerfar/rdtclient:{{ rdtclient_docker_image_tag }}"
 
-# Ports
-rdtclient_docker_ports_defaults: []
-rdtclient_docker_ports_custom: []
-rdtclient_docker_ports: "{{ rdtclient_docker_ports_defaults
-                            + rdtclient_docker_ports_custom }}"
-
 # Envs
 rdtclient_docker_envs_default:
   PUID: "{{ uid }}"
@@ -85,12 +79,6 @@ rdtclient_docker_envs_default:
 rdtclient_docker_envs_custom: {}
 rdtclient_docker_envs: "{{ rdtclient_docker_envs_default
                            | combine(rdtclient_docker_envs_custom) }}"
-
-# Commands
-rdtclient_docker_commands_default: []
-rdtclient_docker_commands_custom: []
-rdtclient_docker_commands: "{{ rdtclient_docker_commands_default
-                               + rdtclient_docker_commands_custom }}"
 
 # Volumes
 rdtclient_docker_volumes_default:
@@ -102,26 +90,6 @@ rdtclient_docker_volumes_custom: []
 rdtclient_docker_volumes: "{{ rdtclient_docker_volumes_default
                               + rdtclient_docker_volumes_custom }}"
 
-# Devices
-rdtclient_docker_devices_default: []
-rdtclient_docker_devices_custom: []
-rdtclient_docker_devices: "{{ rdtclient_docker_devices_default
-                              + rdtclient_docker_devices_custom }}"
-
-# Hosts
-rdtclient_docker_hosts_default: {}
-rdtclient_docker_hosts_custom: {}
-rdtclient_docker_hosts: "{{ docker_hosts_common
-                            | combine(rdtclient_docker_hosts_default)
-                            | combine(rdtclient_docker_hosts_custom) }}"
-
-# Labels
-rdtclient_docker_labels_default: {}
-rdtclient_docker_labels_custom: {}
-rdtclient_docker_labels: "{{ docker_labels_common
-                             | combine(rdtclient_docker_labels_default)
-                             | combine(rdtclient_docker_labels_custom) }}"
-
 # Hostname
 rdtclient_docker_hostname: "{{ rdtclient_name }}"
 
@@ -132,18 +100,6 @@ rdtclient_docker_networks_custom: []
 rdtclient_docker_networks: "{{ docker_networks_common
                                + rdtclient_docker_networks_default
                                + rdtclient_docker_networks_custom }}"
-
-# Capabilities
-rdtclient_docker_capabilities_default: []
-rdtclient_docker_capabilities_custom: []
-rdtclient_docker_capabilities: "{{ rdtclient_docker_capabilities_default
-                                   + rdtclient_docker_capabilities_custom }}"
-
-# Security Opts
-rdtclient_docker_security_opts_default: []
-rdtclient_docker_security_opts_custom: []
-rdtclient_docker_security_opts: "{{ rdtclient_docker_security_opts_default
-                                    + rdtclient_docker_security_opts_custom }}"
 
 # Restart Policy
 rdtclient_docker_restart_policy: unless-stopped

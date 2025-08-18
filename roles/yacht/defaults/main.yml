@@ -78,12 +78,6 @@ yacht_docker_image_pull: true
 yacht_docker_image_tag: "latest"
 yacht_docker_image: "selfhostedpro/yacht:{{ yacht_docker_image_tag }}"
 
-# Ports
-yacht_docker_ports_defaults: []
-yacht_docker_ports_custom: []
-yacht_docker_ports: "{{ yacht_docker_ports_defaults
-                        + yacht_docker_ports_custom }}"
-
 # Envs
 yacht_docker_envs_default:
   TZ: "{{ tz }}"
@@ -96,12 +90,6 @@ yacht_docker_envs_custom: {}
 yacht_docker_envs: "{{ yacht_docker_envs_default
                        | combine(yacht_docker_envs_custom) }}"
 
-# Commands
-yacht_docker_commands_default: []
-yacht_docker_commands_custom: []
-yacht_docker_commands: "{{ yacht_docker_commands_default
-                           + yacht_docker_commands_custom }}"
-
 # Volumes
 yacht_docker_volumes_default:
   - "{{ yacht_paths_location }}/config:/config"
@@ -109,26 +97,6 @@ yacht_docker_volumes_default:
 yacht_docker_volumes_custom: []
 yacht_docker_volumes: "{{ yacht_docker_volumes_default
                           + yacht_docker_volumes_custom }}"
-
-# Devices
-yacht_docker_devices_default: []
-yacht_docker_devices_custom: []
-yacht_docker_devices: "{{ yacht_docker_devices_default
-                          + yacht_docker_devices_custom }}"
-
-# Hosts
-yacht_docker_hosts_default: {}
-yacht_docker_hosts_custom: {}
-yacht_docker_hosts: "{{ docker_hosts_common
-                        | combine(yacht_docker_hosts_default)
-                        | combine(yacht_docker_hosts_custom) }}"
-
-# Labels
-yacht_docker_labels_default: {}
-yacht_docker_labels_custom: {}
-yacht_docker_labels: "{{ docker_labels_common
-                         | combine(yacht_docker_labels_default)
-                         | combine(yacht_docker_labels_custom) }}"
 
 # Hostname
 yacht_docker_hostname: "{{ yacht_name }}"
@@ -140,18 +108,6 @@ yacht_docker_networks_custom: []
 yacht_docker_networks: "{{ docker_networks_common
                            + yacht_docker_networks_default
                            + yacht_docker_networks_custom }}"
-
-# Capabilities
-yacht_docker_capabilities_default: []
-yacht_docker_capabilities_custom: []
-yacht_docker_capabilities: "{{ yacht_docker_capabilities_default
-                               + yacht_docker_capabilities_custom }}"
-
-# Security Opts
-yacht_docker_security_opts_default: []
-yacht_docker_security_opts_custom: []
-yacht_docker_security_opts: "{{ yacht_docker_security_opts_default
-                                + yacht_docker_security_opts_custom }}"
 
 # Restart Policy
 yacht_docker_restart_policy: unless-stopped

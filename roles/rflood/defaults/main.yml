@@ -126,12 +126,6 @@ rflood_docker_envs_custom: {}
 rflood_docker_envs: "{{ lookup('vars', rflood_name + '_docker_envs_default', default=rflood_docker_envs_default)
                         | combine(lookup('vars', rflood_name + '_docker_envs_custom', default=rflood_docker_envs_custom)) }}"
 
-# Commands
-rflood_docker_commands_default: []
-rflood_docker_commands_custom: []
-rflood_docker_commands: "{{ lookup('vars', rflood_name + '_docker_commands_default', default=rflood_docker_commands_default)
-                          + lookup('vars', rflood_name + '_docker_commands_custom', default=rflood_docker_commands_custom) }}"
-
 # Volumes
 rflood_docker_volumes_default:
   - "{{ rflood_paths_location }}:/config"
@@ -139,26 +133,6 @@ rflood_docker_volumes_default:
 rflood_docker_volumes_custom: []
 rflood_docker_volumes: "{{ lookup('vars', rflood_name + '_docker_volumes_default', default=rflood_docker_volumes_default)
                            + lookup('vars', rflood_name + '_docker_volumes_custom', default=rflood_docker_volumes_custom) }}"
-
-# Devices
-rflood_docker_devices_default: []
-rflood_docker_devices_custom: []
-rflood_docker_devices: "{{ lookup('vars', rflood_name + '_docker_devices_default', default=rflood_docker_devices_default)
-                          + lookup('vars', rflood_name + '_docker_devices_custom', default=rflood_docker_devices_custom) }}"
-
-# Hosts
-rflood_docker_hosts_default: {}
-rflood_docker_hosts_custom: {}
-rflood_docker_hosts: "{{ docker_hosts_common
-                         | combine(lookup('vars', rflood_name + '_docker_hosts_default', default=rflood_docker_hosts_default))
-                         | combine(lookup('vars', rflood_name + '_docker_hosts_custom', default=rflood_docker_hosts_custom)) }}"
-
-# Labels
-rflood_docker_labels_default: {}
-rflood_docker_labels_custom: {}
-rflood_docker_labels: "{{ docker_labels_common
-                          | combine(lookup('vars', rflood_name + '_docker_labels_default', default=rflood_docker_labels_default))
-                          | combine(lookup('vars', rflood_name + '_docker_labels_custom', default=rflood_docker_labels_custom)) }}"
 
 # Hostname
 rflood_docker_hostname: "{{ rflood_name }}"
@@ -170,18 +144,6 @@ rflood_docker_networks_custom: []
 rflood_docker_networks: "{{ docker_networks_common
                             + lookup('vars', rflood_name + '_docker_networks_default', default=rflood_docker_networks_default)
                             + lookup('vars', rflood_name + '_docker_networks_custom', default=rflood_docker_networks_custom) }}"
-
-# Capabilities
-rflood_docker_capabilities_default: []
-rflood_docker_capabilities_custom: []
-rflood_docker_capabilities: "{{ lookup('vars', rflood_name + '_docker_capabilities_default', default=rflood_docker_capabilities_default)
-                                + lookup('vars', rflood_name + '_docker_capabilities_custom', default=rflood_docker_capabilities_custom) }}"
-
-# Security Opts
-rflood_docker_security_opts_default: []
-rflood_docker_security_opts_custom: []
-rflood_docker_security_opts: "{{ lookup('vars', rflood_name + '_docker_security_opts_default', default=rflood_docker_security_opts_default)
-                                  + lookup('vars', rflood_name + '_docker_security_opts_custom', default=rflood_docker_security_opts_custom) }}"
 
 # Restart Policy
 rflood_docker_restart_policy: unless-stopped

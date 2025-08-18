@@ -66,12 +66,6 @@ plex_utills_docker_image_pull: true
 plex_utills_docker_image_tag: "latest"
 plex_utills_docker_image: "jkirkcaldy/plex-utills:{{ plex_utills_docker_image_tag }}"
 
-# Ports
-plex_utills_docker_ports_defaults: []
-plex_utills_docker_ports_custom: []
-plex_utills_docker_ports: "{{ plex_utills_docker_ports_defaults
-                              + plex_utills_docker_ports_custom }}"
-
 # Envs
 plex_utills_docker_envs_default:
   PUID: "{{ uid }}"
@@ -79,12 +73,6 @@ plex_utills_docker_envs_default:
   TZ: "{{ tz }}"
 plex_utills_docker_envs: "{{ plex_utills_docker_envs_default
                              | combine(plex_utills_docker_envs_custom) }}"
-
-# Commands
-plex_utills_docker_commands_default: []
-plex_utills_docker_commands_custom: []
-plex_utills_docker_commands: "{{ plex_utills_docker_commands_default
-                                 + plex_utills_docker_commands_custom }}"
 
 # Volumes
 plex_utills_docker_volumes_default:
@@ -94,26 +82,6 @@ plex_utills_docker_volumes_default:
 plex_utills_docker_volumes_custom: []
 plex_utills_docker_volumes: "{{ plex_utills_docker_volumes_default
                                 + plex_utills_docker_volumes_custom }}"
-
-# Devices
-plex_utills_docker_devices_default: []
-plex_utills_docker_devices_custom: []
-plex_utills_docker_devices: "{{ plex_utills_docker_devices_default
-                                + plex_utills_docker_devices_custom }}"
-
-# Hosts
-plex_utills_docker_hosts_default: {}
-plex_utills_docker_hosts_custom: {}
-plex_utills_docker_hosts: "{{ docker_hosts_common
-                              | combine(plex_utills_docker_hosts_default)
-                              | combine(plex_utills_docker_hosts_custom) }}"
-
-# Labels
-plex_utills_docker_labels_default: {}
-plex_utills_docker_labels_custom: {}
-plex_utills_docker_labels: "{{ docker_labels_common
-                               | combine(plex_utills_docker_labels_default)
-                               | combine(plex_utills_docker_labels_custom) }}"
 
 # Hostname
 plex_utills_docker_hostname: "{{ plex_utills_name }}"
@@ -125,18 +93,6 @@ plex_utills_docker_networks_custom: []
 plex_utills_docker_networks: "{{ docker_networks_common
                                  + plex_utills_docker_networks_default
                                  + plex_utills_docker_networks_custom }}"
-
-# Capabilities
-plex_utills_docker_capabilities_default: []
-plex_utills_docker_capabilities_custom: []
-plex_utills_docker_capabilities: "{{ plex_utills_docker_capabilities_default
-                                     + plex_utills_docker_capabilities_custom }}"
-
-# Security Opts
-plex_utills_docker_security_opts_default: []
-plex_utills_docker_security_opts_custom: []
-plex_utills_docker_security_opts: "{{ plex_utills_docker_security_opts_default
-                                      + plex_utills_docker_security_opts_custom }}"
 
 # Restart Policy
 plex_utills_docker_restart_policy: unless-stopped

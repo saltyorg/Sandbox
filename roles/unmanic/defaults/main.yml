@@ -67,12 +67,6 @@ unmanic_docker_image_pull: true
 unmanic_docker_image_tag: "latest"
 unmanic_docker_image: "josh5/unmanic:{{ unmanic_docker_image_tag }}"
 
-# Ports
-unmanic_docker_ports_defaults: []
-unmanic_docker_ports_custom: []
-unmanic_docker_ports: "{{ unmanic_docker_ports_defaults
-                          + unmanic_docker_ports_custom }}"
-
 # Envs
 unmanic_docker_envs_default:
   PUID: "{{ uid }}"
@@ -82,12 +76,6 @@ unmanic_docker_envs_custom: {}
 unmanic_docker_envs: "{{ unmanic_docker_envs_default
                          | combine(unmanic_docker_envs_custom) }}"
 
-# Commands
-unmanic_docker_commands_default: []
-unmanic_docker_commands_custom: []
-unmanic_docker_commands: "{{ unmanic_docker_commands_default
-                             + unmanic_docker_commands_custom }}"
-
 # Volumes
 unmanic_docker_volumes_default:
   - "{{ unmanic_paths_location }}:/config"
@@ -96,26 +84,6 @@ unmanic_docker_volumes_default:
 unmanic_docker_volumes_custom: []
 unmanic_docker_volumes: "{{ unmanic_docker_volumes_default
                             + unmanic_docker_volumes_custom }}"
-
-# Devices
-unmanic_docker_devices_default: []
-unmanic_docker_devices_custom: []
-unmanic_docker_devices: "{{ unmanic_docker_devices_default
-                            + unmanic_docker_devices_custom }}"
-
-# Hosts
-unmanic_docker_hosts_default: {}
-unmanic_docker_hosts_custom: {}
-unmanic_docker_hosts: "{{ docker_hosts_common
-                          | combine(unmanic_docker_hosts_default)
-                          | combine(unmanic_docker_hosts_custom) }}"
-
-# Labels
-unmanic_docker_labels_default: {}
-unmanic_docker_labels_custom: {}
-unmanic_docker_labels: "{{ docker_labels_common
-                           | combine(unmanic_docker_labels_default)
-                           | combine(unmanic_docker_labels_custom) }}"
 
 # Hostname
 unmanic_docker_hostname: "{{ unmanic_name }}"
@@ -127,18 +95,6 @@ unmanic_docker_networks_custom: []
 unmanic_docker_networks: "{{ docker_networks_common
                              + unmanic_docker_networks_default
                              + unmanic_docker_networks_custom }}"
-
-# Capabilities
-unmanic_docker_capabilities_default: []
-unmanic_docker_capabilities_custom: []
-unmanic_docker_capabilities: "{{ unmanic_docker_capabilities_default
-                                 + unmanic_docker_capabilities_custom }}"
-
-# Security Opts
-unmanic_docker_security_opts_default: []
-unmanic_docker_security_opts_custom: []
-unmanic_docker_security_opts: "{{ unmanic_docker_security_opts_default
-                                  + unmanic_docker_security_opts_custom }}"
 
 # Restart Policy
 unmanic_docker_restart_policy: unless-stopped

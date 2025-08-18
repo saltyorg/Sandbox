@@ -77,24 +77,12 @@ notifiarr_docker_image_pull: true
 notifiarr_docker_image_tag: "latest"
 notifiarr_docker_image: "golift/notifiarr:{{ notifiarr_docker_image_tag }}"
 
-# Ports
-notifiarr_docker_ports_defaults: []
-notifiarr_docker_ports_custom: []
-notifiarr_docker_ports: "{{ notifiarr_docker_ports_defaults
-                            + notifiarr_docker_ports_custom }}"
-
 # Envs
 notifiarr_docker_envs_default:
   TZ: "{{ tz }}"
 notifiarr_docker_envs_custom: {}
 notifiarr_docker_envs: "{{ notifiarr_docker_envs_default
                            | combine(notifiarr_docker_envs_custom) }}"
-
-# Commands
-notifiarr_docker_commands_default: []
-notifiarr_docker_commands_custom: []
-notifiarr_docker_commands: "{{ notifiarr_docker_commands_default
-                               + notifiarr_docker_commands_custom }}"
 
 # Volumes
 notifiarr_docker_volumes_default:
@@ -112,26 +100,6 @@ notifiarr_docker_mounts_custom: []
 notifiarr_docker_mounts: "{{ notifiarr_docker_mounts_default
                              + notifiarr_docker_mounts_custom }}"
 
-# Devices
-notifiarr_docker_devices_default: []
-notifiarr_docker_devices_custom: []
-notifiarr_docker_devices: "{{ notifiarr_docker_devices_default
-                              + notifiarr_docker_devices_custom }}"
-
-# Hosts
-notifiarr_docker_hosts_default: {}
-notifiarr_docker_hosts_custom: {}
-notifiarr_docker_hosts: "{{ docker_hosts_common
-                            | combine(notifiarr_docker_hosts_default)
-                            | combine(notifiarr_docker_hosts_custom) }}"
-
-# Labels
-notifiarr_docker_labels_default: {}
-notifiarr_docker_labels_custom: {}
-notifiarr_docker_labels: "{{ docker_labels_common
-                             | combine(notifiarr_docker_labels_default)
-                             | combine(notifiarr_docker_labels_custom) }}"
-
 # Hostname
 notifiarr_docker_hostname: "{{ traefik_host }}"
 
@@ -143,21 +111,6 @@ notifiarr_docker_networks: "{{ docker_networks_common
                                + notifiarr_docker_networks_default
                                + notifiarr_docker_networks_custom }}"
 
-# Capabilities
-notifiarr_docker_capabilities_default: []
-notifiarr_docker_capabilities_custom: []
-notifiarr_docker_capabilities: "{{ notifiarr_docker_capabilities_default
-                                   + notifiarr_docker_capabilities_custom }}"
-
-# Privileged
-notifiarr_docker_privileged: "{{ notifiarr_privileged | bool }}"
-
-# Security Opts
-notifiarr_docker_security_opts_default: []
-notifiarr_docker_security_opts_custom: []
-notifiarr_docker_security_opts: "{{ notifiarr_docker_security_opts_default
-                                    + notifiarr_docker_security_opts_custom }}"
-
 # Restart Policy
 notifiarr_docker_restart_policy: unless-stopped
 
@@ -166,3 +119,6 @@ notifiarr_docker_state: started
 
 # User
 notifiarr_docker_user: "{{ uid }}:{{ gid }}"
+
+# Privileged
+notifiarr_docker_privileged: "{{ notifiarr_privileged | bool }}"

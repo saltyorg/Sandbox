@@ -78,12 +78,6 @@ semaphoreui_docker_image_pull: true
 semaphoreui_docker_image_tag: "latest"
 semaphoreui_docker_image: "semaphoreui/semaphore:{{ semaphoreui_docker_image_tag }}"
 
-# Ports
-semaphoreui_docker_ports_defaults: []
-semaphoreui_docker_ports_custom: []
-semaphoreui_docker_ports: "{{ semaphoreui_docker_ports_defaults
-                         + semaphoreui_docker_ports_custom }}"
-
 # Envs
 semaphoreui_docker_envs_default:
   - SEMAPHORE_DB_USER: semaphoreui
@@ -103,38 +97,6 @@ semaphoreui_docker_envs_custom: {}
 semaphoreui_docker_envs: "{{ semaphoreui_docker_envs_default
                         | combine(semaphoreui_docker_envs_custom) }}"
 
-# Commands
-semaphoreui_docker_commands_default: []
-semaphoreui_docker_commands_custom: []
-semaphoreui_docker_commands: "{{ semaphoreui_docker_commands_default
-                            + semaphoreui_docker_commands_custom }}"
-
-# Volumes
-semaphoreui_docker_volumes_default: []
-semaphoreui_docker_volumes_custom: []
-semaphoreui_docker_volumes: "{{ semaphoreui_docker_volumes_default
-                           + semaphoreui_docker_volumes_custom }}"
-
-# Devices
-semaphoreui_docker_devices_default: []
-semaphoreui_docker_devices_custom: []
-semaphoreui_docker_devices: "{{ semaphoreui_docker_devices_default
-                           + semaphoreui_docker_devices_custom }}"
-
-# Hosts
-semaphoreui_docker_hosts_default: {}
-semaphoreui_docker_hosts_custom: {}
-semaphoreui_docker_hosts: "{{ docker_hosts_common
-                         | combine(semaphoreui_docker_hosts_default)
-                         | combine(semaphoreui_docker_hosts_custom) }}"
-
-# Labels
-semaphoreui_docker_labels_default: {}
-semaphoreui_docker_labels_custom: {}
-semaphoreui_docker_labels: "{{ docker_labels_common
-                          | combine(semaphoreui_docker_labels_default)
-                          | combine(semaphoreui_docker_labels_custom) }}"
-
 # Hostname
 semaphoreui_docker_hostname: "{{ semaphoreui_name }}"
 
@@ -145,18 +107,6 @@ semaphoreui_docker_networks_custom: []
 semaphoreui_docker_networks: "{{ docker_networks_common
                             + semaphoreui_docker_networks_default
                             + semaphoreui_docker_networks_custom }}"
-
-# Capabilities
-semaphoreui_docker_capabilities_default: []
-semaphoreui_docker_capabilities_custom: []
-semaphoreui_docker_capabilities: "{{ semaphoreui_docker_capabilities_default
-                                + semaphoreui_docker_capabilities_custom }}"
-
-# Security Opts
-semaphoreui_docker_security_opts_default: []
-semaphoreui_docker_security_opts_custom: []
-semaphoreui_docker_security_opts: "{{ semaphoreui_docker_security_opts_default
-                                 + semaphoreui_docker_security_opts_custom }}"
 
 # Restart Policy
 semaphoreui_docker_restart_policy: unless-stopped

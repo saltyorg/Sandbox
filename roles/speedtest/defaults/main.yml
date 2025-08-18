@@ -74,12 +74,6 @@ speedtest_docker_image_pull: true
 speedtest_docker_image_tag: "latest"
 speedtest_docker_image: "lscr.io/linuxserver/librespeed:{{ speedtest_docker_image_tag }}"
 
-# Ports
-speedtest_docker_ports_defaults: []
-speedtest_docker_ports_custom: []
-speedtest_docker_ports: "{{ speedtest_docker_ports_defaults
-                            + speedtest_docker_ports_custom }}"
-
 # Envs
 speedtest_docker_envs_default:
   PUID: "{{ uid }}"
@@ -94,38 +88,12 @@ speedtest_docker_envs_custom: {}
 speedtest_docker_envs: "{{ speedtest_docker_envs_default
                            | combine(speedtest_docker_envs_custom) }}"
 
-# Commands
-speedtest_docker_commands_default: []
-speedtest_docker_commands_custom: []
-speedtest_docker_commands: "{{ speedtest_docker_commands_default
-                               + speedtest_docker_commands_custom }}"
-
 # Volumes
 speedtest_docker_volumes_default:
   - "{{ speedtest_paths_location }}:/config"
 speedtest_docker_volumes_custom: []
 speedtest_docker_volumes: "{{ speedtest_docker_volumes_default
                               + speedtest_docker_volumes_custom }}"
-
-# Devices
-speedtest_docker_devices_default: []
-speedtest_docker_devices_custom: []
-speedtest_docker_devices: "{{ speedtest_docker_devices_default
-                              + speedtest_docker_devices_custom }}"
-
-# Hosts
-speedtest_docker_hosts_default: {}
-speedtest_docker_hosts_custom: {}
-speedtest_docker_hosts: "{{ docker_hosts_common
-                            | combine(speedtest_docker_hosts_default)
-                            | combine(speedtest_docker_hosts_custom) }}"
-
-# Labels
-speedtest_docker_labels_default: {}
-speedtest_docker_labels_custom: {}
-speedtest_docker_labels: "{{ docker_labels_common
-                             | combine(speedtest_docker_labels_default)
-                             | combine(speedtest_docker_labels_custom) }}"
 
 # Hostname
 speedtest_docker_hostname: "{{ speedtest_name }}"
@@ -137,18 +105,6 @@ speedtest_docker_networks_custom: []
 speedtest_docker_networks: "{{ docker_networks_common
                                + speedtest_docker_networks_default
                                + speedtest_docker_networks_custom }}"
-
-# Capabilities
-speedtest_docker_capabilities_default: []
-speedtest_docker_capabilities_custom: []
-speedtest_docker_capabilities: "{{ speedtest_docker_capabilities_default
-                                   + speedtest_docker_capabilities_custom }}"
-
-# Security Opts
-speedtest_docker_security_opts_default: []
-speedtest_docker_security_opts_custom: []
-speedtest_docker_security_opts: "{{ speedtest_docker_security_opts_default
-                                    + speedtest_docker_security_opts_custom }}"
 
 # Restart Policy
 speedtest_docker_restart_policy: unless-stopped

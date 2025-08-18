@@ -66,12 +66,6 @@ requestrr_docker_image_tag: "latest"
 requestrr_docker_image: "{{ lookup('vars', requestrr_name + '_docker_image_repo', default=requestrr_docker_image_repo)
                             + ':' + lookup('vars', requestrr_name + '_docker_image_tag', default=requestrr_docker_image_tag) }}"
 
-# Ports
-requestrr_docker_ports_defaults: []
-requestrr_docker_ports_custom: []
-requestrr_docker_ports: "{{ lookup('vars', requestrr_name + '_docker_ports_defaults', default=requestrr_docker_ports_defaults)
-                            + lookup('vars', requestrr_name + '_docker_ports_custom', default=requestrr_docker_ports_custom) }}"
-
 # Envs
 requestrr_docker_envs_default:
   TZ: "{{ tz }}"
@@ -82,38 +76,12 @@ requestrr_docker_envs_custom: {}
 requestrr_docker_envs: "{{ lookup('vars', requestrr_name + '_docker_envs_default', default=requestrr_docker_envs_default)
                            | combine(lookup('vars', requestrr_name + '_docker_envs_custom', default=requestrr_docker_envs_custom)) }}"
 
-# Commands
-requestrr_docker_commands_default: []
-requestrr_docker_commands_custom: []
-requestrr_docker_commands: "{{ lookup('vars', requestrr_name + '_docker_commands_default', default=requestrr_docker_commands_default)
-                               + lookup('vars', requestrr_name + '_docker_commands_custom', default=requestrr_docker_commands_custom) }}"
-
 # Volumes
 requestrr_docker_volumes_default:
   - "{{ requestrr_paths_location }}:/root/config"
 requestrr_docker_volumes_custom: []
 requestrr_docker_volumes: "{{ lookup('vars', requestrr_name + '_docker_volumes_default', default=requestrr_docker_volumes_default)
                               + lookup('vars', requestrr_name + '_docker_volumes_custom', default=requestrr_docker_volumes_custom) }}"
-
-# Devices
-requestrr_docker_devices_default: []
-requestrr_docker_devices_custom: []
-requestrr_docker_devices: "{{ lookup('vars', requestrr_name + '_docker_devices_default', default=requestrr_docker_devices_default)
-                              + lookup('vars', requestrr_name + '_docker_devices_custom', default=requestrr_docker_devices_custom) }}"
-
-# Hosts
-requestrr_docker_hosts_default: {}
-requestrr_docker_hosts_custom: {}
-requestrr_docker_hosts: "{{ docker_hosts_common
-                            | combine(lookup('vars', requestrr_name + '_docker_hosts_default', default=requestrr_docker_hosts_default))
-                            | combine(lookup('vars', requestrr_name + '_docker_hosts_custom', default=requestrr_docker_hosts_custom)) }}"
-
-# Labels
-requestrr_docker_labels_default: {}
-requestrr_docker_labels_custom: {}
-requestrr_docker_labels: "{{ docker_labels_common
-                             | combine(lookup('vars', requestrr_name + '_docker_labels_default', default=requestrr_docker_labels_default))
-                             | combine(lookup('vars', requestrr_name + '_docker_labels_custom', default=requestrr_docker_labels_custom)) }}"
 
 # Hostname
 requestrr_docker_hostname: "{{ requestrr_name }}"
@@ -125,18 +93,6 @@ requestrr_docker_networks_custom: []
 requestrr_docker_networks: "{{ docker_networks_common
                                + lookup('vars', requestrr_name + '_docker_networks_default', default=requestrr_docker_networks_default)
                                + lookup('vars', requestrr_name + '_docker_networks_custom', default=requestrr_docker_networks_custom) }}"
-
-# Capabilities
-requestrr_docker_capabilities_default: []
-requestrr_docker_capabilities_custom: []
-requestrr_docker_capabilities: "{{ lookup('vars', requestrr_name + '_docker_capabilities_default', default=requestrr_docker_capabilities_default)
-                                   + lookup('vars', requestrr_name + '_docker_capabilities_custom', default=requestrr_docker_capabilities_custom) }}"
-
-# Security Opts
-requestrr_docker_security_opts_default: []
-requestrr_docker_security_opts_custom: []
-requestrr_docker_security_opts: "{{ lookup('vars', requestrr_name + '_docker_security_opts_default', default=requestrr_docker_security_opts_default)
-                                    + lookup('vars', requestrr_name + '_docker_security_opts_custom', default=requestrr_docker_security_opts_custom) }}"
 
 # Restart Policy
 requestrr_docker_restart_policy: unless-stopped

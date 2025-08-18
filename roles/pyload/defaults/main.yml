@@ -65,12 +65,6 @@ pyload_docker_image_pull: true
 pyload_docker_image_tag: "latest"
 pyload_docker_image: "lscr.io/linuxserver/pyload-ng:{{ pyload_docker_image_tag }}"
 
-# Ports
-pyload_docker_ports_defaults: []
-pyload_docker_ports_custom: []
-pyload_docker_ports: "{{ pyload_docker_ports_defaults
-                         + pyload_docker_ports_custom }}"
-
 # Envs
 pyload_docker_envs_default:
   PUID: "{{ uid }}"
@@ -80,12 +74,6 @@ pyload_docker_envs_custom: {}
 pyload_docker_envs: "{{ pyload_docker_envs_default
                         | combine(pyload_docker_envs_custom) }}"
 
-# Commands
-pyload_docker_commands_default: []
-pyload_docker_commands_custom: []
-pyload_docker_commands: "{{ pyload_docker_commands_default
-                            + pyload_docker_commands_custom }}"
-
 # Volumes
 pyload_docker_volumes_default:
   - "{{ pyload_paths_location }}:/config"
@@ -93,25 +81,11 @@ pyload_docker_volumes_custom: []
 pyload_docker_volumes: "{{ pyload_docker_volumes_default
                            + pyload_docker_volumes_custom }}"
 
-# Devices
-pyload_docker_devices_default: []
-pyload_docker_devices_custom: []
-pyload_docker_devices: "{{ pyload_docker_devices_default
-                         + pyload_docker_devices_custom }}"
-
-# Hosts
-pyload_docker_hosts_default: {}
-pyload_docker_hosts_custom: {}
-pyload_docker_hosts: "{{ docker_hosts_common
-                         | combine(pyload_docker_hosts_default)
-                         | combine(pyload_docker_hosts_custom) }}"
-
 # Labels
 pyload_docker_labels_default:
   diun.enable: "true"
 pyload_docker_labels_custom: {}
-pyload_docker_labels: "{{ docker_labels_common
-                          | combine(pyload_docker_labels_default)
+pyload_docker_labels: "{{ pyload_docker_labels_default
                           | combine(pyload_docker_labels_custom) }}"
 
 # Hostname

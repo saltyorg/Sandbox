@@ -79,12 +79,6 @@ pufferpanel_docker_envs_custom: {}
 pufferpanel_docker_envs: "{{ pufferpanel_docker_envs_default
                              | combine(pufferpanel_docker_envs_custom) }}"
 
-# Commands
-pufferpanel_docker_commands_default: []
-pufferpanel_docker_commands_custom: []
-pufferpanel_docker_commands: "{{ pufferpanel_docker_commands_default
-                                 + pufferpanel_docker_commands_custom }}"
-
 # Volumes
 pufferpanel_docker_volumes_default:
   - "{{ pufferpanel_paths_location }}/config:/etc/pufferpanel"
@@ -93,26 +87,6 @@ pufferpanel_docker_volumes_default:
 pufferpanel_docker_volumes_custom: []
 pufferpanel_docker_volumes: "{{ pufferpanel_docker_volumes_default
                                 + pufferpanel_docker_volumes_custom }}"
-
-# Devices
-pufferpanel_docker_devices_default: []
-pufferpanel_docker_devices_custom: []
-pufferpanel_docker_devices: "{{ pufferpanel_docker_devices_default
-                                + pufferpanel_docker_devices_custom }}"
-
-# Hosts
-pufferpanel_docker_hosts_default: {}
-pufferpanel_docker_hosts_custom: {}
-pufferpanel_docker_hosts: "{{ docker_hosts_common
-                              | combine(pufferpanel_docker_hosts_default)
-                              | combine(pufferpanel_docker_hosts_custom) }}"
-
-# Labels
-pufferpanel_docker_labels_default: {}
-pufferpanel_docker_labels_custom: {}
-pufferpanel_docker_labels: "{{ docker_labels_common
-                               | combine(pufferpanel_docker_labels_default)
-                               | combine(pufferpanel_docker_labels_custom) }}"
 
 # Hostname
 pufferpanel_docker_hostname: "{{ pufferpanel_name }}"
@@ -124,18 +98,6 @@ pufferpanel_docker_networks_custom: []
 pufferpanel_docker_networks: "{{ docker_networks_common
                                  + pufferpanel_docker_networks_default
                                  + pufferpanel_docker_networks_custom }}"
-
-# Capabilities
-pufferpanel_docker_capabilities_default: []
-pufferpanel_docker_capabilities_custom: []
-pufferpanel_docker_capabilities: "{{ pufferpanel_docker_capabilities_default
-                                     + pufferpanel_docker_capabilities_custom }}"
-
-# Security Opts
-pufferpanel_docker_security_opts_default: []
-pufferpanel_docker_security_opts_custom: []
-pufferpanel_docker_security_opts: "{{ pufferpanel_docker_security_opts_default
-                                      + pufferpanel_docker_security_opts_custom }}"
 
 # Restart Policy
 pufferpanel_docker_restart_policy: unless-stopped

@@ -100,38 +100,12 @@ unifi_network_application_docker_envs_custom: {}
 unifi_network_application_docker_envs: "{{ unifi_network_application_docker_envs_default
                                            | combine(unifi_network_application_docker_envs_custom) }}"
 
-# Commands
-unifi_network_application_docker_commands_default: []
-unifi_network_application_docker_commands_custom: []
-unifi_network_application_docker_commands: "{{ unifi_network_application_docker_commands_default
-                                               + unifi_network_application_docker_commands_custom }}"
-
 # Volumes
 unifi_network_application_docker_volumes_default:
   - "{{ unifi_network_application_paths_location }}:/config"
 unifi_network_application_docker_volumes_custom: []
 unifi_network_application_docker_volumes: "{{ unifi_network_application_docker_volumes_default
                                               + unifi_network_application_docker_volumes_custom }}"
-
-# Devices
-unifi_network_application_docker_devices_default: []
-unifi_network_application_docker_devices_custom: []
-unifi_network_application_docker_devices: "{{ unifi_network_application_docker_devices_default
-                                              + unifi_network_application_docker_devices_custom }}"
-
-# Hosts
-unifi_network_application_docker_hosts_default: {}
-unifi_network_application_docker_hosts_custom: {}
-unifi_network_application_docker_hosts: "{{ docker_hosts_common
-                                            | combine(unifi_network_application_docker_hosts_default)
-                                            | combine(unifi_network_application_docker_hosts_custom) }}"
-
-# Labels
-unifi_network_application_docker_labels_default: {}
-unifi_network_application_docker_labels_custom: {}
-unifi_network_application_docker_labels: "{{ docker_labels_common
-                                             | combine(unifi_network_application_docker_labels_default)
-                                             | combine(unifi_network_application_docker_labels_custom) }}"
 
 # Hostname
 unifi_network_application_docker_hostname: "{{ unifi_network_application_name }}"
@@ -143,18 +117,6 @@ unifi_network_application_docker_networks_custom: []
 unifi_network_application_docker_networks: "{{ docker_networks_common
                                                + unifi_network_application_docker_networks_default
                                                + unifi_network_application_docker_networks_custom }}"
-
-# Capabilities
-unifi_network_application_docker_capabilities_default: []
-unifi_network_application_docker_capabilities_custom: []
-unifi_network_application_docker_capabilities: "{{ unifi_network_application_docker_capabilities_default
-                                                   + unifi_network_application_docker_capabilities_custom }}"
-
-# Security Opts
-unifi_network_application_docker_security_opts_default: []
-unifi_network_application_docker_security_opts_custom: []
-unifi_network_application_docker_security_opts: "{{ unifi_network_application_docker_security_opts_default
-                                                    + unifi_network_application_docker_security_opts_custom }}"
 
 # Restart Policy
 unifi_network_application_docker_restart_policy: unless-stopped

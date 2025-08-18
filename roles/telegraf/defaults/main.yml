@@ -64,12 +64,6 @@ telegraf_docker_image_tag: "latest"
 telegraf_docker_image: "{{ lookup('vars', telegraf_name + '_docker_image_repo', default=telegraf_docker_image_repo)
                             + ':' + lookup('vars', telegraf_name + '_docker_image_tag', default=telegraf_docker_image_tag) }}"
 
-# Ports
-telegraf_docker_ports_defaults: []
-telegraf_docker_ports_custom: []
-telegraf_docker_ports: "{{ lookup('vars', telegraf_name + '_docker_ports_defaults', default=telegraf_docker_ports_defaults)
-                            + lookup('vars', telegraf_name + '_docker_ports_custom', default=telegraf_docker_ports_custom) }}"
-
 # Envs
 telegraf_docker_envs_default:
   TZ: "{{ tz }}"
@@ -79,12 +73,6 @@ telegraf_docker_envs_default:
 telegraf_docker_envs_custom: {}
 telegraf_docker_envs: "{{ lookup('vars', telegraf_name + '_docker_envs_default', default=telegraf_docker_envs_default)
                            | combine(lookup('vars', telegraf_name + '_docker_envs_custom', default=telegraf_docker_envs_custom)) }}"
-
-# Commands
-telegraf_docker_commands_default: []
-telegraf_docker_commands_custom: []
-telegraf_docker_commands: "{{ lookup('vars', telegraf_name + '_docker_commands_default', default=telegraf_docker_commands_default)
-                               + lookup('vars', telegraf_name + '_docker_commands_custom', default=telegraf_docker_commands_custom) }}"
 
 # Volumes
 telegraf_docker_volumes_default:
@@ -99,34 +87,8 @@ telegraf_docker_volumes_custom: []
 telegraf_docker_volumes: "{{ lookup('vars', telegraf_name + '_docker_volumes_default', default=telegraf_docker_volumes_default)
                               + lookup('vars', telegraf_name + '_docker_volumes_custom', default=telegraf_docker_volumes_custom) }}"
 
-# Devices
-telegraf_docker_devices_default: []
-telegraf_docker_devices_custom: []
-telegraf_docker_devices: "{{ lookup('vars', telegraf_name + '_docker_devices_default', default=telegraf_docker_devices_default)
-                              + lookup('vars', telegraf_name + '_docker_devices_custom', default=telegraf_docker_devices_custom) }}"
-
-# Hosts
-telegraf_docker_hosts_default: {}
-telegraf_docker_hosts_custom: {}
-telegraf_docker_hosts: "{{ docker_hosts_common
-                            | combine(lookup('vars', telegraf_name + '_docker_hosts_default', default=telegraf_docker_hosts_default))
-                            | combine(lookup('vars', telegraf_name + '_docker_hosts_custom', default=telegraf_docker_hosts_custom)) }}"
-
-# Labels
-telegraf_docker_labels_default: {
-  "com.github.saltbox.saltbox_managed": "true"
-}
-telegraf_docker_labels_custom: {}
-telegraf_docker_labels: "{{ docker_labels_common
-                             | combine(lookup('vars', telegraf_name + '_docker_labels_default', default=telegraf_docker_labels_default))
-                             | combine(lookup('vars', telegraf_name + '_docker_labels_custom', default=telegraf_docker_labels_custom)) }}"
-
 # Hostname
 telegraf_docker_hostname: "{{ telegraf_name }}"
-
-# Network Mode
-telegraf_docker_network_mode_default: "{{ docker_networks_name_common }}"
-telegraf_docker_network_mode: "{{ lookup('vars', telegraf_name + '_docker_network_mode_default', default=telegraf_docker_network_mode_default) }}"
 
 # Networks
 telegraf_docker_networks_alias: "{{ telegraf_name }}"
@@ -135,18 +97,6 @@ telegraf_docker_networks_custom: []
 telegraf_docker_networks: "{{ docker_networks_common
                                + lookup('vars', telegraf_name + '_docker_networks_default', default=telegraf_docker_networks_default)
                                + lookup('vars', telegraf_name + '_docker_networks_custom', default=telegraf_docker_networks_custom) }}"
-
-# Capabilities
-telegraf_docker_capabilities_default: []
-telegraf_docker_capabilities_custom: []
-telegraf_docker_capabilities: "{{ lookup('vars', telegraf_name + '_docker_capabilities_default', default=telegraf_docker_capabilities_default)
-                                   + lookup('vars', telegraf_name + '_docker_capabilities_custom', default=telegraf_docker_capabilities_custom) }}"
-
-# Security Opts
-telegraf_docker_security_opts_default: []
-telegraf_docker_security_opts_custom: []
-telegraf_docker_security_opts: "{{ lookup('vars', telegraf_name + '_docker_security_opts_default', default=telegraf_docker_security_opts_default)
-                                    + lookup('vars', telegraf_name + '_docker_security_opts_custom', default=telegraf_docker_security_opts_custom) }}"
 
 # Restart Policy
 telegraf_docker_restart_policy: unless-stopped
