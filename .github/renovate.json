@@ -1,0 +1,118 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        ":semanticCommits",
+        ":separateMajorReleases",
+        ":ignoreUnstable"
+    ],
+    "prConcurrentLimit": 0,
+    "prHourlyLimit": 0,
+    "ansible": {
+        "enabled": false
+    },
+    "labels": [
+        "dependencies"
+    ],
+    "packageRules": [
+        {
+            "description": "Major pip requirements updates",
+            "matchManagers": [
+                "pip_requirements"
+            ],
+            "matchFileNames": [
+                "requirements/*"
+            ],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "labels": [
+                "dependencies",
+                "pip",
+                "major"
+            ]
+        },
+        {
+            "description": "Lint requirements",
+            "matchManagers": [
+                "pip_requirements"
+            ],
+            "matchFileNames": [
+                "requirements/requirements-lint.txt"
+            ],
+            "groupName": "requirements-lint",
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "labels": [
+                "dependencies",
+                "pip",
+                "lint"
+            ]
+        },
+        {
+            "description": "Notify requirements",
+            "matchManagers": [
+                "pip_requirements"
+            ],
+            "matchFileNames": [
+                "requirements/requirements-notify.txt"
+            ],
+            "groupName": "requirements-notify",
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "labels": [
+                "dependencies",
+                "pip",
+                "notify"
+            ]
+        },
+        {
+            "description": "Major GitHub Actions updates",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "labels": [
+                "dependencies",
+                "github-actions",
+                "major"
+            ]
+        },
+        {
+            "description": "GitHub Actions updates",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "groupName": "github-actions",
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "labels": [
+                "dependencies",
+                "github-actions"
+            ]
+        }
+    ],
+    "rebaseWhen": "conflicted",
+    "vulnerabilityAlerts": {
+        "enabled": true,
+        "addLabels": [
+            "security",
+            "vulnerability"
+        ]
+    },
+    "commitMessageAction": "Update",
+    "commitMessageTopic": "{{depName}}",
+    "commitMessageExtra": "to {{newVersion}}",
+    "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{configDescription}}}{{{controls}}}{{{footer}}}",
+    "lockFileMaintenance": {
+        "enabled": true
+    }
+}
