@@ -6,7 +6,7 @@ exclude_paths:
   - defaults/
   - library/
 
-offline: False
+offline: false
 
 mock_modules:
   - find_open_port
