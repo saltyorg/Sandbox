@@ -2,6 +2,7 @@
 inventory = /srv/git/saltbox/inventories/local
 roles_path = roles:/srv/git/saltbox/roles:/srv/git/saltbox/resources/roles
 filter_plugins = /srv/git/saltbox/filter_plugins
+lookup_plugins = /srv/git/saltbox/lookup_plugins
 library = /srv/git/saltbox/library
 log_path = ./sandbox.log
 callbacks_enabled = profile_tasks
