@@ -34,6 +34,7 @@
     postgres_docker_env_db: "{{ immich_postgres_docker_env_db }}"
     postgres_docker_image_tag: "{{ immich_postgres_docker_image_tag }}"
     postgres_docker_image_repo: "{{ immich_postgres_docker_image_repo }}"
+    postgres_docker_shm_size: "{{ immich_postgres_docker_shm_size }}"
     postgres_paths_folder: "{{ immich_postgres_paths_folder }}"
     postgres_paths_location: "{{ immich_postgres_paths_location }}"
     postgres_docker_envs_custom: "{{ immich_postgres_docker_envs_custom }}"
