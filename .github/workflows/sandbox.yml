@@ -87,6 +87,7 @@ jobs:
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
 
       - name: Create CI vars file
+        if: github.repository == 'saltyorg/Sandbox' && github.event.repository.fork == false
         run: |
           echo "continuous_integration: true" > /tmp/vars.yml
           echo "dockerhub:" >> /tmp/vars.yml
