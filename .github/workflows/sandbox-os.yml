@@ -5,6 +5,7 @@ on:
 
 jobs:
   ansible-lint:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
@@ -26,6 +27,7 @@ jobs:
         run: python3 ./scripts/salty-linter.py ./roles
 
   check-entries:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
@@ -34,6 +36,7 @@ jobs:
         run: ./scripts/check_missing_entries.sh
 
   find-roles:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
