@@ -35,4 +35,4 @@
     group: "{{ user.name }}"
     mode: "0775"
     recurse: true
-  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+  with_items: "{{ lookup('vars', role_name + '_role_paths_folders_list') }}"

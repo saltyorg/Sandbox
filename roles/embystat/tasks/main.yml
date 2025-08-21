@@ -34,4 +34,4 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     recurse: true
-  with_items: "{{ lookup('vars', role_name + '_paths_folders_list') }}"
+  with_items: "{{ lookup('vars', role_name + '_role_paths_folders_list') }}"
