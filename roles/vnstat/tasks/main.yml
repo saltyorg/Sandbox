@@ -34,10 +34,10 @@
       TZ: "{{ tz }}"
       HTTP_PORT: "0"
     vnstat_role_docker_network_mode: "host"
-    vnstat_role_docker_networks: "{{ omit }}"
     vnstat_role_docker_volumes:
       - "vnstat:/var/lib/vnstat"
-    vnstat_role_docker_labels: "{{ omit }}"
+    vnstat_role_docker_labels: {}
+    vnstat_docker_labels_use_common: false
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
