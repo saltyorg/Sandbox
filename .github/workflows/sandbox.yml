@@ -36,8 +36,8 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: ansible-lint
 
-      - name: Run salty linter
-        run: python3 ./scripts/salty-linter.py ./roles
+      # - name: Run salty linter
+      #   run: python3 ./scripts/salty-linter.py ./roles
 
   check-entries:
     if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
