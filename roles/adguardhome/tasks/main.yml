@@ -22,7 +22,7 @@
 
 - name: "Settings | Check if AdGuardHome.yaml exists"
   ansible.builtin.stat:
-    path: "{{ adguardhome_config_path }}"
+    path: "{{ adguardhome_paths_config_path }}"
   register: adguardhome_config
 
 - name: "Settings | New AdGuardHome.yaml tasks"
@@ -31,7 +31,7 @@
     - name: "Settings | Import AdGuardHome.yaml.j2"
       ansible.builtin.template:
         src: AdGuardHome.yaml.j2
-        dest: '{{ adguardhome_config_path }}'
+        dest: '{{ adguardhome_paths_config_path }}'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

@@ -19,7 +19,7 @@ adguardhome_name: adguardhome
 
 adguardhome_paths_folder: "{{ adguardhome_name }}"
 adguardhome_paths_location: "{{ server_appdata_path }}/{{ adguardhome_paths_folder }}"
-adguardhome_config_path: "{{ adguardhome_paths_location }}/conf/AdGuardHome.yaml"
+adguardhome_paths_config_path: "{{ adguardhome_paths_location }}/conf/AdGuardHome.yaml"
 adguardhome_paths_folders_list:
   - "{{ adguardhome_paths_location }}"
   - "{{ adguardhome_paths_location }}/conf"
