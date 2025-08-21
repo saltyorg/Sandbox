@@ -113,3 +113,6 @@ joplin_role_docker_state: started
 joplin_depends_on: "{{ joplin_postgres_name }}"
 joplin_depends_on_delay: "0"
 joplin_depends_on_healthchecks: "false"
+
+# Create Docker Container Timeout
+joplin_docker_create_timeout: 300
