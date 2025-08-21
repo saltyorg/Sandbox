@@ -17,86 +17,86 @@ makemkv_name: makemkv
 # Paths
 ################################
 
-makemkv_paths_folder: "{{ makemkv_name }}"
-makemkv_paths_location: "{{ server_appdata_path }}/{{ makemkv_paths_folder }}"
-makemkv_paths_folders_list:
-  - "{{ makemkv_paths_location }}"
+makemkv_role_paths_folder: "{{ makemkv_name }}"
+makemkv_role_paths_location: "{{ server_appdata_path }}/{{ makemkv_role_paths_folder }}"
+makemkv_role_paths_folders_list:
+  - "{{ makemkv_role_paths_location }}"
   - "/mnt/unionfs/makemkv"
 
 ################################
 # Web
 ################################
 
-makemkv_web_subdomain: "{{ makemkv_name }}"
-makemkv_web_domain: "{{ user.domain }}"
-makemkv_web_port: "5800"
-makemkv_web_url: "{{ 'https://' + (makemkv_web_subdomain + '.' + makemkv_web_domain
-                  if (makemkv_web_subdomain | length > 0)
-                  else makemkv_web_domain) }}"
+makemkv_role_web_subdomain: "{{ makemkv_name }}"
+makemkv_role_web_domain: "{{ user.domain }}"
+makemkv_role_web_port: "5800"
+makemkv_role_web_url: "{{ 'https://' + (makemkv_role_web_subdomain + '.' + makemkv_role_web_domain
+                  if (makemkv_role_web_subdomain | length > 0)
+                  else makemkv_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-makemkv_dns_record: "{{ makemkv_web_subdomain }}"
-makemkv_dns_zone: "{{ makemkv_web_domain }}"
-makemkv_dns_proxy: "{{ dns.proxied }}"
+makemkv_role_dns_record: "{{ makemkv_role_web_subdomain }}"
+makemkv_role_dns_zone: "{{ makemkv_role_web_domain }}"
+makemkv_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-makemkv_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-makemkv_traefik_middleware_default: "{{ traefik_default_middleware }}"
-makemkv_traefik_middleware_custom: ""
-makemkv_traefik_certresolver: "{{ traefik_default_certresolver }}"
-makemkv_traefik_enabled: true
-makemkv_traefik_api_enabled: false
-makemkv_traefik_api_endpoint: ""
+makemkv_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+makemkv_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+makemkv_role_traefik_middleware_custom: ""
+makemkv_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+makemkv_role_traefik_enabled: true
+makemkv_role_traefik_api_enabled: false
+makemkv_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-makemkv_docker_container: "{{ makemkv_name }}"
+makemkv_role_docker_container: "{{ makemkv_name }}"
 
 # Image
-makemkv_docker_image_pull: true
-makemkv_docker_image_tag: "latest"
-makemkv_docker_image: "jlesage/makemkv:{{ makemkv_docker_image_tag }}"
+makemkv_role_docker_image_pull: true
+makemkv_role_docker_image_tag: "latest"
+makemkv_role_docker_image: "jlesage/makemkv:{{ makemkv_role_docker_image_tag }}"
 # Envs
-makemkv_docker_envs_default:
+makemkv_role_docker_envs_default:
   TZ: "{{ tz }}"
   USER_ID: "{{ uid }}"
   GROUP_ID: "{{ gid }}"
   KEEP_APP_RUNNING: "1"
-makemkv_docker_envs_custom: {}
-makemkv_docker_envs: "{{ makemkv_docker_envs_default
-                         | combine(makemkv_docker_envs_custom) }}"
+makemkv_role_docker_envs_custom: {}
+makemkv_role_docker_envs: "{{ makemkv_role_docker_envs_default
+                         | combine(makemkv_role_docker_envs_custom) }}"
 
 # Volumes
-makemkv_docker_volumes_default:
-  - "{{ makemkv_paths_location }}:/docker/appdata/makemkv"
+makemkv_role_docker_volumes_default:
+  - "{{ makemkv_role_paths_location }}:/docker/appdata/makemkv"
   - "/mnt/unionfs:/storage:ro"
   - "/mnt/unionfs/makemkv:/output:rw"
-makemkv_docker_volumes_custom: []
-makemkv_docker_volumes: "{{ makemkv_docker_volumes_default
-                            + makemkv_docker_volumes_custom }}"
+makemkv_role_docker_volumes_custom: []
+makemkv_role_docker_volumes: "{{ makemkv_role_docker_volumes_default
+                            + makemkv_role_docker_volumes_custom }}"
 
 # Hostname
-makemkv_docker_hostname: "{{ makemkv_name }}"
+makemkv_role_docker_hostname: "{{ makemkv_name }}"
 
 # Networks
-makemkv_docker_networks_alias: "{{ makemkv_name }}"
-makemkv_docker_networks_default: []
-makemkv_docker_networks_custom: []
-makemkv_docker_networks: "{{ docker_networks_common
-                             + makemkv_docker_networks_default
-                             + makemkv_docker_networks_custom }}"
+makemkv_role_docker_networks_alias: "{{ makemkv_name }}"
+makemkv_role_docker_networks_default: []
+makemkv_role_docker_networks_custom: []
+makemkv_role_docker_networks: "{{ docker_networks_common
+                             + makemkv_role_docker_networks_default
+                             + makemkv_role_docker_networks_custom }}"
 
 # Restart Policy
-makemkv_docker_restart_policy: unless-stopped
+makemkv_role_docker_restart_policy: unless-stopped
 
 # State
-makemkv_docker_state: started
+makemkv_role_docker_state: started

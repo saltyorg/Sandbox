@@ -25,63 +25,63 @@ transmissionvpn_umask_set: "022"
 # Paths
 ################################
 
-transmissionvpn_paths_folder: "{{ transmissionvpn_name }}"
-transmissionvpn_paths_location: "{{ server_appdata_path }}/{{ transmissionvpn_paths_folder }}"
-transmissionvpn_paths_downloads_location: "{{ downloads_torrents_path }}/{{ transmissionvpn_paths_folder }}"
+transmissionvpn_role_paths_folder: "{{ transmissionvpn_name }}"
+transmissionvpn_role_paths_location: "{{ server_appdata_path }}/{{ transmissionvpn_role_paths_folder }}"
+transmissionvpn_role_paths_downloads_location: "{{ downloads_torrents_path }}/{{ transmissionvpn_role_paths_folder }}"
 
-transmissionvpn_paths_folders_list:
-  - "{{ transmissionvpn_paths_location }}"
-  - "{{ transmissionvpn_paths_downloads_location }}"
-  - "{{ transmissionvpn_paths_downloads_location }}/completed"
-  - "{{ transmissionvpn_paths_downloads_location }}/incoming"
-  - "{{ transmissionvpn_paths_downloads_location }}/watched"
-  - "{{ transmissionvpn_paths_downloads_location }}/torrents"
+transmissionvpn_role_paths_folders_list:
+  - "{{ transmissionvpn_role_paths_location }}"
+  - "{{ transmissionvpn_role_paths_downloads_location }}"
+  - "{{ transmissionvpn_role_paths_downloads_location }}/completed"
+  - "{{ transmissionvpn_role_paths_downloads_location }}/incoming"
+  - "{{ transmissionvpn_role_paths_downloads_location }}/watched"
+  - "{{ transmissionvpn_role_paths_downloads_location }}/torrents"
 
 ################################
 # Web
 ################################
 
-transmissionvpn_web_subdomain: "{{ transmissionvpn_name }}"
-transmissionvpn_web_domain: "{{ user.domain }}"
-transmissionvpn_web_port: "9091"
-transmissionvpn_web_url: "{{ 'https://' + (transmissionvpn_web_subdomain + '.' + transmissionvpn_web_domain
-                          if (transmissionvpn_web_subdomain | length > 0)
-                          else transmissionvpn_web_domain) }}"
+transmissionvpn_role_web_subdomain: "{{ transmissionvpn_name }}"
+transmissionvpn_role_web_domain: "{{ user.domain }}"
+transmissionvpn_role_web_port: "9091"
+transmissionvpn_role_web_url: "{{ 'https://' + (transmissionvpn_role_web_subdomain + '.' + transmissionvpn_role_web_domain
+                          if (transmissionvpn_role_web_subdomain | length > 0)
+                          else transmissionvpn_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-transmissionvpn_dns_record: "{{ transmissionvpn_web_subdomain }}"
-transmissionvpn_dns_zone: "{{ transmissionvpn_web_domain }}"
-transmissionvpn_dns_proxy: "{{ dns.proxied }}"
+transmissionvpn_role_dns_record: "{{ transmissionvpn_role_web_subdomain }}"
+transmissionvpn_role_dns_zone: "{{ transmissionvpn_role_web_domain }}"
+transmissionvpn_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-transmissionvpn_traefik_sso_middleware: ""
-transmissionvpn_traefik_middleware_default: "{{ traefik_default_middleware }}"
-transmissionvpn_traefik_middleware_custom: ""
-transmissionvpn_traefik_certresolver: "{{ traefik_default_certresolver }}"
-transmissionvpn_traefik_enabled: true
-transmissionvpn_traefik_api_enabled: false
-transmissionvpn_traefik_api_endpoint: ""
+transmissionvpn_role_traefik_sso_middleware: ""
+transmissionvpn_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+transmissionvpn_role_traefik_middleware_custom: ""
+transmissionvpn_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+transmissionvpn_role_traefik_enabled: true
+transmissionvpn_role_traefik_api_enabled: false
+transmissionvpn_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-transmissionvpn_docker_container: "{{ transmissionvpn_name }}"
+transmissionvpn_role_docker_container: "{{ transmissionvpn_name }}"
 
 # Image
-transmissionvpn_docker_image_pull: true
-transmissionvpn_docker_image_tag: "latest"
-transmissionvpn_docker_image: "haugene/transmission-openvpn:{{ transmissionvpn_docker_image_tag }}"
+transmissionvpn_role_docker_image_pull: true
+transmissionvpn_role_docker_image_tag: "latest"
+transmissionvpn_role_docker_image: "haugene/transmission-openvpn:{{ transmissionvpn_role_docker_image_tag }}"
 
 # Envs
-transmissionvpn_docker_envs_default:
+transmissionvpn_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
@@ -91,48 +91,48 @@ transmissionvpn_docker_envs_default:
   UMASK_SET: "{{ transmissionvpn_umask_set }}"
   CREATE_TUN_DEVICE: "{{ transmissionvpn_create_tun_device }}"
   TRANSMISSION_HOME: "{{ transmissionvpn_transmission_home }}"
-transmissionvpn_docker_envs_custom: {}
-transmissionvpn_docker_envs: "{{ transmissionvpn_docker_envs_default
-                                 | combine(transmissionvpn_docker_envs_custom) }}"
+transmissionvpn_role_docker_envs_custom: {}
+transmissionvpn_role_docker_envs: "{{ transmissionvpn_role_docker_envs_default
+                                 | combine(transmissionvpn_role_docker_envs_custom) }}"
 
 # Volumes
-transmissionvpn_docker_volumes_default:
-  - "{{ transmissionvpn_paths_location }}:/config"
-  - "{{ transmissionvpn_paths_location }}/data:/opt/transmissionvpn"
+transmissionvpn_role_docker_volumes_default:
+  - "{{ transmissionvpn_role_paths_location }}:/config"
+  - "{{ transmissionvpn_role_paths_location }}/data:/opt/transmissionvpn"
   - "{{ server_appdata_path }}/scripts:/scripts"
-  - "{{ transmissionvpn_paths_location }}/vpn:/etc/openvpn/custom"
-  - "{{ transmissionvpn_paths_downloads_location }}:/data"
-transmissionvpn_docker_volumes_custom: []
-transmissionvpn_docker_volumes: "{{ transmissionvpn_docker_volumes_default
-                                    + transmissionvpn_docker_volumes_custom }}"
+  - "{{ transmissionvpn_role_paths_location }}/vpn:/etc/openvpn/custom"
+  - "{{ transmissionvpn_role_paths_downloads_location }}:/data"
+transmissionvpn_role_docker_volumes_custom: []
+transmissionvpn_role_docker_volumes: "{{ transmissionvpn_role_docker_volumes_default
+                                    + transmissionvpn_role_docker_volumes_custom }}"
 
 # Hostname
-transmissionvpn_docker_hostname: "{{ transmissionvpn_name }}"
+transmissionvpn_role_docker_hostname: "{{ transmissionvpn_name }}"
 
 # Networks
-transmissionvpn_docker_networks_alias: "{{ transmissionvpn_name }}"
-transmissionvpn_docker_networks_default: []
-transmissionvpn_docker_networks_custom: []
-transmissionvpn_docker_networks: "{{ docker_networks_common
-                                     + transmissionvpn_docker_networks_default
-                                     + transmissionvpn_docker_networks_custom }}"
+transmissionvpn_role_docker_networks_alias: "{{ transmissionvpn_name }}"
+transmissionvpn_role_docker_networks_default: []
+transmissionvpn_role_docker_networks_custom: []
+transmissionvpn_role_docker_networks: "{{ docker_networks_common
+                                     + transmissionvpn_role_docker_networks_default
+                                     + transmissionvpn_role_docker_networks_custom }}"
 
 # Capabilities
-transmissionvpn_docker_capabilities_default:
+transmissionvpn_role_docker_capabilities_default:
   - NET_ADMIN
-transmissionvpn_docker_capabilities_custom: []
-transmissionvpn_docker_capabilities: "{{ transmissionvpn_docker_capabilities_default
-                                         + transmissionvpn_docker_capabilities_custom }}"
+transmissionvpn_role_docker_capabilities_custom: []
+transmissionvpn_role_docker_capabilities: "{{ transmissionvpn_role_docker_capabilities_default
+                                         + transmissionvpn_role_docker_capabilities_custom }}"
 
 # Restart Policy
-transmissionvpn_docker_restart_policy: unless-stopped
+transmissionvpn_role_docker_restart_policy: unless-stopped
 
 # State
-transmissionvpn_docker_state: started
+transmissionvpn_role_docker_state: started
 
 # Sysctls
-transmissionvpn_docker_sysctls:
+transmissionvpn_role_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"
 
 # Privileged
-transmissionvpn_docker_privileged: true
+transmissionvpn_role_docker_privileged: true

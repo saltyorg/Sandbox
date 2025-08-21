@@ -17,10 +17,10 @@ handbrake_name: handbrake
 # Paths
 ################################
 
-handbrake_paths_folder: "{{ handbrake_name }}"
-handbrake_paths_location: "{{ server_appdata_path }}/{{ handbrake_paths_folder }}"
-handbrake_paths_folders_list:
-  - "{{ handbrake_paths_location }}"
+handbrake_role_paths_folder: "{{ handbrake_name }}"
+handbrake_role_paths_location: "{{ server_appdata_path }}/{{ handbrake_role_paths_folder }}"
+handbrake_role_paths_folders_list:
+  - "{{ handbrake_role_paths_location }}"
   - "/mnt/local/downloads/handbrake/watch"
   - "/mnt/local/downloads/handbrake/output"
 
@@ -28,80 +28,80 @@ handbrake_paths_folders_list:
 # Web
 ################################
 
-handbrake_web_subdomain: "{{ handbrake_name }}"
-handbrake_web_domain: "{{ user.domain }}"
-handbrake_web_port: "5800"
-handbrake_web_url: "{{ 'https://' + (handbrake_web_subdomain + '.' + handbrake_web_domain
-                    if (handbrake_web_subdomain | length > 0)
-                    else handbrake_web_domain) }}"
+handbrake_role_web_subdomain: "{{ handbrake_name }}"
+handbrake_role_web_domain: "{{ user.domain }}"
+handbrake_role_web_port: "5800"
+handbrake_role_web_url: "{{ 'https://' + (handbrake_role_web_subdomain + '.' + handbrake_role_web_domain
+                    if (handbrake_role_web_subdomain | length > 0)
+                    else handbrake_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-handbrake_dns_record: "{{ handbrake_web_subdomain }}"
-handbrake_dns_zone: "{{ handbrake_web_domain }}"
-handbrake_dns_proxy: "{{ dns.proxied }}"
+handbrake_role_dns_record: "{{ handbrake_role_web_subdomain }}"
+handbrake_role_dns_zone: "{{ handbrake_role_web_domain }}"
+handbrake_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-handbrake_traefik_sso_middleware: ""
-handbrake_traefik_middleware_default: "{{ traefik_default_middleware }}"
-handbrake_traefik_middleware_custom: ""
-handbrake_traefik_certresolver: "{{ traefik_default_certresolver }}"
-handbrake_traefik_enabled: true
-handbrake_traefik_api_enabled: false
-handbrake_traefik_api_endpoint: ""
+handbrake_role_traefik_sso_middleware: ""
+handbrake_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+handbrake_role_traefik_middleware_custom: ""
+handbrake_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+handbrake_role_traefik_enabled: true
+handbrake_role_traefik_api_enabled: false
+handbrake_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-handbrake_docker_container: "{{ handbrake_name }}"
+handbrake_role_docker_container: "{{ handbrake_name }}"
 
 # Image
-handbrake_docker_image_pull: true
-handbrake_docker_image_tag: "latest"
-handbrake_docker_image: "jlesage/handbrake:{{ handbrake_docker_image_tag }}"
+handbrake_role_docker_image_pull: true
+handbrake_role_docker_image_tag: "latest"
+handbrake_role_docker_image: "jlesage/handbrake:{{ handbrake_role_docker_image_tag }}"
 
 # Envs
-handbrake_docker_envs_default:
+handbrake_role_docker_envs_default:
   USER_ID: "{{ uid }}"
   GROUP_ID: "{{ gid }}"
   TZ: "{{ tz }}"
   CLEAN_TMP_DIR: "1"
   ENABLE_CJK_FONT: "1"
   VNC_PASSWORD: "{{ handbrake.handbrake_pass | default('saltbox', true) }}"
-handbrake_docker_envs_custom: {}
-handbrake_docker_envs: "{{ handbrake_docker_envs_default
-                           | combine(handbrake_docker_envs_custom) }}"
+handbrake_role_docker_envs_custom: {}
+handbrake_role_docker_envs: "{{ handbrake_role_docker_envs_default
+                           | combine(handbrake_role_docker_envs_custom) }}"
 
 # Volumes
-handbrake_docker_volumes_default:
-  - "{{ handbrake_paths_location }}:/config:rw"
+handbrake_role_docker_volumes_default:
+  - "{{ handbrake_role_paths_location }}:/config:rw"
   - "/mnt:/storage:ro"
   - "/mnt/local/downloads/handbrake/watch:/watch:rw"
   - "/mnt/local/downloads/handbrake/output:/output:rw"
-handbrake_docker_volumes_custom: []
-handbrake_docker_volumes: "{{ handbrake_docker_volumes_default
-                              + handbrake_docker_volumes_custom }}"
+handbrake_role_docker_volumes_custom: []
+handbrake_role_docker_volumes: "{{ handbrake_role_docker_volumes_default
+                              + handbrake_role_docker_volumes_custom }}"
 
 # Hostname
-handbrake_docker_hostname: "{{ handbrake_name }}"
+handbrake_role_docker_hostname: "{{ handbrake_name }}"
 
 # Networks
-handbrake_docker_networks_alias: "{{ handbrake_name }}"
-handbrake_docker_networks_default: []
-handbrake_docker_networks_custom: []
-handbrake_docker_networks: "{{ docker_networks_common
-                               + handbrake_docker_networks_default
-                               + handbrake_docker_networks_custom }}"
+handbrake_role_docker_networks_alias: "{{ handbrake_name }}"
+handbrake_role_docker_networks_default: []
+handbrake_role_docker_networks_custom: []
+handbrake_role_docker_networks: "{{ docker_networks_common
+                               + handbrake_role_docker_networks_default
+                               + handbrake_role_docker_networks_custom }}"
 
 # Restart Policy
-handbrake_docker_restart_policy: unless-stopped
+handbrake_role_docker_restart_policy: unless-stopped
 
 # State
-handbrake_docker_state: started
+handbrake_role_docker_state: started

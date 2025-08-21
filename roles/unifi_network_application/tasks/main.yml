@@ -10,9 +10,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing legacy Unifi container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -28,7 +28,7 @@
 - name: "Unifi | Import init-mongo.js"
   ansible.builtin.template:
     src: init-mongo.js.j2
-    dest: '{{ unifi_network_application_paths_location }}/init-mongo.js'
+    dest: '{{ unifi_network_application_role_paths_location }}/init-mongo.js'
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
@@ -43,10 +43,12 @@
   ansible.builtin.include_role:
     name: mongodb
   vars:
-    mongodb_instances: ["{{ unifi_network_application_name }}-mongo"]
-    mongodb_paths_location: "{{ server_appdata_path }}/{{ unifi_network_application_name }}"
-    mongodb_docker_image_tag: "4.4"
-    mongodb_docker_volumes_custom: ["{{ unifi_network_application_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
+    mongodb_instances:
+      - "{{ unifi_network_application_name }}-mongo"
+    mongodb_role_paths_location: "{{ server_appdata_path }}/{{ unifi_network_application_name }}"
+    mongodb_role_docker_image_tag: "4.4"
+    mongodb_role_docker_volumes_custom:
+      - "{{ unifi_network_application_role_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

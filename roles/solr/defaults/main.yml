@@ -18,71 +18,71 @@ solr_name: solr
 # Settings
 ################################
 
-# solr_docker_env_password: "solr147"
-solr_docker_env_port: "8983"
-solr_docker_env_core_name: "{{ solr_name }}"
+# solr_role_docker_env_password: "solr147"
+solr_role_docker_env_port: "8983"
+solr_role_docker_env_core_name: "{{ solr_name }}"
 
 ################################
 # Paths
 ################################
 
-solr_paths_folder: "{{ solr_name }}"
-solr_paths_location: "{{ server_appdata_path }}/{{ solr_paths_folder }}"
-solr_paths_folders_list:
-  - "{{ solr_paths_location }}"
+solr_role_paths_folder: "{{ solr_name }}"
+solr_role_paths_location: "{{ server_appdata_path }}/{{ solr_role_paths_folder }}"
+solr_role_paths_folders_list:
+  - "{{ solr_role_paths_location }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-solr_docker_container: "{{ solr_name }}"
+solr_role_docker_container: "{{ solr_name }}"
 
 # Image
-solr_docker_image_pull: true
-solr_docker_image_tag: "latest"
-solr_docker_image: "solr:{{ solr_docker_image_tag }}"
+solr_role_docker_image_pull: true
+solr_role_docker_image_tag: "latest"
+solr_role_docker_image: "solr:{{ solr_role_docker_image_tag }}"
 
 # Envs
-solr_docker_envs_default:
+solr_role_docker_envs_default:
   TZ: "{{ tz }}"
   SOLR_HOST: "{{ solr_name }}"
   # SOLR_UID: "{{ uid }}"
   # SOLR_GID: "{{ gid }}"
-solr_docker_envs_custom: {}
-solr_docker_envs: "{{ solr_docker_envs_default
-                      | combine(solr_docker_envs_custom) }}"
+solr_role_docker_envs_custom: {}
+solr_role_docker_envs: "{{ solr_role_docker_envs_default
+                      | combine(solr_role_docker_envs_custom) }}"
 
 # Commands
-solr_docker_commands_default:
-  - "solr-precreate {{ solr_docker_env_core_name }}"
-solr_docker_commands_custom: []
-solr_docker_commands: "{{ solr_docker_commands_default
-                          + solr_docker_commands_custom }}"
+solr_role_docker_commands_default:
+  - "solr-precreate {{ solr_role_docker_env_core_name }}"
+solr_role_docker_commands_custom: []
+solr_role_docker_commands: "{{ solr_role_docker_commands_default
+                          + solr_role_docker_commands_custom }}"
 
 # Volumes
-solr_docker_volumes_default: []
-#  - "{{ solr_paths_location }}:/var/solr/data"
-solr_docker_volumes_custom: []
-solr_docker_volumes: "{{ solr_docker_volumes_default
-                         + solr_docker_volumes_custom }}"
+solr_role_docker_volumes_default: []
+#  - "{{ solr_role_paths_location }}:/var/solr/data"
+solr_role_docker_volumes_custom: []
+solr_role_docker_volumes: "{{ solr_role_docker_volumes_default
+                         + solr_role_docker_volumes_custom }}"
 
 # Hostname
-solr_docker_hostname: "{{ solr_name }}"
+solr_role_docker_hostname: "{{ solr_name }}"
 
 # Networks
-solr_docker_networks_alias: "{{ solr_name }}"
-solr_docker_networks_default: []
-solr_docker_networks_custom: []
-solr_docker_networks: "{{ docker_networks_common
-                          + solr_docker_networks_default
-                          + solr_docker_networks_custom }}"
+solr_role_docker_networks_alias: "{{ solr_name }}"
+solr_role_docker_networks_default: []
+solr_role_docker_networks_custom: []
+solr_role_docker_networks: "{{ docker_networks_common
+                          + solr_role_docker_networks_default
+                          + solr_role_docker_networks_custom }}"
 
 # Restart Policy
-solr_docker_restart_policy: always
+solr_role_docker_restart_policy: always
 
 # State
-solr_docker_state: started
+solr_role_docker_state: started
 
 # User
-# solr_docker_user: "{{ uid }}:{{ gid }}"
+# solr_role_docker_user: "{{ uid }}:{{ gid }}"

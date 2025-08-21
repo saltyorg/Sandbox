@@ -17,56 +17,56 @@ moviematch_name: moviematch
 # Paths
 ################################
 
-moviematch_paths_folder: "{{ moviematch_name }}"
-moviematch_paths_location: "{{ server_appdata_path }}/{{ moviematch_paths_folder }}"
-moviematch_paths_folders_list:
-  - "{{ moviematch_paths_location }}"
+moviematch_role_paths_folder: "{{ moviematch_name }}"
+moviematch_role_paths_location: "{{ server_appdata_path }}/{{ moviematch_role_paths_folder }}"
+moviematch_role_paths_folders_list:
+  - "{{ moviematch_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-moviematch_web_subdomain: "{{ moviematch_name }}"
-moviematch_web_domain: "{{ user.domain }}"
-moviematch_web_port: "8000"
-moviematch_web_url: "{{ 'https://' + (moviematch_web_subdomain + '.' + moviematch_web_domain
-                     if (moviematch_web_subdomain | length > 0)
-                     else moviematch_web_domain) }}"
+moviematch_role_web_subdomain: "{{ moviematch_name }}"
+moviematch_role_web_domain: "{{ user.domain }}"
+moviematch_role_web_port: "8000"
+moviematch_role_web_url: "{{ 'https://' + (moviematch_role_web_subdomain + '.' + moviematch_role_web_domain
+                     if (moviematch_role_web_subdomain | length > 0)
+                     else moviematch_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-moviematch_dns_record: "{{ moviematch_web_subdomain }}"
-moviematch_dns_zone: "{{ moviematch_web_domain }}"
-moviematch_dns_proxy: "{{ dns.proxied }}"
+moviematch_role_dns_record: "{{ moviematch_role_web_subdomain }}"
+moviematch_role_dns_zone: "{{ moviematch_role_web_domain }}"
+moviematch_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-moviematch_traefik_sso_middleware: ""
-moviematch_traefik_middleware_default: "{{ traefik_default_middleware }}"
-moviematch_traefik_middleware_custom: ""
-moviematch_traefik_certresolver: "{{ traefik_default_certresolver }}"
-moviematch_traefik_enabled: true
-moviematch_traefik_api_enabled: false
-moviematch_traefik_api_endpoint: ""
+moviematch_role_traefik_sso_middleware: ""
+moviematch_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+moviematch_role_traefik_middleware_custom: ""
+moviematch_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+moviematch_role_traefik_enabled: true
+moviematch_role_traefik_api_enabled: false
+moviematch_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-moviematch_docker_container: "{{ moviematch_name }}"
+moviematch_role_docker_container: "{{ moviematch_name }}"
 
 # Image
-moviematch_docker_image_pull: true
-moviematch_docker_image_tag: "latest"
-moviematch_docker_image: "lukechannings/moviematch:{{ moviematch_docker_image_tag }}"
+moviematch_role_docker_image_pull: true
+moviematch_role_docker_image_tag: "latest"
+moviematch_role_docker_image: "lukechannings/moviematch:{{ moviematch_role_docker_image_tag }}"
 
 # Envs
-moviematch_docker_envs_default:
+moviematch_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
@@ -74,23 +74,23 @@ moviematch_docker_envs_default:
   PLEX_TOKEN: "{{ plex_auth_token }}"
   LOG_LEVEL: DEBUG
   LIBRARY_FILTER: "{{ moviematch.libraries }}"
-moviematch_docker_envs_custom: {}
-moviematch_docker_envs: "{{ moviematch_docker_envs_default
-                            | combine(moviematch_docker_envs_custom) }}"
+moviematch_role_docker_envs_custom: {}
+moviematch_role_docker_envs: "{{ moviematch_role_docker_envs_default
+                            | combine(moviematch_role_docker_envs_custom) }}"
 
 # Hostname
-moviematch_docker_hostname: "{{ moviematch_name }}"
+moviematch_role_docker_hostname: "{{ moviematch_name }}"
 
 # Networks
-moviematch_docker_networks_alias: "{{ moviematch_name }}"
-moviematch_docker_networks_default: []
-moviematch_docker_networks_custom: []
-moviematch_docker_networks: "{{ docker_networks_common
-                                + moviematch_docker_networks_default
-                                + moviematch_docker_networks_custom }}"
+moviematch_role_docker_networks_alias: "{{ moviematch_name }}"
+moviematch_role_docker_networks_default: []
+moviematch_role_docker_networks_custom: []
+moviematch_role_docker_networks: "{{ docker_networks_common
+                                + moviematch_role_docker_networks_default
+                                + moviematch_role_docker_networks_custom }}"
 
 # Restart Policy
-moviematch_docker_restart_policy: unless-stopped
+moviematch_role_docker_restart_policy: unless-stopped
 
 # State
-moviematch_docker_state: started
+moviematch_role_docker_state: started

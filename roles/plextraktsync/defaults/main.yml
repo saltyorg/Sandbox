@@ -17,59 +17,59 @@ plextraktsync_name: plextraktsync
 # Paths
 ################################
 
-plextraktsync_paths_folder: "{{ plextraktsync_name }}"
-plextraktsync_paths_location: "{{ server_appdata_path }}/{{ plextraktsync_paths_folder }}"
-plextraktsync_paths_env: "{{ plextraktsync_paths_location }}/.env"
-plextraktsync_paths_log: "{{ plextraktsync_paths_location }}/plextraktsync.log"
-plextraktsync_paths_folders_list:
-  - "{{ plextraktsync_paths_location }}"
+plextraktsync_role_paths_folder: "{{ plextraktsync_name }}"
+plextraktsync_role_paths_location: "{{ server_appdata_path }}/{{ plextraktsync_role_paths_folder }}"
+plextraktsync_role_paths_env: "{{ plextraktsync_role_paths_location }}/.env"
+plextraktsync_role_paths_log: "{{ plextraktsync_role_paths_location }}/plextraktsync.log"
+plextraktsync_role_paths_folders_list:
+  - "{{ plextraktsync_role_paths_location }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-plextraktsync_docker_container: "{{ plextraktsync_name }}"
+plextraktsync_role_docker_container: "{{ plextraktsync_name }}"
 
 # Image
-plextraktsync_docker_image_pull: true
-plextraktsync_docker_image_tag: "latest"
-plextraktsync_docker_image: "ghcr.io/taxel/plextraktsync:{{ plextraktsync_docker_image_tag }}"
+plextraktsync_role_docker_image_pull: true
+plextraktsync_role_docker_image_tag: "latest"
+plextraktsync_role_docker_image: "ghcr.io/taxel/plextraktsync:{{ plextraktsync_role_docker_image_tag }}"
 
 # Envs
-plextraktsync_docker_envs_default:
+plextraktsync_role_docker_envs_default:
   TZ: "{{ tz }}"
-plextraktsync_docker_envs_custom: {}
-plextraktsync_docker_envs: "{{ plextraktsync_docker_envs_default
-                               | combine(plextraktsync_docker_envs_custom) }}"
+plextraktsync_role_docker_envs_custom: {}
+plextraktsync_role_docker_envs: "{{ plextraktsync_role_docker_envs_default
+                               | combine(plextraktsync_role_docker_envs_custom) }}"
 
 # Commands
-plextraktsync_docker_commands_default:
+plextraktsync_role_docker_commands_default:
   - watch
-plextraktsync_docker_commands_custom: []
-plextraktsync_docker_commands: "{{ plextraktsync_docker_commands_default
-                                   + plextraktsync_docker_commands_custom }}"
+plextraktsync_role_docker_commands_custom: []
+plextraktsync_role_docker_commands: "{{ plextraktsync_role_docker_commands_default
+                                   + plextraktsync_role_docker_commands_custom }}"
 
 # Volumes
-plextraktsync_docker_volumes_default:
-  - "{{ plextraktsync_paths_location }}:/app/config"
-plextraktsync_docker_volumes_custom: []
-plextraktsync_docker_volumes: "{{ plextraktsync_docker_volumes_default
-                                  + plextraktsync_docker_volumes_custom }}"
+plextraktsync_role_docker_volumes_default:
+  - "{{ plextraktsync_role_paths_location }}:/app/config"
+plextraktsync_role_docker_volumes_custom: []
+plextraktsync_role_docker_volumes: "{{ plextraktsync_role_docker_volumes_default
+                                  + plextraktsync_role_docker_volumes_custom }}"
 
 # Hostname
-plextraktsync_docker_hostname: "{{ plextraktsync_name }}"
+plextraktsync_role_docker_hostname: "{{ plextraktsync_name }}"
 
 # Networks
-plextraktsync_docker_networks_alias: "{{ plextraktsync_name }}"
-plextraktsync_docker_networks_default: []
-plextraktsync_docker_networks_custom: []
-plextraktsync_docker_networks: "{{ docker_networks_common
-                                   + plextraktsync_docker_networks_default
-                                   + plextraktsync_docker_networks_custom }}"
+plextraktsync_role_docker_networks_alias: "{{ plextraktsync_name }}"
+plextraktsync_role_docker_networks_default: []
+plextraktsync_role_docker_networks_custom: []
+plextraktsync_role_docker_networks: "{{ docker_networks_common
+                                   + plextraktsync_role_docker_networks_default
+                                   + plextraktsync_role_docker_networks_custom }}"
 
 # Restart Policy
-plextraktsync_docker_restart_policy: unless-stopped
+plextraktsync_role_docker_restart_policy: unless-stopped
 
 # State
-plextraktsync_docker_state: started
+plextraktsync_role_docker_state: started

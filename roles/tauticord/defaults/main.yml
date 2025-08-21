@@ -17,56 +17,56 @@ tauticord_name: tauticord
 # Paths
 ################################
 
-tauticord_paths_folder: "{{ tauticord_name }}"
-tauticord_paths_location: "{{ server_appdata_path }}/{{ tauticord_paths_folder }}"
-tauticord_paths_folders_list:
-  - "{{ tauticord_paths_location }}"
-  - "{{ tauticord_paths_location }}/config"
-  - "{{ tauticord_paths_location }}/logs"
+tauticord_role_paths_folder: "{{ tauticord_name }}"
+tauticord_role_paths_location: "{{ server_appdata_path }}/{{ tauticord_role_paths_folder }}"
+tauticord_role_paths_folders_list:
+  - "{{ tauticord_role_paths_location }}"
+  - "{{ tauticord_role_paths_location }}/config"
+  - "{{ tauticord_role_paths_location }}/logs"
 
 ################################
 # Docker
 ################################
 
 # Container
-tauticord_docker_container: "{{ tauticord_name }}"
+tauticord_role_docker_container: "{{ tauticord_name }}"
 
 # Image
-tauticord_docker_image_pull: true
-tauticord_docker_image_tag: "latest"
-tauticord_docker_image: "nwithan8/tauticord"
+tauticord_role_docker_image_pull: true
+tauticord_role_docker_image_tag: "latest"
+tauticord_role_docker_image: "nwithan8/tauticord"
 
 # Envs
-tauticord_docker_envs_default:
+tauticord_role_docker_envs_default:
   TZ: "{{ tz }}"
   USER_ID: "{{ uid }}"
   GROUP_ID: "{{ gid }}"
   UMASK: "022"
-tauticord_docker_envs_custom: {}
-tauticord_docker_envs: "{{ tauticord_docker_envs_default
-                           | combine(tauticord_docker_envs_custom) }}"
+tauticord_role_docker_envs_custom: {}
+tauticord_role_docker_envs: "{{ tauticord_role_docker_envs_default
+                           | combine(tauticord_role_docker_envs_custom) }}"
 
 # Volumes
-tauticord_docker_volumes_default:
-  - "{{ tauticord_paths_location }}/config:/config"
-  - "{{ tauticord_paths_location }}/logs:/logs"
-tauticord_docker_volumes_custom: []
-tauticord_docker_volumes: "{{ tauticord_docker_volumes_default
-                              + tauticord_docker_volumes_custom }}"
+tauticord_role_docker_volumes_default:
+  - "{{ tauticord_role_paths_location }}/config:/config"
+  - "{{ tauticord_role_paths_location }}/logs:/logs"
+tauticord_role_docker_volumes_custom: []
+tauticord_role_docker_volumes: "{{ tauticord_role_docker_volumes_default
+                              + tauticord_role_docker_volumes_custom }}"
 
 # Hostname
-tauticord_docker_hostname: "{{ tauticord_name }}"
+tauticord_role_docker_hostname: "{{ tauticord_name }}"
 
 # Networks
-tauticord_docker_networks_alias: "{{ tauticord_name }}"
-tauticord_docker_networks_default: []
-tauticord_docker_networks_custom: []
-tauticord_docker_networks: "{{ docker_networks_common
-                               + tauticord_docker_networks_default
-                               + tauticord_docker_networks_custom }}"
+tauticord_role_docker_networks_alias: "{{ tauticord_name }}"
+tauticord_role_docker_networks_default: []
+tauticord_role_docker_networks_custom: []
+tauticord_role_docker_networks: "{{ docker_networks_common
+                               + tauticord_role_docker_networks_default
+                               + tauticord_role_docker_networks_custom }}"
 
 # Restart Policy
-tauticord_docker_restart_policy: unless-stopped
+tauticord_role_docker_restart_policy: unless-stopped
 
 # State
-tauticord_docker_state: started
+tauticord_role_docker_state: started

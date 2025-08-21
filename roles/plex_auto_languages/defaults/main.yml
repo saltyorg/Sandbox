@@ -17,57 +17,57 @@ plex_auto_languages_name: plex-auto-languages
 # Paths
 ################################
 
-plex_auto_languages_paths_folder: "{{ plex_auto_languages_name }}"
-plex_auto_languages_paths_location: "{{ server_appdata_path }}/{{ plex_auto_languages_paths_folder }}"
-plex_auto_languages_config_location: "{{ plex_auto_languages_paths_location }}/config.yaml"
-plex_auto_languages_paths_folders_list:
-  - "{{ plex_auto_languages_paths_location }}"
+plex_auto_languages_role_paths_folder: "{{ plex_auto_languages_name }}"
+plex_auto_languages_role_paths_location: "{{ server_appdata_path }}/{{ plex_auto_languages_role_paths_folder }}"
+plex_auto_languages_config_location: "{{ plex_auto_languages_role_paths_location }}/config.yaml"
+plex_auto_languages_role_paths_folders_list:
+  - "{{ plex_auto_languages_role_paths_location }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-plex_auto_languages_docker_container: "{{ plex_auto_languages_name }}"
+plex_auto_languages_role_docker_container: "{{ plex_auto_languages_name }}"
 
 # Image
-plex_auto_languages_docker_image_pull: true
-plex_auto_languages_docker_image_tag: "latest"
-plex_auto_languages_docker_image: "remirigal/plex-auto-languages:{{ plex_auto_languages_docker_image_tag }}"
+plex_auto_languages_role_docker_image_pull: true
+plex_auto_languages_role_docker_image_tag: "latest"
+plex_auto_languages_role_docker_image: "remirigal/plex-auto-languages:{{ plex_auto_languages_role_docker_image_tag }}"
 
 # Envs
-plex_auto_languages_docker_envs_default:
+plex_auto_languages_role_docker_envs_default:
   TZ: "{{ tz }}"
-plex_auto_languages_docker_envs_custom: {}
-plex_auto_languages_docker_envs: "{{ plex_auto_languages_docker_envs_default
-                                     | combine(plex_auto_languages_docker_envs_custom) }}"
+plex_auto_languages_role_docker_envs_custom: {}
+plex_auto_languages_role_docker_envs: "{{ plex_auto_languages_role_docker_envs_default
+                                     | combine(plex_auto_languages_role_docker_envs_custom) }}"
 
 # Volumes
-plex_auto_languages_docker_volumes_default:
-  - "{{ plex_auto_languages_paths_location }}:/config"
-plex_auto_languages_docker_volumes_custom: []
-plex_auto_languages_docker_volumes: "{{ plex_auto_languages_docker_volumes_default
-                                        + plex_auto_languages_docker_volumes_custom }}"
+plex_auto_languages_role_docker_volumes_default:
+  - "{{ plex_auto_languages_role_paths_location }}:/config"
+plex_auto_languages_role_docker_volumes_custom: []
+plex_auto_languages_role_docker_volumes: "{{ plex_auto_languages_role_docker_volumes_default
+                                        + plex_auto_languages_role_docker_volumes_custom }}"
 
 # Hostname
-plex_auto_languages_docker_hostname: "{{ plex_auto_languages_name }}"
+plex_auto_languages_role_docker_hostname: "{{ plex_auto_languages_name }}"
 
 # Networks
-plex_auto_languages_docker_networks_alias: "{{ plex_auto_languages_name }}"
-plex_auto_languages_docker_networks_default: []
-plex_auto_languages_docker_networks_custom: []
-plex_auto_languages_docker_networks: "{{ docker_networks_common
-                                         + plex_auto_languages_docker_networks_default
-                                         + plex_auto_languages_docker_networks_custom }}"
+plex_auto_languages_role_docker_networks_alias: "{{ plex_auto_languages_name }}"
+plex_auto_languages_role_docker_networks_default: []
+plex_auto_languages_role_docker_networks_custom: []
+plex_auto_languages_role_docker_networks: "{{ docker_networks_common
+                                         + plex_auto_languages_role_docker_networks_default
+                                         + plex_auto_languages_role_docker_networks_custom }}"
 
 # Restart Policy
-plex_auto_languages_docker_restart_policy: unless-stopped
+plex_auto_languages_role_docker_restart_policy: unless-stopped
 
 # State
-plex_auto_languages_docker_state: started
+plex_auto_languages_role_docker_state: started
 
 # Stop Timeout
-plex_auto_languages_docker_stop_timeout: 10
+plex_auto_languages_role_docker_stop_timeout: 10
 
 # User
-plex_auto_languages_docker_user: "{{ uid }}:{{ gid }}"
+plex_auto_languages_role_docker_user: "{{ uid }}:{{ gid }}"

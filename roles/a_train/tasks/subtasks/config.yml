@@ -9,7 +9,7 @@
 ---
 
 - name: Get remote types from rclone config
-  ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=a_train_paths_rclone_config_location) }}"
+  ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=a_train_role_paths_rclone_config_location) }}"
   with_items: "{{ a_train.remotes }}"
   register: remote_type
 
@@ -30,7 +30,7 @@
         drive_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'drive') | map(attribute='item') }}"
 
     - name: Get the ID of the teamdrives
-      ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_paths_rclone_config_location) }}"
+      ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_role_paths_rclone_config_location) }}"
       register: drive_id_var
       loop: "{{ drive_remotes }}"
 
@@ -46,7 +46,7 @@
         union_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'union') | map(attribute='item') }}"
 
     - name: Get the upstreams
-      ansible.builtin.shell: "echo {{ lookup('ini', 'upstreams', section=item, file=a_train_paths_rclone_config_location) }}"
+      ansible.builtin.shell: "echo {{ lookup('ini', 'upstreams', section=item, file=a_train_role_paths_rclone_config_location) }}"
       with_items: "{{ union_remotes }}"
       register: union_upstreams_var
 
@@ -66,7 +66,7 @@
       when: '"/" in union_upstreams_var.results[0].stdout'
 
     - name: Get the ID of the teamdrives
-      ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_paths_rclone_config_location) }}"
+      ansible.builtin.shell: "echo {{ lookup('ini', 'team_drive', section=item, file=a_train_role_paths_rclone_config_location) }}"
       register: union_id_var
       loop: "{{ union_upstreams }}"
 

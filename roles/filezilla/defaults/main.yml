@@ -17,86 +17,86 @@ filezilla_name: filezilla
 # Paths
 ################################
 
-filezilla_paths_folder: "{{ filezilla_name }}"
-filezilla_paths_location: "{{ server_appdata_path }}/{{ filezilla_paths_folder }}"
-filezilla_paths_folders_list:
-  - "{{ filezilla_paths_location }}"
-  - "{{ filezilla_paths_location }}/config"
+filezilla_role_paths_folder: "{{ filezilla_name }}"
+filezilla_role_paths_location: "{{ server_appdata_path }}/{{ filezilla_role_paths_folder }}"
+filezilla_role_paths_folders_list:
+  - "{{ filezilla_role_paths_location }}"
+  - "{{ filezilla_role_paths_location }}/config"
 
 ################################
 # Web
 ################################
 
-filezilla_web_subdomain: "{{ filezilla_name }}"
-filezilla_web_domain: "{{ user.domain }}"
-filezilla_web_port: "5800"
-filezilla_web_url: "{{ 'https://' + (filezilla_web_subdomain + '.' + filezilla_web_domain
-                    if (filezilla_web_subdomain | length > 0)
-                    else filezilla_web_domain) }}"
+filezilla_role_web_subdomain: "{{ filezilla_name }}"
+filezilla_role_web_domain: "{{ user.domain }}"
+filezilla_role_web_port: "5800"
+filezilla_role_web_url: "{{ 'https://' + (filezilla_role_web_subdomain + '.' + filezilla_role_web_domain
+                    if (filezilla_role_web_subdomain | length > 0)
+                    else filezilla_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-filezilla_dns_record: "{{ filezilla_web_subdomain }}"
-filezilla_dns_zone: "{{ filezilla_web_domain }}"
-filezilla_dns_proxy: "{{ dns.proxied }}"
+filezilla_role_dns_record: "{{ filezilla_role_web_subdomain }}"
+filezilla_role_dns_zone: "{{ filezilla_role_web_domain }}"
+filezilla_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-filezilla_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-filezilla_traefik_middleware_default: "{{ traefik_default_middleware }}"
-filezilla_traefik_middleware_custom: ""
-filezilla_traefik_certresolver: "{{ traefik_default_certresolver }}"
-filezilla_traefik_enabled: true
-filezilla_traefik_api_enabled: false
-filezilla_traefik_api_endpoint: ""
+filezilla_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+filezilla_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+filezilla_role_traefik_middleware_custom: ""
+filezilla_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+filezilla_role_traefik_enabled: true
+filezilla_role_traefik_api_enabled: false
+filezilla_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-filezilla_docker_container: "{{ filezilla_name }}"
+filezilla_role_docker_container: "{{ filezilla_name }}"
 
 # Image
-filezilla_docker_image_pull: true
-filezilla_docker_image_tag: "latest"
-filezilla_docker_image: "jlesage/filezilla:{{ filezilla_docker_image_tag }}"
+filezilla_role_docker_image_pull: true
+filezilla_role_docker_image_tag: "latest"
+filezilla_role_docker_image: "jlesage/filezilla:{{ filezilla_role_docker_image_tag }}"
 
 # Envs
-filezilla_docker_envs_default:
+filezilla_role_docker_envs_default:
   USER_ID: "{{ uid }}"
   GROUP_ID: "{{ gid }}"
   TZ: "{{ tz }}"
   KEEP_APP_RUNNING: "1"
-filezilla_docker_envs_custom: {}
-filezilla_docker_envs: "{{ filezilla_docker_envs_default
-                           | combine(filezilla_docker_envs_custom) }}"
+filezilla_role_docker_envs_custom: {}
+filezilla_role_docker_envs: "{{ filezilla_role_docker_envs_default
+                           | combine(filezilla_role_docker_envs_custom) }}"
 
 # Volumes
-filezilla_docker_volumes_default:
-  - "{{ filezilla_paths_location }}/config:/config"
+filezilla_role_docker_volumes_default:
+  - "{{ filezilla_role_paths_location }}/config:/config"
   - "/home/{{ user.name }}:/storage"
-filezilla_docker_volumes_custom: []
-filezilla_docker_volumes: "{{ filezilla_docker_volumes_default
-                              + filezilla_docker_volumes_custom }}"
+filezilla_role_docker_volumes_custom: []
+filezilla_role_docker_volumes: "{{ filezilla_role_docker_volumes_default
+                              + filezilla_role_docker_volumes_custom }}"
 
 # Hostname
-filezilla_docker_hostname: "{{ filezilla_name }}"
+filezilla_role_docker_hostname: "{{ filezilla_name }}"
 
 # Networks
-filezilla_docker_networks_alias: "{{ filezilla_name }}"
-filezilla_docker_networks_default: []
-filezilla_docker_networks_custom: []
-filezilla_docker_networks: "{{ docker_networks_common
-                               + filezilla_docker_networks_default
-                               + filezilla_docker_networks_custom }}"
+filezilla_role_docker_networks_alias: "{{ filezilla_name }}"
+filezilla_role_docker_networks_default: []
+filezilla_role_docker_networks_custom: []
+filezilla_role_docker_networks: "{{ docker_networks_common
+                               + filezilla_role_docker_networks_default
+                               + filezilla_role_docker_networks_custom }}"
 
 # Restart Policy
-filezilla_docker_restart_policy: unless-stopped
+filezilla_role_docker_restart_policy: unless-stopped
 
 # State
-filezilla_docker_state: started
+filezilla_role_docker_state: started

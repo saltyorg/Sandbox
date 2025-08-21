@@ -17,106 +17,108 @@ rocketchat_name: rocketchat
 # Settings
 ################################
 
-rocketchat_mongodb_docker_image_tag: "6"
-rocketchat_mongodb_docker_commands: ["mongod --oplogSize 128 --replSet rs0"]
-rocketchat_mongodb_docker_volumes_custom: ["{{ rocketchat_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"]
-rockatchat_mongodb_paths_location: "{{ rocketchat_paths_location }}/mongo"
+rocketchat_mongodb_role_docker_image_tag: "6"
+rocketchat_mongodb_role_docker_commands:
+  - "mongod --oplogSize 128 --replSet rs0"
+rocketchat_mongodb_role_docker_volumes_custom:
+  - "{{ rocketchat_role_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
+rockatchat_mongodb_role_paths_location: "{{ rocketchat_role_paths_location }}/mongo"
 
 ################################
 # Paths
 ################################
 
-rocketchat_paths_folder: "{{ rocketchat_name }}"
-rocketchat_paths_location: "{{ server_appdata_path }}/{{ rocketchat_paths_folder }}"
-rocketchat_paths_folders_list:
-  - "{{ rocketchat_paths_location }}"
-rocketchat_paths_config_location: "{{ rocketchat_paths_location }}/env"
+rocketchat_role_paths_folder: "{{ rocketchat_name }}"
+rocketchat_role_paths_location: "{{ server_appdata_path }}/{{ rocketchat_role_paths_folder }}"
+rocketchat_role_paths_folders_list:
+  - "{{ rocketchat_role_paths_location }}"
+rocketchat_role_paths_config_location: "{{ rocketchat_role_paths_location }}/env"
 
 ################################
 # Web
 ################################
 
-rocketchat_web_subdomain: "{{ rocketchat_name }}"
-rocketchat_web_domain: "{{ user.domain }}"
-rocketchat_web_port: "3000"
-rocketchat_web_url: "{{ 'https://' + (rocketchat_web_subdomain + '.' + rocketchat_web_domain
-                     if (rocketchat_web_subdomain | length > 0)
-                     else rocketchat_web_domain) }}"
+rocketchat_role_web_subdomain: "{{ rocketchat_name }}"
+rocketchat_role_web_domain: "{{ user.domain }}"
+rocketchat_role_web_port: "3000"
+rocketchat_role_web_url: "{{ 'https://' + (rocketchat_role_web_subdomain + '.' + rocketchat_role_web_domain
+                     if (rocketchat_role_web_subdomain | length > 0)
+                     else rocketchat_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-rocketchat_dns_record: "{{ rocketchat_web_subdomain }}"
-rocketchat_dns_zone: "{{ rocketchat_web_domain }}"
-rocketchat_dns_proxy: "{{ dns.proxied }}"
+rocketchat_role_dns_record: "{{ rocketchat_role_web_subdomain }}"
+rocketchat_role_dns_zone: "{{ rocketchat_role_web_domain }}"
+rocketchat_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-rocketchat_traefik_sso_middleware: ""
-rocketchat_traefik_middleware_default: "{{ traefik_default_middleware }}"
-rocketchat_traefik_middleware_custom: ""
-rocketchat_traefik_certresolver: "{{ traefik_default_certresolver }}"
-rocketchat_traefik_enabled: true
-rocketchat_traefik_api_enabled: false
-rocketchat_traefik_api_endpoint: ""
+rocketchat_role_traefik_sso_middleware: ""
+rocketchat_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+rocketchat_role_traefik_middleware_custom: ""
+rocketchat_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+rocketchat_role_traefik_enabled: true
+rocketchat_role_traefik_api_enabled: false
+rocketchat_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-rocketchat_docker_container: "{{ rocketchat_name }}"
+rocketchat_role_docker_container: "{{ rocketchat_name }}"
 
 # Image
-rocketchat_docker_image_pull: true
-rocketchat_docker_image_tag: "latest"
-rocketchat_docker_image: "rocketchat/rocket.chat:{{ rocketchat_docker_image_tag }}"
+rocketchat_role_docker_image_pull: true
+rocketchat_role_docker_image_tag: "latest"
+rocketchat_role_docker_image: "rocketchat/rocket.chat:{{ rocketchat_role_docker_image_tag }}"
 
 # Envs
-rocketchat_docker_envs_default:
+rocketchat_role_docker_envs_default:
   TZ: "{{ tz }}"
-  ROOT_URL: "{{ rocketchat_web_url }}"
+  ROOT_URL: "{{ rocketchat_role_web_url }}"
   MONGO_URL: "mongodb://rocketchat-mongo:27017/rocketchat?replicaSet=rs0&directConnection=true"
   MONGO_OPLOG_URL: "mongodb://rocketchat-mongo:27017/local?replicaSet=rs0&directConnection=true"
   DEPLOY_METHOD: "docker"
-rocketchat_docker_envs_custom: {}
-rocketchat_docker_envs: "{{ rocketchat_docker_envs_default
-                            | combine(rocketchat_docker_envs_custom) }}"
+rocketchat_role_docker_envs_custom: {}
+rocketchat_role_docker_envs: "{{ rocketchat_role_docker_envs_default
+                            | combine(rocketchat_role_docker_envs_custom) }}"
 
 # Volumes
-rocketchat_docker_volumes_default:
-  - "{{ rocketchat_paths_location }}/uploads:/app/uploads"
-rocketchat_docker_volumes_custom: []
-rocketchat_docker_volumes: "{{ rocketchat_docker_volumes_default
-                               + rocketchat_docker_volumes_custom }}"
+rocketchat_role_docker_volumes_default:
+  - "{{ rocketchat_role_paths_location }}/uploads:/app/uploads"
+rocketchat_role_docker_volumes_custom: []
+rocketchat_role_docker_volumes: "{{ rocketchat_role_docker_volumes_default
+                               + rocketchat_role_docker_volumes_custom }}"
 
 # Mounts
-rocketchat_docker_mounts_default:
+rocketchat_role_docker_mounts_default:
   - target: /tmp
     type: tmpfs
-rocketchat_docker_mounts_custom: []
-rocketchat_docker_mounts: "{{ rocketchat_docker_mounts_default
-                              + rocketchat_docker_mounts_custom }}"
+rocketchat_role_docker_mounts_custom: []
+rocketchat_role_docker_mounts: "{{ rocketchat_role_docker_mounts_default
+                              + rocketchat_role_docker_mounts_custom }}"
 
 # Hostname
-rocketchat_docker_hostname: "{{ rocketchat_name }}"
+rocketchat_role_docker_hostname: "{{ rocketchat_name }}"
 
 # Networks
-rocketchat_docker_networks_alias: "{{ rocketchat_name }}"
-rocketchat_docker_networks_default: []
-rocketchat_docker_networks_custom: []
-rocketchat_docker_networks: "{{ docker_networks_common
-                                + rocketchat_docker_networks_default
-                                + rocketchat_docker_networks_custom }}"
+rocketchat_role_docker_networks_alias: "{{ rocketchat_name }}"
+rocketchat_role_docker_networks_default: []
+rocketchat_role_docker_networks_custom: []
+rocketchat_role_docker_networks: "{{ docker_networks_common
+                                + rocketchat_role_docker_networks_default
+                                + rocketchat_role_docker_networks_custom }}"
 
 # Restart Policy
-rocketchat_docker_restart_policy: unless-stopped
+rocketchat_role_docker_restart_policy: unless-stopped
 
 # State
-rocketchat_docker_state: started
+rocketchat_role_docker_state: started
 
 # Dependencies
 rocketchat_depends_on: "rocketchat_db"

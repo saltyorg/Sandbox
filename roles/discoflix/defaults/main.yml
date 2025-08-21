@@ -17,80 +17,80 @@ discoflix_name: discoflix
 # Paths
 ################################
 
-discoflix_paths_folder: "{{ discoflix_name }}"
-discoflix_paths_location: "{{ server_appdata_path }}/{{ discoflix_paths_folder }}"
-discoflix_paths_folders_list:
-  - "{{ discoflix_paths_location }}"
+discoflix_role_paths_folder: "{{ discoflix_name }}"
+discoflix_role_paths_location: "{{ server_appdata_path }}/{{ discoflix_role_paths_folder }}"
+discoflix_role_paths_folders_list:
+  - "{{ discoflix_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-discoflix_web_subdomain: "{{ discoflix_name }}"
-discoflix_web_domain: "{{ user.domain }}"
-discoflix_web_port: "5454"
-discoflix_web_url: "{{ 'https://' + (discoflix_web_subdomain + '.' + discoflix_web_domain
-                    if (discoflix_web_subdomain | length > 0)
-                    else discoflix_web_domain) }}"
+discoflix_role_web_subdomain: "{{ discoflix_name }}"
+discoflix_role_web_domain: "{{ user.domain }}"
+discoflix_role_web_port: "5454"
+discoflix_role_web_url: "{{ 'https://' + (discoflix_role_web_subdomain + '.' + discoflix_role_web_domain
+                    if (discoflix_role_web_subdomain | length > 0)
+                    else discoflix_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-discoflix_dns_record: "{{ discoflix_web_subdomain }}"
-discoflix_dns_zone: "{{ discoflix_web_domain }}"
-discoflix_dns_proxy: "{{ dns.proxied }}"
+discoflix_role_dns_record: "{{ discoflix_role_web_subdomain }}"
+discoflix_role_dns_zone: "{{ discoflix_role_web_domain }}"
+discoflix_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-discoflix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-discoflix_traefik_middleware_default: "{{ traefik_default_middleware }}"
-discoflix_traefik_certresolver: "{{ traefik_default_certresolver }}"
-discoflix_traefik_enabled: true
-discoflix_traefik_api_enabled: false
-discoflix_traefik_api_endpoint: ""
+discoflix_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+discoflix_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+discoflix_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+discoflix_role_traefik_enabled: true
+discoflix_role_traefik_api_enabled: false
+discoflix_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-discoflix_docker_container: "{{ discoflix_name }}"
+discoflix_role_docker_container: "{{ discoflix_name }}"
 
 # Image
-discoflix_docker_image_pull: true
-discoflix_docker_image_tag: "latest"
-discoflix_docker_image: "nickheyer/discoflix:{{ discoflix_docker_image_tag }}"
+discoflix_role_docker_image_pull: true
+discoflix_role_docker_image_tag: "latest"
+discoflix_role_docker_image: "nickheyer/discoflix:{{ discoflix_role_docker_image_tag }}"
 
 # Envs
-discoflix_docker_envs_default:
-  internal_df_url: "http://{{ discoflix_name }}:{{ discoflix_web_port }}"
-discoflix_docker_envs_custom: {}
-discoflix_docker_envs: "{{ discoflix_docker_envs_default
-                           | combine(discoflix_docker_envs_custom) }}"
+discoflix_role_docker_envs_default:
+  internal_df_url: "http://{{ discoflix_name }}:{{ discoflix_role_web_port }}"
+discoflix_role_docker_envs_custom: {}
+discoflix_role_docker_envs: "{{ discoflix_role_docker_envs_default
+                           | combine(discoflix_role_docker_envs_custom) }}"
 
 # Volumes
-discoflix_docker_volumes_default:
-  - "{{ discoflix_paths_location }}/data:/app/data"
-discoflix_docker_volumes_custom: []
-discoflix_docker_volumes: "{{ discoflix_docker_volumes_default
-                              + discoflix_docker_volumes_custom }}"
+discoflix_role_docker_volumes_default:
+  - "{{ discoflix_role_paths_location }}/data:/app/data"
+discoflix_role_docker_volumes_custom: []
+discoflix_role_docker_volumes: "{{ discoflix_role_docker_volumes_default
+                              + discoflix_role_docker_volumes_custom }}"
 
 # Hostname
-discoflix_docker_hostname: "{{ discoflix_name }}"
+discoflix_role_docker_hostname: "{{ discoflix_name }}"
 
 # Networks
-discoflix_docker_networks_alias: "{{ discoflix_name }}"
-discoflix_docker_networks_default: []
-discoflix_docker_networks_custom: []
-discoflix_docker_networks: "{{ docker_networks_common
-                               + discoflix_docker_networks_default
-                               + discoflix_docker_networks_custom }}"
+discoflix_role_docker_networks_alias: "{{ discoflix_name }}"
+discoflix_role_docker_networks_default: []
+discoflix_role_docker_networks_custom: []
+discoflix_role_docker_networks: "{{ docker_networks_common
+                               + discoflix_role_docker_networks_default
+                               + discoflix_role_docker_networks_custom }}"
 
 # Restart Policy
-discoflix_docker_restart_policy: unless-stopped
+discoflix_role_docker_restart_policy: unless-stopped
 
 # State
-discoflix_docker_state: started
+discoflix_role_docker_state: started

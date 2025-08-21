@@ -34,58 +34,58 @@ dashdot_gpu_label_list: "brand,model,memory"
 # Paths
 ################################
 
-dashdot_paths_folder: "{{ dashdot_name }}"
-dashdot_paths_location: "{{ server_appdata_path }}/{{ dashdot_paths_folder }}"
-dashdot_paths_folders_list:
-  - "{{ dashdot_paths_location }}"
+dashdot_role_paths_folder: "{{ dashdot_name }}"
+dashdot_role_paths_location: "{{ server_appdata_path }}/{{ dashdot_role_paths_folder }}"
+dashdot_role_paths_folders_list:
+  - "{{ dashdot_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-dashdot_web_subdomain: "{{ dashdot_name }}"
-dashdot_web_domain: "{{ user.domain }}"
-dashdot_web_port: "3001"
-dashdot_web_url: "{{ 'https://' + (dashdot_web_subdomain + '.' + dashdot_web_domain
-                  if (dashdot_web_subdomain | length > 0)
-                  else dashdot_web_domain) }}"
+dashdot_role_web_subdomain: "{{ dashdot_name }}"
+dashdot_role_web_domain: "{{ user.domain }}"
+dashdot_role_web_port: "3001"
+dashdot_role_web_url: "{{ 'https://' + (dashdot_role_web_subdomain + '.' + dashdot_role_web_domain
+                  if (dashdot_role_web_subdomain | length > 0)
+                  else dashdot_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-dashdot_dns_record: "{{ dashdot_web_subdomain }}"
-dashdot_dns_zone: "{{ dashdot_web_domain }}"
-dashdot_dns_proxy: "{{ dns.proxied }}"
+dashdot_role_dns_record: "{{ dashdot_role_web_subdomain }}"
+dashdot_role_dns_zone: "{{ dashdot_role_web_domain }}"
+dashdot_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-dashdot_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-dashdot_traefik_middleware_default: "{{ traefik_default_middleware }}"
-dashdot_traefik_middleware_custom: ""
-dashdot_traefik_certresolver: "{{ traefik_default_certresolver }}"
-dashdot_traefik_enabled: true
-dashdot_traefik_api_enabled: false
-dashdot_traefik_api_endpoint: ""
+dashdot_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+dashdot_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+dashdot_role_traefik_middleware_custom: ""
+dashdot_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+dashdot_role_traefik_enabled: true
+dashdot_role_traefik_api_enabled: false
+dashdot_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-dashdot_docker_container: "{{ dashdot_name }}"
+dashdot_role_docker_container: "{{ dashdot_name }}"
 
 # Image
-dashdot_docker_image_pull: true
-dashdot_docker_image_tag: "latest"
-dashdot_docker_image: "mauricenino/dashdot:{{ dashdot_docker_image_tag }}"
+dashdot_role_docker_image_pull: true
+dashdot_role_docker_image_tag: "latest"
+dashdot_role_docker_image: "mauricenino/dashdot:{{ dashdot_role_docker_image_tag }}"
 
 # Envs
-dashdot_docker_envs_default:
+dashdot_role_docker_envs_default:
   DASHDOT_SHOW_HOST: "{{ dashdot_show_host }}"
-  DASHDOT_CUSTOM_HOST: "{{ dashdot_web_subdomain + '.' + dashdot_web_domain }}"
+  DASHDOT_CUSTOM_HOST: "{{ dashdot_role_web_subdomain + '.' + dashdot_role_web_domain }}"
   DASHDOT_ENABLE_CPU_TEMPS: "{{ dashdot_cpu_temps }}"
   DASHDOT_USE_IMPERIAL: "{{ dashdot_imperial }}"
   DASHDOT_ALWAYS_SHOW_PERCENTAGES: "{{ dashdot_always_show_percentages }}"
@@ -98,33 +98,33 @@ dashdot_docker_envs_default:
   DASHDOT_NETWORK_LABEL_LIST: "{{ dashdot_network_label_list }}"
   DASHDOT_GPU_LABEL_LIST: "{{ dashdot_gpu_label_list }}"
   DASHDOT_ACCEPT_OOKLA_EULA: "true"
-dashdot_docker_envs_custom: {}
-dashdot_docker_envs: "{{ dashdot_docker_envs_default
-                         | combine(dashdot_docker_envs_custom) }}"
+dashdot_role_docker_envs_custom: {}
+dashdot_role_docker_envs: "{{ dashdot_role_docker_envs_default
+                         | combine(dashdot_role_docker_envs_custom) }}"
 
 # Volumes
-dashdot_docker_volumes_default:
+dashdot_role_docker_volumes_default:
   - "/:/mnt/host:ro"
-dashdot_docker_volumes_custom: []
-dashdot_docker_volumes: "{{ dashdot_docker_volumes_default
-                            + dashdot_docker_volumes_custom }}"
+dashdot_role_docker_volumes_custom: []
+dashdot_role_docker_volumes: "{{ dashdot_role_docker_volumes_default
+                            + dashdot_role_docker_volumes_custom }}"
 
 # Hostname
-dashdot_docker_hostname: "{{ dashdot_name }}"
+dashdot_role_docker_hostname: "{{ dashdot_name }}"
 
 # Networks
-dashdot_docker_networks_alias: "{{ dashdot_name }}"
-dashdot_docker_networks_default: []
-dashdot_docker_networks_custom: []
-dashdot_docker_networks: "{{ docker_networks_common
-                             + dashdot_docker_networks_default
-                             + dashdot_docker_networks_custom }}"
+dashdot_role_docker_networks_alias: "{{ dashdot_name }}"
+dashdot_role_docker_networks_default: []
+dashdot_role_docker_networks_custom: []
+dashdot_role_docker_networks: "{{ docker_networks_common
+                             + dashdot_role_docker_networks_default
+                             + dashdot_role_docker_networks_custom }}"
 
 # Restart Policy
-dashdot_docker_restart_policy: unless-stopped
+dashdot_role_docker_restart_policy: unless-stopped
 
 # State
-dashdot_docker_state: started
+dashdot_role_docker_state: started
 
 # Privileged
-dashdot_docker_privileged: true
+dashdot_role_docker_privileged: true

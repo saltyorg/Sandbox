@@ -17,41 +17,41 @@ thelounge_name: thelounge
 # Paths
 ################################
 
-thelounge_paths_folder: "{{ thelounge_name }}"
-thelounge_paths_location: "{{ server_appdata_path }}/{{ thelounge_paths_folder }}"
-thelounge_paths_folders_list:
-  - "{{ thelounge_paths_location }}"
+thelounge_role_paths_folder: "{{ thelounge_name }}"
+thelounge_role_paths_location: "{{ server_appdata_path }}/{{ thelounge_role_paths_folder }}"
+thelounge_role_paths_folders_list:
+  - "{{ thelounge_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-thelounge_web_subdomain: "{{ thelounge_name }}"
-thelounge_web_domain: "{{ user.domain }}"
-thelounge_web_port: "9000"
-thelounge_web_url: "{{ 'https://' + (thelounge_web_subdomain + '.' + thelounge_web_domain
-                    if (thelounge_web_subdomain | length > 0)
-                    else thelounge_web_domain) }}"
+thelounge_role_web_subdomain: "{{ thelounge_name }}"
+thelounge_role_web_domain: "{{ user.domain }}"
+thelounge_role_web_port: "9000"
+thelounge_role_web_url: "{{ 'https://' + (thelounge_role_web_subdomain + '.' + thelounge_role_web_domain
+                    if (thelounge_role_web_subdomain | length > 0)
+                    else thelounge_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-thelounge_dns_record: "{{ thelounge_web_subdomain }}"
-thelounge_dns_zone: "{{ thelounge_web_domain }}"
-thelounge_dns_proxy: "{{ dns.proxied }}"
+thelounge_role_dns_record: "{{ thelounge_role_web_subdomain }}"
+thelounge_role_dns_zone: "{{ thelounge_role_web_domain }}"
+thelounge_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-thelounge_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-thelounge_traefik_middleware_default: "{{ traefik_default_middleware }}"
-thelounge_traefik_middleware_custom: ""
-thelounge_traefik_certresolver: "{{ traefik_default_certresolver }}"
-thelounge_traefik_enabled: true
-thelounge_traefik_api_enabled: true
-thelounge_traefik_api_endpoint: "PathPrefix(`/uploads`)"
+thelounge_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+thelounge_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+thelounge_role_traefik_middleware_custom: ""
+thelounge_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+thelounge_role_traefik_enabled: true
+thelounge_role_traefik_api_enabled: true
+thelounge_role_traefik_api_endpoint: "PathPrefix(`/uploads`)"
 
 
 ################################
@@ -59,42 +59,42 @@ thelounge_traefik_api_endpoint: "PathPrefix(`/uploads`)"
 ################################
 
 # Container
-thelounge_docker_container: "{{ thelounge_name }}"
+thelounge_role_docker_container: "{{ thelounge_name }}"
 
 # Image
-thelounge_docker_image_pull: true
-thelounge_docker_image_tag: "latest"
-thelounge_docker_image: "lscr.io/linuxserver/thelounge:{{ thelounge_docker_image_tag }}"
+thelounge_role_docker_image_pull: true
+thelounge_role_docker_image_tag: "latest"
+thelounge_role_docker_image: "lscr.io/linuxserver/thelounge:{{ thelounge_role_docker_image_tag }}"
 
 # Envs
-thelounge_docker_envs_default:
+thelounge_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-thelounge_docker_envs_custom: {}
-thelounge_docker_envs: "{{ thelounge_docker_envs_default
-                           | combine(thelounge_docker_envs_custom) }}"
+thelounge_role_docker_envs_custom: {}
+thelounge_role_docker_envs: "{{ thelounge_role_docker_envs_default
+                           | combine(thelounge_role_docker_envs_custom) }}"
 
 # Volumes
-thelounge_docker_volumes_default:
-  - "{{ thelounge_paths_location }}:/config"
-thelounge_docker_volumes_custom: []
-thelounge_docker_volumes: "{{ thelounge_docker_volumes_default
-                              + thelounge_docker_volumes_custom }}"
+thelounge_role_docker_volumes_default:
+  - "{{ thelounge_role_paths_location }}:/config"
+thelounge_role_docker_volumes_custom: []
+thelounge_role_docker_volumes: "{{ thelounge_role_docker_volumes_default
+                              + thelounge_role_docker_volumes_custom }}"
 
 # Hostname
-thelounge_docker_hostname: "{{ thelounge_name }}"
+thelounge_role_docker_hostname: "{{ thelounge_name }}"
 
 # Networks
-thelounge_docker_networks_alias: "{{ thelounge_name }}"
-thelounge_docker_networks_default: []
-thelounge_docker_networks_custom: []
-thelounge_docker_networks: "{{ docker_networks_common
-                               + thelounge_docker_networks_default
-                               + thelounge_docker_networks_custom }}"
+thelounge_role_docker_networks_alias: "{{ thelounge_name }}"
+thelounge_role_docker_networks_default: []
+thelounge_role_docker_networks_custom: []
+thelounge_role_docker_networks: "{{ docker_networks_common
+                               + thelounge_role_docker_networks_default
+                               + thelounge_role_docker_networks_custom }}"
 
 # Restart Policy
-thelounge_docker_restart_policy: unless-stopped
+thelounge_role_docker_restart_policy: unless-stopped
 
 # State
-thelounge_docker_state: started
+thelounge_role_docker_state: started

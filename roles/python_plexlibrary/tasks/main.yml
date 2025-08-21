@@ -111,7 +111,7 @@
 
 - name: Add plex url to config file
   ansible.builtin.shell: |
-    yyq -i '.plex.baseurl = "{{ plex_web_url }}"' /opt/python-plexlibrary/config.yml
+    yyq -i '.plex.baseurl = "{{ plex_role_web_url }}"' /opt/python-plexlibrary/config.yml
   become: true
   become_user: "{{ user.name }}"
 

@@ -5,18 +5,18 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Settings | Check if `{{ glances_web_paths_config_location | basename }}` exists
+- name: Settings | Check if `{{ glances_web_role_paths_config_location | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ glances_web_paths_config_location }}"
-  register: glances_web_config
+    path: "{{ glances_web_role_paths_config_location }}"
+  register: glances_role_web_config
 
-- name: Settings | New `{{ glances_web_paths_config_location | basename }}` tasks
-  when: not glances_web_config.stat.exists
+- name: Settings | New `{{ glances_web_role_paths_config_location | basename }}` tasks
+  when: not glances_role_web_config.stat.exists
   block:
-    - name: Settings | Import default `{{ glances_web_paths_config_location | basename }}`
+    - name: Settings | Import default `{{ glances_web_role_paths_config_location | basename }}`
       ansible.builtin.copy:
         src: glances.conf
-        dest: "{{ glances_web_paths_config_location }}"
+        dest: "{{ glances_web_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

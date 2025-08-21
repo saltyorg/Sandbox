@@ -24,65 +24,65 @@ ytdl_sub_cron_on_start: "true"
 # Paths
 ################################
 
-ytdl_sub_paths_folder: "{{ ytdl_sub_name }}"
-ytdl_sub_paths_location: "{{ server_appdata_path }}/{{ ytdl_sub_paths_folder }}"
-ytdl_sub_download_folder: "/mnt/unionfs/Media/Youtube/{{ ytdl_sub_name }}"
-ytdl_sub_paths_folders_list:
-  - "{{ ytdl_sub_paths_location }}"
-  - "{{ ytdl_sub_download_folder }}"
-  - "{{ ytdl_sub_download_folder }}/tv_shows"
-  - "{{ ytdl_sub_download_folder }}/movies"
-  - "{{ ytdl_sub_download_folder }}/music_videos"
-  - "{{ ytdl_sub_download_folder }}/music"
+ytdl_sub_role_paths_folder: "{{ ytdl_sub_name }}"
+ytdl_sub_role_paths_location: "{{ server_appdata_path }}/{{ ytdl_sub_role_paths_folder }}"
+ytdl_sub_role_paths_download_folder: "/mnt/unionfs/Media/Youtube/{{ ytdl_sub_name }}"
+ytdl_sub_role_paths_folders_list:
+  - "{{ ytdl_sub_role_paths_location }}"
+  - "{{ ytdl_sub_role_paths_download_folder }}"
+  - "{{ ytdl_sub_role_paths_download_folder }}/tv_shows"
+  - "{{ ytdl_sub_role_paths_download_folder }}/movies"
+  - "{{ ytdl_sub_role_paths_download_folder }}/music_videos"
+  - "{{ ytdl_sub_role_paths_download_folder }}/music"
 
 ################################
 # Docker
 ################################
 
 # Container
-ytdl_sub_docker_container: "{{ ytdl_sub_name }}"
+ytdl_sub_role_docker_container: "{{ ytdl_sub_name }}"
 
 # Image
-ytdl_sub_docker_image_pull: true
-ytdl_sub_docker_image_tag: "ubuntu-latest"
-ytdl_sub_docker_image: "ghcr.io/jmbannon/ytdl-sub:{{ ytdl_sub_docker_image_tag }}"
+ytdl_sub_role_docker_image_pull: true
+ytdl_sub_role_docker_image_tag: "ubuntu-latest"
+ytdl_sub_role_docker_image: "ghcr.io/jmbannon/ytdl-sub:{{ ytdl_sub_role_docker_image_tag }}"
 
 # Envs
-ytdl_sub_docker_envs_default:
+ytdl_sub_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   CRON_SCHEDULE: "{{ ytdl_sub_cron_schedule }}"
   CRON_RUN_ON_START: "{{ ytdl_sub_cron_on_start }}"
-ytdl_sub_docker_envs_custom: []
-ytdl_sub_docker_envs: "{{ ytdl_sub_docker_envs_default
-                            | combine(ytdl_sub_docker_envs_custom) }}"
+ytdl_sub_role_docker_envs_custom: []
+ytdl_sub_role_docker_envs: "{{ ytdl_sub_role_docker_envs_default
+                            | combine(ytdl_sub_role_docker_envs_custom) }}"
 
 # Volumes
-ytdl_sub_docker_volumes_default:
-  - "{{ ytdl_sub_paths_location }}:/config"
-  - "{{ ytdl_sub_download_folder }}:/ytdl_sub"
-  - "{{ ytdl_sub_download_folder }}/tv_shows:/tv_shows"
-  - "{{ ytdl_sub_download_folder }}/movies:/movies"
-  - "{{ ytdl_sub_download_folder }}/music_videos:/music_videos"
-  - "{{ ytdl_sub_download_folder }}/music:/music"
-ytdl_sub_docker_volumes_custom: []
-ytdl_sub_docker_volumes: "{{ ytdl_sub_docker_volumes_default
-                               + ytdl_sub_docker_volumes_custom }}"
+ytdl_sub_role_docker_volumes_default:
+  - "{{ ytdl_sub_role_paths_location }}:/config"
+  - "{{ ytdl_sub_role_paths_download_folder }}:/ytdl_sub"
+  - "{{ ytdl_sub_role_paths_download_folder }}/tv_shows:/tv_shows"
+  - "{{ ytdl_sub_role_paths_download_folder }}/movies:/movies"
+  - "{{ ytdl_sub_role_paths_download_folder }}/music_videos:/music_videos"
+  - "{{ ytdl_sub_role_paths_download_folder }}/music:/music"
+ytdl_sub_role_docker_volumes_custom: []
+ytdl_sub_role_docker_volumes: "{{ ytdl_sub_role_docker_volumes_default
+                               + ytdl_sub_role_docker_volumes_custom }}"
 
 # Hostname
-ytdl_sub_docker_hostname: "{{ ytdl_sub_name }}"
+ytdl_sub_role_docker_hostname: "{{ ytdl_sub_name }}"
 
 # Networks
-ytdl_sub_docker_networks_alias: "{{ ytdl_sub_name }}"
-ytdl_sub_docker_networks_default: []
-ytdl_sub_docker_networks_custom: []
-ytdl_sub_docker_networks: "{{ docker_networks_common
-                                + ytdl_sub_docker_networks_default
-                                + ytdl_sub_docker_networks_custom }}"
+ytdl_sub_role_docker_networks_alias: "{{ ytdl_sub_name }}"
+ytdl_sub_role_docker_networks_default: []
+ytdl_sub_role_docker_networks_custom: []
+ytdl_sub_role_docker_networks: "{{ docker_networks_common
+                                + ytdl_sub_role_docker_networks_default
+                                + ytdl_sub_role_docker_networks_custom }}"
 
 # Restart Policy
-ytdl_sub_docker_restart_policy: unless-stopped
+ytdl_sub_role_docker_restart_policy: unless-stopped
 
 # State
-ytdl_sub_docker_state: started
+ytdl_sub_role_docker_state: started

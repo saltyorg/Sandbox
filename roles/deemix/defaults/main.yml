@@ -17,85 +17,85 @@ deemix_name: deemix
 # Paths
 ################################
 
-deemix_paths_folder: "{{ deemix_name }}"
-deemix_paths_location: "{{ server_appdata_path }}/{{ deemix_paths_folder }}"
-deemix_paths_folders_list:
-  - "{{ deemix_paths_location }}"
+deemix_role_paths_folder: "{{ deemix_name }}"
+deemix_role_paths_location: "{{ server_appdata_path }}/{{ deemix_role_paths_folder }}"
+deemix_role_paths_folders_list:
+  - "{{ deemix_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-deemix_web_subdomain: "{{ deemix_name }}"
-deemix_web_domain: "{{ user.domain }}"
-deemix_web_port: "6595"
-deemix_web_url: "{{ 'https://' + (deemix_web_subdomain + '.' + deemix_web_domain
-                 if (deemix_web_subdomain | length > 0)
-                 else deemix_web_domain) }}"
+deemix_role_web_subdomain: "{{ deemix_name }}"
+deemix_role_web_domain: "{{ user.domain }}"
+deemix_role_web_port: "6595"
+deemix_role_web_url: "{{ 'https://' + (deemix_role_web_subdomain + '.' + deemix_role_web_domain
+                 if (deemix_role_web_subdomain | length > 0)
+                 else deemix_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-deemix_dns_record: "{{ deemix_web_subdomain }}"
-deemix_dns_zone: "{{ deemix_web_domain }}"
-deemix_dns_proxy: "{{ dns.proxied }}"
+deemix_role_dns_record: "{{ deemix_role_web_subdomain }}"
+deemix_role_dns_zone: "{{ deemix_role_web_domain }}"
+deemix_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-deemix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-deemix_traefik_middleware_default: "{{ traefik_default_middleware }}"
-deemix_traefik_middleware_custom: ""
-deemix_traefik_certresolver: "{{ traefik_default_certresolver }}"
-deemix_traefik_enabled: true
-deemix_traefik_api_enabled: false
-deemix_traefik_api_endpoint: ""
+deemix_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+deemix_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+deemix_role_traefik_middleware_custom: ""
+deemix_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+deemix_role_traefik_enabled: true
+deemix_role_traefik_api_enabled: false
+deemix_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-deemix_docker_container: "{{ deemix_name }}"
+deemix_role_docker_container: "{{ deemix_name }}"
 
 # Image
-deemix_docker_image_pull: true
-deemix_docker_image_tag: "latest"
-deemix_docker_image: "registry.gitlab.com/bockiii/deemix-docker:{{ deemix_docker_image_tag }}"
+deemix_role_docker_image_pull: true
+deemix_role_docker_image_tag: "latest"
+deemix_role_docker_image: "registry.gitlab.com/bockiii/deemix-docker:{{ deemix_role_docker_image_tag }}"
 
 # Envs
-deemix_docker_envs_default:
+deemix_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   UMASK_SET: "022"
   REVERSEPROXY: "true"
-deemix_docker_envs_custom: {}
-deemix_docker_envs: "{{ deemix_docker_envs_default
-                        | combine(deemix_docker_envs_custom) }}"
+deemix_role_docker_envs_custom: {}
+deemix_role_docker_envs: "{{ deemix_role_docker_envs_default
+                        | combine(deemix_role_docker_envs_custom) }}"
 
 # Volumes
-deemix_docker_volumes_default:
-  - "{{ deemix_paths_location }}:/config"
-deemix_docker_volumes_custom: []
-deemix_docker_volumes: "{{ deemix_docker_volumes_default
-                           + deemix_docker_volumes_custom }}"
+deemix_role_docker_volumes_default:
+  - "{{ deemix_role_paths_location }}:/config"
+deemix_role_docker_volumes_custom: []
+deemix_role_docker_volumes: "{{ deemix_role_docker_volumes_default
+                           + deemix_role_docker_volumes_custom }}"
 
 # Hostname
-deemix_docker_hostname: "{{ deemix_name }}"
+deemix_role_docker_hostname: "{{ deemix_name }}"
 
 # Networks
-deemix_docker_networks_alias: "{{ deemix_name }}"
-deemix_docker_networks_default: []
-deemix_docker_networks_custom: []
-deemix_docker_networks: "{{ docker_networks_common
-                            + deemix_docker_networks_default
-                            + deemix_docker_networks_custom }}"
+deemix_role_docker_networks_alias: "{{ deemix_name }}"
+deemix_role_docker_networks_default: []
+deemix_role_docker_networks_custom: []
+deemix_role_docker_networks: "{{ docker_networks_common
+                            + deemix_role_docker_networks_default
+                            + deemix_role_docker_networks_custom }}"
 
 # Restart Policy
-deemix_docker_restart_policy: unless-stopped
+deemix_role_docker_restart_policy: unless-stopped
 
 # State
-deemix_docker_state: started
+deemix_role_docker_state: started

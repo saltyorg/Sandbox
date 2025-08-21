@@ -9,7 +9,7 @@
 ---
 - name: Check if 'tqm_service' exists
   ansible.builtin.stat:
-    path: "{{ tqm_paths_service_location }}"
+    path: "{{ tqm_role_paths_service_location }}"
   register: tqm_service
 
 - name: Stop existing 'tqm_service'
@@ -20,7 +20,7 @@
 
 - name: Check if 'tqm_timer' exists
   ansible.builtin.stat:
-    path: "{{ tqm_paths_timer_location }}"
+    path: "{{ tqm_role_paths_timer_location }}"
   register: tqm_timer
 
 - name: Stop existing 'tqm_timer'
@@ -68,7 +68,7 @@
 - name: Copy tqm binary to destination
   ansible.builtin.copy:
     src: "/tmp/tqm_extract/tqm"
-    dest: "{{ tqm_paths_location }}/tqm"
+    dest: "{{ tqm_role_paths_location }}/tqm"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
@@ -79,9 +79,9 @@
     path: "/tmp/tqm_extract"
     state: absent
 
-- name: Check if `{{ tqm_paths_config_location | basename }}` exists
+- name: Check if `{{ tqm_role_paths_config_location | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ tqm_paths_config_location }}"
+    path: "{{ tqm_role_paths_config_location }}"
   register: tqm_config
 
 - name: "Fail when 'config.yml' is not present"
@@ -97,7 +97,7 @@
 - name: Import 'tqm_service'
   ansible.builtin.template:
     src: tqm.service.j2
-    dest: "{{ tqm_paths_service_location }}"
+    dest: "{{ tqm_role_paths_service_location }}"
     mode: "0664"
     force: true
 
@@ -112,7 +112,7 @@
 - name: Import 'tqm_timer'
   ansible.builtin.template:
     src: tqm.timer.j2
-    dest: "{{ tqm_paths_timer_location }}"
+    dest: "{{ tqm_role_paths_timer_location }}"
     mode: "0664"
     force: true
 

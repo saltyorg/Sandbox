@@ -18,74 +18,74 @@ comixed_name: comixed
 # Paths
 ################################
 
-comixed_paths_folder: "{{ comixed_name }}"
-comixed_paths_location: "{{ server_appdata_path }}/{{ comixed_paths_folder }}"
-comixed_paths_folders_list:
-  - "{{ comixed_paths_location }}"
+comixed_role_paths_folder: "{{ comixed_name }}"
+comixed_role_paths_location: "{{ server_appdata_path }}/{{ comixed_role_paths_folder }}"
+comixed_role_paths_folders_list:
+  - "{{ comixed_role_paths_location }}"
   - "/mnt/local/Media/Comics"
 
 ################################
 # Web
 ################################
 
-comixed_web_subdomain: "{{ comixed_name }}"
-comixed_web_domain: "{{ user.domain }}"
-comixed_web_port: "7171"
-comixed_web_url: "{{ 'https://' + (comixed_web_subdomain + '.' + comixed_web_domain
-                  if (comixed_web_subdomain | length > 0)
-                  else comixed_web_domain) }}"
+comixed_role_web_subdomain: "{{ comixed_name }}"
+comixed_role_web_domain: "{{ user.domain }}"
+comixed_role_web_port: "7171"
+comixed_role_web_url: "{{ 'https://' + (comixed_role_web_subdomain + '.' + comixed_role_web_domain
+                  if (comixed_role_web_subdomain | length > 0)
+                  else comixed_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-comixed_dns_record: "{{ comixed_web_subdomain }}"
-comixed_dns_zone: "{{ comixed_web_domain }}"
-comixed_dns_proxy: "{{ dns.proxied }}"
+comixed_role_dns_record: "{{ comixed_role_web_subdomain }}"
+comixed_role_dns_zone: "{{ comixed_role_web_domain }}"
+comixed_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-comixed_traefik_sso_middleware: ""
-comixed_traefik_middleware_default: "{{ traefik_default_middleware }}"
-comixed_traefik_middleware_custom: ""
-comixed_traefik_certresolver: "{{ traefik_default_certresolver }}"
-comixed_traefik_enabled: true
+comixed_role_traefik_sso_middleware: ""
+comixed_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+comixed_role_traefik_middleware_custom: ""
+comixed_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+comixed_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-comixed_docker_container: "{{ comixed_name }}"
+comixed_role_docker_container: "{{ comixed_name }}"
 
 # Image
-comixed_docker_image_pull: true
-comixed_docker_image_tag: "latest"
-comixed_docker_image: "comixed/comixed:{{ comixed_docker_image_tag }}"
+comixed_role_docker_image_pull: true
+comixed_role_docker_image_tag: "latest"
+comixed_role_docker_image: "comixed/comixed:{{ comixed_role_docker_image_tag }}"
 
 # Volumes
-comixed_docker_volumes_default:
-  - "{{ comixed_paths_location }}:/root/.comixed"
+comixed_role_docker_volumes_default:
+  - "{{ comixed_role_paths_location }}:/root/.comixed"
   - "/mnt/unionfs/Media/Comics:/comic_dir"
-comixed_docker_volumes_custom: []
-comixed_docker_volumes: "{{ comixed_docker_volumes_default
-                            + comixed_docker_volumes_custom }}"
+comixed_role_docker_volumes_custom: []
+comixed_role_docker_volumes: "{{ comixed_role_docker_volumes_default
+                            + comixed_role_docker_volumes_custom }}"
 
 # Hostname
-comixed_docker_hostname: "{{ comixed_name }}"
+comixed_role_docker_hostname: "{{ comixed_name }}"
 
 # Networks
-comixed_docker_networks_alias: "{{ comixed_name }}"
-comixed_docker_networks_default: []
-comixed_docker_networks_custom: []
-comixed_docker_networks: "{{ docker_networks_common
-                             + comixed_docker_networks_default
-                             + comixed_docker_networks_custom }}"
+comixed_role_docker_networks_alias: "{{ comixed_name }}"
+comixed_role_docker_networks_default: []
+comixed_role_docker_networks_custom: []
+comixed_role_docker_networks: "{{ docker_networks_common
+                             + comixed_role_docker_networks_default
+                             + comixed_role_docker_networks_custom }}"
 
 # Restart Policy
-comixed_docker_restart_policy: unless-stopped
+comixed_role_docker_restart_policy: unless-stopped
 
 # State
-comixed_docker_state: started
+comixed_role_docker_state: started

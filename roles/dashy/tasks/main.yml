@@ -10,9 +10,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -20,18 +20,18 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check if `{{ dashy_paths_config_location | basename }}` exists
+- name: Check if `{{ dashy_role_paths_config_location | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ dashy_paths_config_location }}"
+    path: "{{ dashy_role_paths_config_location }}"
   register: dashy_config
 
-- name: New `{{ dashy_paths_config_location | basename }}` tasks
+- name: New `{{ dashy_role_paths_config_location | basename }}` tasks
   when: not dashy_config.stat.exists
   block:
-    - name: Import default `{{ dashy_paths_config_location | basename }}`
+    - name: Import default `{{ dashy_role_paths_config_location | basename }}`
       ansible.builtin.template:
         src: conf.yml.j2
-        dest: "{{ dashy_paths_config_location }}"
+        dest: "{{ dashy_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

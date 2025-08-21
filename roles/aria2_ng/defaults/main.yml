@@ -17,90 +17,90 @@ aria2_ng_name: aria
 # Paths
 ################################
 
-aria2_ng_paths_folder: "{{ aria2_ng_name }}"
-aria2_ng_paths_location: "{{ server_appdata_path }}/{{ aria2_ng_paths_folder }}"
-aria2_ng_paths_downloads_location: "{{ downloads_root_path }}/{{ aria2_ng_paths_folder }}"
-aria2_ng_paths_folders_list:
-  - "{{ aria2_ng_paths_location }}"
-  - "{{ aria2_ng_paths_downloads_location }}"
+aria2_ng_role_paths_folder: "{{ aria2_ng_name }}"
+aria2_ng_role_paths_location: "{{ server_appdata_path }}/{{ aria2_ng_role_paths_folder }}"
+aria2_ng_role_paths_downloads_location: "{{ downloads_root_path }}/{{ aria2_ng_role_paths_folder }}"
+aria2_ng_role_paths_folders_list:
+  - "{{ aria2_ng_role_paths_location }}"
+  - "{{ aria2_ng_role_paths_downloads_location }}"
 
 ################################
 # Web
 ################################
 
-aria2_ng_web_subdomain: "{{ aria2_ng_name }}"
-aria2_ng_web_domain: "{{ user.domain }}"
-aria2_ng_web_port: "8080"
-aria2_ng_web_url: "{{ 'https://' + (aria2_ng_web_subdomain + '.' + aria2_ng_web_domain
-                   if (aria2_ng_web_subdomain | length > 0)
-                   else aria2_ng_web_domain) }}"
+aria2_ng_role_web_subdomain: "{{ aria2_ng_name }}"
+aria2_ng_role_web_domain: "{{ user.domain }}"
+aria2_ng_role_web_port: "8080"
+aria2_ng_role_web_url: "{{ 'https://' + (aria2_ng_role_web_subdomain + '.' + aria2_ng_role_web_domain
+                   if (aria2_ng_role_web_subdomain | length > 0)
+                   else aria2_ng_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-aria2_ng_dns_record: "{{ aria2_ng_web_subdomain }}"
-aria2_ng_dns_zone: "{{ aria2_ng_web_domain }}"
-aria2_ng_dns_proxy: "{{ dns.proxied }}"
+aria2_ng_role_dns_record: "{{ aria2_ng_role_web_subdomain }}"
+aria2_ng_role_dns_zone: "{{ aria2_ng_role_web_domain }}"
+aria2_ng_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-aria2_ng_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-aria2_ng_traefik_middleware_default: "{{ traefik_default_middleware }}"
-aria2_ng_traefik_middleware_custom: ""
-aria2_ng_traefik_certresolver: "{{ traefik_default_certresolver }}"
-aria2_ng_traefik_enabled: true
+aria2_ng_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+aria2_ng_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+aria2_ng_role_traefik_middleware_custom: ""
+aria2_ng_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+aria2_ng_role_traefik_enabled: true
 # Insecure until we have a way to generate an app token
-aria2_ng_traefik_api_enabled: false
-aria2_ng_traefik_api_endpoint: "PathPrefix(`/jsonrpc`)"
+aria2_ng_role_traefik_api_enabled: false
+aria2_ng_role_traefik_api_endpoint: "PathPrefix(`/jsonrpc`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-aria2_ng_docker_container: "{{ aria2_ng_name }}"
+aria2_ng_role_docker_container: "{{ aria2_ng_name }}"
 
 # Image
-aria2_ng_docker_image_pull: true
-aria2_ng_docker_image_tag: "latest"
-aria2_ng_docker_image: "hurlenko/aria2-ariang:{{ aria2_ng_docker_image_tag }}"
+aria2_ng_role_docker_image_pull: true
+aria2_ng_role_docker_image_tag: "latest"
+aria2_ng_role_docker_image: "hurlenko/aria2-ariang:{{ aria2_ng_role_docker_image_tag }}"
 
 # Envs
-aria2_ng_docker_envs_default:
+aria2_ng_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   # RPC_SECRET: "{{ aria2_ng_secret_key.stdout }}"
   # EMBED_RPC_SECRET: "true"
   ARIA2RPCPORT: "443"
-aria2_ng_docker_envs_custom: {}
-aria2_ng_docker_envs: "{{ aria2_ng_docker_envs_default
-                          | combine(aria2_ng_docker_envs_custom) }}"
+aria2_ng_role_docker_envs_custom: {}
+aria2_ng_role_docker_envs: "{{ aria2_ng_role_docker_envs_default
+                          | combine(aria2_ng_role_docker_envs_custom) }}"
 
 # Volumes
-aria2_ng_docker_volumes_default:
-  - "{{ aria2_ng_paths_location }}:/aria2/conf"
-  - "{{ aria2_ng_paths_downloads_location }}:/aria2/data"
-aria2_ng_docker_volumes_custom: []
-aria2_ng_docker_volumes: "{{ aria2_ng_docker_volumes_default
-                             + aria2_ng_docker_volumes_custom }}"
+aria2_ng_role_docker_volumes_default:
+  - "{{ aria2_ng_role_paths_location }}:/aria2/conf"
+  - "{{ aria2_ng_role_paths_downloads_location }}:/aria2/data"
+aria2_ng_role_docker_volumes_custom: []
+aria2_ng_role_docker_volumes: "{{ aria2_ng_role_docker_volumes_default
+                             + aria2_ng_role_docker_volumes_custom }}"
 
 # Hostname
-aria2_ng_docker_hostname: "{{ aria2_ng_name }}"
+aria2_ng_role_docker_hostname: "{{ aria2_ng_name }}"
 
 # Networks
-aria2_ng_docker_networks_alias: "{{ aria2_ng_name }}"
-aria2_ng_docker_networks_default: []
-aria2_ng_docker_networks_custom: []
-aria2_ng_docker_networks: "{{ docker_networks_common
-                              + aria2_ng_docker_networks_default
-                              + aria2_ng_docker_networks_custom }}"
+aria2_ng_role_docker_networks_alias: "{{ aria2_ng_name }}"
+aria2_ng_role_docker_networks_default: []
+aria2_ng_role_docker_networks_custom: []
+aria2_ng_role_docker_networks: "{{ docker_networks_common
+                              + aria2_ng_role_docker_networks_default
+                              + aria2_ng_role_docker_networks_custom }}"
 
 # Restart Policy
-aria2_ng_docker_restart_policy: unless-stopped
+aria2_ng_role_docker_restart_policy: unless-stopped
 
 # State
-aria2_ng_docker_state: started
+aria2_ng_role_docker_state: started

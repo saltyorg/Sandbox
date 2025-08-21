@@ -17,87 +17,87 @@ xteve_name: xteve
 # Paths
 ################################
 
-xteve_paths_folder: "{{ xteve_name }}"
-xteve_paths_location: "{{ server_appdata_path }}/{{ xteve_paths_folder }}"
-xteve_paths_folders_list:
-  - "{{ xteve_paths_location }}"
+xteve_role_paths_folder: "{{ xteve_name }}"
+xteve_role_paths_location: "{{ server_appdata_path }}/{{ xteve_role_paths_folder }}"
+xteve_role_paths_folders_list:
+  - "{{ xteve_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-xteve_web_subdomain: "{{ xteve_name }}"
-xteve_web_domain: "{{ user.domain }}"
-xteve_web_port: "34400"
-xteve_web_url: "{{ 'https://' + (xteve_web_subdomain + '.' + xteve_web_domain
-                if (xteve_web_subdomain | length > 0)
-                else xteve_web_domain) }}"
+xteve_role_web_subdomain: "{{ xteve_name }}"
+xteve_role_web_domain: "{{ user.domain }}"
+xteve_role_web_port: "34400"
+xteve_role_web_url: "{{ 'https://' + (xteve_role_web_subdomain + '.' + xteve_role_web_domain
+                if (xteve_role_web_subdomain | length > 0)
+                else xteve_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-xteve_dns_record: "{{ xteve_web_subdomain }}"
-xteve_dns_zone: "{{ xteve_web_domain }}"
-xteve_dns_proxy: "{{ dns.proxied }}"
+xteve_role_dns_record: "{{ xteve_role_web_subdomain }}"
+xteve_role_dns_zone: "{{ xteve_role_web_domain }}"
+xteve_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-xteve_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-xteve_traefik_middleware_default: "{{ traefik_default_middleware }}"
-xteve_traefik_middleware_custom: ""
-xteve_traefik_certresolver: "{{ traefik_default_certresolver }}"
-xteve_traefik_enabled: true
-xteve_traefik_api_enabled: true
-xteve_traefik_api_endpoint: "PathPrefix(`/data_images`) || PathPrefix(`/api`)"
+xteve_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+xteve_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+xteve_role_traefik_middleware_custom: ""
+xteve_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+xteve_role_traefik_enabled: true
+xteve_role_traefik_api_enabled: true
+xteve_role_traefik_api_endpoint: "PathPrefix(`/data_images`) || PathPrefix(`/api`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-xteve_docker_container: "{{ xteve_name }}"
+xteve_role_docker_container: "{{ xteve_name }}"
 
 # Image
-xteve_docker_image_pull: true
-xteve_docker_image_tag: "latest"
-xteve_docker_image: "dnsforge/xteve:{{ xteve_docker_image_tag }}"
+xteve_role_docker_image_pull: true
+xteve_role_docker_image_tag: "latest"
+xteve_role_docker_image: "dnsforge/xteve:{{ xteve_role_docker_image_tag }}"
 
 # Envs
-xteve_docker_envs_default:
+xteve_role_docker_envs_default:
   TZ: "{{ tz }}"
   XTEVE_BRANCH: "beta"
   XTEVE_UID: "{{ uid }}"
   XTEVE_GID: "{{ gid }}"
   XTEVE_API: "1"
-xteve_docker_envs_custom: {}
-xteve_docker_envs: "{{ xteve_docker_envs_default
-                       | combine(xteve_docker_envs_custom) }}"
+xteve_role_docker_envs_custom: {}
+xteve_role_docker_envs: "{{ xteve_role_docker_envs_default
+                       | combine(xteve_role_docker_envs_custom) }}"
 
 # Volumes
-xteve_docker_volumes_default:
-  - "{{ xteve_paths_location }}/app/config:/home/xteve/conf:rw"
-  - "{{ xteve_paths_location }}/app/tmp:/tmp/xteve:rw"
-  - "{{ xteve_paths_location }}/app/guide2go:/home/xteve/guide2go/conf:rw"
-xteve_docker_volumes_custom: []
-xteve_docker_volumes: "{{ xteve_docker_volumes_default
-                          + xteve_docker_volumes_custom }}"
+xteve_role_docker_volumes_default:
+  - "{{ xteve_role_paths_location }}/app/config:/home/xteve/conf:rw"
+  - "{{ xteve_role_paths_location }}/app/tmp:/tmp/xteve:rw"
+  - "{{ xteve_role_paths_location }}/app/guide2go:/home/xteve/guide2go/conf:rw"
+xteve_role_docker_volumes_custom: []
+xteve_role_docker_volumes: "{{ xteve_role_docker_volumes_default
+                          + xteve_role_docker_volumes_custom }}"
 
 # Hostname
-xteve_docker_hostname: "{{ xteve_name }}"
+xteve_role_docker_hostname: "{{ xteve_name }}"
 
 # Networks
-xteve_docker_networks_alias: "{{ xteve_name }}"
-xteve_docker_networks_default: []
-xteve_docker_networks_custom: []
-xteve_docker_networks: "{{ docker_networks_common
-                           + xteve_docker_networks_default
-                           + xteve_docker_networks_custom }}"
+xteve_role_docker_networks_alias: "{{ xteve_name }}"
+xteve_role_docker_networks_default: []
+xteve_role_docker_networks_custom: []
+xteve_role_docker_networks: "{{ docker_networks_common
+                           + xteve_role_docker_networks_default
+                           + xteve_role_docker_networks_custom }}"
 
 # Restart Policy
-xteve_docker_restart_policy: unless-stopped
+xteve_role_docker_restart_policy: unless-stopped
 
 # State
-xteve_docker_state: started
+xteve_role_docker_state: started

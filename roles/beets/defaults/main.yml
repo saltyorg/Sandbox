@@ -17,83 +17,83 @@ beets_name: beets
 # Paths
 ################################
 
-beets_paths_folder: "{{ beets_name }}"
-beets_paths_location: "{{ server_appdata_path }}/{{ beets_paths_folder }}"
-beets_paths_folders_list:
-  - "{{ beets_paths_location }}"
+beets_role_paths_folder: "{{ beets_name }}"
+beets_role_paths_location: "{{ server_appdata_path }}/{{ beets_role_paths_folder }}"
+beets_role_paths_folders_list:
+  - "{{ beets_role_paths_location }}"
   - "/mnt/local/downloads/music"
 
 ################################
 # Web
 ################################
 
-beets_web_subdomain: "{{ beets_name }}"
-beets_web_domain: "{{ user.domain }}"
-beets_web_port: "8337"
-beets_web_url: "{{ 'https://' + (beets_web_subdomain + '.' + beets_web_domain
-                if (beets_web_subdomain | length > 0)
-                else beets_web_domain) }}"
+beets_role_web_subdomain: "{{ beets_name }}"
+beets_role_web_domain: "{{ user.domain }}"
+beets_role_web_port: "8337"
+beets_role_web_url: "{{ 'https://' + (beets_role_web_subdomain + '.' + beets_role_web_domain
+                if (beets_role_web_subdomain | length > 0)
+                else beets_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-beets_dns_record: "{{ beets_web_subdomain }}"
-beets_dns_zone: "{{ beets_web_domain }}"
-beets_dns_proxy: "{{ dns.proxied }}"
+beets_role_dns_record: "{{ beets_role_web_subdomain }}"
+beets_role_dns_zone: "{{ beets_role_web_domain }}"
+beets_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-beets_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-beets_traefik_middleware_default: "{{ traefik_default_middleware }}"
-beets_traefik_middleware_custom: ""
-beets_traefik_certresolver: "{{ traefik_default_certresolver }}"
-beets_traefik_enabled: true
+beets_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+beets_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+beets_role_traefik_middleware_custom: ""
+beets_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+beets_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-beets_docker_container: "{{ beets_name }}"
+beets_role_docker_container: "{{ beets_name }}"
 
 # Image
-beets_docker_image_pull: true
-beets_docker_image_tag: "latest"
-beets_docker_image: "lscr.io/linuxserver/beets:{{ beets_docker_image_tag }}"
+beets_role_docker_image_pull: true
+beets_role_docker_image_tag: "latest"
+beets_role_docker_image: "lscr.io/linuxserver/beets:{{ beets_role_docker_image_tag }}"
 
 # Envs
-beets_docker_envs_default:
+beets_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-beets_docker_envs_custom: {}
-beets_docker_envs: "{{ beets_docker_envs_default
-                       | combine(beets_docker_envs_custom) }}"
+beets_role_docker_envs_custom: {}
+beets_role_docker_envs: "{{ beets_role_docker_envs_default
+                       | combine(beets_role_docker_envs_custom) }}"
 
 # Volumes
-beets_docker_volumes_default:
-  - "{{ beets_paths_location }}:/config"
+beets_role_docker_volumes_default:
+  - "{{ beets_role_paths_location }}:/config"
   - "/mnt/unionfs/Media/Music:/music"
-beets_docker_volumes_custom: []
-beets_docker_volumes: "{{ beets_docker_volumes_default
-                          + beets_docker_volumes_custom }}"
+beets_role_docker_volumes_custom: []
+beets_role_docker_volumes: "{{ beets_role_docker_volumes_default
+                          + beets_role_docker_volumes_custom }}"
 
 # Hostname
-beets_docker_hostname: "{{ beets_name }}"
+beets_role_docker_hostname: "{{ beets_name }}"
 
 # Networks
-beets_docker_networks_alias: "{{ beets_name }}"
-beets_docker_networks_default: []
-beets_docker_networks_custom: []
-beets_docker_networks: "{{ docker_networks_common
-                           + beets_docker_networks_default
-                           + beets_docker_networks_custom }}"
+beets_role_docker_networks_alias: "{{ beets_name }}"
+beets_role_docker_networks_default: []
+beets_role_docker_networks_custom: []
+beets_role_docker_networks: "{{ docker_networks_common
+                           + beets_role_docker_networks_default
+                           + beets_role_docker_networks_custom }}"
 
 # Restart Policy
-beets_docker_restart_policy: unless-stopped
+beets_role_docker_restart_policy: unless-stopped
 
 # State
-beets_docker_state: started
+beets_role_docker_state: started

@@ -17,78 +17,78 @@ navidrome_name: navidrome
 # Paths
 ################################
 
-navidrome_paths_folder: "{{ navidrome_name }}"
-navidrome_paths_location: "{{ server_appdata_path }}/{{ navidrome_paths_folder }}"
-navidrome_paths_folders_list:
-  - "{{ navidrome_paths_location }}"
+navidrome_role_paths_folder: "{{ navidrome_name }}"
+navidrome_role_paths_location: "{{ server_appdata_path }}/{{ navidrome_role_paths_folder }}"
+navidrome_role_paths_folders_list:
+  - "{{ navidrome_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-navidrome_web_subdomain: "{{ navidrome_name }}"
-navidrome_web_domain: "{{ user.domain }}"
-navidrome_web_port: "4533"
-navidrome_web_url: "{{ 'https://' + (navidrome_web_subdomain + '.' + navidrome_web_domain
-                    if (navidrome_web_subdomain | length > 0)
-                    else navidrome_web_domain) }}"
+navidrome_role_web_subdomain: "{{ navidrome_name }}"
+navidrome_role_web_domain: "{{ user.domain }}"
+navidrome_role_web_port: "4533"
+navidrome_role_web_url: "{{ 'https://' + (navidrome_role_web_subdomain + '.' + navidrome_role_web_domain
+                    if (navidrome_role_web_subdomain | length > 0)
+                    else navidrome_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-navidrome_dns_record: "{{ navidrome_web_subdomain }}"
-navidrome_dns_zone: "{{ navidrome_web_domain }}"
-navidrome_dns_proxy: "{{ dns.proxied }}"
+navidrome_role_dns_record: "{{ navidrome_role_web_subdomain }}"
+navidrome_role_dns_zone: "{{ navidrome_role_web_domain }}"
+navidrome_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-navidrome_traefik_sso_middleware: ""
-navidrome_traefik_middleware_default: "{{ traefik_default_middleware }}"
-navidrome_traefik_middleware_custom: ""
-navidrome_traefik_certresolver: "{{ traefik_default_certresolver }}"
-navidrome_traefik_enabled: true
-navidrome_traefik_api_enabled: false
-navidrome_traefik_api_endpoint: ""
+navidrome_role_traefik_sso_middleware: ""
+navidrome_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+navidrome_role_traefik_middleware_custom: ""
+navidrome_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+navidrome_role_traefik_enabled: true
+navidrome_role_traefik_api_enabled: false
+navidrome_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-navidrome_docker_container: "{{ navidrome_name }}"
+navidrome_role_docker_container: "{{ navidrome_name }}"
 
 # Image
-navidrome_docker_image_pull: true
-navidrome_docker_image_tag: "latest"
-navidrome_docker_image: "deluan/navidrome:{{ navidrome_docker_image_tag }}"
+navidrome_role_docker_image_pull: true
+navidrome_role_docker_image_tag: "latest"
+navidrome_role_docker_image: "deluan/navidrome:{{ navidrome_role_docker_image_tag }}"
 
 # Volumes
-navidrome_docker_volumes_default:
-  - "{{ navidrome_paths_location }}:/data"
+navidrome_role_docker_volumes_default:
+  - "{{ navidrome_role_paths_location }}:/data"
   - "/mnt/unionfs/Media/Music:/music"
-navidrome_docker_volumes_custom: []
-navidrome_docker_volumes: "{{ navidrome_docker_volumes_default
-                              + navidrome_docker_volumes_custom }}"
+navidrome_role_docker_volumes_custom: []
+navidrome_role_docker_volumes: "{{ navidrome_role_docker_volumes_default
+                              + navidrome_role_docker_volumes_custom }}"
 
 # Hostname
-navidrome_docker_hostname: "{{ navidrome_name }}"
+navidrome_role_docker_hostname: "{{ navidrome_name }}"
 
 # Networks
-navidrome_docker_networks_alias: "{{ navidrome_name }}"
-navidrome_docker_networks_default: []
-navidrome_docker_networks_custom: []
-navidrome_docker_networks: "{{ docker_networks_common
-                               + navidrome_docker_networks_default
-                               + navidrome_docker_networks_custom }}"
+navidrome_role_docker_networks_alias: "{{ navidrome_name }}"
+navidrome_role_docker_networks_default: []
+navidrome_role_docker_networks_custom: []
+navidrome_role_docker_networks: "{{ docker_networks_common
+                               + navidrome_role_docker_networks_default
+                               + navidrome_role_docker_networks_custom }}"
 
 # Restart Policy
-navidrome_docker_restart_policy: unless-stopped
+navidrome_role_docker_restart_policy: unless-stopped
 
 # State
-navidrome_docker_state: started
+navidrome_role_docker_state: started
 
 # User
-navidrome_docker_user: "{{ uid }}:{{ gid }}"
+navidrome_role_docker_user: "{{ uid }}:{{ gid }}"

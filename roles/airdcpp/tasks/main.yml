@@ -10,9 +10,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -22,18 +22,18 @@
 
 - name: Check WebServer.xml exists
   ansible.builtin.stat:
-    path: "/opt/airdcpp/WebServer.xml"
+    path: "{{ airdcpp_role_paths_location }}/WebServer.xml"
   register: webserver_xml
 
 - name: Check DCPlusPlus.xml exists
   ansible.builtin.stat:
-    path: "/opt/airdcpp/DCPlusPlus.xml"
+    path: "{{ airdcpp_role_paths_location }}/DCPlusPlus.xml"
   register: dcplusplus_xml
 
 - name: Import default 'WebServer.xml'
   ansible.builtin.copy:
     src: WebServer.xml
-    dest: /opt/airdcpp/WebServer.xml
+    dest: "{{ airdcpp_role_paths_location }}/WebServer.xml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -43,7 +43,7 @@
 - name: Import default 'DCPlusPlus.xml'
   ansible.builtin.copy:
     src: DCPlusPlus.xml
-    dest: /opt/airdcpp/DCPlusPlus.xml
+    dest: "{{ airdcpp_role_paths_location }}/DCPlusPlus.xml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"

@@ -11,115 +11,115 @@
 # Basics
 ################################
 
-calibre_web_name: calibre-web
+calibre_role_web_name: calibre-web
 
 ################################
 # Paths
 ################################
 
-calibre_web_paths_folder: "{{ calibre_web_name }}"
-calibre_web_paths_location: "{{ server_appdata_path }}/{{ calibre_web_paths_folder }}"
-calibre_web_paths_folders_list:
-  - "{{ calibre_web_paths_location }}"
-  - "{{ calibre_web_paths_location }}/cache"
+calibre_web_role_paths_folder: "{{ calibre_role_web_name }}"
+calibre_web_role_paths_location: "{{ server_appdata_path }}/{{ calibre_web_role_paths_folder }}"
+calibre_web_role_paths_folders_list:
+  - "{{ calibre_web_role_paths_location }}"
+  - "{{ calibre_web_role_paths_location }}/cache"
 
 ################################
 # Web
 ################################
 
-calibre_web_web_subdomain: "{{ calibre_web_name }}"
-calibre_web_web_domain: "{{ user.domain }}"
-calibre_web_web_port: "8083"
-calibre_web_web_url: "{{ 'https://' + (calibre_web_web_subdomain + '.' + calibre_web_web_domain
-                      if (calibre_web_web_subdomain | length > 0)
-                      else calibre_web_web_domain) }}"
+calibre_web_role_web_subdomain: "{{ calibre_role_web_name }}"
+calibre_web_role_web_domain: "{{ user.domain }}"
+calibre_web_role_web_port: "8083"
+calibre_web_role_web_url: "{{ 'https://' + (calibre_web_role_web_subdomain + '.' + calibre_web_role_web_domain
+                      if (calibre_web_role_web_subdomain | length > 0)
+                      else calibre_web_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-calibre_web_dns_record: "{{ calibre_web_web_subdomain }}"
-calibre_web_dns_zone: "{{ calibre_web_web_domain }}"
-calibre_web_dns_proxy: "{{ dns.proxied }}"
+calibre_web_role_dns_record: "{{ calibre_web_role_web_subdomain }}"
+calibre_web_role_dns_zone: "{{ calibre_web_role_web_domain }}"
+calibre_web_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-calibre_web_traefik_sso_middleware: ""
-calibre_web_traefik_middleware_default: "{{ traefik_default_middleware }},kobo-sync-headers"
-calibre_web_traefik_middleware_custom: ""
-calibre_web_traefik_certresolver: "{{ traefik_default_certresolver }}"
-calibre_web_traefik_enabled: true
+calibre_web_role_traefik_sso_middleware: ""
+calibre_web_role_traefik_middleware_default: "{{ traefik_default_middleware }},kobo-sync-headers"
+calibre_web_role_traefik_middleware_custom: ""
+calibre_web_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+calibre_web_role_traefik_enabled: true
 
 ################################
 # THEME
 ################################
 
 # Options can be found at https://github.com/themepark-dev/theme.park
-calibre_web_themepark_enabled: false
-calibre_web_themepark_theme: "{{ global_themepark_theme }}"
-calibre_web_themepark_domain: "{{ global_themepark_domain }}"
+calibre_role_web_themepark_enabled: false
+calibre_role_web_themepark_theme: "{{ global_themepark_theme }}"
+calibre_role_web_themepark_domain: "{{ global_themepark_domain }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-calibre_web_docker_container: "{{ calibre_web_name }}"
+calibre_web_role_docker_container: "{{ calibre_role_web_name }}"
 
 # Image
-calibre_web_docker_image_pull: true
-calibre_web_docker_image_tag: "latest"
-calibre_web_docker_image: "lscr.io/linuxserver/calibre-web:{{ calibre_web_docker_image_tag }}"
+calibre_web_role_docker_image_pull: true
+calibre_web_role_docker_image_tag: "latest"
+calibre_web_role_docker_image: "lscr.io/linuxserver/calibre-web:{{ calibre_web_role_docker_image_tag }}"
 
 # Envs
-calibre_web_docker_envs_default:
+calibre_web_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   CACHE_DIR: "/cache/"
   USE_CONFIG_DIR: "true"
   DOCKER_MODS: linuxserver/mods:universal-calibre
-calibre_web_docker_envs_theme:
+calibre_web_role_docker_envs_theme:
   DOCKER_MODS: "linuxserver/mods:universal-calibre|ghcr.io/themepark-dev/theme.park:calibre-web"
-  TP_DOMAIN: "{{ calibre_web_themepark_domain }}"
-  TP_THEME: "{{ calibre_web_themepark_theme }}"
-calibre_web_docker_envs_custom: {}
-calibre_web_docker_envs: "{{ calibre_web_docker_envs_default
-                             | combine(calibre_web_docker_envs_theme if calibre_web_themepark_enabled else {})
-                             | combine(calibre_web_docker_envs_custom) }}"
+  TP_DOMAIN: "{{ calibre_role_web_themepark_domain }}"
+  TP_THEME: "{{ calibre_role_web_themepark_theme }}"
+calibre_web_role_docker_envs_custom: {}
+calibre_web_role_docker_envs: "{{ calibre_web_role_docker_envs_default
+                             | combine(calibre_web_role_docker_envs_theme if calibre_role_web_themepark_enabled else {})
+                             | combine(calibre_web_role_docker_envs_custom) }}"
 
 # Volumes
-calibre_web_docker_volumes_default:
-  - "{{ calibre_web_paths_location }}:/calibre-web"
-  - "{{ calibre_web_paths_location }}/config:/config"
-  - "{{ calibre_web_paths_location }}/cache:/cache"
+calibre_web_role_docker_volumes_default:
+  - "{{ calibre_web_role_paths_location }}:/calibre-web"
+  - "{{ calibre_web_role_paths_location }}/config:/config"
+  - "{{ calibre_web_role_paths_location }}/cache:/cache"
   - "/mnt/unionfs/Media/Books:/books"
-calibre_web_docker_volumes_custom: []
-calibre_web_docker_volumes: "{{ calibre_web_docker_volumes_default
-                                + calibre_web_docker_volumes_custom }}"
+calibre_web_role_docker_volumes_custom: []
+calibre_web_role_docker_volumes: "{{ calibre_web_role_docker_volumes_default
+                                + calibre_web_role_docker_volumes_custom }}"
 
 # Labels
-calibre_web_docker_labels_default:
+calibre_web_role_docker_labels_default:
   traefik.http.middlewares.kobo-sync-headers.headers.customrequestheaders.X-Scheme: "https"
-calibre_web_docker_labels_custom: {}
-calibre_web_docker_labels: "{{ calibre_web_docker_labels_default
-                               | combine(calibre_web_docker_labels_custom) }}"
+calibre_web_role_docker_labels_custom: {}
+calibre_web_role_docker_labels: "{{ calibre_web_role_docker_labels_default
+                               | combine(calibre_web_role_docker_labels_custom) }}"
 
 # Hostname
-calibre_web_docker_hostname: "{{ calibre_web_name }}"
+calibre_web_role_docker_hostname: "{{ calibre_role_web_name }}"
 
 # Networks
-calibre_web_docker_networks_alias: "{{ calibre_web_name }}"
-calibre_web_docker_networks_default: []
-calibre_web_docker_networks_custom: []
-calibre_web_docker_networks: "{{ docker_networks_common
-                                 + calibre_web_docker_networks_default
-                                 + calibre_web_docker_networks_custom }}"
+calibre_web_role_docker_networks_alias: "{{ calibre_role_web_name }}"
+calibre_web_role_docker_networks_default: []
+calibre_web_role_docker_networks_custom: []
+calibre_web_role_docker_networks: "{{ docker_networks_common
+                                 + calibre_web_role_docker_networks_default
+                                 + calibre_web_role_docker_networks_custom }}"
 
 # Restart Policy
-calibre_web_docker_restart_policy: unless-stopped
+calibre_web_role_docker_restart_policy: unless-stopped
 
 # State
-calibre_web_docker_state: started
+calibre_web_role_docker_state: started

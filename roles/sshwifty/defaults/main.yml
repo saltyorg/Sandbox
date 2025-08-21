@@ -17,87 +17,87 @@ sshwifty_name: sshwifty
 # Paths
 ################################
 
-sshwifty_paths_folder: "{{ sshwifty_name }}"
-sshwifty_paths_location: "{{ server_appdata_path }}/{{ sshwifty_paths_folder }}"
-sshwifty_paths_folders_list:
-  - "{{ sshwifty_paths_location }}"
-  - "{{ sshwifty_paths_location }}/config"
-sshwifty_paths_config_location: "{{ sshwifty_paths_location }}/config/sshwifty.conf.json"
+sshwifty_role_paths_folder: "{{ sshwifty_name }}"
+sshwifty_role_paths_location: "{{ server_appdata_path }}/{{ sshwifty_role_paths_folder }}"
+sshwifty_role_paths_folders_list:
+  - "{{ sshwifty_role_paths_location }}"
+  - "{{ sshwifty_role_paths_location }}/config"
+sshwifty_role_paths_config_location: "{{ sshwifty_role_paths_location }}/config/sshwifty.conf.json"
 
 ################################
 # Web
 ################################
 
-sshwifty_web_subdomain: "{{ sshwifty_name }}"
-sshwifty_web_domain: "{{ user.domain }}"
-sshwifty_web_port: "8182"
-sshwifty_web_url: "{{ 'https://' + (sshwifty_web_subdomain + '.' + sshwifty_web_domain
-                   if (sshwifty_web_subdomain | length > 0)
-                   else sshwifty_web_domain) }}"
+sshwifty_role_web_subdomain: "{{ sshwifty_name }}"
+sshwifty_role_web_domain: "{{ user.domain }}"
+sshwifty_role_web_port: "8182"
+sshwifty_role_web_url: "{{ 'https://' + (sshwifty_role_web_subdomain + '.' + sshwifty_role_web_domain
+                   if (sshwifty_role_web_subdomain | length > 0)
+                   else sshwifty_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-sshwifty_dns_record: "{{ sshwifty_web_subdomain }}"
-sshwifty_dns_zone: "{{ sshwifty_web_domain }}"
-sshwifty_dns_proxy: "{{ dns.proxied }}"
+sshwifty_role_dns_record: "{{ sshwifty_role_web_subdomain }}"
+sshwifty_role_dns_zone: "{{ sshwifty_role_web_domain }}"
+sshwifty_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-sshwifty_traefik_sso_middleware: ""
-sshwifty_traefik_middleware_default: "{{ traefik_default_middleware }}"
-sshwifty_traefik_middleware_custom: ""
-sshwifty_traefik_certresolver: "{{ traefik_default_certresolver }}"
-sshwifty_traefik_enabled: true
-sshwifty_traefik_api_enabled: false
-sshwifty_traefik_api_endpoint: ""
-sshwifty_traefik_error_pages_enabled: false
+sshwifty_role_traefik_sso_middleware: ""
+sshwifty_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+sshwifty_role_traefik_middleware_custom: ""
+sshwifty_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+sshwifty_role_traefik_enabled: true
+sshwifty_role_traefik_api_enabled: false
+sshwifty_role_traefik_api_endpoint: ""
+sshwifty_role_traefik_error_pages_enabled: false
 
 ################################
 # Docker
 ################################
 
 # Container
-sshwifty_docker_container: "{{ sshwifty_name }}"
+sshwifty_role_docker_container: "{{ sshwifty_name }}"
 
 # Image
-sshwifty_docker_image_pull: true
-sshwifty_docker_image_tag: "latest"
-sshwifty_docker_image: "niruix/sshwifty:{{ sshwifty_docker_image_tag }}"
+sshwifty_role_docker_image_pull: true
+sshwifty_role_docker_image_tag: "latest"
+sshwifty_role_docker_image: "niruix/sshwifty:{{ sshwifty_role_docker_image_tag }}"
 
 # Envs
-sshwifty_docker_envs_default:
+sshwifty_role_docker_envs_default:
   SSHWIFTY_CONFIG: "/config/sshwifty.conf.json"
-sshwifty_docker_envs_custom: {}
-sshwifty_docker_envs: "{{ sshwifty_docker_envs_default
-                          | combine(sshwifty_docker_envs_custom) }}"
+sshwifty_role_docker_envs_custom: {}
+sshwifty_role_docker_envs: "{{ sshwifty_role_docker_envs_default
+                          | combine(sshwifty_role_docker_envs_custom) }}"
 
 # Volumes
-sshwifty_docker_volumes_default:
-  - "{{ sshwifty_paths_location }}/config:/config"
-sshwifty_docker_volumes_custom: []
-sshwifty_docker_volumes: "{{ sshwifty_docker_volumes_default
-                             + sshwifty_docker_volumes_custom }}"
+sshwifty_role_docker_volumes_default:
+  - "{{ sshwifty_role_paths_location }}/config:/config"
+sshwifty_role_docker_volumes_custom: []
+sshwifty_role_docker_volumes: "{{ sshwifty_role_docker_volumes_default
+                             + sshwifty_role_docker_volumes_custom }}"
 
 # Hostname
-sshwifty_docker_hostname: "{{ sshwifty_name }}"
+sshwifty_role_docker_hostname: "{{ sshwifty_name }}"
 
 # Networks
-sshwifty_docker_networks_alias: "{{ sshwifty_name }}"
-sshwifty_docker_networks_default: []
-sshwifty_docker_networks_custom: []
-sshwifty_docker_networks: "{{ docker_networks_common
-                              + sshwifty_docker_networks_default
-                              + sshwifty_docker_networks_custom }}"
+sshwifty_role_docker_networks_alias: "{{ sshwifty_name }}"
+sshwifty_role_docker_networks_default: []
+sshwifty_role_docker_networks_custom: []
+sshwifty_role_docker_networks: "{{ docker_networks_common
+                              + sshwifty_role_docker_networks_default
+                              + sshwifty_role_docker_networks_custom }}"
 
 # Restart Policy
-sshwifty_docker_restart_policy: unless-stopped
+sshwifty_role_docker_restart_policy: unless-stopped
 
 # State
-sshwifty_docker_state: started
+sshwifty_role_docker_state: started
 
 # User
-sshwifty_docker_user: "{{ uid }}:{{ gid }}"
+sshwifty_role_docker_user: "{{ uid }}:{{ gid }}"

@@ -10,20 +10,20 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dynmap_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dynmap_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dynmap_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dynmap_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dynmap_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dynmap_dns_proxy') }}"
 
-- name: Check if '{{ crafty_paths_location }}' exists
+- name: Check if '{{ crafty_role_paths_location }}' exists
   ansible.builtin.stat:
-    path: "{{ crafty_paths_location }}"
+    path: "{{ crafty_role_paths_location }}"
   register: crafty_config
 
 - name: Remove existing Docker container
@@ -35,7 +35,7 @@
 - name: Import 'config.json'
   ansible.builtin.template:
     src: config.json.j2
-    dest: "{{ crafty_paths_location }}/config/default.json"
+    dest: "{{ crafty_role_paths_location }}/config/default.json"
     mode: "0664"
     owner: "{{ user.name }}"
     group: root

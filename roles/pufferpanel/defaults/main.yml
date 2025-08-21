@@ -17,90 +17,90 @@ pufferpanel_name: pufferpanel
 # Paths
 ################################
 
-pufferpanel_paths_folder: "{{ pufferpanel_name }}"
-pufferpanel_paths_location: "{{ server_appdata_path }}/{{ pufferpanel_paths_folder }}"
-pufferpanel_paths_folders_list:
-  - "{{ pufferpanel_paths_location }}/config"
-  - "{{ pufferpanel_paths_location }}/servers"
+pufferpanel_role_paths_folder: "{{ pufferpanel_name }}"
+pufferpanel_role_paths_location: "{{ server_appdata_path }}/{{ pufferpanel_role_paths_folder }}"
+pufferpanel_role_paths_folders_list:
+  - "{{ pufferpanel_role_paths_location }}/config"
+  - "{{ pufferpanel_role_paths_location }}/servers"
 
 ################################
 # Web
 ################################
 
-pufferpanel_web_subdomain: "{{ pufferpanel_name }}"
-pufferpanel_web_domain: "{{ user.domain }}"
-pufferpanel_web_port: "8080"
-pufferpanel_web_url: "{{ 'https://' + (pufferpanel_web_subdomain + '.' + pufferpanel_web_domain
-                      if (pufferpanel_web_subdomain | length > 0)
-                      else pufferpanel_web_domain) }}"
+pufferpanel_role_web_subdomain: "{{ pufferpanel_name }}"
+pufferpanel_role_web_domain: "{{ user.domain }}"
+pufferpanel_role_web_port: "8080"
+pufferpanel_role_web_url: "{{ 'https://' + (pufferpanel_role_web_subdomain + '.' + pufferpanel_role_web_domain
+                      if (pufferpanel_role_web_subdomain | length > 0)
+                      else pufferpanel_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-pufferpanel_dns_record: "{{ pufferpanel_web_subdomain }}"
-pufferpanel_dns_zone: "{{ pufferpanel_web_domain }}"
-pufferpanel_dns_proxy: "{{ dns.proxied }}"
+pufferpanel_role_dns_record: "{{ pufferpanel_role_web_subdomain }}"
+pufferpanel_role_dns_zone: "{{ pufferpanel_role_web_domain }}"
+pufferpanel_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-pufferpanel_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-pufferpanel_traefik_middleware_default: "{{ traefik_default_middleware }}"
-pufferpanel_traefik_middleware_custom: ""
-pufferpanel_traefik_certresolver: "{{ traefik_default_certresolver }}"
-pufferpanel_traefik_enabled: true
+pufferpanel_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+pufferpanel_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+pufferpanel_role_traefik_middleware_custom: ""
+pufferpanel_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+pufferpanel_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-pufferpanel_docker_container: "{{ pufferpanel_name }}"
+pufferpanel_role_docker_container: "{{ pufferpanel_name }}"
 
 # Image
-pufferpanel_docker_image_pull: true
-pufferpanel_docker_image_tag: "latest"
-pufferpanel_docker_image: "pufferpanel/pufferpanel:{{ pufferpanel_docker_image_tag }}"
+pufferpanel_role_docker_image_pull: true
+pufferpanel_role_docker_image_tag: "latest"
+pufferpanel_role_docker_image: "pufferpanel/pufferpanel:{{ pufferpanel_role_docker_image_tag }}"
 
 # Ports
-pufferpanel_docker_ports_defaults:
+pufferpanel_role_docker_ports_defaults:
   - "5657:5657"
-pufferpanel_docker_ports_custom: []
-pufferpanel_docker_ports: "{{ pufferpanel_docker_ports_defaults
-                              + pufferpanel_docker_ports_custom }}"
+pufferpanel_role_docker_ports_custom: []
+pufferpanel_role_docker_ports: "{{ pufferpanel_role_docker_ports_defaults
+                              + pufferpanel_role_docker_ports_custom }}"
 
 # Envs
-pufferpanel_docker_envs_default:
+pufferpanel_role_docker_envs_default:
   TZ: "{{ tz }}"
-  PUFFER_DAEMON_DATA_SERVERS: "{{ pufferpanel_paths_location }}/servers"
-pufferpanel_docker_envs_custom: {}
-pufferpanel_docker_envs: "{{ pufferpanel_docker_envs_default
-                             | combine(pufferpanel_docker_envs_custom) }}"
+  PUFFER_DAEMON_DATA_SERVERS: "{{ pufferpanel_role_paths_location }}/servers"
+pufferpanel_role_docker_envs_custom: {}
+pufferpanel_role_docker_envs: "{{ pufferpanel_role_docker_envs_default
+                             | combine(pufferpanel_role_docker_envs_custom) }}"
 
 # Volumes
-pufferpanel_docker_volumes_default:
-  - "{{ pufferpanel_paths_location }}/config:/etc/pufferpanel"
-  - "{{ pufferpanel_paths_location }}/servers:{{ pufferpanel_paths_location }}/servers"
+pufferpanel_role_docker_volumes_default:
+  - "{{ pufferpanel_role_paths_location }}/config:/etc/pufferpanel"
+  - "{{ pufferpanel_role_paths_location }}/servers:{{ pufferpanel_role_paths_location }}/servers"
   - "/var/run/docker.sock:/var/run/docker.sock"
-pufferpanel_docker_volumes_custom: []
-pufferpanel_docker_volumes: "{{ pufferpanel_docker_volumes_default
-                                + pufferpanel_docker_volumes_custom }}"
+pufferpanel_role_docker_volumes_custom: []
+pufferpanel_role_docker_volumes: "{{ pufferpanel_role_docker_volumes_default
+                                + pufferpanel_role_docker_volumes_custom }}"
 
 # Hostname
-pufferpanel_docker_hostname: "{{ pufferpanel_name }}"
+pufferpanel_role_docker_hostname: "{{ pufferpanel_name }}"
 
 # Networks
-pufferpanel_docker_networks_alias: "{{ pufferpanel_name }}"
-pufferpanel_docker_networks_default: []
-pufferpanel_docker_networks_custom: []
-pufferpanel_docker_networks: "{{ docker_networks_common
-                                 + pufferpanel_docker_networks_default
-                                 + pufferpanel_docker_networks_custom }}"
+pufferpanel_role_docker_networks_alias: "{{ pufferpanel_name }}"
+pufferpanel_role_docker_networks_default: []
+pufferpanel_role_docker_networks_custom: []
+pufferpanel_role_docker_networks: "{{ docker_networks_common
+                                 + pufferpanel_role_docker_networks_default
+                                 + pufferpanel_role_docker_networks_custom }}"
 
 # Restart Policy
-pufferpanel_docker_restart_policy: unless-stopped
+pufferpanel_role_docker_restart_policy: unless-stopped
 
 # State
-pufferpanel_docker_state: started
+pufferpanel_role_docker_state: started

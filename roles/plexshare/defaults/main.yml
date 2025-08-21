@@ -17,56 +17,56 @@ plexshare_name: plexshare
 # Paths
 ################################
 
-plexshare_paths_folder: "{{ plexshare_name }}"
-plexshare_paths_location: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}"
-plexshare_paths_folders_list:
-  - "{{ plexshare_paths_location }}"
+plexshare_role_paths_folder: "{{ plexshare_name }}"
+plexshare_role_paths_location: "{{ server_appdata_path }}/{{ plexshare_role_paths_folder }}"
+plexshare_role_paths_folders_list:
+  - "{{ plexshare_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-plexshare_web_subdomain: "{{ plexshare_name }}"
-plexshare_web_domain: "{{ user.domain }}"
-plexshare_web_port: "80"
-plexshare_web_url: "{{ 'https://' + (plexshare_web_subdomain + '.' + plexshare_web_domain
-                    if (plexshare_web_subdomain | length > 0)
-                    else plexshare_web_domain) }}"
+plexshare_role_web_subdomain: "{{ plexshare_name }}"
+plexshare_role_web_domain: "{{ user.domain }}"
+plexshare_role_web_port: "80"
+plexshare_role_web_url: "{{ 'https://' + (plexshare_role_web_subdomain + '.' + plexshare_role_web_domain
+                    if (plexshare_role_web_subdomain | length > 0)
+                    else plexshare_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-plexshare_dns_record: "{{ plexshare_web_subdomain }}"
-plexshare_dns_zone: "{{ plexshare_web_domain }}"
-plexshare_dns_proxy: "{{ dns.proxied }}"
+plexshare_role_dns_record: "{{ plexshare_role_web_subdomain }}"
+plexshare_role_dns_zone: "{{ plexshare_role_web_domain }}"
+plexshare_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-plexshare_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-plexshare_traefik_middleware_default: "{{ traefik_default_middleware }}"
-plexshare_traefik_middleware_custom: ""
-plexshare_traefik_certresolver: "{{ traefik_default_certresolver }}"
-plexshare_traefik_enabled: true
-plexshare_traefik_api_enabled: false
-plexshare_traefik_api_endpoint: ""
+plexshare_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+plexshare_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+plexshare_role_traefik_middleware_custom: ""
+plexshare_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+plexshare_role_traefik_enabled: true
+plexshare_role_traefik_api_enabled: false
+plexshare_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-plexshare_docker_container: "{{ plexshare_name }}"
+plexshare_role_docker_container: "{{ plexshare_name }}"
 
 # Image
-plexshare_docker_image_pull: true
-plexshare_docker_image_tag: "latest"
-plexshare_docker_image: "chewbaka/plexshare:{{ plexshare_docker_image_tag }}"
+plexshare_role_docker_image_pull: true
+plexshare_role_docker_image_tag: "latest"
+plexshare_role_docker_image: "chewbaka/plexshare:{{ plexshare_role_docker_image_tag }}"
 
 # Envs
-plexshare_docker_envs_default:
+plexshare_role_docker_envs_default:
   TZ: "{{ tz }}"
   WEB_DOCUMENT_ROOT: "/app/public"
   WEB_DOCUMENT_INDEX: "index.php"
@@ -77,27 +77,27 @@ plexshare_docker_envs_default:
   PHP_MAX_EXECUTION_TIME: "300"
   PHP_DATE_TIMEZONE: "{{ tz }}"
   COMPOSER_VERSION: "1"
-  BASE_URL: "{{ plexshare_web_url }}/"
-plexshare_docker_envs_custom: {}
-plexshare_docker_envs: "{{ plexshare_docker_envs_default
-                           | combine(plexshare_docker_envs_custom) }}"
+  BASE_URL: "{{ plexshare_role_web_url }}/"
+plexshare_role_docker_envs_custom: {}
+plexshare_role_docker_envs: "{{ plexshare_role_docker_envs_default
+                           | combine(plexshare_role_docker_envs_custom) }}"
 
 # Hostname
-plexshare_docker_hostname: "{{ plexshare_name }}"
+plexshare_role_docker_hostname: "{{ plexshare_name }}"
 
 # Networks
-plexshare_docker_networks_alias: "{{ plexshare_name }}"
-plexshare_docker_networks_default: []
-plexshare_docker_networks_custom: []
-plexshare_docker_networks: "{{ docker_networks_common
-                               + plexshare_docker_networks_default
-                               + plexshare_docker_networks_custom }}"
+plexshare_role_docker_networks_alias: "{{ plexshare_name }}"
+plexshare_role_docker_networks_default: []
+plexshare_role_docker_networks_custom: []
+plexshare_role_docker_networks: "{{ docker_networks_common
+                               + plexshare_role_docker_networks_default
+                               + plexshare_role_docker_networks_custom }}"
 
 # Restart Policy
-plexshare_docker_restart_policy: unless-stopped
+plexshare_role_docker_restart_policy: unless-stopped
 
 # State
-plexshare_docker_state: started
+plexshare_role_docker_state: started
 
 # Dependencies
 plexshare_depends_on: "{{ plexshare_name }}-mariadb"

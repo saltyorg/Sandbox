@@ -17,84 +17,84 @@ sqlitebrowser_name: sqlitebrowser
 # Paths
 ################################
 
-sqlitebrowser_paths_folder: "{{ sqlitebrowser_name }}"
-sqlitebrowser_paths_location: "{{ server_appdata_path }}/{{ sqlitebrowser_paths_folder }}"
-sqlitebrowser_paths_folders_list:
-  - "{{ sqlitebrowser_paths_location }}"
+sqlitebrowser_role_paths_folder: "{{ sqlitebrowser_name }}"
+sqlitebrowser_role_paths_location: "{{ server_appdata_path }}/{{ sqlitebrowser_role_paths_folder }}"
+sqlitebrowser_role_paths_folders_list:
+  - "{{ sqlitebrowser_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-sqlitebrowser_web_subdomain: "{{ sqlitebrowser_name }}"
-sqlitebrowser_web_domain: "{{ user.domain }}"
-sqlitebrowser_web_port: "3000"
-sqlitebrowser_web_url: "{{ 'https://' + (sqlitebrowser_web_subdomain + '.' + sqlitebrowser_web_domain
-                        if (sqlitebrowser_web_subdomain | length > 0)
-                        else sqlitebrowser_web_domain) }}"
+sqlitebrowser_role_web_subdomain: "{{ sqlitebrowser_name }}"
+sqlitebrowser_role_web_domain: "{{ user.domain }}"
+sqlitebrowser_role_web_port: "3000"
+sqlitebrowser_role_web_url: "{{ 'https://' + (sqlitebrowser_role_web_subdomain + '.' + sqlitebrowser_role_web_domain
+                        if (sqlitebrowser_role_web_subdomain | length > 0)
+                        else sqlitebrowser_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-sqlitebrowser_dns_record: "{{ sqlitebrowser_web_subdomain }}"
-sqlitebrowser_dns_zone: "{{ sqlitebrowser_web_domain }}"
-sqlitebrowser_dns_proxy: "{{ dns.proxied }}"
+sqlitebrowser_role_dns_record: "{{ sqlitebrowser_role_web_subdomain }}"
+sqlitebrowser_role_dns_zone: "{{ sqlitebrowser_role_web_domain }}"
+sqlitebrowser_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-sqlitebrowser_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-sqlitebrowser_traefik_middleware_default: "{{ traefik_default_middleware }}"
-sqlitebrowser_traefik_middleware_custom: ""
-sqlitebrowser_traefik_certresolver: "{{ traefik_default_certresolver }}"
-sqlitebrowser_traefik_enabled: true
-sqlitebrowser_traefik_api_enabled: false
-sqlitebrowser_traefik_api_endpoint: ""
-sqlitebrowser_traefik_error_pages_enabled: false
+sqlitebrowser_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+sqlitebrowser_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+sqlitebrowser_role_traefik_middleware_custom: ""
+sqlitebrowser_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+sqlitebrowser_role_traefik_enabled: true
+sqlitebrowser_role_traefik_api_enabled: false
+sqlitebrowser_role_traefik_api_endpoint: ""
+sqlitebrowser_role_traefik_error_pages_enabled: false
 
 ################################
 # Docker
 ################################
 
 # Container
-sqlitebrowser_docker_container: "{{ sqlitebrowser_name }}"
+sqlitebrowser_role_docker_container: "{{ sqlitebrowser_name }}"
 
 # Image
-sqlitebrowser_docker_image_pull: true
-sqlitebrowser_docker_image_tag: "latest"
-sqlitebrowser_docker_image: "lscr.io/linuxserver/sqlitebrowser:{{ sqlitebrowser_docker_image_tag }}"
+sqlitebrowser_role_docker_image_pull: true
+sqlitebrowser_role_docker_image_tag: "latest"
+sqlitebrowser_role_docker_image: "lscr.io/linuxserver/sqlitebrowser:{{ sqlitebrowser_role_docker_image_tag }}"
 
 # Envs
-sqlitebrowser_docker_envs_default:
+sqlitebrowser_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-sqlitebrowser_docker_envs_custom: {}
-sqlitebrowser_docker_envs: "{{ sqlitebrowser_docker_envs_default
-                               | combine(sqlitebrowser_docker_envs_custom) }}"
+sqlitebrowser_role_docker_envs_custom: {}
+sqlitebrowser_role_docker_envs: "{{ sqlitebrowser_role_docker_envs_default
+                               | combine(sqlitebrowser_role_docker_envs_custom) }}"
 
 # Volumes
-sqlitebrowser_docker_volumes_default:
-  - "{{ sqlitebrowser_paths_location }}:/config"
-sqlitebrowser_docker_volumes_custom: []
-sqlitebrowser_docker_volumes: "{{ sqlitebrowser_docker_volumes_default
-                                  + sqlitebrowser_docker_volumes_custom }}"
+sqlitebrowser_role_docker_volumes_default:
+  - "{{ sqlitebrowser_role_paths_location }}:/config"
+sqlitebrowser_role_docker_volumes_custom: []
+sqlitebrowser_role_docker_volumes: "{{ sqlitebrowser_role_docker_volumes_default
+                                  + sqlitebrowser_role_docker_volumes_custom }}"
 
 # Hostname
-sqlitebrowser_docker_hostname: "{{ sqlitebrowser_name }}"
+sqlitebrowser_role_docker_hostname: "{{ sqlitebrowser_name }}"
 
 # Networks
-sqlitebrowser_docker_networks_alias: "{{ sqlitebrowser_name }}"
-sqlitebrowser_docker_networks_default: []
-sqlitebrowser_docker_networks_custom: []
-sqlitebrowser_docker_networks: "{{ docker_networks_common
-                                   + sqlitebrowser_docker_networks_default
-                                   + sqlitebrowser_docker_networks_custom }}"
+sqlitebrowser_role_docker_networks_alias: "{{ sqlitebrowser_name }}"
+sqlitebrowser_role_docker_networks_default: []
+sqlitebrowser_role_docker_networks_custom: []
+sqlitebrowser_role_docker_networks: "{{ docker_networks_common
+                                   + sqlitebrowser_role_docker_networks_default
+                                   + sqlitebrowser_role_docker_networks_custom }}"
 
 # Restart Policy
-sqlitebrowser_docker_restart_policy: unless-stopped
+sqlitebrowser_role_docker_restart_policy: unless-stopped
 
 # State
-sqlitebrowser_docker_state: started
+sqlitebrowser_role_docker_state: started

@@ -17,81 +17,81 @@ kavita_name: kavita
 # Paths
 ################################
 
-kavita_paths_folder: "{{ kavita_name }}"
-kavita_paths_location: "{{ server_appdata_path }}/{{ kavita_paths_folder }}"
-kavita_paths_folders_list:
-  - "{{ kavita_paths_location }}"
+kavita_role_paths_folder: "{{ kavita_name }}"
+kavita_role_paths_location: "{{ server_appdata_path }}/{{ kavita_role_paths_folder }}"
+kavita_role_paths_folders_list:
+  - "{{ kavita_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-kavita_web_subdomain: "{{ kavita_name }}"
-kavita_web_domain: "{{ user.domain }}"
-kavita_web_port: "5000"
-kavita_web_url: "{{ 'https://' + (kavita_web_subdomain + '.' + kavita_web_domain
-                 if (kavita_web_subdomain | length > 0)
-                 else kavita_web_domain) }}"
+kavita_role_web_subdomain: "{{ kavita_name }}"
+kavita_role_web_domain: "{{ user.domain }}"
+kavita_role_web_port: "5000"
+kavita_role_web_url: "{{ 'https://' + (kavita_role_web_subdomain + '.' + kavita_role_web_domain
+                 if (kavita_role_web_subdomain | length > 0)
+                 else kavita_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-kavita_dns_record: "{{ kavita_web_subdomain }}"
-kavita_dns_zone: "{{ kavita_web_domain }}"
-kavita_dns_proxy: "{{ dns.proxied }}"
+kavita_role_dns_record: "{{ kavita_role_web_subdomain }}"
+kavita_role_dns_zone: "{{ kavita_role_web_domain }}"
+kavita_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-kavita_traefik_sso_middleware: ""
-kavita_traefik_middleware_default: "{{ traefik_default_middleware }}"
-kavita_traefik_middleware_custom: ""
-kavita_traefik_certresolver: "{{ traefik_default_certresolver }}"
-kavita_traefik_enabled: true
-kavita_traefik_api_enabled: false
-kavita_traefik_api_endpoint: ""
+kavita_role_traefik_sso_middleware: ""
+kavita_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+kavita_role_traefik_middleware_custom: ""
+kavita_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+kavita_role_traefik_enabled: true
+kavita_role_traefik_api_enabled: false
+kavita_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-kavita_docker_container: "{{ kavita_name }}"
+kavita_role_docker_container: "{{ kavita_name }}"
 
 # Image
-kavita_docker_image_pull: true
-kavita_docker_image_tag: "latest"
-kavita_docker_image: "jvmilazz0/kavita:{{ kavita_docker_image_tag }}"
+kavita_role_docker_image_pull: true
+kavita_role_docker_image_tag: "latest"
+kavita_role_docker_image: "jvmilazz0/kavita:{{ kavita_role_docker_image_tag }}"
 
 # Envs
-kavita_docker_envs_default:
+kavita_role_docker_envs_default:
   TZ: "{{ tz }}"
-kavita_docker_envs_custom: {}
-kavita_docker_envs: "{{ kavita_docker_envs_default
-                        | combine(kavita_docker_envs_custom) }}"
+kavita_role_docker_envs_custom: {}
+kavita_role_docker_envs: "{{ kavita_role_docker_envs_default
+                        | combine(kavita_role_docker_envs_custom) }}"
 
 # Volumes
-kavita_docker_volumes_default:
-  - "{{ kavita_paths_location }}:/kavita/config"
-kavita_docker_volumes_custom: []
-kavita_docker_volumes: "{{ kavita_docker_volumes_default
-                           + kavita_docker_volumes_custom }}"
+kavita_role_docker_volumes_default:
+  - "{{ kavita_role_paths_location }}:/kavita/config"
+kavita_role_docker_volumes_custom: []
+kavita_role_docker_volumes: "{{ kavita_role_docker_volumes_default
+                           + kavita_role_docker_volumes_custom }}"
 
 # Hostname
-kavita_docker_hostname: "{{ kavita_name }}"
+kavita_role_docker_hostname: "{{ kavita_name }}"
 
 # Networks
-kavita_docker_networks_alias: "{{ kavita_name }}"
-kavita_docker_networks_default: []
-kavita_docker_networks_custom: []
-kavita_docker_networks: "{{ docker_networks_common
-                            + kavita_docker_networks_default
-                            + kavita_docker_networks_custom }}"
+kavita_role_docker_networks_alias: "{{ kavita_name }}"
+kavita_role_docker_networks_default: []
+kavita_role_docker_networks_custom: []
+kavita_role_docker_networks: "{{ docker_networks_common
+                            + kavita_role_docker_networks_default
+                            + kavita_role_docker_networks_custom }}"
 
 # Restart Policy
-kavita_docker_restart_policy: unless-stopped
+kavita_role_docker_restart_policy: unless-stopped
 
 # State
-kavita_docker_state: started
+kavita_role_docker_state: started

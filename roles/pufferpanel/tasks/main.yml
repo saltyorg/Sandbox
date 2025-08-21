@@ -10,13 +10,13 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
-- name: Check if '{{ pufferpanel_paths_location }}' exists
+- name: Check if '{{ pufferpanel_role_paths_location }}' exists
   ansible.builtin.stat:
-    path: "{{ pufferpanel_paths_location }}"
+    path: "{{ pufferpanel_role_paths_location }}"
   register: pufferpanel_config
 
 - name: Remove existing Docker container

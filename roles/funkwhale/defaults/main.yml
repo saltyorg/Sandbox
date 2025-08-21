@@ -17,87 +17,87 @@ funkwhale_name: funkwhale
 # Paths
 ################################
 
-funkwhale_paths_folder: "{{ funkwhale_name }}"
-funkwhale_paths_location: "{{ server_appdata_path }}/{{ funkwhale_paths_folder }}"
-funkwhale_paths_folders_list:
-  - "{{ funkwhale_paths_location }}"
-  - "{{ funkwhale_paths_location }}/data"
+funkwhale_role_paths_folder: "{{ funkwhale_name }}"
+funkwhale_role_paths_location: "{{ server_appdata_path }}/{{ funkwhale_role_paths_folder }}"
+funkwhale_role_paths_folders_list:
+  - "{{ funkwhale_role_paths_location }}"
+  - "{{ funkwhale_role_paths_location }}/data"
 
 ################################
 # Web
 ################################
 
-funkwhale_web_subdomain: "{{ funkwhale_name }}"
-funkwhale_web_domain: "{{ user.domain }}"
-funkwhale_web_port: "80"
-funkwhale_web_url: "{{ 'https://' + (funkwhale_web_subdomain + '.' + funkwhale_web_domain
-                    if (funkwhale_web_subdomain | length > 0)
-                    else funkwhale_web_domain) }}"
+funkwhale_role_web_subdomain: "{{ funkwhale_name }}"
+funkwhale_role_web_domain: "{{ user.domain }}"
+funkwhale_role_web_port: "80"
+funkwhale_role_web_url: "{{ 'https://' + (funkwhale_role_web_subdomain + '.' + funkwhale_role_web_domain
+                    if (funkwhale_role_web_subdomain | length > 0)
+                    else funkwhale_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-funkwhale_dns_record: "{{ funkwhale_web_subdomain }}"
-funkwhale_dns_zone: "{{ funkwhale_web_domain }}"
-funkwhale_dns_proxy: "{{ dns.proxied }}"
+funkwhale_role_dns_record: "{{ funkwhale_role_web_subdomain }}"
+funkwhale_role_dns_zone: "{{ funkwhale_role_web_domain }}"
+funkwhale_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-funkwhale_traefik_sso_middleware: ""
-funkwhale_traefik_middleware_default: "{{ traefik_default_middleware }}"
-funkwhale_traefik_middleware_custom: ""
-funkwhale_traefik_certresolver: "{{ traefik_default_certresolver }}"
-funkwhale_traefik_enabled: true
-funkwhale_traefik_api_enabled: false
-funkwhale_traefik_api_endpoint: ""
+funkwhale_role_traefik_sso_middleware: ""
+funkwhale_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+funkwhale_role_traefik_middleware_custom: ""
+funkwhale_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+funkwhale_role_traefik_enabled: true
+funkwhale_role_traefik_api_enabled: false
+funkwhale_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-funkwhale_docker_container: "{{ funkwhale_name }}"
+funkwhale_role_docker_container: "{{ funkwhale_name }}"
 
 # Image
-funkwhale_docker_image_pull: true
-funkwhale_docker_image_tag: "latest"
-funkwhale_docker_image: "funkwhale/all-in-one:{{ funkwhale_docker_image_tag }}"
+funkwhale_role_docker_image_pull: true
+funkwhale_role_docker_image_tag: "latest"
+funkwhale_role_docker_image: "funkwhale/all-in-one:{{ funkwhale_role_docker_image_tag }}"
 
 # Envs
-funkwhale_docker_envs_default:
-  FUNKWHALE_HOSTNAME: "{{ funkwhale_web_subdomain + '.' + funkwhale_web_domain }}"
+funkwhale_role_docker_envs_default:
+  FUNKWHALE_HOSTNAME: "{{ funkwhale_role_web_subdomain + '.' + funkwhale_role_web_domain }}"
   NESTED_PROXY: "1"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-funkwhale_docker_envs_custom: {}
-funkwhale_docker_envs: "{{ funkwhale_docker_envs_default
-                           | combine(funkwhale_docker_envs_custom) }}"
+funkwhale_role_docker_envs_custom: {}
+funkwhale_role_docker_envs: "{{ funkwhale_role_docker_envs_default
+                           | combine(funkwhale_role_docker_envs_custom) }}"
 
 # Volumes
-funkwhale_docker_volumes_default:
-  - "{{ funkwhale_paths_location }}/data:/data"
+funkwhale_role_docker_volumes_default:
+  - "{{ funkwhale_role_paths_location }}/data:/data"
   - "/mnt/unionfs:/music:ro"
-funkwhale_docker_volumes_custom: []
-funkwhale_docker_volumes: "{{ funkwhale_docker_volumes_default
-                              + funkwhale_docker_volumes_custom }}"
+funkwhale_role_docker_volumes_custom: []
+funkwhale_role_docker_volumes: "{{ funkwhale_role_docker_volumes_default
+                              + funkwhale_role_docker_volumes_custom }}"
 
 # Hostname
-funkwhale_docker_hostname: "{{ funkwhale_name }}"
+funkwhale_role_docker_hostname: "{{ funkwhale_name }}"
 
 # Networks
-funkwhale_docker_networks_alias: "{{ funkwhale_name }}"
-funkwhale_docker_networks_default: []
-funkwhale_docker_networks_custom: []
-funkwhale_docker_networks: "{{ docker_networks_common
-                               + funkwhale_docker_networks_default
-                               + funkwhale_docker_networks_custom }}"
+funkwhale_role_docker_networks_alias: "{{ funkwhale_name }}"
+funkwhale_role_docker_networks_default: []
+funkwhale_role_docker_networks_custom: []
+funkwhale_role_docker_networks: "{{ docker_networks_common
+                               + funkwhale_role_docker_networks_default
+                               + funkwhale_role_docker_networks_custom }}"
 
 # Restart Policy
-funkwhale_docker_restart_policy: unless-stopped
+funkwhale_role_docker_restart_policy: unless-stopped
 
 # State
-funkwhale_docker_state: started
+funkwhale_role_docker_state: started

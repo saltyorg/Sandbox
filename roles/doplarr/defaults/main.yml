@@ -18,15 +18,15 @@ doplarr_name: doplarr
 ################################
 
 # Container
-doplarr_docker_container: "{{ doplarr_name }}"
+doplarr_role_docker_container: "{{ doplarr_name }}"
 
 # Image
-doplarr_docker_image_pull: true
-doplarr_docker_image_tag: "latest"
-doplarr_docker_image: "lscr.io/linuxserver/doplarr:{{ doplarr_docker_image_tag }}"
+doplarr_role_docker_image_pull: true
+doplarr_role_docker_image_tag: "latest"
+doplarr_role_docker_image: "lscr.io/linuxserver/doplarr:{{ doplarr_role_docker_image_tag }}"
 
 # Envs
-doplarr_docker_envs_default:
+doplarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
@@ -46,23 +46,23 @@ doplarr_docker_envs_default:
   OVERSEERR__DEFAULT_ID: "{{ doplarr.overseer_default_id | default('', true) }}"
   PARTIAL_SEASONS: "{{ doplarr.partial_seasons | default('true', true) }}"
   LOG_LEVEL: "{{ doplarr.log_level | default(':info', true) }}"
-doplarr_docker_envs_custom: []
-doplarr_docker_envs: "{{ doplarr_docker_envs_default
-                         | combine(doplarr_docker_envs_custom) }}"
+doplarr_role_docker_envs_custom: []
+doplarr_role_docker_envs: "{{ doplarr_role_docker_envs_default
+                         | combine(doplarr_role_docker_envs_custom) }}"
 
 # Hostname
-doplarr_docker_hostname: "{{ doplarr_name }}"
+doplarr_role_docker_hostname: "{{ doplarr_name }}"
 
 # Networks
-doplarr_docker_networks_alias: "{{ doplarr_name }}"
-doplarr_docker_networks_default: []
-doplarr_docker_networks_custom: []
-doplarr_docker_networks: "{{ docker_networks_common
-                             + doplarr_docker_networks_default
-                             + doplarr_docker_networks_custom }}"
+doplarr_role_docker_networks_alias: "{{ doplarr_name }}"
+doplarr_role_docker_networks_default: []
+doplarr_role_docker_networks_custom: []
+doplarr_role_docker_networks: "{{ docker_networks_common
+                             + doplarr_role_docker_networks_default
+                             + doplarr_role_docker_networks_custom }}"
 
 # Restart Policy
-doplarr_docker_restart_policy: unless-stopped
+doplarr_role_docker_restart_policy: unless-stopped
 
 # State
-doplarr_docker_state: started
+doplarr_role_docker_state: started

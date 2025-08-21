@@ -17,85 +17,85 @@ homebox_name: homebox
 # Paths
 ################################
 
-homebox_paths_folder: "{{ homebox_name }}"
-homebox_paths_location: "{{ server_appdata_path }}/{{ homebox_paths_folder }}"
-homebox_paths_folders_list:
-  - "{{ homebox_paths_location }}"
+homebox_role_paths_folder: "{{ homebox_name }}"
+homebox_role_paths_location: "{{ server_appdata_path }}/{{ homebox_role_paths_folder }}"
+homebox_role_paths_folders_list:
+  - "{{ homebox_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-homebox_web_subdomain: "{{ homebox_name }}"
-homebox_web_domain: "{{ user.domain }}"
-homebox_web_port: "7745"
-homebox_web_url: "{{ 'https://' + (homebox_web_subdomain + '.' + homebox_web_domain
-                  if (homebox_web_subdomain | length > 0)
-                  else homebox_web_domain) }}"
+homebox_role_web_subdomain: "{{ homebox_name }}"
+homebox_role_web_domain: "{{ user.domain }}"
+homebox_role_web_port: "7745"
+homebox_role_web_url: "{{ 'https://' + (homebox_role_web_subdomain + '.' + homebox_role_web_domain
+                  if (homebox_role_web_subdomain | length > 0)
+                  else homebox_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-homebox_dns_record: "{{ homebox_web_subdomain }}"
-homebox_dns_zone: "{{ homebox_web_domain }}"
-homebox_dns_proxy: "{{ dns.proxied }}"
+homebox_role_dns_record: "{{ homebox_role_web_subdomain }}"
+homebox_role_dns_zone: "{{ homebox_role_web_domain }}"
+homebox_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-homebox_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-homebox_traefik_middleware_default: "{{ traefik_default_middleware }}"
-homebox_traefik_middleware_custom: ""
-homebox_traefik_certresolver: "{{ traefik_default_certresolver }}"
-homebox_traefik_enabled: true
-homebox_traefik_api_enabled: false
-homebox_traefik_api_endpoint: ""
+homebox_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+homebox_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+homebox_role_traefik_middleware_custom: ""
+homebox_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+homebox_role_traefik_enabled: true
+homebox_role_traefik_api_enabled: false
+homebox_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-homebox_docker_container: "{{ homebox_name }}"
+homebox_role_docker_container: "{{ homebox_name }}"
 
 # Image
-homebox_docker_image_pull: true
-homebox_docker_image_tag: "latest"
-homebox_docker_image: "ghcr.io/sysadminsmedia/homebox:{{ homebox_docker_image_tag }}"
+homebox_role_docker_image_pull: true
+homebox_role_docker_image_tag: "latest"
+homebox_role_docker_image: "ghcr.io/sysadminsmedia/homebox:{{ homebox_role_docker_image_tag }}"
 
 # Envs
-homebox_docker_envs_default:
+homebox_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   HBOX_LOG_LEVEL: "info"
   HBOX_SWAGGER_SCHEMA: "https"
-homebox_docker_envs_custom: {}
-homebox_docker_envs: "{{ homebox_docker_envs_default
-                         | combine(homebox_docker_envs_custom) }}"
+homebox_role_docker_envs_custom: {}
+homebox_role_docker_envs: "{{ homebox_role_docker_envs_default
+                         | combine(homebox_role_docker_envs_custom) }}"
 
 # Volumes
-homebox_docker_volumes_default:
-  - "{{ homebox_paths_location }}:/data"
-homebox_docker_volumes_custom: []
-homebox_docker_volumes: "{{ homebox_docker_volumes_default
-                            + homebox_docker_volumes_custom }}"
+homebox_role_docker_volumes_default:
+  - "{{ homebox_role_paths_location }}:/data"
+homebox_role_docker_volumes_custom: []
+homebox_role_docker_volumes: "{{ homebox_role_docker_volumes_default
+                            + homebox_role_docker_volumes_custom }}"
 
 # Hostname
-homebox_docker_hostname: "{{ homebox_name }}"
+homebox_role_docker_hostname: "{{ homebox_name }}"
 
 # Networks
-homebox_docker_networks_alias: "{{ homebox_name }}"
-homebox_docker_networks_default: []
-homebox_docker_networks_custom: []
-homebox_docker_networks: "{{ docker_networks_common
-                             + homebox_docker_networks_default
-                             + homebox_docker_networks_custom }}"
+homebox_role_docker_networks_alias: "{{ homebox_name }}"
+homebox_role_docker_networks_default: []
+homebox_role_docker_networks_custom: []
+homebox_role_docker_networks: "{{ docker_networks_common
+                             + homebox_role_docker_networks_default
+                             + homebox_role_docker_networks_custom }}"
 
 # Restart Policy
-homebox_docker_restart_policy: unless-stopped
+homebox_role_docker_restart_policy: unless-stopped
 
 # State
-homebox_docker_state: started
+homebox_role_docker_state: started

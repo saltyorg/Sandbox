@@ -17,60 +17,60 @@ lgsm_instances: []
 # Paths
 ################################
 
-lgsm_paths_folder: "{{ lgsm_name }}"
-lgsm_paths_location: "{{ server_appdata_path }}/{{ lgsm_paths_folder }}"
-lgsm_paths_folders_list:
-  - "{{ lgsm_paths_location }}"
+lgsm_role_paths_folder: "{{ lgsm_name }}"
+lgsm_role_paths_location: "{{ server_appdata_path }}/{{ lgsm_role_paths_folder }}"
+lgsm_role_paths_folders_list:
+  - "{{ lgsm_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-lgsm_web_subdomain: "{{ lgsm_name }}"
-lgsm_web_domain: "{{ user.domain }}"
+lgsm_role_web_subdomain: "{{ lgsm_name }}"
+lgsm_role_web_domain: "{{ user.domain }}"
 
 ################################
 # DNS
 ################################
 
-lgsm_dns_record: "{{ lookup('vars', lgsm_name + '_web_subdomain', default=lgsm_web_subdomain) }}"
-lgsm_dns_zone: "{{ lookup('vars', lgsm_name + '_web_domain', default=lgsm_web_domain) }}"
-lgsm_dns_proxy: false
+lgsm_role_dns_record: "{{ lookup('vars', lgsm_name + '_web_subdomain', default=lgsm_role_web_subdomain) }}"
+lgsm_role_dns_zone: "{{ lookup('vars', lgsm_name + '_web_domain', default=lgsm_role_web_domain) }}"
+lgsm_role_dns_proxy: false
 
 ################################
 # Docker
 ################################
 
 # Container
-lgsm_docker_container: "{{ lgsm_name }}"
+lgsm_role_docker_container: "{{ lgsm_name }}"
 
 # Image
-lgsm_docker_image_pull: true
-lgsm_docker_image_repo: "gameservermanagers/gameserver"
-lgsm_docker_image_tag: "{{ lgsm_name | replace('lgsm_', '') }}"
-lgsm_docker_image: "{{ lookup('vars', lgsm_name + '_docker_image_repo', default=lgsm_docker_image_repo)
-                             + ':' + lookup('vars', lgsm_name + '_docker_image_tag', default=lgsm_docker_image_tag) }}"
+lgsm_role_docker_image_pull: true
+lgsm_role_docker_image_repo: "gameservermanagers/gameserver"
+lgsm_role_docker_image_tag: "{{ lgsm_name | replace('lgsm_', '') }}"
+lgsm_role_docker_image: "{{ lookup('vars', lgsm_name + '_docker_image_repo', default=lgsm_role_docker_image_repo)
+                             + ':' + lookup('vars', lgsm_name + '_docker_image_tag', default=lgsm_role_docker_image_tag) }}"
 
 # Volumes
-lgsm_docker_volumes_default:
-  - "{{ lgsm_paths_location }}:/data"
-lgsm_docker_volumes_custom: []
-lgsm_docker_volumes: "{{ lookup('vars', lgsm_name + '_docker_volumes_default', default=lgsm_docker_volumes_default)
-                               + lookup('vars', lgsm_name + '_docker_volumes_custom', default=lgsm_docker_volumes_custom) }}"
+lgsm_role_docker_volumes_default:
+  - "{{ lgsm_role_paths_location }}:/data"
+lgsm_role_docker_volumes_custom: []
+lgsm_role_docker_volumes: "{{ lookup('vars', lgsm_name + '_docker_volumes_default', default=lgsm_role_docker_volumes_default)
+                               + lookup('vars', lgsm_name + '_docker_volumes_custom', default=lgsm_role_docker_volumes_custom) }}"
 
 # Hostname
-lgsm_docker_hostname: "{{ lgsm_name }}"
+lgsm_role_docker_hostname: "{{ lgsm_name }}"
 
 # Networks
-lgsm_docker_networks_alias: "{{ lgsm_name }}"
-lgsm_docker_networks_default: []
-lgsm_docker_networks_custom: []
-lgsm_docker_networks: "{{ docker_networks_common
-                                + lookup('vars', lgsm_name + '_docker_networks_default', default=lgsm_docker_networks_default)
-                                + lookup('vars', lgsm_name + '_docker_networks_custom', default=lgsm_docker_networks_custom) }}"
+lgsm_role_docker_networks_alias: "{{ lgsm_name }}"
+lgsm_role_docker_networks_default: []
+lgsm_role_docker_networks_custom: []
+lgsm_role_docker_networks: "{{ docker_networks_common
+                                + lookup('vars', lgsm_name + '_docker_networks_default', default=lgsm_role_docker_networks_default)
+                                + lookup('vars', lgsm_name + '_docker_networks_custom', default=lgsm_role_docker_networks_custom) }}"
 
 # Restart Policy
-lgsm_docker_restart_policy: unless-stopped
+lgsm_role_docker_restart_policy: unless-stopped
 
 # State
-lgsm_docker_state: started
+lgsm_role_docker_state: started

@@ -18,9 +18,9 @@
     name: redis
   vars:
     redis_instances: ["{{ tubearchivist_name }}-redis"]
-    redis_docker_image_tag: "8-alpine"
-    redis_paths_folder: "{{ tubearchivist_name }}"
-    redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
+    redis_role_docker_image_tag: "8-alpine"
+    redis_role_paths_folder: "{{ tubearchivist_name }}"
+    redis_role_paths_location: "{{ server_appdata_path }}/{{ redis_role_paths_folder }}/redis"
 
 - name: Remove legacy Elasticsearch Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -32,10 +32,10 @@
     name: elasticsearch
   vars:
     elasticsearch_name: "{{ tubearchivist_name }}-elasticsearch"
-    elasticsearch_docker_image: "bbilly1/tubearchivist-es"
-    elasticsearch_paths_folder: "{{ tubearchivist_name }}"
-    elasticsearch_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_paths_folder }}/elastiscsearch"
-    elasticsearch_docker_envs_custom:
+    elasticsearch_role_docker_image: "bbilly1/tubearchivist-es"
+    elasticsearch_role_paths_folder: "{{ tubearchivist_name }}"
+    elasticsearch_role_paths_location: "{{ server_appdata_path }}/{{ elasticsearch_role_paths_folder }}/elastiscsearch"
+    elasticsearch_role_docker_envs_custom:
       path.repo: "/usr/share/elasticsearch/data/snapshot"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
       xpack.security.enabled: "true"
@@ -43,9 +43,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

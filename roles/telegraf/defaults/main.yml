@@ -16,66 +16,66 @@ telegraf_instances: ["telegraf"]
 # Paths
 ################################
 
-telegraf_paths_folder: "telegraf"
-telegraf_paths_location: "{{ server_appdata_path }}/{{ telegraf_paths_folder }}"
-telegraf_paths_folders_list:
-  - "{{ telegraf_paths_location }}/"
-  - "{{ telegraf_paths_location }}/{{ telegraf_name }}"
-telegraf_paths_recursive: true
+telegraf_role_paths_folder: "telegraf"
+telegraf_role_paths_location: "{{ server_appdata_path }}/{{ telegraf_role_paths_folder }}"
+telegraf_role_paths_folders_list:
+  - "{{ telegraf_role_paths_location }}/"
+  - "{{ telegraf_role_paths_location }}/{{ telegraf_name }}"
+telegraf_role_paths_recursive: true
 
 ################################
 # Web
 ################################
 
-telegraf_web_subdomain: "{{ telegraf_name }}"
-telegraf_web_domain: "{{ user.domain }}"
+telegraf_role_web_subdomain: "{{ telegraf_name }}"
+telegraf_role_web_domain: "{{ user.domain }}"
 
 ################################
 # DNS
 ################################
 
-telegraf_dns_record: "{{ lookup('vars', telegraf_name + '_web_subdomain', default=telegraf_web_subdomain) }}"
-telegraf_dns_zone: "{{ lookup('vars', telegraf_name + '_web_domain', default=telegraf_web_domain) }}"
-telegraf_dns_proxy: false
+telegraf_role_dns_record: "{{ lookup('vars', telegraf_name + '_web_subdomain', default=telegraf_role_web_subdomain) }}"
+telegraf_role_dns_zone: "{{ lookup('vars', telegraf_name + '_web_domain', default=telegraf_role_web_domain) }}"
+telegraf_role_dns_proxy: false
 
 ################################
 # Traefik
 ################################
 
-telegraf_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-telegraf_traefik_middleware_default: "{{ traefik_default_middleware }}"
-telegraf_traefik_middleware_custom: ""
-telegraf_traefik_certresolver: "{{ traefik_default_certresolver }}"
-telegraf_traefik_enabled: true
-telegraf_traefik_api_enabled: false
-telegraf_traefik_api_endpoint: ""
+telegraf_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+telegraf_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+telegraf_role_traefik_middleware_custom: ""
+telegraf_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+telegraf_role_traefik_enabled: true
+telegraf_role_traefik_api_enabled: false
+telegraf_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-telegraf_docker_container: "{{ telegraf_name }}"
+telegraf_role_docker_container: "{{ telegraf_name }}"
 
 # Image
-telegraf_docker_image_pull: true
-telegraf_docker_image_repo: "telegraf"
-telegraf_docker_image_tag: "latest"
-telegraf_docker_image: "{{ lookup('vars', telegraf_name + '_docker_image_repo', default=telegraf_docker_image_repo)
-                            + ':' + lookup('vars', telegraf_name + '_docker_image_tag', default=telegraf_docker_image_tag) }}"
+telegraf_role_docker_image_pull: true
+telegraf_role_docker_image_repo: "telegraf"
+telegraf_role_docker_image_tag: "latest"
+telegraf_role_docker_image: "{{ lookup('vars', telegraf_name + '_docker_image_repo', default=telegraf_role_docker_image_repo)
+                            + ':' + lookup('vars', telegraf_name + '_docker_image_tag', default=telegraf_role_docker_image_tag) }}"
 
 # Envs
-telegraf_docker_envs_default:
+telegraf_role_docker_envs_default:
   TZ: "{{ tz }}"
   EULA: "TRUE"
   UID: "{{ uid }}"
   GID: "{{ gid }}"
-telegraf_docker_envs_custom: {}
-telegraf_docker_envs: "{{ lookup('vars', telegraf_name + '_docker_envs_default', default=telegraf_docker_envs_default)
-                           | combine(lookup('vars', telegraf_name + '_docker_envs_custom', default=telegraf_docker_envs_custom)) }}"
+telegraf_role_docker_envs_custom: {}
+telegraf_role_docker_envs: "{{ lookup('vars', telegraf_name + '_docker_envs_default', default=telegraf_role_docker_envs_default)
+                           | combine(lookup('vars', telegraf_name + '_docker_envs_custom', default=telegraf_role_docker_envs_custom)) }}"
 
 # Volumes
-telegraf_docker_volumes_default:
+telegraf_role_docker_volumes_default:
   - "/opt/telegraf/{{ telegraf_name }}:/etc/telegraf:ro"
   - "/var/run/docker.sock:/var/run/docker.sock:ro"
   - "/var/run/utmp:/var/run/utmp"
@@ -83,23 +83,23 @@ telegraf_docker_volumes_default:
   - "/sys:/host/sys:ro"
   - "/proc:/host/proc:ro"
   - "/etc:/host/etc:ro"
-telegraf_docker_volumes_custom: []
-telegraf_docker_volumes: "{{ lookup('vars', telegraf_name + '_docker_volumes_default', default=telegraf_docker_volumes_default)
-                              + lookup('vars', telegraf_name + '_docker_volumes_custom', default=telegraf_docker_volumes_custom) }}"
+telegraf_role_docker_volumes_custom: []
+telegraf_role_docker_volumes: "{{ lookup('vars', telegraf_name + '_docker_volumes_default', default=telegraf_role_docker_volumes_default)
+                              + lookup('vars', telegraf_name + '_docker_volumes_custom', default=telegraf_role_docker_volumes_custom) }}"
 
 # Hostname
-telegraf_docker_hostname: "{{ telegraf_name }}"
+telegraf_role_docker_hostname: "{{ telegraf_name }}"
 
 # Networks
-telegraf_docker_networks_alias: "{{ telegraf_name }}"
-telegraf_docker_networks_default: []
-telegraf_docker_networks_custom: []
-telegraf_docker_networks: "{{ docker_networks_common
-                               + lookup('vars', telegraf_name + '_docker_networks_default', default=telegraf_docker_networks_default)
-                               + lookup('vars', telegraf_name + '_docker_networks_custom', default=telegraf_docker_networks_custom) }}"
+telegraf_role_docker_networks_alias: "{{ telegraf_name }}"
+telegraf_role_docker_networks_default: []
+telegraf_role_docker_networks_custom: []
+telegraf_role_docker_networks: "{{ docker_networks_common
+                               + lookup('vars', telegraf_name + '_docker_networks_default', default=telegraf_role_docker_networks_default)
+                               + lookup('vars', telegraf_name + '_docker_networks_custom', default=telegraf_role_docker_networks_custom) }}"
 
 # Restart Policy
-telegraf_docker_restart_policy: unless-stopped
+telegraf_role_docker_restart_policy: unless-stopped
 
 # State
-telegraf_docker_state: started
+telegraf_role_docker_state: started

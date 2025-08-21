@@ -10,7 +10,7 @@
 ---
 - name: Check if db folder exists
   ansible.builtin.stat:
-    path: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/mariadb"
+    path: "{{ server_appdata_path }}/{{ docspell_role_paths_folder }}/mariadb"
   register: stat_docspell_db_folder
 
 - name: Remove legacy MariaDB Docker container
@@ -23,15 +23,15 @@
     name: mariadb
   vars:
     mariadb_instances: ["{{ docspell_name }}-mariadb"]
-    mariadb_paths_folder: "{{ docspell_name }}"
-    mariadb_paths_location: "{{ server_appdata_path }}/{{ docspell_paths_folder }}/mariadb"
+    mariadb_role_paths_folder: "{{ docspell_name }}"
+    mariadb_role_paths_location: "{{ server_appdata_path }}/{{ docspell_role_paths_folder }}/mariadb"
 
 - name: Create docspell database
   community.mysql.mysql_db:
     name: "{{ docspell_name }}"
     login_host: "{{ docspell_name }}-mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_env_password }}"
+    login_password: "{{ mariadb_role_docker_env_password }}"
     state: present
 
 - name: Remove legacy Solr Docker container
@@ -44,16 +44,16 @@
     name: solr
   vars:
     solr_name: "{{ docspell_name }}-solr"
-    solr_docker_env_core_name: "{{ docspell_name }}"
-    solr_paths_folder: "{{ docspell_name }}"
-    solr_paths_location: "{{ server_appdata_path }}/{{ solr_paths_folder }}/solr"
+    solr_role_docker_env_core_name: "{{ docspell_name }}"
+    solr_role_paths_folder: "{{ docspell_name }}"
+    solr_role_paths_location: "{{ server_appdata_path }}/{{ solr_role_paths_folder }}/solr"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: "Generate Secret Key for registration"
   ansible.builtin.shell: "openssl rand -hex 20"
@@ -84,23 +84,23 @@
 - name: Create Docker container (docspell-worker)
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
   vars:
-    docspell_docker_container: "{{ docspell_name }}-joex"
-    docspell_docker_image: "docspell/joex:latest"
-    docspell_web_port: "7878"
-    docspell_docker_envs:
+    docspell_role_docker_container: "{{ docspell_name }}-joex"
+    docspell_role_docker_image: "docspell/joex:latest"
+    docspell_role_web_port: "7878"
+    docspell_role_docker_envs:
       TZ: "{{ tz }}"
       DOCSPELL_JOEX_APP__ID: "joex"
       DOCSPELL_JOEX_PERIODIC__SCHEDULER_NAME: "joex"
       DOCSPELL_JOEX_SCHEDULER_NAME: "joex"
-      DOCSPELL_JOEX_BASE__URL: "http://{{ docspell_docker_container }}:{{ docspell_web_port }}"
+      DOCSPELL_JOEX_BASE__URL: "http://{{ docspell_role_docker_container }}:{{ docspell_role_web_port }}"
       DOCSPELL_JOEX_BIND_ADDRESS: "0.0.0.0"
       DOCSPELL_JOEX_FULL__TEXT__SEARCH_ENABLED: "true"
-      DOCSPELL_JOEX_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}-solr:{{ solr_docker_env_port }}/solr/{{ docspell_name }}"
-      DOCSPELL_JOEX_JDBC_PASSWORD: "{{ mariadb_docker_env_password }}"
+      DOCSPELL_JOEX_FULL__TEXT__SEARCH_SOLR_URL: "http://{{ docspell_name }}-solr:{{ solr_role_docker_env_port }}/solr/{{ docspell_name }}"
+      DOCSPELL_JOEX_JDBC_PASSWORD: "{{ mariadb_role_docker_env_password }}"
       DOCSPELL_JOEX_JDBC_URL: "jdbc:mariadb://{{ docspell_name }}-mariadb:3306/{{ docspell_name }}"
       DOCSPELL_JOEX_JDBC_USER: "root"
       DOCSPELL_JOEX_ADDONS_EXECUTOR__CONFIG_RUNNER: "docker,trivial"
       DOCSPELL_JOEX_CONVERT_HTML__CONVERTER: "weasyprint"
-    docspell_docker_labels: "{{ omit }}"
-    docspell_docker_volumes:
+    docspell_role_docker_labels: "{{ omit }}"
+    docspell_role_docker_volumes:
       - /tmp:/tmp

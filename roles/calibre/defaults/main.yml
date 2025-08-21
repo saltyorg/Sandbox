@@ -17,135 +17,135 @@ calibre_instances: ["calibre"]
 # Paths
 ################################
 
-calibre_paths_folder: "{{ calibre_name }}"
-calibre_paths_location: "{{ server_appdata_path }}/{{ calibre_paths_folder }}"
-calibre_paths_folders_list:
-  - "{{ calibre_paths_location }}"
+calibre_role_paths_folder: "{{ calibre_name }}"
+calibre_role_paths_location: "{{ server_appdata_path }}/{{ calibre_role_paths_folder }}"
+calibre_role_paths_folders_list:
+  - "{{ calibre_role_paths_location }}"
   - "/mnt/local/Media/Books"
 
 ################################
 # Web
 ################################
 
-calibre_web_subdomain: "{{ calibre_name }}"
-calibre_web_domain: "{{ user.domain }}"
-calibre_web_port: "8080"
-calibre_web_url: "{{ 'https://' + (lookup('vars', calibre_name + '_web_subdomain', default=calibre_web_subdomain) + '.' + lookup('vars', calibre_name + '_web_domain', default=calibre_web_domain)
-                  if (lookup('vars', calibre_name + '_web_subdomain', default=calibre_web_subdomain) | length > 0)
-                  else lookup('vars', calibre_name + '_web_domain', default=calibre_web_domain)) }}"
+calibre_role_web_subdomain: "{{ calibre_name }}"
+calibre_role_web_domain: "{{ user.domain }}"
+calibre_role_web_port: "8080"
+calibre_role_web_url: "{{ 'https://' + (lookup('vars', calibre_name + '_web_subdomain', default=calibre_role_web_subdomain) + '.' + lookup('vars', calibre_name + '_web_domain', default=calibre_role_web_domain)
+                  if (lookup('vars', calibre_name + '_web_subdomain', default=calibre_role_web_subdomain) | length > 0)
+                  else lookup('vars', calibre_name + '_web_domain', default=calibre_role_web_domain)) }}"
 
-calibre_web2_subdomain: "{{ calibre_name }}books"
-calibre_web2_domain: "{{ user.domain }}"
-calibre_web2_port: "8081"
-calibre_web2_web_url: "{{ 'https://' + (lookup('vars', calibre_name + '_web2_subdomain', default=calibre_web2_subdomain) + '.' + lookup('vars', calibre_name + '_web2_domain', default=calibre_web2_domain)
-                       if (lookup('vars', calibre_name + '_web2_subdomain', default=calibre_web2_subdomain) | length > 0)
-                       else lookup('vars', calibre_name + '_web2_domain', default=calibre_web2_domain)) }}"
+calibre_role_web2_subdomain: "{{ calibre_name }}books"
+calibre_role_web2_domain: "{{ user.domain }}"
+calibre_role_web2_port: "8081"
+calibre_role_web2_role_web_url: "{{ 'https://' + (lookup('vars', calibre_name + '_web2_subdomain', default=calibre_role_web2_subdomain) + '.' + lookup('vars', calibre_name + '_web2_domain', default=calibre_role_web2_domain)
+                       if (lookup('vars', calibre_name + '_web2_subdomain', default=calibre_role_web2_subdomain) | length > 0)
+                       else lookup('vars', calibre_name + '_web2_domain', default=calibre_role_web2_domain)) }}"
 
 ################################
 # DNS
 ################################
 
-calibre_dns_record: "{{ lookup('vars', calibre_name + '_web_subdomain', default=calibre_web_subdomain) }}"
-calibre_dns_zone: "{{ lookup('vars', calibre_name + '_web_domain', default=calibre_web_domain) }}"
-calibre_dns_proxy: "{{ dns.proxied }}"
-calibre_dns2_record: "{{ lookup('vars', calibre_name + '_web2_subdomain', default=calibre_web2_subdomain) }}"
-calibre_dns2_zone: "{{ lookup('vars', calibre_name + '_web2_domain', default=calibre_web2_domain) }}"
-calibre_dns2_proxy: "{{ dns.proxied }}"
+calibre_role_dns_record: "{{ lookup('vars', calibre_name + '_web_subdomain', default=calibre_role_web_subdomain) }}"
+calibre_role_dns_zone: "{{ lookup('vars', calibre_name + '_web_domain', default=calibre_role_web_domain) }}"
+calibre_role_dns_proxy: "{{ dns.proxied }}"
+calibre_role_dns2_record: "{{ lookup('vars', calibre_name + '_web2_subdomain', default=calibre_role_web2_subdomain) }}"
+calibre_role_dns2_zone: "{{ lookup('vars', calibre_name + '_web2_domain', default=calibre_role_web2_domain) }}"
+calibre_role_dns2_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-calibre_traefik_sso_middleware: ""
-calibre_traefik_middleware_default: "{{ traefik_default_middleware }}"
-calibre_traefik_middleware_custom: ""
-calibre_traefik_certresolver: "{{ traefik_default_certresolver }}"
-calibre_traefik_enabled: true
-calibre_books_traefik_sso_middleware: ""
-calibre_books_traefik_middleware_default: "{{ traefik_default_middleware
-                                              + (',' + lookup('vars', calibre_name + '_books_traefik_sso_middleware', default=calibre_books_traefik_sso_middleware)
-                                                if (lookup('vars', calibre_name + '_books_traefik_sso_middleware', default=calibre_books_traefik_sso_middleware) | length > 0)
+calibre_role_traefik_sso_middleware: ""
+calibre_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+calibre_role_traefik_middleware_custom: ""
+calibre_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+calibre_role_traefik_enabled: true
+calibre_books_role_traefik_sso_middleware: ""
+calibre_books_role_traefik_middleware_default: "{{ traefik_default_middleware
+                                              + (',' + lookup('vars', calibre_name + '_books_role_traefik_sso_middleware', default=calibre_books_role_traefik_sso_middleware)
+                                                if (lookup('vars', calibre_name + '_books_role_traefik_sso_middleware', default=calibre_books_role_traefik_sso_middleware) | length > 0)
                                                 else '') }}"
-calibre_books_traefik_middleware_custom: ""
-calibre_books_traefik_middleware: "{{ calibre_books_traefik_middleware_default
-                                      + (',' + calibre_books_traefik_middleware_custom
-                                        if (not calibre_books_traefik_middleware_custom.startswith(',') and calibre_books_traefik_middleware_custom | length > 0)
-                                        else calibre_books_traefik_middleware_custom) }}"
-calibre_books_traefik_router: "{{ lookup('vars', calibre_name + '_web2_subdomain', default=calibre_web2_subdomain) }}"
+calibre_books_role_traefik_middleware_custom: ""
+calibre_books_role_traefik_middleware: "{{ calibre_books_role_traefik_middleware_default
+                                      + (',' + calibre_books_role_traefik_middleware_custom
+                                        if (not calibre_books_role_traefik_middleware_custom.startswith(',') and calibre_books_role_traefik_middleware_custom | length > 0)
+                                        else calibre_books_role_traefik_middleware_custom) }}"
+calibre_books_role_traefik_router: "{{ lookup('vars', calibre_name + '_web2_subdomain', default=calibre_role_web2_subdomain) }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-calibre_docker_container: "{{ calibre_name }}"
+calibre_role_docker_container: "{{ calibre_name }}"
 
 # Image
-calibre_docker_image_pull: true
-calibre_docker_image_repo: "lscr.io/linuxserver/calibre"
-calibre_docker_image_tag: "latest"
-calibre_docker_image: "{{ lookup('vars', calibre_name + '_docker_image_repo', default=calibre_docker_image_repo)
-                          + ':' + lookup('vars', calibre_name + '_docker_image_tag', default=calibre_docker_image_tag) }}"
+calibre_role_docker_image_pull: true
+calibre_role_docker_image_repo: "lscr.io/linuxserver/calibre"
+calibre_role_docker_image_tag: "latest"
+calibre_role_docker_image: "{{ lookup('vars', calibre_name + '_docker_image_repo', default=calibre_role_docker_image_repo)
+                          + ':' + lookup('vars', calibre_name + '_docker_image_tag', default=calibre_role_docker_image_tag) }}"
 
 # Envs
-calibre_docker_envs_default:
+calibre_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   CUSTOM_USER: "{{ user.name }}"
   PASSWORD: "{{ user.pass }}"
   LIBRARYINTERNALPATH: "/library"
-calibre_docker_envs_custom: {}
-calibre_docker_envs: "{{ lookup('vars', calibre_name + '_docker_envs_default', default=calibre_docker_envs_default)
-                         | combine(lookup('vars', calibre_name + '_docker_envs_custom', default=calibre_docker_envs_custom)) }}"
+calibre_role_docker_envs_custom: {}
+calibre_role_docker_envs: "{{ lookup('vars', calibre_name + '_docker_envs_default', default=calibre_role_docker_envs_default)
+                         | combine(lookup('vars', calibre_name + '_docker_envs_custom', default=calibre_role_docker_envs_custom)) }}"
 
 # Volumes
-calibre_docker_volumes_default:
-  - "{{ calibre_paths_location }}:/config"
+calibre_role_docker_volumes_default:
+  - "{{ calibre_role_paths_location }}:/config"
   - "/mnt/unionfs/Media/Books:/library"
-calibre_docker_volumes_custom: []
-calibre_docker_volumes: "{{ lookup('vars', calibre_name + '_docker_volumes_default', default=calibre_docker_volumes_default)
-                            + lookup('vars', calibre_name + '_docker_volumes_custom', default=calibre_docker_volumes_custom) }}"
+calibre_role_docker_volumes_custom: []
+calibre_role_docker_volumes: "{{ lookup('vars', calibre_name + '_docker_volumes_default', default=calibre_role_docker_volumes_default)
+                            + lookup('vars', calibre_name + '_docker_volumes_custom', default=calibre_role_docker_volumes_custom) }}"
 
 # Labels
-calibre_docker_labels_default:
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.entrypoints": "web" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.service": "{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.rule": "Host(`{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) + "." + lookup("vars", calibre_name + "_web2_domain", default=calibre_web2_domain) }}`)" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.middlewares": "{{ traefik_default_middleware_http }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}-http.priority": "20" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.entrypoints": "websecure" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.service": "{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.rule": "Host(`{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_web2_subdomain) + "." + lookup("vars", calibre_name + "_web2_domain", default=calibre_web2_domain) }}`)" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.middlewares": "{{ calibre_books_traefik_middleware }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.tls.options": "securetls@file" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.tls.certresolver": "{{ calibre_traefik_certresolver }}" }'
-  - '{ "traefik.http.routers.{{ calibre_books_traefik_router }}.priority": "20" }'
-  - '{ "traefik.http.services.{{ calibre_books_traefik_router }}.loadbalancer.server.port": "{{ calibre_web2_port }}" }'
-calibre_docker_labels_custom: {}
-calibre_docker_labels: "{{ lookup('vars', calibre_name + '_docker_labels_default', default=calibre_docker_labels_default)
-                           | combine(lookup('vars', calibre_name + '_docker_labels_custom', default=calibre_docker_labels_custom)) }}"
+calibre_role_docker_labels_default:
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}-http.entrypoints": "web" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}-http.service": "{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_role_web2_subdomain) }}" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}-http.rule": "Host(`{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_role_web2_subdomain) + "." + lookup("vars", calibre_name + "_web2_domain", default=calibre_role_web2_domain) }}`)" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}-http.middlewares": "{{ traefik_default_middleware_http }}" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}-http.priority": "20" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.entrypoints": "websecure" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.service": "{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_role_web2_subdomain) }}" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.rule": "Host(`{{ lookup("vars", calibre_name + "_web2_subdomain", default=calibre_role_web2_subdomain) + "." + lookup("vars", calibre_name + "_web2_domain", default=calibre_role_web2_domain) }}`)" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.middlewares": "{{ calibre_books_role_traefik_middleware }}" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.tls.options": "securetls@file" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.tls.certresolver": "{{ calibre_role_traefik_certresolver }}" }'
+  - '{ "traefik.http.routers.{{ calibre_books_role_traefik_router }}.priority": "20" }'
+  - '{ "traefik.http.services.{{ calibre_books_role_traefik_router }}.loadbalancer.server.port": "{{ calibre_role_web2_port }}" }'
+calibre_role_docker_labels_custom: {}
+calibre_role_docker_labels: "{{ lookup('vars', calibre_name + '_docker_labels_default', default=calibre_role_docker_labels_default)
+                           | combine(lookup('vars', calibre_name + '_docker_labels_custom', default=calibre_role_docker_labels_custom)) }}"
 
 # Hostname
-calibre_docker_hostname: "{{ calibre_name }}"
+calibre_role_docker_hostname: "{{ calibre_name }}"
 
 # Networks
-calibre_docker_networks_alias: "{{ calibre_name }}"
-calibre_docker_networks_default: []
-calibre_docker_networks_custom: []
-calibre_docker_networks: "{{ docker_networks_common
-                             + lookup('vars', calibre_name + '_docker_networks_default', default=calibre_docker_networks_default)
-                             + lookup('vars', calibre_name + '_docker_networks_custom', default=calibre_docker_networks_custom) }}"
+calibre_role_docker_networks_alias: "{{ calibre_name }}"
+calibre_role_docker_networks_default: []
+calibre_role_docker_networks_custom: []
+calibre_role_docker_networks: "{{ docker_networks_common
+                             + lookup('vars', calibre_name + '_docker_networks_default', default=calibre_role_docker_networks_default)
+                             + lookup('vars', calibre_name + '_docker_networks_custom', default=calibre_role_docker_networks_custom) }}"
 
 # Security Opts
-calibre_docker_security_opts_default:
+calibre_role_docker_security_opts_default:
   - seccomp=unconfined
-calibre_docker_security_opts_custom: []
-calibre_docker_security_opts: "{{ lookup('vars', calibre_name + '_docker_security_opts_default', default=calibre_docker_security_opts_default)
-                                  + lookup('vars', calibre_name + '_docker_security_opts_custom', default=calibre_docker_security_opts_custom) }}"
+calibre_role_docker_security_opts_custom: []
+calibre_role_docker_security_opts: "{{ lookup('vars', calibre_name + '_docker_security_opts_default', default=calibre_role_docker_security_opts_default)
+                                  + lookup('vars', calibre_name + '_docker_security_opts_custom', default=calibre_role_docker_security_opts_custom) }}"
 
 # Restart Policy
-calibre_docker_restart_policy: unless-stopped
+calibre_role_docker_restart_policy: unless-stopped
 
 # State
-calibre_docker_state: started
+calibre_role_docker_state: started

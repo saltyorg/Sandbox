@@ -11,18 +11,18 @@
   ansible.builtin.set_fact:
     plex_name: "{{ plex_name | default(plex_instances[0]) }}"
 
-- name: Check if {{ plex_paths_config_location | basename }} exists
+- name: Check if {{ plex_role_paths_config_location | basename }} exists
   ansible.builtin.stat:
-    path: "{{ plex_paths_config_location }}"
+    path: "{{ plex_role_paths_config_location }}"
   register: preferences_xml
 
 - name: Get default Plex username
   ignore_errors: true
   when: preferences_xml.stat.exists
   block:
-    - name: Get {{ plex_paths_config_location | basename }} XML data
+    - name: Get {{ plex_role_paths_config_location | basename }} XML data
       community.general.xml:
-        path: "{{ plex_paths_config_location }}"
+        path: "{{ plex_role_paths_config_location }}"
         xpath: /Preferences
         content: attribute
       register: preferences_xml_resp
@@ -36,8 +36,8 @@
     name: plex_auth_token
   when: plex_account_is_enabled
 
-- name: Create {{ plextraktsync_paths_env | basename }}
+- name: Create {{ plextraktsync_role_paths_env | basename }}
   ansible.builtin.template:
     src: env.j2
-    dest: "{{ plextraktsync_paths_env }}"
+    dest: "{{ plextraktsync_role_paths_env }}"
     mode: "0644"

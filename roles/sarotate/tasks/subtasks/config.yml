@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Get types of the remote entered
-  ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=sarotate_paths_rclone_config_location) }}"
+  ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=sarotate_role_paths_rclone_config_location) }}"
   loop: "{{ sarotate.remotes }}"
   register: remote_type
 
@@ -29,7 +29,7 @@
         union_remotes: "{{ remote_type.results | selectattr('stdout', '==', 'union') | map(attribute='item') }}"
 
     - name: Get the upstreams of union remotes
-      ansible.builtin.shell: "echo {{ lookup('ini', 'upstreams', section=item, file=sarotate_paths_rclone_config_location) }}"
+      ansible.builtin.shell: "echo {{ lookup('ini', 'upstreams', section=item, file=sarotate_role_paths_rclone_config_location) }}"
       with_items: "{{ union_remotes }}"
       register: union_upstreams_var
 

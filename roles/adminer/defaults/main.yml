@@ -17,63 +17,63 @@ adminer_name: adminer
 # Web
 ################################
 
-adminer_web_subdomain: "{{ adminer_name }}"
-adminer_web_domain: "{{ user.domain }}"
-adminer_web_port: "8080"
-adminer_web_url: "{{ 'https://' + (adminer_web_subdomain + '.' + adminer_web_domain
-                  if (adminer_web_subdomain | length > 0)
-                  else adminer_web_domain) }}"
+adminer_role_web_subdomain: "{{ adminer_name }}"
+adminer_role_web_domain: "{{ user.domain }}"
+adminer_role_web_port: "8080"
+adminer_role_web_url: "{{ 'https://' + (adminer_role_web_subdomain + '.' + adminer_role_web_domain
+                  if (adminer_role_web_subdomain | length > 0)
+                  else adminer_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-adminer_dns_record: "{{ adminer_web_subdomain }}"
-adminer_dns_zone: "{{ adminer_web_domain }}"
-adminer_dns_proxy: "{{ dns.proxied }}"
+adminer_role_dns_record: "{{ adminer_role_web_subdomain }}"
+adminer_role_dns_zone: "{{ adminer_role_web_domain }}"
+adminer_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-adminer_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-adminer_traefik_middleware_default: "{{ traefik_default_middleware }}"
-adminer_traefik_middleware_custom: ""
-adminer_traefik_certresolver: "{{ traefik_default_certresolver }}"
-adminer_traefik_enabled: true
+adminer_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+adminer_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+adminer_role_traefik_middleware_custom: ""
+adminer_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+adminer_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-adminer_docker_container: "{{ adminer_name }}"
+adminer_role_docker_container: "{{ adminer_name }}"
 
 # Image
-adminer_docker_image_pull: true
-adminer_docker_image_tag: "latest"
-adminer_docker_image: "adminer:{{ adminer_docker_image_tag }}"
+adminer_role_docker_image_pull: true
+adminer_role_docker_image_tag: "latest"
+adminer_role_docker_image: "adminer:{{ adminer_role_docker_image_tag }}"
 
 # Envs
-adminer_docker_envs_default:
+adminer_role_docker_envs_default:
   ADMINER_DEFAULT_SERVER: "mysql"
-adminer_docker_envs_custom: {}
-adminer_docker_envs: "{{ adminer_docker_envs_default
-                         | combine(adminer_docker_envs_custom) }}"
+adminer_role_docker_envs_custom: {}
+adminer_role_docker_envs: "{{ adminer_role_docker_envs_default
+                         | combine(adminer_role_docker_envs_custom) }}"
 
 # Hostname
-adminer_docker_hostname: "{{ adminer_name }}"
+adminer_role_docker_hostname: "{{ adminer_name }}"
 
 # Networks
-adminer_docker_networks_alias: "{{ adminer_name }}"
-adminer_docker_networks_default: []
-adminer_docker_networks_custom: []
-adminer_docker_networks: "{{ docker_networks_common
-                             + adminer_docker_networks_default
-                             + adminer_docker_networks_custom }}"
+adminer_role_docker_networks_alias: "{{ adminer_name }}"
+adminer_role_docker_networks_default: []
+adminer_role_docker_networks_custom: []
+adminer_role_docker_networks: "{{ docker_networks_common
+                             + adminer_role_docker_networks_default
+                             + adminer_role_docker_networks_custom }}"
 
 # Restart Policy
-adminer_docker_restart_policy: unless-stopped
+adminer_role_docker_restart_policy: unless-stopped
 
 # State
-adminer_docker_state: started
+adminer_role_docker_state: started

@@ -17,58 +17,58 @@ linkding_name: linkding
 # Paths
 ################################
 
-linkding_paths_folder: "{{ linkding_name }}"
-linkding_paths_location: "{{ server_appdata_path }}/{{ linkding_paths_folder }}"
-linkding_paths_folders_list:
-  - "{{ linkding_paths_location }}"
+linkding_role_paths_folder: "{{ linkding_name }}"
+linkding_role_paths_location: "{{ server_appdata_path }}/{{ linkding_role_paths_folder }}"
+linkding_role_paths_folders_list:
+  - "{{ linkding_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-linkding_web_subdomain: "{{ linkding_name }}"
-linkding_web_domain: "{{ user.domain }}"
-linkding_web_port: "9090"
-linkding_web_url: "{{ 'https://' + (linkding_web_subdomain + '.' + linkding_web_domain
-                   if (linkding_web_subdomain | length > 0)
-                   else linkding_web_domain) }}"
+linkding_role_web_subdomain: "{{ linkding_name }}"
+linkding_role_web_domain: "{{ user.domain }}"
+linkding_role_web_port: "9090"
+linkding_role_web_url: "{{ 'https://' + (linkding_role_web_subdomain + '.' + linkding_role_web_domain
+                   if (linkding_role_web_subdomain | length > 0)
+                   else linkding_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-linkding_dns_record: "{{ linkding_web_subdomain }}"
-linkding_dns_zone: "{{ linkding_web_domain }}"
-linkding_dns_proxy: "{{ dns.proxied }}"
+linkding_role_dns_record: "{{ linkding_role_web_subdomain }}"
+linkding_role_dns_zone: "{{ linkding_role_web_domain }}"
+linkding_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-linkding_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-linkding_traefik_middleware_default: "{{ traefik_default_middleware }}"
-linkding_traefik_middleware_custom: ""
-linkding_traefik_certresolver: "{{ traefik_default_certresolver }}"
-linkding_traefik_enabled: true
-linkding_traefik_api_enabled: true
-linkding_traefik_api_endpoint: "PathPrefix(`/api`)"
-linkding_traefik_api_middleware_http: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_http_api }}"
-linkding_traefik_api_middleware: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_api }}"
+linkding_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+linkding_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+linkding_role_traefik_middleware_custom: ""
+linkding_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+linkding_role_traefik_enabled: true
+linkding_role_traefik_api_enabled: true
+linkding_role_traefik_api_endpoint: "PathPrefix(`/api`)"
+linkding_role_traefik_api_middleware_http: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_http_api }}"
+linkding_role_traefik_api_middleware: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_api }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-linkding_docker_container: "{{ linkding_name }}"
+linkding_role_docker_container: "{{ linkding_name }}"
 
 # Image
-linkding_docker_image_pull: true
-linkding_docker_image_tag: "latest"
-linkding_docker_image: "sissbruecker/linkding:{{ linkding_docker_image_tag }}"
+linkding_role_docker_image_pull: true
+linkding_role_docker_image_tag: "latest"
+linkding_role_docker_image: "sissbruecker/linkding:{{ linkding_role_docker_image_tag }}"
 
 # Envs
-linkding_docker_envs_default:
+linkding_role_docker_envs_default:
   TZ: "{{ tz }}"
   LD_CONTAINER_NAME: "{{ linkding_name }}"
   LD_HOST_PORT: "9090"
@@ -78,31 +78,31 @@ linkding_docker_envs_default:
   LD_DISABLE_BACKGROUND_TASKS: "false"
   LD_DISABLE_URL_VALIDATION: "false"
   LD_ENABLE_AUTH_PROXY: "false"
-  LD_CSRF_TRUSTED_ORIGINS: "{{ linkding_web_url }}"
-linkding_docker_envs_custom: {}
-linkding_docker_envs: "{{ linkding_docker_envs_default
-                          | combine(linkding_docker_envs_custom) }}"
+  LD_CSRF_TRUSTED_ORIGINS: "{{ linkding_role_web_url }}"
+linkding_role_docker_envs_custom: {}
+linkding_role_docker_envs: "{{ linkding_role_docker_envs_default
+                          | combine(linkding_role_docker_envs_custom) }}"
 
 # Volumes
-linkding_docker_volumes_default:
-  - "{{ linkding_paths_location }}:/etc/linkding/data"
-linkding_docker_volumes_custom: []
-linkding_docker_volumes: "{{ linkding_docker_volumes_default
-                             + linkding_docker_volumes_custom }}"
+linkding_role_docker_volumes_default:
+  - "{{ linkding_role_paths_location }}:/etc/linkding/data"
+linkding_role_docker_volumes_custom: []
+linkding_role_docker_volumes: "{{ linkding_role_docker_volumes_default
+                             + linkding_role_docker_volumes_custom }}"
 
 # Hostname
-linkding_docker_hostname: "{{ linkding_name }}"
+linkding_role_docker_hostname: "{{ linkding_name }}"
 
 # Networks
-linkding_docker_networks_alias: "{{ linkding_name }}"
-linkding_docker_networks_default: []
-linkding_docker_networks_custom: []
-linkding_docker_networks: "{{ docker_networks_common
-                              + linkding_docker_networks_default
-                              + linkding_docker_networks_custom }}"
+linkding_role_docker_networks_alias: "{{ linkding_name }}"
+linkding_role_docker_networks_default: []
+linkding_role_docker_networks_custom: []
+linkding_role_docker_networks: "{{ docker_networks_common
+                              + linkding_role_docker_networks_default
+                              + linkding_role_docker_networks_custom }}"
 
 # Restart Policy
-linkding_docker_restart_policy: unless-stopped
+linkding_role_docker_restart_policy: unless-stopped
 
 # State
-linkding_docker_state: started
+linkding_role_docker_state: started

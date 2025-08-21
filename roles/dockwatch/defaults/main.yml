@@ -17,7 +17,7 @@ dockwatch_post_enable: false
 # Docker Socket Proxy
 ################################
 
-dockwatch_docker_socket_proxy_envs:
+dockwatch_role_docker_socket_proxy_envs:
   ALLOW_START: "1"
   ALLOW_STOP: "1"
   ALLOW_RESTARTS: "1"
@@ -38,88 +38,88 @@ dockwatch_name: dockwatch
 # Paths
 ################################
 
-dockwatch_paths_folder: "{{ dockwatch_name }}"
-dockwatch_paths_location: "{{ server_appdata_path }}/{{ dockwatch_paths_folder }}"
-dockwatch_paths_folders_list:
-  - "{{ dockwatch_paths_location }}"
-  - "{{ dockwatch_paths_location }}/icons"
+dockwatch_role_paths_folder: "{{ dockwatch_name }}"
+dockwatch_role_paths_location: "{{ server_appdata_path }}/{{ dockwatch_role_paths_folder }}"
+dockwatch_role_paths_folders_list:
+  - "{{ dockwatch_role_paths_location }}"
+  - "{{ dockwatch_role_paths_location }}/icons"
 
 ################################
 # Web
 ################################
 
-dockwatch_web_subdomain: "{{ dockwatch_name }}"
-dockwatch_web_domain: "{{ user.domain }}"
-dockwatch_web_port: "80"
-dockwatch_web_url: "{{ 'https://' + (dockwatch_web_subdomain + '.' + dockwatch_web_domain
-                    if (dockwatch_web_subdomain | length > 0)
-                    else dockwatch_web_domain) }}"
+dockwatch_role_web_subdomain: "{{ dockwatch_name }}"
+dockwatch_role_web_domain: "{{ user.domain }}"
+dockwatch_role_web_port: "80"
+dockwatch_role_web_url: "{{ 'https://' + (dockwatch_role_web_subdomain + '.' + dockwatch_role_web_domain
+                    if (dockwatch_role_web_subdomain | length > 0)
+                    else dockwatch_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-dockwatch_dns_record: "{{ dockwatch_web_subdomain }}"
-dockwatch_dns_zone: "{{ dockwatch_web_domain }}"
-dockwatch_dns_proxy: "{{ dns.proxied }}"
+dockwatch_role_dns_record: "{{ dockwatch_role_web_subdomain }}"
+dockwatch_role_dns_zone: "{{ dockwatch_role_web_domain }}"
+dockwatch_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-dockwatch_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-dockwatch_traefik_middleware_default: "{{ traefik_default_middleware }}"
-dockwatch_traefik_middleware_custom: ""
-dockwatch_traefik_certresolver: "{{ traefik_default_certresolver }}"
-dockwatch_traefik_enabled: true
-dockwatch_traefik_api_enabled: true
-dockwatch_traefik_api_endpoint: "PathPrefix(`/api`)"
+dockwatch_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+dockwatch_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+dockwatch_role_traefik_middleware_custom: ""
+dockwatch_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+dockwatch_role_traefik_enabled: true
+dockwatch_role_traefik_api_enabled: true
+dockwatch_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-dockwatch_docker_container: "{{ dockwatch_name }}"
+dockwatch_role_docker_container: "{{ dockwatch_name }}"
 
 # Image
-dockwatch_docker_image_pull: true
-dockwatch_docker_image_tag: "main"
-dockwatch_docker_image: "ghcr.io/notifiarr/dockwatch:{{ dockwatch_docker_image_tag }}"
+dockwatch_role_docker_image_pull: true
+dockwatch_role_docker_image_tag: "main"
+dockwatch_role_docker_image: "ghcr.io/notifiarr/dockwatch:{{ dockwatch_role_docker_image_tag }}"
 
 # Envs
-dockwatch_docker_envs_default:
+dockwatch_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   DOCKER_HOST: "{{ dockwatch_name }}-docker-socket-proxy:2375"
-dockwatch_docker_envs_custom: {}
-dockwatch_docker_envs: "{{ dockwatch_docker_envs_default
-                           | combine(dockwatch_docker_envs_custom) }}"
+dockwatch_role_docker_envs_custom: {}
+dockwatch_role_docker_envs: "{{ dockwatch_role_docker_envs_default
+                           | combine(dockwatch_role_docker_envs_custom) }}"
 
 # Volumes
-dockwatch_docker_volumes_default:
-  - "{{ dockwatch_paths_location }}:/config"
-dockwatch_docker_volumes_custom: []
-dockwatch_docker_volumes: "{{ dockwatch_docker_volumes_default
-                              + dockwatch_docker_volumes_custom }}"
+dockwatch_role_docker_volumes_default:
+  - "{{ dockwatch_role_paths_location }}:/config"
+dockwatch_role_docker_volumes_custom: []
+dockwatch_role_docker_volumes: "{{ dockwatch_role_docker_volumes_default
+                              + dockwatch_role_docker_volumes_custom }}"
 
 # Hostname
-dockwatch_docker_hostname: "{{ dockwatch_name }}"
+dockwatch_role_docker_hostname: "{{ dockwatch_name }}"
 
 # Networks
-dockwatch_docker_networks_alias: "{{ dockwatch_name }}"
-dockwatch_docker_networks_default: []
-dockwatch_docker_networks_custom: []
-dockwatch_docker_networks: "{{ docker_networks_common
-                               + dockwatch_docker_networks_default
-                               + dockwatch_docker_networks_custom }}"
+dockwatch_role_docker_networks_alias: "{{ dockwatch_name }}"
+dockwatch_role_docker_networks_default: []
+dockwatch_role_docker_networks_custom: []
+dockwatch_role_docker_networks: "{{ docker_networks_common
+                               + dockwatch_role_docker_networks_default
+                               + dockwatch_role_docker_networks_custom }}"
 
 # Restart Policy
-dockwatch_docker_restart_policy: unless-stopped
+dockwatch_role_docker_restart_policy: unless-stopped
 
 # State
-dockwatch_docker_state: started
+dockwatch_role_docker_state: started
 
 # Dependencies
 dockwatch_depends_on: "{{ dockwatch_name }}-docker-socket-proxy"

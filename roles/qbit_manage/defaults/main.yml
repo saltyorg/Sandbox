@@ -17,31 +17,31 @@ qbit_manage_name: qbit-manage
 # Paths
 ################################
 
-qbit_manage_paths_folder: "{{ qbit_manage_name }}"
-qbit_manage_paths_location: "{{ server_appdata_path }}/{{ qbit_manage_paths_folder }}"
-qbit_manage_paths_folders_list:
-  - "{{ qbit_manage_paths_location }}"
+qbit_manage_role_paths_folder: "{{ qbit_manage_name }}"
+qbit_manage_role_paths_location: "{{ server_appdata_path }}/{{ qbit_manage_role_paths_folder }}"
+qbit_manage_role_paths_folders_list:
+  - "{{ qbit_manage_role_paths_location }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-qbit_manage_docker_container: "{{ qbit_manage_name }}"
+qbit_manage_role_docker_container: "{{ qbit_manage_name }}"
 
 # Image
-qbit_manage_docker_image_pull: true
-qbit_manage_docker_image_tag: "release"
-qbit_manage_docker_image: "ghcr.io/hotio/qbitmanage:{{ qbit_manage_docker_image_tag }}"
+qbit_manage_role_docker_image_pull: true
+qbit_manage_role_docker_image_tag: "release"
+qbit_manage_role_docker_image: "ghcr.io/hotio/qbitmanage:{{ qbit_manage_role_docker_image_tag }}"
 
 # Ports
-qbit_manage_docker_ports_defaults: []
-qbit_manage_docker_ports_custom: []
-qbit_manage_docker_ports: "{{ qbit_manage_docker_ports_defaults
-                              + qbit_manage_docker_ports_custom }}"
+qbit_manage_role_docker_ports_defaults: []
+qbit_manage_role_docker_ports_custom: []
+qbit_manage_role_docker_ports: "{{ qbit_manage_role_docker_ports_defaults
+                              + qbit_manage_role_docker_ports_custom }}"
 
 # Envs
-qbit_manage_docker_envs_default:
+qbit_manage_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   UMASK: "002"
@@ -64,31 +64,31 @@ qbit_manage_docker_envs_default:
   QBT_WIDTH: "{{ qbit_manage.qbt_width }}"
   QBT_DEBUG: "{{ qbit_manage.qbt_debug }}"
   QBT_TRACE: "{{ qbit_manage.qbt_trace }}"
-qbit_manage_docker_envs_custom: {}
-qbit_manage_docker_envs: "{{ qbit_manage_docker_envs_default
-                             | combine(qbit_manage_docker_envs_custom) }}"
+qbit_manage_role_docker_envs_custom: {}
+qbit_manage_role_docker_envs: "{{ qbit_manage_role_docker_envs_default
+                             | combine(qbit_manage_role_docker_envs_custom) }}"
 
 # Volumes
-qbit_manage_docker_volumes_default:
-  - "{{ qbit_manage_paths_location }}:/config"
-qbit_manage_docker_volumes_custom: []
-qbit_manage_docker_volumes: "{{ qbit_manage_docker_volumes_default
-                                + qbit_manage_docker_volumes_custom }}"
+qbit_manage_role_docker_volumes_default:
+  - "{{ qbit_manage_role_paths_location }}:/config"
+qbit_manage_role_docker_volumes_custom: []
+qbit_manage_role_docker_volumes: "{{ qbit_manage_role_docker_volumes_default
+                                + qbit_manage_role_docker_volumes_custom }}"
 
 # Hostname
-qbit_manage_docker_hostname: "{{ qbit_manage_name }}"
+qbit_manage_role_docker_hostname: "{{ qbit_manage_name }}"
 
 # Networks
-qbit_manage_docker_networks_alias: "{{ qbit_manage_name }}"
-qbit_manage_docker_networks_default: []
-qbit_manage_docker_networks_custom: []
-qbit_manage_docker_networks: "{{ docker_networks_common
-                                 + qbit_manage_docker_networks_default
-                                 + qbit_manage_docker_networks_custom }}"
+qbit_manage_role_docker_networks_alias: "{{ qbit_manage_name }}"
+qbit_manage_role_docker_networks_default: []
+qbit_manage_role_docker_networks_custom: []
+qbit_manage_role_docker_networks: "{{ docker_networks_common
+                                 + qbit_manage_role_docker_networks_default
+                                 + qbit_manage_role_docker_networks_custom }}"
 
 # Restart Policy
-qbit_manage_docker_restart_policy: on-failure
-qbit_manage_docker_restart_retries: 3
+qbit_manage_role_docker_restart_policy: on-failure
+qbit_manage_role_docker_restart_retries: 3
 
 # State
-qbit_manage_docker_state: started
+qbit_manage_role_docker_state: started

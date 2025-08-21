@@ -17,84 +17,84 @@ lazylibrarian_name: lazylibrarian
 # Paths
 ################################
 
-lazylibrarian_paths_folder: "{{ lazylibrarian_name }}"
-lazylibrarian_paths_location: "{{ server_appdata_path }}/{{ lazylibrarian_paths_folder }}"
-lazylibrarian_paths_folders_list:
-  - "{{ lazylibrarian_paths_location }}"
+lazylibrarian_role_paths_folder: "{{ lazylibrarian_name }}"
+lazylibrarian_role_paths_location: "{{ server_appdata_path }}/{{ lazylibrarian_role_paths_folder }}"
+lazylibrarian_role_paths_folders_list:
+  - "{{ lazylibrarian_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-lazylibrarian_web_subdomain: "{{ lazylibrarian_name }}"
-lazylibrarian_web_domain: "{{ user.domain }}"
-lazylibrarian_web_port: "5299"
-lazylibrarian_web_url: "{{ 'https://' + (lazylibrarian_web_subdomain + '.' + lazylibrarian_web_domain
-                        if (lazylibrarian_web_subdomain | length > 0)
-                        else lazylibrarian_web_domain) }}"
+lazylibrarian_role_web_subdomain: "{{ lazylibrarian_name }}"
+lazylibrarian_role_web_domain: "{{ user.domain }}"
+lazylibrarian_role_web_port: "5299"
+lazylibrarian_role_web_url: "{{ 'https://' + (lazylibrarian_role_web_subdomain + '.' + lazylibrarian_role_web_domain
+                        if (lazylibrarian_role_web_subdomain | length > 0)
+                        else lazylibrarian_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-lazylibrarian_dns_record: "{{ lazylibrarian_web_subdomain }}"
-lazylibrarian_dns_zone: "{{ lazylibrarian_web_domain }}"
-lazylibrarian_dns_proxy: "{{ dns.proxied }}"
+lazylibrarian_role_dns_record: "{{ lazylibrarian_role_web_subdomain }}"
+lazylibrarian_role_dns_zone: "{{ lazylibrarian_role_web_domain }}"
+lazylibrarian_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-lazylibrarian_traefik_sso_middleware: ""
-lazylibrarian_traefik_middleware_default: "{{ traefik_default_middleware }}"
-lazylibrarian_traefik_middleware_custom: ""
-lazylibrarian_traefik_certresolver: "{{ traefik_default_certresolver }}"
-lazylibrarian_traefik_enabled: true
-lazylibrarian_traefik_api_enabled: false
-lazylibrarian_traefik_api_endpoint: ""
+lazylibrarian_role_traefik_sso_middleware: ""
+lazylibrarian_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+lazylibrarian_role_traefik_middleware_custom: ""
+lazylibrarian_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+lazylibrarian_role_traefik_enabled: true
+lazylibrarian_role_traefik_api_enabled: false
+lazylibrarian_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-lazylibrarian_docker_container: "{{ lazylibrarian_name }}"
+lazylibrarian_role_docker_container: "{{ lazylibrarian_name }}"
 
 # Image
-lazylibrarian_docker_image_pull: true
-lazylibrarian_docker_image_tag: "latest"
-lazylibrarian_docker_image: "lscr.io/linuxserver/lazylibrarian:{{ lazylibrarian_docker_image_tag }}"
+lazylibrarian_role_docker_image_pull: true
+lazylibrarian_role_docker_image_tag: "latest"
+lazylibrarian_role_docker_image: "lscr.io/linuxserver/lazylibrarian:{{ lazylibrarian_role_docker_image_tag }}"
 
 # Envs
-lazylibrarian_docker_envs_default:
+lazylibrarian_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   DOCKER_MODS: "linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg"
-lazylibrarian_docker_envs_custom: {}
-lazylibrarian_docker_envs: "{{ lazylibrarian_docker_envs_default
-                               | combine(lazylibrarian_docker_envs_custom) }}"
+lazylibrarian_role_docker_envs_custom: {}
+lazylibrarian_role_docker_envs: "{{ lazylibrarian_role_docker_envs_default
+                               | combine(lazylibrarian_role_docker_envs_custom) }}"
 
 # Volumes
-lazylibrarian_docker_volumes_default:
-  - "{{ lazylibrarian_paths_location }}:/config"
-lazylibrarian_docker_volumes_custom: []
-lazylibrarian_docker_volumes: "{{ lazylibrarian_docker_volumes_default
-                                  + lazylibrarian_docker_volumes_custom }}"
+lazylibrarian_role_docker_volumes_default:
+  - "{{ lazylibrarian_role_paths_location }}:/config"
+lazylibrarian_role_docker_volumes_custom: []
+lazylibrarian_role_docker_volumes: "{{ lazylibrarian_role_docker_volumes_default
+                                  + lazylibrarian_role_docker_volumes_custom }}"
 
 # Hostname
-lazylibrarian_docker_hostname: "{{ lazylibrarian_name }}"
+lazylibrarian_role_docker_hostname: "{{ lazylibrarian_name }}"
 
 # Networks
-lazylibrarian_docker_networks_alias: "{{ lazylibrarian_name }}"
-lazylibrarian_docker_networks_default: []
-lazylibrarian_docker_networks_custom: []
-lazylibrarian_docker_networks: "{{ docker_networks_common
-                                   + lazylibrarian_docker_networks_default
-                                   + lazylibrarian_docker_networks_custom }}"
+lazylibrarian_role_docker_networks_alias: "{{ lazylibrarian_name }}"
+lazylibrarian_role_docker_networks_default: []
+lazylibrarian_role_docker_networks_custom: []
+lazylibrarian_role_docker_networks: "{{ docker_networks_common
+                                   + lazylibrarian_role_docker_networks_default
+                                   + lazylibrarian_role_docker_networks_custom }}"
 
 # Restart Policy
-lazylibrarian_docker_restart_policy: unless-stopped
+lazylibrarian_role_docker_restart_policy: unless-stopped
 
 # State
-lazylibrarian_docker_state: started
+lazylibrarian_role_docker_state: started

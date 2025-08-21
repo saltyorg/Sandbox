@@ -17,91 +17,91 @@ homeassistant_name: homeassistant
 # Paths
 ################################
 
-homeassistant_paths_folder: "{{ homeassistant_name }}"
-homeassistant_paths_location: "{{ server_appdata_path }}/{{ homeassistant_paths_folder }}"
-homeassistant_paths_conf: "{{ homeassistant_paths_location }}/configuration.yaml"
-homeassistant_paths_folders_list:
-  - "{{ homeassistant_paths_location }}"
+homeassistant_role_paths_folder: "{{ homeassistant_name }}"
+homeassistant_role_paths_location: "{{ server_appdata_path }}/{{ homeassistant_role_paths_folder }}"
+homeassistant_role_paths_conf: "{{ homeassistant_role_paths_location }}/configuration.yaml"
+homeassistant_role_paths_folders_list:
+  - "{{ homeassistant_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-homeassistant_web_subdomain: "{{ homeassistant_name }}"
-homeassistant_web_domain: "{{ user.domain }}"
-homeassistant_web_port: "8123"
-homeassistant_web_url: "{{ 'https://' + (homeassistant_web_subdomain + '.' + homeassistant_web_domain
-                        if (homeassistant_web_subdomain | length > 0)
-                        else homeassistant_web_domain) }}"
+homeassistant_role_web_subdomain: "{{ homeassistant_name }}"
+homeassistant_role_web_domain: "{{ user.domain }}"
+homeassistant_role_web_port: "8123"
+homeassistant_role_web_url: "{{ 'https://' + (homeassistant_role_web_subdomain + '.' + homeassistant_role_web_domain
+                        if (homeassistant_role_web_subdomain | length > 0)
+                        else homeassistant_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-homeassistant_dns_record: "{{ homeassistant_web_subdomain }}"
-homeassistant_dns_zone: "{{ homeassistant_web_domain }}"
-homeassistant_dns_proxy: "{{ dns.proxied }}"
+homeassistant_role_dns_record: "{{ homeassistant_role_web_subdomain }}"
+homeassistant_role_dns_zone: "{{ homeassistant_role_web_domain }}"
+homeassistant_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-homeassistant_traefik_sso_middleware: ""
-homeassistant_traefik_middleware_default: "{{ traefik_default_middleware }}"
-homeassistant_traefik_middleware_custom: ""
-homeassistant_traefik_certresolver: "{{ traefik_default_certresolver }}"
-homeassistant_traefik_enabled: true
-homeassistant_traefik_api_enabled: false
-homeassistant_traefik_api_endpoint: ""
+homeassistant_role_traefik_sso_middleware: ""
+homeassistant_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+homeassistant_role_traefik_middleware_custom: ""
+homeassistant_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+homeassistant_role_traefik_enabled: true
+homeassistant_role_traefik_api_enabled: false
+homeassistant_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-homeassistant_docker_container: "{{ homeassistant_name }}"
+homeassistant_role_docker_container: "{{ homeassistant_name }}"
 
 # Image
-homeassistant_docker_image_pull: true
-homeassistant_docker_image_tag: "latest"
-homeassistant_docker_image: "lscr.io/linuxserver/homeassistant:{{ homeassistant_docker_image_tag }}"
+homeassistant_role_docker_image_pull: true
+homeassistant_role_docker_image_tag: "latest"
+homeassistant_role_docker_image: "lscr.io/linuxserver/homeassistant:{{ homeassistant_role_docker_image_tag }}"
 
 # Envs
-homeassistant_docker_envs_default:
+homeassistant_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-homeassistant_docker_envs_custom: {}
-homeassistant_docker_envs: "{{ homeassistant_docker_envs_default
-                               | combine(homeassistant_docker_envs_custom) }}"
+homeassistant_role_docker_envs_custom: {}
+homeassistant_role_docker_envs: "{{ homeassistant_role_docker_envs_default
+                               | combine(homeassistant_role_docker_envs_custom) }}"
 
 # Volumes
-homeassistant_docker_volumes_default:
-  - "{{ homeassistant_paths_location }}:/config"
+homeassistant_role_docker_volumes_default:
+  - "{{ homeassistant_role_paths_location }}:/config"
   - /etc/localtime:/etc/localtime:ro
-homeassistant_docker_volumes_custom: []
-homeassistant_docker_volumes: "{{ homeassistant_docker_volumes_default
-                                  + homeassistant_docker_volumes_custom }}"
+homeassistant_role_docker_volumes_custom: []
+homeassistant_role_docker_volumes: "{{ homeassistant_role_docker_volumes_default
+                                  + homeassistant_role_docker_volumes_custom }}"
 
 # Hostname
-homeassistant_docker_hostname: "{{ homeassistant_name }}"
+homeassistant_role_docker_hostname: "{{ homeassistant_name }}"
 
 # Networks
-homeassistant_docker_networks_alias: "{{ homeassistant_name }}"
-homeassistant_docker_networks_default: []
-homeassistant_docker_networks_custom: []
-homeassistant_docker_networks: "{{ docker_networks_common
-                                   + homeassistant_docker_networks_default
-                                   + homeassistant_docker_networks_custom }}"
+homeassistant_role_docker_networks_alias: "{{ homeassistant_name }}"
+homeassistant_role_docker_networks_default: []
+homeassistant_role_docker_networks_custom: []
+homeassistant_role_docker_networks: "{{ docker_networks_common
+                                   + homeassistant_role_docker_networks_default
+                                   + homeassistant_role_docker_networks_custom }}"
 
 # Network Mode
-homeassistant_docker_network_mode: "host"
+homeassistant_role_docker_network_mode: "host"
 
 # Restart Policy
-homeassistant_docker_restart_policy: unless-stopped
+homeassistant_role_docker_restart_policy: unless-stopped
 
 # State
-homeassistant_docker_state: started
+homeassistant_role_docker_state: started
 
 # Privileged
-homeassistant_docker_privileged: "yes"
+homeassistant_role_docker_privileged: true

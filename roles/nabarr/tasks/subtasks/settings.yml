@@ -7,18 +7,18 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-- name: Settings | Check if `{{ nabarr_paths_config_location | basename }}` exists
+- name: Settings | Check if `{{ nabarr_role_paths_config_location | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ nabarr_paths_config_location }}"
+    path: "{{ nabarr_role_paths_config_location }}"
   register: nabarr_config
 
-- name: Settings | New `{{ nabarr_paths_config_location | basename }}` tasks
+- name: Settings | New `{{ nabarr_role_paths_config_location | basename }}` tasks
   when: not nabarr_config.stat.exists
   block:
-    - name: Settings | Import default `{{ nabarr_paths_location | basename }}`
+    - name: Settings | Import default `{{ nabarr_role_paths_location | basename }}`
       ansible.builtin.copy:
         src: config.yml.sample
-        dest: "{{ nabarr_paths_location }}/config.yml.sample"
+        dest: "{{ nabarr_role_paths_location }}/config.yml.sample"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

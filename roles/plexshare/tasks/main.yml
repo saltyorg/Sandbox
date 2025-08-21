@@ -10,7 +10,7 @@
 ---
 - name: Check if db folder exists
   ansible.builtin.stat:
-    path: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}/mariadb"
+    path: "{{ server_appdata_path }}/{{ plexshare_role_paths_folder }}/mariadb"
   register: stat_plexshare_db_folder
 
 - name: Remove legacy MariaDB Docker container
@@ -23,25 +23,25 @@
     name: mariadb
   vars:
     mariadb_instances: ["{{ plexshare_name }}-mariadb"]
-    mariadb_docker_image_tag: "latest"
-    mariadb_paths_folder: "{{ plexshare_name }}"
-    mariadb_paths_location: "{{ server_appdata_path }}/{{ plexshare_paths_folder }}/mariadb"
+    mariadb_role_docker_image_tag: "latest"
+    mariadb_role_paths_folder: "{{ plexshare_name }}"
+    mariadb_role_paths_location: "{{ server_appdata_path }}/{{ plexshare_role_paths_folder }}/mariadb"
 
 - name: MariaDB | Create plexshare database
   community.mysql.mysql_db:
     name: "plexshare"
     login_host: "{{ plexshare_name }}-mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_env_password }}"
+    login_password: "{{ mariadb_role_docker_env_password }}"
     state: present
   when: not stat_plexshare_db_folder.stat.exists
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

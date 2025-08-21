@@ -18,87 +18,87 @@ resiliosync_data_port: "55555"
 # Paths
 ################################
 
-resiliosync_paths_folder: "{{ resiliosync_name }}"
-resiliosync_paths_location: "{{ server_appdata_path }}/{{ resiliosync_paths_folder }}"
-resiliosync_paths_folders_list:
-  - "{{ resiliosync_paths_location }}"
+resiliosync_role_paths_folder: "{{ resiliosync_name }}"
+resiliosync_role_paths_location: "{{ server_appdata_path }}/{{ resiliosync_role_paths_folder }}"
+resiliosync_role_paths_folders_list:
+  - "{{ resiliosync_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-resiliosync_web_subdomain: "{{ resiliosync_name }}"
-resiliosync_web_domain: "{{ user.domain }}"
-resiliosync_web_port: "8888"
-resiliosync_web_url: "{{ 'https://' + (resiliosync_web_subdomain + '.' + resiliosync_web_domain
-                      if (resiliosync_web_subdomain | length > 0)
-                      else resiliosync_web_domain) }}"
+resiliosync_role_web_subdomain: "{{ resiliosync_name }}"
+resiliosync_role_web_domain: "{{ user.domain }}"
+resiliosync_role_web_port: "8888"
+resiliosync_role_web_url: "{{ 'https://' + (resiliosync_role_web_subdomain + '.' + resiliosync_role_web_domain
+                      if (resiliosync_role_web_subdomain | length > 0)
+                      else resiliosync_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-resiliosync_dns_record: "{{ resiliosync_web_subdomain }}"
-resiliosync_dns_zone: "{{ resiliosync_web_domain }}"
-resiliosync_dns_proxy: "{{ dns.proxied }}"
+resiliosync_role_dns_record: "{{ resiliosync_role_web_subdomain }}"
+resiliosync_role_dns_zone: "{{ resiliosync_role_web_domain }}"
+resiliosync_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-resiliosync_traefik_sso_middleware: ""
-resiliosync_traefik_middleware_default: "{{ traefik_default_middleware }}"
-resiliosync_traefik_middleware_custom: ""
-resiliosync_traefik_certresolver: "{{ traefik_default_certresolver }}"
-resiliosync_traefik_enabled: true
-resiliosync_traefik_api_enabled: false
-resiliosync_traefik_api_endpoint: ""
+resiliosync_role_traefik_sso_middleware: ""
+resiliosync_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+resiliosync_role_traefik_middleware_custom: ""
+resiliosync_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+resiliosync_role_traefik_enabled: true
+resiliosync_role_traefik_api_enabled: false
+resiliosync_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-resiliosync_docker_container: "{{ resiliosync_name }}"
+resiliosync_role_docker_container: "{{ resiliosync_name }}"
 
 # Image
-resiliosync_docker_image_pull: true
-resiliosync_docker_image_tag: "latest"
-resiliosync_docker_image: "resilio/sync:{{ resiliosync_docker_image_tag }}"
+resiliosync_role_docker_image_pull: true
+resiliosync_role_docker_image_tag: "latest"
+resiliosync_role_docker_image: "resilio/sync:{{ resiliosync_role_docker_image_tag }}"
 
 # Ports
-resiliosync_docker_ports_defaults:
+resiliosync_role_docker_ports_defaults:
   - "{{ resiliosync_data_port }}:{{ resiliosync_data_port }}"
-resiliosync_docker_ports_custom: []
-resiliosync_docker_ports: "{{ resiliosync_docker_ports_defaults
-                              + resiliosync_docker_ports_custom }}"
+resiliosync_role_docker_ports_custom: []
+resiliosync_role_docker_ports: "{{ resiliosync_role_docker_ports_defaults
+                              + resiliosync_role_docker_ports_custom }}"
 
 # Volumes
-resiliosync_docker_volumes_global: false
-resiliosync_docker_volumes_default:
-  - "{{ resiliosync_paths_location }}:/mnt/sync"
+resiliosync_role_docker_volumes_global: false
+resiliosync_role_docker_volumes_default:
+  - "{{ resiliosync_role_paths_location }}:/mnt/sync"
   - "/mnt:/mnt/mounted_folders/mnt"
   - "/home:/mnt/mounted_folders/home"
-resiliosync_docker_volumes_custom: []
-resiliosync_docker_volumes: "{{ resiliosync_docker_volumes_default
-                                + resiliosync_docker_volumes_custom }}"
+resiliosync_role_docker_volumes_custom: []
+resiliosync_role_docker_volumes: "{{ resiliosync_role_docker_volumes_default
+                                + resiliosync_role_docker_volumes_custom }}"
 
 # Hostname
-resiliosync_docker_hostname: "{{ resiliosync_name }}"
+resiliosync_role_docker_hostname: "{{ resiliosync_name }}"
 
 # Networks
-resiliosync_docker_networks_alias: "{{ resiliosync_name }}"
-resiliosync_docker_networks_default: []
-resiliosync_docker_networks_custom: []
-resiliosync_docker_networks: "{{ docker_networks_common
-                                 + resiliosync_docker_networks_default
-                                 + resiliosync_docker_networks_custom }}"
+resiliosync_role_docker_networks_alias: "{{ resiliosync_name }}"
+resiliosync_role_docker_networks_default: []
+resiliosync_role_docker_networks_custom: []
+resiliosync_role_docker_networks: "{{ docker_networks_common
+                                 + resiliosync_role_docker_networks_default
+                                 + resiliosync_role_docker_networks_custom }}"
 
 # Restart Policy
-resiliosync_docker_restart_policy: unless-stopped
+resiliosync_role_docker_restart_policy: unless-stopped
 
 # State
-resiliosync_docker_state: started
+resiliosync_role_docker_state: started
 
 # User
-resiliosync_docker_user: "{{ uid }}:{{ gid }}"
+resiliosync_role_docker_user: "{{ uid }}:{{ gid }}"

@@ -7,8 +7,8 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-varken_ombi_db: "{{ ombi_paths_location }}/OmbiSettings.db"
-varken_radarr_config: "{{ radarr_paths_location }}/config.xml"
-varken_sonarr_config: "{{ sonarr_paths_location }}/config.xml"
-varken_tautulli_config: "{{ tautulli_paths_location }}/config.ini"
+varken_ombi_db: "{{ ombi_role_paths_location }}/OmbiSettings.db"
+varken_radarr_config: "{{ radarr_role_paths_location }}/config.xml"
+varken_sonarr_config: "{{ sonarr_role_paths_location }}/config.xml"
+varken_tautulli_config: "{{ tautulli_role_paths_location }}/config.ini"
 tautulli_api_key: "{{ (lookup('ini', 'api_key section=General file={{ varken_tautulli_config }}')) if tautulli_config.stat.exists else '' }}"

@@ -17,57 +17,57 @@ chrome_name: chrome
 # Paths
 ################################
 
-chrome_paths_folder: "{{ chrome_name }}"
-chrome_paths_location: "{{ server_appdata_path }}/{{ chrome_paths_folder }}"
-chrome_paths_folders_list:
-  - "{{ chrome_paths_location }}"
+chrome_role_paths_folder: "{{ chrome_name }}"
+chrome_role_paths_location: "{{ server_appdata_path }}/{{ chrome_role_paths_folder }}"
+chrome_role_paths_folders_list:
+  - "{{ chrome_role_paths_location }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-chrome_docker_container: "{{ chrome_name }}"
+chrome_role_docker_container: "{{ chrome_name }}"
 
 # Image
-chrome_docker_image_pull: true
-chrome_docker_image: "gcr.io/zenika-hub/alpine-chrome"
-chrome_docker_image_tag: "124"
+chrome_role_docker_image_pull: true
+chrome_role_docker_image: "gcr.io/zenika-hub/alpine-chrome"
+chrome_role_docker_image_tag: "124"
 
 # Envs
-chrome_docker_envs_default:
+chrome_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-chrome_docker_envs_custom: {}
-chrome_docker_envs: "{{ chrome_docker_envs_default
-                         | combine(chrome_docker_envs_custom) }}"
+chrome_role_docker_envs_custom: {}
+chrome_role_docker_envs: "{{ chrome_role_docker_envs_default
+                         | combine(chrome_role_docker_envs_custom) }}"
 
 # Commands
-chrome_docker_commands_default:
+chrome_role_docker_commands_default:
   - "--no-sandbox"
   - "--disable-gpu"
   - "--disable-dev-shm-usage"
   - "--remote-debugging-address=0.0.0.0"
   - "--remote-debugging-port=9222"
   - "--hide-scrollbars"
-chrome_docker_commands_custom: []
-chrome_docker_commands: "{{ chrome_docker_commands_default
-                             + chrome_docker_commands_custom }}"
+chrome_role_docker_commands_custom: []
+chrome_role_docker_commands: "{{ chrome_role_docker_commands_default
+                             + chrome_role_docker_commands_custom }}"
 
 # Hostname
-chrome_docker_hostname: "{{ chrome_name }}"
+chrome_role_docker_hostname: "{{ chrome_name }}"
 
 # Networks
-chrome_docker_networks_alias: "{{ chrome_name }}"
-chrome_docker_networks_default: []
-chrome_docker_networks_custom: []
-chrome_docker_networks: "{{ docker_networks_common
-                             + chrome_docker_networks_default
-                             + chrome_docker_networks_custom }}"
+chrome_role_docker_networks_alias: "{{ chrome_name }}"
+chrome_role_docker_networks_default: []
+chrome_role_docker_networks_custom: []
+chrome_role_docker_networks: "{{ docker_networks_common
+                             + chrome_role_docker_networks_default
+                             + chrome_role_docker_networks_custom }}"
 
 # Restart Policy
-chrome_docker_restart_policy: unless-stopped
+chrome_role_docker_restart_policy: unless-stopped
 
 # State
-chrome_docker_state: started
+chrome_role_docker_state: started

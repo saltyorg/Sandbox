@@ -17,45 +17,45 @@ minecraft_dynmap_router_enabled: false
 # Paths
 ################################
 
-minecraft_paths_folder: "minecraft"
-minecraft_paths_location: "{{ server_appdata_path }}/{{ minecraft_paths_folder }}"
-minecraft_paths_folders_list:
-  - "{{ minecraft_paths_location }}/"
-  - "{{ minecraft_paths_location }}/{{ minecraft_name }}"
-  - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data"
-minecraft_paths_recursive: true
+minecraft_role_paths_folder: "minecraft"
+minecraft_role_paths_location: "{{ server_appdata_path }}/{{ minecraft_role_paths_folder }}"
+minecraft_role_paths_folders_list:
+  - "{{ minecraft_role_paths_location }}/"
+  - "{{ minecraft_role_paths_location }}/{{ minecraft_name }}"
+  - "{{ minecraft_role_paths_location }}/{{ minecraft_name }}/data"
+minecraft_role_paths_recursive: true
 
 ################################
 # Web
 ################################
 
-minecraft_web_subdomain: "{{ minecraft_name }}"
-minecraft_web_domain: "{{ user.domain }}"
+minecraft_role_web_subdomain: "{{ minecraft_name }}"
+minecraft_role_web_domain: "{{ user.domain }}"
 # Dynmap
-minecraft_web_port: "8123"
+minecraft_role_web_port: "8123"
 
 ################################
 # DNS
 ################################
 
-minecraft_dns_record: "{{ lookup('vars', minecraft_name + '_web_subdomain', default=minecraft_web_subdomain) }}"
-minecraft_dns_zone: "{{ lookup('vars', minecraft_name + '_web_domain', default=minecraft_web_domain) }}"
-minecraft_dns_proxy: false
+minecraft_role_dns_record: "{{ lookup('vars', minecraft_name + '_web_subdomain', default=minecraft_role_web_subdomain) }}"
+minecraft_role_dns_zone: "{{ lookup('vars', minecraft_name + '_web_domain', default=minecraft_role_web_domain) }}"
+minecraft_role_dns_proxy: false
 
 ################################
 # Traefik
 ################################
 
-minecraft_traefik_sso_middleware: ""
-minecraft_traefik_middleware_default: "{{ traefik_default_middleware }}"
-minecraft_traefik_middleware_custom: ""
-minecraft_traefik_certresolver: "{{ traefik_default_certresolver }}"
-minecraft_traefik_enabled: "{{ lookup('vars', minecraft_name + '_dynmap_router_enabled', default=minecraft_dynmap_router_enabled) }}"
+minecraft_role_traefik_sso_middleware: ""
+minecraft_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+minecraft_role_traefik_middleware_custom: ""
+minecraft_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+minecraft_role_traefik_enabled: "{{ lookup('vars', minecraft_name + '_dynmap_router_enabled', default=minecraft_dynmap_router_enabled) }}"
 
 ################################
 # Ports
 ################################
-minecraft_docker_ports_25565: "{{ port_lookup_minecraft_tcp.meta.port
+minecraft_role_docker_ports_25565: "{{ port_lookup_minecraft_tcp.meta.port
                                if (port_lookup_minecraft_tcp.meta.port is defined) and (port_lookup_minecraft_tcp.meta.port | trim | length > 0)
                                else '25565' }}"
 
@@ -64,55 +64,55 @@ minecraft_docker_ports_25565: "{{ port_lookup_minecraft_tcp.meta.port
 ################################
 
 # Container
-minecraft_docker_container: "{{ minecraft_name }}"
+minecraft_role_docker_container: "{{ minecraft_name }}"
 
 # Image
-minecraft_docker_image_pull: true
-minecraft_docker_image_repo: "itzg/minecraft-server"
-minecraft_docker_image_tag: "latest"
-minecraft_docker_image: "{{ lookup('vars', minecraft_name + '_docker_image_repo', default=minecraft_docker_image_repo)
-                            + ':' + lookup('vars', minecraft_name + '_docker_image_tag', default=minecraft_docker_image_tag) }}"
+minecraft_role_docker_image_pull: true
+minecraft_role_docker_image_repo: "itzg/minecraft-server"
+minecraft_role_docker_image_tag: "latest"
+minecraft_role_docker_image: "{{ lookup('vars', minecraft_name + '_docker_image_repo', default=minecraft_role_docker_image_repo)
+                            + ':' + lookup('vars', minecraft_name + '_docker_image_tag', default=minecraft_role_docker_image_tag) }}"
 
 # Ports
-minecraft_docker_ports_defaults:
-  - "{{ minecraft_docker_ports_25565 }}:25565/tcp"
-minecraft_docker_ports_custom: []
-minecraft_docker_ports: "{{ lookup('vars', minecraft_name + '_docker_ports_defaults', default=minecraft_docker_ports_defaults)
-                            + lookup('vars', minecraft_name + '_docker_ports_custom', default=minecraft_docker_ports_custom) }}"
+minecraft_role_docker_ports_defaults:
+  - "{{ minecraft_role_docker_ports_25565 }}:25565/tcp"
+minecraft_role_docker_ports_custom: []
+minecraft_role_docker_ports: "{{ lookup('vars', minecraft_name + '_docker_ports_defaults', default=minecraft_role_docker_ports_defaults)
+                            + lookup('vars', minecraft_name + '_docker_ports_custom', default=minecraft_role_docker_ports_custom) }}"
 
 # Envs
-minecraft_docker_envs_default:
+minecraft_role_docker_envs_default:
   TZ: "{{ tz }}"
   EULA: "TRUE"
   UID: "{{ uid }}"
   GID: "{{ gid }}"
-minecraft_docker_envs_custom: {}
-minecraft_docker_envs: "{{ lookup('vars', minecraft_name + '_docker_envs_default', default=minecraft_docker_envs_default)
-                           | combine(lookup('vars', minecraft_name + '_docker_envs_custom', default=minecraft_docker_envs_custom)) }}"
+minecraft_role_docker_envs_custom: {}
+minecraft_role_docker_envs: "{{ lookup('vars', minecraft_name + '_docker_envs_default', default=minecraft_role_docker_envs_default)
+                           | combine(lookup('vars', minecraft_name + '_docker_envs_custom', default=minecraft_role_docker_envs_custom)) }}"
 
 # Volumes
-minecraft_docker_volumes_default:
-  - "{{ minecraft_paths_location }}/{{ minecraft_name }}/data:/data"
-minecraft_docker_volumes_custom: []
-minecraft_docker_volumes: "{{ lookup('vars', minecraft_name + '_docker_volumes_default', default=minecraft_docker_volumes_default)
-                              + lookup('vars', minecraft_name + '_docker_volumes_custom', default=minecraft_docker_volumes_custom) }}"
+minecraft_role_docker_volumes_default:
+  - "{{ minecraft_role_paths_location }}/{{ minecraft_name }}/data:/data"
+minecraft_role_docker_volumes_custom: []
+minecraft_role_docker_volumes: "{{ lookup('vars', minecraft_name + '_docker_volumes_default', default=minecraft_role_docker_volumes_default)
+                              + lookup('vars', minecraft_name + '_docker_volumes_custom', default=minecraft_role_docker_volumes_custom) }}"
 
 # Hostname
-minecraft_docker_hostname: "{{ minecraft_name }}"
+minecraft_role_docker_hostname: "{{ minecraft_name }}"
 
 # Networks
-minecraft_docker_networks_alias: "{{ minecraft_name }}"
-minecraft_docker_networks_default: []
-minecraft_docker_networks_custom: []
-minecraft_docker_networks: "{{ docker_networks_common
-                               + lookup('vars', minecraft_name + '_docker_networks_default', default=minecraft_docker_networks_default)
-                               + lookup('vars', minecraft_name + '_docker_networks_custom', default=minecraft_docker_networks_custom) }}"
+minecraft_role_docker_networks_alias: "{{ minecraft_name }}"
+minecraft_role_docker_networks_default: []
+minecraft_role_docker_networks_custom: []
+minecraft_role_docker_networks: "{{ docker_networks_common
+                               + lookup('vars', minecraft_name + '_docker_networks_default', default=minecraft_role_docker_networks_default)
+                               + lookup('vars', minecraft_name + '_docker_networks_custom', default=minecraft_role_docker_networks_custom) }}"
 
 # Restart Policy
-minecraft_docker_restart_policy: unless-stopped
+minecraft_role_docker_restart_policy: unless-stopped
 
 # Stop Timeout
-minecraft_docker_stop_timeout: 900
+minecraft_role_docker_stop_timeout: 900
 
 # State
-minecraft_docker_state: started
+minecraft_role_docker_state: started

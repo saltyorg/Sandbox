@@ -9,11 +9,11 @@
 ---
 - name: Pre-Install | Check if Trackarr config exists
   ansible.builtin.stat:
-    path: "{{ trackarr_paths_config_location }}"
-  register: trackarr_paths_config_location_stat
+    path: "{{ trackarr_role_paths_config_location }}"
+  register: trackarr_role_paths_config_location_stat
 
 - name: Pre-Install | New Trackarr config tasks
-  when: not trackarr_paths_config_location_stat.stat.exists
+  when: not trackarr_role_paths_config_location_stat.stat.exists
   block:
     - name: Pre-Install | Get Instance Info
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/instances/get_info.yml"
@@ -29,12 +29,12 @@
     - name: Pre-Install | Import default Trackarr config
       ansible.builtin.template:
         src: "config.yaml.j2"
-        dest: "{{ trackarr_paths_config_location }}"
+        dest: "{{ trackarr_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
         force: false
 
-    - name: Pre-Install | Set 'trackarr_docker_state' variable
+    - name: Pre-Install | Set 'trackarr_role_docker_state' variable
       ansible.builtin.set_fact:
-        trackarr_docker_state: "stopped"
+        trackarr_role_docker_state: "stopped"

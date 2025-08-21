@@ -17,79 +17,79 @@ influxdb2_instances: ["influxdb2"]
 # Paths
 ################################
 
-influxdb2_paths_folder: "{{ influxdb2_name }}"
-influxdb2_paths_location: "{{ server_appdata_path }}/{{ influxdb2_paths_folder }}"
-influxdb2_paths_folders_list:
-  - "{{ influxdb2_paths_location }}"
-  - "{{ influxdb2_paths_location }}/config"
-  - "{{ influxdb2_paths_location }}/data"
+influxdb2_role_paths_folder: "{{ influxdb2_name }}"
+influxdb2_role_paths_location: "{{ server_appdata_path }}/{{ influxdb2_role_paths_folder }}"
+influxdb2_role_paths_folders_list:
+  - "{{ influxdb2_role_paths_location }}"
+  - "{{ influxdb2_role_paths_location }}/config"
+  - "{{ influxdb2_role_paths_location }}/data"
 
 ################################
 # Web
 ################################
 
-influxdb2_web_subdomain: "{{ influxdb2_name }}"
-influxdb2_web_domain: "{{ user.domain }}"
-influxdb2_web_port: "8086"
-influxdb2_web_url: "{{ 'https://' + (influxdb2_web_subdomain + '.' + influxdb2_web_domain
-                    if (influxdb2_web_subdomain | length > 0)
-                    else influxdb2_web_domain) }}"
+influxdb2_role_web_subdomain: "{{ influxdb2_name }}"
+influxdb2_role_web_domain: "{{ user.domain }}"
+influxdb2_role_web_port: "8086"
+influxdb2_role_web_url: "{{ 'https://' + (influxdb2_role_web_subdomain + '.' + influxdb2_role_web_domain
+                    if (influxdb2_role_web_subdomain | length > 0)
+                    else influxdb2_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-influxdb2_dns_record: "{{ influxdb2_web_subdomain }}"
-influxdb2_dns_zone: "{{ influxdb2_web_domain }}"
-influxdb2_dns_proxy: "{{ dns.proxied }}"
+influxdb2_role_dns_record: "{{ influxdb2_role_web_subdomain }}"
+influxdb2_role_dns_zone: "{{ influxdb2_role_web_domain }}"
+influxdb2_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-influxdb2_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-influxdb2_traefik_middleware_default: "{{ traefik_default_middleware }}"
-influxdb2_traefik_middleware_custom: ""
-influxdb2_traefik_certresolver: "{{ traefik_default_certresolver }}"
-influxdb2_traefik_enabled: true
-influxdb2_traefik_api_enabled: false
-influxdb2_traefik_api_endpoint: ""
+influxdb2_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+influxdb2_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+influxdb2_role_traefik_middleware_custom: ""
+influxdb2_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+influxdb2_role_traefik_enabled: true
+influxdb2_role_traefik_api_enabled: false
+influxdb2_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-influxdb2_docker_container: "{{ influxdb2_name }}"
+influxdb2_role_docker_container: "{{ influxdb2_name }}"
 
 # Image
-influxdb2_docker_image_pull: true
-influxdb2_docker_image_tag: "2-alpine"
-influxdb2_docker_image_repo: "influxdb"
-influxdb2_docker_image: "{{ lookup('vars', influxdb2_name + '_docker_image_repo', default=influxdb2_docker_image_repo)
-                           + ':' + lookup('vars', influxdb2_name + '_docker_image_tag', default=influxdb2_docker_image_tag) }}"
+influxdb2_role_docker_image_pull: true
+influxdb2_role_docker_image_tag: "2-alpine"
+influxdb2_role_docker_image_repo: "influxdb"
+influxdb2_role_docker_image: "{{ lookup('vars', influxdb2_name + '_docker_image_repo', default=influxdb2_role_docker_image_repo)
+                           + ':' + lookup('vars', influxdb2_name + '_docker_image_tag', default=influxdb2_role_docker_image_tag) }}"
 
 # Volumes
-influxdb2_docker_volumes_default:
-  - "{{ influxdb2_paths_location }}/data:/var/lib/influxdb22"
-  - "{{ influxdb2_paths_location }}/config:/etc/influxdb22"
-influxdb2_docker_volumes_custom: []
-influxdb2_docker_volumes: "{{ lookup('vars', influxdb2_name + '_docker_volumes_default', default=influxdb2_docker_volumes_default)
-                             + lookup('vars', influxdb2_name + '_docker_volumes_custom', default=influxdb2_docker_volumes_custom) }}"
+influxdb2_role_docker_volumes_default:
+  - "{{ influxdb2_role_paths_location }}/data:/var/lib/influxdb22"
+  - "{{ influxdb2_role_paths_location }}/config:/etc/influxdb22"
+influxdb2_role_docker_volumes_custom: []
+influxdb2_role_docker_volumes: "{{ lookup('vars', influxdb2_name + '_docker_volumes_default', default=influxdb2_role_docker_volumes_default)
+                             + lookup('vars', influxdb2_name + '_docker_volumes_custom', default=influxdb2_role_docker_volumes_custom) }}"
 
 # Hostname
-influxdb2_docker_hostname: "{{ influxdb2_name }}"
+influxdb2_role_docker_hostname: "{{ influxdb2_name }}"
 
 # Networks
-influxdb2_docker_networks_alias: "{{ influxdb2_name }}"
-influxdb2_docker_networks_default: []
-influxdb2_docker_networks_custom: []
-influxdb2_docker_networks: "{{ docker_networks_common
-                              + lookup('vars', influxdb2_name + '_docker_networks_default', default=influxdb2_docker_networks_default)
-                              + lookup('vars', influxdb2_name + '_docker_networks_dcustom', default=influxdb2_docker_networks_custom) }}"
+influxdb2_role_docker_networks_alias: "{{ influxdb2_name }}"
+influxdb2_role_docker_networks_default: []
+influxdb2_role_docker_networks_custom: []
+influxdb2_role_docker_networks: "{{ docker_networks_common
+                              + lookup('vars', influxdb2_name + '_docker_networks_default', default=influxdb2_role_docker_networks_default)
+                              + lookup('vars', influxdb2_name + '_docker_networks_dcustom', default=influxdb2_role_docker_networks_custom) }}"
 
 # Restart Policy
-influxdb2_docker_restart_policy: unless-stopped
+influxdb2_role_docker_restart_policy: unless-stopped
 
 # State
-influxdb2_docker_state: started
+influxdb2_role_docker_state: started

@@ -17,92 +17,92 @@ filebrowser_name: filebrowser
 # Paths
 ################################
 
-filebrowser_paths_folder: "{{ filebrowser_name }}"
-filebrowser_paths_location: "{{ server_appdata_path }}/{{ filebrowser_paths_folder }}"
-filebrowser_paths_folders_list:
-  - "{{ filebrowser_paths_location }}"
-  - "{{ filebrowser_paths_location }}/config"
-  - "{{ filebrowser_paths_location }}/database"
-filebrowser_paths_config_location: "{{ filebrowser_paths_location }}/filebrowser.json"
-filebrowser_paths_config_folder: "{{ filebrowser_paths_location }}/config"
-filebrowser_paths_db_location: "{{ filebrowser_paths_location }}/filebrowser.db"
-filebrowser_paths_db_folder: "{{ filebrowser_paths_location }}/database"
+filebrowser_role_paths_folder: "{{ filebrowser_name }}"
+filebrowser_role_paths_location: "{{ server_appdata_path }}/{{ filebrowser_role_paths_folder }}"
+filebrowser_role_paths_folders_list:
+  - "{{ filebrowser_role_paths_location }}"
+  - "{{ filebrowser_role_paths_location }}/config"
+  - "{{ filebrowser_role_paths_location }}/database"
+filebrowser_role_paths_config_location: "{{ filebrowser_role_paths_location }}/filebrowser.json"
+filebrowser_role_paths_config_folder: "{{ filebrowser_role_paths_location }}/config"
+filebrowser_role_paths_db_location: "{{ filebrowser_role_paths_location }}/filebrowser.db"
+filebrowser_role_paths_db_folder: "{{ filebrowser_role_paths_location }}/database"
 
 ################################
 # Web
 ################################
 
-filebrowser_web_subdomain: "{{ filebrowser_name }}"
-filebrowser_web_domain: "{{ user.domain }}"
-filebrowser_web_port: "80"
-filebrowser_web_url: "{{ 'https://' + (filebrowser_web_subdomain + '.' + filebrowser_web_domain
-                      if (filebrowser_web_subdomain | length > 0)
-                      else filebrowser_web_domain) }}"
+filebrowser_role_web_subdomain: "{{ filebrowser_name }}"
+filebrowser_role_web_domain: "{{ user.domain }}"
+filebrowser_role_web_port: "80"
+filebrowser_role_web_url: "{{ 'https://' + (filebrowser_role_web_subdomain + '.' + filebrowser_role_web_domain
+                      if (filebrowser_role_web_subdomain | length > 0)
+                      else filebrowser_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-filebrowser_dns_record: "{{ filebrowser_web_subdomain }}"
-filebrowser_dns_zone: "{{ filebrowser_web_domain }}"
-filebrowser_dns_proxy: "{{ dns.proxied }}"
+filebrowser_role_dns_record: "{{ filebrowser_role_web_subdomain }}"
+filebrowser_role_dns_zone: "{{ filebrowser_role_web_domain }}"
+filebrowser_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-filebrowser_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-filebrowser_traefik_middleware_default: "{{ traefik_default_middleware }}"
-filebrowser_traefik_middleware_custom: ""
-filebrowser_traefik_certresolver: "{{ traefik_default_certresolver }}"
-filebrowser_traefik_enabled: true
-filebrowser_traefik_api_enabled: true
-filebrowser_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/share`) || PathPrefix(`/static`) || PathPrefix(`/api/public`)"
+filebrowser_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+filebrowser_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+filebrowser_role_traefik_middleware_custom: ""
+filebrowser_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+filebrowser_role_traefik_enabled: true
+filebrowser_role_traefik_api_enabled: true
+filebrowser_role_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/share`) || PathPrefix(`/static`) || PathPrefix(`/api/public`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-filebrowser_docker_container: "{{ filebrowser_name }}"
+filebrowser_role_docker_container: "{{ filebrowser_name }}"
 
 # Image
-filebrowser_docker_image_pull: true
-filebrowser_docker_image_tag: "latest"
-filebrowser_docker_image: "filebrowser/filebrowser:{{ filebrowser_docker_image_tag }}"
+filebrowser_role_docker_image_pull: true
+filebrowser_role_docker_image_tag: "latest"
+filebrowser_role_docker_image: "filebrowser/filebrowser:{{ filebrowser_role_docker_image_tag }}"
 
 # Envs
-filebrowser_docker_envs_default:
+filebrowser_role_docker_envs_default:
   TZ: "{{ tz }}"
-filebrowser_docker_envs_custom: {}
-filebrowser_docker_envs: "{{ filebrowser_docker_envs_default
-                             | combine(filebrowser_docker_envs_custom) }}"
+filebrowser_role_docker_envs_custom: {}
+filebrowser_role_docker_envs: "{{ filebrowser_role_docker_envs_default
+                             | combine(filebrowser_role_docker_envs_custom) }}"
 
 # Volumes
-filebrowser_docker_volumes_default:
-  - "{{ filebrowser_paths_db_folder }}:/database"
-  - "{{ filebrowser_paths_config_folder }}:/config"
+filebrowser_role_docker_volumes_default:
+  - "{{ filebrowser_role_paths_db_folder }}:/database"
+  - "{{ filebrowser_role_paths_config_folder }}:/config"
   - "/mnt/unionfs:/srv:rslave"
-filebrowser_docker_volumes_custom: []
-filebrowser_docker_volumes: "{{ filebrowser_docker_volumes_default
-                                + filebrowser_docker_volumes_custom }}"
+filebrowser_role_docker_volumes_custom: []
+filebrowser_role_docker_volumes: "{{ filebrowser_role_docker_volumes_default
+                                + filebrowser_role_docker_volumes_custom }}"
 
 # Hostname
-filebrowser_docker_hostname: "{{ filebrowser_name }}"
+filebrowser_role_docker_hostname: "{{ filebrowser_name }}"
 
 # Networks
-filebrowser_docker_networks_alias: "{{ filebrowser_name }}"
-filebrowser_docker_networks_default: []
-filebrowser_docker_networks_custom: []
-filebrowser_docker_networks: "{{ docker_networks_common
-                                 + filebrowser_docker_networks_default
-                                 + filebrowser_docker_networks_custom }}"
+filebrowser_role_docker_networks_alias: "{{ filebrowser_name }}"
+filebrowser_role_docker_networks_default: []
+filebrowser_role_docker_networks_custom: []
+filebrowser_role_docker_networks: "{{ docker_networks_common
+                                 + filebrowser_role_docker_networks_default
+                                 + filebrowser_role_docker_networks_custom }}"
 
 # Restart Policy
-filebrowser_docker_restart_policy: unless-stopped
+filebrowser_role_docker_restart_policy: unless-stopped
 
 # State
-filebrowser_docker_state: started
+filebrowser_role_docker_state: started
 
 # User
-filebrowser_docker_user: "{{ uid }}:{{ gid }}"
+filebrowser_role_docker_user: "{{ uid }}:{{ gid }}"

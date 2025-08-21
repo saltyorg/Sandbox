@@ -13,9 +13,9 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check if `{{ plextraktsync_paths_env | basename }}` exists
+- name: Check if `{{ plextraktsync_role_paths_env | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ plextraktsync_paths_env }}"
+    path: "{{ plextraktsync_role_paths_env }}"
   register: plextraktsync_env
 
 - name: Pre-Install Tasks
@@ -27,7 +27,7 @@
 
 - name: Wait for directory to be populated
   ansible.builtin.wait_for:
-    path: "{{ plextraktsync_paths_log }}"
+    path: "{{ plextraktsync_role_paths_log }}"
 
 - name: Sleep 3 seconds
   ansible.builtin.wait_for:
@@ -35,7 +35,7 @@
 
 - name: Reset files ownership
   ansible.builtin.file:
-    path: "{{ plextraktsync_paths_location }}"
+    path: "{{ plextraktsync_role_paths_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     recurse: true

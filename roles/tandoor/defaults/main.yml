@@ -17,97 +17,97 @@ tandoor_name: tandoor
 # Paths
 ################################
 
-tandoor_paths_folder: "{{ tandoor_name }}"
-tandoor_paths_location: "{{ server_appdata_path }}/{{ tandoor_paths_folder }}"
-tandoor_paths_folders_list:
-  - "{{ tandoor_paths_location }}"
-  - "{{ tandoor_paths_location }}/staticfiles"
-  - "{{ tandoor_paths_location }}/mediafiles"
+tandoor_role_paths_folder: "{{ tandoor_name }}"
+tandoor_role_paths_location: "{{ server_appdata_path }}/{{ tandoor_role_paths_folder }}"
+tandoor_role_paths_folders_list:
+  - "{{ tandoor_role_paths_location }}"
+  - "{{ tandoor_role_paths_location }}/staticfiles"
+  - "{{ tandoor_role_paths_location }}/mediafiles"
 
 ################################
 # Web
 ################################
 
-tandoor_web_subdomain: "{{ tandoor_name }}"
-tandoor_web_domain: "{{ user.domain }}"
-tandoor_web_port: "8080"
-tandoor_web_url: "{{ 'https://' + (tandoor_web_subdomain + '.' + tandoor_web_domain
-                  if (tandoor_web_subdomain | length > 0)
-                  else tandoor_web_domain) }}"
+tandoor_role_web_subdomain: "{{ tandoor_name }}"
+tandoor_role_web_domain: "{{ user.domain }}"
+tandoor_role_web_port: "8080"
+tandoor_role_web_url: "{{ 'https://' + (tandoor_role_web_subdomain + '.' + tandoor_role_web_domain
+                  if (tandoor_role_web_subdomain | length > 0)
+                  else tandoor_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-tandoor_dns_record: "{{ tandoor_web_subdomain }}"
-tandoor_dns_zone: "{{ tandoor_web_domain }}"
-tandoor_dns_proxy: "{{ dns.proxied }}"
+tandoor_role_dns_record: "{{ tandoor_role_web_subdomain }}"
+tandoor_role_dns_zone: "{{ tandoor_role_web_domain }}"
+tandoor_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-tandoor_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-tandoor_traefik_middleware_default: "{{ traefik_default_middleware }}"
-tandoor_traefik_middleware_custom: ""
-tandoor_traefik_certresolver: "{{ traefik_default_certresolver }}"
-tandoor_traefik_enabled: true
-tandoor_traefik_api_enabled: false
-tandoor_traefik_api_endpoint: ""
+tandoor_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tandoor_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+tandoor_role_traefik_middleware_custom: ""
+tandoor_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tandoor_role_traefik_enabled: true
+tandoor_role_traefik_api_enabled: false
+tandoor_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-tandoor_docker_container: "{{ tandoor_name }}"
+tandoor_role_docker_container: "{{ tandoor_name }}"
 
 # Image
-tandoor_docker_image_pull: true
-tandoor_docker_image_tag: "latest"
-tandoor_docker_image: "vabene1111/recipes:{{ tandoor_docker_image_tag }}"
+tandoor_role_docker_image_pull: true
+tandoor_role_docker_image_tag: "latest"
+tandoor_role_docker_image: "vabene1111/recipes:{{ tandoor_role_docker_image_tag }}"
 
 # Envs
-tandoor_docker_envs_default:
+tandoor_role_docker_envs_default:
   TZ: "{{ tz }}"
   SECRET_KEY: "{{ tandoor_saltbox_facts.facts.secret_key }}"
   DB_ENGINE: "django.db.backends.postgresql"
   POSTGRES_HOST: "postgres"
   POSTGRES_PORT: "5432"
-  POSTGRES_USER: "{{ postgres_docker_env_user }}"
-  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
-  POSTGRES_DB: "{{ postgres_docker_env_db }}"
+  POSTGRES_USER: "{{ postgres_role_docker_env_user }}"
+  POSTGRES_PASSWORD: "{{ postgres_role_docker_env_password }}"
+  POSTGRES_DB: "{{ postgres_role_docker_env_db }}"
   DEBUG: "0"
   GUNICORN_MEDIA: "1"
   REMOTE_USER_AUTH: "1"
-tandoor_docker_envs_custom: {}
-tandoor_docker_envs: "{{ tandoor_docker_envs_default
-                         | combine(tandoor_docker_envs_custom) }}"
+tandoor_role_docker_envs_custom: {}
+tandoor_role_docker_envs: "{{ tandoor_role_docker_envs_default
+                         | combine(tandoor_role_docker_envs_custom) }}"
 
 # Volumes
-tandoor_docker_volumes_default:
-  - "{{ tandoor_paths_location }}/staticfiles:/opt/recipes/staticfiles"
-  - "{{ tandoor_paths_location }}/mediafiles:/opt/recipes/mediafiles"
-tandoor_docker_volumes_custom: []
-tandoor_docker_volumes: "{{ tandoor_docker_volumes_default
-                            + tandoor_docker_volumes_custom }}"
+tandoor_role_docker_volumes_default:
+  - "{{ tandoor_role_paths_location }}/staticfiles:/opt/recipes/staticfiles"
+  - "{{ tandoor_role_paths_location }}/mediafiles:/opt/recipes/mediafiles"
+tandoor_role_docker_volumes_custom: []
+tandoor_role_docker_volumes: "{{ tandoor_role_docker_volumes_default
+                            + tandoor_role_docker_volumes_custom }}"
 
 # Hostname
-tandoor_docker_hostname: "{{ tandoor_name }}"
+tandoor_role_docker_hostname: "{{ tandoor_name }}"
 
 # Networks
-tandoor_docker_networks_alias: "{{ tandoor_name }}"
-tandoor_docker_networks_default: []
-tandoor_docker_networks_custom: []
-tandoor_docker_networks: "{{ docker_networks_common
-                             + tandoor_docker_networks_default
-                             + tandoor_docker_networks_custom }}"
+tandoor_role_docker_networks_alias: "{{ tandoor_name }}"
+tandoor_role_docker_networks_default: []
+tandoor_role_docker_networks_custom: []
+tandoor_role_docker_networks: "{{ docker_networks_common
+                             + tandoor_role_docker_networks_default
+                             + tandoor_role_docker_networks_custom }}"
 
 # Restart Policy
-tandoor_docker_restart_policy: unless-stopped
+tandoor_role_docker_restart_policy: unless-stopped
 
 # State
-tandoor_docker_state: started
+tandoor_role_docker_state: started
 
 # Dependencies
 tandoor_depends_on: "postgres"

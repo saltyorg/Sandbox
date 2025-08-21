@@ -18,76 +18,76 @@ minecraft_bedrock_version: "LATEST"
 # Paths
 ################################
 
-minecraft_bedrock_paths_folder: "{{ minecraft_bedrock_name }}"
-minecraft_bedrock_paths_location: "{{ server_appdata_path }}/{{ minecraft_bedrock_paths_folder }}"
-minecraft_bedrock_paths_folders_list:
-  - "{{ minecraft_bedrock_paths_location }}"
+minecraft_bedrock_role_paths_folder: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_role_paths_location: "{{ server_appdata_path }}/{{ minecraft_bedrock_role_paths_folder }}"
+minecraft_bedrock_role_paths_folders_list:
+  - "{{ minecraft_bedrock_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-minecraft_bedrock_web_subdomain: "{{ minecraft_bedrock_name }}"
-minecraft_bedrock_web_domain: "{{ user.domain }}"
+minecraft_bedrock_role_web_subdomain: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_role_web_domain: "{{ user.domain }}"
 
 ################################
 # DNS
 ################################
 
-minecraft_bedrock_dns_record: "{{ lookup('vars', minecraft_bedrock_name + '_web_subdomain', default=minecraft_bedrock_web_subdomain) }}"
-minecraft_bedrock_dns_zone: "{{ lookup('vars', minecraft_bedrock_name + '_web_domain', default=minecraft_bedrock_web_domain) }}"
-minecraft_bedrock_dns_proxy: false
+minecraft_bedrock_role_dns_record: "{{ lookup('vars', minecraft_bedrock_name + '_web_subdomain', default=minecraft_bedrock_role_web_subdomain) }}"
+minecraft_bedrock_role_dns_zone: "{{ lookup('vars', minecraft_bedrock_name + '_web_domain', default=minecraft_bedrock_role_web_domain) }}"
+minecraft_bedrock_role_dns_proxy: false
 
 ################################
 # Docker
 ################################
 
 # Container
-minecraft_bedrock_docker_container: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_role_docker_container: "{{ minecraft_bedrock_name }}"
 
 # Image
-minecraft_bedrock_docker_image_pull: true
-minecraft_bedrock_docker_image_tag: "latest"
-minecraft_bedrock_docker_image: "itzg/minecraft-bedrock-server:{{ minecraft_bedrock_docker_image_tag }}"
+minecraft_bedrock_role_docker_image_pull: true
+minecraft_bedrock_role_docker_image_tag: "latest"
+minecraft_bedrock_role_docker_image: "itzg/minecraft-bedrock-server:{{ minecraft_bedrock_role_docker_image_tag }}"
 
 # Ports
-minecraft_bedrock_docker_ports_defaults:
+minecraft_bedrock_role_docker_ports_defaults:
   - "19132:19132/udp"
-minecraft_bedrock_docker_ports_custom: []
-minecraft_bedrock_docker_ports: "{{ minecraft_bedrock_docker_ports_defaults
-                                    + minecraft_bedrock_docker_ports_custom }}"
+minecraft_bedrock_role_docker_ports_custom: []
+minecraft_bedrock_role_docker_ports: "{{ minecraft_bedrock_role_docker_ports_defaults
+                                    + minecraft_bedrock_role_docker_ports_custom }}"
 
 # Envs
-minecraft_bedrock_docker_envs_default:
+minecraft_bedrock_role_docker_envs_default:
   TZ: "{{ tz }}"
   UID: "{{ uid }}"
   GID: "{{ gid }}"
   EULA: "TRUE"
   VERSION: "{{ minecraft_bedrock_version }}"
-minecraft_bedrock_docker_envs_custom: {}
-minecraft_bedrock_docker_envs: "{{ minecraft_bedrock_docker_envs_default
-                                   | combine(minecraft_bedrock_docker_envs_custom) }}"
+minecraft_bedrock_role_docker_envs_custom: {}
+minecraft_bedrock_role_docker_envs: "{{ minecraft_bedrock_role_docker_envs_default
+                                   | combine(minecraft_bedrock_role_docker_envs_custom) }}"
 
 # Volumes
-minecraft_bedrock_docker_volumes_default:
-  - "{{ minecraft_bedrock_paths_location }}:/data"
-minecraft_bedrock_docker_volumes_custom: []
-minecraft_bedrock_docker_volumes: "{{ minecraft_bedrock_docker_volumes_default
-                                      + minecraft_bedrock_docker_volumes_custom }}"
+minecraft_bedrock_role_docker_volumes_default:
+  - "{{ minecraft_bedrock_role_paths_location }}:/data"
+minecraft_bedrock_role_docker_volumes_custom: []
+minecraft_bedrock_role_docker_volumes: "{{ minecraft_bedrock_role_docker_volumes_default
+                                      + minecraft_bedrock_role_docker_volumes_custom }}"
 
 # Hostname
-minecraft_bedrock_docker_hostname: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_role_docker_hostname: "{{ minecraft_bedrock_name }}"
 
 # Networks
-minecraft_bedrock_docker_networks_alias: "{{ minecraft_bedrock_name }}"
-minecraft_bedrock_docker_networks_default: []
-minecraft_bedrock_docker_networks_custom: []
-minecraft_bedrock_docker_networks: "{{ docker_networks_common
-                                       + minecraft_bedrock_docker_networks_default
-                                       + minecraft_bedrock_docker_networks_custom }}"
+minecraft_bedrock_role_docker_networks_alias: "{{ minecraft_bedrock_name }}"
+minecraft_bedrock_role_docker_networks_default: []
+minecraft_bedrock_role_docker_networks_custom: []
+minecraft_bedrock_role_docker_networks: "{{ docker_networks_common
+                                       + minecraft_bedrock_role_docker_networks_default
+                                       + minecraft_bedrock_role_docker_networks_custom }}"
 
 # Restart Policy
-minecraft_bedrock_docker_restart_policy: unless-stopped
+minecraft_bedrock_role_docker_restart_policy: unless-stopped
 
 # State
-minecraft_bedrock_docker_state: started
+minecraft_bedrock_role_docker_state: started

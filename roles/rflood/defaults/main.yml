@@ -16,51 +16,51 @@ rflood_instances: ["rflood"]
 # Paths
 ################################
 
-rflood_paths_folder: "{{ rflood_name }}"
-rflood_paths_location: "{{ server_appdata_path }}/{{ rflood_paths_folder }}"
-rflood_paths_downloads_location: "{{ downloads_torrents_path }}/{{ rflood_paths_folder }}"
-rflood_paths_folders_list:
-  - "{{ rflood_paths_location }}"
-  - "{{ rflood_paths_downloads_location }}"
-  - "{{ rflood_paths_downloads_location }}/completed"
-  - "{{ rflood_paths_downloads_location }}/incoming"
-  - "{{ rflood_paths_downloads_location }}/watched"
-  - "{{ rflood_paths_downloads_location }}/torrents"
+rflood_role_paths_folder: "{{ rflood_name }}"
+rflood_role_paths_location: "{{ server_appdata_path }}/{{ rflood_role_paths_folder }}"
+rflood_role_paths_downloads_location: "{{ downloads_torrents_path }}/{{ rflood_role_paths_folder }}"
+rflood_role_paths_folders_list:
+  - "{{ rflood_role_paths_location }}"
+  - "{{ rflood_role_paths_downloads_location }}"
+  - "{{ rflood_role_paths_downloads_location }}/completed"
+  - "{{ rflood_role_paths_downloads_location }}/incoming"
+  - "{{ rflood_role_paths_downloads_location }}/watched"
+  - "{{ rflood_role_paths_downloads_location }}/torrents"
 
 # Config files
-rflood_paths_rtorrent_rc_location: "{{ rflood_paths_location }}/rtorrent.rc"
+rflood_role_paths_rtorrent_rc_location: "{{ rflood_role_paths_location }}/rtorrent.rc"
 
 ################################
 # Web
 ################################
 
-rflood_web_subdomain: "{{ rflood_name }}"
-rflood_web_domain: "{{ user.domain }}"
-rflood_web_port: "3000"
-rflood_web_url: "{{ 'https://' + lookup('vars', rflood_name + '_web_subdomain', default=rflood_web_subdomain)
-                    + '.' + lookup('vars', rflood_name + '_web_domain', default=rflood_web_domain) }}"
+rflood_role_web_subdomain: "{{ rflood_name }}"
+rflood_role_web_domain: "{{ user.domain }}"
+rflood_role_web_port: "3000"
+rflood_role_web_url: "{{ 'https://' + lookup('vars', rflood_name + '_web_subdomain', default=rflood_role_web_subdomain)
+                    + '.' + lookup('vars', rflood_name + '_web_domain', default=rflood_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-rflood_dns_record: "{{ lookup('vars', rflood_name + '_web_subdomain', default=rflood_web_subdomain) }}"
-rflood_dns_zone: "{{ lookup('vars', rflood_name + '_web_domain', default=rflood_web_domain) }}"
-rflood_dns_proxy: "{{ dns.proxied }}"
+rflood_role_dns_record: "{{ lookup('vars', rflood_name + '_web_subdomain', default=rflood_role_web_subdomain) }}"
+rflood_role_dns_zone: "{{ lookup('vars', rflood_name + '_web_domain', default=rflood_role_web_domain) }}"
+rflood_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-rflood_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-rflood_traefik_middleware_default: "{{ traefik_default_middleware }}"
-rflood_traefik_middleware_custom: ""
-rflood_traefik_certresolver: "{{ traefik_default_certresolver }}"
-rflood_traefik_enabled: true
+rflood_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+rflood_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+rflood_role_traefik_middleware_custom: ""
+rflood_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+rflood_role_traefik_enabled: true
 
 # Disabled for security reasons, no authentication on API /!\
-rflood_traefik_api_enabled: false
-rflood_traefik_api_endpoint: "PathPrefix(`/api`)"
+rflood_role_traefik_api_enabled: false
+rflood_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Config
@@ -73,8 +73,8 @@ rflood_config_rflood_rc_settings_default:
   # IP address that is reported to the tracker
   - { option: "network.local_address.set", value: "{{ ip_address_public }}" }
   # Ports
-  - { option: "network.port_range.set", value: "{{ rflood_docker_ports_50000 }}-{{ rflood_docker_ports_50000 }}" }
-  - { option: "dht.port.set", value: "{{ rflood_docker_ports_6881 }}" }
+  - { option: "network.port_range.set", value: "{{ rflood_role_docker_ports_50000 }}-{{ rflood_role_docker_ports_50000 }}" }
+  - { option: "dht.port.set", value: "{{ rflood_role_docker_ports_6881 }}" }
   # Enable / Disable Public Trackers
   - { option: "dht.mode.set", value: "{{ rflood_config_public_trackers | ternary('on', 'disable') }}" }
   - { option: "trackers.use_udp.set", value: "{{ rflood_config_public_trackers | ternary('yes', 'no') }}" }
@@ -90,66 +90,66 @@ rflood_config_rflood_rc_settings_list: "{{ lookup('vars', rflood_name + '_config
 ################################
 
 # Container
-rflood_docker_container: "{{ rflood_name }}"
+rflood_role_docker_container: "{{ rflood_name }}"
 
 # Image
-rflood_docker_image_pull: true
-rflood_docker_image_repo: "ghcr.io/hotio/rflood"
-rflood_docker_image_tag: "release"
-rflood_docker_image: "{{ lookup('vars', rflood_name + '_docker_image_repo', default=rflood_docker_image_repo)
-                         + ':' + lookup('vars', rflood_name + '_docker_image_tag', default=rflood_docker_image_tag) }}"
+rflood_role_docker_image_pull: true
+rflood_role_docker_image_repo: "ghcr.io/hotio/rflood"
+rflood_role_docker_image_tag: "release"
+rflood_role_docker_image: "{{ lookup('vars', rflood_name + '_docker_image_repo', default=rflood_role_docker_image_repo)
+                         + ':' + lookup('vars', rflood_name + '_docker_image_tag', default=rflood_role_docker_image_tag) }}"
 
 # Ports
 # - Internal and External ports need to match for the next set of ports
 # - Lookup available ports and set docker ports accordingly
-rflood_docker_ports_50000: "{{ port_lookup_50000.meta.port
+rflood_role_docker_ports_50000: "{{ port_lookup_50000.meta.port
                             if (port_lookup_50000.meta.port is defined) and (port_lookup_50000.meta.port | trim | length > 0)
                             else '50000' }}"
-rflood_docker_ports_6881: "{{ port_lookup_6881.meta.port
+rflood_role_docker_ports_6881: "{{ port_lookup_6881.meta.port
                            if (port_lookup_6881.meta.port is defined) and (port_lookup_6881.meta.port | trim | length > 0)
                            else '6881' }}"
-rflood_docker_ports_defaults:
-  - "{{ rflood_docker_ports_50000 }}:{{ rflood_docker_ports_50000 }}"
-  - "{{ rflood_docker_ports_6881 }}:{{ rflood_docker_ports_6881 }}/udp"
-rflood_docker_ports_custom: []
-rflood_docker_ports: "{{ lookup('vars', rflood_name + '_docker_ports_defaults', default=rflood_docker_ports_defaults)
-                         + lookup('vars', rflood_name + '_docker_ports_custom', default=rflood_docker_ports_custom) }}"
+rflood_role_docker_ports_defaults:
+  - "{{ rflood_role_docker_ports_50000 }}:{{ rflood_role_docker_ports_50000 }}"
+  - "{{ rflood_role_docker_ports_6881 }}:{{ rflood_role_docker_ports_6881 }}/udp"
+rflood_role_docker_ports_custom: []
+rflood_role_docker_ports: "{{ lookup('vars', rflood_name + '_docker_ports_defaults', default=rflood_role_docker_ports_defaults)
+                         + lookup('vars', rflood_name + '_docker_ports_custom', default=rflood_role_docker_ports_custom) }}"
 
 # Envs
-rflood_docker_envs_default:
+rflood_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   UMASK: "002"
   FLOOD_AUTH: "false"
-rflood_docker_envs_custom: {}
-rflood_docker_envs: "{{ lookup('vars', rflood_name + '_docker_envs_default', default=rflood_docker_envs_default)
-                        | combine(lookup('vars', rflood_name + '_docker_envs_custom', default=rflood_docker_envs_custom)) }}"
+rflood_role_docker_envs_custom: {}
+rflood_role_docker_envs: "{{ lookup('vars', rflood_name + '_docker_envs_default', default=rflood_role_docker_envs_default)
+                        | combine(lookup('vars', rflood_name + '_docker_envs_custom', default=rflood_role_docker_envs_custom)) }}"
 
 # Volumes
-rflood_docker_volumes_default:
-  - "{{ rflood_paths_location }}:/config"
+rflood_role_docker_volumes_default:
+  - "{{ rflood_role_paths_location }}:/config"
   - "{{ server_appdata_path }}/scripts:/scripts"
-rflood_docker_volumes_custom: []
-rflood_docker_volumes: "{{ lookup('vars', rflood_name + '_docker_volumes_default', default=rflood_docker_volumes_default)
-                           + lookup('vars', rflood_name + '_docker_volumes_custom', default=rflood_docker_volumes_custom) }}"
+rflood_role_docker_volumes_custom: []
+rflood_role_docker_volumes: "{{ lookup('vars', rflood_name + '_docker_volumes_default', default=rflood_role_docker_volumes_default)
+                           + lookup('vars', rflood_name + '_docker_volumes_custom', default=rflood_role_docker_volumes_custom) }}"
 
 # Hostname
-rflood_docker_hostname: "{{ rflood_name }}"
+rflood_role_docker_hostname: "{{ rflood_name }}"
 
 # Networks
-rflood_docker_networks_alias: "{{ rflood_name }}"
-rflood_docker_networks_default: []
-rflood_docker_networks_custom: []
-rflood_docker_networks: "{{ docker_networks_common
-                            + lookup('vars', rflood_name + '_docker_networks_default', default=rflood_docker_networks_default)
-                            + lookup('vars', rflood_name + '_docker_networks_custom', default=rflood_docker_networks_custom) }}"
+rflood_role_docker_networks_alias: "{{ rflood_name }}"
+rflood_role_docker_networks_default: []
+rflood_role_docker_networks_custom: []
+rflood_role_docker_networks: "{{ docker_networks_common
+                            + lookup('vars', rflood_name + '_docker_networks_default', default=rflood_role_docker_networks_default)
+                            + lookup('vars', rflood_name + '_docker_networks_custom', default=rflood_role_docker_networks_custom) }}"
 
 # Restart Policy
-rflood_docker_restart_policy: unless-stopped
+rflood_role_docker_restart_policy: unless-stopped
 
 # Stop Timeout
-rflood_docker_stop_timeout: 900
+rflood_role_docker_stop_timeout: 900
 
 # State
-rflood_docker_state: started
+rflood_role_docker_state: started

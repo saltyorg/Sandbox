@@ -21,102 +21,102 @@ miniflux_admin_username: "{{ user.name }}"
 miniflux_admin_password: "{{ user.pass }}"
 miniflux_create_admin: "1"
 miniflux_run_migrations: "1"
-miniflux_postgres_username: "{{ lookup('vars', miniflux_name + '_postgres_docker_env_user', default=postgres_docker_env_user) }}"
-miniflux_postgres_password: "{{ lookup('vars', miniflux_name + '_postgres_docker_env_password', default=postgres_docker_env_password) }}"
+miniflux_postgres_username: "{{ lookup('vars', miniflux_name + '_postgres_role_docker_env_user', default=postgres_role_docker_env_user) }}"
+miniflux_postgres_password: "{{ lookup('vars', miniflux_name + '_postgres_role_docker_env_password', default=postgres_role_docker_env_password) }}"
 
 miniflux_postgres_name: "{{ miniflux_name }}-postgres"
-miniflux_postgres_docker_env_db: "miniflux"
-miniflux_postgres_docker_image_tag: "14-alpine"
-miniflux_postgres_docker_image_repo: "postgres"
-miniflux_postgres_paths_folder: "{{ miniflux_name }}"
-miniflux_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+miniflux_postgres_role_docker_env_db: "miniflux"
+miniflux_postgres_role_docker_image_tag: "14-alpine"
+miniflux_postgres_role_docker_image_repo: "postgres"
+miniflux_postgres_role_paths_folder: "{{ miniflux_name }}"
+miniflux_postgres_role_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths
 ################################
 
-miniflux_paths_folder: "{{ miniflux_name }}"
-miniflux_paths_location: "{{ server_appdata_path }}/{{ miniflux_paths_folder }}"
-miniflux_paths_folders_list:
-  - "{{ miniflux_paths_location }}"
+miniflux_role_paths_folder: "{{ miniflux_name }}"
+miniflux_role_paths_location: "{{ server_appdata_path }}/{{ miniflux_role_paths_folder }}"
+miniflux_role_paths_folders_list:
+  - "{{ miniflux_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-miniflux_web_subdomain: "{{ miniflux_name }}"
-miniflux_web_domain: "{{ user.domain }}"
-miniflux_web_port: "8080"
-miniflux_web_url: "{{ 'https://' + (miniflux_web_subdomain + '.' + miniflux_web_domain
-                   if (miniflux_web_subdomain | length > 0)
-                   else miniflux_web_domain) }}"
+miniflux_role_web_subdomain: "{{ miniflux_name }}"
+miniflux_role_web_domain: "{{ user.domain }}"
+miniflux_role_web_port: "8080"
+miniflux_role_web_url: "{{ 'https://' + (miniflux_role_web_subdomain + '.' + miniflux_role_web_domain
+                   if (miniflux_role_web_subdomain | length > 0)
+                   else miniflux_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-miniflux_dns_record: "{{ miniflux_web_subdomain }}"
-miniflux_dns_zone: "{{ miniflux_web_domain }}"
-miniflux_dns_proxy: "{{ dns.proxied }}"
+miniflux_role_dns_record: "{{ miniflux_role_web_subdomain }}"
+miniflux_role_dns_zone: "{{ miniflux_role_web_domain }}"
+miniflux_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-miniflux_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-miniflux_traefik_middleware_default: "{{ traefik_default_middleware }}"
-miniflux_traefik_middleware_custom: ""
-miniflux_traefik_certresolver: "{{ traefik_default_certresolver }}"
-miniflux_traefik_enabled: true
-miniflux_traefik_api_enabled: false
-miniflux_traefik_api_endpoint: ""
+miniflux_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+miniflux_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+miniflux_role_traefik_middleware_custom: ""
+miniflux_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+miniflux_role_traefik_enabled: true
+miniflux_role_traefik_api_enabled: false
+miniflux_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-miniflux_docker_container: "{{ miniflux_name }}"
+miniflux_role_docker_container: "{{ miniflux_name }}"
 
 # Image
-miniflux_docker_image_pull: true
-miniflux_docker_image_tag: "latest"
-miniflux_docker_image: "miniflux/miniflux:{{ miniflux_docker_image_tag }}"
+miniflux_role_docker_image_pull: true
+miniflux_role_docker_image_tag: "latest"
+miniflux_role_docker_image: "miniflux/miniflux:{{ miniflux_role_docker_image_tag }}"
 
 # Envs
-miniflux_docker_envs_default:
-  DATABASE_URL: "postgres://{{ miniflux_postgres_username }}:{{ miniflux_postgres_password }}@{{ miniflux_postgres_name }}/{{ miniflux_postgres_docker_env_db }}?sslmode=disable"
+miniflux_role_docker_envs_default:
+  DATABASE_URL: "postgres://{{ miniflux_postgres_username }}:{{ miniflux_postgres_password }}@{{ miniflux_postgres_name }}/{{ miniflux_postgres_role_docker_env_db }}?sslmode=disable"
   RUN_MIGRATIONS: "{{ miniflux_run_migrations }}"
   CREATE_ADMIN: "{{ miniflux_create_admin }}"
   ADMIN_USERNAME: "{{ miniflux_admin_username }}"
   ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
-miniflux_docker_envs_custom: {}
-miniflux_docker_envs: "{{ miniflux_docker_envs_default
-                          | combine(miniflux_docker_envs_custom) }}"
+miniflux_role_docker_envs_custom: {}
+miniflux_role_docker_envs: "{{ miniflux_role_docker_envs_default
+                          | combine(miniflux_role_docker_envs_custom) }}"
 
 # Volumes
-miniflux_docker_volumes_default:
+miniflux_role_docker_volumes_default:
   - /etc/localtime:/etc/localtime:ro
-miniflux_docker_volumes_custom: []
-miniflux_docker_volumes: "{{ miniflux_docker_volumes_default
-                             + miniflux_docker_volumes_custom }}"
+miniflux_role_docker_volumes_custom: []
+miniflux_role_docker_volumes: "{{ miniflux_role_docker_volumes_default
+                             + miniflux_role_docker_volumes_custom }}"
 
 # Hostname
-miniflux_docker_hostname: "{{ miniflux_name }}"
+miniflux_role_docker_hostname: "{{ miniflux_name }}"
 
 # Networks
-miniflux_docker_networks_alias: "{{ miniflux_name }}"
-miniflux_docker_networks_default: []
-miniflux_docker_networks_custom: []
-miniflux_docker_networks: "{{ docker_networks_common
-                              + miniflux_docker_networks_default
-                              + miniflux_docker_networks_custom }}"
+miniflux_role_docker_networks_alias: "{{ miniflux_name }}"
+miniflux_role_docker_networks_default: []
+miniflux_role_docker_networks_custom: []
+miniflux_role_docker_networks: "{{ docker_networks_common
+                              + miniflux_role_docker_networks_default
+                              + miniflux_role_docker_networks_custom }}"
 
 # Restart Policy
-miniflux_docker_restart_policy: unless-stopped
+miniflux_role_docker_restart_policy: unless-stopped
 
 # State
-miniflux_docker_state: started
+miniflux_role_docker_state: started
 
 # Dependencies
 minuflux_depends_on: "{{ minuflux_postgres_name }}"

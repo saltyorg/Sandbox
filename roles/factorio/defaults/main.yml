@@ -17,76 +17,76 @@ factorio_name: factorio
 # Paths
 ################################
 
-factorio_paths_folder: "{{ factorio_name }}"
-factorio_paths_location: "{{ server_appdata_path }}/{{ factorio_paths_folder }}"
-factorio_paths_folders_list:
-  - "{{ factorio_paths_location }}"
+factorio_role_paths_folder: "{{ factorio_name }}"
+factorio_role_paths_location: "{{ server_appdata_path }}/{{ factorio_role_paths_folder }}"
+factorio_role_paths_folders_list:
+  - "{{ factorio_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-factorio_web_subdomain: "{{ factorio_name }}"
-factorio_web_domain: "{{ user.domain }}"
-factorio_web_port: ""
+factorio_role_web_subdomain: "{{ factorio_name }}"
+factorio_role_web_domain: "{{ user.domain }}"
+factorio_role_web_port: ""
 
 ################################
 # DNS
 ################################
 
-factorio_dns_record: "{{ factorio_web_subdomain }}"
-factorio_dns_zone: "{{ factorio_web_domain }}"
-factorio_dns_proxy: false
+factorio_role_dns_record: "{{ factorio_role_web_subdomain }}"
+factorio_role_dns_zone: "{{ factorio_role_web_domain }}"
+factorio_role_dns_proxy: false
 
 ################################
 # Docker
 ################################
 
 # Container
-factorio_docker_container: "{{ factorio_name }}"
+factorio_role_docker_container: "{{ factorio_name }}"
 
 # Image
-factorio_docker_image_pull: true
-factorio_docker_image_tag: "experimental"
-factorio_docker_image: "goofball222/factorio:{{ factorio_docker_image_tag }}"
+factorio_role_docker_image_pull: true
+factorio_role_docker_image_tag: "experimental"
+factorio_role_docker_image: "goofball222/factorio:{{ factorio_role_docker_image_tag }}"
 
 # Ports
-factorio_docker_ports_defaults:
+factorio_role_docker_ports_defaults:
   - "27015:27015/tcp"
   - "34197:34197/udp"
-factorio_docker_ports_custom: []
-factorio_docker_ports: "{{ factorio_docker_ports_defaults
-                        + factorio_docker_ports_custom }}"
+factorio_role_docker_ports_custom: []
+factorio_role_docker_ports: "{{ factorio_role_docker_ports_defaults
+                        + factorio_role_docker_ports_custom }}"
 
 # Envs
-factorio_docker_envs_default:
+factorio_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-factorio_docker_envs_custom: {}
-factorio_docker_envs: "{{ factorio_docker_envs_default
-                       | combine(factorio_docker_envs_custom) }}"
+factorio_role_docker_envs_custom: {}
+factorio_role_docker_envs: "{{ factorio_role_docker_envs_default
+                       | combine(factorio_role_docker_envs_custom) }}"
 
 # Volumes
-factorio_docker_volumes_default:
-  - "{{ factorio_paths_location }}:/factorio"
-factorio_docker_volumes_custom: []
-factorio_docker_volumes: "{{ factorio_docker_volumes_default
-                          + factorio_docker_volumes_custom }}"
+factorio_role_docker_volumes_default:
+  - "{{ factorio_role_paths_location }}:/factorio"
+factorio_role_docker_volumes_custom: []
+factorio_role_docker_volumes: "{{ factorio_role_docker_volumes_default
+                          + factorio_role_docker_volumes_custom }}"
 
 # Hostname
-factorio_docker_hostname: "{{ factorio_name }}"
+factorio_role_docker_hostname: "{{ factorio_name }}"
 
 # Networks
-factorio_docker_networks_alias: "{{ factorio_name }}"
-factorio_docker_networks_default: []
-factorio_docker_networks_custom: []
-factorio_docker_networks: "{{ docker_networks_common
-                           + factorio_docker_networks_default
-                           + factorio_docker_networks_custom }}"
+factorio_role_docker_networks_alias: "{{ factorio_name }}"
+factorio_role_docker_networks_default: []
+factorio_role_docker_networks_custom: []
+factorio_role_docker_networks: "{{ docker_networks_common
+                           + factorio_role_docker_networks_default
+                           + factorio_role_docker_networks_custom }}"
 
 # Restart Policy
-factorio_docker_restart_policy: unless-stopped
+factorio_role_docker_restart_policy: unless-stopped
 
 # State
-factorio_docker_state: started
+factorio_role_docker_state: started

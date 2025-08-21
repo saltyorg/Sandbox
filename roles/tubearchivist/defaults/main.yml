@@ -24,104 +24,104 @@ tubearchivist_enable_cast: "false"
 # Paths
 ################################
 
-tubearchivist_paths_folder: "{{ tubearchivist_name }}"
-tubearchivist_paths_location: "{{ server_appdata_path }}/{{ tubearchivist_paths_folder }}/app"
-tubearchivist_paths_downloads_location: "{{ downloads_root_path }}/{{ tubearchivist_paths_folder }}"
-tubearchivist_paths_folders_list:
-  - "{{ tubearchivist_paths_location }}"
-  - "{{ tubearchivist_paths_downloads_location }}"
-  - "{{ tubearchivist_paths_location }}/cache"
+tubearchivist_role_paths_folder: "{{ tubearchivist_name }}"
+tubearchivist_role_paths_location: "{{ server_appdata_path }}/{{ tubearchivist_role_paths_folder }}/app"
+tubearchivist_role_paths_downloads_location: "{{ downloads_root_path }}/{{ tubearchivist_role_paths_folder }}"
+tubearchivist_role_paths_folders_list:
+  - "{{ tubearchivist_role_paths_location }}"
+  - "{{ tubearchivist_role_paths_downloads_location }}"
+  - "{{ tubearchivist_role_paths_location }}/cache"
 
 ################################
 # Web
 ################################
 
-tubearchivist_web_subdomain: "{{ tubearchivist_name }}"
-tubearchivist_web_domain: "{{ user.domain }}"
-tubearchivist_web_port: "8000"
-tubearchivist_web_url: "{{ 'https://' + (tubearchivist_web_subdomain + '.' + tubearchivist_web_domain
-                        if (tubearchivist_web_subdomain | length > 0)
-                        else tubearchivist_web_domain) }}"
+tubearchivist_role_web_subdomain: "{{ tubearchivist_name }}"
+tubearchivist_role_web_domain: "{{ user.domain }}"
+tubearchivist_role_web_port: "8000"
+tubearchivist_role_web_url: "{{ 'https://' + (tubearchivist_role_web_subdomain + '.' + tubearchivist_role_web_domain
+                        if (tubearchivist_role_web_subdomain | length > 0)
+                        else tubearchivist_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-tubearchivist_dns_record: "{{ tubearchivist_web_subdomain }}"
-tubearchivist_dns_zone: "{{ tubearchivist_web_domain }}"
-tubearchivist_dns_proxy: "{{ dns.proxied }}"
+tubearchivist_role_dns_record: "{{ tubearchivist_role_web_subdomain }}"
+tubearchivist_role_dns_zone: "{{ tubearchivist_role_web_domain }}"
+tubearchivist_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-tubearchivist_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-tubearchivist_traefik_middleware_default: "{{ traefik_default_middleware }}"
-tubearchivist_traefik_middleware_custom: ""
-tubearchivist_traefik_certresolver: "{{ traefik_default_certresolver }}"
-tubearchivist_traefik_enabled: true
-tubearchivist_traefik_api_enabled: true
-tubearchivist_traefik_api_endpoint: "PathPrefix(`/api`)"
+tubearchivist_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tubearchivist_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+tubearchivist_role_traefik_middleware_custom: ""
+tubearchivist_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tubearchivist_role_traefik_enabled: true
+tubearchivist_role_traefik_api_enabled: true
+tubearchivist_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-tubearchivist_docker_container: "{{ tubearchivist_name }}"
+tubearchivist_role_docker_container: "{{ tubearchivist_name }}"
 
 # Image
-tubearchivist_docker_image_pull: true
-tubearchivist_docker_image_tag: "v0.4.13"
-tubearchivist_docker_image: "bbilly1/tubearchivist:{{ tubearchivist_docker_image_tag }}"
+tubearchivist_role_docker_image_pull: true
+tubearchivist_role_docker_image_tag: "v0.4.13"
+tubearchivist_role_docker_image: "bbilly1/tubearchivist:{{ tubearchivist_role_docker_image_tag }}"
 
 # Envs
-tubearchivist_docker_envs_http_header: "{{ 'HTTP_REMOTE_USER'
-                                        if ('authelia' in tubearchivist_traefik_sso_middleware)
+tubearchivist_role_docker_envs_http_header: "{{ 'HTTP_REMOTE_USER'
+                                        if ('authelia' in tubearchivist_role_traefik_sso_middleware)
                                         else ('HTTP_X_AUTHENTIK_USERNAME'
-                                             if ('authentik' in tubearchivist_traefik_sso_middleware)
+                                             if ('authentik' in tubearchivist_role_traefik_sso_middleware)
                                              else '') }}"
-tubearchivist_docker_envs_default:
+tubearchivist_role_docker_envs_default:
   TZ: "{{ tz }}"
   ES_URL: "http://{{ tubearchivist_name }}-elasticsearch:9200"
   REDIS_HOST: "{{ tubearchivist_name }}-redis"
   HOST_UID: "{{ uid }}"
   HOST_GID: "{{ gid }}"
-  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ tubearchivist_web_subdomain + '.' + tubearchivist_web_domain }} {{ tubearchivist_web_url }}"
-  TA_ENABLE_AUTH_PROXY: "{{ 'true' if (tubearchivist_traefik_sso_middleware | length > 0) else omit }}"
-  TA_AUTH_PROXY_USERNAME_HEADER: "{{ tubearchivist_docker_envs_http_header if (tubearchivist_traefik_sso_middleware | length > 0) else omit }}"
+  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ tubearchivist_role_web_subdomain + '.' + tubearchivist_role_web_domain }} {{ tubearchivist_role_web_url }}"
+  TA_ENABLE_AUTH_PROXY: "{{ 'true' if (tubearchivist_role_traefik_sso_middleware | length > 0) else omit }}"
+  TA_AUTH_PROXY_USERNAME_HEADER: "{{ tubearchivist_role_docker_envs_http_header if (tubearchivist_role_traefik_sso_middleware | length > 0) else omit }}"
   TA_USERNAME: "{{ user.name }}"
   TA_PASSWORD: "{{ user.pass }}"
-  ELASTIC_PASSWORD: "{{ elasticsearch_docker_env_password }}"
+  ELASTIC_PASSWORD: "{{ elasticsearch_role_docker_env_password }}"
   ENABLE_CAST: "{{ tubearchivist_enable_cast }}"
-tubearchivist_docker_envs_custom: {}
-tubearchivist_docker_envs: "{{ tubearchivist_docker_envs_default
-                               | combine(tubearchivist_docker_envs_custom) }}"
+tubearchivist_role_docker_envs_custom: {}
+tubearchivist_role_docker_envs: "{{ tubearchivist_role_docker_envs_default
+                               | combine(tubearchivist_role_docker_envs_custom) }}"
 
 # Volumes
-tubearchivist_docker_volumes_default:
-  - "{{ tubearchivist_paths_downloads_location }}/:/youtube"
-  - "{{ tubearchivist_paths_location }}/cache:/cache"
-tubearchivist_docker_volumes_custom: []
-tubearchivist_docker_volumes: "{{ tubearchivist_docker_volumes_default
-                                  + tubearchivist_docker_volumes_custom }}"
+tubearchivist_role_docker_volumes_default:
+  - "{{ tubearchivist_role_paths_downloads_location }}/:/youtube"
+  - "{{ tubearchivist_role_paths_location }}/cache:/cache"
+tubearchivist_role_docker_volumes_custom: []
+tubearchivist_role_docker_volumes: "{{ tubearchivist_role_docker_volumes_default
+                                  + tubearchivist_role_docker_volumes_custom }}"
 
 # Hostname
-tubearchivist_docker_hostname: "{{ tubearchivist_name }}"
+tubearchivist_role_docker_hostname: "{{ tubearchivist_name }}"
 
 # Networks
-tubearchivist_docker_networks_alias: "{{ tubearchivist_name }}"
-tubearchivist_docker_networks_default: []
-tubearchivist_docker_networks_custom: []
-tubearchivist_docker_networks: "{{ docker_networks_common
-                                   + tubearchivist_docker_networks_default
-                                   + tubearchivist_docker_networks_custom }}"
+tubearchivist_role_docker_networks_alias: "{{ tubearchivist_name }}"
+tubearchivist_role_docker_networks_default: []
+tubearchivist_role_docker_networks_custom: []
+tubearchivist_role_docker_networks: "{{ docker_networks_common
+                                   + tubearchivist_role_docker_networks_default
+                                   + tubearchivist_role_docker_networks_custom }}"
 
 # Restart Policy
-tubearchivist_docker_restart_policy: unless-stopped
+tubearchivist_role_docker_restart_policy: unless-stopped
 
 # State
-tubearchivist_docker_state: started
+tubearchivist_role_docker_state: started
 
 # Dependencies
 tubearchivist_depends_on: "{{ tubearchivist_name }}-elasticsearch,{{ tubearchivist_name }}-redis"

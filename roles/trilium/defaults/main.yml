@@ -17,84 +17,84 @@ trilium_name: trilium
 # Paths
 ################################
 
-trilium_paths_folder: "{{ trilium_name }}"
-trilium_paths_location: "{{ server_appdata_path }}/{{ trilium_paths_folder }}"
-trilium_paths_folders_list:
-  - "{{ trilium_paths_location }}"
+trilium_role_paths_folder: "{{ trilium_name }}"
+trilium_role_paths_location: "{{ server_appdata_path }}/{{ trilium_role_paths_folder }}"
+trilium_role_paths_folders_list:
+  - "{{ trilium_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-trilium_web_subdomain: "{{ trilium_name }}"
-trilium_web_domain: "{{ user.domain }}"
-trilium_web_port: "8080"
-trilium_web_url: "{{ 'https://' + (trilium_web_subdomain + '.' + trilium_web_domain
-                  if (trilium_web_subdomain | length > 0)
-                  else trilium_web_domain) }}"
+trilium_role_web_subdomain: "{{ trilium_name }}"
+trilium_role_web_domain: "{{ user.domain }}"
+trilium_role_web_port: "8080"
+trilium_role_web_url: "{{ 'https://' + (trilium_role_web_subdomain + '.' + trilium_role_web_domain
+                  if (trilium_role_web_subdomain | length > 0)
+                  else trilium_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-trilium_dns_record: "{{ trilium_web_subdomain }}"
-trilium_dns_zone: "{{ trilium_web_domain }}"
-trilium_dns_proxy: "{{ dns.proxied }}"
+trilium_role_dns_record: "{{ trilium_role_web_subdomain }}"
+trilium_role_dns_zone: "{{ trilium_role_web_domain }}"
+trilium_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-trilium_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-trilium_traefik_middleware_default: "{{ traefik_default_middleware }}"
-trilium_traefik_middleware_custom: ""
-trilium_traefik_certresolver: "{{ traefik_default_certresolver }}"
-trilium_traefik_enabled: true
-trilium_traefik_api_enabled: false
-trilium_traefik_api_endpoint: ""
+trilium_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+trilium_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+trilium_role_traefik_middleware_custom: ""
+trilium_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+trilium_role_traefik_enabled: true
+trilium_role_traefik_api_enabled: false
+trilium_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-trilium_docker_container: "{{ trilium_name }}"
+trilium_role_docker_container: "{{ trilium_name }}"
 
 # Image
-trilium_docker_image_pull: true
-trilium_docker_image_tag: "latest"
-trilium_docker_image: "triliumnext/notes:{{ trilium_docker_image_tag }}"
+trilium_role_docker_image_pull: true
+trilium_role_docker_image_tag: "latest"
+trilium_role_docker_image: "triliumnext/notes:{{ trilium_role_docker_image_tag }}"
 
 # Envs
-trilium_docker_envs_default:
+trilium_role_docker_envs_default:
   USER_UID: "{{ uid }}"
   USER_GID: "{{ gid }}"
   TZ: "{{ tz }}"
   TRILIUM_DATA_DIR: "/home/node/trilium-data"
-trilium_docker_envs_custom: {}
-trilium_docker_envs: "{{ trilium_docker_envs_default
-                         | combine(trilium_docker_envs_custom) }}"
+trilium_role_docker_envs_custom: {}
+trilium_role_docker_envs: "{{ trilium_role_docker_envs_default
+                         | combine(trilium_role_docker_envs_custom) }}"
 
 # Volumes
-trilium_docker_volumes_default:
-  - "{{ trilium_paths_location }}:/home/node/trilium-data"
-trilium_docker_volumes_custom: []
-trilium_docker_volumes: "{{ trilium_docker_volumes_default
-                            + trilium_docker_volumes_custom }}"
+trilium_role_docker_volumes_default:
+  - "{{ trilium_role_paths_location }}:/home/node/trilium-data"
+trilium_role_docker_volumes_custom: []
+trilium_role_docker_volumes: "{{ trilium_role_docker_volumes_default
+                            + trilium_role_docker_volumes_custom }}"
 
 # Hostname
-trilium_docker_hostname: "{{ trilium_name }}"
+trilium_role_docker_hostname: "{{ trilium_name }}"
 
 # Networks
-trilium_docker_networks_alias: "{{ trilium_name }}"
-trilium_docker_networks_default: []
-trilium_docker_networks_custom: []
-trilium_docker_networks: "{{ docker_networks_common
-                             + trilium_docker_networks_default
-                             + trilium_docker_networks_custom }}"
+trilium_role_docker_networks_alias: "{{ trilium_name }}"
+trilium_role_docker_networks_default: []
+trilium_role_docker_networks_custom: []
+trilium_role_docker_networks: "{{ docker_networks_common
+                             + trilium_role_docker_networks_default
+                             + trilium_role_docker_networks_custom }}"
 
 # Restart Policy
-trilium_docker_restart_policy: unless-stopped
+trilium_role_docker_restart_policy: unless-stopped
 
 # State
-trilium_docker_state: started
+trilium_role_docker_state: started

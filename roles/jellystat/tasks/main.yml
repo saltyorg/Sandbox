@@ -10,9 +10,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -22,7 +22,7 @@
 
 - name: Check if JWT secret file exists
   ansible.builtin.stat:
-    path: "{{ jellystat_paths_jwt_secret_file }}"
+    path: "{{ jellystat_role_paths_jwt_secret_file }}"
   register: jwt_file
 
 - name: Generate JWT Token Secret
@@ -33,14 +33,14 @@
 - name: Store JWT Token Secret in a file
   ansible.builtin.copy:
     content: "{{ jwt_secret.stdout }}"
-    dest: "{{ jellystat_paths_jwt_secret_file }}"
+    dest: "{{ jellystat_role_paths_jwt_secret_file }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
   when: not jwt_file.stat.exists
 
 - name: Read JWT Token Secret from file
-  ansible.builtin.shell: cat "{{ jellystat_paths_jwt_secret_file }}"
+  ansible.builtin.shell: cat "{{ jellystat_role_paths_jwt_secret_file }}"
   register: jwt_token
   changed_when: false
 
@@ -49,9 +49,9 @@
     name: postgres
   vars:
     postgres_instances: ["{{ jellystat_postgres_name }}"]
-    postgres_docker_env_db: "{{ jellystat_postgres_docker_env_db }}"
-    postgres_docker_image_tag: "{{ jellystat_postgres_docker_image_tag }}"
-    postgres_docker_image_repo: "{{ jellystat_postgres_docker_image_repo }}"
+    postgres_role_docker_env_db: "{{ jellystat_postgres_role_docker_env_db }}"
+    postgres_role_docker_image_tag: "{{ jellystat_postgres_role_docker_image_tag }}"
+    postgres_role_docker_image_repo: "{{ jellystat_postgres_role_docker_image_repo }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

@@ -30,57 +30,57 @@ guacamole_name: guacamole
 # Paths
 ################################
 
-guacamole_paths_folder: "{{ guacamole_name }}"
-guacamole_paths_location: "{{ server_appdata_path }}/{{ guacamole_paths_folder }}"
-guacamole_paths_folders_list:
-  - "{{ guacamole_paths_location }}"
-  - "{{ guacamole_paths_location }}/config"
+guacamole_role_paths_folder: "{{ guacamole_name }}"
+guacamole_role_paths_location: "{{ server_appdata_path }}/{{ guacamole_role_paths_folder }}"
+guacamole_role_paths_folders_list:
+  - "{{ guacamole_role_paths_location }}"
+  - "{{ guacamole_role_paths_location }}/config"
 
 ################################
 # Web
 ################################
 
-guacamole_web_subdomain: "{{ guacamole_name }}"
-guacamole_web_domain: "{{ user.domain }}"
-guacamole_web_port: "8080"
-guacamole_web_url: "{{ 'https://' + (guacamole_web_subdomain + '.' + guacamole_web_domain
-                    if (guacamole_web_subdomain | length > 0)
-                    else guacamole_web_domain) }}"
+guacamole_role_web_subdomain: "{{ guacamole_name }}"
+guacamole_role_web_domain: "{{ user.domain }}"
+guacamole_role_web_port: "8080"
+guacamole_role_web_url: "{{ 'https://' + (guacamole_role_web_subdomain + '.' + guacamole_role_web_domain
+                    if (guacamole_role_web_subdomain | length > 0)
+                    else guacamole_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-guacamole_dns_record: "{{ guacamole_web_subdomain }}"
-guacamole_dns_zone: "{{ guacamole_web_domain }}"
-guacamole_dns_proxy: "{{ dns.proxied }}"
+guacamole_role_dns_record: "{{ guacamole_role_web_subdomain }}"
+guacamole_role_dns_zone: "{{ guacamole_role_web_domain }}"
+guacamole_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-guacamole_traefik_sso_middleware: ""
-guacamole_traefik_middleware_default: "{{ traefik_default_middleware }}"
-guacamole_traefik_middleware_custom: ""
-guacamole_traefik_certresolver: "{{ traefik_default_certresolver }}"
-guacamole_traefik_enabled: true
-guacamole_traefik_api_enabled: false
-guacamole_traefik_api_endpoint: ""
+guacamole_role_traefik_sso_middleware: ""
+guacamole_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+guacamole_role_traefik_middleware_custom: ""
+guacamole_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+guacamole_role_traefik_enabled: true
+guacamole_role_traefik_api_enabled: false
+guacamole_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-guacamole_docker_container: "{{ guacamole_name }}"
+guacamole_role_docker_container: "{{ guacamole_name }}"
 
 # Image
-guacamole_docker_image_pull: true
-guacamole_docker_image_tag: "latest"
-guacamole_docker_image: "jasonbean/guacamole:{{ guacamole_docker_image_tag }}"
+guacamole_role_docker_image_pull: true
+guacamole_role_docker_image_tag: "latest"
+guacamole_role_docker_image: "jasonbean/guacamole:{{ guacamole_role_docker_image_tag }}"
 
 # Envs
-guacamole_docker_envs_default:
+guacamole_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   OPT_MYSQL: "Y"
@@ -92,30 +92,30 @@ guacamole_docker_envs_default:
   OPT_OPENID: "{{ 'Y' if guacamole_openid_enable else omit }}"
   OPT_SAML: "{{ 'Y' if guacamole_saml_enable else omit }}"
   OPT_HEADER: "{{ 'Y' if guacamole_header_enable else omit }}"
-guacamole_docker_envs_custom: {}
-guacamole_docker_envs: "{{ guacamole_docker_envs_default
-                           | combine(guacamole_docker_envs_custom) }}"
+guacamole_role_docker_envs_custom: {}
+guacamole_role_docker_envs: "{{ guacamole_role_docker_envs_default
+                           | combine(guacamole_role_docker_envs_custom) }}"
 
 # Volumes
-guacamole_docker_volumes_default:
-  - "{{ guacamole_paths_location }}/config:/config"
-guacamole_docker_volumes_custom: []
-guacamole_docker_volumes: "{{ guacamole_docker_volumes_default
-                              + guacamole_docker_volumes_custom }}"
+guacamole_role_docker_volumes_default:
+  - "{{ guacamole_role_paths_location }}/config:/config"
+guacamole_role_docker_volumes_custom: []
+guacamole_role_docker_volumes: "{{ guacamole_role_docker_volumes_default
+                              + guacamole_role_docker_volumes_custom }}"
 
 # Hostname
-guacamole_docker_hostname: "{{ guacamole_name }}"
+guacamole_role_docker_hostname: "{{ guacamole_name }}"
 
 # Networks
-guacamole_docker_networks_alias: "{{ guacamole_name }}"
-guacamole_docker_networks_default: []
-guacamole_docker_networks_custom: []
-guacamole_docker_networks: "{{ docker_networks_common
-                               + guacamole_docker_networks_default
-                               + guacamole_docker_networks_custom }}"
+guacamole_role_docker_networks_alias: "{{ guacamole_name }}"
+guacamole_role_docker_networks_default: []
+guacamole_role_docker_networks_custom: []
+guacamole_role_docker_networks: "{{ docker_networks_common
+                               + guacamole_role_docker_networks_default
+                               + guacamole_role_docker_networks_custom }}"
 
 # Restart Policy
-guacamole_docker_restart_policy: unless-stopped
+guacamole_role_docker_restart_policy: unless-stopped
 
 # State
-guacamole_docker_state: started
+guacamole_role_docker_state: started

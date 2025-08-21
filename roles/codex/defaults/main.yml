@@ -17,86 +17,86 @@ codex_name: codex
 # Paths
 ################################
 
-codex_paths_folder: "{{ codex_name }}"
-codex_paths_location: "{{ server_appdata_path }}/{{ codex_paths_folder }}"
-codex_paths_folders_list:
-  - "{{ codex_paths_location }}"
-  - "{{ codex_paths_location }}/config"
+codex_role_paths_folder: "{{ codex_name }}"
+codex_role_paths_location: "{{ server_appdata_path }}/{{ codex_role_paths_folder }}"
+codex_role_paths_folders_list:
+  - "{{ codex_role_paths_location }}"
+  - "{{ codex_role_paths_location }}/config"
 
 ################################
 # Web
 ################################
 
-codex_web_subdomain: "{{ codex_name }}"
-codex_web_domain: "{{ user.domain }}"
-codex_web_port: "9810"
-codex_web_url: "{{ 'https://' + (codex_web_subdomain + '.' + codex_web_domain
-                if (codex_web_subdomain | length > 0)
-                else codex_web_domain) }}"
+codex_role_web_subdomain: "{{ codex_name }}"
+codex_role_web_domain: "{{ user.domain }}"
+codex_role_web_port: "9810"
+codex_role_web_url: "{{ 'https://' + (codex_role_web_subdomain + '.' + codex_role_web_domain
+                if (codex_role_web_subdomain | length > 0)
+                else codex_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-codex_dns_record: "{{ lookup('vars', codex_name + '_web_subdomain', default=codex_web_subdomain) }}"
-codex_dns_zone: "{{ lookup('vars', codex_name + '_web_domain', default=codex_web_domain) }}"
-codex_dns_proxy: "{{ dns.proxied }}"
+codex_role_dns_record: "{{ lookup('vars', codex_name + '_web_subdomain', default=codex_role_web_subdomain) }}"
+codex_role_dns_zone: "{{ lookup('vars', codex_name + '_web_domain', default=codex_role_web_domain) }}"
+codex_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-codex_traefik_sso_middleware: ""
-codex_traefik_middleware_default: "{{ traefik_default_middleware }}"
-codex_traefik_middleware_custom: ""
-codex_traefik_certresolver: "{{ traefik_default_certresolver }}"
-codex_traefik_enabled: true
-codex_traefik_api_enabled: false
-codex_traefik_api_endpoint: ""
+codex_role_traefik_sso_middleware: ""
+codex_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+codex_role_traefik_middleware_custom: ""
+codex_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+codex_role_traefik_enabled: true
+codex_role_traefik_api_enabled: false
+codex_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-codex_docker_container: "{{ codex_name }}"
+codex_role_docker_container: "{{ codex_name }}"
 
 # Image
-codex_docker_image_pull: true
-codex_docker_image_repo: "docker.io/ajslater/codex"
-codex_docker_image_tag: "latest"
-codex_docker_image: "{{ lookup('vars', codex_name + '_docker_image_repo', default=codex_docker_image_repo)
-                        + ':' + lookup('vars', codex_name + '_docker_image_tag', default=codex_docker_image_tag) }}"
+codex_role_docker_image_pull: true
+codex_role_docker_image_repo: "docker.io/ajslater/codex"
+codex_role_docker_image_tag: "latest"
+codex_role_docker_image: "{{ lookup('vars', codex_name + '_docker_image_repo', default=codex_role_docker_image_repo)
+                        + ':' + lookup('vars', codex_name + '_docker_image_tag', default=codex_role_docker_image_tag) }}"
 
 # Envs
-codex_docker_envs_default:
+codex_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-codex_docker_envs_custom: {}
-codex_docker_envs: "{{ lookup('vars', codex_name + '_docker_envs_default', default=codex_docker_envs_default)
-                       | combine(lookup('vars', codex_name + '_docker_envs_custom', default=codex_docker_envs_custom)) }}"
+codex_role_docker_envs_custom: {}
+codex_role_docker_envs: "{{ lookup('vars', codex_name + '_docker_envs_default', default=codex_role_docker_envs_default)
+                       | combine(lookup('vars', codex_name + '_docker_envs_custom', default=codex_role_docker_envs_custom)) }}"
 
 # Volumes
-codex_docker_volumes_default:
-  - "{{ codex_paths_location }}:/config"
-codex_docker_volumes_custom: []
-codex_docker_volumes: "{{ lookup('vars', codex_name + '_docker_volumes_default', default=codex_docker_volumes_default)
-                          + lookup('vars', codex_name + '_docker_volumes_custom', default=codex_docker_volumes_custom) }}"
+codex_role_docker_volumes_default:
+  - "{{ codex_role_paths_location }}:/config"
+codex_role_docker_volumes_custom: []
+codex_role_docker_volumes: "{{ lookup('vars', codex_name + '_docker_volumes_default', default=codex_role_docker_volumes_default)
+                          + lookup('vars', codex_name + '_docker_volumes_custom', default=codex_role_docker_volumes_custom) }}"
 
 # Hostname
-codex_docker_hostname: "{{ codex_name }}"
+codex_role_docker_hostname: "{{ codex_name }}"
 
 # Networks
-codex_docker_networks_alias: "{{ codex_name }}"
-codex_docker_networks_default: []
-codex_docker_networks_custom: []
-codex_docker_networks: "{{ docker_networks_common
-                           + lookup('vars', codex_name + '_docker_networks_default', default=codex_docker_networks_default)
-                           + lookup('vars', codex_name + '_docker_networks_custom', default=codex_docker_networks_custom) }}"
+codex_role_docker_networks_alias: "{{ codex_name }}"
+codex_role_docker_networks_default: []
+codex_role_docker_networks_custom: []
+codex_role_docker_networks: "{{ docker_networks_common
+                           + lookup('vars', codex_name + '_docker_networks_default', default=codex_role_docker_networks_default)
+                           + lookup('vars', codex_name + '_docker_networks_custom', default=codex_role_docker_networks_custom) }}"
 
 # Restart Policy
-codex_docker_restart_policy: unless-stopped
+codex_role_docker_restart_policy: unless-stopped
 
 # State
-codex_docker_state: started
+codex_role_docker_state: started

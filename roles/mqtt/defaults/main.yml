@@ -17,59 +17,59 @@ mqtt_name: mqtt
 # Paths
 ################################
 
-mqtt_paths_folder: "{{ mqtt_name }}"
-mqtt_paths_location: "{{ server_appdata_path }}/{{ mqtt_paths_folder }}"
-mqtt_paths_config_location: "{{ mqtt_paths_location }}/config/mosquitto.conf"
-mqtt_paths_folders_list:
-  - "{{ mqtt_paths_location }}/config"
-  - "{{ mqtt_paths_location }}/data"
-  - "{{ mqtt_paths_location }}/log"
+mqtt_role_paths_folder: "{{ mqtt_name }}"
+mqtt_role_paths_location: "{{ server_appdata_path }}/{{ mqtt_role_paths_folder }}"
+mqtt_role_paths_config_location: "{{ mqtt_role_paths_location }}/config/mosquitto.conf"
+mqtt_role_paths_folders_list:
+  - "{{ mqtt_role_paths_location }}/config"
+  - "{{ mqtt_role_paths_location }}/data"
+  - "{{ mqtt_role_paths_location }}/log"
 
 ################################
 # Docker
 ################################
 
 # Container
-mqtt_docker_container: "{{ mqtt_name }}"
+mqtt_role_docker_container: "{{ mqtt_name }}"
 
 # Image
-mqtt_docker_image_pull: true
-mqtt_docker_image_tag: "latest"
-mqtt_docker_image: "eclipse-mosquitto:{{ mqtt_docker_image_tag }}"
+mqtt_role_docker_image_pull: true
+mqtt_role_docker_image_tag: "latest"
+mqtt_role_docker_image: "eclipse-mosquitto:{{ mqtt_role_docker_image_tag }}"
 
 # Envs
-mqtt_docker_envs_default:
+mqtt_role_docker_envs_default:
   TZ: "{{ tz }}"
-mqtt_docker_envs_custom: {}
-mqtt_docker_envs: "{{ mqtt_docker_envs_default
-                      | combine(mqtt_docker_envs_custom) }}"
+mqtt_role_docker_envs_custom: {}
+mqtt_role_docker_envs: "{{ mqtt_role_docker_envs_default
+                      | combine(mqtt_role_docker_envs_custom) }}"
 
 # Volumes
-mqtt_docker_volumes_default:
-  - "{{ mqtt_paths_location }}/config:/mosquitto/config"
-  - "{{ mqtt_paths_location }}/data:/mosquitto/data"
-  - "{{ mqtt_paths_location }}/log:/mosquitto/log"
+mqtt_role_docker_volumes_default:
+  - "{{ mqtt_role_paths_location }}/config:/mosquitto/config"
+  - "{{ mqtt_role_paths_location }}/data:/mosquitto/data"
+  - "{{ mqtt_role_paths_location }}/log:/mosquitto/log"
   - "/etc/localtime:/etc/localtime:ro"
-mqtt_docker_volumes_custom: []
-mqtt_docker_volumes: "{{ mqtt_docker_volumes_default
-                         + mqtt_docker_volumes_custom }}"
+mqtt_role_docker_volumes_custom: []
+mqtt_role_docker_volumes: "{{ mqtt_role_docker_volumes_default
+                         + mqtt_role_docker_volumes_custom }}"
 
 # Hostname
-mqtt_docker_hostname: "{{ mqtt_name }}"
+mqtt_role_docker_hostname: "{{ mqtt_name }}"
 
 # Networks
-mqtt_docker_networks_alias: "{{ mqtt_name }}"
-mqtt_docker_networks_default: []
-mqtt_docker_networks_custom: []
-mqtt_docker_networks: "{{ docker_networks_common
-                          + mqtt_docker_networks_default
-                          + mqtt_docker_networks_custom }}"
+mqtt_role_docker_networks_alias: "{{ mqtt_name }}"
+mqtt_role_docker_networks_default: []
+mqtt_role_docker_networks_custom: []
+mqtt_role_docker_networks: "{{ docker_networks_common
+                          + mqtt_role_docker_networks_default
+                          + mqtt_role_docker_networks_custom }}"
 
 # Restart Policy
-mqtt_docker_restart_policy: unless-stopped
+mqtt_role_docker_restart_policy: unless-stopped
 
 # State
-mqtt_docker_state: started
+mqtt_role_docker_state: started
 
 # User
-mqtt_docker_user: "{{ uid }}:{{ gid }}"
+mqtt_role_docker_user: "{{ uid }}:{{ gid }}"

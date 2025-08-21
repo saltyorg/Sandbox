@@ -18,93 +18,93 @@ wikijs_name: wikijs
 ################################
 
 wikijs_postgres_name: "{{ wikijs_name }}-postgres"
-wikijs_postgres_docker_env_db: "{{ wikijs_name }}"
-wikijs_postgres_docker_image_tag: "15-alpine"
-wikijs_postgres_docker_image_repo: "postgres"
-wikijs_postgres_paths_folder: "{{ wikijs_name }}"
-wikijs_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+wikijs_role_postgres_docker_env_db: "{{ wikijs_name }}"
+wikijs_role_postgres_docker_image_tag: "15-alpine"
+wikijs_role_postgres_docker_image_repo: "postgres"
+wikijs_role_postgres_paths_folder: "{{ wikijs_name }}"
+wikijs_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths
 ################################
 
-wikijs_paths_folder: "{{ wikijs_name }}"
-wikijs_paths_location: "{{ server_appdata_path }}/{{ wikijs_paths_folder }}"
-wikijs_paths_folders_list:
-  - "{{ wikijs_paths_location }}"
+wikijs_role_paths_folder: "{{ wikijs_name }}"
+wikijs_role_paths_location: "{{ server_appdata_path }}/{{ wikijs_role_paths_folder }}"
+wikijs_role_paths_folders_list:
+  - "{{ wikijs_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-wikijs_web_subdomain: "{{ wikijs_name }}"
-wikijs_web_domain: "{{ user.domain }}"
-wikijs_web_port: "3000"
-wikijs_web_url: "{{ 'https://' + (wikijs_web_subdomain + '.' + wikijs_web_domain
-                 if (wikijs_web_subdomain | length > 0)
-                 else wikijs_web_domain) }}"
+wikijs_role_web_subdomain: "{{ wikijs_name }}"
+wikijs_role_web_domain: "{{ user.domain }}"
+wikijs_role_web_port: "3000"
+wikijs_role_web_url: "{{ 'https://' + (wikijs_role_web_subdomain + '.' + wikijs_role_web_domain
+                 if (wikijs_role_web_subdomain | length > 0)
+                 else wikijs_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-wikijs_dns_record: "{{ wikijs_web_subdomain }}"
-wikijs_dns_zone: "{{ wikijs_web_domain }}"
-wikijs_dns_proxy: "{{ dns.proxied }}"
+wikijs_role_dns_record: "{{ wikijs_role_web_subdomain }}"
+wikijs_role_dns_zone: "{{ wikijs_role_web_domain }}"
+wikijs_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-wikijs_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-wikijs_traefik_middleware_default: "{{ traefik_default_middleware }}"
-wikijs_traefik_middleware_custom: ""
-wikijs_traefik_certresolver: "{{ traefik_default_certresolver }}"
-wikijs_traefik_enabled: true
-wikijs_traefik_api_enabled: true
-wikijs_traefik_api_endpoint: "PathPrefix(`/graphql`)"
+wikijs_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+wikijs_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+wikijs_role_traefik_middleware_custom: ""
+wikijs_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wikijs_role_traefik_enabled: true
+wikijs_role_traefik_api_enabled: true
+wikijs_role_traefik_api_endpoint: "PathPrefix(`/graphql`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-wikijs_docker_container: "{{ wikijs_name }}"
+wikijs_role_docker_container: "{{ wikijs_name }}"
 
 # Image
-wikijs_docker_image_pull: true
-wikijs_docker_image_tag: "2"
-wikijs_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_docker_image_tag }}"
+wikijs_role_docker_image_pull: true
+wikijs_role_docker_image_tag: "2"
+wikijs_role_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_role_docker_image_tag }}"
 
 # Envs
-wikijs_docker_envs_default:
+wikijs_role_docker_envs_default:
   TZ: "{{ tz }}"
   DB_TYPE: "postgres"
   DB_HOST: "{{ wikijs_postgres_name }}"
   DB_PORT: "5432"
-  DB_USER: "{{ postgres_docker_env_user }}"
-  DB_PASS: "{{ postgres_docker_env_password }}"
-  DB_NAME: "{{ wikijs_postgres_docker_env_db }}"
-wikijs_docker_envs_custom: {}
-wikijs_docker_envs: "{{ wikijs_docker_envs_default
-                        | combine(wikijs_docker_envs_custom) }}"
+  DB_USER: "{{ postgres_role_docker_env_user }}"
+  DB_PASS: "{{ postgres_role_docker_env_password }}"
+  DB_NAME: "{{ wikijs_role_postgres_docker_env_db }}"
+wikijs_role_docker_envs_custom: {}
+wikijs_role_docker_envs: "{{ wikijs_role_docker_envs_default
+                        | combine(wikijs_role_docker_envs_custom) }}"
 
 # Hostname
-wikijs_docker_hostname: "{{ wikijs_name }}"
+wikijs_role_docker_hostname: "{{ wikijs_name }}"
 
 # Networks
-wikijs_docker_networks_alias: "{{ wikijs_name }}"
-wikijs_docker_networks_default: []
-wikijs_docker_networks_custom: []
-wikijs_docker_networks: "{{ docker_networks_common
-                            + wikijs_docker_networks_default
-                            + wikijs_docker_networks_custom }}"
+wikijs_role_docker_networks_alias: "{{ wikijs_name }}"
+wikijs_role_docker_networks_default: []
+wikijs_role_docker_networks_custom: []
+wikijs_role_docker_networks: "{{ docker_networks_common
+                            + wikijs_role_docker_networks_default
+                            + wikijs_role_docker_networks_custom }}"
 
 # Restart Policy
-wikijs_docker_restart_policy: unless-stopped
+wikijs_role_docker_restart_policy: unless-stopped
 
 # State
-wikijs_docker_state: started
+wikijs_role_docker_state: started
 
 # Dependencies
 wikijs_depends_on: "{{ wikijs_postgres_name }}"

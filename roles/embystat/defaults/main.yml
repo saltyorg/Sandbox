@@ -17,75 +17,75 @@ embystat_name: embystat
 # Paths
 ################################
 
-embystat_paths_folder: "{{ embystat_name }}"
-embystat_paths_location: "{{ server_appdata_path }}/{{ embystat_paths_folder }}"
-embystat_paths_folders_list:
-  - "{{ embystat_paths_location }}"
-  - "{{ embystat_paths_location }}/config"
+embystat_role_paths_folder: "{{ embystat_name }}"
+embystat_role_paths_location: "{{ server_appdata_path }}/{{ embystat_role_paths_folder }}"
+embystat_role_paths_folders_list:
+  - "{{ embystat_role_paths_location }}"
+  - "{{ embystat_role_paths_location }}/config"
 
 ################################
 # Web
 ################################
 
-embystat_web_subdomain: "{{ embystat_name }}"
-embystat_web_domain: "{{ user.domain }}"
-embystat_web_port: "6555"
-embystat_web_url: "{{ 'https://' + (embystat_web_subdomain + '.' + embystat_web_domain
-                   if (embystat_web_subdomain | length > 0)
-                   else embystat_web_domain) }}"
+embystat_role_web_subdomain: "{{ embystat_name }}"
+embystat_role_web_domain: "{{ user.domain }}"
+embystat_role_web_port: "6555"
+embystat_role_web_url: "{{ 'https://' + (embystat_role_web_subdomain + '.' + embystat_role_web_domain
+                   if (embystat_role_web_subdomain | length > 0)
+                   else embystat_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-embystat_dns_record: "{{ embystat_web_subdomain }}"
-embystat_dns_zone: "{{ embystat_web_domain }}"
-embystat_dns_proxy: "{{ dns.proxied }}"
+embystat_role_dns_record: "{{ embystat_role_web_subdomain }}"
+embystat_role_dns_zone: "{{ embystat_role_web_domain }}"
+embystat_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-embystat_traefik_sso_middleware: ""
-embystat_traefik_middleware_default: "{{ traefik_default_middleware }}"
-embystat_traefik_middleware_custom: ""
-embystat_traefik_certresolver: "{{ traefik_default_certresolver }}"
-embystat_traefik_enabled: true
-embystat_traefik_api_enabled: false
-embystat_traefik_api_endpoint: ""
+embystat_role_traefik_sso_middleware: ""
+embystat_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+embystat_role_traefik_middleware_custom: ""
+embystat_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+embystat_role_traefik_enabled: true
+embystat_role_traefik_api_enabled: false
+embystat_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-embystat_docker_container: "{{ embystat_name }}"
+embystat_role_docker_container: "{{ embystat_name }}"
 
 # Image
-embystat_docker_image_pull: true
-embystat_docker_image_tag: "beta-linux-x64"
-embystat_docker_image: "uping/embystat:{{ embystat_docker_image_tag }}"
+embystat_role_docker_image_pull: true
+embystat_role_docker_image_tag: "beta-linux-x64"
+embystat_role_docker_image: "uping/embystat:{{ embystat_role_docker_image_tag }}"
 
 # Volumes
-embystat_docker_volumes_default:
-  - "{{ embystat_paths_location }}/config:/app/data"
-embystat_docker_volumes_custom: []
-embystat_docker_volumes: "{{ embystat_docker_volumes_default
-                             + embystat_docker_volumes_custom }}"
+embystat_role_docker_volumes_default:
+  - "{{ embystat_role_paths_location }}/config:/app/data"
+embystat_role_docker_volumes_custom: []
+embystat_role_docker_volumes: "{{ embystat_role_docker_volumes_default
+                             + embystat_role_docker_volumes_custom }}"
 
 # Hostname
-embystat_docker_hostname: "{{ embystat_name }}"
+embystat_role_docker_hostname: "{{ embystat_name }}"
 
 # Networks
-embystat_docker_networks_alias: "{{ embystat_name }}"
-embystat_docker_networks_default: []
-embystat_docker_networks_custom: []
-embystat_docker_networks: "{{ docker_networks_common
-                              + embystat_docker_networks_default
-                              + embystat_docker_networks_custom }}"
+embystat_role_docker_networks_alias: "{{ embystat_name }}"
+embystat_role_docker_networks_default: []
+embystat_role_docker_networks_custom: []
+embystat_role_docker_networks: "{{ docker_networks_common
+                              + embystat_role_docker_networks_default
+                              + embystat_role_docker_networks_custom }}"
 
 # Restart Policy
-embystat_docker_restart_policy: unless-stopped
+embystat_role_docker_restart_policy: unless-stopped
 
 # State
-embystat_docker_state: started
+embystat_role_docker_state: started

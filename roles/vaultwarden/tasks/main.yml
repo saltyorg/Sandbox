@@ -10,9 +10,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -20,28 +20,28 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: "Check if '{{ vaultwarden_paths_config_location | basename }}' exists"
+- name: "Check if '{{ vaultwarden_role_paths_config_location | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ vaultwarden_paths_config_location }}"
+    path: "{{ vaultwarden_role_paths_config_location }}"
   register: vaultwarden_env
 
 - name: Remove env folder if it exists
   ansible.builtin.file:
-    path: "{{ vaultwarden_paths_config_location }}"
+    path: "{{ vaultwarden_role_paths_config_location }}"
     state: absent
   when: (vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir
 
-- name: New `{{ vaultwarden_paths_config_location | basename }}` tasks
+- name: New `{{ vaultwarden_role_paths_config_location | basename }}` tasks
   when: not vaultwarden_env.stat.exists or ((vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir)
   block:
     - name: "Generate Admin token"
       ansible.builtin.shell: /usr/bin/openssl rand -base64 48
       register: admin_token
 
-    - name: "Import '{{ vaultwarden_paths_config_location | basename }}' if it doesnt exist"
+    - name: "Import '{{ vaultwarden_role_paths_config_location | basename }}' if it doesnt exist"
       ansible.builtin.template:
         src: vaultwarden_env.j2
-        dest: "{{ vaultwarden_paths_config_location }}"
+        dest: "{{ vaultwarden_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

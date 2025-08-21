@@ -17,95 +17,95 @@ gitea_name: gitea
 # Paths
 ################################
 
-gitea_paths_folder: "{{ gitea_name }}"
-gitea_paths_location: "{{ server_appdata_path }}/{{ gitea_paths_folder }}"
-gitea_paths_folders_list:
-  - "{{ gitea_paths_location }}"
+gitea_role_paths_folder: "{{ gitea_name }}"
+gitea_role_paths_location: "{{ server_appdata_path }}/{{ gitea_role_paths_folder }}"
+gitea_role_paths_folders_list:
+  - "{{ gitea_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-gitea_web_subdomain: "{{ gitea_name }}"
-gitea_web_domain: "{{ user.domain }}"
-gitea_web_port: "3000"
-gitea_web_url: "{{ 'https://' + (gitea_web_subdomain + '.' + gitea_web_domain
-                if (gitea_web_subdomain | length > 0)
-                else gitea_web_domain) }}"
+gitea_role_web_subdomain: "{{ gitea_name }}"
+gitea_role_web_domain: "{{ user.domain }}"
+gitea_role_web_port: "3000"
+gitea_role_web_url: "{{ 'https://' + (gitea_role_web_subdomain + '.' + gitea_role_web_domain
+                if (gitea_role_web_subdomain | length > 0)
+                else gitea_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-gitea_dns_record: "{{ gitea_web_subdomain }}"
-gitea_dns_zone: "{{ gitea_web_domain }}"
-gitea_dns_proxy: "{{ dns.proxied }}"
+gitea_role_dns_record: "{{ gitea_role_web_subdomain }}"
+gitea_role_dns_zone: "{{ gitea_role_web_domain }}"
+gitea_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-gitea_traefik_sso_middleware: ""
-gitea_traefik_middleware_default: "{{ traefik_default_middleware }}"
-gitea_traefik_middleware_custom: ""
-gitea_traefik_certresolver: "{{ traefik_default_certresolver }}"
-gitea_traefik_enabled: true
-gitea_traefik_api_enabled: false
-gitea_traefik_api_endpoint: ""
+gitea_role_traefik_sso_middleware: ""
+gitea_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+gitea_role_traefik_middleware_custom: ""
+gitea_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+gitea_role_traefik_enabled: true
+gitea_role_traefik_api_enabled: false
+gitea_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-gitea_docker_container: "{{ gitea_name }}"
+gitea_role_docker_container: "{{ gitea_name }}"
 
 # Image
-gitea_docker_image_pull: true
-gitea_docker_image_tag: "latest"
-gitea_docker_image: "gitea/gitea:{{ gitea_docker_image_tag }}"
+gitea_role_docker_image_pull: true
+gitea_role_docker_image_tag: "latest"
+gitea_role_docker_image: "gitea/gitea:{{ gitea_role_docker_image_tag }}"
 
 # Envs
-gitea_docker_envs_default:
+gitea_role_docker_envs_default:
   USER_UID: "{{ uid }}"
   USER_GID: "{{ gid }}"
   GITEA__database__DB_TYPE: "mysql"
   GITEA__database__HOST: "mariadb:3306"
   GITEA__database__USER: "root"
-  GITEA__database__PASSWD: "{{ mariadb_docker_env_password }}"
+  GITEA__database__PASSWD: "{{ mariadb_role_docker_env_password }}"
   GITEA__database__NAME: "gitea"
   DISABLE_SSH: "true"
   RUN_MODE: "prod"
-  ROOT_URL: "{{ gitea_web_url }}/"
-gitea_docker_envs_custom: {}
-gitea_docker_envs: "{{ gitea_docker_envs_default
-                       | combine(gitea_docker_envs_custom) }}"
+  ROOT_URL: "{{ gitea_role_web_url }}/"
+gitea_role_docker_envs_custom: {}
+gitea_role_docker_envs: "{{ gitea_role_docker_envs_default
+                       | combine(gitea_role_docker_envs_custom) }}"
 
 # Volumes
-gitea_docker_volumes_default:
-  - "{{ gitea_paths_location }}:/data"
+gitea_role_docker_volumes_default:
+  - "{{ gitea_role_paths_location }}:/data"
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
-gitea_docker_volumes_custom: []
-gitea_docker_volumes: "{{ gitea_docker_volumes_default
-                          + gitea_docker_volumes_custom }}"
+gitea_role_docker_volumes_custom: []
+gitea_role_docker_volumes: "{{ gitea_role_docker_volumes_default
+                          + gitea_role_docker_volumes_custom }}"
 
 # Hostname
-gitea_docker_hostname: "{{ gitea_name }}"
+gitea_role_docker_hostname: "{{ gitea_name }}"
 
 # Networks
-gitea_docker_networks_alias: "{{ gitea_name }}"
-gitea_docker_networks_default: []
-gitea_docker_networks_custom: []
-gitea_docker_networks: "{{ docker_networks_common
-                           + gitea_docker_networks_default
-                           + gitea_docker_networks_custom }}"
+gitea_role_docker_networks_alias: "{{ gitea_name }}"
+gitea_role_docker_networks_default: []
+gitea_role_docker_networks_custom: []
+gitea_role_docker_networks: "{{ docker_networks_common
+                           + gitea_role_docker_networks_default
+                           + gitea_role_docker_networks_custom }}"
 
 # Restart Policy
-gitea_docker_restart_policy: unless-stopped
+gitea_role_docker_restart_policy: unless-stopped
 
 # State
-gitea_docker_state: started
+gitea_role_docker_state: started
 
 # Dependencies
 gitea_depends_on: "mariadb"

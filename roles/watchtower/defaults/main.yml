@@ -25,87 +25,87 @@ watchtower_poll_interval: "43200"
 # Paths
 ################################
 
-watchtower_paths_folder: "{{ watchtower_name }}"
-watchtower_paths_location: "{{ server_appdata_path }}/{{ watchtower_paths_folder }}"
-watchtower_paths_folders_list:
-  - "{{ watchtower_paths_location }}"
+watchtower_role_paths_folder: "{{ watchtower_name }}"
+watchtower_role_paths_location: "{{ server_appdata_path }}/{{ watchtower_role_paths_folder }}"
+watchtower_role_paths_folders_list:
+  - "{{ watchtower_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-watchtower_web_subdomain: "{{ watchtower_name }}"
-watchtower_web_domain: "{{ user.domain }}"
-watchtower_web_port: "8080"
-watchtower_host: "{{ lookup('vars', watchtower_name + '_web_subdomain', default=watchtower_web_subdomain)
-                             + '.' + lookup('vars', watchtower_name + '_web_domain', default=watchtower_web_domain) }}"
+watchtower_role_web_subdomain: "{{ watchtower_name }}"
+watchtower_role_web_domain: "{{ user.domain }}"
+watchtower_role_web_port: "8080"
+watchtower_host: "{{ lookup('vars', watchtower_name + '_web_subdomain', default=watchtower_role_web_subdomain)
+                             + '.' + lookup('vars', watchtower_name + '_web_domain', default=watchtower_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-watchtower_dns_record: "{{ lookup('vars', watchtower_name + '_web_subdomain', default=watchtower_web_subdomain) }}"
-watchtower_dns_zone: "{{ lookup('vars', watchtower_name + '_web_domain', default=watchtower_web_domain) }}"
-watchtower_dns_proxy: "{{ dns.proxied }}"
+watchtower_role_dns_record: "{{ lookup('vars', watchtower_name + '_web_subdomain', default=watchtower_role_web_subdomain) }}"
+watchtower_role_dns_zone: "{{ lookup('vars', watchtower_name + '_web_domain', default=watchtower_role_web_domain) }}"
+watchtower_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-watchtower_traefik_sso_middleware: ""
-watchtower_traefik_middleware_default: "{{ traefik_default_middleware }}"
-watchtower_traefik_middleware_custom: ""
-watchtower_traefik_certresolver: "{{ traefik_default_certresolver }}"
-watchtower_traefik_enabled: "{{ true if (watchtower_metrics_enable and watchtower_metrics_externa) else false }}"
-watchtower_traefik_api_enabled: false
-watchtower_traefik_api_endpoint: ""
+watchtower_role_traefik_sso_middleware: ""
+watchtower_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+watchtower_role_traefik_middleware_custom: ""
+watchtower_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+watchtower_role_traefik_enabled: "{{ true if (watchtower_metrics_enable and watchtower_metrics_externa) else false }}"
+watchtower_role_traefik_api_enabled: false
+watchtower_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-watchtower_docker_container: "{{ watchtower_name }}"
+watchtower_role_docker_container: "{{ watchtower_name }}"
 
 # Image
-watchtower_docker_image_pull: true
-watchtower_docker_image_repo: "containrrr/watchtower"
-watchtower_docker_image_tag: "latest"
-watchtower_docker_image: "{{ lookup('vars', watchtower_name + '_docker_image_repo', default=watchtower_docker_image_repo)
-                             + ':' + lookup('vars', watchtower_name + '_docker_image_tag', default=watchtower_docker_image_tag) }}"
+watchtower_role_docker_image_pull: true
+watchtower_role_docker_image_repo: "containrrr/watchtower"
+watchtower_role_docker_image_tag: "latest"
+watchtower_role_docker_image: "{{ lookup('vars', watchtower_name + '_docker_image_repo', default=watchtower_role_docker_image_repo)
+                             + ':' + lookup('vars', watchtower_name + '_docker_image_tag', default=watchtower_role_docker_image_tag) }}"
 
 # Envs
-watchtower_docker_envs_default:
+watchtower_role_docker_envs_default:
   TZ: "{{ tz }}"
   WATCHTOWER_CLEANUP: "true"
   WATCHTOWER_POLL_INTERVAL: "{{ watchtower_poll_interval }}"
   WATCHTOWER_HTTP_API_METRICS: "{{ 'true' if watchtower_metrics_enable else omit }}"
-watchtower_docker_envs_custom: {}
-watchtower_docker_envs: "{{ lookup('vars', watchtower_name + '_docker_envs_default', default=watchtower_docker_envs_default)
-                            | combine(lookup('vars', watchtower_name + '_docker_envs_custom', default=watchtower_docker_envs_custom)) }}"
-watchtower_docker_env_file: "{{ watchtower_paths_location + '/watchtower.env' if watchtower_env.stat.exists else omit }}"
+watchtower_role_docker_envs_custom: {}
+watchtower_role_docker_envs: "{{ lookup('vars', watchtower_name + '_docker_envs_default', default=watchtower_role_docker_envs_default)
+                            | combine(lookup('vars', watchtower_name + '_docker_envs_custom', default=watchtower_role_docker_envs_custom)) }}"
+watchtower_role_docker_env_file: "{{ watchtower_role_paths_location + '/watchtower.env' if watchtower_env.stat.exists else omit }}"
 
 
 # Volumes
-watchtower_docker_volumes_default:
+watchtower_role_docker_volumes_default:
   - "/var/run/docker.sock:/var/run/docker.sock"
-watchtower_docker_volumes_custom: []
-watchtower_docker_volumes: "{{ lookup('vars', watchtower_name + '_docker_volumes_default', default=watchtower_docker_volumes_default)
-                               + lookup('vars', watchtower_name + '_docker_volumes_custom', default=watchtower_docker_volumes_custom) }}"
+watchtower_role_docker_volumes_custom: []
+watchtower_role_docker_volumes: "{{ lookup('vars', watchtower_name + '_docker_volumes_default', default=watchtower_role_docker_volumes_default)
+                               + lookup('vars', watchtower_name + '_docker_volumes_custom', default=watchtower_role_docker_volumes_custom) }}"
 
 # Hostname
-watchtower_docker_hostname: "{{ watchtower_name }}"
+watchtower_role_docker_hostname: "{{ watchtower_name }}"
 
 # Networks
-watchtower_docker_networks_alias: "{{ watchtower_name }}"
-watchtower_docker_networks_default: []
-watchtower_docker_networks_custom: []
-watchtower_docker_networks: "{{ docker_networks_common
-                                + lookup('vars', watchtower_name + '_docker_networks_default', default=watchtower_docker_networks_default)
-                                + lookup('vars', watchtower_name + '_docker_networks_custom', default=watchtower_docker_networks_custom) }}"
+watchtower_role_docker_networks_alias: "{{ watchtower_name }}"
+watchtower_role_docker_networks_default: []
+watchtower_role_docker_networks_custom: []
+watchtower_role_docker_networks: "{{ docker_networks_common
+                                + lookup('vars', watchtower_name + '_docker_networks_default', default=watchtower_role_docker_networks_default)
+                                + lookup('vars', watchtower_name + '_docker_networks_custom', default=watchtower_role_docker_networks_custom) }}"
 
 # Restart Policy
-watchtower_docker_restart_policy: unless-stopped
+watchtower_role_docker_restart_policy: unless-stopped
 
 # State
-watchtower_docker_state: started
+watchtower_role_docker_state: started

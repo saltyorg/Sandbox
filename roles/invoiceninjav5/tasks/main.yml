@@ -16,7 +16,7 @@
     name: "invoiceninjav5db"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_env_password }}"
+    login_password: "{{ mariadb_role_docker_env_password }}"
     state: present
 
 - name: Create directories
@@ -35,7 +35,7 @@
 - name: "Settings | Import in-vhost.conf"
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: '{{ invoiceninjav5_paths_location }}/{{ item }}'
+    dest: '{{ invoiceninjav5_role_paths_location }}/{{ item }}'
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -55,19 +55,19 @@
   ansible.builtin.include_role:
     name: nginx
   vars:
-    nginx_docker_image: "nginx:latest"
-    nginx_paths_folder: ""
-    nginx_paths_folders_list: []
-    nginx_web_subdomain: "{{ invoiceninjav5_nginx_web_subdomain }}"
-    nginx_web_domain: "{{ invoiceninjav5_nginx_web_domain }}"
-    nginx_dns_record: "{{ invoiceninjav5_nginx_dns_record }}"
-    nginx_dns_zone: "{{ invoiceninjav5_nginx_dns_zone }}"
-    nginx_dns_proxy: "{{ invoiceninjav5_nginx_dns_proxy }}"
+    nginx_role_docker_image: "nginx:latest"
+    nginx_role_paths_folder: ""
+    nginx_role_paths_folders_list: []
+    nginx_role_web_subdomain: "{{ invoiceninjav5_nginx_role_web_subdomain }}"
+    nginx_role_web_domain: "{{ invoiceninjav5_nginx_role_web_domain }}"
+    nginx_role_dns_record: "{{ invoiceninjav5_nginx_role_dns_record }}"
+    nginx_role_dns_zone: "{{ invoiceninjav5_nginx_role_dns_zone }}"
+    nginx_role_dns_proxy: "{{ invoiceninjav5_nginx_role_dns_proxy }}"
     nginx_instances: ["invoiceninja-nginx"]
-    nginx_traefik_gzip_enabled: false
-    nginx_docker_volumes_default:
-      - "{{ invoiceninjav5_paths_location }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
-      - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public:ro"
+    nginx_role_traefik_gzip_enabled: false
+    nginx_role_docker_volumes_default:
+      - "{{ invoiceninjav5_role_paths_location }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
+      - "{{ invoiceninjav5_role_paths_location }}/public:/var/www/app/public:ro"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

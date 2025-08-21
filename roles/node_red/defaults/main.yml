@@ -17,86 +17,86 @@ node_red_instances: ["node-red"]
 # Paths
 ################################
 
-node_red_paths_folder: "{{ node_red_name }}"
-node_red_paths_location: "{{ server_appdata_path }}/{{ node_red_paths_folder }}"
-node_red_paths_folders_list:
-  - "{{ node_red_paths_location }}"
+node_red_role_paths_folder: "{{ node_red_name }}"
+node_red_role_paths_location: "{{ server_appdata_path }}/{{ node_red_role_paths_folder }}"
+node_red_role_paths_folders_list:
+  - "{{ node_red_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-node_red_web_subdomain: "{{ node_red_name }}"
-node_red_web_domain: "{{ user.domain }}"
-node_red_web_port: "1880"
-node_red_web_url: "{{ 'https://' + (lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain) + '.' + lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain)
-                   if (lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain) | length > 0)
-                   else lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain)) }}"
+node_red_role_web_subdomain: "{{ node_red_name }}"
+node_red_role_web_domain: "{{ user.domain }}"
+node_red_role_web_port: "1880"
+node_red_role_web_url: "{{ 'https://' + (lookup('vars', node_red_name + '_web_subdomain', default=node_red_role_web_subdomain) + '.' + lookup('vars', node_red_name + '_web_domain', default=node_red_role_web_domain)
+                   if (lookup('vars', node_red_name + '_web_subdomain', default=node_red_role_web_subdomain) | length > 0)
+                   else lookup('vars', node_red_name + '_web_domain', default=node_red_role_web_domain)) }}"
 
 ################################
 # DNS
 ################################
 
-node_red_dns_record: "{{ lookup('vars', node_red_name + '_web_subdomain', default=node_red_web_subdomain) }}"
-node_red_dns_zone: "{{ lookup('vars', node_red_name + '_web_domain', default=node_red_web_domain) }}"
-node_red_dns_proxy: "{{ dns.proxied }}"
+node_red_role_dns_record: "{{ lookup('vars', node_red_name + '_web_subdomain', default=node_red_role_web_subdomain) }}"
+node_red_role_dns_zone: "{{ lookup('vars', node_red_name + '_web_domain', default=node_red_role_web_domain) }}"
+node_red_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-node_red_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-node_red_traefik_middleware_default: "{{ traefik_default_middleware }}"
-node_red_traefik_middleware_custom: ""
-node_red_traefik_certresolver: "{{ traefik_default_certresolver }}"
-node_red_traefik_enabled: true
-node_red_traefik_api_enabled: true
-node_red_traefik_api_endpoint: "PathPrefix(`/auth`) || PathPrefix(`/settings`) || PathPrefix(`/flows`) || PathPrefix(`/flow`) || PathPrefix(`/nodes`)"
+node_red_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+node_red_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+node_red_role_traefik_middleware_custom: ""
+node_red_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+node_red_role_traefik_enabled: true
+node_red_role_traefik_api_enabled: true
+node_red_role_traefik_api_endpoint: "PathPrefix(`/auth`) || PathPrefix(`/settings`) || PathPrefix(`/flows`) || PathPrefix(`/flow`) || PathPrefix(`/nodes`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-node_red_docker_container: "{{ node_red_name }}"
+node_red_role_docker_container: "{{ node_red_name }}"
 
 # Image
-node_red_docker_image_pull: true
-node_red_docker_image_repo: "nodered/node-red"
-node_red_docker_image_tag: "latest"
-node_red_docker_image: "{{ lookup('vars', node_red_name + '_docker_image_repo', default=node_red_docker_image_repo)
-                           + ':' + lookup('vars', node_red_name + '_docker_image_tag', default=node_red_docker_image_tag) }}"
+node_red_role_docker_image_pull: true
+node_red_role_docker_image_repo: "nodered/node-red"
+node_red_role_docker_image_tag: "latest"
+node_red_role_docker_image: "{{ lookup('vars', node_red_name + '_docker_image_repo', default=node_red_role_docker_image_repo)
+                           + ':' + lookup('vars', node_red_name + '_docker_image_tag', default=node_red_role_docker_image_tag) }}"
 
 # Envs
-node_red_docker_envs_default:
+node_red_role_docker_envs_default:
   TZ: "{{ tz }}"
-node_red_docker_envs_custom: {}
-node_red_docker_envs: "{{ lookup('vars', node_red_name + '_docker_envs_default', default=node_red_docker_envs_default)
-                          | combine(lookup('vars', node_red_name + '_docker_envs_custom', default=node_red_docker_envs_custom)) }}"
+node_red_role_docker_envs_custom: {}
+node_red_role_docker_envs: "{{ lookup('vars', node_red_name + '_docker_envs_default', default=node_red_role_docker_envs_default)
+                          | combine(lookup('vars', node_red_name + '_docker_envs_custom', default=node_red_role_docker_envs_custom)) }}"
 
 # Volumes
-node_red_docker_volumes_default:
-  - "{{ node_red_paths_location }}:/data"
-node_red_docker_volumes_custom: []
-node_red_docker_volumes: "{{ lookup('vars', node_red_name + '_docker_volumes_default', default=node_red_docker_volumes_default)
-                             + lookup('vars', node_red_name + '_docker_volumes_custom', default=node_red_docker_volumes_custom) }}"
+node_red_role_docker_volumes_default:
+  - "{{ node_red_role_paths_location }}:/data"
+node_red_role_docker_volumes_custom: []
+node_red_role_docker_volumes: "{{ lookup('vars', node_red_name + '_docker_volumes_default', default=node_red_role_docker_volumes_default)
+                             + lookup('vars', node_red_name + '_docker_volumes_custom', default=node_red_role_docker_volumes_custom) }}"
 
 # Hostname
-node_red_docker_hostname: "{{ node_red_name }}"
+node_red_role_docker_hostname: "{{ node_red_name }}"
 
 # Networks
-node_red_docker_networks_alias: "{{ node_red_name }}"
-node_red_docker_networks_default: []
-node_red_docker_networks_custom: []
-node_red_docker_networks: "{{ docker_networks_common
-                              + lookup('vars', node_red_name + '_docker_networks_default', default=node_red_docker_networks_default)
-                              + lookup('vars', node_red_name + '_docker_networks_custom', default=node_red_docker_networks_custom) }}"
+node_red_role_docker_networks_alias: "{{ node_red_name }}"
+node_red_role_docker_networks_default: []
+node_red_role_docker_networks_custom: []
+node_red_role_docker_networks: "{{ docker_networks_common
+                              + lookup('vars', node_red_name + '_docker_networks_default', default=node_red_role_docker_networks_default)
+                              + lookup('vars', node_red_name + '_docker_networks_custom', default=node_red_role_docker_networks_custom) }}"
 
 # Restart Policy
-node_red_docker_restart_policy: unless-stopped
+node_red_role_docker_restart_policy: unless-stopped
 
 # State
-node_red_docker_state: started
+node_red_role_docker_state: started
 
 # User
-node_red_docker_user: "{{ uid }}:{{ gid }}"
+node_red_role_docker_user: "{{ uid }}:{{ gid }}"

@@ -17,84 +17,84 @@ airsonic_name: airsonic
 # Paths
 ################################
 
-airsonic_paths_folder: "{{ airsonic_name }}"
-airsonic_paths_location: "{{ server_appdata_path }}/{{ airsonic_paths_folder }}"
-airsonic_paths_folders_list:
-  - "{{ airsonic_paths_location }}"
+airsonic_role_paths_folder: "{{ airsonic_name }}"
+airsonic_role_paths_location: "{{ server_appdata_path }}/{{ airsonic_role_paths_folder }}"
+airsonic_role_paths_folders_list:
+  - "{{ airsonic_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-airsonic_web_subdomain: "{{ airsonic_name }}"
-airsonic_web_domain: "{{ user.domain }}"
-airsonic_web_port: "4040"
-airsonic_web_url: "{{ 'https://' + (airsonic_web_subdomain + '.' + airsonic_web_domain
-                   if (airsonic_web_subdomain | length > 0)
-                   else airsonic_web_domain) }}"
+airsonic_role_web_subdomain: "{{ airsonic_name }}"
+airsonic_role_web_domain: "{{ user.domain }}"
+airsonic_role_web_port: "4040"
+airsonic_role_web_url: "{{ 'https://' + (airsonic_role_web_subdomain + '.' + airsonic_role_web_domain
+                   if (airsonic_role_web_subdomain | length > 0)
+                   else airsonic_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-airsonic_dns_record: "{{ airsonic_web_subdomain }}"
-airsonic_dns_zone: "{{ airsonic_web_domain }}"
-airsonic_dns_proxy: "{{ dns.proxied }}"
+airsonic_role_dns_record: "{{ airsonic_role_web_subdomain }}"
+airsonic_role_dns_zone: "{{ airsonic_role_web_domain }}"
+airsonic_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-airsonic_traefik_sso_middleware: ""
-airsonic_traefik_middleware_default: "{{ traefik_default_middleware }}"
-airsonic_traefik_middleware_custom: ""
-airsonic_traefik_certresolver: "{{ traefik_default_certresolver }}"
-airsonic_traefik_enabled: true
-airsonic_traefik_api_enabled: false
-airsonic_traefik_api_endpoint: ""
+airsonic_role_traefik_sso_middleware: ""
+airsonic_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+airsonic_role_traefik_middleware_custom: ""
+airsonic_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+airsonic_role_traefik_enabled: true
+airsonic_role_traefik_api_enabled: false
+airsonic_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-airsonic_docker_container: "{{ airsonic_name }}"
+airsonic_role_docker_container: "{{ airsonic_name }}"
 
 # Image
-airsonic_docker_image_pull: true
-airsonic_docker_image_tag: "latest"
-airsonic_docker_image: "lscr.io/linuxserver/airsonic-advanced:{{ airsonic_docker_image_tag }}"
+airsonic_role_docker_image_pull: true
+airsonic_role_docker_image_tag: "latest"
+airsonic_role_docker_image: "lscr.io/linuxserver/airsonic-advanced:{{ airsonic_role_docker_image_tag }}"
 
 # Envs
-airsonic_docker_envs_default:
+airsonic_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   JAVA_OPTS: "-Dserver.use-forward-headers=true"
-airsonic_docker_envs_custom: {}
-airsonic_docker_envs: "{{ airsonic_docker_envs_default
-                          | combine(airsonic_docker_envs_custom) }}"
+airsonic_role_docker_envs_custom: {}
+airsonic_role_docker_envs: "{{ airsonic_role_docker_envs_default
+                          | combine(airsonic_role_docker_envs_custom) }}"
 
 # Volumes
-airsonic_docker_volumes_default:
-  - "{{ airsonic_paths_location }}:/config"
-airsonic_docker_volumes_custom: []
-airsonic_docker_volumes: "{{ airsonic_docker_volumes_default
-                             + airsonic_docker_volumes_custom }}"
+airsonic_role_docker_volumes_default:
+  - "{{ airsonic_role_paths_location }}:/config"
+airsonic_role_docker_volumes_custom: []
+airsonic_role_docker_volumes: "{{ airsonic_role_docker_volumes_default
+                             + airsonic_role_docker_volumes_custom }}"
 
 # Hostname
-airsonic_docker_hostname: "{{ airsonic_name }}"
+airsonic_role_docker_hostname: "{{ airsonic_name }}"
 
 # Networks
-airsonic_docker_networks_alias: "{{ airsonic_name }}"
-airsonic_docker_networks_default: []
-airsonic_docker_networks_custom: []
-airsonic_docker_networks: "{{ docker_networks_common
-                              + airsonic_docker_networks_default
-                              + airsonic_docker_networks_custom }}"
+airsonic_role_docker_networks_alias: "{{ airsonic_name }}"
+airsonic_role_docker_networks_default: []
+airsonic_role_docker_networks_custom: []
+airsonic_role_docker_networks: "{{ docker_networks_common
+                              + airsonic_role_docker_networks_default
+                              + airsonic_role_docker_networks_custom }}"
 
 # Restart Policy
-airsonic_docker_restart_policy: unless-stopped
+airsonic_role_docker_restart_policy: unless-stopped
 
 # State
-airsonic_docker_state: started
+airsonic_role_docker_state: started

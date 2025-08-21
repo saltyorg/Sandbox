@@ -17,61 +17,61 @@ jdownloader2_name: jdownloader2
 # Paths
 ################################
 
-jdownloader2_paths_folder: "{{ jdownloader2_name }}"
-jdownloader2_paths_location: "{{ server_appdata_path }}/{{ jdownloader2_paths_folder }}"
-jdownloader2_paths_downloads_location: "/mnt/local/downloads/{{ jdownloader2_name }}/output"
-jdownloader2_paths_tools_location: "{{ jdownloader2_paths_location }}/config/libs"
-jdownloader2_paths_folders_list:
-  - "{{ jdownloader2_paths_location }}"
-  - "{{ jdownloader2_paths_location }}/config"
-  - "{{ jdownloader2_paths_tools_location }}"
-  - "{{ jdownloader2_paths_downloads_location }}"
+jdownloader2_role_paths_folder: "{{ jdownloader2_name }}"
+jdownloader2_role_paths_location: "{{ server_appdata_path }}/{{ jdownloader2_role_paths_folder }}"
+jdownloader2_role_paths_downloads_location: "/mnt/local/downloads/{{ jdownloader2_name }}/output"
+jdownloader2_role_paths_tools_location: "{{ jdownloader2_role_paths_location }}/config/libs"
+jdownloader2_role_paths_folders_list:
+  - "{{ jdownloader2_role_paths_location }}"
+  - "{{ jdownloader2_role_paths_location }}/config"
+  - "{{ jdownloader2_role_paths_tools_location }}"
+  - "{{ jdownloader2_role_paths_downloads_location }}"
 
 ################################
 # Web
 ################################
 
-jdownloader2_web_subdomain: "{{ jdownloader2_name }}"
-jdownloader2_web_domain: "{{ user.domain }}"
-jdownloader2_web_port: "5800"
-jdownloader2_web_url: "{{ 'https://' + (jdownloader2_web_subdomain + '.' + jdownloader2_web_domain
-                       if (jdownloader2_web_subdomain | length > 0)
-                       else jdownloader2_web_domain) }}"
+jdownloader2_role_web_subdomain: "{{ jdownloader2_name }}"
+jdownloader2_role_web_domain: "{{ user.domain }}"
+jdownloader2_role_web_port: "5800"
+jdownloader2_role_web_url: "{{ 'https://' + (jdownloader2_role_web_subdomain + '.' + jdownloader2_role_web_domain
+                       if (jdownloader2_role_web_subdomain | length > 0)
+                       else jdownloader2_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-jdownloader2_dns_record: "{{ jdownloader2_web_subdomain }}"
-jdownloader2_dns_zone: "{{ jdownloader2_web_domain }}"
-jdownloader2_dns_proxy: "{{ dns.proxied }}"
+jdownloader2_role_dns_record: "{{ jdownloader2_role_web_subdomain }}"
+jdownloader2_role_dns_zone: "{{ jdownloader2_role_web_domain }}"
+jdownloader2_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-jdownloader2_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-jdownloader2_traefik_middleware_default: "{{ traefik_default_middleware }}"
-jdownloader2_traefik_middleware_custom: ""
-jdownloader2_traefik_certresolver: "{{ traefik_default_certresolver }}"
-jdownloader2_traefik_enabled: true
-jdownloader2_traefik_api_enabled: false
-jdownloader2_traefik_api_endpoint: ""
+jdownloader2_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+jdownloader2_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+jdownloader2_role_traefik_middleware_custom: ""
+jdownloader2_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+jdownloader2_role_traefik_enabled: true
+jdownloader2_role_traefik_api_enabled: false
+jdownloader2_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-jdownloader2_docker_container: "{{ jdownloader2_name }}"
+jdownloader2_role_docker_container: "{{ jdownloader2_name }}"
 
 # Image
-jdownloader2_docker_image_pull: true
-jdownloader2_docker_image_tag: "latest"
-jdownloader2_docker_image: "jlesage/jdownloader-2:{{ jdownloader2_docker_image_tag }}"
+jdownloader2_role_docker_image_pull: true
+jdownloader2_role_docker_image_tag: "latest"
+jdownloader2_role_docker_image: "jlesage/jdownloader-2:{{ jdownloader2_role_docker_image_tag }}"
 
 # Envs
-jdownloader2_docker_envs_default:
+jdownloader2_role_docker_envs_default:
   USER_ID: "{{ uid }}"
   GROUP_ID: "{{ gid }}"
   TZ: "{{ tz }}"
@@ -81,31 +81,31 @@ jdownloader2_docker_envs_default:
   CLEAN_TMP_DIR: "1"
   UMASK: "000"
   ENABLE_CJK_FONT: "1"
-jdownloader2_docker_envs_custom: {}
-jdownloader2_docker_envs: "{{ jdownloader2_docker_envs_default
-                              | combine(jdownloader2_docker_envs_custom) }}"
+jdownloader2_role_docker_envs_custom: {}
+jdownloader2_role_docker_envs: "{{ jdownloader2_role_docker_envs_default
+                              | combine(jdownloader2_role_docker_envs_custom) }}"
 
 # Volumes
-jdownloader2_docker_volumes_default:
-  - "{{ jdownloader2_paths_location }}/config:/config"
-  - "{{ jdownloader2_paths_downloads_location }}:/output"
-jdownloader2_docker_volumes_custom: []
-jdownloader2_docker_volumes: "{{ jdownloader2_docker_volumes_default
-                                 + jdownloader2_docker_volumes_custom }}"
+jdownloader2_role_docker_volumes_default:
+  - "{{ jdownloader2_role_paths_location }}/config:/config"
+  - "{{ jdownloader2_role_paths_downloads_location }}:/output"
+jdownloader2_role_docker_volumes_custom: []
+jdownloader2_role_docker_volumes: "{{ jdownloader2_role_docker_volumes_default
+                                 + jdownloader2_role_docker_volumes_custom }}"
 
 # Hostname
-jdownloader2_docker_hostname: "{{ jdownloader2_name }}"
+jdownloader2_role_docker_hostname: "{{ jdownloader2_name }}"
 
 # Networks
-jdownloader2_docker_networks_alias: "{{ jdownloader2_name }}"
-jdownloader2_docker_networks_default: []
-jdownloader2_docker_networks_custom: []
-jdownloader2_docker_networks: "{{ docker_networks_common
-                                  + jdownloader2_docker_networks_default
-                                  + jdownloader2_docker_networks_custom }}"
+jdownloader2_role_docker_networks_alias: "{{ jdownloader2_name }}"
+jdownloader2_role_docker_networks_default: []
+jdownloader2_role_docker_networks_custom: []
+jdownloader2_role_docker_networks: "{{ docker_networks_common
+                                  + jdownloader2_role_docker_networks_default
+                                  + jdownloader2_role_docker_networks_custom }}"
 
 # Restart Policy
-jdownloader2_docker_restart_policy: unless-stopped
+jdownloader2_role_docker_restart_policy: unless-stopped
 
 # State
-jdownloader2_docker_state: started
+jdownloader2_role_docker_state: started

@@ -23,90 +23,90 @@ alternatrr_sonarr_instance: "{{ sonarr_name }}"
 # Paths
 ################################
 
-alternatrr_paths_folder: "{{ alternatrr_name }}"
-alternatrr_paths_location: "{{ server_appdata_path }}/{{ alternatrr_paths_folder }}"
-alternatrr_paths_folders_list:
-  - "{{ alternatrr_paths_location }}"
-  - "{{ alternatrr_paths_location }}/app"
+alternatrr_role_paths_folder: "{{ alternatrr_name }}"
+alternatrr_role_paths_location: "{{ server_appdata_path }}/{{ alternatrr_role_paths_folder }}"
+alternatrr_role_paths_folders_list:
+  - "{{ alternatrr_role_paths_location }}"
+  - "{{ alternatrr_role_paths_location }}/app"
 
 ################################
 # Web
 ################################
 
-alternatrr_web_subdomain: "{{ alternatrr_name }}"
-alternatrr_web_domain: "{{ user.domain }}"
-alternatrr_web_port: "80"
-alternatrr_web_url: "{{ 'https://' + (lookup('vars', alternatrr_name + '_web_subdomain', default=alternatrr_web_subdomain) + '.' + lookup('vars', alternatrr_name + '_web_domain', default=alternatrr_web_domain)
-                     if (lookup('vars', alternatrr_name + '_web_subdomain', default=alternatrr_web_subdomain) | length > 0)
-                     else lookup('vars', alternatrr_name + '_web_domain', default=alternatrr_web_domain)) }}"
+alternatrr_role_web_subdomain: "{{ alternatrr_name }}"
+alternatrr_role_web_domain: "{{ user.domain }}"
+alternatrr_role_web_port: "80"
+alternatrr_role_web_url: "{{ 'https://' + (lookup('vars', alternatrr_name + '_web_subdomain', default=alternatrr_role_web_subdomain) + '.' + lookup('vars', alternatrr_name + '_web_domain', default=alternatrr_role_web_domain)
+                     if (lookup('vars', alternatrr_name + '_web_subdomain', default=alternatrr_role_web_subdomain) | length > 0)
+                     else lookup('vars', alternatrr_name + '_web_domain', default=alternatrr_role_web_domain)) }}"
 
 ################################
 # DNS
 ################################
 
-alternatrr_dns_record: "{{ lookup('vars', alternatrr_name + '_web_subdomain', default=alternatrr_web_subdomain) }}"
-alternatrr_dns_zone: "{{ lookup('vars', alternatrr_name + '_web_domain', default=alternatrr_web_domain) }}"
-alternatrr_dns_proxy: "{{ dns.proxied }}"
+alternatrr_role_dns_record: "{{ lookup('vars', alternatrr_name + '_web_subdomain', default=alternatrr_role_web_subdomain) }}"
+alternatrr_role_dns_zone: "{{ lookup('vars', alternatrr_name + '_web_domain', default=alternatrr_role_web_domain) }}"
+alternatrr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-alternatrr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-alternatrr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-alternatrr_traefik_middleware_custom: ""
-alternatrr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-alternatrr_traefik_enabled: true
+alternatrr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+alternatrr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+alternatrr_role_traefik_middleware_custom: ""
+alternatrr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+alternatrr_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-alternatrr_docker_container: "{{ alternatrr_name }}"
+alternatrr_role_docker_container: "{{ alternatrr_name }}"
 
 # Image
-alternatrr_docker_image_pull: true
-alternatrr_docker_image_repo: "theultimatecoder/alternatrr"
-alternatrr_docker_image_tag: "latest"
-alternatrr_docker_image: "{{ lookup('vars', alternatrr_name + '_docker_image_repo', default=alternatrr_docker_image_repo)
-                             + ':' + lookup('vars', alternatrr_name + '_docker_image_tag', default=alternatrr_docker_image_tag) }}"
+alternatrr_role_docker_image_pull: true
+alternatrr_role_docker_image_repo: "theultimatecoder/alternatrr"
+alternatrr_role_docker_image_tag: "latest"
+alternatrr_role_docker_image: "{{ lookup('vars', alternatrr_name + '_docker_image_repo', default=alternatrr_role_docker_image_repo)
+                             + ':' + lookup('vars', alternatrr_name + '_docker_image_tag', default=alternatrr_role_docker_image_tag) }}"
 
 # Envs
-alternatrr_docker_envs_default:
+alternatrr_role_docker_envs_default:
   ConnectionStrings__DefaultConnection: Data Source=/opt/alternatrr/app/alternatrr.db
   ConnectionStrings__sonarr: Data Source=/opt/sonarr/sonarr.db
   Login__Username: "{{ user.name }}"
   Login__Password: "{{ user.pass }}"
-alternatrr_docker_envs_custom: {}
-alternatrr_docker_envs: "{{ lookup('vars', alternatrr_name + '_docker_envs_default', default=alternatrr_docker_envs_default)
-                            | combine(lookup('vars', alternatrr_name + '_docker_envs_custom', default=alternatrr_docker_envs_custom)) }}"
+alternatrr_role_docker_envs_custom: {}
+alternatrr_role_docker_envs: "{{ lookup('vars', alternatrr_name + '_docker_envs_default', default=alternatrr_role_docker_envs_default)
+                            | combine(lookup('vars', alternatrr_name + '_docker_envs_custom', default=alternatrr_role_docker_envs_custom)) }}"
 
 # Volumes
-alternatrr_docker_volumes_default:
-  - "{{ alternatrr_paths_location }}/app:/opt/alternatrr/app"
+alternatrr_role_docker_volumes_default:
+  - "{{ alternatrr_role_paths_location }}/app:/opt/alternatrr/app"
   - "{{ server_appdata_path + lookup('vars', alternatrr_name + '_sonarr_instance', default=alternatrr_sonarr_instance) }}:/opt/sonarr"
-alternatrr_docker_volumes_custom: []
-alternatrr_docker_volumes: "{{ lookup('vars', alternatrr_name + '_docker_volumes_default', default=alternatrr_docker_volumes_default)
-                               + lookup('vars', alternatrr_name + '_docker_volumes_custom', default=alternatrr_docker_volumes_custom) }}"
+alternatrr_role_docker_volumes_custom: []
+alternatrr_role_docker_volumes: "{{ lookup('vars', alternatrr_name + '_docker_volumes_default', default=alternatrr_role_docker_volumes_default)
+                               + lookup('vars', alternatrr_name + '_docker_volumes_custom', default=alternatrr_role_docker_volumes_custom) }}"
 
 # Hostname
-alternatrr_docker_hostname: "{{ alternatrr_name }}"
+alternatrr_role_docker_hostname: "{{ alternatrr_name }}"
 
 # Network Mode
-alternatrr_docker_network_mode_default: "{{ docker_networks_name_common }}"
-alternatrr_docker_network_mode: "{{ lookup('vars', alternatrr_name + '_docker_network_mode_default', default=alternatrr_docker_network_mode_default) }}"
+alternatrr_role_docker_network_mode_default: "{{ docker_networks_name_common }}"
+alternatrr_role_docker_network_mode: "{{ lookup('vars', alternatrr_name + '_docker_network_mode_default', default=alternatrr_role_docker_network_mode_default) }}"
 
 # Networks
-alternatrr_docker_networks_alias: "{{ alternatrr_name }}"
-alternatrr_docker_networks_default: []
-alternatrr_docker_networks_custom: []
-alternatrr_docker_networks: "{{ docker_networks_common
-                                + lookup('vars', alternatrr_name + '_docker_networks_default', default=alternatrr_docker_networks_default)
-                                + lookup('vars', alternatrr_name + '_docker_networks_custom', default=alternatrr_docker_networks_custom) }}"
+alternatrr_role_docker_networks_alias: "{{ alternatrr_name }}"
+alternatrr_role_docker_networks_default: []
+alternatrr_role_docker_networks_custom: []
+alternatrr_role_docker_networks: "{{ docker_networks_common
+                                + lookup('vars', alternatrr_name + '_docker_networks_default', default=alternatrr_role_docker_networks_default)
+                                + lookup('vars', alternatrr_name + '_docker_networks_custom', default=alternatrr_role_docker_networks_custom) }}"
 
 # Restart Policy
-alternatrr_docker_restart_policy: unless-stopped
+alternatrr_role_docker_restart_policy: unless-stopped
 
 # State
-alternatrr_docker_state: started
+alternatrr_role_docker_state: started

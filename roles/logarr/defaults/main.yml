@@ -16,88 +16,88 @@ logarr_name: logarr
 # Paths
 ################################
 
-logarr_paths_folder: "{{ logarr_name }}"
-logarr_paths_location: "{{ server_appdata_path }}/{{ logarr_paths_folder }}"
-logarr_paths_folders_list:
-  - "{{ logarr_paths_location }}"
-  - "{{ logarr_paths_location }}/config"
-  - "{{ logarr_paths_location }}/userdata"
-logarr_paths_config_location: "{{ logarr_paths_location }}/userdata/config.json"
+logarr_role_paths_folder: "{{ logarr_name }}"
+logarr_role_paths_location: "{{ server_appdata_path }}/{{ logarr_role_paths_folder }}"
+logarr_role_paths_folders_list:
+  - "{{ logarr_role_paths_location }}"
+  - "{{ logarr_role_paths_location }}/config"
+  - "{{ logarr_role_paths_location }}/userdata"
+logarr_role_paths_config_location: "{{ logarr_role_paths_location }}/userdata/config.json"
 
 ################################
 # Web
 ################################
 
-logarr_web_subdomain: "{{ logarr_name }}"
-logarr_web_domain: "{{ user.domain }}"
-logarr_web_port: "80"
-logarr_web_url: "{{ 'https://' + (logarr_web_subdomain + '.' + logarr_web_domain
-                 if (logarr_web_subdomain | length > 0)
-                 else logarr_web_domain) }}"
+logarr_role_web_subdomain: "{{ logarr_name }}"
+logarr_role_web_domain: "{{ user.domain }}"
+logarr_role_web_port: "80"
+logarr_role_web_url: "{{ 'https://' + (logarr_role_web_subdomain + '.' + logarr_role_web_domain
+                 if (logarr_role_web_subdomain | length > 0)
+                 else logarr_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-logarr_dns_record: "{{ logarr_web_subdomain }}"
-logarr_dns_zone: "{{ logarr_web_domain }}"
-logarr_dns_proxy: "{{ dns.proxied }}"
+logarr_role_dns_record: "{{ logarr_role_web_subdomain }}"
+logarr_role_dns_zone: "{{ logarr_role_web_domain }}"
+logarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-logarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-logarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-logarr_traefik_middleware_custom: ""
-logarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-logarr_traefik_enabled: true
-logarr_traefik_api_enabled: false
-logarr_traefik_api_endpoint: ""
+logarr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+logarr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+logarr_role_traefik_middleware_custom: ""
+logarr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+logarr_role_traefik_enabled: true
+logarr_role_traefik_api_enabled: false
+logarr_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-logarr_docker_container: "{{ logarr_name }}"
+logarr_role_docker_container: "{{ logarr_name }}"
 
 # Image
-logarr_docker_image_pull: true
-logarr_docker_image_tag: "latest"
-logarr_docker_image: "monitorr/logarr-alpha:{{ logarr_docker_image_tag }}"
+logarr_role_docker_image_pull: true
+logarr_role_docker_image_tag: "latest"
+logarr_role_docker_image: "monitorr/logarr-alpha:{{ logarr_role_docker_image_tag }}"
 
 # Envs
-logarr_docker_envs_default:
+logarr_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-logarr_docker_envs_custom: {}
-logarr_docker_envs: "{{ logarr_docker_envs_default
-                        | combine(logarr_docker_envs_custom) }}"
+logarr_role_docker_envs_custom: {}
+logarr_role_docker_envs: "{{ logarr_role_docker_envs_default
+                        | combine(logarr_role_docker_envs_custom) }}"
 
 # Volumes
-logarr_docker_volumes_default:
-  - "{{ logarr_paths_location }}:/app"
-  - "{{ logarr_paths_location }}/config:/config"
+logarr_role_docker_volumes_default:
+  - "{{ logarr_role_paths_location }}:/app"
+  - "{{ logarr_role_paths_location }}/config:/config"
   - "{{ server_appdata_path }}:/opt"
-logarr_docker_volumes_custom: []
-logarr_docker_volumes: "{{ logarr_docker_volumes_default
-                           + logarr_docker_volumes_custom }}"
+logarr_role_docker_volumes_custom: []
+logarr_role_docker_volumes: "{{ logarr_role_docker_volumes_default
+                           + logarr_role_docker_volumes_custom }}"
 
 # Hostname
-logarr_docker_hostname: "{{ logarr_name }}"
+logarr_role_docker_hostname: "{{ logarr_name }}"
 
 # Networks
-logarr_docker_networks_alias: "{{ logarr_name }}"
-logarr_docker_networks_default: []
-logarr_docker_networks_custom: []
-logarr_docker_networks: "{{ docker_networks_common
-                            + logarr_docker_networks_default
-                            + logarr_docker_networks_custom }}"
+logarr_role_docker_networks_alias: "{{ logarr_name }}"
+logarr_role_docker_networks_default: []
+logarr_role_docker_networks_custom: []
+logarr_role_docker_networks: "{{ docker_networks_common
+                            + logarr_role_docker_networks_default
+                            + logarr_role_docker_networks_custom }}"
 
 # Restart Policy
-logarr_docker_restart_policy: unless-stopped
+logarr_role_docker_restart_policy: unless-stopped
 
 # State
-logarr_docker_state: started
+logarr_role_docker_state: started

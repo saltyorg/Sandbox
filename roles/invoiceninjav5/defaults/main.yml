@@ -23,51 +23,51 @@ invoiceninjav5_overwrite_nginx_config: true
 # Paths
 ################################
 
-invoiceninjav5_paths_folder: "{{ invoiceninjav5_name }}"
-invoiceninjav5_paths_location: "{{ server_appdata_path }}/{{ invoiceninjav5_paths_folder }}"
-invoiceninjav5_paths_folders_list:
-  - "{{ invoiceninjav5_paths_location }}"
-  - "{{ invoiceninjav5_paths_location }}/public"
-  - "{{ invoiceninjav5_paths_location }}/storage"
-invoiceninjav5_paths_recursive: true
-invoiceninjav5_paths_owner: "1500"
-invoiceninjav5_paths_group: "1500"
+invoiceninjav5_role_paths_folder: "{{ invoiceninjav5_name }}"
+invoiceninjav5_role_paths_location: "{{ server_appdata_path }}/{{ invoiceninjav5_role_paths_folder }}"
+invoiceninjav5_role_paths_folders_list:
+  - "{{ invoiceninjav5_role_paths_location }}"
+  - "{{ invoiceninjav5_role_paths_location }}/public"
+  - "{{ invoiceninjav5_role_paths_location }}/storage"
+invoiceninjav5_role_paths_recursive: true
+invoiceninjav5_role_paths_owner: "1500"
+invoiceninjav5_role_paths_group: "1500"
 
 ################################
 # Web
 ################################
 
-invoiceninjav5_nginx_web_subdomain: "invoiceninja"
-invoiceninjav5_nginx_web_domain: "{{ user.domain }}"
-invoiceninjav5_nginx_web_port: "80"
-invoiceninjav5_nginx_web_url: "{{ 'https://' + (invoiceninjav5_nginx_web_subdomain + '.' + invoiceninjav5_nginx_web_domain
-                               if (invoiceninjav5_nginx_web_subdomain | length > 0)
-                               else invoiceninjav5_nginx_web_domain) }}"
+invoiceninjav5_nginx_role_web_subdomain: "invoiceninja"
+invoiceninjav5_nginx_role_web_domain: "{{ user.domain }}"
+invoiceninjav5_nginx_role_web_port: "80"
+invoiceninjav5_nginx_role_web_url: "{{ 'https://' + (invoiceninjav5_nginx_role_web_subdomain + '.' + invoiceninjav5_nginx_role_web_domain
+                               if (invoiceninjav5_nginx_role_web_subdomain | length > 0)
+                               else invoiceninjav5_nginx_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-invoiceninjav5_nginx_dns_record: "{{ invoiceninjav5_nginx_web_subdomain }}"
-invoiceninjav5_nginx_dns_zone: "{{ invoiceninjav5_nginx_web_domain }}"
-invoiceninjav5_nginx_dns_proxy: "{{ dns.proxied }}"
+invoiceninjav5_nginx_role_dns_record: "{{ invoiceninjav5_nginx_role_web_subdomain }}"
+invoiceninjav5_nginx_role_dns_zone: "{{ invoiceninjav5_nginx_role_web_domain }}"
+invoiceninjav5_nginx_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-invoiceninjav5_docker_container: "{{ invoiceninjav5_name }}"
+invoiceninjav5_role_docker_container: "{{ invoiceninjav5_name }}"
 
 # Image
-invoiceninjav5_docker_image_pull: true
-invoiceninjav5_docker_image_tag: "5"
-invoiceninjav5_docker_image: "invoiceninja/invoiceninja:{{ invoiceninjav5_docker_image_tag }}"
+invoiceninjav5_role_docker_image_pull: true
+invoiceninjav5_role_docker_image_tag: "5"
+invoiceninjav5_role_docker_image: "invoiceninja/invoiceninja:{{ invoiceninjav5_role_docker_image_tag }}"
 
 # Envs
-invoiceninjav5_docker_envs_default:
+invoiceninjav5_role_docker_envs_default:
   TZ: "{{ tz }}"
-  APP_URL: "{{ invoiceninjav5_nginx_web_url }}"
+  APP_URL: "{{ invoiceninjav5_nginx_role_web_url }}"
   APP_KEY: "{{ invoiceninja.app_key | default('base64:O1S3kAJEDgo92gPkXtxfdCJpoGShgKloUSdcaHMXmoY=', true) }}"
   APP_ENV: "production"
   APP_DEBUG: "false"
@@ -84,36 +84,36 @@ invoiceninjav5_docker_envs_default:
   PHANTOMJS_PDF_GENERATION: "false"
   IN_USER_EMAIL: "{{ user.email }}"
   IN_PASSWORD: "{{ user.pass }}"
-invoiceninjav5_docker_envs_custom: {}
-invoiceninjav5_docker_envs: "{{ invoiceninjav5_docker_envs_default
-                                | combine(invoiceninjav5_docker_envs_custom) }}"
+invoiceninjav5_role_docker_envs_custom: {}
+invoiceninjav5_role_docker_envs: "{{ invoiceninjav5_role_docker_envs_default
+                                | combine(invoiceninjav5_role_docker_envs_custom) }}"
 
 # Volumes
-invoiceninjav5_docker_volumes_default:
-  - "{{ invoiceninjav5_paths_location }}/public:/var/www/app/public"
-  - "{{ invoiceninjav5_paths_location }}/storage:/var/www/app/storage"
-  - "{{ invoiceninjav5_paths_location }}/php.ini:/usr/local/etc/php/php.ini"
-  - "{{ invoiceninjav5_paths_location }}/php-cli.ini:/usr/local/etc/php/php-cli.ini"
-invoiceninjav5_docker_volumes_custom: []
-invoiceninjav5_docker_volumes: "{{ invoiceninjav5_docker_volumes_default
-                                   + invoiceninjav5_docker_volumes_custom }}"
+invoiceninjav5_role_docker_volumes_default:
+  - "{{ invoiceninjav5_role_paths_location }}/public:/var/www/app/public"
+  - "{{ invoiceninjav5_role_paths_location }}/storage:/var/www/app/storage"
+  - "{{ invoiceninjav5_role_paths_location }}/php.ini:/usr/local/etc/php/php.ini"
+  - "{{ invoiceninjav5_role_paths_location }}/php-cli.ini:/usr/local/etc/php/php-cli.ini"
+invoiceninjav5_role_docker_volumes_custom: []
+invoiceninjav5_role_docker_volumes: "{{ invoiceninjav5_role_docker_volumes_default
+                                   + invoiceninjav5_role_docker_volumes_custom }}"
 
 # Hostname
-invoiceninjav5_docker_hostname: "{{ invoiceninjav5_name }}"
+invoiceninjav5_role_docker_hostname: "{{ invoiceninjav5_name }}"
 
 # Networks
-invoiceninjav5_docker_networks_alias: "{{ invoiceninjav5_name }}"
-invoiceninjav5_docker_networks_default: []
-invoiceninjav5_docker_networks_custom: []
-invoiceninjav5_docker_networks: "{{ docker_networks_common
-                                    + invoiceninjav5_docker_networks_default
-                                    + invoiceninjav5_docker_networks_custom }}"
+invoiceninjav5_role_docker_networks_alias: "{{ invoiceninjav5_name }}"
+invoiceninjav5_role_docker_networks_default: []
+invoiceninjav5_role_docker_networks_custom: []
+invoiceninjav5_role_docker_networks: "{{ docker_networks_common
+                                    + invoiceninjav5_role_docker_networks_default
+                                    + invoiceninjav5_role_docker_networks_custom }}"
 
 # Restart Policy
-invoiceninjav5_docker_restart_policy: unless-stopped
+invoiceninjav5_role_docker_restart_policy: unless-stopped
 
 # State
-invoiceninjav5_docker_state: started
+invoiceninjav5_role_docker_state: started
 
 # Dependencies
 invoiceninjav5_depends_on: "invoiceninja-nginx,mariadb"

@@ -11,7 +11,7 @@
 # Docker Socket Proxy
 ################################
 
-krusader_docker_socket_proxy_envs:
+krusader_role_docker_socket_proxy_envs:
   CONTAINERS: "1"
   POST: "0"
 
@@ -25,57 +25,57 @@ krusader_name: krusader
 # Paths
 ################################
 
-krusader_paths_folder: "{{ krusader_name }}"
-krusader_paths_location: "{{ server_appdata_path }}/{{ krusader_paths_folder }}"
-krusader_paths_folders_list:
-  - "{{ krusader_paths_location }}"
-  - "{{ krusader_paths_location }}/config"
+krusader_role_paths_folder: "{{ krusader_name }}"
+krusader_role_paths_location: "{{ server_appdata_path }}/{{ krusader_role_paths_folder }}"
+krusader_role_paths_folders_list:
+  - "{{ krusader_role_paths_location }}"
+  - "{{ krusader_role_paths_location }}/config"
 
 ################################
 # Web
 ################################
 
-krusader_web_subdomain: "{{ krusader_name }}"
-krusader_web_domain: "{{ user.domain }}"
-krusader_web_port: "6080"
-krusader_web_url: "{{ 'https://' + (krusader_web_subdomain + '.' + krusader_web_domain
-                   if (krusader_web_subdomain | length > 0)
-                   else krusader_web_domain) }}"
+krusader_role_web_subdomain: "{{ krusader_name }}"
+krusader_role_web_domain: "{{ user.domain }}"
+krusader_role_web_port: "6080"
+krusader_role_web_url: "{{ 'https://' + (krusader_role_web_subdomain + '.' + krusader_role_web_domain
+                   if (krusader_role_web_subdomain | length > 0)
+                   else krusader_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-krusader_dns_record: "{{ krusader_web_subdomain }}"
-krusader_dns_zone: "{{ krusader_web_domain }}"
-krusader_dns_proxy: "{{ dns.proxied }}"
+krusader_role_dns_record: "{{ krusader_role_web_subdomain }}"
+krusader_role_dns_zone: "{{ krusader_role_web_domain }}"
+krusader_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-krusader_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-krusader_traefik_middleware_default: "{{ traefik_default_middleware }}"
-krusader_traefik_middleware_api: "{{ traefik_global_middleware }}"
-krusader_traefik_certresolver: "{{ traefik_default_certresolver }}"
-krusader_traefik_enabled: true
-krusader_traefik_api_enabled: false
-krusader_traefik_api_endpoint: ""
+krusader_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+krusader_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+krusader_role_traefik_middleware_api: "{{ traefik_global_middleware }}"
+krusader_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+krusader_role_traefik_enabled: true
+krusader_role_traefik_api_enabled: false
+krusader_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-krusader_docker_container: "{{ krusader_name }}"
+krusader_role_docker_container: "{{ krusader_name }}"
 
 # Image
-krusader_docker_image_pull: true
-krusader_docker_image_tag: "latest"
-krusader_docker_image: "binhex/arch-krusader:{{ krusader_docker_image_tag }}"
+krusader_role_docker_image_pull: true
+krusader_role_docker_image_tag: "latest"
+krusader_role_docker_image: "binhex/arch-krusader:{{ krusader_role_docker_image_tag }}"
 
 # Envs
-krusader_docker_envs_default:
+krusader_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
@@ -83,33 +83,33 @@ krusader_docker_envs_default:
   DOCKER_HOST: "tcp://{{ krusader_name }}-docker-socket-proxy:2375"
   WEBPAGE_TITLE: "Krusader File Manager Web"
   TEMP_FOLDER: "/tmp"
-krusader_docker_envs_custom: {}
-krusader_docker_envs: "{{ krusader_docker_envs_default
-                          | combine(krusader_docker_envs_custom) }}"
+krusader_role_docker_envs_custom: {}
+krusader_role_docker_envs: "{{ krusader_role_docker_envs_default
+                          | combine(krusader_role_docker_envs_custom) }}"
 
 # Volumes
-krusader_docker_volumes_default:
-  - "{{ krusader_paths_location }}/config:/config"
-krusader_docker_volumes_custom: []
-krusader_docker_volumes: "{{ krusader_docker_volumes_default
-                             + krusader_docker_volumes_custom }}"
+krusader_role_docker_volumes_default:
+  - "{{ krusader_role_paths_location }}/config:/config"
+krusader_role_docker_volumes_custom: []
+krusader_role_docker_volumes: "{{ krusader_role_docker_volumes_default
+                             + krusader_role_docker_volumes_custom }}"
 
 # Hostname
-krusader_docker_hostname: "{{ krusader_name }}"
+krusader_role_docker_hostname: "{{ krusader_name }}"
 
 # Networks
-krusader_docker_networks_alias: "{{ krusader_name }}"
-krusader_docker_networks_default: []
-krusader_docker_networks_custom: []
-krusader_docker_networks: "{{ docker_networks_common
-                              + krusader_docker_networks_default
-                              + krusader_docker_networks_custom }}"
+krusader_role_docker_networks_alias: "{{ krusader_name }}"
+krusader_role_docker_networks_default: []
+krusader_role_docker_networks_custom: []
+krusader_role_docker_networks: "{{ docker_networks_common
+                              + krusader_role_docker_networks_default
+                              + krusader_role_docker_networks_custom }}"
 
 # Restart Policy
-krusader_docker_restart_policy: unless-stopped
+krusader_role_docker_restart_policy: unless-stopped
 
 # State
-krusader_docker_state: started
+krusader_role_docker_state: started
 
 # Dependencies
 krusader_depends_on: "{{ krusader_name }}-docker-socket-proxy"

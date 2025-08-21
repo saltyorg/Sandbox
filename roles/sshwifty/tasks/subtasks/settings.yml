@@ -7,18 +7,18 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Settings | Check if `{{ sshwifty_paths_config_location | basename }}` exists
+- name: Settings | Check if `{{ sshwifty_role_paths_config_location | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ sshwifty_paths_config_location }}"
+    path: "{{ sshwifty_role_paths_config_location }}"
   register: sshwifty_config
 
-- name: Settings | New `{{ sshwifty_paths_config_location | basename }}` tasks
+- name: Settings | New `{{ sshwifty_role_paths_config_location | basename }}` tasks
   when: not sshwifty_config.stat.exists
   block:
-    - name: Settings | Import default `{{ sshwifty_paths_config_location | basename }}`
+    - name: Settings | Import default `{{ sshwifty_role_paths_config_location | basename }}`
       ansible.builtin.template:
         src: sshwifty.conf.json.j2
-        dest: "{{ sshwifty_paths_config_location }}"
+        dest: "{{ sshwifty_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

@@ -8,13 +8,13 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Settings | New `{{ homepage_paths_location | basename }}` tasks
-  when: not homepage_web_config.stat.exists
+- name: Settings | New `{{ homepage_role_paths_location | basename }}` tasks
+  when: not homepage_role_web_config.stat.exists
   block:
     - name: Settings | Import bookmarks.yaml`
       ansible.builtin.copy:
         src: bookmarks.yaml
-        dest: "{{ homepage_paths_location }}/config"
+        dest: "{{ homepage_role_paths_location }}/config"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
@@ -22,7 +22,7 @@
     - name: "Settings | Import docker.yaml"
       ansible.builtin.template:
         src: docker.yaml.j2
-        dest: '{{ homepage_paths_location }}/config/docker.yaml'
+        dest: '{{ homepage_role_paths_location }}/config/docker.yaml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
@@ -30,7 +30,7 @@
     - name: Settings | Import services.yaml`
       ansible.builtin.copy:
         src: services.yaml
-        dest: "{{ homepage_paths_location }}/config"
+        dest: "{{ homepage_role_paths_location }}/config"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
@@ -38,7 +38,7 @@
     - name: "Settings | Import settings.yaml"
       ansible.builtin.template:
         src: settings.yaml.j2
-        dest: '{{ homepage_paths_location }}/config/settings.yaml'
+        dest: '{{ homepage_role_paths_location }}/config/settings.yaml'
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
@@ -46,7 +46,7 @@
     - name: Settings | Import widgets.yaml`
       ansible.builtin.copy:
         src: widgets.yaml
-        dest: "{{ homepage_paths_location }}/config"
+        dest: "{{ homepage_role_paths_location }}/config"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

@@ -18,36 +18,36 @@ flaresolverr_name: flaresolverr
 ################################
 
 # Container
-flaresolverr_docker_container: "{{ flaresolverr_name }}"
+flaresolverr_role_docker_container: "{{ flaresolverr_name }}"
 
 # Image
-flaresolverr_docker_image_pull: true
-flaresolverr_docker_image_tag: "latest"
-flaresolverr_docker_image: "ghcr.io/flaresolverr/flaresolverr:{{ flaresolverr_docker_image_tag }}"
+flaresolverr_role_docker_image_pull: true
+flaresolverr_role_docker_image_tag: "latest"
+flaresolverr_role_docker_image: "ghcr.io/flaresolverr/flaresolverr:{{ flaresolverr_role_docker_image_tag }}"
 
 # Envs
-flaresolverr_docker_envs_default:
+flaresolverr_role_docker_envs_default:
   LOG_LEVEL: "info"
   LOG_HTML: "false"
   CAPTCHA_SOLVER: "hcaptcha-solver"
   TZ: "{{ tz }}"
-flaresolverr_docker_envs_custom: {}
-flaresolverr_docker_envs: "{{ flaresolverr_docker_envs_default
-                              | combine(flaresolverr_docker_envs_custom) }}"
+flaresolverr_role_docker_envs_custom: {}
+flaresolverr_role_docker_envs: "{{ flaresolverr_role_docker_envs_default
+                              | combine(flaresolverr_role_docker_envs_custom) }}"
 
 # Hostname
-flaresolverr_docker_hostname: "{{ flaresolverr_name }}"
+flaresolverr_role_docker_hostname: "{{ flaresolverr_name }}"
 
 # Networks
-flaresolverr_docker_networks_alias: "{{ flaresolverr_name }}"
-flaresolverr_docker_networks_default: []
-flaresolverr_docker_networks_custom: []
-flaresolverr_docker_networks: "{{ docker_networks_common
-                                  + flaresolverr_docker_networks_default
-                                  + flaresolverr_docker_networks_custom }}"
+flaresolverr_role_docker_networks_alias: "{{ flaresolverr_name }}"
+flaresolverr_role_docker_networks_default: []
+flaresolverr_role_docker_networks_custom: []
+flaresolverr_role_docker_networks: "{{ docker_networks_common
+                                  + flaresolverr_role_docker_networks_default
+                                  + flaresolverr_role_docker_networks_custom }}"
 
 # Restart Policy
-flaresolverr_docker_restart_policy: unless-stopped
+flaresolverr_role_docker_restart_policy: unless-stopped
 
 # State
-flaresolverr_docker_state: started
+flaresolverr_role_docker_state: started

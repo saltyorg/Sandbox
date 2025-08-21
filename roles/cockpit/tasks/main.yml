@@ -10,14 +10,14 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
   when: cockpit_traefik_enabled
 
 - name: Check if 'cockpit_socket' exists
   ansible.builtin.stat:
-    path: "{{ cockpit_paths_socket_location }}"
+    path: "{{ cockpit_role_paths_socket_location }}"
   register: cockpit_socket
 
 - name: Stop existing 'cockpit_socket'
@@ -28,7 +28,7 @@
 
 - name: Check if 'cockpit_service' exists
   ansible.builtin.stat:
-    path: "{{ cockpit_paths_service_location }}"
+    path: "{{ cockpit_role_paths_service_location }}"
   register: cockpit_service
 
 - name: Stop existing 'cockpit_service'
@@ -39,12 +39,12 @@
 
 - name: Check if 'cockpit_traefik' exists
   ansible.builtin.stat:
-    path: "{{ cockpit_paths_traefik_location }}"
+    path: "{{ cockpit_role_paths_traefik_location }}"
   register: cockpit_traefik
 
 - name: Remove cockpit_traefik template
   ansible.builtin.file:
-    path: "{{ cockpit_paths_traefik_location }}"
+    path: "{{ cockpit_role_paths_traefik_location }}"
     state: absent
   when: not cockpit_traefik_enabled
 
@@ -54,7 +54,7 @@
 - name: Import 'cockpit_traefik' Traefik Template
   ansible.builtin.template:
     src: cockpit.yml.j2
-    dest: "{{ cockpit_paths_traefik_location }}"
+    dest: "{{ cockpit_role_paths_traefik_location }}"
     mode: "664"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"

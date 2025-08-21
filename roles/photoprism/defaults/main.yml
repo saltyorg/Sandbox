@@ -17,62 +17,62 @@ photoprism_name: photoprism
 # Paths
 ################################
 
-photoprism_paths_folder: "{{ photoprism_name }}"
-photoprism_paths_location: "{{ server_appdata_path }}/{{ photoprism_paths_folder }}"
-photoprism_paths_folders_list:
-  - "{{ photoprism_paths_location }}"
-  - "{{ photoprism_paths_location }}/originals"
-  - "{{ photoprism_paths_location }}/storage"
-  - "{{ photoprism_paths_location }}/import"
+photoprism_role_paths_folder: "{{ photoprism_name }}"
+photoprism_role_paths_location: "{{ server_appdata_path }}/{{ photoprism_role_paths_folder }}"
+photoprism_role_paths_folders_list:
+  - "{{ photoprism_role_paths_location }}"
+  - "{{ photoprism_role_paths_location }}/originals"
+  - "{{ photoprism_role_paths_location }}/storage"
+  - "{{ photoprism_role_paths_location }}/import"
 
 ################################
 # Web
 ################################
 
-photoprism_web_subdomain: "{{ photoprism_name }}"
-photoprism_web_domain: "{{ user.domain }}"
-photoprism_web_port: "2342"
-photoprism_web_url: "{{ 'https://' + (photoprism_web_subdomain + '.' + photoprism_web_domain
-                     if (photoprism_web_subdomain | length > 0)
-                     else photoprism_web_domain) }}"
+photoprism_role_web_subdomain: "{{ photoprism_name }}"
+photoprism_role_web_domain: "{{ user.domain }}"
+photoprism_role_web_port: "2342"
+photoprism_role_web_url: "{{ 'https://' + (photoprism_role_web_subdomain + '.' + photoprism_role_web_domain
+                     if (photoprism_role_web_subdomain | length > 0)
+                     else photoprism_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-photoprism_dns_record: "{{ photoprism_web_subdomain }}"
-photoprism_dns_zone: "{{ photoprism_web_domain }}"
-photoprism_dns_proxy: "{{ dns.proxied }}"
+photoprism_role_dns_record: "{{ photoprism_role_web_subdomain }}"
+photoprism_role_dns_zone: "{{ photoprism_role_web_domain }}"
+photoprism_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-photoprism_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-photoprism_traefik_middleware_default: "{{ traefik_default_middleware }}"
-photoprism_traefik_middleware_custom: ""
-photoprism_traefik_certresolver: "{{ traefik_default_certresolver }}"
-photoprism_traefik_enabled: true
-photoprism_traefik_api_enabled: false
-photoprism_traefik_api_endpoint: ""
+photoprism_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+photoprism_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+photoprism_role_traefik_middleware_custom: ""
+photoprism_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+photoprism_role_traefik_enabled: true
+photoprism_role_traefik_api_enabled: false
+photoprism_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-photoprism_docker_container: "{{ photoprism_name }}"
+photoprism_role_docker_container: "{{ photoprism_name }}"
 
 # Image
-photoprism_docker_image_pull: true
-photoprism_docker_image_tag: "latest"
-photoprism_docker_image: "photoprism/photoprism:{{ photoprism_docker_image_tag }}"
+photoprism_role_docker_image_pull: true
+photoprism_role_docker_image_tag: "latest"
+photoprism_role_docker_image: "photoprism/photoprism:{{ photoprism_role_docker_image_tag }}"
 
 # Envs
-photoprism_docker_envs_default:
+photoprism_role_docker_envs_default:
   PHOTOPRISM_ADMIN_PASSWORD: "{{ user.pass }}"
   PHOTOPRISM_AUTH_MODE: "password"
-  PHOTOPRISM_SITE_URL: "{{ photoprism_web_url }}"
+  PHOTOPRISM_SITE_URL: "{{ photoprism_role_web_url }}"
   PHOTOPRISM_ORIGINALS_LIMIT: "5000"
   PHOTOPRISM_HTTP_COMPRESSION: "gzip"
   PHOTOPRISM_LOG_LEVEL: "info"
@@ -98,49 +98,49 @@ photoprism_docker_envs_default:
   PHOTOPRISM_SITE_DESCRIPTION: "Trying out PhotoPrism!"
   PHOTOPRISM_SITE_AUTHOR: "{{ user.name }}"
   PHOTOPRISM_INIT: "gpu tensorflow"
-photoprism_docker_envs_custom: {}
-photoprism_docker_envs: "{{ photoprism_docker_envs_default
-                            | combine(photoprism_docker_envs_custom) }}"
+photoprism_role_docker_envs_custom: {}
+photoprism_role_docker_envs: "{{ photoprism_role_docker_envs_default
+                            | combine(photoprism_role_docker_envs_custom) }}"
 
 # Volumes
-photoprism_docker_volumes_default:
-  - "{{ photoprism_paths_location }}/originals:/photoprism/originals"
-  - "{{ photoprism_paths_location }}/import:/photoprism/import"
-  - "{{ photoprism_paths_location }}/storage:/photoprism/storage"
-photoprism_docker_volumes_custom: []
-photoprism_docker_volumes: "{{ photoprism_docker_volumes_default
-                               + photoprism_docker_volumes_custom }}"
+photoprism_role_docker_volumes_default:
+  - "{{ photoprism_role_paths_location }}/originals:/photoprism/originals"
+  - "{{ photoprism_role_paths_location }}/import:/photoprism/import"
+  - "{{ photoprism_role_paths_location }}/storage:/photoprism/storage"
+photoprism_role_docker_volumes_custom: []
+photoprism_role_docker_volumes: "{{ photoprism_role_docker_volumes_default
+                               + photoprism_role_docker_volumes_custom }}"
 
 # Hostname
-photoprism_docker_hostname: "{{ photoprism_name }}"
+photoprism_role_docker_hostname: "{{ photoprism_name }}"
 
 # Networks
-photoprism_docker_networks_alias: "{{ photoprism_name }}"
-photoprism_docker_networks_default: []
-photoprism_docker_networks_custom: []
-photoprism_docker_networks: "{{ docker_networks_common
-                                + photoprism_docker_networks_default
-                                + photoprism_docker_networks_custom }}"
+photoprism_role_docker_networks_alias: "{{ photoprism_name }}"
+photoprism_role_docker_networks_default: []
+photoprism_role_docker_networks_custom: []
+photoprism_role_docker_networks: "{{ docker_networks_common
+                                + photoprism_role_docker_networks_default
+                                + photoprism_role_docker_networks_custom }}"
 
 # Security Opts
-photoprism_docker_security_opts_default:
+photoprism_role_docker_security_opts_default:
   - "seccomp=unconfined"
   - "apparmor=unconfined"
-photoprism_docker_security_opts_custom: []
-photoprism_docker_security_opts: "{{ photoprism_docker_security_opts_default
-                                     + photoprism_docker_security_opts_custom }}"
+photoprism_role_docker_security_opts_custom: []
+photoprism_role_docker_security_opts: "{{ photoprism_role_docker_security_opts_default
+                                     + photoprism_role_docker_security_opts_custom }}"
 
 # Working Directory
-photoprism_docker_working_dir: "/photoprism"
+photoprism_role_docker_working_dir: "/photoprism"
 
 # Restart Policy
-photoprism_docker_restart_policy: unless-stopped
+photoprism_role_docker_restart_policy: unless-stopped
 
 # State
-photoprism_docker_state: started
+photoprism_role_docker_state: started
 
 # User
-photoprism_docker_user: "{{ uid }}:{{ gid }}"
+photoprism_role_docker_user: "{{ uid }}:{{ gid }}"
 
 # Dependencies
 photoprism_depends_on: "mariadb"

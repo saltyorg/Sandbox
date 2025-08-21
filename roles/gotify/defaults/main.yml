@@ -17,85 +17,85 @@ gotify_name: gotify
 # Paths
 ################################
 
-gotify_paths_folder: "{{ gotify_name }}"
-gotify_paths_location: "{{ server_appdata_path }}/{{ gotify_paths_folder }}"
-gotify_paths_folders_list:
-  - "{{ gotify_paths_location }}"
+gotify_role_paths_folder: "{{ gotify_name }}"
+gotify_role_paths_location: "{{ server_appdata_path }}/{{ gotify_role_paths_folder }}"
+gotify_role_paths_folders_list:
+  - "{{ gotify_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-gotify_web_subdomain: "{{ gotify_name }}"
-gotify_web_domain: "{{ user.domain }}"
-gotify_web_port: "80"
-gotify_web_url: "{{ 'https://' + (gotify_web_subdomain + '.' + gotify_web_domain
-                 if (gotify_web_subdomain | length > 0)
-                 else gotify_web_domain) }}"
+gotify_role_web_subdomain: "{{ gotify_name }}"
+gotify_role_web_domain: "{{ user.domain }}"
+gotify_role_web_port: "80"
+gotify_role_web_url: "{{ 'https://' + (gotify_role_web_subdomain + '.' + gotify_role_web_domain
+                 if (gotify_role_web_subdomain | length > 0)
+                 else gotify_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-gotify_dns_record: "{{ gotify_web_subdomain }}"
-gotify_dns_zone: "{{ gotify_web_domain }}"
-gotify_dns_proxy: "{{ dns.proxied }}"
+gotify_role_dns_record: "{{ gotify_role_web_subdomain }}"
+gotify_role_dns_zone: "{{ gotify_role_web_domain }}"
+gotify_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-gotify_traefik_sso_middleware: ""
-gotify_traefik_middleware_default: "{{ traefik_default_middleware }}"
-gotify_traefik_middleware_custom: ""
-gotify_traefik_certresolver: "{{ traefik_default_certresolver }}"
-gotify_traefik_enabled: true
-gotify_traefik_api_enabled: false
-gotify_traefik_api_endpoint: ""
+gotify_role_traefik_sso_middleware: ""
+gotify_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+gotify_role_traefik_middleware_custom: ""
+gotify_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+gotify_role_traefik_enabled: true
+gotify_role_traefik_api_enabled: false
+gotify_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-gotify_docker_container: "{{ gotify_name }}"
+gotify_role_docker_container: "{{ gotify_name }}"
 
 # Image
-gotify_docker_image_pull: true
-gotify_docker_image_tag: "latest"
-gotify_docker_image: "gotify/server:{{ gotify_docker_image_tag }}"
+gotify_role_docker_image_pull: true
+gotify_role_docker_image_tag: "latest"
+gotify_role_docker_image: "gotify/server:{{ gotify_role_docker_image_tag }}"
 
 # Envs
-gotify_docker_envs_default:
+gotify_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   GOTIFY_DEFAULTUSER_NAME: "{{ user.name }}"
   GOTIFY_DEFAULTUSER_PASS: "{{ user.pass }}"
-gotify_docker_envs_custom: {}
-gotify_docker_envs: "{{ gotify_docker_envs_default
-                        | combine(gotify_docker_envs_custom) }}"
+gotify_role_docker_envs_custom: {}
+gotify_role_docker_envs: "{{ gotify_role_docker_envs_default
+                        | combine(gotify_role_docker_envs_custom) }}"
 
 # Volumes
-gotify_docker_volumes_default:
-  - "{{ gotify_paths_location }}:/app/data"
-gotify_docker_volumes_custom: []
-gotify_docker_volumes: "{{ gotify_docker_volumes_default
-                           + gotify_docker_volumes_custom }}"
+gotify_role_docker_volumes_default:
+  - "{{ gotify_role_paths_location }}:/app/data"
+gotify_role_docker_volumes_custom: []
+gotify_role_docker_volumes: "{{ gotify_role_docker_volumes_default
+                           + gotify_role_docker_volumes_custom }}"
 
 # Hostname
-gotify_docker_hostname: "{{ gotify_name }}"
+gotify_role_docker_hostname: "{{ gotify_name }}"
 
 # Networks
-gotify_docker_networks_alias: "{{ gotify_name }}"
-gotify_docker_networks_default: []
-gotify_docker_networks_custom: []
-gotify_docker_networks: "{{ docker_networks_common
-                            + gotify_docker_networks_default
-                            + gotify_docker_networks_custom }}"
+gotify_role_docker_networks_alias: "{{ gotify_name }}"
+gotify_role_docker_networks_default: []
+gotify_role_docker_networks_custom: []
+gotify_role_docker_networks: "{{ docker_networks_common
+                            + gotify_role_docker_networks_default
+                            + gotify_role_docker_networks_custom }}"
 
 # Restart Policy
-gotify_docker_restart_policy: unless-stopped
+gotify_role_docker_restart_policy: unless-stopped
 
 # State
-gotify_docker_state: started
+gotify_role_docker_state: started

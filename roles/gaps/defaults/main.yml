@@ -17,84 +17,84 @@ gaps_name: gaps
 # Paths
 ################################
 
-gaps_paths_folder: "{{ gaps_name }}"
-gaps_paths_location: "{{ server_appdata_path }}/{{ gaps_paths_folder }}"
-gaps_paths_folders_list:
-  - "{{ gaps_paths_location }}"
+gaps_role_paths_folder: "{{ gaps_name }}"
+gaps_role_paths_location: "{{ server_appdata_path }}/{{ gaps_role_paths_folder }}"
+gaps_role_paths_folders_list:
+  - "{{ gaps_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-gaps_web_subdomain: "{{ gaps_name }}"
-gaps_web_domain: "{{ user.domain }}"
-gaps_web_port: "8484"
-gaps_web_url: "{{ 'https://' + (gaps_web_subdomain + '.' + gaps_web_domain
-               if (gaps_web_subdomain | length > 0)
-               else gaps_web_domain) }}"
+gaps_role_web_subdomain: "{{ gaps_name }}"
+gaps_role_web_domain: "{{ user.domain }}"
+gaps_role_web_port: "8484"
+gaps_role_web_url: "{{ 'https://' + (gaps_role_web_subdomain + '.' + gaps_role_web_domain
+               if (gaps_role_web_subdomain | length > 0)
+               else gaps_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-gaps_dns_record: "{{ gaps_web_subdomain }}"
-gaps_dns_zone: "{{ gaps_web_domain }}"
-gaps_dns_proxy: "{{ dns.proxied }}"
+gaps_role_dns_record: "{{ gaps_role_web_subdomain }}"
+gaps_role_dns_zone: "{{ gaps_role_web_domain }}"
+gaps_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-gaps_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-gaps_traefik_middleware_default: "{{ traefik_default_middleware }}"
-gaps_traefik_middleware_custom: ""
-gaps_traefik_certresolver: "{{ traefik_default_certresolver }}"
-gaps_traefik_enabled: true
-gaps_traefik_api_enabled: false
-gaps_traefik_api_endpoint: ""
+gaps_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+gaps_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+gaps_role_traefik_middleware_custom: ""
+gaps_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+gaps_role_traefik_enabled: true
+gaps_role_traefik_api_enabled: false
+gaps_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-gaps_docker_container: "{{ gaps_name }}"
+gaps_role_docker_container: "{{ gaps_name }}"
 
 # Image
-gaps_docker_image_pull: true
-gaps_docker_image_tag: "latest"
-gaps_docker_image: "housewrecker/gaps:{{ gaps_docker_image_tag }}"
+gaps_role_docker_image_pull: true
+gaps_role_docker_image_tag: "latest"
+gaps_role_docker_image: "housewrecker/gaps:{{ gaps_role_docker_image_tag }}"
 
 # Envs
-gaps_docker_envs_default:
+gaps_role_docker_envs_default:
   TZ: "{{ tz }}"
-  # BASE_URL: "{{ gaps_web_url }}"
+  # BASE_URL: "{{ gaps_role_web_url }}"
   ENABLE_LOGIN: "false"
   ENABLE_SSL: "false"
-gaps_docker_envs_custom: {}
-gaps_docker_envs: "{{ gaps_docker_envs_default
-                      | combine(gaps_docker_envs_custom) }}"
+gaps_role_docker_envs_custom: {}
+gaps_role_docker_envs: "{{ gaps_role_docker_envs_default
+                      | combine(gaps_role_docker_envs_custom) }}"
 
 # Volumes
-gaps_docker_volumes_default:
-  - "{{ gaps_paths_location }}:/usr/data"
-gaps_docker_volumes_custom: []
-gaps_docker_volumes: "{{ gaps_docker_volumes_default
-                         + gaps_docker_volumes_custom }}"
+gaps_role_docker_volumes_default:
+  - "{{ gaps_role_paths_location }}:/usr/data"
+gaps_role_docker_volumes_custom: []
+gaps_role_docker_volumes: "{{ gaps_role_docker_volumes_default
+                         + gaps_role_docker_volumes_custom }}"
 
 # Hostname
-gaps_docker_hostname: "{{ gaps_name }}"
+gaps_role_docker_hostname: "{{ gaps_name }}"
 
 # Networks
-gaps_docker_networks_alias: "{{ gaps_name }}"
-gaps_docker_networks_default: []
-gaps_docker_networks_custom: []
-gaps_docker_networks: "{{ docker_networks_common
-                          + gaps_docker_networks_default
-                          + gaps_docker_networks_custom }}"
+gaps_role_docker_networks_alias: "{{ gaps_name }}"
+gaps_role_docker_networks_default: []
+gaps_role_docker_networks_custom: []
+gaps_role_docker_networks: "{{ docker_networks_common
+                          + gaps_role_docker_networks_default
+                          + gaps_role_docker_networks_custom }}"
 
 # Restart Policy
-gaps_docker_restart_policy: unless-stopped
+gaps_role_docker_restart_policy: unless-stopped
 
 # State
-gaps_docker_state: started
+gaps_role_docker_state: started

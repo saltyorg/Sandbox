@@ -17,88 +17,88 @@ adguardhome_name: adguardhome
 # Paths
 ################################
 
-adguardhome_paths_folder: "{{ adguardhome_name }}"
-adguardhome_paths_location: "{{ server_appdata_path }}/{{ adguardhome_paths_folder }}"
-adguardhome_paths_config_path: "{{ adguardhome_paths_location }}/conf/AdGuardHome.yaml"
-adguardhome_paths_folders_list:
-  - "{{ adguardhome_paths_location }}"
-  - "{{ adguardhome_paths_location }}/conf"
-  - "{{ adguardhome_paths_location }}/work"
-  - "{{ adguardhome_paths_location }}/work/data"
-  - "{{ adguardhome_paths_location }}/work/data/filters"
+adguardhome_role_paths_folder: "{{ adguardhome_name }}"
+adguardhome_role_paths_location: "{{ server_appdata_path }}/{{ adguardhome_role_paths_folder }}"
+adguardhome_role_paths_config_path: "{{ adguardhome_role_paths_location }}/conf/AdGuardHome.yaml"
+adguardhome_role_paths_folders_list:
+  - "{{ adguardhome_role_paths_location }}"
+  - "{{ adguardhome_role_paths_location }}/conf"
+  - "{{ adguardhome_role_paths_location }}/work"
+  - "{{ adguardhome_role_paths_location }}/work/data"
+  - "{{ adguardhome_role_paths_location }}/work/data/filters"
 
 ################################
 # Web
 ################################
 
-adguardhome_web_subdomain: "{{ adguardhome_name }}"
-adguardhome_web_domain: "{{ user.domain }}"
-adguardhome_web_port: "3000"
-adguardhome_web_url: "{{ 'https://' + (adguardhome_web_subdomain + '.' + adguardhome_web_domain
-                      if (adguardhome_web_subdomain | length > 0)
-                      else adguardhome_web_domain) }}"
+adguardhome_role_web_subdomain: "{{ adguardhome_name }}"
+adguardhome_role_web_domain: "{{ user.domain }}"
+adguardhome_role_web_port: "3000"
+adguardhome_role_web_url: "{{ 'https://' + (adguardhome_role_web_subdomain + '.' + adguardhome_role_web_domain
+                      if (adguardhome_role_web_subdomain | length > 0)
+                      else adguardhome_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-adguardhome_dns_record: "{{ adguardhome_web_subdomain }}"
-adguardhome_dns_zone: "{{ adguardhome_web_domain }}"
-adguardhome_dns_proxy: "{{ dns.proxied }}"
+adguardhome_role_dns_record: "{{ adguardhome_role_web_subdomain }}"
+adguardhome_role_dns_zone: "{{ adguardhome_role_web_domain }}"
+adguardhome_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-adguardhome_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-adguardhome_traefik_middleware_default: "{{ traefik_default_middleware }}"
-adguardhome_traefik_middleware_custom: ""
-adguardhome_traefik_certresolver: "{{ traefik_default_certresolver }}"
-adguardhome_traefik_enabled: true
-adguardhome_traefik_api_enabled: true
-adguardhome_traefik_api_endpoint: "PathPrefix(`/dns-query`)"
+adguardhome_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+adguardhome_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+adguardhome_role_traefik_middleware_custom: ""
+adguardhome_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+adguardhome_role_traefik_enabled: true
+adguardhome_role_traefik_api_enabled: true
+adguardhome_role_traefik_api_endpoint: "PathPrefix(`/dns-query`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-adguardhome_docker_container: "{{ adguardhome_name }}"
+adguardhome_role_docker_container: "{{ adguardhome_name }}"
 
 # Image
-adguardhome_docker_image_pull: true
-adguardhome_docker_image_tag: "latest"
-adguardhome_docker_image: "adguard/adguardhome:{{ adguardhome_docker_image_tag }}"
+adguardhome_role_docker_image_pull: true
+adguardhome_role_docker_image_tag: "latest"
+adguardhome_role_docker_image: "adguard/adguardhome:{{ adguardhome_role_docker_image_tag }}"
 
 # Envs
-adguardhome_docker_envs_default:
+adguardhome_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-adguardhome_docker_envs_custom: {}
-adguardhome_docker_envs: "{{ adguardhome_docker_envs_default
-                             | combine(adguardhome_docker_envs_custom) }}"
+adguardhome_role_docker_envs_custom: {}
+adguardhome_role_docker_envs: "{{ adguardhome_role_docker_envs_default
+                             | combine(adguardhome_role_docker_envs_custom) }}"
 
 # Volumes
-adguardhome_docker_volumes_default:
-  - "{{ adguardhome_paths_location }}/work:/opt/adguardhome/work"
-  - "{{ adguardhome_paths_location }}/conf:/opt/adguardhome/conf"
-adguardhome_docker_volumes_custom: []
-adguardhome_docker_volumes: "{{ adguardhome_docker_volumes_default }}"
+adguardhome_role_docker_volumes_default:
+  - "{{ adguardhome_role_paths_location }}/work:/opt/adguardhome/work"
+  - "{{ adguardhome_role_paths_location }}/conf:/opt/adguardhome/conf"
+adguardhome_role_docker_volumes_custom: []
+adguardhome_role_docker_volumes: "{{ adguardhome_role_docker_volumes_default }}"
 
 # Hostname
-adguardhome_docker_hostname: "{{ adguardhome_name }}"
+adguardhome_role_docker_hostname: "{{ adguardhome_name }}"
 
 # Networks
-adguardhome_docker_networks_alias: "{{ adguardhome_name }}"
-adguardhome_docker_networks_default: []
-adguardhome_docker_networks_custom: []
-adguardhome_docker_networks: "{{ docker_networks_common
-                                 + adguardhome_docker_networks_default
-                                 + adguardhome_docker_networks_custom }}"
+adguardhome_role_docker_networks_alias: "{{ adguardhome_name }}"
+adguardhome_role_docker_networks_default: []
+adguardhome_role_docker_networks_custom: []
+adguardhome_role_docker_networks: "{{ docker_networks_common
+                                 + adguardhome_role_docker_networks_default
+                                 + adguardhome_role_docker_networks_custom }}"
 
 # Restart Policy
-adguardhome_docker_restart_policy: unless-stopped
+adguardhome_role_docker_restart_policy: unless-stopped
 
 # State
-adguardhome_docker_state: started
+adguardhome_role_docker_state: started

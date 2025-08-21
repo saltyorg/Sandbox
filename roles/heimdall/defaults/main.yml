@@ -17,83 +17,83 @@ heimdall_name: heimdall
 # Paths
 ################################
 
-heimdall_paths_folder: "{{ heimdall_name }}"
-heimdall_paths_location: "{{ server_appdata_path }}/{{ heimdall_paths_folder }}"
-heimdall_paths_folders_list:
-  - "{{ heimdall_paths_location }}"
+heimdall_role_paths_folder: "{{ heimdall_name }}"
+heimdall_role_paths_location: "{{ server_appdata_path }}/{{ heimdall_role_paths_folder }}"
+heimdall_role_paths_folders_list:
+  - "{{ heimdall_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-heimdall_web_subdomain: "{{ heimdall_name }}"
-heimdall_web_domain: "{{ user.domain }}"
-heimdall_web_port: "80"
-heimdall_web_url: "{{ 'https://' + (heimdall_web_subdomain + '.' + heimdall_web_domain
-                   if (heimdall_web_subdomain | length > 0)
-                   else heimdall_web_domain) }}"
+heimdall_role_web_subdomain: "{{ heimdall_name }}"
+heimdall_role_web_domain: "{{ user.domain }}"
+heimdall_role_web_port: "80"
+heimdall_role_web_url: "{{ 'https://' + (heimdall_role_web_subdomain + '.' + heimdall_role_web_domain
+                   if (heimdall_role_web_subdomain | length > 0)
+                   else heimdall_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-heimdall_dns_record: "{{ heimdall_web_subdomain }}"
-heimdall_dns_zone: "{{ heimdall_web_domain }}"
-heimdall_dns_proxy: "{{ dns.proxied }}"
+heimdall_role_dns_record: "{{ heimdall_role_web_subdomain }}"
+heimdall_role_dns_zone: "{{ heimdall_role_web_domain }}"
+heimdall_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-heimdall_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-heimdall_traefik_middleware_default: "{{ traefik_default_middleware }}"
-heimdall_traefik_middleware_custom: ""
-heimdall_traefik_certresolver: "{{ traefik_default_certresolver }}"
-heimdall_traefik_enabled: true
-heimdall_traefik_api_enabled: false
-heimdall_traefik_api_endpoint: ""
+heimdall_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+heimdall_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+heimdall_role_traefik_middleware_custom: ""
+heimdall_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+heimdall_role_traefik_enabled: true
+heimdall_role_traefik_api_enabled: false
+heimdall_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-heimdall_docker_container: "{{ heimdall_name }}"
+heimdall_role_docker_container: "{{ heimdall_name }}"
 
 # Image
-heimdall_docker_image_pull: true
-heimdall_docker_image_tag: "latest"
-heimdall_docker_image: "lscr.io/linuxserver/heimdall:{{ heimdall_docker_image_tag }}"
+heimdall_role_docker_image_pull: true
+heimdall_role_docker_image_tag: "latest"
+heimdall_role_docker_image: "lscr.io/linuxserver/heimdall:{{ heimdall_role_docker_image_tag }}"
 
 # Envs
-heimdall_docker_envs_default:
+heimdall_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-heimdall_docker_envs_custom: {}
-heimdall_docker_envs: "{{ heimdall_docker_envs_default
-                          | combine(heimdall_docker_envs_custom) }}"
+heimdall_role_docker_envs_custom: {}
+heimdall_role_docker_envs: "{{ heimdall_role_docker_envs_default
+                          | combine(heimdall_role_docker_envs_custom) }}"
 
 # Volumes
-heimdall_docker_volumes_default:
-  - "{{ heimdall_paths_location }}:/config"
-heimdall_docker_volumes_custom: []
-heimdall_docker_volumes: "{{ heimdall_docker_volumes_default
-                             + heimdall_docker_volumes_custom }}"
+heimdall_role_docker_volumes_default:
+  - "{{ heimdall_role_paths_location }}:/config"
+heimdall_role_docker_volumes_custom: []
+heimdall_role_docker_volumes: "{{ heimdall_role_docker_volumes_default
+                             + heimdall_role_docker_volumes_custom }}"
 
 # Hostname
-heimdall_docker_hostname: "{{ heimdall_name }}"
+heimdall_role_docker_hostname: "{{ heimdall_name }}"
 
 # Networks
-heimdall_docker_networks_alias: "{{ heimdall_name }}"
-heimdall_docker_networks_default: []
-heimdall_docker_networks_custom: []
-heimdall_docker_networks: "{{ docker_networks_common
-                              + heimdall_docker_networks_default
-                              + heimdall_docker_networks_custom }}"
+heimdall_role_docker_networks_alias: "{{ heimdall_name }}"
+heimdall_role_docker_networks_default: []
+heimdall_role_docker_networks_custom: []
+heimdall_role_docker_networks: "{{ docker_networks_common
+                              + heimdall_role_docker_networks_default
+                              + heimdall_role_docker_networks_custom }}"
 
 # Restart Policy
-heimdall_docker_restart_policy: unless-stopped
+heimdall_role_docker_restart_policy: unless-stopped
 
 # State
-heimdall_docker_state: started
+heimdall_role_docker_state: started

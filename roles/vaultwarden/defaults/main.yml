@@ -17,84 +17,84 @@ vaultwarden_name: vaultwarden
 # Paths
 ################################
 
-vaultwarden_paths_folder: "{{ vaultwarden_name }}"
-vaultwarden_paths_location: "{{ server_appdata_path }}/{{ vaultwarden_paths_folder }}"
-vaultwarden_paths_folders_list:
-  - "{{ vaultwarden_paths_location }}"
-vaultwarden_paths_config_location: "{{ vaultwarden_paths_location }}/env"
+vaultwarden_role_paths_folder: "{{ vaultwarden_name }}"
+vaultwarden_role_paths_location: "{{ server_appdata_path }}/{{ vaultwarden_role_paths_folder }}"
+vaultwarden_role_paths_folders_list:
+  - "{{ vaultwarden_role_paths_location }}"
+vaultwarden_role_paths_config_location: "{{ vaultwarden_role_paths_location }}/env"
 
 ################################
 # Web
 ################################
 
-vaultwarden_web_subdomain: "{{ vaultwarden_name }}"
-vaultwarden_web_domain: "{{ user.domain }}"
-vaultwarden_web_port: "6423"
-vaultwarden_web_url: "{{ 'https://' + (vaultwarden_web_subdomain + '.' + vaultwarden_web_domain
-                      if (vaultwarden_web_subdomain | length > 0)
-                      else vaultwarden_web_domain) }}"
+vaultwarden_role_web_subdomain: "{{ vaultwarden_name }}"
+vaultwarden_role_web_domain: "{{ user.domain }}"
+vaultwarden_role_web_port: "6423"
+vaultwarden_role_web_url: "{{ 'https://' + (vaultwarden_role_web_subdomain + '.' + vaultwarden_role_web_domain
+                      if (vaultwarden_role_web_subdomain | length > 0)
+                      else vaultwarden_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-vaultwarden_dns_record: "{{ vaultwarden_web_subdomain }}"
-vaultwarden_dns_zone: "{{ vaultwarden_web_domain }}"
-vaultwarden_dns_proxy: "{{ dns.proxied }}"
+vaultwarden_role_dns_record: "{{ vaultwarden_role_web_subdomain }}"
+vaultwarden_role_dns_zone: "{{ vaultwarden_role_web_domain }}"
+vaultwarden_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-vaultwarden_traefik_sso_middleware: ""
-vaultwarden_traefik_middleware_default: "{{ traefik_default_middleware }}"
-vaultwarden_traefik_middleware_custom: ""
-vaultwarden_traefik_certresolver: "{{ traefik_default_certresolver }}"
-vaultwarden_traefik_enabled: true
-vaultwarden_traefik_api_enabled: false
-vaultwarden_traefik_api_endpoint: ""
+vaultwarden_role_traefik_sso_middleware: ""
+vaultwarden_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+vaultwarden_role_traefik_middleware_custom: ""
+vaultwarden_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+vaultwarden_role_traefik_enabled: true
+vaultwarden_role_traefik_api_enabled: false
+vaultwarden_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-vaultwarden_docker_container: "{{ vaultwarden_name }}"
+vaultwarden_role_docker_container: "{{ vaultwarden_name }}"
 
 # Image
-vaultwarden_docker_image_pull: true
-vaultwarden_docker_image_tag: "latest"
-vaultwarden_docker_image: "vaultwarden/server:{{ vaultwarden_docker_image_tag }}"
+vaultwarden_role_docker_image_pull: true
+vaultwarden_role_docker_image_tag: "latest"
+vaultwarden_role_docker_image: "vaultwarden/server:{{ vaultwarden_role_docker_image_tag }}"
 
 # Envs
-vaultwarden_docker_envs_default:
+vaultwarden_role_docker_envs_default:
   TZ: "{{ tz }}"
-  ROCKET_PORT: "{{ vaultwarden_web_port }}"
-vaultwarden_docker_envs_custom: {}
-vaultwarden_docker_envs: "{{ vaultwarden_docker_envs_default
-                             | combine(vaultwarden_docker_envs_custom) }}"
+  ROCKET_PORT: "{{ vaultwarden_role_web_port }}"
+vaultwarden_role_docker_envs_custom: {}
+vaultwarden_role_docker_envs: "{{ vaultwarden_role_docker_envs_default
+                             | combine(vaultwarden_role_docker_envs_custom) }}"
 
 # Volumes
-vaultwarden_docker_volumes_default:
-  - "{{ vaultwarden_paths_location }}:/data"
-  - "{{ vaultwarden_paths_location }}/env:/.env"
-vaultwarden_docker_volumes_custom: []
-vaultwarden_docker_volumes: "{{ vaultwarden_docker_volumes_default
-                                + vaultwarden_docker_volumes_custom }}"
+vaultwarden_role_docker_volumes_default:
+  - "{{ vaultwarden_role_paths_location }}:/data"
+  - "{{ vaultwarden_role_paths_location }}/env:/.env"
+vaultwarden_role_docker_volumes_custom: []
+vaultwarden_role_docker_volumes: "{{ vaultwarden_role_docker_volumes_default
+                                + vaultwarden_role_docker_volumes_custom }}"
 
 # Hostname
-vaultwarden_docker_hostname: "{{ vaultwarden_name }}"
+vaultwarden_role_docker_hostname: "{{ vaultwarden_name }}"
 
 # Networks
-vaultwarden_docker_networks_alias: "{{ vaultwarden_name }}"
-vaultwarden_docker_networks_default: []
-vaultwarden_docker_networks_custom: []
-vaultwarden_docker_networks: "{{ docker_networks_common
-                                 + vaultwarden_docker_networks_default
-                                 + vaultwarden_docker_networks_custom }}"
+vaultwarden_role_docker_networks_alias: "{{ vaultwarden_name }}"
+vaultwarden_role_docker_networks_default: []
+vaultwarden_role_docker_networks_custom: []
+vaultwarden_role_docker_networks: "{{ docker_networks_common
+                                 + vaultwarden_role_docker_networks_default
+                                 + vaultwarden_role_docker_networks_custom }}"
 
 # Restart Policy
-vaultwarden_docker_restart_policy: unless-stopped
+vaultwarden_role_docker_restart_policy: unless-stopped
 
 # State
-vaultwarden_docker_state: started
+vaultwarden_role_docker_state: started

@@ -28,22 +28,22 @@ tdarr_node_external: false
 ################################
 
 # Container
-tdarr_node_docker_container: "{{ tdarr_node_name }}"
+tdarr_node_role_docker_container: "{{ tdarr_node_name }}"
 
 # Image
-tdarr_node_docker_image_pull: true
-tdarr_node_docker_image_tag: "latest"
-tdarr_node_docker_image: "haveagitgat/tdarr_node:{{ tdarr_node_docker_image_tag }}"
+tdarr_node_role_docker_image_pull: true
+tdarr_node_role_docker_image_tag: "latest"
+tdarr_node_role_docker_image: "haveagitgat/tdarr_node:{{ tdarr_node_role_docker_image_tag }}"
 
 # Ports
-tdarr_node_docker_ports_defaults:
+tdarr_node_role_docker_ports_defaults:
   - "{{ tdarr_node_node_port }}:{{ tdarr_node_node_port }}"
-tdarr_node_docker_ports_custom: []
-tdarr_node_docker_ports: "{{ tdarr_node_docker_ports_defaults if (tdarr_node_external) else []
-                             + tdarr_node_docker_ports_custom }}"
+tdarr_node_role_docker_ports_custom: []
+tdarr_node_role_docker_ports: "{{ tdarr_node_role_docker_ports_defaults if (tdarr_node_external) else []
+                             + tdarr_node_role_docker_ports_custom }}"
 
 # Envs
-tdarr_node_docker_envs_default:
+tdarr_node_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
@@ -51,36 +51,36 @@ tdarr_node_docker_envs_default:
   serverPort: "{{ tdarr_node_server_port }}"
   nodeName: "{{ tdarr_node_node_id }}"
   inContainer: "true"
-tdarr_node_docker_envs_custom: {}
-tdarr_node_docker_envs: "{{ tdarr_node_docker_envs_default
-                            | combine(tdarr_node_docker_envs_custom) }}"
+tdarr_node_role_docker_envs_custom: {}
+tdarr_node_role_docker_envs: "{{ tdarr_node_role_docker_envs_default
+                            | combine(tdarr_node_role_docker_envs_custom) }}"
 
 # Volumes
-tdarr_node_docker_volumes_default:
-  - "{{ tdarr_paths_configs_location }}:/app/configs"
-  - "{{ tdarr_paths_logs_location }}:/app/logs"
-  - "{{ tdarr_paths_transcodes_location }}:/temp"
+tdarr_node_role_docker_volumes_default:
+  - "{{ tdarr_role_paths_configs_location }}:/app/configs"
+  - "{{ tdarr_role_paths_logs_location }}:/app/logs"
+  - "{{ tdarr_role_paths_transcodes_location }}:/temp"
   - "/mnt/unionfs/Media:/media"
   - "/mnt/unionfs/Media/Movies:/movies"
   - "/mnt/unionfs/Media/TV:/tv"
   - "/dev/shm:/dev/shm"
-tdarr_node_docker_volumes_custom: []
-tdarr_node_docker_volumes: "{{ tdarr_node_docker_volumes_default
-                               + tdarr_node_docker_volumes_custom }}"
+tdarr_node_role_docker_volumes_custom: []
+tdarr_node_role_docker_volumes: "{{ tdarr_node_role_docker_volumes_default
+                               + tdarr_node_role_docker_volumes_custom }}"
 
 # Hostname
-tdarr_node_docker_hostname: "{{ tdarr_node_name }}"
+tdarr_node_role_docker_hostname: "{{ tdarr_node_name }}"
 
 # Networks
-tdarr_node_docker_networks_alias: "{{ tdarr_node_name }}"
-tdarr_node_docker_networks_default: []
-tdarr_node_docker_networks_custom: []
-tdarr_node_docker_networks: "{{ docker_networks_common
-                                + tdarr_node_docker_networks_default
-                                + tdarr_node_docker_networks_custom }}"
+tdarr_node_role_docker_networks_alias: "{{ tdarr_node_name }}"
+tdarr_node_role_docker_networks_default: []
+tdarr_node_role_docker_networks_custom: []
+tdarr_node_role_docker_networks: "{{ docker_networks_common
+                                + tdarr_node_role_docker_networks_default
+                                + tdarr_node_role_docker_networks_custom }}"
 
 # Restart Policy
-tdarr_node_docker_restart_policy: unless-stopped
+tdarr_node_role_docker_restart_policy: unless-stopped
 
 # State
-tdarr_node_docker_state: started
+tdarr_node_role_docker_state: started

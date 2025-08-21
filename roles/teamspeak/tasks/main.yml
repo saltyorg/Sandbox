@@ -19,7 +19,7 @@
     name: "{{ teamspeak_name }}"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_env_password }}"
+    login_password: "{{ mariadb_role_docker_env_password }}"
     state: present
 
 - name: Get next available port within the range of '9987-9997' # noqa fqcn[action]
@@ -49,15 +49,15 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Add SRV record
   community.general.cloudflare_dns:
     account_api_key: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
-    port: "{{ teamspeak_docker_ports_9987 }}"
+    port: "{{ teamspeak_role_docker_ports_9987 }}"
     priority: 10
     proto: udp
     proxied: false
@@ -80,6 +80,6 @@
 - name: Port Information
   ansible.builtin.debug:
     msg:
-      - "Voice port is: {{ teamspeak_docker_ports_9987 }}"
-      - "Web Query port is: {{ teamspeak_docker_ports_10011 }}"
-      - "File port is: {{ teamspeak_docker_ports_30033 }}"
+      - "Voice port is: {{ teamspeak_role_docker_ports_9987 }}"
+      - "Web Query port is: {{ teamspeak_role_docker_ports_10011 }}"
+      - "File port is: {{ teamspeak_role_docker_ports_30033 }}"

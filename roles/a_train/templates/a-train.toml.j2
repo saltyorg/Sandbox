@@ -1,7 +1,7 @@
 # a-train.toml
 [autoscan]
 # Replace the URL with your Autoscan URL.
-url = "{{ 'http://' + autoscan_docker_networks_alias + ':' + autoscan_web_port }}"
+url = "{{ 'http://' + autoscan_role_docker_networks_alias + ':' + autoscan_role_web_port }}"
 username = "{{ user.name }}"
 password = "{{ user.pass }}"
 

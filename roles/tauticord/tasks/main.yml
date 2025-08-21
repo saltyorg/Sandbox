@@ -20,4 +20,4 @@
 - name: Alert user to make and verify the config.
   ansible.builtin.debug:
     msg:
-      - "Before using this program, you must configure it. To do this, rename the file config.yaml.example in the {{ tauticord_paths_location }}/config directory to config.yaml and edit the file to your desired settings."
+      - "Before using this program, you must configure it. To do this, rename the file config.yaml.example in the {{ tauticord_role_paths_location }}/config directory to config.yaml and edit the file to your desired settings."

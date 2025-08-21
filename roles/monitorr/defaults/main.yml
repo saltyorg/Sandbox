@@ -17,83 +17,83 @@ monitorr_name: monitorr
 # Paths
 ################################
 
-monitorr_paths_folder: "{{ monitorr_name }}"
-monitorr_paths_location: "{{ server_appdata_path }}/{{ monitorr_paths_folder }}"
-monitorr_paths_folders_list:
-  - "{{ monitorr_paths_location }}"
+monitorr_role_paths_folder: "{{ monitorr_name }}"
+monitorr_role_paths_location: "{{ server_appdata_path }}/{{ monitorr_role_paths_folder }}"
+monitorr_role_paths_folders_list:
+  - "{{ monitorr_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-monitorr_web_subdomain: "{{ monitorr_name }}"
-monitorr_web_domain: "{{ user.domain }}"
-monitorr_web_port: "80"
-monitorr_web_url: "{{ 'https://' + (monitorr_web_subdomain + '.' + monitorr_web_domain
-                   if (monitorr_web_subdomain | length > 0)
-                   else monitorr_web_domain) }}"
+monitorr_role_web_subdomain: "{{ monitorr_name }}"
+monitorr_role_web_domain: "{{ user.domain }}"
+monitorr_role_web_port: "80"
+monitorr_role_web_url: "{{ 'https://' + (monitorr_role_web_subdomain + '.' + monitorr_role_web_domain
+                   if (monitorr_role_web_subdomain | length > 0)
+                   else monitorr_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-monitorr_dns_record: "{{ monitorr_web_subdomain }}"
-monitorr_dns_zone: "{{ monitorr_web_domain }}"
-monitorr_dns_proxy: "{{ dns.proxied }}"
+monitorr_role_dns_record: "{{ monitorr_role_web_subdomain }}"
+monitorr_role_dns_zone: "{{ monitorr_role_web_domain }}"
+monitorr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-monitorr_traefik_sso_middleware: ""
-monitorr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-monitorr_traefik_middleware_custom: ""
-monitorr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-monitorr_traefik_enabled: true
-monitorr_traefik_api_enabled: false
-monitorr_traefik_api_endpoint: ""
+monitorr_role_traefik_sso_middleware: ""
+monitorr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+monitorr_role_traefik_middleware_custom: ""
+monitorr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+monitorr_role_traefik_enabled: true
+monitorr_role_traefik_api_enabled: false
+monitorr_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-monitorr_docker_container: "{{ monitorr_name }}"
+monitorr_role_docker_container: "{{ monitorr_name }}"
 
 # Image
-monitorr_docker_image_pull: true
-monitorr_docker_image_tag: "develop"
-monitorr_docker_image: "monitorr/monitorr:{{ monitorr_docker_image_tag }}"
+monitorr_role_docker_image_pull: true
+monitorr_role_docker_image_tag: "develop"
+monitorr_role_docker_image: "monitorr/monitorr:{{ monitorr_role_docker_image_tag }}"
 
 # Envs
-monitorr_docker_envs_default:
+monitorr_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-monitorr_docker_envs_custom: {}
-monitorr_docker_envs: "{{ monitorr_docker_envs_default
-                          | combine(monitorr_docker_envs_custom) }}"
+monitorr_role_docker_envs_custom: {}
+monitorr_role_docker_envs: "{{ monitorr_role_docker_envs_default
+                          | combine(monitorr_role_docker_envs_custom) }}"
 
 # Volumes
-monitorr_docker_volumes_default:
-  - "{{ monitorr_paths_location }}:/app"
-monitorr_docker_volumes_custom: []
-monitorr_docker_volumes: "{{ monitorr_docker_volumes_default
-                             + monitorr_docker_volumes_custom }}"
+monitorr_role_docker_volumes_default:
+  - "{{ monitorr_role_paths_location }}:/app"
+monitorr_role_docker_volumes_custom: []
+monitorr_role_docker_volumes: "{{ monitorr_role_docker_volumes_default
+                             + monitorr_role_docker_volumes_custom }}"
 
 # Hostname
-monitorr_docker_hostname: "{{ monitorr_name }}"
+monitorr_role_docker_hostname: "{{ monitorr_name }}"
 
 # Networks
-monitorr_docker_networks_alias: "{{ monitorr_name }}"
-monitorr_docker_networks_default: []
-monitorr_docker_networks_custom: []
-monitorr_docker_networks: "{{ docker_networks_common
-                              + monitorr_docker_networks_default
-                              + monitorr_docker_networks_custom }}"
+monitorr_role_docker_networks_alias: "{{ monitorr_name }}"
+monitorr_role_docker_networks_default: []
+monitorr_role_docker_networks_custom: []
+monitorr_role_docker_networks: "{{ docker_networks_common
+                              + monitorr_role_docker_networks_default
+                              + monitorr_role_docker_networks_custom }}"
 
 # Restart Policy
-monitorr_docker_restart_policy: unless-stopped
+monitorr_role_docker_restart_policy: unless-stopped
 
 # State
-monitorr_docker_state: started
+monitorr_role_docker_state: started

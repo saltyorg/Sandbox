@@ -17,85 +17,85 @@ openobserve_name: openobserve
 # Paths
 ################################
 
-openobserve_paths_folder: "{{ openobserve_name }}"
-openobserve_paths_location: "{{ server_appdata_path }}/{{ openobserve_paths_folder }}"
-openobserve_paths_folders_list:
-  - "{{ openobserve_paths_location }}"
+openobserve_role_paths_folder: "{{ openobserve_name }}"
+openobserve_role_paths_location: "{{ server_appdata_path }}/{{ openobserve_role_paths_folder }}"
+openobserve_role_paths_folders_list:
+  - "{{ openobserve_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-openobserve_web_subdomain: "{{ openobserve_name }}"
-openobserve_web_domain: "{{ user.domain }}"
-openobserve_web_port: "5080"
-openobserve_web_url: "{{ 'https://' + (openobserve_web_subdomain + '.' + openobserve_web_domain
-                      if (openobserve_web_subdomain | length > 0)
-                      else openobserve_web_domain) }}"
+openobserve_role_web_subdomain: "{{ openobserve_name }}"
+openobserve_role_web_domain: "{{ user.domain }}"
+openobserve_role_web_port: "5080"
+openobserve_role_web_url: "{{ 'https://' + (openobserve_role_web_subdomain + '.' + openobserve_role_web_domain
+                      if (openobserve_role_web_subdomain | length > 0)
+                      else openobserve_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-openobserve_dns_record: "{{ openobserve_web_subdomain }}"
-openobserve_dns_zone: "{{ openobserve_web_domain }}"
-openobserve_dns_proxy: "{{ dns.proxied }}"
+openobserve_role_dns_record: "{{ openobserve_role_web_subdomain }}"
+openobserve_role_dns_zone: "{{ openobserve_role_web_domain }}"
+openobserve_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-openobserve_traefik_sso_middleware: ""
-openobserve_traefik_middleware_default: "{{ traefik_default_middleware }}"
-openobserve_traefik_middleware_custom: ""
-openobserve_traefik_certresolver: "{{ traefik_default_certresolver }}"
-openobserve_traefik_enabled: true
-openobserve_traefik_api_enabled: false
-openobserve_traefik_api_endpoint: ""
+openobserve_role_traefik_sso_middleware: ""
+openobserve_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+openobserve_role_traefik_middleware_custom: ""
+openobserve_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+openobserve_role_traefik_enabled: true
+openobserve_role_traefik_api_enabled: false
+openobserve_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-openobserve_docker_container: "{{ openobserve_name }}"
+openobserve_role_docker_container: "{{ openobserve_name }}"
 
 # Image
-openobserve_docker_image_pull: true
-openobserve_docker_image_tag: "latest"
-openobserve_docker_image: "public.ecr.aws/zinclabs/openobserve:{{ openobserve_docker_image_tag }}"
+openobserve_role_docker_image_pull: true
+openobserve_role_docker_image_tag: "latest"
+openobserve_role_docker_image: "public.ecr.aws/zinclabs/openobserve:{{ openobserve_role_docker_image_tag }}"
 
 # Envs
-openobserve_docker_envs_default:
+openobserve_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   ZO_ROOT_USER_EMAIL: "{{ user.email }}"
   ZO_ROOT_USER_PASSWORD: "{{ user.pass }}"
-openobserve_docker_envs_custom: {}
-openobserve_docker_envs: "{{ openobserve_docker_envs_default
-                        | combine(openobserve_docker_envs_custom) }}"
+openobserve_role_docker_envs_custom: {}
+openobserve_role_docker_envs: "{{ openobserve_role_docker_envs_default
+                        | combine(openobserve_role_docker_envs_custom) }}"
 
 # Volumes
-openobserve_docker_volumes_default:
-  - "{{ openobserve_paths_location }}:/data"
-openobserve_docker_volumes_custom: []
-openobserve_docker_volumes: "{{ openobserve_docker_volumes_default
-                           + openobserve_docker_volumes_custom }}"
+openobserve_role_docker_volumes_default:
+  - "{{ openobserve_role_paths_location }}:/data"
+openobserve_role_docker_volumes_custom: []
+openobserve_role_docker_volumes: "{{ openobserve_role_docker_volumes_default
+                           + openobserve_role_docker_volumes_custom }}"
 
 # Hostname
-openobserve_docker_hostname: "{{ openobserve_name }}"
+openobserve_role_docker_hostname: "{{ openobserve_name }}"
 
 # Networks
-openobserve_docker_networks_alias: "{{ openobserve_name }}"
-openobserve_docker_networks_default: []
-openobserve_docker_networks_custom: []
-openobserve_docker_networks: "{{ docker_networks_common
-                            + openobserve_docker_networks_default
-                            + openobserve_docker_networks_custom }}"
+openobserve_role_docker_networks_alias: "{{ openobserve_name }}"
+openobserve_role_docker_networks_default: []
+openobserve_role_docker_networks_custom: []
+openobserve_role_docker_networks: "{{ docker_networks_common
+                            + openobserve_role_docker_networks_default
+                            + openobserve_role_docker_networks_custom }}"
 
 # Restart Policy
-openobserve_docker_restart_policy: unless-stopped
+openobserve_role_docker_restart_policy: unless-stopped
 
 # State
-openobserve_docker_state: started
+openobserve_role_docker_state: started

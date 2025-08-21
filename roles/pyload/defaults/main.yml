@@ -17,102 +17,83 @@ pyload_name: pyload
 # Paths
 ################################
 
-pyload_paths_folder: "{{ pyload_name }}"
-pyload_paths_location: "{{ server_appdata_path }}/{{ pyload_paths_folder }}"
-pyload_paths_folders_list:
-  - "{{ pyload_paths_location }}"
+pyload_role_paths_folder: "{{ pyload_name }}"
+pyload_role_paths_location: "{{ server_appdata_path }}/{{ pyload_role_paths_folder }}"
+pyload_role_paths_folders_list:
+  - "{{ pyload_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-pyload_web_subdomain: "{{ pyload_name }}"
-pyload_web_domain: "{{ user.domain }}"
-pyload_web_port: "8000"
-pyload_web_url: "{{ 'https://' + (pyload_web_subdomain + '.' + pyload_web_domain
-                 if (pyload_web_subdomain | length > 0)
-                 else pyload_web_domain) }}"
+pyload_role_web_subdomain: "{{ pyload_name }}"
+pyload_role_web_domain: "{{ user.domain }}"
+pyload_role_web_port: "8000"
+pyload_role_web_url: "{{ 'https://' + (pyload_role_web_subdomain + '.' + pyload_role_web_domain
+                 if (pyload_role_web_subdomain | length > 0)
+                 else pyload_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-pyload_dns_record: "{{ pyload_web_subdomain }}"
-pyload_dns_zone: "{{ pyload_web_domain }}"
-pyload_dns_proxy: "{{ dns.proxied }}"
+pyload_role_dns_record: "{{ pyload_role_web_subdomain }}"
+pyload_role_dns_zone: "{{ pyload_role_web_domain }}"
+pyload_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-pyload_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-pyload_traefik_middleware_default: "{{ traefik_default_middleware }}"
-pyload_traefik_middleware_custom: ""
-pyload_traefik_certresolver: "{{ traefik_default_certresolver }}"
-pyload_traefik_enabled: true
-pyload_traefik_api_enabled: false
-pyload_traefik_api_endpoint: ""
+pyload_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+pyload_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+pyload_role_traefik_middleware_custom: ""
+pyload_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+pyload_role_traefik_enabled: true
+pyload_role_traefik_api_enabled: false
+pyload_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-pyload_docker_container: "{{ pyload_name }}"
+pyload_role_docker_container: "{{ pyload_name }}"
 
 # Image
-pyload_docker_image_pull: true
-pyload_docker_image_tag: "latest"
-pyload_docker_image: "lscr.io/linuxserver/pyload-ng:{{ pyload_docker_image_tag }}"
+pyload_role_docker_image_pull: true
+pyload_role_docker_image_tag: "latest"
+pyload_role_docker_image: "lscr.io/linuxserver/pyload-ng:{{ pyload_role_docker_image_tag }}"
 
 # Envs
-pyload_docker_envs_default:
+pyload_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-pyload_docker_envs_custom: {}
-pyload_docker_envs: "{{ pyload_docker_envs_default
-                        | combine(pyload_docker_envs_custom) }}"
+pyload_role_docker_envs_custom: {}
+pyload_role_docker_envs: "{{ pyload_role_docker_envs_default
+                        | combine(pyload_role_docker_envs_custom) }}"
 
 # Volumes
-pyload_docker_volumes_default:
-  - "{{ pyload_paths_location }}:/config"
-pyload_docker_volumes_custom: []
-pyload_docker_volumes: "{{ pyload_docker_volumes_default
-                           + pyload_docker_volumes_custom }}"
-
-# Labels
-pyload_docker_labels_default:
-  diun.enable: "true"
-pyload_docker_labels_custom: {}
-pyload_docker_labels: "{{ pyload_docker_labels_default
-                          | combine(pyload_docker_labels_custom) }}"
+pyload_role_docker_volumes_default:
+  - "{{ pyload_role_paths_location }}:/config"
+pyload_role_docker_volumes_custom: []
+pyload_role_docker_volumes: "{{ pyload_role_docker_volumes_default
+                           + pyload_role_docker_volumes_custom }}"
 
 # Hostname
-pyload_docker_hostname: "{{ pyload_name }}"
+pyload_role_docker_hostname: "{{ pyload_name }}"
 
 # Networks
-pyload_docker_networks_alias: "{{ pyload_name }}"
-pyload_docker_networks_default: []
-pyload_docker_networks_custom: []
-pyload_docker_networks: "{{ docker_networks_common
-                            + pyload_docker_networks_default
-                            + pyload_docker_networks_custom }}"
-
-# Capabilities
-pyload_docker_capabilities_default: []
-pyload_docker_capabilities_custom: []
-pyload_docker_capabilities: "{{ pyload_docker_capabilities_default
-                                + pyload_docker_capabilities_custom }}"
-
-# Security Opts
-pyload_docker_security_opts_default: []
-pyload_docker_security_opts_custom: []
-pyload_docker_security_opts: "{{ pyload_docker_security_opts_default
-                                 + pyload_docker_security_opts_custom }}"
+pyload_role_docker_networks_alias: "{{ pyload_name }}"
+pyload_role_docker_networks_default: []
+pyload_role_docker_networks_custom: []
+pyload_role_docker_networks: "{{ docker_networks_common
+                            + pyload_role_docker_networks_default
+                            + pyload_role_docker_networks_custom }}"
 
 # Restart Policy
-pyload_docker_restart_policy: unless-stopped
+pyload_role_docker_restart_policy: unless-stopped
 
 # State
-pyload_docker_state: started
+pyload_role_docker_state: started

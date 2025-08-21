@@ -17,51 +17,51 @@ sabthrottle_name: sabthrottle
 # Paths
 ################################
 
-sabthrottle_paths_folder: "{{ sabthrottle_name }}"
-sabthrottle_paths_location: "{{ server_appdata_path }}/{{ sabthrottle_paths_folder }}"
-sabthrottle_paths_folders_list:
-  - "{{ sabthrottle_paths_location }}"
-sabthrottle_paths_config_location: "{{ sabthrottle_paths_location }}/config.json"
+sabthrottle_role_paths_folder: "{{ sabthrottle_name }}"
+sabthrottle_role_paths_location: "{{ server_appdata_path }}/{{ sabthrottle_role_paths_folder }}"
+sabthrottle_role_paths_folders_list:
+  - "{{ sabthrottle_role_paths_location }}"
+sabthrottle_role_paths_config_location: "{{ sabthrottle_role_paths_location }}/config.json"
 
 ################################
 # Docker
 ################################
 
 # Container
-sabthrottle_docker_container: "{{ sabthrottle_name }}"
+sabthrottle_role_docker_container: "{{ sabthrottle_name }}"
 
 # Image
-sabthrottle_docker_image_pull: true
-sabthrottle_docker_image_tag: "latest"
-sabthrottle_docker_image: "8a8al00ey/sabthrottle:{{ sabthrottle_docker_image_tag }}"
+sabthrottle_role_docker_image_pull: true
+sabthrottle_role_docker_image_tag: "latest"
+sabthrottle_role_docker_image: "8a8al00ey/sabthrottle:{{ sabthrottle_role_docker_image_tag }}"
 
 # Envs
-sabthrottle_docker_envs_default:
+sabthrottle_role_docker_envs_default:
   TZ: "{{ tz }}"
-sabthrottle_docker_envs_custom: {}
-sabthrottle_docker_envs: "{{ sabthrottle_docker_envs_default
-                             | combine(sabthrottle_docker_envs_custom) }}"
+sabthrottle_role_docker_envs_custom: {}
+sabthrottle_role_docker_envs: "{{ sabthrottle_role_docker_envs_default
+                             | combine(sabthrottle_role_docker_envs_custom) }}"
 
 # Volumes
-sabthrottle_docker_volumes_default:
-  - "{{ sabthrottle_paths_config_location }}:/sabthrottle/config.json:ro"
-sabthrottle_docker_volumes_custom: []
-sabthrottle_docker_volumes: "{{ sabthrottle_docker_volumes_default
-                                + sabthrottle_docker_volumes_custom }}"
+sabthrottle_role_docker_volumes_default:
+  - "{{ sabthrottle_role_paths_config_location }}:/sabthrottle/config.json:ro"
+sabthrottle_role_docker_volumes_custom: []
+sabthrottle_role_docker_volumes: "{{ sabthrottle_role_docker_volumes_default
+                                + sabthrottle_role_docker_volumes_custom }}"
 
 # Hostname
-sabthrottle_docker_hostname: "{{ sabthrottle_name }}"
+sabthrottle_role_docker_hostname: "{{ sabthrottle_name }}"
 
 # Networks
-sabthrottle_docker_networks_alias: "{{ sabthrottle_name }}"
-sabthrottle_docker_networks_default: []
-sabthrottle_docker_networks_custom: []
-sabthrottle_docker_networks: "{{ docker_networks_common
-                                 + sabthrottle_docker_networks_default
-                                 + sabthrottle_docker_networks_custom }}"
+sabthrottle_role_docker_networks_alias: "{{ sabthrottle_name }}"
+sabthrottle_role_docker_networks_default: []
+sabthrottle_role_docker_networks_custom: []
+sabthrottle_role_docker_networks: "{{ docker_networks_common
+                                 + sabthrottle_role_docker_networks_default
+                                 + sabthrottle_role_docker_networks_custom }}"
 
 # Restart Policy
-sabthrottle_docker_restart_policy: unless-stopped
+sabthrottle_role_docker_restart_policy: unless-stopped
 
 # State
-sabthrottle_docker_state: started
+sabthrottle_role_docker_state: started

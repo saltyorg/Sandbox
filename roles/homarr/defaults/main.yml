@@ -11,7 +11,7 @@
 # Docker Socket Proxy
 ################################
 
-homarr_docker_socket_proxy_envs:
+homarr_role_docker_socket_proxy_envs:
   CONTAINERS: "1"
   POST: "0"
 
@@ -25,90 +25,90 @@ homarr_name: homarr
 # Paths
 ################################
 
-homarr_paths_folder: "{{ homarr_name }}"
-homarr_paths_location: "{{ server_appdata_path }}/{{ homarr_paths_folder }}"
-homarr_paths_folders_list:
-  - "{{ homarr_paths_location }}"
-  - "{{ homarr_paths_location }}/icons"
+homarr_role_paths_folder: "{{ homarr_name }}"
+homarr_role_paths_location: "{{ server_appdata_path }}/{{ homarr_role_paths_folder }}"
+homarr_role_paths_folders_list:
+  - "{{ homarr_role_paths_location }}"
+  - "{{ homarr_role_paths_location }}/icons"
 
 ################################
 # Web
 ################################
 
-homarr_web_subdomain: "{{ homarr_name }}"
-homarr_web_domain: "{{ user.domain }}"
-homarr_web_port: "7575"
-homarr_web_url: "{{ 'https://' + (homarr_web_subdomain + '.' + homarr_web_domain
-                 if (homarr_web_subdomain | length > 0)
-                 else homarr_web_domain) }}"
+homarr_role_web_subdomain: "{{ homarr_name }}"
+homarr_role_web_domain: "{{ user.domain }}"
+homarr_role_web_port: "7575"
+homarr_role_web_url: "{{ 'https://' + (homarr_role_web_subdomain + '.' + homarr_role_web_domain
+                 if (homarr_role_web_subdomain | length > 0)
+                 else homarr_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-homarr_dns_record: "{{ homarr_web_subdomain }}"
-homarr_dns_zone: "{{ homarr_web_domain }}"
-homarr_dns_proxy: "{{ dns.proxied }}"
+homarr_role_dns_record: "{{ homarr_role_web_subdomain }}"
+homarr_role_dns_zone: "{{ homarr_role_web_domain }}"
+homarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-homarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-homarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-homarr_traefik_middleware_custom: ""
-homarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-homarr_traefik_enabled: true
-homarr_traefik_api_enabled: false
-homarr_traefik_api_endpoint: ""
+homarr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+homarr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+homarr_role_traefik_middleware_custom: ""
+homarr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+homarr_role_traefik_enabled: true
+homarr_role_traefik_api_enabled: false
+homarr_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-homarr_docker_container: "{{ homarr_name }}"
+homarr_role_docker_container: "{{ homarr_name }}"
 
 # Image
-homarr_docker_image_pull: true
-homarr_docker_image_tag: "latest"
-homarr_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_docker_image_tag }}"
+homarr_role_docker_image_pull: true
+homarr_role_docker_image_tag: "latest"
+homarr_role_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_role_docker_image_tag }}"
 
 # Envs
-homarr_docker_envs_default:
+homarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-  BASE_URL: "{{ homarr_web_subdomain + '.' + homarr_web_domain }}"
+  BASE_URL: "{{ homarr_role_web_subdomain + '.' + homarr_role_web_domain }}"
   PASSWORD: "{{ user.pass }}"
   DOCKER_HOST: "tcp://{{ homarr_name }}-docker-socket-proxy:2375"
   NODE_TLS_REJECT_UNAUTHORIZED: "0"
-homarr_docker_envs_custom: {}
-homarr_docker_envs: "{{ homarr_docker_envs_default
-                        | combine(homarr_docker_envs_custom) }}"
+homarr_role_docker_envs_custom: {}
+homarr_role_docker_envs: "{{ homarr_role_docker_envs_default
+                        | combine(homarr_role_docker_envs_custom) }}"
 
 # Volumes
-homarr_docker_volumes_default:
-  - "{{ homarr_paths_location }}:/app/data/configs"
-  - "{{ homarr_paths_location }}/icons:/app/public/icons"
-homarr_docker_volumes_custom: []
-homarr_docker_volumes: "{{ homarr_docker_volumes_default
-                           + homarr_docker_volumes_custom }}"
+homarr_role_docker_volumes_default:
+  - "{{ homarr_role_paths_location }}:/app/data/configs"
+  - "{{ homarr_role_paths_location }}/icons:/app/public/icons"
+homarr_role_docker_volumes_custom: []
+homarr_role_docker_volumes: "{{ homarr_role_docker_volumes_default
+                           + homarr_role_docker_volumes_custom }}"
 
 # Hostname
-homarr_docker_hostname: "{{ homarr_name }}"
+homarr_role_docker_hostname: "{{ homarr_name }}"
 
 # Networks
-homarr_docker_networks_alias: "{{ homarr_name }}"
-homarr_docker_networks_default: []
-homarr_docker_networks_custom: []
-homarr_docker_networks: "{{ docker_networks_common
-                            + homarr_docker_networks_default
-                            + homarr_docker_networks_custom }}"
+homarr_role_docker_networks_alias: "{{ homarr_name }}"
+homarr_role_docker_networks_default: []
+homarr_role_docker_networks_custom: []
+homarr_role_docker_networks: "{{ docker_networks_common
+                            + homarr_role_docker_networks_default
+                            + homarr_role_docker_networks_custom }}"
 
 # Restart Policy
-homarr_docker_restart_policy: unless-stopped
+homarr_role_docker_restart_policy: unless-stopped
 
 # State
-homarr_docker_state: started
+homarr_role_docker_state: started
 
 # Dependencies
 homarr_depends_on: "{{ homarr_name }}-docker-socket-proxy"

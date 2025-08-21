@@ -9,15 +9,15 @@
 ---
 - name: Pre-Install | Check if config exists
   ansible.builtin.stat:
-    path: "{{ sabthrottle_paths_config_location }}"
-  register: sabthrottle_paths_config_location_stat
+    path: "{{ sabthrottle_role_paths_config_location }}"
+  register: sabthrottle_role_paths_config_location_stat
 
 - name: Pre-Install | Set Default Plex instance
   ansible.builtin.set_fact:
     plex_name: "{{ plex_name | default(plex_instances[0]) }}"
 
 - name: Pre-Install | New config tasks
-  when: not sabthrottle_paths_config_location_stat.stat.exists
+  when: not sabthrottle_role_paths_config_location_stat.stat.exists
   block:
     - name: Pre-Install | Import Plex Auth Token role
       ansible.builtin.include_role:
@@ -27,7 +27,7 @@
     - name: Pre-Install | Import default config
       ansible.builtin.template:
         src: 'config.json.j2'
-        dest: "{{ sabthrottle_paths_config_location }}"
+        dest: "{{ sabthrottle_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

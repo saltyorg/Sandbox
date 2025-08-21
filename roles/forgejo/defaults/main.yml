@@ -17,56 +17,56 @@ forgejo_name: forgejo
 # Paths
 ################################
 
-forgejo_paths_folder: "{{ forgejo_name }}"
-forgejo_paths_location: "{{ server_appdata_path }}/{{ forgejo_paths_folder }}"
-forgejo_paths_folders_list:
-  - "{{ forgejo_paths_location }}"
+forgejo_role_paths_folder: "{{ forgejo_name }}"
+forgejo_role_paths_location: "{{ server_appdata_path }}/{{ forgejo_role_paths_folder }}"
+forgejo_role_paths_folders_list:
+  - "{{ forgejo_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-forgejo_web_subdomain: "{{ forgejo_name }}"
-forgejo_web_domain: "{{ user.domain }}"
-forgejo_web_port: "3000"
-forgejo_web_url: "{{ 'https://' + (forgejo_web_subdomain + '.' + forgejo_web_domain
-                  if (forgejo_web_subdomain | length > 0)
-                  else forgejo_web_domain) }}"
+forgejo_role_web_subdomain: "{{ forgejo_name }}"
+forgejo_role_web_domain: "{{ user.domain }}"
+forgejo_role_web_port: "3000"
+forgejo_role_web_url: "{{ 'https://' + (forgejo_role_web_subdomain + '.' + forgejo_role_web_domain
+                  if (forgejo_role_web_subdomain | length > 0)
+                  else forgejo_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-forgejo_dns_record: "{{ forgejo_web_subdomain }}"
-forgejo_dns_zone: "{{ forgejo_web_domain }}"
-forgejo_dns_proxy: "{{ dns.proxied }}"
+forgejo_role_dns_record: "{{ forgejo_role_web_subdomain }}"
+forgejo_role_dns_zone: "{{ forgejo_role_web_domain }}"
+forgejo_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-forgejo_traefik_sso_middleware: ""
-forgejo_traefik_middleware_default: "{{ traefik_default_middleware }}"
-forgejo_traefik_middleware_custom: ""
-forgejo_traefik_certresolver: "{{ traefik_default_certresolver }}"
-forgejo_traefik_enabled: true
-forgejo_traefik_api_enabled: false
-forgejo_traefik_api_endpoint: ""
+forgejo_role_traefik_sso_middleware: ""
+forgejo_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+forgejo_role_traefik_middleware_custom: ""
+forgejo_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+forgejo_role_traefik_enabled: true
+forgejo_role_traefik_api_enabled: false
+forgejo_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-forgejo_docker_container: "{{ forgejo_name }}"
+forgejo_role_docker_container: "{{ forgejo_name }}"
 
 # Image
-forgejo_docker_image_pull: true
-forgejo_docker_image_tag: "1.20" # the Codeberg container registry does not provide a "latest" tag
-forgejo_docker_image: "codeberg.org/forgejo/forgejo:{{ forgejo_docker_image_tag }}"
+forgejo_role_docker_image_pull: true
+forgejo_role_docker_image_tag: "1.20" # the Codeberg container registry does not provide a "latest" tag
+forgejo_role_docker_image: "codeberg.org/forgejo/forgejo:{{ forgejo_role_docker_image_tag }}"
 
 # Envs
-forgejo_docker_envs_default:
+forgejo_role_docker_envs_default:
   USER_UID: "{{ uid }}"
   USER_GID: "{{ gid }}"
   DB_TYPE: "mysql"
@@ -76,32 +76,32 @@ forgejo_docker_envs_default:
   DB_DATABASE: "forgejo"
   DISABLE_SSH: "true"
   RUN_MODE: "prod"
-  ROOT_URL: "{{ forgejo_web_url }}/"
-forgejo_docker_envs_custom: {}
-forgejo_docker_envs: "{{ forgejo_docker_envs_default | combine(forgejo_docker_envs_custom) }}"
+  ROOT_URL: "{{ forgejo_role_web_url }}/"
+forgejo_role_docker_envs_custom: {}
+forgejo_role_docker_envs: "{{ forgejo_role_docker_envs_default | combine(forgejo_role_docker_envs_custom) }}"
 
 # Volumes
-forgejo_docker_volumes_default:
-  - "{{ forgejo_paths_location }}:/data"
+forgejo_role_docker_volumes_default:
+  - "{{ forgejo_role_paths_location }}:/data"
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
-forgejo_docker_volumes_custom: []
-forgejo_docker_volumes: "{{ forgejo_docker_volumes_default + forgejo_docker_volumes_custom }}"
+forgejo_role_docker_volumes_custom: []
+forgejo_role_docker_volumes: "{{ forgejo_role_docker_volumes_default + forgejo_role_docker_volumes_custom }}"
 
 # Hostname
-forgejo_docker_hostname: "{{ forgejo_name }}"
+forgejo_role_docker_hostname: "{{ forgejo_name }}"
 
 # Networks
-forgejo_docker_networks_alias: "{{ forgejo_name }}"
-forgejo_docker_networks_default: []
-forgejo_docker_networks_custom: []
-forgejo_docker_networks: "{{ docker_networks_common + forgejo_docker_networks_default + forgejo_docker_networks_custom }}"
+forgejo_role_docker_networks_alias: "{{ forgejo_name }}"
+forgejo_role_docker_networks_default: []
+forgejo_role_docker_networks_custom: []
+forgejo_role_docker_networks: "{{ docker_networks_common + forgejo_role_docker_networks_default + forgejo_role_docker_networks_custom }}"
 
 # Restart Policy
-forgejo_docker_restart_policy: unless-stopped
+forgejo_role_docker_restart_policy: unless-stopped
 
 # State
-forgejo_docker_state: started
+forgejo_role_docker_state: started
 
 # Dependencies
 forgejo_depends_on: "mariadb"

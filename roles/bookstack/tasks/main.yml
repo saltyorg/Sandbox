@@ -10,7 +10,7 @@
 - name: Bookstack | Generate App Key
   community.docker.docker_container:
     name: bookstack-app-key
-    image: "{{ bookstack_docker_image }}"
+    image: "{{ bookstack_role_docker_image }}"
     command: "appkey"
     detach: false
     entrypoint: "/bin/bash"
@@ -36,9 +36,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: MariaDB Role
   ansible.builtin.include_role:
@@ -49,7 +49,7 @@
     name: "bookstackapp"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_docker_env_password }}"
+    login_password: "{{ mariadb_role_docker_env_password }}"
     state: present
 
 - name: Remove existing Docker container

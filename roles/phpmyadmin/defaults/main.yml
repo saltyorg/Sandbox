@@ -18,70 +18,70 @@ phpmyadmin_name: phpmyadmin
 # Web
 ################################
 
-phpmyadmin_web_subdomain: "{{ phpmyadmin_name }}"
-phpmyadmin_web_domain: "{{ user.domain }}"
-phpmyadmin_web_port: "80"
-phpmyadmin_web_url: "{{ 'https://' + (phpmyadmin_web_subdomain + '.' + phpmyadmin_web_domain
-                     if (phpmyadmin_web_subdomain | length > 0)
-                     else phpmyadmin_web_domain) }}"
+phpmyadmin_role_web_subdomain: "{{ phpmyadmin_name }}"
+phpmyadmin_role_web_domain: "{{ user.domain }}"
+phpmyadmin_role_web_port: "80"
+phpmyadmin_role_web_url: "{{ 'https://' + (phpmyadmin_role_web_subdomain + '.' + phpmyadmin_role_web_domain
+                     if (phpmyadmin_role_web_subdomain | length > 0)
+                     else phpmyadmin_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-phpmyadmin_dns_record: "{{ phpmyadmin_web_subdomain }}"
-phpmyadmin_dns_zone: "{{ phpmyadmin_web_domain }}"
-phpmyadmin_dns_proxy: "{{ dns.proxied }}"
+phpmyadmin_role_dns_record: "{{ phpmyadmin_role_web_subdomain }}"
+phpmyadmin_role_dns_zone: "{{ phpmyadmin_role_web_domain }}"
+phpmyadmin_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-phpmyadmin_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-phpmyadmin_traefik_middleware_default: "{{ traefik_default_middleware }}"
-phpmyadmin_traefik_middleware_custom: ""
-phpmyadmin_traefik_certresolver: "{{ traefik_default_certresolver }}"
-phpmyadmin_traefik_enabled: true
-phpmyadmin_traefik_api_enabled: false
-phpmyadmin_traefik_api_endpoint: ""
+phpmyadmin_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+phpmyadmin_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+phpmyadmin_role_traefik_middleware_custom: ""
+phpmyadmin_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+phpmyadmin_role_traefik_enabled: true
+phpmyadmin_role_traefik_api_enabled: false
+phpmyadmin_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-phpmyadmin_docker_container: "{{ phpmyadmin_name }}"
+phpmyadmin_role_docker_container: "{{ phpmyadmin_name }}"
 
 # Image
-phpmyadmin_docker_image_pull: true
-phpmyadmin_docker_image_tag: "latest"
-phpmyadmin_docker_image: "phpmyadmin:{{ phpmyadmin_docker_image_tag }}"
+phpmyadmin_role_docker_image_pull: true
+phpmyadmin_role_docker_image_tag: "latest"
+phpmyadmin_role_docker_image: "phpmyadmin:{{ phpmyadmin_role_docker_image_tag }}"
 
 # Envs
-phpmyadmin_docker_envs_default:
+phpmyadmin_role_docker_envs_default:
   TZ: "{{ tz }}"
   PMA_ARBITRARY: "1"
-  PMA_ABSOLUTE_URI: "{{ phpmyadmin_web_url }}"
+  PMA_ABSOLUTE_URI: "{{ phpmyadmin_role_web_url }}"
   PMA_VERBOSE: "Saltbox"
   PMA_PORT: "3306"
   HIDE_PHP_VERSION: "true"
-phpmyadmin_docker_envs_custom: {}
-phpmyadmin_docker_envs: "{{ phpmyadmin_docker_envs_default
-                            | combine(phpmyadmin_docker_envs_custom) }}"
+phpmyadmin_role_docker_envs_custom: {}
+phpmyadmin_role_docker_envs: "{{ phpmyadmin_role_docker_envs_default
+                            | combine(phpmyadmin_role_docker_envs_custom) }}"
 
 # Hostname
-phpmyadmin_docker_hostname: "{{ phpmyadmin_name }}"
+phpmyadmin_role_docker_hostname: "{{ phpmyadmin_name }}"
 
 # Networks
-phpmyadmin_docker_networks_alias: "{{ phpmyadmin_name }}"
-phpmyadmin_docker_networks_default: []
-phpmyadmin_docker_networks_custom: []
-phpmyadmin_docker_networks: "{{ docker_networks_common
-                                + phpmyadmin_docker_networks_default
-                                + phpmyadmin_docker_networks_custom }}"
+phpmyadmin_role_docker_networks_alias: "{{ phpmyadmin_name }}"
+phpmyadmin_role_docker_networks_default: []
+phpmyadmin_role_docker_networks_custom: []
+phpmyadmin_role_docker_networks: "{{ docker_networks_common
+                                + phpmyadmin_role_docker_networks_default
+                                + phpmyadmin_role_docker_networks_custom }}"
 
 # Restart Policy
-phpmyadmin_docker_restart_policy: unless-stopped
+phpmyadmin_role_docker_restart_policy: unless-stopped
 
 # State
-phpmyadmin_docker_state: started
+phpmyadmin_role_docker_state: started

@@ -18,81 +18,81 @@ paperless_ngx_name: paperless
 ################################
 
 paperless_ngx_postgres_name: "{{ paperless_ngx_name }}-postgres"
-paperless_ngx_postgres_docker_env_db: "{{ paperless_ngx_name }}"
-paperless_ngx_postgres_docker_image_tag: "14-alpine"
-paperless_ngx_postgres_docker_image_repo: "postgres"
-paperless_ngx_postgres_paths_folder: "{{ paperless_ngx_name }}"
-paperless_ngx_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder }}/postgres"
+paperless_ngx_postgres_role_docker_env_db: "{{ paperless_ngx_name }}"
+paperless_ngx_postgres_role_docker_image_tag: "14-alpine"
+paperless_ngx_postgres_role_docker_image_repo: "postgres"
+paperless_ngx_postgres_role_paths_folder: "{{ paperless_ngx_name }}"
+paperless_ngx_postgres_role_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths
 ################################
 
-paperless_ngx_paths_folder: "{{ paperless_ngx_name }}"
-paperless_ngx_paths_location: "{{ server_appdata_path }}/{{ paperless_ngx_paths_folder }}/app"
-paperless_ngx_paths_folders_list:
-  - "{{ paperless_ngx_paths_location }}"
-  - "{{ paperless_ngx_paths_location }}/data"
-  - "{{ paperless_ngx_paths_location }}/config"
-  - "{{ paperless_ngx_paths_location }}/consume"
-  - "{{ paperless_ngx_paths_location }}/media"
-  - "{{ paperless_ngx_paths_location }}/trash"
+paperless_ngx_role_paths_folder: "{{ paperless_ngx_name }}"
+paperless_ngx_role_paths_location: "{{ server_appdata_path }}/{{ paperless_ngx_role_paths_folder }}/app"
+paperless_ngx_role_paths_folders_list:
+  - "{{ paperless_ngx_role_paths_location }}"
+  - "{{ paperless_ngx_role_paths_location }}/data"
+  - "{{ paperless_ngx_role_paths_location }}/config"
+  - "{{ paperless_ngx_role_paths_location }}/consume"
+  - "{{ paperless_ngx_role_paths_location }}/media"
+  - "{{ paperless_ngx_role_paths_location }}/trash"
 
 ################################
 # Web
 ################################
 
-paperless_ngx_web_subdomain: "{{ paperless_ngx_name }}"
-paperless_ngx_web_domain: "{{ user.domain }}"
-paperless_ngx_web_port: "8000"
-paperless_ngx_web_url: "{{ 'https://' + (paperless_ngx_web_subdomain + '.' + paperless_ngx_web_domain
-                        if (paperless_ngx_web_subdomain | length > 0)
-                        else paperless_ngx_web_domain) }}"
+paperless_ngx_role_web_subdomain: "{{ paperless_ngx_name }}"
+paperless_ngx_role_web_domain: "{{ user.domain }}"
+paperless_ngx_role_web_port: "8000"
+paperless_ngx_role_web_url: "{{ 'https://' + (paperless_ngx_role_web_subdomain + '.' + paperless_ngx_role_web_domain
+                        if (paperless_ngx_role_web_subdomain | length > 0)
+                        else paperless_ngx_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-paperless_ngx_dns_record: "{{ paperless_ngx_web_subdomain }}"
-paperless_ngx_dns_zone: "{{ paperless_ngx_web_domain }}"
-paperless_ngx_dns_proxy: "{{ dns.proxied }}"
+paperless_ngx_role_dns_record: "{{ paperless_ngx_role_web_subdomain }}"
+paperless_ngx_role_dns_zone: "{{ paperless_ngx_role_web_domain }}"
+paperless_ngx_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-paperless_ngx_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-paperless_ngx_traefik_middleware_default: "{{ traefik_default_middleware }}"
-paperless_ngx_traefik_middleware_custom: ""
-paperless_ngx_traefik_certresolver: "{{ traefik_default_certresolver }}"
-paperless_ngx_traefik_enabled: true
-paperless_ngx_traefik_api_enabled: true
-paperless_ngx_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/static`)"
+paperless_ngx_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+paperless_ngx_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+paperless_ngx_role_traefik_middleware_custom: ""
+paperless_ngx_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+paperless_ngx_role_traefik_enabled: true
+paperless_ngx_role_traefik_api_enabled: true
+paperless_ngx_role_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/static`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-paperless_ngx_docker_container: "{{ paperless_ngx_name }}"
+paperless_ngx_role_docker_container: "{{ paperless_ngx_name }}"
 
 # Image
-paperless_ngx_docker_image_pull: true
-paperless_ngx_docker_image_tag: "latest"
-paperless_ngx_docker_image: "ghcr.io/paperless-ngx/paperless-ngx:{{ paperless_ngx_docker_image_tag }}"
+paperless_ngx_role_docker_image_pull: true
+paperless_ngx_role_docker_image_tag: "latest"
+paperless_ngx_role_docker_image: "ghcr.io/paperless-ngx/paperless-ngx:{{ paperless_ngx_role_docker_image_tag }}"
 
 # Envs
-paperless_ngx_docker_envs_default:
+paperless_ngx_role_docker_envs_default:
   PAPERLESS_TIME_ZONE: "{{ tz }}"
   USERMAP_UID: "{{ uid }}"
   USERMAP_GID: "{{ gid }}"
   PAPERLESS_REDIS: "redis://{{ paperless_ngx_name }}-redis:6379"
   PAPERLESS_DBHOST: "{{ paperless_ngx_postgres_name }}"
   PAPERLESS_DBPORT: "5432"
-  PAPERLESS_DBNAME: "{{ paperless_ngx_postgres_docker_env_db }}"
-  PAPERLESS_DBPASS: "{{ postgres_docker_env_password }}"
-  PAPERLESS_DBUSER: "{{ postgres_docker_env_user }}"
-  PAPERLESS_URL: "{{ paperless_ngx_web_url }}"
+  PAPERLESS_DBNAME: "{{ paperless_ngx_postgres_role_docker_env_db }}"
+  PAPERLESS_DBPASS: "{{ postgres_role_docker_env_password }}"
+  PAPERLESS_DBUSER: "{{ postgres_role_docker_env_user }}"
+  PAPERLESS_URL: "{{ paperless_ngx_role_web_url }}"
   PAPERLESS_ENABLE_UPDATE_CHECK: "true"
   PAPERLESS_TRASH_DIR: "../trash/"
   PAPERLESS_TIKA_ENABLED: "1"
@@ -103,39 +103,39 @@ paperless_ngx_docker_envs_default:
   PAPERLESS_ADMIN_PASSWORD: "{{ user.pass }}"
   PAPERLESS_SECRET_KEY: "{{ paperless_ngx_secret_key.stdout }}"
   PAPERLESS_ALLOWED_HOSTS: "*"
-  PAPERLESS_CORS_ALLOWED_HOSTS: "http://127.0.0.1,http://::1,http://traefik,http://{{ paperless_ngx_name }},{{ paperless_ngx_web_url }}"
-  PAPERLESS_CSRF_TRUSTED_ORIGINS: "http://127.0.0.1,http://::1,http://traefik,http://{{ paperless_ngx_name }},{{ paperless_ngx_web_url }}"
-paperless_ngx_docker_envs_custom: {}
-paperless_ngx_docker_envs: "{{ paperless_ngx_docker_envs_default
-                               | combine(paperless_ngx_docker_envs_custom) }}"
+  PAPERLESS_CORS_ALLOWED_HOSTS: "http://127.0.0.1,http://::1,http://traefik,http://{{ paperless_ngx_name }},{{ paperless_ngx_role_web_url }}"
+  PAPERLESS_CSRF_TRUSTED_ORIGINS: "http://127.0.0.1,http://::1,http://traefik,http://{{ paperless_ngx_name }},{{ paperless_ngx_role_web_url }}"
+paperless_ngx_role_docker_envs_custom: {}
+paperless_ngx_role_docker_envs: "{{ paperless_ngx_role_docker_envs_default
+                               | combine(paperless_ngx_role_docker_envs_custom) }}"
 
 # Volumes
-paperless_ngx_docker_volumes_default:
-  - "{{ paperless_ngx_paths_location }}/data:/usr/src/paperless/data"
-  - "{{ paperless_ngx_paths_location }}/config:/usr/src/paperless/config"
-  - "{{ paperless_ngx_paths_location }}/consume:/usr/src/paperless/consume"
-  - "{{ paperless_ngx_paths_location }}/media:/usr/src/paperless/media"
-  - "{{ paperless_ngx_paths_location }}/trash:/usr/src/paperless/trash"
-paperless_ngx_docker_volumes_custom: []
-paperless_ngx_docker_volumes: "{{ paperless_ngx_docker_volumes_default
-                                  + paperless_ngx_docker_volumes_custom }}"
+paperless_ngx_role_docker_volumes_default:
+  - "{{ paperless_ngx_role_paths_location }}/data:/usr/src/paperless/data"
+  - "{{ paperless_ngx_role_paths_location }}/config:/usr/src/paperless/config"
+  - "{{ paperless_ngx_role_paths_location }}/consume:/usr/src/paperless/consume"
+  - "{{ paperless_ngx_role_paths_location }}/media:/usr/src/paperless/media"
+  - "{{ paperless_ngx_role_paths_location }}/trash:/usr/src/paperless/trash"
+paperless_ngx_role_docker_volumes_custom: []
+paperless_ngx_role_docker_volumes: "{{ paperless_ngx_role_docker_volumes_default
+                                  + paperless_ngx_role_docker_volumes_custom }}"
 
 # Hostname
-paperless_ngx_docker_hostname: "{{ paperless_ngx_name }}"
+paperless_ngx_role_docker_hostname: "{{ paperless_ngx_name }}"
 
 # Networks
-paperless_ngx_docker_networks_alias: "{{ paperless_ngx_name }}"
-paperless_ngx_docker_networks_default: []
-paperless_ngx_docker_networks_custom: []
-paperless_ngx_docker_networks: "{{ docker_networks_common
-                                   + paperless_ngx_docker_networks_default
-                                   + paperless_ngx_docker_networks_custom }}"
+paperless_ngx_role_docker_networks_alias: "{{ paperless_ngx_name }}"
+paperless_ngx_role_docker_networks_default: []
+paperless_ngx_role_docker_networks_custom: []
+paperless_ngx_role_docker_networks: "{{ docker_networks_common
+                                   + paperless_ngx_role_docker_networks_default
+                                   + paperless_ngx_role_docker_networks_custom }}"
 
 # Restart Policy
-paperless_ngx_docker_restart_policy: unless-stopped
+paperless_ngx_role_docker_restart_policy: unless-stopped
 
 # State
-paperless_ngx_docker_state: started
+paperless_ngx_role_docker_state: started
 
 # Dependencies
 paperless_ngx_depends_on: "{{ paperless_ngx_postgres_name }},{{ paperless_ngx_name }}-redis"

@@ -18,84 +18,84 @@ reposilite_name: reposilite
 # Paths
 ################################
 
-reposilite_paths_folder: "{{ reposilite_name }}"
-reposilite_paths_location: "{{ server_appdata_path }}/{{ reposilite_paths_folder }}"
-reposilite_paths_folders_list:
-  - "{{ reposilite_paths_location }}"
+reposilite_role_paths_folder: "{{ reposilite_name }}"
+reposilite_role_paths_location: "{{ server_appdata_path }}/{{ reposilite_role_paths_folder }}"
+reposilite_role_paths_folders_list:
+  - "{{ reposilite_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-reposilite_web_subdomain: "{{ reposilite_name }}"
-reposilite_web_domain: "{{ user.domain }}"
-reposilite_web_port: "8080"
-respoilite_web_url: "{{ 'https://' + (respoilite_web_subdomain + '.' + respoilite_web_domain
-                     if (respoilite_web_subdomain | length > 0)
-                     else respoilite_web_domain) }}"
+reposilite_role_web_subdomain: "{{ reposilite_name }}"
+reposilite_role_web_domain: "{{ user.domain }}"
+reposilite_role_web_port: "8080"
+respoilite_role_web_url: "{{ 'https://' + (respoilite_role_web_subdomain + '.' + respoilite_role_web_domain
+                     if (respoilite_role_web_subdomain | length > 0)
+                     else respoilite_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-reposilite_dns_record: "{{ reposilite_web_subdomain }}"
-reposilite_dns_zone: "{{ reposilite_web_domain }}"
-reposilite_dns_proxy: "{{ dns.proxied }}"
+reposilite_role_dns_record: "{{ reposilite_role_web_subdomain }}"
+reposilite_role_dns_zone: "{{ reposilite_role_web_domain }}"
+reposilite_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-reposilite_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-reposilite_traefik_middleware_default: "{{ traefik_default_middleware }}"
-reposilite_traefik_middleware_custom: ""
-reposilite_traefik_certresolver: "{{ traefik_default_certresolver }}"
-reposilite_traefik_enabled: true
-reposilite_traefik_api_enabled: true
-reposilite_traefik_api_endpoint: "PathPrefix(`/api`)"
+reposilite_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+reposilite_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+reposilite_role_traefik_middleware_custom: ""
+reposilite_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+reposilite_role_traefik_enabled: true
+reposilite_role_traefik_api_enabled: true
+reposilite_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-reposilite_docker_container: "{{ reposilite_name }}"
+reposilite_role_docker_container: "{{ reposilite_name }}"
 
 # Image
-reposilite_docker_image_pull: true
-reposilite_docker_image_tag: "latest"
-reposilite_docker_image: "ghcr.io/dzikoysk/reposilite:{{ reposilite_docker_image_tag }}"
+reposilite_role_docker_image_pull: true
+reposilite_role_docker_image_tag: "latest"
+reposilite_role_docker_image: "ghcr.io/dzikoysk/reposilite:{{ reposilite_role_docker_image_tag }}"
 
 # Envs
-reposilite_docker_envs_default:
+reposilite_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   REPOSILITE_OPTS: "--token {{ user.name }}:{{ user.pass }}"
-reposilite_docker_envs_custom: {}
-reposilite_docker_envs: "{{ reposilite_docker_envs_default
-                            | combine(reposilite_docker_envs_custom) }}"
+reposilite_role_docker_envs_custom: {}
+reposilite_role_docker_envs: "{{ reposilite_role_docker_envs_default
+                            | combine(reposilite_role_docker_envs_custom) }}"
 
 # Volumes
-reposilite_docker_volumes_default:
-  - "{{ reposilite_paths_location }}:/app/data"
-reposilite_docker_volumes_custom: []
-reposilite_docker_volumes: "{{ reposilite_docker_volumes_default
-                               + reposilite_docker_volumes_custom }}"
+reposilite_role_docker_volumes_default:
+  - "{{ reposilite_role_paths_location }}:/app/data"
+reposilite_role_docker_volumes_custom: []
+reposilite_role_docker_volumes: "{{ reposilite_role_docker_volumes_default
+                               + reposilite_role_docker_volumes_custom }}"
 
 # Hostname
-reposilite_docker_hostname: "{{ reposilite_name }}"
+reposilite_role_docker_hostname: "{{ reposilite_name }}"
 
 # Networks
-reposilite_docker_networks_alias: "{{ reposilite_name }}"
-reposilite_docker_networks_default: []
-reposilite_docker_networks_custom: []
-reposilite_docker_networks: "{{ docker_networks_common
-                                + reposilite_docker_networks_default
-                                + reposilite_docker_networks_custom }}"
+reposilite_role_docker_networks_alias: "{{ reposilite_name }}"
+reposilite_role_docker_networks_default: []
+reposilite_role_docker_networks_custom: []
+reposilite_role_docker_networks: "{{ docker_networks_common
+                                + reposilite_role_docker_networks_default
+                                + reposilite_role_docker_networks_custom }}"
 
 # Restart Policy
-reposilite_docker_restart_policy: unless-stopped
+reposilite_role_docker_restart_policy: unless-stopped
 
 # State
-reposilite_docker_state: started
+reposilite_role_docker_state: started

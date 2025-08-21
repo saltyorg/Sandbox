@@ -17,56 +17,56 @@ mkvtoolnix_name: mkvtoolnix
 # Paths
 ################################
 
-mkvtoolnix_paths_folder: "{{ mkvtoolnix_name }}"
-mkvtoolnix_paths_location: "{{ server_appdata_path }}/{{ mkvtoolnix_paths_folder }}"
-mkvtoolnix_paths_folders_list:
-  - "{{ mkvtoolnix_paths_location }}"
+mkvtoolnix_role_paths_folder: "{{ mkvtoolnix_name }}"
+mkvtoolnix_role_paths_location: "{{ server_appdata_path }}/{{ mkvtoolnix_role_paths_folder }}"
+mkvtoolnix_role_paths_folders_list:
+  - "{{ mkvtoolnix_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-mkvtoolnix_web_subdomain: "{{ mkvtoolnix_name }}"
-mkvtoolnix_web_domain: "{{ user.domain }}"
-mkvtoolnix_web_port: "5800"
-mkvtoolnix_web_url: "{{ 'https://' + (mkvtoolnix_web_subdomain + '.' + mkvtoolnix_web_domain
-                     if (mkvtoolnix_web_subdomain | length > 0)
-                     else mkvtoolnix_web_domain) }}"
+mkvtoolnix_role_web_subdomain: "{{ mkvtoolnix_name }}"
+mkvtoolnix_role_web_domain: "{{ user.domain }}"
+mkvtoolnix_role_web_port: "5800"
+mkvtoolnix_role_web_url: "{{ 'https://' + (mkvtoolnix_role_web_subdomain + '.' + mkvtoolnix_role_web_domain
+                     if (mkvtoolnix_role_web_subdomain | length > 0)
+                     else mkvtoolnix_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-mkvtoolnix_dns_record: "{{ mkvtoolnix_web_subdomain }}"
-mkvtoolnix_dns_zone: "{{ mkvtoolnix_web_domain }}"
-mkvtoolnix_dns_proxy: "{{ dns.proxied }}"
+mkvtoolnix_role_dns_record: "{{ mkvtoolnix_role_web_subdomain }}"
+mkvtoolnix_role_dns_zone: "{{ mkvtoolnix_role_web_domain }}"
+mkvtoolnix_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-mkvtoolnix_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-mkvtoolnix_traefik_middleware_default: "{{ traefik_default_middleware }}"
-mkvtoolnix_traefik_middleware_custom: ""
-mkvtoolnix_traefik_certresolver: "{{ traefik_default_certresolver }}"
-mkvtoolnix_traefik_enabled: true
-mkvtoolnix_traefik_api_enabled: false
-mkvtoolnix_traefik_api_endpoint: ""
+mkvtoolnix_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+mkvtoolnix_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+mkvtoolnix_role_traefik_middleware_custom: ""
+mkvtoolnix_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+mkvtoolnix_role_traefik_enabled: true
+mkvtoolnix_role_traefik_api_enabled: false
+mkvtoolnix_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-mkvtoolnix_docker_container: "{{ mkvtoolnix_name }}"
+mkvtoolnix_role_docker_container: "{{ mkvtoolnix_name }}"
 
 # Image
-mkvtoolnix_docker_image_pull: true
-mkvtoolnix_docker_image_tag: "latest"
-mkvtoolnix_docker_image: "jlesage/mkvtoolnix:{{ mkvtoolnix_docker_image_tag }}"
+mkvtoolnix_role_docker_image_pull: true
+mkvtoolnix_role_docker_image_tag: "latest"
+mkvtoolnix_role_docker_image: "jlesage/mkvtoolnix:{{ mkvtoolnix_role_docker_image_tag }}"
 
 # Envs
-mkvtoolnix_docker_envs_default:
+mkvtoolnix_role_docker_envs_default:
   USER_ID: "{{ uid }}"
   GROUP_ID: "{{ gid }}"
   TZ: "{{ tz }}"
@@ -75,31 +75,31 @@ mkvtoolnix_docker_envs_default:
   CLEAN_TMP_DIR: "1"
   UMASK: "000"
   ENABLE_CJK_FONT: "1"
-mkvtoolnix_docker_envs_custom: {}
-mkvtoolnix_docker_envs: "{{ mkvtoolnix_docker_envs_default
-                            | combine(mkvtoolnix_docker_envs_custom) }}"
+mkvtoolnix_role_docker_envs_custom: {}
+mkvtoolnix_role_docker_envs: "{{ mkvtoolnix_role_docker_envs_default
+                            | combine(mkvtoolnix_role_docker_envs_custom) }}"
 
 # Volumes
-mkvtoolnix_docker_volumes_default:
-  - "{{ mkvtoolnix_paths_location }}:/config:rw"
+mkvtoolnix_role_docker_volumes_default:
+  - "{{ mkvtoolnix_role_paths_location }}:/config:rw"
   - "/mnt/unionfs:/storage"
-mkvtoolnix_docker_volumes_custom: []
-mkvtoolnix_docker_volumes: "{{ mkvtoolnix_docker_volumes_default
-                               + mkvtoolnix_docker_volumes_custom }}"
+mkvtoolnix_role_docker_volumes_custom: []
+mkvtoolnix_role_docker_volumes: "{{ mkvtoolnix_role_docker_volumes_default
+                               + mkvtoolnix_role_docker_volumes_custom }}"
 
 # Hostname
-mkvtoolnix_docker_hostname: "{{ mkvtoolnix_name }}"
+mkvtoolnix_role_docker_hostname: "{{ mkvtoolnix_name }}"
 
 # Networks
-mkvtoolnix_docker_networks_alias: "{{ mkvtoolnix_name }}"
-mkvtoolnix_docker_networks_default: []
-mkvtoolnix_docker_networks_custom: []
-mkvtoolnix_docker_networks: "{{ docker_networks_common
-                                + mkvtoolnix_docker_networks_default
-                                + mkvtoolnix_docker_networks_custom }}"
+mkvtoolnix_role_docker_networks_alias: "{{ mkvtoolnix_name }}"
+mkvtoolnix_role_docker_networks_default: []
+mkvtoolnix_role_docker_networks_custom: []
+mkvtoolnix_role_docker_networks: "{{ docker_networks_common
+                                + mkvtoolnix_role_docker_networks_default
+                                + mkvtoolnix_role_docker_networks_custom }}"
 
 # Restart Policy
-mkvtoolnix_docker_restart_policy: unless-stopped
+mkvtoolnix_role_docker_restart_policy: unless-stopped
 
 # State
-mkvtoolnix_docker_state: started
+mkvtoolnix_role_docker_state: started

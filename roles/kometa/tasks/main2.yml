@@ -22,7 +22,7 @@
 - name: Download config.yml.template
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/Kometa-Team/Kometa/master/config/config.yml.template
-    dest: "{{ kometa_paths_location }}/config.yml.template"
+    dest: "{{ kometa_role_paths_location }}/config.yml.template"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -30,9 +30,9 @@
     validate_certs: false
   ignore_errors: true
 
-- name: "Checking if 'config.yml' exists in {{ kometa_paths_location }}"
+- name: "Checking if 'config.yml' exists in {{ kometa_role_paths_location }}"
   ansible.builtin.stat:
-    path: "{{ kometa_paths_location }}/config.yml"
+    path: "{{ kometa_role_paths_location }}/config.yml"
   register: kometa_config
 
 - name: "Fail when 'config.yml' is not present"
@@ -47,4 +47,4 @@
   ansible.builtin.debug:
     msg:
       - "You should attempt a manual run first to ensure the config is working and to use oAuth for Trakt config etc. To do this run the below command"
-      - "docker run --rm -it --network=saltbox -u '{{ uid }}:{{ gid }}' -e 'TZ={{ tz }}' -v {{ kometa_paths_location }}:/config {{ kometa_docker_image }} --run"
+      - "docker run --rm -it --network=saltbox -u '{{ uid }}:{{ gid }}' -e 'TZ={{ tz }}' -v {{ kometa_role_paths_location }}:/config {{ kometa_role_docker_image }} --run"

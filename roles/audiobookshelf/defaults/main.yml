@@ -17,92 +17,92 @@ audiobookshelf_name: audiobookshelf
 # Paths
 ################################
 
-audiobookshelf_paths_folder: "{{ audiobookshelf_name }}"
-audiobookshelf_paths_location: "{{ server_appdata_path }}/{{ audiobookshelf_paths_folder }}"
-audiobookshelf_paths_folders_list:
-  - "{{ audiobookshelf_paths_location }}"
-  - "{{ audiobookshelf_paths_location }}/config"
-  - "{{ audiobookshelf_paths_location }}/metadata"
+audiobookshelf_role_paths_folder: "{{ audiobookshelf_name }}"
+audiobookshelf_role_paths_location: "{{ server_appdata_path }}/{{ audiobookshelf_role_paths_folder }}"
+audiobookshelf_role_paths_folders_list:
+  - "{{ audiobookshelf_role_paths_location }}"
+  - "{{ audiobookshelf_role_paths_location }}/config"
+  - "{{ audiobookshelf_role_paths_location }}/metadata"
   - "/mnt/unionfs/Media/Audiobooks"
   - "/mnt/unionfs/Media/Podcasts"
-audiobookshelf_paths_recursive: true
+audiobookshelf_role_paths_recursive: true
 
 ################################
 # Web
 ################################
 
-audiobookshelf_web_subdomain: "{{ audiobookshelf_name }}"
-audiobookshelf_web_domain: "{{ user.domain }}"
-audiobookshelf_web_port: "80"
-audiobookshelf_web_url: "{{ 'https://' + (audiobookshelf_web_subdomain + '.' + audiobookshelf_web_domain
-                         if (audiobookshelf_web_subdomain | length > 0)
-                         else audiobookshelf_web_domain) }}"
+audiobookshelf_role_web_subdomain: "{{ audiobookshelf_name }}"
+audiobookshelf_role_web_domain: "{{ user.domain }}"
+audiobookshelf_role_web_port: "80"
+audiobookshelf_role_web_url: "{{ 'https://' + (audiobookshelf_role_web_subdomain + '.' + audiobookshelf_role_web_domain
+                         if (audiobookshelf_role_web_subdomain | length > 0)
+                         else audiobookshelf_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-audiobookshelf_dns_record: "{{ lookup('vars', audiobookshelf_name + '_web_subdomain', default=audiobookshelf_web_subdomain) }}"
-audiobookshelf_dns_zone: "{{ lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_web_domain) }}"
-audiobookshelf_dns_proxy: "{{ dns.proxied }}"
+audiobookshelf_role_dns_record: "{{ lookup('vars', audiobookshelf_name + '_web_subdomain', default=audiobookshelf_role_web_subdomain) }}"
+audiobookshelf_role_dns_zone: "{{ lookup('vars', audiobookshelf_name + '_web_domain', default=audiobookshelf_role_web_domain) }}"
+audiobookshelf_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-audiobookshelf_traefik_sso_middleware: ""
-audiobookshelf_traefik_middleware_default: "{{ traefik_default_middleware }}"
-audiobookshelf_traefik_middleware_custom: ""
-audiobookshelf_traefik_certresolver: "{{ traefik_default_certresolver }}"
-audiobookshelf_traefik_enabled: true
+audiobookshelf_role_traefik_sso_middleware: ""
+audiobookshelf_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+audiobookshelf_role_traefik_middleware_custom: ""
+audiobookshelf_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+audiobookshelf_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-audiobookshelf_docker_container: "{{ audiobookshelf_name }}"
+audiobookshelf_role_docker_container: "{{ audiobookshelf_name }}"
 
 # Image
-audiobookshelf_docker_image_pull: true
-audiobookshelf_docker_image_repo: "ghcr.io/advplyr/audiobookshelf"
-audiobookshelf_docker_image_tag: "latest"
-audiobookshelf_docker_image: "{{ lookup('vars', audiobookshelf_name + '_docker_image_repo', default=audiobookshelf_docker_image_repo)
-                                 + ':' + lookup('vars', audiobookshelf_name + '_docker_image_tag', default=audiobookshelf_docker_image_tag) }}"
+audiobookshelf_role_docker_image_pull: true
+audiobookshelf_role_docker_image_repo: "ghcr.io/advplyr/audiobookshelf"
+audiobookshelf_role_docker_image_tag: "latest"
+audiobookshelf_role_docker_image: "{{ lookup('vars', audiobookshelf_name + '_docker_image_repo', default=audiobookshelf_role_docker_image_repo)
+                                 + ':' + lookup('vars', audiobookshelf_name + '_docker_image_tag', default=audiobookshelf_role_docker_image_tag) }}"
 
 # Envs
-audiobookshelf_docker_envs_default:
+audiobookshelf_role_docker_envs_default:
   TZ: "{{ tz }}"
-audiobookshelf_docker_envs_custom: {}
-audiobookshelf_docker_envs: "{{ lookup('vars', audiobookshelf_name + '_docker_envs_default', default=audiobookshelf_docker_envs_default)
-                                | combine(lookup('vars', audiobookshelf_name + '_docker_envs_custom', default=audiobookshelf_docker_envs_custom)) }}"
+audiobookshelf_role_docker_envs_custom: {}
+audiobookshelf_role_docker_envs: "{{ lookup('vars', audiobookshelf_name + '_docker_envs_default', default=audiobookshelf_role_docker_envs_default)
+                                | combine(lookup('vars', audiobookshelf_name + '_docker_envs_custom', default=audiobookshelf_role_docker_envs_custom)) }}"
 
 # Volumes
-audiobookshelf_docker_volumes_default:
-  - "{{ audiobookshelf_paths_location }}/config:/config"
-  - "{{ audiobookshelf_paths_location }}/metadata:/metadata"
+audiobookshelf_role_docker_volumes_default:
+  - "{{ audiobookshelf_role_paths_location }}/config:/config"
+  - "{{ audiobookshelf_role_paths_location }}/metadata:/metadata"
   - "/mnt/unionfs/Media/Audiobooks:/audiobooks"
   - "/mnt/unionfs/Media/Podcasts:/podcasts"
-audiobookshelf_docker_volumes_custom: []
-audiobookshelf_docker_volumes: "{{ lookup('vars', audiobookshelf_name + '_docker_volumes_default', default=audiobookshelf_docker_volumes_default)
-                                   + lookup('vars', audiobookshelf_name + '_docker_volumes_custom', default=audiobookshelf_docker_volumes_custom) }}"
+audiobookshelf_role_docker_volumes_custom: []
+audiobookshelf_role_docker_volumes: "{{ lookup('vars', audiobookshelf_name + '_docker_volumes_default', default=audiobookshelf_role_docker_volumes_default)
+                                   + lookup('vars', audiobookshelf_name + '_docker_volumes_custom', default=audiobookshelf_role_docker_volumes_custom) }}"
 
 # Hostname
-audiobookshelf_docker_hostname: "{{ audiobookshelf_name }}"
+audiobookshelf_role_docker_hostname: "{{ audiobookshelf_name }}"
 
 # Networks
-audiobookshelf_docker_networks_alias: "{{ audiobookshelf_name }}"
-audiobookshelf_docker_networks_default: []
-audiobookshelf_docker_networks_custom: []
-audiobookshelf_docker_networks: "{{ docker_networks_common
-                                    + lookup('vars', audiobookshelf_name + '_docker_networks_default', default=audiobookshelf_docker_networks_default)
-                                    + lookup('vars', audiobookshelf_name + '_docker_networks_custom', default=audiobookshelf_docker_networks_custom) }}"
+audiobookshelf_role_docker_networks_alias: "{{ audiobookshelf_name }}"
+audiobookshelf_role_docker_networks_default: []
+audiobookshelf_role_docker_networks_custom: []
+audiobookshelf_role_docker_networks: "{{ docker_networks_common
+                                    + lookup('vars', audiobookshelf_name + '_docker_networks_default', default=audiobookshelf_role_docker_networks_default)
+                                    + lookup('vars', audiobookshelf_name + '_docker_networks_custom', default=audiobookshelf_role_docker_networks_custom) }}"
 
 # Restart Policy
-audiobookshelf_docker_restart_policy: unless-stopped
+audiobookshelf_role_docker_restart_policy: unless-stopped
 
 # State
-audiobookshelf_docker_state: started
+audiobookshelf_role_docker_state: started
 
 # User
-audiobookshelf_docker_user: "{{ uid }}:{{ gid }}"
+audiobookshelf_role_docker_user: "{{ uid }}:{{ gid }}"

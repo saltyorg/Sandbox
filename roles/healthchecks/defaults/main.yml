@@ -17,93 +17,93 @@ healthchecks_name: healthchecks
 # Paths
 ################################
 
-healthchecks_paths_folder: "{{ healthchecks_name }}"
-healthchecks_paths_location: "{{ server_appdata_path }}/{{ healthchecks_paths_folder }}"
-healthchecks_paths_folders_list:
-  - "{{ healthchecks_paths_location }}"
-healthchecks_paths_config_location: "{{ healthchecks_paths_location }}/local_settings.py"
+healthchecks_role_paths_folder: "{{ healthchecks_name }}"
+healthchecks_role_paths_location: "{{ server_appdata_path }}/{{ healthchecks_role_paths_folder }}"
+healthchecks_role_paths_folders_list:
+  - "{{ healthchecks_role_paths_location }}"
+healthchecks_role_paths_config_location: "{{ healthchecks_role_paths_location }}/local_settings.py"
 
 ################################
 # Web
 ################################
 
-healthchecks_web_subdomain: "{{ healthchecks_name }}"
-healthchecks_web_domain: "{{ user.domain }}"
-healthchecks_web_port: "8000"
-healthchecks_web_url: "{{ 'https://' + (healthchecks_web_subdomain + '.' + healthchecks_web_domain
-                       if (healthchecks_web_subdomain | length > 0)
-                       else healthchecks_web_domain) }}"
+healthchecks_role_web_subdomain: "{{ healthchecks_name }}"
+healthchecks_role_web_domain: "{{ user.domain }}"
+healthchecks_role_web_port: "8000"
+healthchecks_role_web_url: "{{ 'https://' + (healthchecks_role_web_subdomain + '.' + healthchecks_role_web_domain
+                       if (healthchecks_role_web_subdomain | length > 0)
+                       else healthchecks_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-healthchecks_dns_record: "{{ healthchecks_web_subdomain }}"
-healthchecks_dns_zone: "{{ healthchecks_web_domain }}"
-healthchecks_dns_proxy: "{{ dns.proxied }}"
+healthchecks_role_dns_record: "{{ healthchecks_role_web_subdomain }}"
+healthchecks_role_dns_zone: "{{ healthchecks_role_web_domain }}"
+healthchecks_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-healthchecks_traefik_sso_middleware: ""
-healthchecks_traefik_middleware_default: "{{ traefik_default_middleware }}"
-healthchecks_traefik_middleware_custom: ""
-healthchecks_traefik_certresolver: "{{ traefik_default_certresolver }}"
-healthchecks_traefik_enabled: true
-healthchecks_traefik_api_enabled: false
-healthchecks_traefik_api_endpoint: ""
+healthchecks_role_traefik_sso_middleware: ""
+healthchecks_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+healthchecks_role_traefik_middleware_custom: ""
+healthchecks_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+healthchecks_role_traefik_enabled: true
+healthchecks_role_traefik_api_enabled: false
+healthchecks_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-healthchecks_docker_container: "{{ healthchecks_name }}"
+healthchecks_role_docker_container: "{{ healthchecks_name }}"
 
 # Image
-healthchecks_docker_image_pull: true
-healthchecks_docker_image_tag: "latest"
-healthchecks_docker_image: "lscr.io/linuxserver/healthchecks:{{ healthchecks_docker_image_tag }}"
+healthchecks_role_docker_image_pull: true
+healthchecks_role_docker_image_tag: "latest"
+healthchecks_role_docker_image: "lscr.io/linuxserver/healthchecks:{{ healthchecks_role_docker_image_tag }}"
 
 # Envs
-healthchecks_docker_envs_default:
+healthchecks_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   DEBUG: "False"
   APPRISE_ENABLED: "True"
-  SITE_ROOT: "{{ healthchecks_web_url }}"
+  SITE_ROOT: "{{ healthchecks_role_web_url }}"
   SITE_NAME: "{{ healthchecks_name }}"
   SUPERUSER_EMAIL: "{{ user.email }}"
   SUPERUSER_PASSWORD: "{{ user.pass }}"
   SECRET_KEY: "{{ lookup('password', '/dev/null', chars=['ascii_letters', 'digits'], length=16) }}"
-healthchecks_docker_envs_custom: {}
-healthchecks_docker_envs: "{{ healthchecks_docker_envs_default
-                              | combine(healthchecks_docker_envs_custom) }}"
+healthchecks_role_docker_envs_custom: {}
+healthchecks_role_docker_envs: "{{ healthchecks_role_docker_envs_default
+                              | combine(healthchecks_role_docker_envs_custom) }}"
 
 # Volumes
-healthchecks_docker_volumes_default:
-  - "{{ healthchecks_paths_location }}:/config"
-healthchecks_docker_volumes_custom: []
-healthchecks_docker_volumes: "{{ healthchecks_docker_volumes_default
-                                 + healthchecks_docker_volumes_custom }}"
+healthchecks_role_docker_volumes_default:
+  - "{{ healthchecks_role_paths_location }}:/config"
+healthchecks_role_docker_volumes_custom: []
+healthchecks_role_docker_volumes: "{{ healthchecks_role_docker_volumes_default
+                                 + healthchecks_role_docker_volumes_custom }}"
 
 # Hostname
-healthchecks_docker_hostname: "{{ healthchecks_name }}"
+healthchecks_role_docker_hostname: "{{ healthchecks_name }}"
 
 # Networks
-healthchecks_docker_networks_alias: "{{ healthchecks_name }}"
-healthchecks_docker_networks_default: []
-healthchecks_docker_networks_custom: []
-healthchecks_docker_networks: "{{ docker_networks_common
-                                  + healthchecks_docker_networks_default
-                                  + healthchecks_docker_networks_custom }}"
+healthchecks_role_docker_networks_alias: "{{ healthchecks_name }}"
+healthchecks_role_docker_networks_default: []
+healthchecks_role_docker_networks_custom: []
+healthchecks_role_docker_networks: "{{ docker_networks_common
+                                  + healthchecks_role_docker_networks_default
+                                  + healthchecks_role_docker_networks_custom }}"
 
 # Restart Policy
-healthchecks_docker_restart_policy: unless-stopped
+healthchecks_role_docker_restart_policy: unless-stopped
 
 # State
-healthchecks_docker_state: started
+healthchecks_role_docker_state: started
 
 # Force Kill
-healthchecks_docker_force_kill: true
+healthchecks_role_docker_force_kill: true

@@ -17,85 +17,85 @@ profilarr_name: profilarr
 # Paths
 ################################
 
-profilarr_paths_folder: "{{ profilarr_name }}"
-profilarr_paths_location: "{{ server_appdata_path }}/{{ profilarr_paths_folder }}"
-profilarr_paths_folders_list:
-  - "{{ profilarr_paths_location }}"
+profilarr_role_paths_folder: "{{ profilarr_name }}"
+profilarr_role_paths_location: "{{ server_appdata_path }}/{{ profilarr_role_paths_folder }}"
+profilarr_role_paths_folders_list:
+  - "{{ profilarr_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-profilarr_web_subdomain: "{{ profilarr_name }}"
-profilarr_web_domain: "{{ user.domain }}"
-profilarr_web_port: "6868"
-profilarr_web_url: "{{ 'https://' + (profilarr_web_subdomain + '.' + profilarr_web_domain
-                    if (profilarr_web_subdomain | length > 0)
-                    else profilarr_web_domain) }}"
+profilarr_role_web_subdomain: "{{ profilarr_name }}"
+profilarr_role_web_domain: "{{ user.domain }}"
+profilarr_role_web_port: "6868"
+profilarr_role_web_url: "{{ 'https://' + (profilarr_role_web_subdomain + '.' + profilarr_role_web_domain
+                    if (profilarr_role_web_subdomain | length > 0)
+                    else profilarr_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-profilarr_dns_record: "{{ profilarr_web_subdomain }}"
-profilarr_dns_zone: "{{ profilarr_web_domain }}"
-profilarr_dns_proxy: "{{ dns.proxied }}"
+profilarr_role_dns_record: "{{ profilarr_role_web_subdomain }}"
+profilarr_role_dns_zone: "{{ profilarr_role_web_domain }}"
+profilarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-profilarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-profilarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-profilarr_traefik_middleware_custom: ""
-profilarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-profilarr_traefik_enabled: true
-profilarr_traefik_api_enabled: true
-profilarr_traefik_api_endpoint: "PathPrefix(`/api`)"
+profilarr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+profilarr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+profilarr_role_traefik_middleware_custom: ""
+profilarr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+profilarr_role_traefik_enabled: true
+profilarr_role_traefik_api_enabled: true
+profilarr_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-profilarr_docker_container: "{{ profilarr_name }}"
+profilarr_role_docker_container: "{{ profilarr_name }}"
 
 # Image
-profilarr_docker_image_pull: true
-profilarr_docker_image_repo: "santiagosayshey/profilarr"
-profilarr_docker_image_tag: "latest"
-profilarr_docker_image: "{{ profilarr_docker_image_repo }}:{{ profilarr_docker_image_tag }}"
+profilarr_role_docker_image_pull: true
+profilarr_role_docker_image_repo: "santiagosayshey/profilarr"
+profilarr_role_docker_image_tag: "latest"
+profilarr_role_docker_image: "{{ profilarr_role_docker_image_repo }}:{{ profilarr_role_docker_image_tag }}"
 
 # Envs
-profilarr_docker_envs_default:
+profilarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-profilarr_docker_envs_custom: {}
-profilarr_docker_envs: "{{ profilarr_docker_envs_default
-                           | combine(profilarr_docker_envs_custom) }}"
+profilarr_role_docker_envs_custom: {}
+profilarr_role_docker_envs: "{{ profilarr_role_docker_envs_default
+                           | combine(profilarr_role_docker_envs_custom) }}"
 
 # Volumes
-profilarr_docker_volumes_default:
-  - "{{ profilarr_paths_location }}:/config"
-profilarr_docker_volumes_custom: []
-profilarr_docker_volumes: "{{ profilarr_docker_volumes_default
-                              + profilarr_docker_volumes_custom }}"
+profilarr_role_docker_volumes_default:
+  - "{{ profilarr_role_paths_location }}:/config"
+profilarr_role_docker_volumes_custom: []
+profilarr_role_docker_volumes: "{{ profilarr_role_docker_volumes_default
+                              + profilarr_role_docker_volumes_custom }}"
 
 # Hostname
-profilarr_docker_hostname: "{{ profilarr_name }}"
+profilarr_role_docker_hostname: "{{ profilarr_name }}"
 
 # Networks
-profilarr_docker_networks_alias: "{{ profilarr_name }}"
-profilarr_docker_networks_default: []
-profilarr_docker_networks_custom: []
-profilarr_docker_networks: "{{ docker_networks_common
-                               + profilarr_docker_networks_default
-                               + profilarr_docker_networks_custom }}"
+profilarr_role_docker_networks_alias: "{{ profilarr_name }}"
+profilarr_role_docker_networks_default: []
+profilarr_role_docker_networks_custom: []
+profilarr_role_docker_networks: "{{ docker_networks_common
+                               + profilarr_role_docker_networks_default
+                               + profilarr_role_docker_networks_custom }}"
 
 # Restart Policy
-profilarr_docker_restart_policy: unless-stopped
+profilarr_role_docker_restart_policy: unless-stopped
 
 # State
-profilarr_docker_state: started
+profilarr_role_docker_state: started
 
 # User
-profilarr_docker_user: "{{ uid }}:{{ gid }}"
+profilarr_role_docker_user: "{{ uid }}:{{ gid }}"

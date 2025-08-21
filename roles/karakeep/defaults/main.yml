@@ -14,65 +14,68 @@
 karakeep_name: karakeep
 
 ################################
+# Container Dependant Variables
+################################
+
+karakeep_meili_name: "meilisearch"
+karakeep_meili_port: "7700"
+karakeep_chrome_name: "chrome"
+karakeep_chrome_port: "9222"
+
+################################
 # Paths
 ################################
 
-karakeep_paths_folder: "{{ karakeep_name }}"
-karakeep_paths_location: "{{ server_appdata_path }}/{{ karakeep_paths_folder }}"
-karakeep_paths_folders_list:
-  - "{{ karakeep_paths_location }}"
+karakeep_role_paths_folder: "{{ karakeep_name }}"
+karakeep_role_paths_location: "{{ server_appdata_path }}/{{ karakeep_role_paths_folder }}"
+karakeep_role_paths_folders_list:
+  - "{{ karakeep_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-karakeep_web_subdomain: "{{ karakeep_name }}"
-karakeep_web_domain: "{{ user.domain }}"
-karakeep_web_port: "3000"
-karakeep_web_url: "{{ 'https://' + (karakeep_web_subdomain + '.' + karakeep_web_domain
-                   if (karakeep_web_subdomain | length > 0)
-                   else karakeep_web_domain) }}"
+karakeep_role_web_subdomain: "{{ karakeep_name }}"
+karakeep_role_web_domain: "{{ user.domain }}"
+karakeep_role_web_port: "3000"
+karakeep_role_web_url: "{{ 'https://' + (karakeep_role_web_subdomain + '.' + karakeep_role_web_domain
+                   if (karakeep_role_web_subdomain | length > 0)
+                   else karakeep_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-karakeep_dns_record: "{{ karakeep_web_subdomain }}"
-karakeep_dns_zone: "{{ karakeep_web_domain }}"
-karakeep_dns_proxy: "{{ dns.proxied }}"
+karakeep_role_dns_record: "{{ karakeep_role_web_subdomain }}"
+karakeep_role_dns_zone: "{{ karakeep_role_web_domain }}"
+karakeep_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-karakeep_traefik_sso_middleware: ""
-karakeep_traefik_middleware_default: "{{ traefik_default_middleware }}"
-karakeep_traefik_middleware_custom: ""
-karakeep_traefik_certresolver: "{{ traefik_default_certresolver }}"
-karakeep_traefik_enabled: true
-karakeep_traefik_api_enabled: false
-karakeep_traefik_api_endpoint: ""
+karakeep_role_traefik_sso_middleware: ""
+karakeep_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+karakeep_role_traefik_middleware_custom: ""
+karakeep_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+karakeep_role_traefik_enabled: true
+karakeep_role_traefik_api_enabled: false
+karakeep_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-karakeep_docker_container: "{{ karakeep_name }}"
-
-# Dependant Container Settings
-karakeep_meili_name: "meilisearch"
-karakeep_meili_port: "7700"
-karakeep_chrome_name: "chrome"
-karakeep_chrome_port: "9222"
+karakeep_role_docker_container: "{{ karakeep_name }}"
 
 # Image
-karakeep_docker_image_pull: true
-karakeep_docker_image: "ghcr.io/karakeep-app/karakeep"
-karakeep_docker_image_tag: "release"
+karakeep_role_docker_image_pull: true
+karakeep_role_docker_image: "ghcr.io/karakeep-app/karakeep"
+karakeep_role_docker_image_tag: "release"
 
 # Envs
-karakeep_docker_envs_default:
+karakeep_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
@@ -81,32 +84,32 @@ karakeep_docker_envs_default:
   BROWSER_WEB_URL: "{{ 'http://' + karakeep_chrome_name + ':' + karakeep_chrome_port }}"
   NEXTAUTH_SECRET: "{{ karakeep_saltbox_facts.facts.secret_key }}"
   MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
-  NEXTAUTH_URL: "{{ karakeep_web_url }}"
+  NEXTAUTH_URL: "{{ karakeep_role_web_url }}"
   DATA_DIR: "/data"
-karakeep_docker_envs_custom: {}
-karakeep_docker_envs: "{{ karakeep_docker_envs_default
-                         | combine(karakeep_docker_envs_custom) }}"
+karakeep_role_docker_envs_custom: {}
+karakeep_role_docker_envs: "{{ karakeep_role_docker_envs_default
+                         | combine(karakeep_role_docker_envs_custom) }}"
 
 # Volumes
-karakeep_docker_volumes_default:
-  - "{{ karakeep_paths_location }}/data:/data"
-karakeep_docker_volumes_custom: []
-karakeep_docker_volumes: "{{ karakeep_docker_volumes_default
-                            + karakeep_docker_volumes_custom }}"
+karakeep_role_docker_volumes_default:
+  - "{{ karakeep_role_paths_location }}/data:/data"
+karakeep_role_docker_volumes_custom: []
+karakeep_role_docker_volumes: "{{ karakeep_role_docker_volumes_default
+                            + karakeep_role_docker_volumes_custom }}"
 
 # Hostname
-karakeep_docker_hostname: "{{ karakeep_name }}"
+karakeep_role_docker_hostname: "{{ karakeep_name }}"
 
 # Networks
-karakeep_docker_networks_alias: "{{ karakeep_name }}"
-karakeep_docker_networks_default: []
-karakeep_docker_networks_custom: []
-karakeep_docker_networks: "{{ docker_networks_common
-                             + karakeep_docker_networks_default
-                             + karakeep_docker_networks_custom }}"
+karakeep_role_docker_networks_alias: "{{ karakeep_name }}"
+karakeep_role_docker_networks_default: []
+karakeep_role_docker_networks_custom: []
+karakeep_role_docker_networks: "{{ docker_networks_common
+                             + karakeep_role_docker_networks_default
+                             + karakeep_role_docker_networks_custom }}"
 
 # Restart Policy
-karakeep_docker_restart_policy: unless-stopped
+karakeep_role_docker_restart_policy: unless-stopped
 
 # State
-karakeep_docker_state: started
+karakeep_role_docker_state: started

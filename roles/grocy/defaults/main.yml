@@ -17,81 +17,81 @@ grocy_name: grocy
 # Paths
 ################################
 
-grocy_paths_folder: "{{ grocy_name }}"
-grocy_paths_location: "{{ server_appdata_path }}/{{ grocy_paths_folder }}"
-grocy_paths_folders_list:
-  - "{{ grocy_paths_location }}"
+grocy_role_paths_folder: "{{ grocy_name }}"
+grocy_role_paths_location: "{{ server_appdata_path }}/{{ grocy_role_paths_folder }}"
+grocy_role_paths_folders_list:
+  - "{{ grocy_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-grocy_web_subdomain: "{{ grocy_name }}"
-grocy_web_domain: "{{ user.domain }}"
-grocy_web_port: "80"
-grocy_web_url: "{{ 'https://' + (grocy_web_subdomain + '.' + grocy_web_domain
-                if (grocy_web_subdomain | length > 0)
-                else grocy_web_domain) }}"
+grocy_role_web_subdomain: "{{ grocy_name }}"
+grocy_role_web_domain: "{{ user.domain }}"
+grocy_role_web_port: "80"
+grocy_role_web_url: "{{ 'https://' + (grocy_role_web_subdomain + '.' + grocy_role_web_domain
+                if (grocy_role_web_subdomain | length > 0)
+                else grocy_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-grocy_dns_record: "{{ grocy_web_subdomain }}"
-grocy_dns_zone: "{{ grocy_web_domain }}"
-grocy_dns_proxy: "{{ dns.proxied }}"
+grocy_role_dns_record: "{{ grocy_role_web_subdomain }}"
+grocy_role_dns_zone: "{{ grocy_role_web_domain }}"
+grocy_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-grocy_traefik_sso_middleware: ""
-grocy_traefik_middleware_default: "{{ traefik_default_middleware }}"
-grocy_traefik_middleware_custom: ""
-grocy_traefik_certresolver: "{{ traefik_default_certresolver }}"
-grocy_traefik_enabled: true
+grocy_role_traefik_sso_middleware: ""
+grocy_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+grocy_role_traefik_middleware_custom: ""
+grocy_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+grocy_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-grocy_docker_container: "{{ grocy_name }}"
+grocy_role_docker_container: "{{ grocy_name }}"
 
 # Image
-grocy_docker_image_pull: true
-grocy_docker_image_tag: "latest"
-grocy_docker_image: "lscr.io/linuxserver/grocy:{{ grocy_docker_image_tag }}"
+grocy_role_docker_image_pull: true
+grocy_role_docker_image_tag: "latest"
+grocy_role_docker_image: "lscr.io/linuxserver/grocy:{{ grocy_role_docker_image_tag }}"
 
 # Envs
-grocy_docker_envs_default:
+grocy_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-grocy_docker_envs_custom: {}
-grocy_docker_envs: "{{ grocy_docker_envs_default
-                       | combine(grocy_docker_envs_custom) }}"
+grocy_role_docker_envs_custom: {}
+grocy_role_docker_envs: "{{ grocy_role_docker_envs_default
+                       | combine(grocy_role_docker_envs_custom) }}"
 
 # Volumes
-grocy_docker_volumes_default:
-  - "{{ grocy_paths_location }}:/config"
-grocy_docker_volumes_custom: []
-grocy_docker_volumes: "{{ grocy_docker_volumes_default
-                          + grocy_docker_volumes_custom }}"
+grocy_role_docker_volumes_default:
+  - "{{ grocy_role_paths_location }}:/config"
+grocy_role_docker_volumes_custom: []
+grocy_role_docker_volumes: "{{ grocy_role_docker_volumes_default
+                          + grocy_role_docker_volumes_custom }}"
 
 # Hostname
-grocy_docker_hostname: "{{ grocy_name }}"
+grocy_role_docker_hostname: "{{ grocy_name }}"
 
 # Networks
-grocy_docker_networks_alias: "{{ grocy_name }}"
-grocy_docker_networks_default: []
-grocy_docker_networks_custom: []
-grocy_docker_networks: "{{ docker_networks_common
-                           + grocy_docker_networks_default
-                           + grocy_docker_networks_custom }}"
+grocy_role_docker_networks_alias: "{{ grocy_name }}"
+grocy_role_docker_networks_default: []
+grocy_role_docker_networks_custom: []
+grocy_role_docker_networks: "{{ docker_networks_common
+                           + grocy_role_docker_networks_default
+                           + grocy_role_docker_networks_custom }}"
 
 # Restart Policy
-grocy_docker_restart_policy: unless-stopped
+grocy_role_docker_restart_policy: unless-stopped
 
 # State
-grocy_docker_state: started
+grocy_role_docker_state: started

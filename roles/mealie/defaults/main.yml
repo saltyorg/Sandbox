@@ -17,85 +17,85 @@ mealie_name: mealie
 # Paths
 ################################
 
-mealie_paths_folder: "{{ mealie_name }}"
-mealie_paths_location: "{{ server_appdata_path }}/{{ mealie_paths_folder }}"
-mealie_paths_folders_list:
-  - "{{ mealie_paths_location }}"
+mealie_role_paths_folder: "{{ mealie_name }}"
+mealie_role_paths_location: "{{ server_appdata_path }}/{{ mealie_role_paths_folder }}"
+mealie_role_paths_folders_list:
+  - "{{ mealie_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-mealie_web_subdomain: "{{ mealie_name }}"
-mealie_web_domain: "{{ user.domain }}"
-mealie_web_port: "9000"
-mealie_web_url: "{{ 'https://' + (mealie_web_subdomain + '.' + mealie_web_domain
-                      if (mealie_web_subdomain | length > 0)
-                      else mealie_web_domain) }}"
+mealie_role_web_subdomain: "{{ mealie_name }}"
+mealie_role_web_domain: "{{ user.domain }}"
+mealie_role_web_port: "9000"
+mealie_role_web_url: "{{ 'https://' + (mealie_role_web_subdomain + '.' + mealie_role_web_domain
+                      if (mealie_role_web_subdomain | length > 0)
+                      else mealie_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-mealie_dns_record: "{{ mealie_web_subdomain }}"
-mealie_dns_zone: "{{ mealie_web_domain }}"
-mealie_dns_proxy: "{{ dns.proxied }}"
+mealie_role_dns_record: "{{ mealie_role_web_subdomain }}"
+mealie_role_dns_zone: "{{ mealie_role_web_domain }}"
+mealie_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-mealie_traefik_sso_middleware: ""
-mealie_traefik_middleware_default: "{{ traefik_default_middleware }}"
-mealie_traefik_middleware_custom: ""
-mealie_traefik_certresolver: "{{ traefik_default_certresolver }}"
-mealie_traefik_enabled: true
-mealie_traefik_api_enabled: false
-mealie_traefik_api_endpoint: ""
+mealie_role_traefik_sso_middleware: ""
+mealie_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+mealie_role_traefik_middleware_custom: ""
+mealie_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+mealie_role_traefik_enabled: true
+mealie_role_traefik_api_enabled: false
+mealie_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-mealie_docker_container: "{{ mealie_name }}"
+mealie_role_docker_container: "{{ mealie_name }}"
 
 # Image
-mealie_docker_image_pull: true
-mealie_docker_image_tag: "latest"
-mealie_docker_image: "ghcr.io/mealie-recipes/mealie:{{ mealie_docker_image_tag }}"
+mealie_role_docker_image_pull: true
+mealie_role_docker_image_tag: "latest"
+mealie_role_docker_image: "ghcr.io/mealie-recipes/mealie:{{ mealie_role_docker_image_tag }}"
 
 # Envs
-mealie_docker_envs_default:
+mealie_role_docker_envs_default:
   ALLOW_SIGNUP: "false"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  BASE_URL: "{{ mealie_web_url }}"
-mealie_docker_envs_custom: {}
-mealie_docker_envs: "{{ mealie_docker_envs_default
-                              | combine(mealie_docker_envs_custom) }}"
+  BASE_URL: "{{ mealie_role_web_url }}"
+mealie_role_docker_envs_custom: {}
+mealie_role_docker_envs: "{{ mealie_role_docker_envs_default
+                              | combine(mealie_role_docker_envs_custom) }}"
 
 # Volumes
-mealie_docker_volumes_default:
-  - "{{ mealie_paths_location }}:/app/data"
-mealie_docker_volumes_custom: []
-mealie_docker_volumes: "{{ mealie_docker_volumes_default
-                                 + mealie_docker_volumes_custom }}"
+mealie_role_docker_volumes_default:
+  - "{{ mealie_role_paths_location }}:/app/data"
+mealie_role_docker_volumes_custom: []
+mealie_role_docker_volumes: "{{ mealie_role_docker_volumes_default
+                                 + mealie_role_docker_volumes_custom }}"
 
 # Hostname
-mealie_docker_hostname: "{{ mealie_name }}"
+mealie_role_docker_hostname: "{{ mealie_name }}"
 
 # Networks
-mealie_docker_networks_alias: "{{ mealie_name }}"
-mealie_docker_networks_default: []
-mealie_docker_networks_custom: []
-mealie_docker_networks: "{{ docker_networks_common
-                                  + mealie_docker_networks_default
-                                  + mealie_docker_networks_custom }}"
+mealie_role_docker_networks_alias: "{{ mealie_name }}"
+mealie_role_docker_networks_default: []
+mealie_role_docker_networks_custom: []
+mealie_role_docker_networks: "{{ docker_networks_common
+                                  + mealie_role_docker_networks_default
+                                  + mealie_role_docker_networks_custom }}"
 
 # Restart Policy
-mealie_docker_restart_policy: unless-stopped
+mealie_role_docker_restart_policy: unless-stopped
 
 # State
-mealie_docker_state: started
+mealie_role_docker_state: started

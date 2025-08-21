@@ -23,102 +23,102 @@ notifiarr_privileged: false
 # Paths
 ################################
 
-notifiarr_paths_folder: "{{ notifiarr_name }}"
-notifiarr_paths_location: "{{ server_appdata_path }}/{{ notifiarr_paths_folder }}"
-notifiarr_paths_folders_list:
-  - "{{ notifiarr_paths_location }}"
-notifiarr_paths_recursive: true
-notifiarr_paths_config_location: "{{ notifiarr_paths_location }}/notifiarr.conf"
-notifiarr_radarr_config: "{{ radarr_paths_location }}/config.xml"
-notifiarr_sonarr_config: "{{ sonarr_paths_location }}/config.xml"
-notifiarr_tautulli_config: "{{ tautulli_paths_location }}/config.ini"
+notifiarr_role_paths_folder: "{{ notifiarr_name }}"
+notifiarr_role_paths_location: "{{ server_appdata_path }}/{{ notifiarr_role_paths_folder }}"
+notifiarr_role_paths_folders_list:
+  - "{{ notifiarr_role_paths_location }}"
+notifiarr_role_paths_recursive: true
+notifiarr_role_paths_config_location: "{{ notifiarr_role_paths_location }}/notifiarr.conf"
+notifiarr_radarr_config: "{{ radarr_role_paths_location }}/config.xml"
+notifiarr_sonarr_config: "{{ sonarr_role_paths_location }}/config.xml"
+notifiarr_tautulli_config: "{{ tautulli_role_paths_location }}/config.ini"
 tautulli_api_key: "{{ (lookup('ini', 'api_key section=General file={{ notifiarr_tautulli_config }}')) if tautulli_config.stat.exists else '' }}"
 
 ################################
 # Web
 ################################
 
-notifiarr_web_subdomain: "{{ notifiarr_name }}"
-notifiarr_web_domain: "{{ user.domain }}"
-notifiarr_web_port: "5454"
-notifiarr_web_url: "{{ 'https://' + (notifiarr_web_subdomain + '.' + notifiarr_web_domain
-                    if (notifiarr_web_subdomain | length > 0)
-                    else notifiarr_web_domain) }}"
+notifiarr_role_web_subdomain: "{{ notifiarr_name }}"
+notifiarr_role_web_domain: "{{ user.domain }}"
+notifiarr_role_web_port: "5454"
+notifiarr_role_web_url: "{{ 'https://' + (notifiarr_role_web_subdomain + '.' + notifiarr_role_web_domain
+                    if (notifiarr_role_web_subdomain | length > 0)
+                    else notifiarr_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-notifiarr_dns_record: "{{ notifiarr_web_subdomain }}"
-notifiarr_dns_zone: "{{ notifiarr_web_domain }}"
-notifiarr_dns_proxy: "{{ dns.proxied }}"
+notifiarr_role_dns_record: "{{ notifiarr_role_web_subdomain }}"
+notifiarr_role_dns_zone: "{{ notifiarr_role_web_domain }}"
+notifiarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-notifiarr_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-notifiarr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-notifiarr_traefik_middleware_custom: ""
-notifiarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-notifiarr_traefik_enabled: true
-notifiarr_traefik_api_enabled: true
-notifiarr_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/plex`)"
+notifiarr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+notifiarr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+notifiarr_role_traefik_middleware_custom: ""
+notifiarr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+notifiarr_role_traefik_enabled: true
+notifiarr_role_traefik_api_enabled: true
+notifiarr_role_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/plex`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-notifiarr_docker_container: "{{ notifiarr_name }}"
+notifiarr_role_docker_container: "{{ notifiarr_name }}"
 
 # Image
-notifiarr_docker_image_pull: true
-notifiarr_docker_image_tag: "latest"
-notifiarr_docker_image: "golift/notifiarr:{{ notifiarr_docker_image_tag }}"
+notifiarr_role_docker_image_pull: true
+notifiarr_role_docker_image_tag: "latest"
+notifiarr_role_docker_image: "golift/notifiarr:{{ notifiarr_role_docker_image_tag }}"
 
 # Envs
-notifiarr_docker_envs_default:
+notifiarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-notifiarr_docker_envs_custom: {}
-notifiarr_docker_envs: "{{ notifiarr_docker_envs_default
-                           | combine(notifiarr_docker_envs_custom) }}"
+notifiarr_role_docker_envs_custom: {}
+notifiarr_role_docker_envs: "{{ notifiarr_role_docker_envs_default
+                           | combine(notifiarr_role_docker_envs_custom) }}"
 
 # Volumes
-notifiarr_docker_volumes_default:
-  - "{{ notifiarr_paths_location }}:/config"
+notifiarr_role_docker_volumes_default:
+  - "{{ notifiarr_role_paths_location }}:/config"
   - "/var/run/utmp:/var/run/utmp"
-notifiarr_docker_volumes_custom: []
-notifiarr_docker_volumes: "{{ notifiarr_docker_volumes_default
-                              + notifiarr_docker_volumes_custom }}"
+notifiarr_role_docker_volumes_custom: []
+notifiarr_role_docker_volumes: "{{ notifiarr_role_docker_volumes_default
+                              + notifiarr_role_docker_volumes_custom }}"
 
 # Mounts
-notifiarr_docker_mounts_default:
+notifiarr_role_docker_mounts_default:
   - target: /tmp
     type: tmpfs
-notifiarr_docker_mounts_custom: []
-notifiarr_docker_mounts: "{{ notifiarr_docker_mounts_default
-                             + notifiarr_docker_mounts_custom }}"
+notifiarr_role_docker_mounts_custom: []
+notifiarr_role_docker_mounts: "{{ notifiarr_role_docker_mounts_default
+                             + notifiarr_role_docker_mounts_custom }}"
 
 # Hostname
-notifiarr_docker_hostname: "{{ traefik_host }}"
+notifiarr_role_docker_hostname: "{{ traefik_host }}"
 
 # Networks
-notifiarr_docker_networks_alias: "{{ notifiarr_name }}"
-notifiarr_docker_networks_default: []
-notifiarr_docker_networks_custom: []
-notifiarr_docker_networks: "{{ docker_networks_common
-                               + notifiarr_docker_networks_default
-                               + notifiarr_docker_networks_custom }}"
+notifiarr_role_docker_networks_alias: "{{ notifiarr_name }}"
+notifiarr_role_docker_networks_default: []
+notifiarr_role_docker_networks_custom: []
+notifiarr_role_docker_networks: "{{ docker_networks_common
+                               + notifiarr_role_docker_networks_default
+                               + notifiarr_role_docker_networks_custom }}"
 
 # Restart Policy
-notifiarr_docker_restart_policy: unless-stopped
+notifiarr_role_docker_restart_policy: unless-stopped
 
 # State
-notifiarr_docker_state: started
+notifiarr_role_docker_state: started
 
 # User
-notifiarr_docker_user: "{{ uid }}:{{ gid }}"
+notifiarr_role_docker_user: "{{ uid }}:{{ gid }}"
 
 # Privileged
-notifiarr_docker_privileged: "{{ notifiarr_privileged | bool }}"
+notifiarr_role_docker_privileged: "{{ notifiarr_privileged | bool }}"

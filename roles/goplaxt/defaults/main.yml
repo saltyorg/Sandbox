@@ -18,84 +18,84 @@ goplaxt_name: goplaxt
 # Paths
 ################################
 
-goplaxt_paths_folder: "{{ goplaxt_name }}"
-goplaxt_paths_location: "{{ server_appdata_path }}/{{ goplaxt_paths_folder }}"
-goplaxt_paths_folders_list:
-  - "{{ goplaxt_paths_location }}"
+goplaxt_role_paths_folder: "{{ goplaxt_name }}"
+goplaxt_role_paths_location: "{{ server_appdata_path }}/{{ goplaxt_role_paths_folder }}"
+goplaxt_role_paths_folders_list:
+  - "{{ goplaxt_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-goplaxt_web_subdomain: "{{ goplaxt_name }}"
-goplaxt_web_domain: "{{ user.domain }}"
-goplaxt_web_port: "8000"
-goplaxt_web_url: "{{ 'https://' + (goplaxt_web_subdomain + '.' + goplaxt_web_domain
-                  if (goplaxt_web_subdomain | length > 0)
-                  else goplaxt_web_domain) }}"
+goplaxt_role_web_subdomain: "{{ goplaxt_name }}"
+goplaxt_role_web_domain: "{{ user.domain }}"
+goplaxt_role_web_port: "8000"
+goplaxt_role_web_url: "{{ 'https://' + (goplaxt_role_web_subdomain + '.' + goplaxt_role_web_domain
+                  if (goplaxt_role_web_subdomain | length > 0)
+                  else goplaxt_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-goplaxt_dns_record: "{{ goplaxt_web_subdomain }}"
-goplaxt_dns_zone: "{{ goplaxt_web_domain }}"
-goplaxt_dns_proxy: "{{ dns.proxied }}"
+goplaxt_role_dns_record: "{{ goplaxt_role_web_subdomain }}"
+goplaxt_role_dns_zone: "{{ goplaxt_role_web_domain }}"
+goplaxt_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-goplaxt_traefik_sso_middleware: ""
-goplaxt_traefik_middleware_default: "{{ traefik_default_middleware }}"
-goplaxt_traefik_middleware_custom: ""
-goplaxt_traefik_certresolver: "{{ traefik_default_certresolver }}"
-goplaxt_traefik_enabled: true
-goplaxt_traefik_api_enabled: false
-goplaxt_traefik_api_endpoint: ""
+goplaxt_role_traefik_sso_middleware: ""
+goplaxt_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+goplaxt_role_traefik_middleware_custom: ""
+goplaxt_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+goplaxt_role_traefik_enabled: true
+goplaxt_role_traefik_api_enabled: false
+goplaxt_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-goplaxt_docker_container: "{{ goplaxt_name }}"
+goplaxt_role_docker_container: "{{ goplaxt_name }}"
 
 # Image
-goplaxt_docker_image_pull: true
-goplaxt_docker_image_tag: "latest"
-goplaxt_docker_image: "xanderstrike/goplaxt:{{ goplaxt_docker_image_tag }}"
+goplaxt_role_docker_image_pull: true
+goplaxt_role_docker_image_tag: "latest"
+goplaxt_role_docker_image: "xanderstrike/goplaxt:{{ goplaxt_role_docker_image_tag }}"
 
 # Envs
-goplaxt_docker_envs_default:
+goplaxt_role_docker_envs_default:
   TZ: "{{ tz }}"
   TRAKT_ID: "{{ goplaxt.trakt_id }}"
   TRAKT_SECRET: "{{ goplaxt.trakt_secret }}"
-  REDIRECT_URI: "{{ goplaxt_web_url }}"
-goplaxt_docker_envs_custom: {}
-goplaxt_docker_envs: "{{ goplaxt_docker_envs_default
-                         | combine(goplaxt_docker_envs_custom) }}"
+  REDIRECT_URI: "{{ goplaxt_role_web_url }}"
+goplaxt_role_docker_envs_custom: {}
+goplaxt_role_docker_envs: "{{ goplaxt_role_docker_envs_default
+                         | combine(goplaxt_role_docker_envs_custom) }}"
 
 # Volumes
-goplaxt_docker_volumes_default:
-  - "{{ goplaxt_paths_location }}:/app/keystore"
-goplaxt_docker_volumes_custom: []
-goplaxt_docker_volumes: "{{ goplaxt_docker_volumes_default
-                            + goplaxt_docker_volumes_custom }}"
+goplaxt_role_docker_volumes_default:
+  - "{{ goplaxt_role_paths_location }}:/app/keystore"
+goplaxt_role_docker_volumes_custom: []
+goplaxt_role_docker_volumes: "{{ goplaxt_role_docker_volumes_default
+                            + goplaxt_role_docker_volumes_custom }}"
 
 # Hostname
-goplaxt_docker_hostname: "{{ goplaxt_name }}"
+goplaxt_role_docker_hostname: "{{ goplaxt_name }}"
 
 # Networks
-goplaxt_docker_networks_alias: "{{ goplaxt_name }}"
-goplaxt_docker_networks_default: []
-goplaxt_docker_networks_custom: []
-goplaxt_docker_networks: "{{ docker_networks_common
-                             + goplaxt_docker_networks_default
-                             + goplaxt_docker_networks_custom }}"
+goplaxt_role_docker_networks_alias: "{{ goplaxt_name }}"
+goplaxt_role_docker_networks_default: []
+goplaxt_role_docker_networks_custom: []
+goplaxt_role_docker_networks: "{{ docker_networks_common
+                             + goplaxt_role_docker_networks_default
+                             + goplaxt_role_docker_networks_custom }}"
 
 # Restart Policy
-goplaxt_docker_restart_policy: unless-stopped
+goplaxt_role_docker_restart_policy: unless-stopped
 
 # State
-goplaxt_docker_state: started
+goplaxt_role_docker_state: started

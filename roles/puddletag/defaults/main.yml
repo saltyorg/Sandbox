@@ -17,86 +17,86 @@ puddletag_name: puddletag
 # Paths
 ################################
 
-puddletag_paths_folder: "{{ puddletag_name }}"
-puddletag_paths_location: "{{ server_appdata_path }}/{{ puddletag_paths_folder }}"
-puddletag_paths_folders_list:
-  - "{{ puddletag_paths_location }}"
+puddletag_role_paths_folder: "{{ puddletag_name }}"
+puddletag_role_paths_location: "{{ server_appdata_path }}/{{ puddletag_role_paths_folder }}"
+puddletag_role_paths_folders_list:
+  - "{{ puddletag_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-puddletag_web_subdomain: "{{ puddletag_name }}"
-puddletag_web_domain: "{{ user.domain }}"
-puddletag_web_port: "8080"
-puddletag_web_url: "{{ 'https://' + (puddletag_web_subdomain + '.' + puddletag_web_domain
-                    if (puddletag_web_subdomain | length > 0)
-                    else puddletag_web_domain) }}"
+puddletag_role_web_subdomain: "{{ puddletag_name }}"
+puddletag_role_web_domain: "{{ user.domain }}"
+puddletag_role_web_port: "8080"
+puddletag_role_web_url: "{{ 'https://' + (puddletag_role_web_subdomain + '.' + puddletag_role_web_domain
+                    if (puddletag_role_web_subdomain | length > 0)
+                    else puddletag_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-puddletag_dns_record: "{{ puddletag_web_subdomain }}"
-puddletag_dns_zone: "{{ puddletag_web_domain }}"
-puddletag_dns_proxy: "{{ dns.proxied }}"
+puddletag_role_dns_record: "{{ puddletag_role_web_subdomain }}"
+puddletag_role_dns_zone: "{{ puddletag_role_web_domain }}"
+puddletag_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-puddletag_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-puddletag_traefik_middleware_default: "{{ traefik_default_middleware }}"
-puddletag_traefik_middleware_custom: ""
-puddletag_traefik_certresolver: "{{ traefik_default_certresolver }}"
-puddletag_traefik_enabled: true
-puddletag_traefik_api_enabled: false
-puddletag_traefik_api_endpoint: ""
+puddletag_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+puddletag_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+puddletag_role_traefik_middleware_custom: ""
+puddletag_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+puddletag_role_traefik_enabled: true
+puddletag_role_traefik_api_enabled: false
+puddletag_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-puddletag_docker_container: "{{ puddletag_name }}"
+puddletag_role_docker_container: "{{ puddletag_name }}"
 
 # Image
-puddletag_docker_image_pull: true
-puddletag_docker_image_tag: "latest"
-puddletag_docker_image: "xirg/docker-puddletag:{{ puddletag_docker_image_tag }}"
+puddletag_role_docker_image_pull: true
+puddletag_role_docker_image_tag: "latest"
+puddletag_role_docker_image: "xirg/docker-puddletag:{{ puddletag_role_docker_image_tag }}"
 
 # Envs
-puddletag_docker_envs_default:
+puddletag_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   APPNAME: "{{ puddletag_name }}"
   GUAC_USER: "{{ user.name }}"
   GUAC_PASS: "{{ user.pass | hash('md5') }}"
-puddletag_docker_envs_custom: {}
-puddletag_docker_envs: "{{ puddletag_docker_envs_default
-                           | combine(puddletag_docker_envs_custom) }}"
+puddletag_role_docker_envs_custom: {}
+puddletag_role_docker_envs: "{{ puddletag_role_docker_envs_default
+                           | combine(puddletag_role_docker_envs_custom) }}"
 
 # Volumes
-puddletag_docker_volumes_default:
-  - "{{ puddletag_paths_location }}:/config"
-puddletag_docker_volumes_custom: []
-puddletag_docker_volumes: "{{ puddletag_docker_volumes_default
-                              + puddletag_docker_volumes_custom }}"
+puddletag_role_docker_volumes_default:
+  - "{{ puddletag_role_paths_location }}:/config"
+puddletag_role_docker_volumes_custom: []
+puddletag_role_docker_volumes: "{{ puddletag_role_docker_volumes_default
+                              + puddletag_role_docker_volumes_custom }}"
 
 # Hostname
-puddletag_docker_hostname: "{{ puddletag_name }}"
+puddletag_role_docker_hostname: "{{ puddletag_name }}"
 
 # Networks
-puddletag_docker_networks_alias: "{{ puddletag_name }}"
-puddletag_docker_networks_default: []
-puddletag_docker_networks_custom: []
-puddletag_docker_networks: "{{ docker_networks_common
-                               + puddletag_docker_networks_default
-                               + puddletag_docker_networks_custom }}"
+puddletag_role_docker_networks_alias: "{{ puddletag_name }}"
+puddletag_role_docker_networks_default: []
+puddletag_role_docker_networks_custom: []
+puddletag_role_docker_networks: "{{ docker_networks_common
+                               + puddletag_role_docker_networks_default
+                               + puddletag_role_docker_networks_custom }}"
 
 # Restart Policy
-puddletag_docker_restart_policy: unless-stopped
+puddletag_role_docker_restart_policy: unless-stopped
 
 # State
-puddletag_docker_state: started
+puddletag_role_docker_state: started

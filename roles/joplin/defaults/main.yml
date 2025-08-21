@@ -18,96 +18,96 @@ joplin_name: joplin
 ################################
 
 joplin_postgres_name: "{{ joplin_name }}-postgres"
-joplin_postgres_docker_image_tag: "13"
-joplin_postgres_docker_image_repo: "postgres"
-joplin_postgres_docker_env_db: "joplin"
-joplin_postgres_docker_env_user: "joplin"
-joplin_postgres_docker_env_password: "joplin"
-joplin_postgres_paths_folder: "{{ joplin_name }}"
+joplin_postgres_role_docker_image_tag: "13"
+joplin_postgres_role_docker_image_repo: "postgres"
+joplin_postgres_role_docker_env_db: "joplin"
+joplin_postgres_role_docker_env_user: "joplin"
+joplin_postgres_role_docker_env_password: "joplin"
+joplin_postgres_role_paths_folder: "{{ joplin_name }}"
 
 ################################
 # Paths
 ################################
 
-joplin_paths_folder: "{{ joplin_name }}"
-joplin_paths_location: "{{ server_appdata_path }}/{{ joplin_paths_folder }}"
-joplin_paths_folders_list:
-  - "{{ joplin_paths_location }}"
+joplin_role_paths_folder: "{{ joplin_name }}"
+joplin_role_paths_location: "{{ server_appdata_path }}/{{ joplin_role_paths_folder }}"
+joplin_role_paths_folders_list:
+  - "{{ joplin_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-joplin_web_subdomain: "{{ joplin_name }}"
-joplin_web_domain: "{{ user.domain }}"
-joplin_web_port: "22300"
-joplin_web_url: "{{ 'https://' + (joplin_web_subdomain + '.' + joplin_web_domain
-                 if (joplin_web_subdomain | length > 0)
-                 else joplin_web_domain) }}"
+joplin_role_web_subdomain: "{{ joplin_name }}"
+joplin_role_web_domain: "{{ user.domain }}"
+joplin_role_web_port: "22300"
+joplin_role_web_url: "{{ 'https://' + (joplin_role_web_subdomain + '.' + joplin_role_web_domain
+                 if (joplin_role_web_subdomain | length > 0)
+                 else joplin_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-joplin_dns_record: "{{ joplin_web_subdomain }}"
-joplin_dns_zone: "{{ joplin_web_domain }}"
-joplin_dns_proxy: "{{ dns.proxied }}"
+joplin_role_dns_record: "{{ joplin_role_web_subdomain }}"
+joplin_role_dns_zone: "{{ joplin_role_web_domain }}"
+joplin_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-joplin_traefik_sso_middleware: ""
-joplin_traefik_middleware_default: "{{ traefik_default_middleware }}"
-joplin_traefik_middleware_custom: ""
-joplin_traefik_certresolver: "{{ traefik_default_certresolver }}"
-joplin_traefik_enabled: true
-joplin_traefik_api_enabled: false
-joplin_traefik_api_endpoint: ""
+joplin_role_traefik_sso_middleware: ""
+joplin_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+joplin_role_traefik_middleware_custom: ""
+joplin_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+joplin_role_traefik_enabled: true
+joplin_role_traefik_api_enabled: false
+joplin_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-joplin_docker_container: "{{ joplin_name }}"
+joplin_role_docker_container: "{{ joplin_name }}"
 
 # Image
-joplin_docker_image_pull: true
-joplin_docker_image_tag: "latest"
-joplin_docker_image: "joplin/server:{{ joplin_docker_image_tag }}"
+joplin_role_docker_image_pull: true
+joplin_role_docker_image_tag: "latest"
+joplin_role_docker_image: "joplin/server:{{ joplin_role_docker_image_tag }}"
 
 # Envs
-joplin_docker_envs_default:
+joplin_role_docker_envs_default:
   TZ: "{{ tz }}"
-  APP_BASE_URL: "{{ joplin_web_url }}"
+  APP_BASE_URL: "{{ joplin_role_web_url }}"
   APP_PORT: "22300"
-  POSTGRES_PASSWORD: "{{ joplin_postgres_docker_env_password }}"
-  POSTGRES_DATABASE: "{{ joplin_postgres_docker_env_db }}"
-  POSTGRES_USER: "{{ joplin_postgres_docker_env_user }}"
+  POSTGRES_PASSWORD: "{{ joplin_postgres_role_docker_env_password }}"
+  POSTGRES_DATABASE: "{{ joplin_postgres_role_docker_env_db }}"
+  POSTGRES_USER: "{{ joplin_postgres_role_docker_env_user }}"
   POSTGRES_PORT: "5432"
   POSTGRES_HOST: "{{ joplin_postgres_name }}"
   DB_CLIENT: "pg"
-joplin_docker_envs_custom: {}
-joplin_docker_envs: "{{ joplin_docker_envs_default
-                        | combine(joplin_docker_envs_custom) }}"
+joplin_role_docker_envs_custom: {}
+joplin_role_docker_envs: "{{ joplin_role_docker_envs_default
+                        | combine(joplin_role_docker_envs_custom) }}"
 
 # Hostname
-joplin_docker_hostname: "{{ joplin_name }}"
+joplin_role_docker_hostname: "{{ joplin_name }}"
 
 # Networks
-joplin_docker_networks_alias: "{{ joplin_name }}"
-joplin_docker_networks_default: []
-joplin_docker_networks_custom: []
-joplin_docker_networks: "{{ docker_networks_common
-                            + joplin_docker_networks_default
-                            + joplin_docker_networks_custom }}"
+joplin_role_docker_networks_alias: "{{ joplin_name }}"
+joplin_role_docker_networks_default: []
+joplin_role_docker_networks_custom: []
+joplin_role_docker_networks: "{{ docker_networks_common
+                            + joplin_role_docker_networks_default
+                            + joplin_role_docker_networks_custom }}"
 
 # Restart Policy
-joplin_docker_restart_policy: unless-stopped
+joplin_role_docker_restart_policy: unless-stopped
 
 # State
-joplin_docker_state: started
+joplin_role_docker_state: started
 
 # Dependencies
 joplin_depends_on: "{{ joplin_postgres_name }}"

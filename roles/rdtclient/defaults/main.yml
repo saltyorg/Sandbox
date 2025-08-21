@@ -17,92 +17,92 @@ rdtclient_name: rdtclient
 # Paths
 ################################
 
-rdtclient_paths_folder: "{{ rdtclient_name }}"
-rdtclient_paths_location: "{{ server_appdata_path }}/{{ rdtclient_paths_folder }}"
-rdtclient_paths_config_location: "{{ rdtclient_paths_location }}/config"
-rdtclient_paths_db_location: "{{ rdtclient_paths_location }}/db"
-rdtclient_paths_downloads_location: "/mnt/unionfs/downloads/torrents/rdtclient"
-rdtclient_paths_folders_list:
-  - "{{ rdtclient_paths_location }}"
-  - "{{ rdtclient_paths_config_location }}"
-  - "{{ rdtclient_paths_db_location }}"
-  - "{{ rdtclient_paths_downloads_location }}"
+rdtclient_role_paths_folder: "{{ rdtclient_name }}"
+rdtclient_role_paths_location: "{{ server_appdata_path }}/{{ rdtclient_role_paths_folder }}"
+rdtclient_role_paths_config_location: "{{ rdtclient_role_paths_location }}/config"
+rdtclient_role_paths_db_location: "{{ rdtclient_role_paths_location }}/db"
+rdtclient_role_paths_downloads_location: "/mnt/unionfs/downloads/torrents/rdtclient"
+rdtclient_role_paths_folders_list:
+  - "{{ rdtclient_role_paths_location }}"
+  - "{{ rdtclient_role_paths_config_location }}"
+  - "{{ rdtclient_role_paths_db_location }}"
+  - "{{ rdtclient_role_paths_downloads_location }}"
 
 ################################
 # Web
 ################################
 
-rdtclient_web_subdomain: "{{ rdtclient_name }}"
-rdtclient_web_domain: "{{ user.domain }}"
-rdtclient_web_port: "6500"
-rdtclient_web_url: "{{ 'https://' + (rdtclient_web_subdomain + '.' + rdtclient_web_domain
-                    if (rdtclient_web_subdomain | length > 0)
-                    else rdtclient_web_domain) }}"
+rdtclient_role_web_subdomain: "{{ rdtclient_name }}"
+rdtclient_role_web_domain: "{{ user.domain }}"
+rdtclient_role_web_port: "6500"
+rdtclient_role_web_url: "{{ 'https://' + (rdtclient_role_web_subdomain + '.' + rdtclient_role_web_domain
+                    if (rdtclient_role_web_subdomain | length > 0)
+                    else rdtclient_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-rdtclient_dns_record: "{{ rdtclient_web_subdomain }}"
-rdtclient_dns_zone: "{{ rdtclient_web_domain }}"
-rdtclient_dns_proxy: "{{ dns.proxied }}"
+rdtclient_role_dns_record: "{{ rdtclient_role_web_subdomain }}"
+rdtclient_role_dns_zone: "{{ rdtclient_role_web_domain }}"
+rdtclient_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-rdtclient_traefik_sso_middleware: ""
-rdtclient_traefik_middleware_default: "{{ traefik_default_middleware }}"
-rdtclient_traefik_middleware_custom: ""
-rdtclient_traefik_certresolver: "{{ traefik_default_certresolver }}"
-rdtclient_traefik_enabled: true
-rdtclient_traefik_api_enabled: false
-rdtclient_traefik_api_endpoint: ""
+rdtclient_role_traefik_sso_middleware: ""
+rdtclient_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+rdtclient_role_traefik_middleware_custom: ""
+rdtclient_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+rdtclient_role_traefik_enabled: true
+rdtclient_role_traefik_api_enabled: false
+rdtclient_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-rdtclient_docker_container: "{{ rdtclient_name }}"
+rdtclient_role_docker_container: "{{ rdtclient_name }}"
 
 # Image
-rdtclient_docker_image_pull: true
-rdtclient_docker_image_tag: "latest"
-rdtclient_docker_image: "rogerfar/rdtclient:{{ rdtclient_docker_image_tag }}"
+rdtclient_role_docker_image_pull: true
+rdtclient_role_docker_image_tag: "latest"
+rdtclient_role_docker_image: "rogerfar/rdtclient:{{ rdtclient_role_docker_image_tag }}"
 
 # Envs
-rdtclient_docker_envs_default:
+rdtclient_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-rdtclient_docker_envs_custom: {}
-rdtclient_docker_envs: "{{ rdtclient_docker_envs_default
-                           | combine(rdtclient_docker_envs_custom) }}"
+rdtclient_role_docker_envs_custom: {}
+rdtclient_role_docker_envs: "{{ rdtclient_role_docker_envs_default
+                           | combine(rdtclient_role_docker_envs_custom) }}"
 
 # Volumes
-rdtclient_docker_volumes_default:
-  - "{{ rdtclient_paths_location }}:/data"
-  - "{{ rdtclient_paths_config_location }}:/data/config"
-  - "{{ rdtclient_paths_db_location }}:/data/db"
-  - "{{ rdtclient_paths_downloads_location }}:/data/downloads"
-rdtclient_docker_volumes_custom: []
-rdtclient_docker_volumes: "{{ rdtclient_docker_volumes_default
-                              + rdtclient_docker_volumes_custom }}"
+rdtclient_role_docker_volumes_default:
+  - "{{ rdtclient_role_paths_location }}:/data"
+  - "{{ rdtclient_role_paths_config_location }}:/data/config"
+  - "{{ rdtclient_role_paths_db_location }}:/data/db"
+  - "{{ rdtclient_role_paths_downloads_location }}:/data/downloads"
+rdtclient_role_docker_volumes_custom: []
+rdtclient_role_docker_volumes: "{{ rdtclient_role_docker_volumes_default
+                              + rdtclient_role_docker_volumes_custom }}"
 
 # Hostname
-rdtclient_docker_hostname: "{{ rdtclient_name }}"
+rdtclient_role_docker_hostname: "{{ rdtclient_name }}"
 
 # Networks
-rdtclient_docker_networks_alias: "{{ rdtclient_name }}"
-rdtclient_docker_networks_default: []
-rdtclient_docker_networks_custom: []
-rdtclient_docker_networks: "{{ docker_networks_common
-                               + rdtclient_docker_networks_default
-                               + rdtclient_docker_networks_custom }}"
+rdtclient_role_docker_networks_alias: "{{ rdtclient_name }}"
+rdtclient_role_docker_networks_default: []
+rdtclient_role_docker_networks_custom: []
+rdtclient_role_docker_networks: "{{ docker_networks_common
+                               + rdtclient_role_docker_networks_default
+                               + rdtclient_role_docker_networks_custom }}"
 
 # Restart Policy
-rdtclient_docker_restart_policy: unless-stopped
+rdtclient_role_docker_restart_policy: unless-stopped
 
 # State
-rdtclient_docker_state: started
+rdtclient_role_docker_state: started

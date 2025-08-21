@@ -17,86 +17,86 @@ medusa_name: medusa
 # Paths
 ################################
 
-medusa_paths_folder: "{{ medusa_name }}"
-medusa_paths_location: "{{ server_appdata_path }}/{{ medusa_paths_folder }}"
-medusa_paths_folders_list:
-  - "{{ medusa_paths_location }}"
+medusa_role_paths_folder: "{{ medusa_name }}"
+medusa_role_paths_location: "{{ server_appdata_path }}/{{ medusa_role_paths_folder }}"
+medusa_role_paths_folders_list:
+  - "{{ medusa_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-medusa_web_subdomain: "{{ medusa_name }}"
-medusa_web_domain: "{{ user.domain }}"
-medusa_web_port: "8081"
-medusa_web_url: "{{ 'https://' + (medusa_web_subdomain + '.' + medusa_web_domain
-                 if (medusa_web_subdomain | length > 0)
-                 else medusa_web_domain) }}"
+medusa_role_web_subdomain: "{{ medusa_name }}"
+medusa_role_web_domain: "{{ user.domain }}"
+medusa_role_web_port: "8081"
+medusa_role_web_url: "{{ 'https://' + (medusa_role_web_subdomain + '.' + medusa_role_web_domain
+                 if (medusa_role_web_subdomain | length > 0)
+                 else medusa_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-medusa_dns_record: "{{ medusa_web_subdomain }}"
-medusa_dns_zone: "{{ medusa_web_domain }}"
-medusa_dns_proxy: "{{ dns.proxied }}"
+medusa_role_dns_record: "{{ medusa_role_web_subdomain }}"
+medusa_role_dns_zone: "{{ medusa_role_web_domain }}"
+medusa_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-medusa_traefik_sso_middleware: ""
-medusa_traefik_middleware_default: "{{ traefik_default_middleware }}"
-medusa_traefik_middleware_custom: ""
-medusa_traefik_certresolver: "{{ traefik_default_certresolver }}"
-medusa_traefik_enabled: true
-medusa_traefik_api_enabled: false
-medusa_traefik_api_endpoint: ""
+medusa_role_traefik_sso_middleware: ""
+medusa_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+medusa_role_traefik_middleware_custom: ""
+medusa_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+medusa_role_traefik_enabled: true
+medusa_role_traefik_api_enabled: false
+medusa_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-medusa_docker_container: "{{ medusa_name }}"
+medusa_role_docker_container: "{{ medusa_name }}"
 
 # Image
-medusa_docker_image_pull: true
-medusa_docker_image_tag: "latest"
-medusa_docker_image: "lscr.io/linuxserver/medusa:{{ medusa_docker_image_tag }}"
+medusa_role_docker_image_pull: true
+medusa_role_docker_image_tag: "latest"
+medusa_role_docker_image: "lscr.io/linuxserver/medusa:{{ medusa_role_docker_image_tag }}"
 
 # Envs
-medusa_docker_envs_default:
+medusa_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   UMASK: "002"
-medusa_docker_envs_custom: {}
-medusa_docker_envs: "{{ medusa_docker_envs_default
-                        | combine(medusa_docker_envs_custom) }}"
+medusa_role_docker_envs_custom: {}
+medusa_role_docker_envs: "{{ medusa_role_docker_envs_default
+                        | combine(medusa_role_docker_envs_custom) }}"
 
 # Volumes
-medusa_docker_volumes_default:
-  - "{{ medusa_paths_location }}:/config"
+medusa_role_docker_volumes_default:
+  - "{{ medusa_role_paths_location }}:/config"
   - "/opt/scripts:/scripts"
   - "/mnt/unionfs/Media/TV:/tv"
-medusa_docker_volumes_custom: []
-medusa_docker_volumes: "{{ medusa_docker_volumes_default
-                           + medusa_docker_volumes_custom }}"
+medusa_role_docker_volumes_custom: []
+medusa_role_docker_volumes: "{{ medusa_role_docker_volumes_default
+                           + medusa_role_docker_volumes_custom }}"
 
 # Hostname
-medusa_docker_hostname: "{{ medusa_name }}"
+medusa_role_docker_hostname: "{{ medusa_name }}"
 
 # Networks
-medusa_docker_networks_alias: "{{ medusa_name }}"
-medusa_docker_networks_default: []
-medusa_docker_networks_custom: []
-medusa_docker_networks: "{{ docker_networks_common
-                            + medusa_docker_networks_default
-                            + medusa_docker_networks_custom }}"
+medusa_role_docker_networks_alias: "{{ medusa_name }}"
+medusa_role_docker_networks_default: []
+medusa_role_docker_networks_custom: []
+medusa_role_docker_networks: "{{ docker_networks_common
+                            + medusa_role_docker_networks_default
+                            + medusa_role_docker_networks_custom }}"
 
 # Restart Policy
-medusa_docker_restart_policy: unless-stopped
+medusa_role_docker_restart_policy: unless-stopped
 
 # State
-medusa_docker_state: started
+medusa_role_docker_state: started

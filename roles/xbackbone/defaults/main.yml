@@ -17,83 +17,83 @@ xbackbone_name: xbackbone
 # Paths
 ################################
 
-xbackbone_paths_folder: "{{ xbackbone_name }}"
-xbackbone_paths_location: "{{ server_appdata_path }}/{{ xbackbone_paths_folder }}"
-xbackbone_paths_folders_list:
-  - "{{ xbackbone_paths_location }}"
+xbackbone_role_paths_folder: "{{ xbackbone_name }}"
+xbackbone_role_paths_location: "{{ server_appdata_path }}/{{ xbackbone_role_paths_folder }}"
+xbackbone_role_paths_folders_list:
+  - "{{ xbackbone_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-xbackbone_web_subdomain: "{{ xbackbone_name }}"
-xbackbone_web_domain: "{{ user.domain }}"
-xbackbone_web_port: "80"
-xbackbone_web_url: "{{ 'https://' + (xbackbone_web_subdomain + '.' + xbackbone_web_domain
-                    if (xbackbone_web_subdomain | length > 0)
-                    else xbackbone_web_domain) }}"
+xbackbone_role_web_subdomain: "{{ xbackbone_name }}"
+xbackbone_role_web_domain: "{{ user.domain }}"
+xbackbone_role_web_port: "80"
+xbackbone_role_web_url: "{{ 'https://' + (xbackbone_role_web_subdomain + '.' + xbackbone_role_web_domain
+                    if (xbackbone_role_web_subdomain | length > 0)
+                    else xbackbone_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-xbackbone_dns_record: "{{ xbackbone_web_subdomain }}"
-xbackbone_dns_zone: "{{ xbackbone_web_domain }}"
-xbackbone_dns_proxy: "{{ dns.proxied }}"
+xbackbone_role_dns_record: "{{ xbackbone_role_web_subdomain }}"
+xbackbone_role_dns_zone: "{{ xbackbone_role_web_domain }}"
+xbackbone_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-xbackbone_traefik_sso_middleware: ""
-xbackbone_traefik_middleware_default: "{{ traefik_default_middleware }}"
-xbackbone_traefik_middleware_custom: ""
-xbackbone_traefik_certresolver: "{{ traefik_default_certresolver }}"
-xbackbone_traefik_enabled: true
-xbackbone_traefik_api_enabled: false
-xbackbone_traefik_api_endpoint: ""
+xbackbone_role_traefik_sso_middleware: ""
+xbackbone_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+xbackbone_role_traefik_middleware_custom: ""
+xbackbone_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+xbackbone_role_traefik_enabled: true
+xbackbone_role_traefik_api_enabled: false
+xbackbone_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-xbackbone_docker_container: "{{ xbackbone_name }}"
+xbackbone_role_docker_container: "{{ xbackbone_name }}"
 
 # Image
-xbackbone_docker_image_pull: true
-xbackbone_docker_image_tag: "latest"
-xbackbone_docker_image: "lscr.io/linuxserver/xbackbone:{{ xbackbone_docker_image_tag }}"
+xbackbone_role_docker_image_pull: true
+xbackbone_role_docker_image_tag: "latest"
+xbackbone_role_docker_image: "lscr.io/linuxserver/xbackbone:{{ xbackbone_role_docker_image_tag }}"
 
 # Envs
-xbackbone_docker_envs_default:
+xbackbone_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-xbackbone_docker_envs_custom: {}
-xbackbone_docker_envs: "{{ xbackbone_docker_envs_default
-                           | combine(xbackbone_docker_envs_custom) }}"
+xbackbone_role_docker_envs_custom: {}
+xbackbone_role_docker_envs: "{{ xbackbone_role_docker_envs_default
+                           | combine(xbackbone_role_docker_envs_custom) }}"
 
 # Volumes
-xbackbone_docker_volumes_default:
-  - "{{ xbackbone_paths_location }}:/config"
-xbackbone_docker_volumes_custom: []
-xbackbone_docker_volumes: "{{ xbackbone_docker_volumes_default
-                              + xbackbone_docker_volumes_custom }}"
+xbackbone_role_docker_volumes_default:
+  - "{{ xbackbone_role_paths_location }}:/config"
+xbackbone_role_docker_volumes_custom: []
+xbackbone_role_docker_volumes: "{{ xbackbone_role_docker_volumes_default
+                              + xbackbone_role_docker_volumes_custom }}"
 
 # Hostname
-xbackbone_docker_hostname: "{{ xbackbone_name }}"
+xbackbone_role_docker_hostname: "{{ xbackbone_name }}"
 
 # Networks
-xbackbone_docker_networks_alias: "{{ xbackbone_name }}"
-xbackbone_docker_networks_default: []
-xbackbone_docker_networks_custom: []
-xbackbone_docker_networks: "{{ docker_networks_common
-                               + xbackbone_docker_networks_default
-                               + xbackbone_docker_networks_custom }}"
+xbackbone_role_docker_networks_alias: "{{ xbackbone_name }}"
+xbackbone_role_docker_networks_default: []
+xbackbone_role_docker_networks_custom: []
+xbackbone_role_docker_networks: "{{ docker_networks_common
+                               + xbackbone_role_docker_networks_default
+                               + xbackbone_role_docker_networks_custom }}"
 
 # Restart Policy
-xbackbone_docker_restart_policy: unless-stopped
+xbackbone_role_docker_restart_policy: unless-stopped
 
 # State
-xbackbone_docker_state: started
+xbackbone_role_docker_state: started

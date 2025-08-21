@@ -10,9 +10,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -20,7 +20,7 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    vnstat_docker_container: "{{ vnstat_name }}-host"
+    vnstat_role_docker_container: "{{ vnstat_name }}-host"
 
 - name: Create a volume
   community.docker.docker_volume:
@@ -29,15 +29,15 @@
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
   vars:
-    vnstat_docker_container: "{{ vnstat_name }}-host"
-    vnstat_docker_envs:
+    vnstat_role_docker_container: "{{ vnstat_name }}-host"
+    vnstat_role_docker_envs:
       TZ: "{{ tz }}"
       HTTP_PORT: "0"
-    vnstat_docker_network_mode: "host"
-    vnstat_docker_networks: "{{ omit }}"
-    vnstat_docker_volumes:
+    vnstat_role_docker_network_mode: "host"
+    vnstat_role_docker_networks: "{{ omit }}"
+    vnstat_role_docker_volumes:
       - "vnstat:/var/lib/vnstat"
-    vnstat_docker_labels: "{{ omit }}"
+    vnstat_role_docker_labels: "{{ omit }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

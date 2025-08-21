@@ -17,56 +17,56 @@ membarr_name: membarr
 # Paths
 ################################
 
-membarr_paths_folder: "{{ membarr_name }}"
-membarr_paths_location: "{{ server_appdata_path }}/{{ membarr_paths_folder }}"
-membarr_paths_recursive: true
-membarr_paths_config_location: "{{ membarr_paths_location }}/config.ini"
-membarr_paths_folders_list:
-  - "{{ membarr_paths_location }}"
+membarr_role_paths_folder: "{{ membarr_name }}"
+membarr_role_paths_location: "{{ server_appdata_path }}/{{ membarr_role_paths_folder }}"
+membarr_role_paths_recursive: true
+membarr_role_paths_config_location: "{{ membarr_role_paths_location }}/config.ini"
+membarr_role_paths_folders_list:
+  - "{{ membarr_role_paths_location }}"
 
 ################################
 # Docker
 ################################
 
 # Container
-membarr_docker_container: "{{ membarr_name }}"
+membarr_role_docker_container: "{{ membarr_name }}"
 
 # Image
-membarr_docker_image_pull: true
-membarr_docker_image_tag: "latest"
-membarr_docker_image: "yoruio/membarr:{{ membarr_docker_image_tag }}"
+membarr_role_docker_image_pull: true
+membarr_role_docker_image_tag: "latest"
+membarr_role_docker_image: "yoruio/membarr:{{ membarr_role_docker_image_tag }}"
 
 # Envs
-membarr_docker_envs_default:
+membarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   token: "{{ membarr.discord_token }}"
-membarr_docker_envs_custom: {}
-membarr_docker_envs: "{{ membarr_docker_envs_default
-                         | combine(membarr_docker_envs_custom) }}"
+membarr_role_docker_envs_custom: {}
+membarr_role_docker_envs: "{{ membarr_role_docker_envs_default
+                         | combine(membarr_role_docker_envs_custom) }}"
 
 # Volumes
-membarr_docker_volumes_default:
-  - "{{ membarr_paths_location }}:/app/app/config"
-membarr_docker_volumes_custom: []
-membarr_docker_volumes: "{{ membarr_docker_volumes_default
-                            + membarr_docker_volumes_custom }}"
+membarr_role_docker_volumes_default:
+  - "{{ membarr_role_paths_location }}:/app/app/config"
+membarr_role_docker_volumes_custom: []
+membarr_role_docker_volumes: "{{ membarr_role_docker_volumes_default
+                            + membarr_role_docker_volumes_custom }}"
 
 # Hostname
-membarr_docker_hostname: "{{ membarr_name }}"
+membarr_role_docker_hostname: "{{ membarr_name }}"
 
 # Networks
-membarr_docker_networks_alias: "{{ membarr_name }}"
-membarr_docker_networks_default: []
-membarr_docker_networks_custom: []
-membarr_docker_networks: "{{ docker_networks_common
-                             + membarr_docker_networks_default
-                             + membarr_docker_networks_custom }}"
+membarr_role_docker_networks_alias: "{{ membarr_name }}"
+membarr_role_docker_networks_default: []
+membarr_role_docker_networks_custom: []
+membarr_role_docker_networks: "{{ docker_networks_common
+                             + membarr_role_docker_networks_default
+                             + membarr_role_docker_networks_custom }}"
 
 # Restart Policy
-membarr_docker_restart_policy: always
+membarr_role_docker_restart_policy: always
 
 # State
-membarr_docker_state: started
+membarr_role_docker_state: started
 
 # User
-membarr_docker_user: "{{ uid }}:{{ gid }}"
+membarr_role_docker_user: "{{ uid }}:{{ gid }}"

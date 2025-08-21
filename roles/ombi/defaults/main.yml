@@ -17,85 +17,85 @@ ombi_instances: ["ombi"]
 # Paths
 ################################
 
-ombi_paths_folder: "{{ ombi_name }}"
-ombi_paths_location: "{{ server_appdata_path }}/{{ ombi_paths_folder }}"
-ombi_paths_folders_list:
-  - "{{ ombi_paths_location }}"
+ombi_role_paths_folder: "{{ ombi_name }}"
+ombi_role_paths_location: "{{ server_appdata_path }}/{{ ombi_role_paths_folder }}"
+ombi_role_paths_folders_list:
+  - "{{ ombi_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-ombi_web_subdomain: "{{ ombi_name }}"
-ombi_web_domain: "{{ user.domain }}"
-ombi_web_port: "3579"
-ombi_web_url: "{{ 'https://' + (lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain) + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain)
-               if (lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain) | length > 0)
-               else lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain)) }}"
+ombi_role_web_subdomain: "{{ ombi_name }}"
+ombi_role_web_domain: "{{ user.domain }}"
+ombi_role_web_port: "3579"
+ombi_role_web_url: "{{ 'https://' + (lookup('vars', ombi_name + '_web_subdomain', default=ombi_role_web_subdomain) + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_role_web_domain)
+               if (lookup('vars', ombi_name + '_web_subdomain', default=ombi_role_web_subdomain) | length > 0)
+               else lookup('vars', ombi_name + '_web_domain', default=ombi_role_web_domain)) }}"
 
 ################################
 # DNS
 ################################
 
-ombi_dns_record: "{{ lookup('vars', ombi_name + '_web_subdomain', default=ombi_web_subdomain) }}"
-ombi_dns_zone: "{{ lookup('vars', ombi_name + '_web_domain', default=ombi_web_domain) }}"
-ombi_dns_proxy: "{{ dns.proxied }}"
+ombi_role_dns_record: "{{ lookup('vars', ombi_name + '_web_subdomain', default=ombi_role_web_subdomain) }}"
+ombi_role_dns_zone: "{{ lookup('vars', ombi_name + '_web_domain', default=ombi_role_web_domain) }}"
+ombi_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-ombi_traefik_sso_middleware: ""
-ombi_traefik_middleware_default: "{{ traefik_default_middleware }}"
-ombi_traefik_middleware_custom: ""
-ombi_traefik_certresolver: "{{ traefik_default_certresolver }}"
-ombi_traefik_enabled: true
-ombi_traefik_api_enabled: false
-ombi_traefik_api_endpoint: ""
+ombi_role_traefik_sso_middleware: ""
+ombi_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+ombi_role_traefik_middleware_custom: ""
+ombi_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+ombi_role_traefik_enabled: true
+ombi_role_traefik_api_enabled: false
+ombi_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-ombi_docker_container: "{{ ombi_name }}"
+ombi_role_docker_container: "{{ ombi_name }}"
 
 # Image
-ombi_docker_image_pull: true
-ombi_docker_image_repo: "lscr.io/linuxserver/ombi"
-ombi_docker_image_tag: "latest"
-ombi_docker_image: "{{ lookup('vars', ombi_name + '_docker_image_repo', default=ombi_docker_image_repo)
-                       + ':' + lookup('vars', ombi_name + '_docker_image_tag', default=ombi_docker_image_tag) }}"
+ombi_role_docker_image_pull: true
+ombi_role_docker_image_repo: "lscr.io/linuxserver/ombi"
+ombi_role_docker_image_tag: "latest"
+ombi_role_docker_image: "{{ lookup('vars', ombi_name + '_docker_image_repo', default=ombi_role_docker_image_repo)
+                       + ':' + lookup('vars', ombi_name + '_docker_image_tag', default=ombi_role_docker_image_tag) }}"
 # Envs
-ombi_docker_envs_default:
+ombi_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   UMASK: "002"
   TZ: "{{ tz }}"
-ombi_docker_envs_custom: {}
-ombi_docker_envs: "{{ lookup('vars', ombi_name + '_docker_envs_default', default=ombi_docker_envs_default)
-                      | combine(lookup('vars', ombi_name + '_docker_envs_custom', default=ombi_docker_envs_custom)) }}"
+ombi_role_docker_envs_custom: {}
+ombi_role_docker_envs: "{{ lookup('vars', ombi_name + '_docker_envs_default', default=ombi_role_docker_envs_default)
+                      | combine(lookup('vars', ombi_name + '_docker_envs_custom', default=ombi_role_docker_envs_custom)) }}"
 
 # Volumes
-ombi_docker_volumes_default:
-  - "{{ ombi_paths_location }}:/config"
-ombi_docker_volumes_custom: []
-ombi_docker_volumes: "{{ lookup('vars', ombi_name + '_docker_volumes_default', default=ombi_docker_volumes_default)
-                         + lookup('vars', ombi_name + '_docker_volumes_custom', default=ombi_docker_volumes_custom) }}"
+ombi_role_docker_volumes_default:
+  - "{{ ombi_role_paths_location }}:/config"
+ombi_role_docker_volumes_custom: []
+ombi_role_docker_volumes: "{{ lookup('vars', ombi_name + '_docker_volumes_default', default=ombi_role_docker_volumes_default)
+                         + lookup('vars', ombi_name + '_docker_volumes_custom', default=ombi_role_docker_volumes_custom) }}"
 
 # Hostname
-ombi_docker_hostname: "{{ ombi_name }}"
+ombi_role_docker_hostname: "{{ ombi_name }}"
 
 # Networks
-ombi_docker_networks_alias: "{{ ombi_name }}"
-ombi_docker_networks_default: []
-ombi_docker_networks_custom: []
-ombi_docker_networks: "{{ docker_networks_common
-                          + lookup('vars', ombi_name + '_docker_networks_default', default=ombi_docker_networks_default)
-                          + lookup('vars', ombi_name + '_docker_networks_custom', default=ombi_docker_networks_custom) }}"
+ombi_role_docker_networks_alias: "{{ ombi_name }}"
+ombi_role_docker_networks_default: []
+ombi_role_docker_networks_custom: []
+ombi_role_docker_networks: "{{ docker_networks_common
+                          + lookup('vars', ombi_name + '_docker_networks_default', default=ombi_role_docker_networks_default)
+                          + lookup('vars', ombi_name + '_docker_networks_custom', default=ombi_role_docker_networks_custom) }}"
 
 # Restart Policy
-ombi_docker_restart_policy: unless-stopped
+ombi_role_docker_restart_policy: unless-stopped
 
 # State
-ombi_docker_state: started
+ombi_role_docker_state: started

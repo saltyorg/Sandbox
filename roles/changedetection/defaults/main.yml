@@ -17,84 +17,84 @@ changedetection_name: changedetection
 # Paths
 ################################
 
-changedetection_paths_folder: "{{ changedetection_name }}"
-changedetection_paths_location: "{{ server_appdata_path }}/{{ changedetection_paths_folder }}"
-changedetection_paths_folders_list:
-  - "{{ changedetection_paths_location }}"
+changedetection_role_paths_folder: "{{ changedetection_name }}"
+changedetection_role_paths_location: "{{ server_appdata_path }}/{{ changedetection_role_paths_folder }}"
+changedetection_role_paths_folders_list:
+  - "{{ changedetection_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-changedetection_web_subdomain: "{{ changedetection_name }}"
-changedetection_web_domain: "{{ user.domain }}"
-changedetection_web_port: "5000"
-changedetection_web_url: "{{ 'https://' + (changedetection_web_subdomain + '.' + changedetection_web_domain
-                          if (changedetection_web_subdomain | length > 0)
-                          else changedetection_web_domain) }}"
+changedetection_role_web_subdomain: "{{ changedetection_name }}"
+changedetection_role_web_domain: "{{ user.domain }}"
+changedetection_role_web_port: "5000"
+changedetection_role_web_url: "{{ 'https://' + (changedetection_role_web_subdomain + '.' + changedetection_role_web_domain
+                          if (changedetection_role_web_subdomain | length > 0)
+                          else changedetection_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-changedetection_dns_record: "{{ changedetection_web_subdomain }}"
-changedetection_dns_zone: "{{ changedetection_web_domain }}"
-changedetection_dns_proxy: "{{ dns.proxied }}"
+changedetection_role_dns_record: "{{ changedetection_role_web_subdomain }}"
+changedetection_role_dns_zone: "{{ changedetection_role_web_domain }}"
+changedetection_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-changedetection_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-changedetection_traefik_middleware_default: "{{ traefik_default_middleware }}"
-changedetection_traefik_middleware_custom: ""
-changedetection_traefik_certresolver: "{{ traefik_default_certresolver }}"
-changedetection_traefik_enabled: true
-changedetection_traefik_api_enabled: true
-changedetection_traefik_api_endpoint: "PathPrefix(`/api`)"
+changedetection_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+changedetection_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+changedetection_role_traefik_middleware_custom: ""
+changedetection_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+changedetection_role_traefik_enabled: true
+changedetection_role_traefik_api_enabled: true
+changedetection_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Docker
 ################################
 
 # Container
-changedetection_docker_container: "{{ changedetection_name }}"
+changedetection_role_docker_container: "{{ changedetection_name }}"
 
 # Image
-changedetection_docker_image_pull: true
-changedetection_docker_image_tag: "latest"
-changedetection_docker_image: "lscr.io/linuxserver/changedetection.io:{{ changedetection_docker_image_tag }}"
+changedetection_role_docker_image_pull: true
+changedetection_role_docker_image_tag: "latest"
+changedetection_role_docker_image: "lscr.io/linuxserver/changedetection.io:{{ changedetection_role_docker_image_tag }}"
 
 # Envs
-changedetection_docker_envs_default:
+changedetection_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  BASE_URL: "{{ changedetection_web_url }}"
-changedetection_docker_envs_custom: {}
-changedetection_docker_envs: "{{ changedetection_docker_envs_default
-                                 | combine(changedetection_docker_envs_custom) }}"
+  BASE_URL: "{{ changedetection_role_web_url }}"
+changedetection_role_docker_envs_custom: {}
+changedetection_role_docker_envs: "{{ changedetection_role_docker_envs_default
+                                 | combine(changedetection_role_docker_envs_custom) }}"
 
 # Volumes
-changedetection_docker_volumes_default:
-  - "{{ changedetection_paths_location }}:/config"
-changedetection_docker_volumes_custom: []
-changedetection_docker_volumes: "{{ changedetection_docker_volumes_default
-                                    + changedetection_docker_volumes_custom }}"
+changedetection_role_docker_volumes_default:
+  - "{{ changedetection_role_paths_location }}:/config"
+changedetection_role_docker_volumes_custom: []
+changedetection_role_docker_volumes: "{{ changedetection_role_docker_volumes_default
+                                    + changedetection_role_docker_volumes_custom }}"
 
 # Hostname
-changedetection_docker_hostname: "{{ changedetection_name }}"
+changedetection_role_docker_hostname: "{{ changedetection_name }}"
 
 # Networks
-changedetection_docker_networks_alias: "{{ changedetection_name }}"
-changedetection_docker_networks_default: []
-changedetection_docker_networks_custom: []
-changedetection_docker_networks: "{{ docker_networks_common
-                                     + changedetection_docker_networks_default
-                                     + changedetection_docker_networks_custom }}"
+changedetection_role_docker_networks_alias: "{{ changedetection_name }}"
+changedetection_role_docker_networks_default: []
+changedetection_role_docker_networks_custom: []
+changedetection_role_docker_networks: "{{ docker_networks_common
+                                     + changedetection_role_docker_networks_default
+                                     + changedetection_role_docker_networks_custom }}"
 
 # Restart Policy
-changedetection_docker_restart_policy: unless-stopped
+changedetection_role_docker_restart_policy: unless-stopped
 
 # State
-changedetection_docker_state: started
+changedetection_role_docker_state: started

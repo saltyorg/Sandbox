@@ -26,11 +26,11 @@ delugevpn_lan_network: "172.19.0.0/16"
 # Paths
 ################################
 
-delugevpn_paths_folder: "{{ delugevpn_name }}"
-delugevpn_paths_location: "{{ server_appdata_path }}/{{ delugevpn_paths_folder }}"
-delugevpn_paths_folders_list:
-  - "{{ delugevpn_paths_location }}"
-  - "{{ delugevpn_paths_location }}/wireguard"
+delugevpn_role_paths_folder: "{{ delugevpn_name }}"
+delugevpn_role_paths_location: "{{ server_appdata_path }}/{{ delugevpn_role_paths_folder }}"
+delugevpn_role_paths_folders_list:
+  - "{{ delugevpn_role_paths_location }}"
+  - "{{ delugevpn_role_paths_location }}/wireguard"
   - "{{ downloads_torrents_path }}"
   - "{{ downloads_torrents_path }}/delugevpn"
   - "{{ downloads_torrents_path }}/delugevpn/completed"
@@ -41,55 +41,55 @@ delugevpn_paths_folders_list:
 # Web
 ################################
 
-delugevpn_web_subdomain: "{{ delugevpn_name }}"
-delugevpn_web_domain: "{{ user.domain }}"
-delugevpn_web_port: "8112"
-delugevpn_web_url: "{{ 'https://' + (delugevpn_web_subdomain + '.' + delugevpn_web_domain
-                    if (delugevpn_web_subdomain | length > 0)
-                    else delugevpn_web_domain) }}"
+delugevpn_role_web_subdomain: "{{ delugevpn_name }}"
+delugevpn_role_web_domain: "{{ user.domain }}"
+delugevpn_role_web_port: "8112"
+delugevpn_role_web_url: "{{ 'https://' + (delugevpn_role_web_subdomain + '.' + delugevpn_role_web_domain
+                    if (delugevpn_role_web_subdomain | length > 0)
+                    else delugevpn_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-delugevpn_dns_record: "{{ delugevpn_web_subdomain }}"
-delugevpn_dns_zone: "{{ delugevpn_web_domain }}"
-delugevpn_dns_proxy: "{{ dns.proxied }}"
+delugevpn_role_dns_record: "{{ delugevpn_role_web_subdomain }}"
+delugevpn_role_dns_zone: "{{ delugevpn_role_web_domain }}"
+delugevpn_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-delugevpn_traefik_sso_middleware: ""
-delugevpn_traefik_middleware_default: "{{ traefik_default_middleware }}"
-delugevpn_traefik_middleware_custom: ""
-delugevpn_traefik_certresolver: "{{ traefik_default_certresolver }}"
-delugevpn_traefik_enabled: true
-delugevpn_traefik_api_enabled: false
-delugevpn_traefik_api_endpoint: ""
+delugevpn_role_traefik_sso_middleware: ""
+delugevpn_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+delugevpn_role_traefik_middleware_custom: ""
+delugevpn_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+delugevpn_role_traefik_enabled: true
+delugevpn_role_traefik_api_enabled: false
+delugevpn_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-delugevpn_docker_container: "{{ delugevpn_name }}"
+delugevpn_role_docker_container: "{{ delugevpn_name }}"
 
 # Image
-delugevpn_docker_image_pull: true
-delugevpn_docker_image_tag: "latest"
-delugevpn_docker_image: "binhex/arch-delugevpn:{{ delugevpn_docker_image_tag }}"
+delugevpn_role_docker_image_pull: true
+delugevpn_role_docker_image_tag: "latest"
+delugevpn_role_docker_image: "binhex/arch-delugevpn:{{ delugevpn_role_docker_image_tag }}"
 
 # Ports
-delugevpn_docker_ports_defaults:
+delugevpn_role_docker_ports_defaults:
   - "58112:58112"
   - "58846:58846"
-delugevpn_docker_ports_custom: []
-delugevpn_docker_ports: "{{ delugevpn_docker_ports_defaults
-                            + delugevpn_docker_ports_custom }}"
+delugevpn_role_docker_ports_custom: []
+delugevpn_role_docker_ports: "{{ delugevpn_role_docker_ports_defaults
+                            + delugevpn_role_docker_ports_custom }}"
 
 # Envs
-delugevpn_docker_envs_default:
+delugevpn_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
@@ -106,39 +106,39 @@ delugevpn_docker_envs_default:
   DELUGE_WEB_LOG_LEVEL: "{{ delugevpn_log_level_web }}"
   DEBUG: "false"
   UMASK: "022"
-delugevpn_docker_envs_custom: {}
-delugevpn_docker_envs: "{{ delugevpn_docker_envs_default
-                           | combine(delugevpn_docker_envs_custom) }}"
+delugevpn_role_docker_envs_custom: {}
+delugevpn_role_docker_envs: "{{ delugevpn_role_docker_envs_default
+                           | combine(delugevpn_role_docker_envs_custom) }}"
 
 # Volumes
-delugevpn_docker_volumes_default:
-  - "{{ delugevpn_paths_location }}:/config"
+delugevpn_role_docker_volumes_default:
+  - "{{ delugevpn_role_paths_location }}:/config"
   - "/etc/localtime:/etc/localtime:ro"
   - "/opt/scripts:/scripts"
-delugevpn_docker_volumes_custom: []
-delugevpn_docker_volumes: "{{ delugevpn_docker_volumes_default
-                              + delugevpn_docker_volumes_custom }}"
+delugevpn_role_docker_volumes_custom: []
+delugevpn_role_docker_volumes: "{{ delugevpn_role_docker_volumes_default
+                              + delugevpn_role_docker_volumes_custom }}"
 
 # Hostname
-delugevpn_docker_hostname: "{{ delugevpn_name }}"
+delugevpn_role_docker_hostname: "{{ delugevpn_name }}"
 
 # Networks
-delugevpn_docker_networks_alias: "{{ delugevpn_name }}"
-delugevpn_docker_networks_default: []
-delugevpn_docker_networks_custom: []
-delugevpn_docker_networks: "{{ docker_networks_common
-                               + delugevpn_docker_networks_default
-                               + delugevpn_docker_networks_custom }}"
+delugevpn_role_docker_networks_alias: "{{ delugevpn_name }}"
+delugevpn_role_docker_networks_default: []
+delugevpn_role_docker_networks_custom: []
+delugevpn_role_docker_networks: "{{ docker_networks_common
+                               + delugevpn_role_docker_networks_default
+                               + delugevpn_role_docker_networks_custom }}"
 
 # Restart Policy
-delugevpn_docker_restart_policy: unless-stopped
+delugevpn_role_docker_restart_policy: unless-stopped
 
 # State
-delugevpn_docker_state: started
+delugevpn_role_docker_state: started
 
 # Sysctls
-delugevpn_docker_sysctls:
+delugevpn_role_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"
 
 # Privileged
-delugevpn_docker_privileged: "yes"
+delugevpn_role_docker_privileged: true

@@ -18,9 +18,9 @@
     name: redis
   vars:
     redis_instances: ["{{ paperless_ngx_name }}-redis"]
-    redis_docker_image_tag: "8-alpine"
-    redis_paths_folder: "{{ paperless_ngx_name }}"
-    redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
+    redis_role_docker_image_tag: "8-alpine"
+    redis_role_paths_folder: "{{ paperless_ngx_name }}"
+    redis_role_paths_location: "{{ server_appdata_path }}/{{ redis_role_paths_folder }}/redis"
 
 - name: Remove legacy PostgreSQL Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -32,11 +32,11 @@
     name: postgres
   vars:
     postgres_instances: ["{{ paperless_ngx_postgres_name }}"]
-    postgres_docker_env_db: "{{ paperless_ngx_postgres_docker_env_db }}"
-    postgres_docker_image_tag: "{{ paperless_ngx_postgres_docker_image_tag }}"
-    postgres_docker_image_repo: "{{ paperless_ngx_postgres_docker_image_repo }}"
-    postgres_paths_folder: "{{ paperless_ngx_postgres_paths_folder }}"
-    postgres_paths_location: "{{ paperless_ngx_postgres_paths_location }}"
+    postgres_role_docker_env_db: "{{ paperless_ngx_postgres_role_docker_env_db }}"
+    postgres_role_docker_image_tag: "{{ paperless_ngx_postgres_role_docker_image_tag }}"
+    postgres_role_docker_image_repo: "{{ paperless_ngx_postgres_role_docker_image_repo }}"
+    postgres_role_paths_folder: "{{ paperless_ngx_postgres_role_paths_folder }}"
+    postgres_role_paths_location: "{{ paperless_ngx_postgres_role_paths_location }}"
 
 - name: Remove legacy Gotenberg Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -48,8 +48,8 @@
     name: gotenberg
   vars:
     gotenberg_name: "{{ paperless_ngx_name }}-gotenberg"
-    gotenberg_docker_image_tag: "7.8"
-    gotenberg_docker_commands_default:
+    gotenberg_role_docker_image_tag: "7.8"
+    gotenberg_role_docker_commands_default:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
@@ -67,7 +67,7 @@
     name: tika
   vars:
     tika_name: "{{ paperless_ngx_name }}-tika"
-    tika_docker_image_tag: "latest"
+    tika_role_docker_image_tag: "latest"
 
 - name: "Generate Secret Key for sessions"
   ansible.builtin.shell: "openssl rand -base64 45"
@@ -76,9 +76,9 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

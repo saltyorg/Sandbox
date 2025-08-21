@@ -17,56 +17,56 @@ recyclarr_name: recyclarr
 # Paths
 ################################
 
-recyclarr_paths_folder: "{{ recyclarr_name }}"
-recyclarr_paths_location: "{{ server_appdata_path }}/{{ recyclarr_paths_folder }}"
-recyclarr_paths_folders_list:
-  - "{{ recyclarr_paths_location }}"
-  - "{{ recyclarr_paths_location }}/configs"
-recyclarr_config_location: "{{ recyclarr_paths_location }}/recyclarr.yml"
+recyclarr_role_paths_folder: "{{ recyclarr_name }}"
+recyclarr_role_paths_location: "{{ server_appdata_path }}/{{ recyclarr_role_paths_folder }}"
+recyclarr_role_paths_folders_list:
+  - "{{ recyclarr_role_paths_location }}"
+  - "{{ recyclarr_role_paths_location }}/configs"
+recyclarr_config_location: "{{ recyclarr_role_paths_location }}/recyclarr.yml"
 
 ################################
 # Docker
 ################################
 
 # Container
-recyclarr_docker_container: "{{ recyclarr_name }}"
+recyclarr_role_docker_container: "{{ recyclarr_name }}"
 
 # Image
-recyclarr_docker_image_pull: true
-recyclarr_docker_image_tag: "latest"
-recyclarr_docker_image: "ghcr.io/recyclarr/recyclarr:{{ recyclarr_docker_image_tag }}"
+recyclarr_role_docker_image_pull: true
+recyclarr_role_docker_image_tag: "latest"
+recyclarr_role_docker_image: "ghcr.io/recyclarr/recyclarr:{{ recyclarr_role_docker_image_tag }}"
 
 # Envs
-recyclarr_docker_envs_default:
+recyclarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   CRON_SCHEDULE: "{{ recyclarr.cron_schedule }}"
-recyclarr_docker_envs_custom: {}
-recyclarr_docker_envs: "{{ recyclarr_docker_envs_default
-                           | combine(recyclarr_docker_envs_custom) }}"
+recyclarr_role_docker_envs_custom: {}
+recyclarr_role_docker_envs: "{{ recyclarr_role_docker_envs_default
+                           | combine(recyclarr_role_docker_envs_custom) }}"
 
 # Volumes
-recyclarr_docker_volumes_default:
-  - "{{ recyclarr_paths_location }}:/config"
-recyclarr_docker_volumes_custom: []
-recyclarr_docker_volumes: "{{ recyclarr_docker_volumes_default
-                              + recyclarr_docker_volumes_custom }}"
+recyclarr_role_docker_volumes_default:
+  - "{{ recyclarr_role_paths_location }}:/config"
+recyclarr_role_docker_volumes_custom: []
+recyclarr_role_docker_volumes: "{{ recyclarr_role_docker_volumes_default
+                              + recyclarr_role_docker_volumes_custom }}"
 
 # Hostname
-recyclarr_docker_hostname: "{{ recyclarr_name }}"
+recyclarr_role_docker_hostname: "{{ recyclarr_name }}"
 
 # Networks
-recyclarr_docker_networks_alias: "{{ recyclarr_name }}"
-recyclarr_docker_networks_default: []
-recyclarr_docker_networks_custom: []
-recyclarr_docker_networks: "{{ docker_networks_common
-                               + recyclarr_docker_networks_default
-                               + recyclarr_docker_networks_custom }}"
+recyclarr_role_docker_networks_alias: "{{ recyclarr_name }}"
+recyclarr_role_docker_networks_default: []
+recyclarr_role_docker_networks_custom: []
+recyclarr_role_docker_networks: "{{ docker_networks_common
+                               + recyclarr_role_docker_networks_default
+                               + recyclarr_role_docker_networks_custom }}"
 
 # Restart Policy
-recyclarr_docker_restart_policy: unless-stopped
+recyclarr_role_docker_restart_policy: unless-stopped
 
 # State
-recyclarr_docker_state: started
+recyclarr_role_docker_state: started
 
 # User
-recyclarr_docker_user: "{{ uid }}:{{ gid }}"
+recyclarr_role_docker_user: "{{ uid }}:{{ gid }}"

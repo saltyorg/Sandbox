@@ -17,38 +17,38 @@ traefik_robotstxt_name: traefik-robotstxt
 ################################
 
 # Container
-traefik_robotstxt_docker_container: "{{ traefik_robotstxt_name }}"
+traefik_robotstxt_role_docker_container: "{{ traefik_robotstxt_name }}"
 
 # Image
-traefik_robotstxt_docker_image_pull: true
-traefik_robotstxt_docker_image_tag: "latest"
-traefik_robotstxt_docker_image: "mstroecker/zig-robotstxt:{{ traefik_robotstxt_docker_image_tag }}"
+traefik_robotstxt_role_docker_image_pull: true
+traefik_robotstxt_role_docker_image_tag: "latest"
+traefik_robotstxt_role_docker_image: "mstroecker/zig-robotstxt:{{ traefik_robotstxt_role_docker_image_tag }}"
 
 # Labels
-traefik_robotstxt_docker_labels_default:
+traefik_robotstxt_role_docker_labels_default:
   traefik.enable: "true"
   traefik.http.routers.robotstxt.entrypoints: "web,websecure"
   traefik.http.routers.robotstxt.rule: "Path(`/robots.txt`)"
   traefik.http.routers.robotstxt.service: "robotstxt"
   traefik.http.services.robotstxt.loadbalancer.server.port: "8080"
   traefik.http.routers.robotstxt.priority: "99"
-traefik_robotstxt_docker_labels_custom: {}
-traefik_robotstxt_docker_labels: "{{ traefik_robotstxt_docker_labels_default
-                                     | combine(traefik_robotstxt_docker_labels_custom) }}"
+traefik_robotstxt_role_docker_labels_custom: {}
+traefik_robotstxt_role_docker_labels: "{{ traefik_robotstxt_role_docker_labels_default
+                                     | combine(traefik_robotstxt_role_docker_labels_custom) }}"
 
 # Hostname
-traefik_robotstxt_docker_hostname: "{{ traefik_robotstxt_name }}"
+traefik_robotstxt_role_docker_hostname: "{{ traefik_robotstxt_name }}"
 
 # Networks
-traefik_robotstxt_docker_networks_alias: "{{ traefik_robotstxt_name }}"
-traefik_robotstxt_docker_networks_default: []
-traefik_robotstxt_docker_networks_custom: []
-traefik_robotstxt_docker_networks: "{{ docker_networks_common
-                                       + traefik_robotstxt_docker_networks_default
-                                       + traefik_robotstxt_docker_networks_custom }}"
+traefik_robotstxt_role_docker_networks_alias: "{{ traefik_robotstxt_name }}"
+traefik_robotstxt_role_docker_networks_default: []
+traefik_robotstxt_role_docker_networks_custom: []
+traefik_robotstxt_role_docker_networks: "{{ docker_networks_common
+                                       + traefik_robotstxt_role_docker_networks_default
+                                       + traefik_robotstxt_role_docker_networks_custom }}"
 
 # Restart Policy
-traefik_robotstxt_docker_restart_policy: unless-stopped
+traefik_robotstxt_role_docker_restart_policy: unless-stopped
 
 # State
-traefik_robotstxt_docker_state: started
+traefik_robotstxt_role_docker_state: started

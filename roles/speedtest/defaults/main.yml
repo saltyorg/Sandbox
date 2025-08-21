@@ -17,41 +17,41 @@ speedtest_name: speedtest
 # Paths
 ################################
 
-speedtest_paths_folder: "{{ speedtest_name }}"
-speedtest_paths_location: "{{ server_appdata_path }}/{{ speedtest_paths_folder }}"
-speedtest_paths_folders_list:
-  - "{{ speedtest_paths_location }}"
+speedtest_role_paths_folder: "{{ speedtest_name }}"
+speedtest_role_paths_location: "{{ server_appdata_path }}/{{ speedtest_role_paths_folder }}"
+speedtest_role_paths_folders_list:
+  - "{{ speedtest_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-speedtest_web_subdomain: "{{ speedtest_name }}"
-speedtest_web_domain: "{{ user.domain }}"
-speedtest_web_port: "80"
-speedtest_web_url: "{{ 'https://' + (speedtest_web_subdomain + '.' + speedtest_web_domain
-                    if (speedtest_web_subdomain | length > 0)
-                    else speedtest_web_domain) }}"
+speedtest_role_web_subdomain: "{{ speedtest_name }}"
+speedtest_role_web_domain: "{{ user.domain }}"
+speedtest_role_web_port: "80"
+speedtest_role_web_url: "{{ 'https://' + (speedtest_role_web_subdomain + '.' + speedtest_role_web_domain
+                    if (speedtest_role_web_subdomain | length > 0)
+                    else speedtest_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-speedtest_dns_record: "{{ speedtest_web_subdomain }}"
-speedtest_dns_zone: "{{ speedtest_web_domain }}"
-speedtest_dns_proxy: false
+speedtest_role_dns_record: "{{ speedtest_role_web_subdomain }}"
+speedtest_role_dns_zone: "{{ speedtest_role_web_domain }}"
+speedtest_role_dns_proxy: false
 
 ################################
 # Traefik
 ################################
 
-speedtest_traefik_sso_middleware: ""
-speedtest_traefik_middleware_default: "{{ traefik_default_middleware }}"
-speedtest_traefik_middleware_custom: ""
-speedtest_traefik_certresolver: "{{ traefik_default_certresolver }}"
-speedtest_traefik_enabled: true
-speedtest_traefik_api_enabled: false
-speedtest_traefik_api_endpoint: ""
+speedtest_role_traefik_sso_middleware: ""
+speedtest_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+speedtest_role_traefik_middleware_custom: ""
+speedtest_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+speedtest_role_traefik_enabled: true
+speedtest_role_traefik_api_enabled: false
+speedtest_role_traefik_api_endpoint: ""
 
 ################################
 # THEME
@@ -67,15 +67,15 @@ speedtest_themepark_domain: "{{ global_themepark_domain }}"
 ################################
 
 # Container
-speedtest_docker_container: "{{ speedtest_name }}"
+speedtest_role_docker_container: "{{ speedtest_name }}"
 
 # Image
-speedtest_docker_image_pull: true
-speedtest_docker_image_tag: "latest"
-speedtest_docker_image: "lscr.io/linuxserver/librespeed:{{ speedtest_docker_image_tag }}"
+speedtest_role_docker_image_pull: true
+speedtest_role_docker_image_tag: "latest"
+speedtest_role_docker_image: "lscr.io/linuxserver/librespeed:{{ speedtest_role_docker_image_tag }}"
 
 # Envs
-speedtest_docker_envs_default:
+speedtest_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
@@ -84,33 +84,33 @@ speedtest_docker_envs_default:
   DOCKER_MODS: "{{ 'ghcr.io/themepark-dev/theme.park:librespeed' if speedtest_themepark_enabled else omit }}"
   TP_DOMAIN: "{{ lookup('vars', speedtest_name + '_themepark_domain', default=speedtest_themepark_domain) }}"
   TP_THEME: "{{ lookup('vars', speedtest_name + '_themepark_theme', default=speedtest_themepark_theme) }}"
-speedtest_docker_envs_custom: {}
-speedtest_docker_envs: "{{ speedtest_docker_envs_default
-                           | combine(speedtest_docker_envs_custom) }}"
+speedtest_role_docker_envs_custom: {}
+speedtest_role_docker_envs: "{{ speedtest_role_docker_envs_default
+                           | combine(speedtest_role_docker_envs_custom) }}"
 
 # Volumes
-speedtest_docker_volumes_default:
-  - "{{ speedtest_paths_location }}:/config"
-speedtest_docker_volumes_custom: []
-speedtest_docker_volumes: "{{ speedtest_docker_volumes_default
-                              + speedtest_docker_volumes_custom }}"
+speedtest_role_docker_volumes_default:
+  - "{{ speedtest_role_paths_location }}:/config"
+speedtest_role_docker_volumes_custom: []
+speedtest_role_docker_volumes: "{{ speedtest_role_docker_volumes_default
+                              + speedtest_role_docker_volumes_custom }}"
 
 # Hostname
-speedtest_docker_hostname: "{{ speedtest_name }}"
+speedtest_role_docker_hostname: "{{ speedtest_name }}"
 
 # Networks
-speedtest_docker_networks_alias: "{{ speedtest_name }}"
-speedtest_docker_networks_default: []
-speedtest_docker_networks_custom: []
-speedtest_docker_networks: "{{ docker_networks_common
-                               + speedtest_docker_networks_default
-                               + speedtest_docker_networks_custom }}"
+speedtest_role_docker_networks_alias: "{{ speedtest_name }}"
+speedtest_role_docker_networks_default: []
+speedtest_role_docker_networks_custom: []
+speedtest_role_docker_networks: "{{ docker_networks_common
+                               + speedtest_role_docker_networks_default
+                               + speedtest_role_docker_networks_custom }}"
 
 # Restart Policy
-speedtest_docker_restart_policy: unless-stopped
+speedtest_role_docker_restart_policy: unless-stopped
 
 # State
-speedtest_docker_state: started
+speedtest_role_docker_state: started
 
 # Force Kill
-speedtest_docker_force_kill: true
+speedtest_role_docker_force_kill: true

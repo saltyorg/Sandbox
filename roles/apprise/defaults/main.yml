@@ -17,81 +17,81 @@ apprise_name: apprise
 # Paths
 ################################
 
-apprise_paths_folder: "{{ apprise_name }}"
-apprise_paths_location: "{{ server_appdata_path }}/{{ apprise_paths_folder }}"
-apprise_paths_folders_list:
-  - "{{ apprise_paths_location }}"
+apprise_role_paths_folder: "{{ apprise_name }}"
+apprise_role_paths_location: "{{ server_appdata_path }}/{{ apprise_role_paths_folder }}"
+apprise_role_paths_folders_list:
+  - "{{ apprise_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-apprise_web_subdomain: "{{ apprise_name }}"
-apprise_web_domain: "{{ user.domain }}"
-apprise_web_port: "8000"
-apprise_web_url: "{{ 'https://' + (apprise_web_subdomain + '.' + apprise_web_domain
-                  if (apprise_web_subdomain | length > 0)
-                  else apprise_web_domain) }}"
+apprise_role_web_subdomain: "{{ apprise_name }}"
+apprise_role_web_domain: "{{ user.domain }}"
+apprise_role_web_port: "8000"
+apprise_role_web_url: "{{ 'https://' + (apprise_role_web_subdomain + '.' + apprise_role_web_domain
+                  if (apprise_role_web_subdomain | length > 0)
+                  else apprise_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-apprise_dns_record: "{{ apprise_web_subdomain }}"
-apprise_dns_zone: "{{ apprise_web_domain }}"
-apprise_dns_proxy: "{{ dns.proxied }}"
+apprise_role_dns_record: "{{ apprise_role_web_subdomain }}"
+apprise_role_dns_zone: "{{ apprise_role_web_domain }}"
+apprise_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-apprise_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-apprise_traefik_middleware_default: "{{ traefik_default_middleware }}"
-apprise_traefik_middleware_custom: ""
-apprise_traefik_certresolver: "{{ traefik_default_certresolver }}"
-apprise_traefik_enabled: true
+apprise_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+apprise_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+apprise_role_traefik_middleware_custom: ""
+apprise_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+apprise_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-apprise_docker_container: "{{ apprise_name }}"
+apprise_role_docker_container: "{{ apprise_name }}"
 
 # Image
-apprise_docker_image_pull: true
-apprise_docker_image_tag: "latest"
-apprise_docker_image: "lscr.io/linuxserver/apprise-api:{{ apprise_docker_image_tag }}"
+apprise_role_docker_image_pull: true
+apprise_role_docker_image_tag: "latest"
+apprise_role_docker_image: "lscr.io/linuxserver/apprise-api:{{ apprise_role_docker_image_tag }}"
 
 # Envs
-apprise_docker_envs_default:
+apprise_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-apprise_docker_envs_custom: {}
-apprise_docker_envs: "{{ apprise_docker_envs_default
-                         | combine(apprise_docker_envs_custom) }}"
+apprise_role_docker_envs_custom: {}
+apprise_role_docker_envs: "{{ apprise_role_docker_envs_default
+                         | combine(apprise_role_docker_envs_custom) }}"
 
 # Volumes
-apprise_docker_volumes_default:
-  - "{{ apprise_paths_location }}:/config"
-apprise_docker_volumes_custom: []
-apprise_docker_volumes: "{{ apprise_docker_volumes_default
-                            + apprise_docker_volumes_custom }}"
+apprise_role_docker_volumes_default:
+  - "{{ apprise_role_paths_location }}:/config"
+apprise_role_docker_volumes_custom: []
+apprise_role_docker_volumes: "{{ apprise_role_docker_volumes_default
+                            + apprise_role_docker_volumes_custom }}"
 
 # Hostname
-apprise_docker_hostname: "{{ apprise_name }}"
+apprise_role_docker_hostname: "{{ apprise_name }}"
 
 # Networks
-apprise_docker_networks_alias: "{{ apprise_name }}"
-apprise_docker_networks_default: []
-apprise_docker_networks_custom: []
-apprise_docker_networks: "{{ docker_networks_common
-                             + apprise_docker_networks_default
-                             + apprise_docker_networks_custom }}"
+apprise_role_docker_networks_alias: "{{ apprise_name }}"
+apprise_role_docker_networks_default: []
+apprise_role_docker_networks_custom: []
+apprise_role_docker_networks: "{{ docker_networks_common
+                             + apprise_role_docker_networks_default
+                             + apprise_role_docker_networks_custom }}"
 
 # Restart Policy
-apprise_docker_restart_policy: unless-stopped
+apprise_role_docker_restart_policy: unless-stopped
 
 # State
-apprise_docker_state: started
+apprise_role_docker_state: started

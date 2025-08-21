@@ -17,18 +17,18 @@
     name: postgres
   vars:
     postgres_instances: ["{{ miniflux_postgres_name }}"]
-    postgres_docker_env_db: "{{ miniflux_postgres_docker_env_db }}"
-    postgres_docker_image_tag: "{{ miniflux_postgres_docker_image_tag }}"
-    postgres_docker_image_repo: "{{ miniflux_postgres_docker_image_repo }}"
-    postgres_paths_folder: "{{ miniflux_postgres_paths_folder }}"
-    postgres_paths_location: "{{ miniflux_postgres_paths_location }}"
+    postgres_role_docker_env_db: "{{ miniflux_postgres_role_docker_env_db }}"
+    postgres_role_docker_image_tag: "{{ miniflux_postgres_role_docker_image_tag }}"
+    postgres_role_docker_image_repo: "{{ miniflux_postgres_role_docker_image_repo }}"
+    postgres_role_paths_folder: "{{ miniflux_postgres_role_paths_folder }}"
+    postgres_role_paths_location: "{{ miniflux_postgres_role_paths_location }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

@@ -17,79 +17,79 @@ komga_name: komga
 # Paths
 ################################
 
-komga_paths_folder: "{{ komga_name }}"
-komga_paths_location: "{{ server_appdata_path }}/{{ komga_paths_folder }}"
-komga_paths_folders_list:
-  - "{{ komga_paths_location }}"
+komga_role_paths_folder: "{{ komga_name }}"
+komga_role_paths_location: "{{ server_appdata_path }}/{{ komga_role_paths_folder }}"
+komga_role_paths_folders_list:
+  - "{{ komga_role_paths_location }}"
   - "/mnt/local/Media/Comics"
 
 ################################
 # Web
 ################################
 
-komga_web_subdomain: "{{ komga_name }}"
-komga_web_domain: "{{ user.domain }}"
-komga_web_port: "25600"
-komga_web_url: "{{ 'https://' + (komga_web_subdomain + '.' + komga_web_domain
-                if (komga_web_subdomain | length > 0)
-                else komga_web_domain) }}"
+komga_role_web_subdomain: "{{ komga_name }}"
+komga_role_web_domain: "{{ user.domain }}"
+komga_role_web_port: "25600"
+komga_role_web_url: "{{ 'https://' + (komga_role_web_subdomain + '.' + komga_role_web_domain
+                if (komga_role_web_subdomain | length > 0)
+                else komga_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-komga_dns_record: "{{ komga_web_subdomain }}"
-komga_dns_zone: "{{ komga_web_domain }}"
-komga_dns_proxy: "{{ dns.proxied }}"
+komga_role_dns_record: "{{ komga_role_web_subdomain }}"
+komga_role_dns_zone: "{{ komga_role_web_domain }}"
+komga_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-komga_traefik_sso_middleware: ""
-komga_traefik_middleware_default: "{{ traefik_default_middleware }}"
-komga_traefik_middleware_custom: ""
-komga_traefik_certresolver: "{{ traefik_default_certresolver }}"
-komga_traefik_enabled: true
-komga_traefik_api_enabled: false
-komga_traefik_api_endpoint: ""
+komga_role_traefik_sso_middleware: ""
+komga_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+komga_role_traefik_middleware_custom: ""
+komga_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+komga_role_traefik_enabled: true
+komga_role_traefik_api_enabled: false
+komga_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-komga_docker_container: "{{ komga_name }}"
+komga_role_docker_container: "{{ komga_name }}"
 
 # Image
-komga_docker_image_pull: true
-komga_docker_image_tag: "latest"
-komga_docker_image: "gotson/komga:{{ komga_docker_image_tag }}"
+komga_role_docker_image_pull: true
+komga_role_docker_image_tag: "latest"
+komga_role_docker_image: "gotson/komga:{{ komga_role_docker_image_tag }}"
 
 # Volumes
-komga_docker_volumes_default:
-  - "{{ komga_paths_location }}:/config"
+komga_role_docker_volumes_default:
+  - "{{ komga_role_paths_location }}:/config"
   - "/mnt/unionfs/Media/Comics:/comics"
-komga_docker_volumes_custom: []
-komga_docker_volumes: "{{ komga_docker_volumes_default
-                          + komga_docker_volumes_custom }}"
+komga_role_docker_volumes_custom: []
+komga_role_docker_volumes: "{{ komga_role_docker_volumes_default
+                          + komga_role_docker_volumes_custom }}"
 
 # Hostname
-komga_docker_hostname: "{{ komga_name }}"
+komga_role_docker_hostname: "{{ komga_name }}"
 
 # Networks
-komga_docker_networks_alias: "{{ komga_name }}"
-komga_docker_networks_default: []
-komga_docker_networks_custom: []
-komga_docker_networks: "{{ docker_networks_common
-                           + komga_docker_networks_default
-                           + komga_docker_networks_custom }}"
+komga_role_docker_networks_alias: "{{ komga_name }}"
+komga_role_docker_networks_default: []
+komga_role_docker_networks_custom: []
+komga_role_docker_networks: "{{ docker_networks_common
+                           + komga_role_docker_networks_default
+                           + komga_role_docker_networks_custom }}"
 
 # Restart Policy
-komga_docker_restart_policy: unless-stopped
+komga_role_docker_restart_policy: unless-stopped
 
 # State
-komga_docker_state: started
+komga_role_docker_state: started
 
 # User
-komga_docker_user: "{{ uid }}:{{ gid }}"
+komga_role_docker_user: "{{ uid }}:{{ gid }}"

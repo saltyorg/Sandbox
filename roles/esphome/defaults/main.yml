@@ -17,91 +17,91 @@ esphome_name: esphome
 # Paths
 ################################
 
-esphome_paths_folder: "{{ esphome_name }}"
-esphome_paths_location: "{{ server_appdata_path }}/{{ esphome_paths_folder }}"
-esphome_paths_conf: "{{ esphome_paths_location }}/configuration.yaml"
-esphome_paths_folders_list:
-  - "{{ esphome_paths_location }}"
+esphome_role_paths_folder: "{{ esphome_name }}"
+esphome_role_paths_location: "{{ server_appdata_path }}/{{ esphome_role_paths_folder }}"
+esphome_role_paths_conf: "{{ esphome_role_paths_location }}/configuration.yaml"
+esphome_role_paths_folders_list:
+  - "{{ esphome_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-esphome_web_subdomain: "{{ esphome_name }}"
-esphome_web_domain: "{{ user.domain }}"
-esphome_web_port: "6052"
-esphome_web_url: "{{ 'https://' + (esphome_web_subdomain + '.' + esphome_web_domain
-                        if (esphome_web_subdomain | length > 0)
-                        else esphome_web_domain) }}"
+esphome_role_web_subdomain: "{{ esphome_name }}"
+esphome_role_web_domain: "{{ user.domain }}"
+esphome_role_web_port: "6052"
+esphome_role_web_url: "{{ 'https://' + (esphome_role_web_subdomain + '.' + esphome_role_web_domain
+                        if (esphome_role_web_subdomain | length > 0)
+                        else esphome_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-esphome_dns_record: "{{ esphome_web_subdomain }}"
-esphome_dns_zone: "{{ esphome_web_domain }}"
-esphome_dns_proxy: "{{ dns.proxied }}"
+esphome_role_dns_record: "{{ esphome_role_web_subdomain }}"
+esphome_role_dns_zone: "{{ esphome_role_web_domain }}"
+esphome_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-esphome_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-esphome_traefik_middleware_default: "{{ traefik_default_middleware }}"
-esphome_traefik_middleware_custom: ""
-esphome_traefik_certresolver: "{{ traefik_default_certresolver }}"
-esphome_traefik_enabled: true
-esphome_traefik_api_enabled: false
-esphome_traefik_api_endpoint: ""
+esphome_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+esphome_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+esphome_role_traefik_middleware_custom: ""
+esphome_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+esphome_role_traefik_enabled: true
+esphome_role_traefik_api_enabled: false
+esphome_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-esphome_docker_container: "{{ esphome_name }}"
+esphome_role_docker_container: "{{ esphome_name }}"
 
 # Image
-esphome_docker_image_pull: true
-esphome_docker_image_tag: "latest"
-esphome_docker_image: "ghcr.io/imagegenius/esphome:latest"
+esphome_role_docker_image_pull: true
+esphome_role_docker_image_tag: "latest"
+esphome_role_docker_image: "ghcr.io/imagegenius/esphome:latest"
 
 # Envs
-esphome_docker_envs_default:
+esphome_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-esphome_docker_envs_custom: {}
-esphome_docker_envs: "{{ esphome_docker_envs_default
-                               | combine(esphome_docker_envs_custom) }}"
+esphome_role_docker_envs_custom: {}
+esphome_role_docker_envs: "{{ esphome_role_docker_envs_default
+                               | combine(esphome_role_docker_envs_custom) }}"
 
 # Volumes
-esphome_docker_volumes_default:
-  - "{{ esphome_paths_location }}:/config"
+esphome_role_docker_volumes_default:
+  - "{{ esphome_role_paths_location }}:/config"
   - /etc/localtime:/etc/localtime:ro
-esphome_docker_volumes_custom: []
-esphome_docker_volumes: "{{ esphome_docker_volumes_default
-                                  + esphome_docker_volumes_custom }}"
+esphome_role_docker_volumes_custom: []
+esphome_role_docker_volumes: "{{ esphome_role_docker_volumes_default
+                                  + esphome_role_docker_volumes_custom }}"
 
 # Hostname
-esphome_docker_hostname: "{{ esphome_name }}"
+esphome_role_docker_hostname: "{{ esphome_name }}"
 
 # Networks
-esphome_docker_networks_alias: "{{ esphome_name }}"
-esphome_docker_networks_default: []
-esphome_docker_networks_custom: []
-esphome_docker_networks: "{{ docker_networks_common
-                                   + esphome_docker_networks_default
-                                   + esphome_docker_networks_custom }}"
+esphome_role_docker_networks_alias: "{{ esphome_name }}"
+esphome_role_docker_networks_default: []
+esphome_role_docker_networks_custom: []
+esphome_role_docker_networks: "{{ docker_networks_common
+                                   + esphome_role_docker_networks_default
+                                   + esphome_role_docker_networks_custom }}"
 
 # Network Mode
-esphome_docker_network_mode: "host"
+esphome_role_docker_network_mode: "host"
 
 # Restart Policy
-esphome_docker_restart_policy: unless-stopped
+esphome_role_docker_restart_policy: unless-stopped
 
 # State
-esphome_docker_state: started
+esphome_role_docker_state: started
 
 # Privileged
-esphome_docker_privileged: "yes"
+esphome_role_docker_privileged: true

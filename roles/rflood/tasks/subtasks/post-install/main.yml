@@ -9,10 +9,8 @@
 ---
 - name: Post-Install | Wait for config files to be created
   ansible.builtin.wait_for:
-    path: "{{ item }}"
+    path: "{{ rflood_role_paths_rtorrent_rc_location }}"
     state: present
-  loop:
-    - "{{ rflood_paths_rtorrent_rc_location }}"
 
 - name: Post-Install | Wait for 10 seconds
   ansible.builtin.wait_for:

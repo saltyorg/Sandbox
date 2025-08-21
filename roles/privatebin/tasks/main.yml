@@ -10,28 +10,25 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Remove existing Docker container
-  community.docker.docker_container:
-    name: "{{ lookup('vars', role_name + '_docker_container') }}"
-    state: absent
-    container_default_behavior: compatibility
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
 - name: Check 'conf.php'' exists
   ansible.builtin.stat:
-    path: "{{ privatebin_paths_location }}/conf.php"
+    path: "{{ privatebin_role_paths_location }}/conf.php"
   register: conf_php
 
 - name: Import default 'conf.php'
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/PrivateBin/PrivateBin/master/cfg/conf.sample.php
-    dest: "{{ privatebin_paths_location }}/conf.php"
+    dest: "{{ privatebin_role_paths_location }}/conf.php"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     validate_certs: false
@@ -41,7 +38,7 @@
 
 - name: Create a volume with options
   community.docker.docker_volume:
-    name: "{{ lookup('vars', role_name + '_docker_container') }}_tmpfs_run"
+    name: "{{ privatebin_name }}_tmpfs_run"
     driver_options:
       type: tmpfs
       device: tmpfs

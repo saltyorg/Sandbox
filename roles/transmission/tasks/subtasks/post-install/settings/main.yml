@@ -8,11 +8,11 @@
 ######################################################################################
 ---
 - name: Post-Install | Settings | Update 'settings.json' config settings
-  ansible.builtin.shell: jq '."peer-port"={{ transmission_docker_ports_51413 }}' "{{ transmission_paths_setttings_location }}" | sponge "{{ transmission_paths_setttings_location }}"  # noqa 204
+  ansible.builtin.shell: jq '."peer-port"={{ transmission_role_docker_ports_51413 }}' "{{ transmission_role_paths_setttings_location }}" | sponge "{{ transmission_role_paths_setttings_location }}"  # noqa 204
 
-- name: Post-Install | Settings | Set '{{ transmission_paths_location }}' ownership recursively
+- name: Post-Install | Settings | Set '{{ transmission_role_paths_location }}' ownership recursively
   ansible.builtin.file:
-    path: "{{ transmission_paths_location }}"
+    path: "{{ transmission_role_paths_location }}"
     state: directory
     recurse: true
     owner: "{{ user.name }}"

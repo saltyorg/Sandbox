@@ -31,75 +31,75 @@ your_spotify_settings_set: "{{ (your_spotify is defined) and
 # Web
 ################################
 
-your_spotify_web_subdomain: "spotify"
-your_spotify_web_domain: "{{ user.domain }}"
-your_spotify_web_port: "80"
-your_spotify_web_url: "{{ 'https://' + (your_spotify_web_subdomain + '.' + your_spotify_web_domain
-                       if (your_spotify_web_subdomain | length > 0)
-                       else your_spotify_web_domain) }}"
+your_spotify_role_web_subdomain: "spotify"
+your_spotify_role_web_domain: "{{ user.domain }}"
+your_spotify_role_web_port: "80"
+your_spotify_role_web_url: "{{ 'https://' + (your_spotify_role_web_subdomain + '.' + your_spotify_role_web_domain
+                       if (your_spotify_role_web_subdomain | length > 0)
+                       else your_spotify_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-your_spotify_dns_record: "{{ your_spotify_web_subdomain }}"
-your_spotify_dns_zone: "{{ your_spotify_web_domain }}"
-your_spotify_dns_proxy: "{{ dns.proxied }}"
+your_spotify_role_dns_record: "{{ your_spotify_role_web_subdomain }}"
+your_spotify_role_dns_zone: "{{ your_spotify_role_web_domain }}"
+your_spotify_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-your_spotify_traefik_sso_middleware: ""
-your_spotify_traefik_middleware_default: "{{ traefik_default_middleware }}"
-your_spotify_traefik_middleware_custom: ""
-your_spotify_traefik_certresolver: "{{ traefik_default_certresolver }}"
-your_spotify_traefik_enabled: true
-your_spotify_traefik_api_enabled: false
-your_spotify_traefik_api_endpoint: ""
+your_spotify_role_traefik_sso_middleware: ""
+your_spotify_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+your_spotify_role_traefik_middleware_custom: ""
+your_spotify_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+your_spotify_role_traefik_enabled: true
+your_spotify_role_traefik_api_enabled: false
+your_spotify_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-your_spotify_docker_container: "{{ your_spotify_name }}"
+your_spotify_role_docker_container: "{{ your_spotify_name }}"
 
 # Image
-your_spotify_docker_image_pull: true
-your_spotify_docker_image_tag: "latest"
-your_spotify_docker_image: "lscr.io/linuxserver/your_spotify:{{ your_spotify_docker_image_tag }}"
+your_spotify_role_docker_image_pull: true
+your_spotify_role_docker_image_tag: "latest"
+your_spotify_role_docker_image: "lscr.io/linuxserver/your_spotify:{{ your_spotify_role_docker_image_tag }}"
 
 # Envs
-your_spotify_docker_envs_default:
+your_spotify_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  APP_URL: "{{ your_spotify_web_url }}"
+  APP_URL: "{{ your_spotify_role_web_url }}"
   SPOTIFY_PUBLIC: "{{ your_spotify.public_key }}"
   SPOTIFY_SECRET: "{{ your_spotify.secret_key }}"
-  CORS: "{{ your_spotify_web_url + ':443' }}"
+  CORS: "{{ your_spotify_role_web_url + ':443' }}"
   MONGO_ENDPOINT: "mongodb://your-spotify-db:27017/your_spotify"
-your_spotify_docker_envs_custom: {}
-your_spotify_docker_envs: "{{ your_spotify_docker_envs_default
-                              | combine(your_spotify_docker_envs_custom) }}"
+your_spotify_role_docker_envs_custom: {}
+your_spotify_role_docker_envs: "{{ your_spotify_role_docker_envs_default
+                              | combine(your_spotify_role_docker_envs_custom) }}"
 
 # Hostname
-your_spotify_docker_hostname: "{{ your_spotify_name }}"
+your_spotify_role_docker_hostname: "{{ your_spotify_name }}"
 
 # Networks
-your_spotify_docker_networks_alias: "{{ your_spotify_name }}"
-your_spotify_docker_networks_default: []
-your_spotify_docker_networks_custom: []
-your_spotify_docker_networks: "{{ docker_networks_common
-                                  + your_spotify_docker_networks_default
-                                  + your_spotify_docker_networks_custom }}"
+your_spotify_role_docker_networks_alias: "{{ your_spotify_name }}"
+your_spotify_role_docker_networks_default: []
+your_spotify_role_docker_networks_custom: []
+your_spotify_role_docker_networks: "{{ docker_networks_common
+                                  + your_spotify_role_docker_networks_default
+                                  + your_spotify_role_docker_networks_custom }}"
 
 # Restart Policy
-your_spotify_docker_restart_policy: unless-stopped
+your_spotify_role_docker_restart_policy: unless-stopped
 
 # State
-your_spotify_docker_state: started
+your_spotify_role_docker_state: started
 
 # Dependencies
 your_spotify_depends_on: "your-spotify-db"

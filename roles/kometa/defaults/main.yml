@@ -23,58 +23,58 @@ kometa_time: "03:00"
 # Paths
 ################################
 
-kometa_paths_folder: "{{ kometa_name }}"
-kometa_paths_location: "{{ server_appdata_path }}/{{ kometa_paths_folder }}"
-kometa_paths_folders_list:
-  - "{{ kometa_paths_location }}"
-kometa_paths_recursive: true
+kometa_role_paths_folder: "{{ kometa_name }}"
+kometa_role_paths_location: "{{ server_appdata_path }}/{{ kometa_role_paths_folder }}"
+kometa_role_paths_folders_list:
+  - "{{ kometa_role_paths_location }}"
+kometa_role_paths_recursive: true
 
 ################################
 # Docker
 ################################
 
 # Container
-kometa_docker_container: "{{ kometa_name }}"
+kometa_role_docker_container: "{{ kometa_name }}"
 
 # Image
-kometa_docker_image_pull: true
-kometa_docker_image_repo: "kometateam/kometa"
-kometa_docker_image_tag: "latest"
-kometa_docker_image: "{{ lookup('vars', kometa_name + '_docker_image_repo', default=kometa_docker_image_repo)
-                      + ':' + lookup('vars', kometa_name + '_docker_image_tag', default=kometa_docker_image_tag) }}"
+kometa_role_docker_image_pull: true
+kometa_role_docker_image_repo: "kometateam/kometa"
+kometa_role_docker_image_tag: "latest"
+kometa_role_docker_image: "{{ lookup('vars', kometa_name + '_docker_image_repo', default=kometa_role_docker_image_repo)
+                      + ':' + lookup('vars', kometa_name + '_docker_image_tag', default=kometa_role_docker_image_tag) }}"
 
 # Envs
-kometa_docker_envs_default:
+kometa_role_docker_envs_default:
   TZ: "{{ tz }}"
   LOG_LEVEL: "DEBUG"
   KOMETA_TIMES: "{{ lookup('vars', kometa_name + '_time', default=kometa_time) }}"
-kometa_docker_envs_custom: {}
-kometa_docker_envs: "{{ lookup('vars', kometa_name + '_docker_envs_default', default=kometa_docker_envs_default)
-                     | combine(lookup('vars', kometa_name + '_docker_envs_custom', default=kometa_docker_envs_custom)) }}"
+kometa_role_docker_envs_custom: {}
+kometa_role_docker_envs: "{{ lookup('vars', kometa_name + '_docker_envs_default', default=kometa_role_docker_envs_default)
+                     | combine(lookup('vars', kometa_name + '_docker_envs_custom', default=kometa_role_docker_envs_custom)) }}"
 
 # Volumes
-kometa_docker_volumes_default:
-  - "{{ kometa_paths_location }}:/config"
-kometa_docker_volumes_custom: []
-kometa_docker_volumes: "{{ lookup('vars', kometa_name + '_docker_volumes_default', default=kometa_docker_volumes_default)
-                        + lookup('vars', kometa_name + '_docker_volumes_custom', default=kometa_docker_volumes_custom) }}"
+kometa_role_docker_volumes_default:
+  - "{{ kometa_role_paths_location }}:/config"
+kometa_role_docker_volumes_custom: []
+kometa_role_docker_volumes: "{{ lookup('vars', kometa_name + '_docker_volumes_default', default=kometa_role_docker_volumes_default)
+                        + lookup('vars', kometa_name + '_docker_volumes_custom', default=kometa_role_docker_volumes_custom) }}"
 
 # Hostname
-kometa_docker_hostname: "{{ kometa_name }}"
+kometa_role_docker_hostname: "{{ kometa_name }}"
 
 # Networks
-kometa_docker_networks_alias: "{{ kometa_name }}"
-kometa_docker_networks_default: []
-kometa_docker_networks_custom: []
-kometa_docker_networks: "{{ docker_networks_common
-                         + lookup('vars', kometa_name + '_docker_networks_default', default=kometa_docker_networks_default)
-                         + lookup('vars', kometa_name + '_docker_networks_custom', default=kometa_docker_networks_custom) }}"
+kometa_role_docker_networks_alias: "{{ kometa_name }}"
+kometa_role_docker_networks_default: []
+kometa_role_docker_networks_custom: []
+kometa_role_docker_networks: "{{ docker_networks_common
+                         + lookup('vars', kometa_name + '_docker_networks_default', default=kometa_role_docker_networks_default)
+                         + lookup('vars', kometa_name + '_docker_networks_custom', default=kometa_role_docker_networks_custom) }}"
 
 # Restart Policy
-kometa_docker_restart_policy: unless-stopped
+kometa_role_docker_restart_policy: unless-stopped
 
 # State
-kometa_docker_state: started
+kometa_role_docker_state: started
 
 # User
-kometa_docker_user: "{{ uid }}:{{ gid }}"
+kometa_role_docker_user: "{{ uid }}:{{ gid }}"

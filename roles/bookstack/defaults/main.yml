@@ -17,91 +17,91 @@ bookstack_name: bookstack
 # Paths
 ################################
 
-bookstack_paths_folder: "{{ bookstack_name }}"
-bookstack_paths_location: "{{ server_appdata_path }}/{{ bookstack_paths_folder }}"
-bookstack_paths_folders_list:
-  - "{{ bookstack_paths_location }}"
+bookstack_role_paths_folder: "{{ bookstack_name }}"
+bookstack_role_paths_location: "{{ server_appdata_path }}/{{ bookstack_role_paths_folder }}"
+bookstack_role_paths_folders_list:
+  - "{{ bookstack_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-bookstack_web_subdomain: "{{ bookstack_name }}"
-bookstack_web_domain: "{{ user.domain }}"
-bookstack_web_port: "80"
-bookstack_web_url: "{{ 'https://' + (bookstack_web_subdomain + '.' + bookstack_web_domain
-                    if (bookstack_web_subdomain | length > 0)
-                    else bookstack_web_domain) }}"
+bookstack_role_web_subdomain: "{{ bookstack_name }}"
+bookstack_role_web_domain: "{{ user.domain }}"
+bookstack_role_web_port: "80"
+bookstack_role_web_url: "{{ 'https://' + (bookstack_role_web_subdomain + '.' + bookstack_role_web_domain
+                    if (bookstack_role_web_subdomain | length > 0)
+                    else bookstack_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-bookstack_dns_record: "{{ bookstack_web_subdomain }}"
-bookstack_dns_zone: "{{ bookstack_web_domain }}"
-bookstack_dns_proxy: "{{ dns.proxied }}"
+bookstack_role_dns_record: "{{ bookstack_role_web_subdomain }}"
+bookstack_role_dns_zone: "{{ bookstack_role_web_domain }}"
+bookstack_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-bookstack_traefik_sso_middleware: ""
-bookstack_traefik_middleware_default: "{{ traefik_default_middleware }}"
-bookstack_traefik_middleware_custom: ""
-bookstack_traefik_certresolver: "{{ traefik_default_certresolver }}"
-bookstack_traefik_enabled: true
+bookstack_role_traefik_sso_middleware: ""
+bookstack_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+bookstack_role_traefik_middleware_custom: ""
+bookstack_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+bookstack_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-bookstack_docker_container: "{{ bookstack_name }}"
+bookstack_role_docker_container: "{{ bookstack_name }}"
 
 # Image
-bookstack_docker_image_pull: true
-bookstack_docker_image_tag: "latest"
-bookstack_docker_image: "lscr.io/linuxserver/bookstack:{{ bookstack_docker_image_tag }}"
+bookstack_role_docker_image_pull: true
+bookstack_role_docker_image_tag: "latest"
+bookstack_role_docker_image: "lscr.io/linuxserver/bookstack:{{ bookstack_role_docker_image_tag }}"
 
 # Envs
-bookstack_docker_envs_default:
+bookstack_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   APP_KEY: "{{ bookstack_saltbox_facts.facts.app_key }}"
-  APP_URL: "{{ bookstack_web_url }}"
+  APP_URL: "{{ bookstack_role_web_url }}"
   DB_HOST: "mariadb"
   DB_PORT: "3306"
   DB_USERNAME: "root"
-  DB_PASSWORD: "{{ mariadb_docker_env_password }}"
+  DB_PASSWORD: "{{ mariadb_role_docker_env_password }}"
   DB_DATABASE: bookstackapp
-bookstack_docker_envs_custom: {}
-bookstack_docker_envs: "{{ bookstack_docker_envs_default
-                           | combine(bookstack_docker_envs_custom) }}"
+bookstack_role_docker_envs_custom: {}
+bookstack_role_docker_envs: "{{ bookstack_role_docker_envs_default
+                           | combine(bookstack_role_docker_envs_custom) }}"
 
 # Volumes
-bookstack_docker_volumes_default:
-  - "{{ bookstack_paths_location }}:/config"
-bookstack_docker_volumes_custom: []
-bookstack_docker_volumes: "{{ bookstack_docker_volumes_default
-                              + bookstack_docker_volumes_custom }}"
+bookstack_role_docker_volumes_default:
+  - "{{ bookstack_role_paths_location }}:/config"
+bookstack_role_docker_volumes_custom: []
+bookstack_role_docker_volumes: "{{ bookstack_role_docker_volumes_default
+                              + bookstack_role_docker_volumes_custom }}"
 
 # Hostname
-bookstack_docker_hostname: "{{ bookstack_name }}"
+bookstack_role_docker_hostname: "{{ bookstack_name }}"
 
 # Networks
-bookstack_docker_networks_alias: "{{ bookstack_name }}"
-bookstack_docker_networks_default: []
-bookstack_docker_networks_custom: []
-bookstack_docker_networks: "{{ docker_networks_common
-                               + bookstack_docker_networks_default
-                               + bookstack_docker_networks_custom }}"
+bookstack_role_docker_networks_alias: "{{ bookstack_name }}"
+bookstack_role_docker_networks_default: []
+bookstack_role_docker_networks_custom: []
+bookstack_role_docker_networks: "{{ docker_networks_common
+                               + bookstack_role_docker_networks_default
+                               + bookstack_role_docker_networks_custom }}"
 
 # Restart Policy
-bookstack_docker_restart_policy: unless-stopped
+bookstack_role_docker_restart_policy: unless-stopped
 
 # State
-bookstack_docker_state: started
+bookstack_role_docker_state: started
 
 # Dependencies
 bookstack_depends_on: "mariadb"

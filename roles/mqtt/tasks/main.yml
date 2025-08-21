@@ -13,15 +13,15 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check if `{{ mqtt_paths_config_location | basename }}` exists
+- name: Check if `{{ mqtt_role_paths_config_location | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ mqtt_paths_config_location }}"
+    path: "{{ mqtt_role_paths_config_location }}"
   register: mqtt_config
 
 - name: Import default config
   ansible.builtin.template:
     src: mosquitto.conf.j2
-    dest: "{{ mqtt_paths_config_location }}"
+    dest: "{{ mqtt_role_paths_config_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"

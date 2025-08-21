@@ -17,92 +17,92 @@ syncthing_name: syncthing
 # Paths
 ################################
 
-syncthing_paths_folder: "{{ syncthing_name }}"
-syncthing_paths_location: "{{ server_appdata_path }}/{{ syncthing_paths_folder }}"
-syncthing_paths_folders_list:
-  - "{{ syncthing_paths_location }}"
+syncthing_role_paths_folder: "{{ syncthing_name }}"
+syncthing_role_paths_location: "{{ server_appdata_path }}/{{ syncthing_role_paths_folder }}"
+syncthing_role_paths_folders_list:
+  - "{{ syncthing_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-syncthing_web_subdomain: "{{ syncthing_name }}"
-syncthing_web_domain: "{{ user.domain }}"
-syncthing_web_port: "8384"
-syncthing_web_url: "{{ 'https://' + (syncthing_web_subdomain + '.' + syncthing_web_domain
-                    if (syncthing_web_subdomain | length > 0)
-                    else syncthing_web_domain) }}"
+syncthing_role_web_subdomain: "{{ syncthing_name }}"
+syncthing_role_web_domain: "{{ user.domain }}"
+syncthing_role_web_port: "8384"
+syncthing_role_web_url: "{{ 'https://' + (syncthing_role_web_subdomain + '.' + syncthing_role_web_domain
+                    if (syncthing_role_web_subdomain | length > 0)
+                    else syncthing_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-syncthing_dns_record: "{{ syncthing_web_subdomain }}"
-syncthing_dns_zone: "{{ syncthing_web_domain }}"
-syncthing_dns_proxy: "{{ dns.proxied }}"
+syncthing_role_dns_record: "{{ syncthing_role_web_subdomain }}"
+syncthing_role_dns_zone: "{{ syncthing_role_web_domain }}"
+syncthing_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-syncthing_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-syncthing_traefik_middleware_default: "{{ traefik_default_middleware }}"
-syncthing_traefik_middleware_custom: ""
-syncthing_traefik_certresolver: "{{ traefik_default_certresolver }}"
-syncthing_traefik_enabled: true
-syncthing_traefik_api_enabled: false
-syncthing_traefik_api_endpoint: ""
+syncthing_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+syncthing_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+syncthing_role_traefik_middleware_custom: ""
+syncthing_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+syncthing_role_traefik_enabled: true
+syncthing_role_traefik_api_enabled: false
+syncthing_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-syncthing_docker_container: "{{ syncthing_name }}"
+syncthing_role_docker_container: "{{ syncthing_name }}"
 
 # Image
-syncthing_docker_image_pull: true
-syncthing_docker_image_tag: "latest"
-syncthing_docker_image: "lscr.io/linuxserver/syncthing:{{ syncthing_docker_image_tag }}"
+syncthing_role_docker_image_pull: true
+syncthing_role_docker_image_tag: "latest"
+syncthing_role_docker_image: "lscr.io/linuxserver/syncthing:{{ syncthing_role_docker_image_tag }}"
 
 # Ports
-syncthing_docker_ports_defaults:
+syncthing_role_docker_ports_defaults:
   - "22000:22000/tcp"
   - "22000:22000/udp"
   - "21027:21027/udp"
-syncthing_docker_ports_custom: []
-syncthing_docker_ports: "{{ syncthing_docker_ports_defaults
-                            + syncthing_docker_ports_custom }}"
+syncthing_role_docker_ports_custom: []
+syncthing_role_docker_ports: "{{ syncthing_role_docker_ports_defaults
+                            + syncthing_role_docker_ports_custom }}"
 
 # Envs
-syncthing_docker_envs_default:
+syncthing_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-syncthing_docker_envs_custom: {}
-syncthing_docker_envs: "{{ syncthing_docker_envs_default
-                           | combine(syncthing_docker_envs_custom) }}"
+syncthing_role_docker_envs_custom: {}
+syncthing_role_docker_envs: "{{ syncthing_role_docker_envs_default
+                           | combine(syncthing_role_docker_envs_custom) }}"
 
 # Volumes
-syncthing_docker_volumes_default:
-  - "{{ syncthing_paths_location }}:/config"
-syncthing_docker_volumes_custom: []
-syncthing_docker_volumes: "{{ syncthing_docker_volumes_default
-                              + syncthing_docker_volumes_custom }}"
+syncthing_role_docker_volumes_default:
+  - "{{ syncthing_role_paths_location }}:/config"
+syncthing_role_docker_volumes_custom: []
+syncthing_role_docker_volumes: "{{ syncthing_role_docker_volumes_default
+                              + syncthing_role_docker_volumes_custom }}"
 
 # Hostname
-syncthing_docker_hostname: "{{ syncthing_name }}"
+syncthing_role_docker_hostname: "{{ syncthing_name }}"
 
 # Networks
-syncthing_docker_networks_alias: "{{ syncthing_name }}"
-syncthing_docker_networks_default: []
-syncthing_docker_networks_custom: []
-syncthing_docker_networks: "{{ docker_networks_common
-                               + syncthing_docker_networks_default
-                               + syncthing_docker_networks_custom }}"
+syncthing_role_docker_networks_alias: "{{ syncthing_name }}"
+syncthing_role_docker_networks_default: []
+syncthing_role_docker_networks_custom: []
+syncthing_role_docker_networks: "{{ docker_networks_common
+                               + syncthing_role_docker_networks_default
+                               + syncthing_role_docker_networks_custom }}"
 
 # Restart Policy
-syncthing_docker_restart_policy: unless-stopped
+syncthing_role_docker_restart_policy: unless-stopped
 
 # State
-syncthing_docker_state: started
+syncthing_role_docker_state: started

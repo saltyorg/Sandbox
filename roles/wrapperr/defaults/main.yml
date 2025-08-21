@@ -17,74 +17,74 @@ wrapperr_name: wrapperr
 # Paths
 ################################
 
-wrapperr_paths_folder: "{{ wrapperr_name }}"
-wrapperr_paths_location: "{{ server_appdata_path }}/{{ wrapperr_paths_folder }}"
-wrapperr_paths_folders_list:
-  - "{{ wrapperr_paths_location }}"
+wrapperr_role_paths_folder: "{{ wrapperr_name }}"
+wrapperr_role_paths_location: "{{ server_appdata_path }}/{{ wrapperr_role_paths_folder }}"
+wrapperr_role_paths_folders_list:
+  - "{{ wrapperr_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-wrapperr_web_subdomain: "{{ wrapperr_name }}"
-wrapperr_web_domain: "{{ user.domain }}"
-wrapperr_web_port: "8282"
-wrapperr_web_url: "{{ 'https://' + (wrapperr_web_subdomain + '.' + wrapperr_web_domain
-                   if (wrapperr_web_subdomain | length > 0)
-                   else wrapperr_web_domain) }}"
+wrapperr_role_web_subdomain: "{{ wrapperr_name }}"
+wrapperr_role_web_domain: "{{ user.domain }}"
+wrapperr_role_web_port: "8282"
+wrapperr_role_web_url: "{{ 'https://' + (wrapperr_role_web_subdomain + '.' + wrapperr_role_web_domain
+                   if (wrapperr_role_web_subdomain | length > 0)
+                   else wrapperr_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-wrapperr_dns_record: "{{ wrapperr_web_subdomain }}"
-wrapperr_dns_zone: "{{ wrapperr_web_domain }}"
-wrapperr_dns_proxy: "{{ dns.proxied }}"
+wrapperr_role_dns_record: "{{ wrapperr_role_web_subdomain }}"
+wrapperr_role_dns_zone: "{{ wrapperr_role_web_domain }}"
+wrapperr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-wrapperr_traefik_sso_middleware: ""
-wrapperr_traefik_middleware_default: "{{ traefik_default_middleware }}"
-wrapperr_traefik_middleware_custom: ""
-wrapperr_traefik_certresolver: "{{ traefik_default_certresolver }}"
-wrapperr_traefik_enabled: true
-wrapperr_traefik_api_enabled: false
-wrapperr_traefik_api_endpoint: ""
+wrapperr_role_traefik_sso_middleware: ""
+wrapperr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+wrapperr_role_traefik_middleware_custom: ""
+wrapperr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wrapperr_role_traefik_enabled: true
+wrapperr_role_traefik_api_enabled: false
+wrapperr_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-wrapperr_docker_container: "{{ wrapperr_name }}"
+wrapperr_role_docker_container: "{{ wrapperr_name }}"
 
 # Image
-wrapperr_docker_image_pull: true
-wrapperr_docker_image_tag: "latest"
-wrapperr_docker_image: "aunefyren/wrapperr:{{ wrapperr_docker_image_tag }}"
+wrapperr_role_docker_image_pull: true
+wrapperr_role_docker_image_tag: "latest"
+wrapperr_role_docker_image: "aunefyren/wrapperr:{{ wrapperr_role_docker_image_tag }}"
 
 # Volumes
-wrapperr_docker_volumes_default:
-  - "{{ wrapperr_paths_location }}:/app/config"
-wrapperr_docker_volumes_custom: []
-wrapperr_docker_volumes: "{{ wrapperr_docker_volumes_default
-                             + wrapperr_docker_volumes_custom }}"
+wrapperr_role_docker_volumes_default:
+  - "{{ wrapperr_role_paths_location }}:/app/config"
+wrapperr_role_docker_volumes_custom: []
+wrapperr_role_docker_volumes: "{{ wrapperr_role_docker_volumes_default
+                             + wrapperr_role_docker_volumes_custom }}"
 
 # Hostname
-wrapperr_docker_hostname: "{{ wrapperr_name }}"
+wrapperr_role_docker_hostname: "{{ wrapperr_name }}"
 
 # Networks
-wrapperr_docker_networks_alias: "{{ wrapperr_name }}"
-wrapperr_docker_networks_default: []
-wrapperr_docker_networks_custom: []
-wrapperr_docker_networks: "{{ docker_networks_common
-                              + wrapperr_docker_networks_default
-                              + wrapperr_docker_networks_custom }}"
+wrapperr_role_docker_networks_alias: "{{ wrapperr_name }}"
+wrapperr_role_docker_networks_default: []
+wrapperr_role_docker_networks_custom: []
+wrapperr_role_docker_networks: "{{ docker_networks_common
+                              + wrapperr_role_docker_networks_default
+                              + wrapperr_role_docker_networks_custom }}"
 
 # Restart Policy
-wrapperr_docker_restart_policy: unless-stopped
+wrapperr_role_docker_restart_policy: unless-stopped
 
 # State
-wrapperr_docker_state: started
+wrapperr_role_docker_state: started

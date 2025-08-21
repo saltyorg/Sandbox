@@ -17,87 +17,87 @@ tvheadend_name: tvheadend
 # Paths
 ################################
 
-tvheadend_paths_folder: "{{ tvheadend_name }}"
-tvheadend_paths_location: "{{ server_appdata_path }}/{{ tvheadend_paths_folder }}"
-tvheadend_paths_downloads_location: "{{ downloads_root_path }}/{{ tvheadend_paths_folder }}"
-tvheadend_paths_folders_list:
-  - "{{ tvheadend_paths_location }}"
-  - "{{ tvheadend_paths_downloads_location }}"
+tvheadend_role_paths_folder: "{{ tvheadend_name }}"
+tvheadend_role_paths_location: "{{ server_appdata_path }}/{{ tvheadend_role_paths_folder }}"
+tvheadend_role_paths_downloads_location: "{{ downloads_root_path }}/{{ tvheadend_role_paths_folder }}"
+tvheadend_role_paths_folders_list:
+  - "{{ tvheadend_role_paths_location }}"
+  - "{{ tvheadend_role_paths_downloads_location }}"
 
 
 ################################
 # Web
 ################################
 
-tvheadend_web_subdomain: "{{ tvheadend_name }}"
-tvheadend_web_domain: "{{ user.domain }}"
-tvheadend_web_port: "9981"
-tvheadend_web_url: "{{ 'https://' + (tvheadend_web_subdomain + '.' + tvheadend_web_domain
-                    if (tvheadend_web_subdomain | length > 0)
-                    else tvheadend_web_domain) }}"
+tvheadend_role_web_subdomain: "{{ tvheadend_name }}"
+tvheadend_role_web_domain: "{{ user.domain }}"
+tvheadend_role_web_port: "9981"
+tvheadend_role_web_url: "{{ 'https://' + (tvheadend_role_web_subdomain + '.' + tvheadend_role_web_domain
+                    if (tvheadend_role_web_subdomain | length > 0)
+                    else tvheadend_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-tvheadend_dns_record: "{{ tvheadend_web_subdomain }}"
-tvheadend_dns_zone: "{{ tvheadend_web_domain }}"
-tvheadend_dns_proxy: "{{ dns.proxied }}"
+tvheadend_role_dns_record: "{{ tvheadend_role_web_subdomain }}"
+tvheadend_role_dns_zone: "{{ tvheadend_role_web_domain }}"
+tvheadend_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-tvheadend_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-tvheadend_traefik_middleware_default: "{{ traefik_default_middleware }}"
-tvheadend_traefik_middleware_custom: ""
-tvheadend_traefik_certresolver: "{{ traefik_default_certresolver }}"
-tvheadend_traefik_enabled: true
-tvheadend_traefik_api_enabled: false
-tvheadend_traefik_api_endpoint: ""
+tvheadend_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+tvheadend_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+tvheadend_role_traefik_middleware_custom: ""
+tvheadend_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tvheadend_role_traefik_enabled: true
+tvheadend_role_traefik_api_enabled: false
+tvheadend_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-tvheadend_docker_container: "{{ tvheadend_name }}"
+tvheadend_role_docker_container: "{{ tvheadend_name }}"
 
 # Image
-tvheadend_docker_image_pull: true
-tvheadend_docker_image_tag: "latest"
-tvheadend_docker_image: "lscr.io/linuxserver/tvheadend:{{ tvheadend_docker_image_tag }}"
+tvheadend_role_docker_image_pull: true
+tvheadend_role_docker_image_tag: "latest"
+tvheadend_role_docker_image: "lscr.io/linuxserver/tvheadend:{{ tvheadend_role_docker_image_tag }}"
 
 # Envs
-tvheadend_docker_envs_default:
+tvheadend_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-tvheadend_docker_envs_custom: {}
-tvheadend_docker_envs: "{{ tvheadend_docker_envs_default
-                           | combine(tvheadend_docker_envs_custom) }}"
+tvheadend_role_docker_envs_custom: {}
+tvheadend_role_docker_envs: "{{ tvheadend_role_docker_envs_default
+                           | combine(tvheadend_role_docker_envs_custom) }}"
 
 # Volumes
-tvheadend_docker_volumes_default:
-  - "{{ tvheadend_paths_location }}:/config"
-  - "{{ tvheadend_paths_downloads_location }}:/recordings"
-tvheadend_docker_volumes_custom: []
-tvheadend_docker_volumes: "{{ tvheadend_docker_volumes_default
-                              + tvheadend_docker_volumes_custom }}"
+tvheadend_role_docker_volumes_default:
+  - "{{ tvheadend_role_paths_location }}:/config"
+  - "{{ tvheadend_role_paths_downloads_location }}:/recordings"
+tvheadend_role_docker_volumes_custom: []
+tvheadend_role_docker_volumes: "{{ tvheadend_role_docker_volumes_default
+                              + tvheadend_role_docker_volumes_custom }}"
 
 # Hostname
-tvheadend_docker_hostname: "{{ tvheadend_name }}"
+tvheadend_role_docker_hostname: "{{ tvheadend_name }}"
 
 # Networks
-tvheadend_docker_networks_alias: "{{ tvheadend_name }}"
-tvheadend_docker_networks_default: []
-tvheadend_docker_networks_custom: []
-tvheadend_docker_networks: "{{ docker_networks_common
-                               + tvheadend_docker_networks_default
-                               + tvheadend_docker_networks_custom }}"
+tvheadend_role_docker_networks_alias: "{{ tvheadend_name }}"
+tvheadend_role_docker_networks_default: []
+tvheadend_role_docker_networks_custom: []
+tvheadend_role_docker_networks: "{{ docker_networks_common
+                               + tvheadend_role_docker_networks_default
+                               + tvheadend_role_docker_networks_custom }}"
 
 # Restart Policy
-tvheadend_docker_restart_policy: unless-stopped
+tvheadend_role_docker_restart_policy: unless-stopped
 
 # State
-tvheadend_docker_state: started
+tvheadend_role_docker_state: started

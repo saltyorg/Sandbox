@@ -17,92 +17,92 @@ stash_name: stash
 # Paths
 ################################
 
-stash_paths_folder: "{{ stash_name }}"
-stash_paths_location: "{{ server_appdata_path }}/{{ stash_paths_folder }}"
-stash_paths_folders_list:
-  - "{{ stash_paths_location }}"
-  - "{{ stash_paths_location }}/config"
-  - "{{ stash_paths_location }}/metadata"
-  - "{{ stash_paths_location }}/cache"
-  - "{{ stash_paths_location }}/generated"
+stash_role_paths_folder: "{{ stash_name }}"
+stash_role_paths_location: "{{ server_appdata_path }}/{{ stash_role_paths_folder }}"
+stash_role_paths_folders_list:
+  - "{{ stash_role_paths_location }}"
+  - "{{ stash_role_paths_location }}/config"
+  - "{{ stash_role_paths_location }}/metadata"
+  - "{{ stash_role_paths_location }}/cache"
+  - "{{ stash_role_paths_location }}/generated"
   - "/mnt/unionfs/Media/Adult"
 
 ################################
 # Web
 ################################
 
-stash_web_subdomain: "{{ stash_name }}"
-stash_web_domain: "{{ user.domain }}"
-stash_web_port: "9999"
-stash_web_url: "{{ 'https://' + (stash_web_subdomain + '.' + stash_web_domain
-                if (stash_web_subdomain | length > 0)
-                else stash_web_domain) }}"
+stash_role_web_subdomain: "{{ stash_name }}"
+stash_role_web_domain: "{{ user.domain }}"
+stash_role_web_port: "9999"
+stash_role_web_url: "{{ 'https://' + (stash_role_web_subdomain + '.' + stash_role_web_domain
+                if (stash_role_web_subdomain | length > 0)
+                else stash_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-stash_dns_record: "{{ stash_web_subdomain }}"
-stash_dns_zone: "{{ stash_web_domain }}"
-stash_dns_proxy: "{{ dns.proxied }}"
+stash_role_dns_record: "{{ stash_role_web_subdomain }}"
+stash_role_dns_zone: "{{ stash_role_web_domain }}"
+stash_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-stash_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-stash_traefik_middleware_default: "{{ traefik_default_middleware }}"
-stash_traefik_middleware_custom: ""
-stash_traefik_certresolver: "{{ traefik_default_certresolver }}"
-stash_traefik_enabled: true
-stash_traefik_api_enabled: false
-stash_traefik_api_endpoint: ""
+stash_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+stash_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+stash_role_traefik_middleware_custom: ""
+stash_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+stash_role_traefik_enabled: true
+stash_role_traefik_api_enabled: false
+stash_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-stash_docker_container: "{{ stash_name }}"
+stash_role_docker_container: "{{ stash_name }}"
 
 # Image
-stash_docker_image_pull: true
-stash_docker_image_tag: "latest"
-stash_docker_image: "ghcr.io/hotio/stash:{{ stash_docker_image_tag }}"
+stash_role_docker_image_pull: true
+stash_role_docker_image_tag: "latest"
+stash_role_docker_image: "ghcr.io/hotio/stash:{{ stash_role_docker_image_tag }}"
 
 # Envs
-stash_docker_envs_default:
+stash_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-stash_docker_envs_custom: {}
-stash_docker_envs: "{{ stash_docker_envs_default
-                       | combine(stash_docker_envs_custom) }}"
+stash_role_docker_envs_custom: {}
+stash_role_docker_envs: "{{ stash_role_docker_envs_default
+                       | combine(stash_role_docker_envs_custom) }}"
 
 # Volumes
-stash_docker_volumes_default:
-  - "{{ stash_paths_location }}/config:/config"
-  - "{{ stash_paths_location }}/metadata:/metadata"
-  - "{{ stash_paths_location }}/cache:/cache"
-  - "{{ stash_paths_location }}/generated:/generated"
+stash_role_docker_volumes_default:
+  - "{{ stash_role_paths_location }}/config:/config"
+  - "{{ stash_role_paths_location }}/metadata:/metadata"
+  - "{{ stash_role_paths_location }}/cache:/cache"
+  - "{{ stash_role_paths_location }}/generated:/generated"
   - "/mnt/unionfs/Media/Adult:/data"
-stash_docker_volumes_custom: []
-stash_docker_volumes: "{{ stash_docker_volumes_default
-                          + stash_docker_volumes_custom }}"
+stash_role_docker_volumes_custom: []
+stash_role_docker_volumes: "{{ stash_role_docker_volumes_default
+                          + stash_role_docker_volumes_custom }}"
 
 # Hostname
-stash_docker_hostname: "{{ stash_name }}"
+stash_role_docker_hostname: "{{ stash_name }}"
 
 # Networks
-stash_docker_networks_alias: "{{ stash_name }}"
-stash_docker_networks_default: []
-stash_docker_networks_custom: []
-stash_docker_networks: "{{ docker_networks_common
-                           + stash_docker_networks_default
-                           + stash_docker_networks_custom }}"
+stash_role_docker_networks_alias: "{{ stash_name }}"
+stash_role_docker_networks_default: []
+stash_role_docker_networks_custom: []
+stash_role_docker_networks: "{{ docker_networks_common
+                           + stash_role_docker_networks_default
+                           + stash_role_docker_networks_custom }}"
 
 # Restart Policy
-stash_docker_restart_policy: unless-stopped
+stash_role_docker_restart_policy: unless-stopped
 
 # State
-stash_docker_state: started
+stash_role_docker_state: started

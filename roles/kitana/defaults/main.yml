@@ -17,89 +17,89 @@ kitana_name: kitana
 # Paths
 ################################
 
-kitana_paths_folder: "{{ kitana_name }}"
-kitana_paths_location: "{{ server_appdata_path }}/{{ kitana_paths_folder }}"
-kitana_paths_folders_list:
-  - "{{ kitana_paths_location }}"
-kitana_paths_config_location: "{{ kitana_paths_location }}/config.yml"
+kitana_role_paths_folder: "{{ kitana_name }}"
+kitana_role_paths_location: "{{ server_appdata_path }}/{{ kitana_role_paths_folder }}"
+kitana_role_paths_folders_list:
+  - "{{ kitana_role_paths_location }}"
+kitana_role_paths_config_location: "{{ kitana_role_paths_location }}/config.yml"
 
 ################################
 # Web
 ################################
 
-kitana_web_subdomain: "{{ kitana_name }}"
-kitana_web_domain: "{{ user.domain }}"
-kitana_web_port: "31337"
-kitana_web_url: "{{ 'https://' + (kitana_web_subdomain + '.' + kitana_web_domain
-                 if (kitana_web_subdomain | length > 0)
-                 else kitana_web_domain) }}"
+kitana_role_web_subdomain: "{{ kitana_name }}"
+kitana_role_web_domain: "{{ user.domain }}"
+kitana_role_web_port: "31337"
+kitana_role_web_url: "{{ 'https://' + (kitana_role_web_subdomain + '.' + kitana_role_web_domain
+                 if (kitana_role_web_subdomain | length > 0)
+                 else kitana_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-kitana_dns_record: "{{ kitana_web_subdomain }}"
-kitana_dns_zone: "{{ kitana_web_domain }}"
-kitana_dns_proxy: "{{ dns.proxied }}"
+kitana_role_dns_record: "{{ kitana_role_web_subdomain }}"
+kitana_role_dns_zone: "{{ kitana_role_web_domain }}"
+kitana_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-kitana_traefik_sso_middleware: ""
-kitana_traefik_middleware_default: "{{ traefik_default_middleware }}"
-kitana_traefik_middleware_custom: ""
-kitana_traefik_certresolver: "{{ traefik_default_certresolver }}"
-kitana_traefik_enabled: true
-kitana_traefik_api_enabled: false
-kitana_traefik_api_endpoint: ""
+kitana_role_traefik_sso_middleware: ""
+kitana_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+kitana_role_traefik_middleware_custom: ""
+kitana_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+kitana_role_traefik_enabled: true
+kitana_role_traefik_api_enabled: false
+kitana_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-kitana_docker_container: "{{ kitana_name }}"
+kitana_role_docker_container: "{{ kitana_name }}"
 
 # Image
-kitana_docker_image_pull: true
-kitana_docker_image_tag: "latest"
-kitana_docker_image: "pannal/kitana:{{ kitana_docker_image_tag }}"
+kitana_role_docker_image_pull: true
+kitana_role_docker_image_tag: "latest"
+kitana_role_docker_image: "pannal/kitana:{{ kitana_role_docker_image_tag }}"
 
 # Envs
-kitana_docker_envs_default:
+kitana_role_docker_envs_default:
   TZ: "{{ tz }}"
-kitana_docker_envs_custom: {}
-kitana_docker_envs: "{{ kitana_docker_envs_default
-                        | combine(kitana_docker_envs_custom) }}"
+kitana_role_docker_envs_custom: {}
+kitana_role_docker_envs: "{{ kitana_role_docker_envs_default
+                        | combine(kitana_role_docker_envs_custom) }}"
 
 # Commands
-kitana_docker_commands_default:
+kitana_role_docker_commands_default:
   - "-P"
-kitana_docker_commands_custom: []
-kitana_docker_commands: "{{ kitana_docker_commands_default
-                            + kitana_docker_commands_custom }}"
+kitana_role_docker_commands_custom: []
+kitana_role_docker_commands: "{{ kitana_role_docker_commands_default
+                            + kitana_role_docker_commands_custom }}"
 
 # Volumes
-kitana_docker_volumes_default:
-  - "{{ kitana_paths_location }}:/app/data"
-kitana_docker_volumes_custom: []
-kitana_docker_volumes: "{{ kitana_docker_volumes_default
-                           + kitana_docker_volumes_custom }}"
+kitana_role_docker_volumes_default:
+  - "{{ kitana_role_paths_location }}:/app/data"
+kitana_role_docker_volumes_custom: []
+kitana_role_docker_volumes: "{{ kitana_role_docker_volumes_default
+                           + kitana_role_docker_volumes_custom }}"
 
 # Hostname
-kitana_docker_hostname: "{{ kitana_name }}"
+kitana_role_docker_hostname: "{{ kitana_name }}"
 
 # Networks
-kitana_docker_networks_alias: "{{ kitana_name }}"
-kitana_docker_networks_default: []
-kitana_docker_networks_custom: []
-kitana_docker_networks: "{{ docker_networks_common
-                            + kitana_docker_networks_default
-                            + kitana_docker_networks_custom }}"
+kitana_role_docker_networks_alias: "{{ kitana_name }}"
+kitana_role_docker_networks_default: []
+kitana_role_docker_networks_custom: []
+kitana_role_docker_networks: "{{ docker_networks_common
+                            + kitana_role_docker_networks_default
+                            + kitana_role_docker_networks_custom }}"
 
 # Restart Policy
-kitana_docker_restart_policy: unless-stopped
+kitana_role_docker_restart_policy: unless-stopped
 
 # State
-kitana_docker_state: started
+kitana_role_docker_state: started

@@ -17,7 +17,7 @@
 - name: Generate Secret Key Base
   community.docker.docker_container:
     name: maybe_finance-secret-key
-    image: "{{ maybe_finance_docker_image }}"
+    image: "{{ maybe_finance_role_docker_image }}"
     command: "sh -c 'head -c 32 /dev/urandom | base64'"
     detach: false
     networks:
@@ -42,28 +42,28 @@
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
-    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
-    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Import Redis Role
   ansible.builtin.include_role:
     name: redis
   vars:
     redis_instances: ["{{ maybe_finance_name }}-redis"]
-    redis_paths_folder: "{{ maybe_finance_name }}"
-    redis_paths_location: "{{ server_appdata_path }}/{{ redis_paths_folder }}/redis"
+    redis_role_paths_folder: "{{ maybe_finance_name }}"
+    redis_role_paths_location: "{{ server_appdata_path }}/{{ redis_role_paths_folder }}/redis"
 
 - name: Import PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
     postgres_instances: ["{{ maybe_finance_postgres_name }}"]
-    postgres_docker_env_db: "{{ maybe_finance_postgres_docker_env_db }}"
-    postgres_docker_image_tag: "{{ maybe_finance_postgres_docker_image_tag }}"
-    postgres_docker_image_repo: "{{ maybe_finance_postgres_docker_image_repo }}"
-    postgres_paths_folder: "{{ maybe_finance_postgres_paths_folder }}"
-    postgres_paths_location: "{{ maybe_finance_postgres_paths_location }}"
+    postgres_role_docker_env_db: "{{ maybe_finance_postgres_role_docker_env_db }}"
+    postgres_role_docker_image_tag: "{{ maybe_finance_postgres_role_docker_image_tag }}"
+    postgres_role_docker_image_repo: "{{ maybe_finance_postgres_role_docker_image_repo }}"
+    postgres_role_paths_folder: "{{ maybe_finance_postgres_role_paths_folder }}"
+    postgres_role_paths_location: "{{ maybe_finance_postgres_role_paths_location }}"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

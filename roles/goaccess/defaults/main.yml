@@ -17,87 +17,87 @@ goaccess_name: goaccess
 # Paths
 ################################
 
-goaccess_paths_folder: "{{ goaccess_name }}"
-goaccess_paths_location: "{{ server_appdata_path }}/{{ goaccess_paths_folder }}"
-goaccess_paths_folders_list:
-  - "{{ goaccess_paths_location }}"
+goaccess_role_paths_folder: "{{ goaccess_name }}"
+goaccess_role_paths_location: "{{ server_appdata_path }}/{{ goaccess_role_paths_folder }}"
+goaccess_role_paths_folders_list:
+  - "{{ goaccess_role_paths_location }}"
 
 ################################
 # Web
 ################################
 
-goaccess_web_subdomain: "{{ goaccess_name }}"
-goaccess_web_domain: "{{ user.domain }}"
-goaccess_web_port: "7889"
-goaccess_web_url: "{{ 'https://' + (goaccess_web_subdomain + '.' + goaccess_web_domain
-                   if (goaccess_web_subdomain | length > 0)
-                   else goaccess_web_domain) }}"
+goaccess_role_web_subdomain: "{{ goaccess_name }}"
+goaccess_role_web_domain: "{{ user.domain }}"
+goaccess_role_web_port: "7889"
+goaccess_role_web_url: "{{ 'https://' + (goaccess_role_web_subdomain + '.' + goaccess_role_web_domain
+                   if (goaccess_role_web_subdomain | length > 0)
+                   else goaccess_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-goaccess_dns_record: "{{ goaccess_web_subdomain }}"
-goaccess_dns_zone: "{{ goaccess_web_domain }}"
-goaccess_dns_proxy: "{{ dns.proxied }}"
+goaccess_role_dns_record: "{{ goaccess_role_web_subdomain }}"
+goaccess_role_dns_zone: "{{ goaccess_role_web_domain }}"
+goaccess_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Traefik
 ################################
 
-goaccess_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
-goaccess_traefik_middleware_default: "{{ traefik_default_middleware }}"
-goaccess_traefik_middleware_custom: ""
-goaccess_traefik_certresolver: "{{ traefik_default_certresolver }}"
-goaccess_traefik_enabled: true
-goaccess_traefik_api_enabled: false
-goaccess_traefik_api_endpoint: ""
+goaccess_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+goaccess_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+goaccess_role_traefik_middleware_custom: ""
+goaccess_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+goaccess_role_traefik_enabled: true
+goaccess_role_traefik_api_enabled: false
+goaccess_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
 ################################
 
 # Container
-goaccess_docker_container: "{{ goaccess_name }}"
+goaccess_role_docker_container: "{{ goaccess_name }}"
 
 # Image
-goaccess_docker_image_pull: true
-goaccess_docker_image_tag: "latest"
-goaccess_docker_image: "gregyankovoy/goaccess:{{ goaccess_docker_image_tag }}"
+goaccess_role_docker_image_pull: true
+goaccess_role_docker_image_tag: "latest"
+goaccess_role_docker_image: "gregyankovoy/goaccess:{{ goaccess_role_docker_image_tag }}"
 
 # Envs
-goaccess_docker_envs_default:
+goaccess_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-goaccess_docker_envs_custom: {}
-goaccess_docker_envs: "{{ goaccess_docker_envs_default
-                          | combine(goaccess_docker_envs_custom) }}"
+goaccess_role_docker_envs_custom: {}
+goaccess_role_docker_envs: "{{ goaccess_role_docker_envs_default
+                          | combine(goaccess_role_docker_envs_custom) }}"
 
 # Volumes
-goaccess_docker_volumes_default:
-  - "{{ goaccess_paths_location }}:/config"
+goaccess_role_docker_volumes_default:
+  - "{{ goaccess_role_paths_location }}:/config"
   - "/opt/traefik:/opt/log"
-goaccess_docker_volumes_custom: []
-goaccess_docker_volumes: "{{ goaccess_docker_volumes_default
-                             + goaccess_docker_volumes_custom }}"
+goaccess_role_docker_volumes_custom: []
+goaccess_role_docker_volumes: "{{ goaccess_role_docker_volumes_default
+                             + goaccess_role_docker_volumes_custom }}"
 
 # Hostname
-goaccess_docker_hostname: "{{ goaccess_name }}"
+goaccess_role_docker_hostname: "{{ goaccess_name }}"
 
 # Networks
-goaccess_docker_networks_alias: "{{ goaccess_name }}"
-goaccess_docker_networks_default: []
-goaccess_docker_networks_custom: []
-goaccess_docker_networks: "{{ docker_networks_common
-                              + goaccess_docker_networks_default
-                              + goaccess_docker_networks_custom }}"
+goaccess_role_docker_networks_alias: "{{ goaccess_name }}"
+goaccess_role_docker_networks_default: []
+goaccess_role_docker_networks_custom: []
+goaccess_role_docker_networks: "{{ docker_networks_common
+                              + goaccess_role_docker_networks_default
+                              + goaccess_role_docker_networks_custom }}"
 
 # Restart Policy
-goaccess_docker_restart_policy: unless-stopped
+goaccess_role_docker_restart_policy: unless-stopped
 
 # State
-goaccess_docker_state: started
+goaccess_role_docker_state: started
 
 # Force Kill
-goaccess_docker_force_kill: true
+goaccess_role_docker_force_kill: true
