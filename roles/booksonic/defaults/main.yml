@@ -29,16 +29,16 @@ booksonic_role_paths_folders_list:
 booksonic_role_web_subdomain: "{{ booksonic_name }}"
 booksonic_role_web_domain: "{{ user.domain }}"
 booksonic_role_web_port: "4040"
-booksonic_role_web_url: "{{ 'https://' + (booksonic_role_web_subdomain + '.' + booksonic_role_web_domain
-                    if (booksonic_role_web_subdomain | length > 0)
-                    else booksonic_role_web_domain) }}"
+booksonic_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='booksonic') + '.' + lookup('role_var', '_web_domain', role='booksonic')
+                         if (lookup('role_var', '_web_subdomain', role='booksonic') | length > 0)
+                         else lookup('role_var', '_web_domain', role='booksonic')) }}"
 
 ################################
 # DNS
 ################################
 
-booksonic_role_dns_record: "{{ booksonic_role_web_subdomain }}"
-booksonic_role_dns_zone: "{{ booksonic_role_web_domain }}"
+booksonic_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='booksonic') }}"
+booksonic_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='booksonic') }}"
 booksonic_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -60,14 +60,15 @@ booksonic_role_docker_container: "{{ booksonic_name }}"
 
 # Image
 booksonic_role_docker_image_pull: true
+booksonic_role_docker_image_repo: "lscr.io/linuxserver/booksonic-air"
 booksonic_role_docker_image_tag: "2201.1.0"
-booksonic_role_docker_image: "lscr.io/linuxserver/booksonic-air:{{ booksonic_role_docker_image_tag }}"
+booksonic_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='booksonic') }}:{{ lookup('role_var', '_docker_image_tag', role='booksonic') }}"
 
 # Ports
 booksonic_role_docker_ports_defaults: []
 booksonic_role_docker_ports_custom: []
-booksonic_role_docker_ports: "{{ booksonic_role_docker_ports_defaults
-                            + booksonic_role_docker_ports_custom }}"
+booksonic_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='booksonic')
+                                 + lookup('role_var', '_docker_ports_custom', role='booksonic') }}"
 
 # Envs
 booksonic_role_docker_envs_default:
@@ -76,18 +77,18 @@ booksonic_role_docker_envs_default:
   TZ: "{{ tz }}"
   JAVA_OPTS: "-Dserver.use-forward-headers=true"
 booksonic_role_docker_envs_custom: {}
-booksonic_role_docker_envs: "{{ booksonic_role_docker_envs_default
-                           | combine(booksonic_role_docker_envs_custom) }}"
+booksonic_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='booksonic')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='booksonic')) }}"
 
 # Volumes
 booksonic_role_docker_volumes_default:
-  - "{{ booksonic_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='booksonic') }}:/config"
   - "/mnt/unionfs/Media/Audiobooks:/audiobooks"
   - "/mnt/unionfs/Media/Podcasts:/podcasts"
   - "/mnt/unionfs/Media:/othermedia"
 booksonic_role_docker_volumes_custom: []
-booksonic_role_docker_volumes: "{{ booksonic_role_docker_volumes_default
-                              + booksonic_role_docker_volumes_custom }}"
+booksonic_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='booksonic')
+                                   + lookup('role_var', '_docker_volumes_custom', role='booksonic') }}"
 
 # Hostname
 booksonic_role_docker_hostname: "{{ booksonic_name }}"
@@ -97,8 +98,8 @@ booksonic_role_docker_networks_alias: "{{ booksonic_name }}"
 booksonic_role_docker_networks_default: []
 booksonic_role_docker_networks_custom: []
 booksonic_role_docker_networks: "{{ docker_networks_common
-                               + booksonic_role_docker_networks_default
-                               + booksonic_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='booksonic')
+                                    + lookup('role_var', '_docker_networks_custom', role='booksonic') }}"
 
 # Restart Policy
 booksonic_role_docker_restart_policy: unless-stopped
