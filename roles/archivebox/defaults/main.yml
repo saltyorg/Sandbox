@@ -29,16 +29,16 @@ archivebox_role_paths_folders_list:
 archivebox_role_web_subdomain: "{{ archivebox_name }}"
 archivebox_role_web_domain: "{{ user.domain }}"
 archivebox_role_web_port: "8000"
-archivebox_role_web_url: "{{ 'https://' + (archivebox_role_web_subdomain + '.' + archivebox_role_web_domain
-                     if (archivebox_role_web_subdomain | length > 0)
-                     else archivebox_role_web_domain) }}"
+archivebox_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='archivebox') + '.' + lookup('role_var', '_web_domain', role='archivebox')
+                          if (lookup('role_var', '_web_subdomain', role='archivebox') | length > 0)
+                          else lookup('role_var', '_web_domain', role='archivebox')) }}"
 
 ################################
 # DNS
 ################################
 
-archivebox_role_dns_record: "{{ archivebox_role_web_subdomain }}"
-archivebox_role_dns_zone: "{{ archivebox_role_web_domain }}"
+archivebox_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='archivebox') }}"
+archivebox_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='archivebox') }}"
 archivebox_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -60,8 +60,9 @@ archivebox_role_docker_container: "{{ archivebox_name }}"
 
 # Image
 archivebox_role_docker_image_pull: true
+archivebox_role_docker_image_repo: "archivebox/archivebox"
 archivebox_role_docker_image_tag: "latest"
-archivebox_role_docker_image: "archivebox/archivebox:{{ archivebox_role_docker_image_tag }}"
+archivebox_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='archivebox') }}:{{ lookup('role_var', '_docker_image_tag', role='archivebox') }}"
 
 # Envs
 archivebox_role_docker_envs_default:
@@ -69,15 +70,15 @@ archivebox_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 archivebox_role_docker_envs_custom: {}
-archivebox_role_docker_envs: "{{ archivebox_role_docker_envs_default
-                            | combine(archivebox_role_docker_envs_custom) }}"
+archivebox_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='archivebox')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='archivebox')) }}"
 
 # Volumes
 archivebox_role_docker_volumes_default:
-  - "{{ archivebox_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='archivebox') }}:/data"
 archivebox_role_docker_volumes_custom: []
-archivebox_role_docker_volumes: "{{ archivebox_role_docker_volumes_default
-                               + archivebox_role_docker_volumes_custom }}"
+archivebox_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='archivebox')
+                                    + lookup('role_var', '_docker_volumes_custom', role='archivebox') }}"
 
 # Hostname
 archivebox_role_docker_hostname: "{{ archivebox_name }}"
@@ -87,8 +88,8 @@ archivebox_role_docker_networks_alias: "{{ archivebox_name }}"
 archivebox_role_docker_networks_default: []
 archivebox_role_docker_networks_custom: []
 archivebox_role_docker_networks: "{{ docker_networks_common
-                                + archivebox_role_docker_networks_default
-                                + archivebox_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='archivebox')
+                                     + lookup('role_var', '_docker_networks_custom', role='archivebox') }}"
 
 # Restart Policy
 archivebox_role_docker_restart_policy: unless-stopped
