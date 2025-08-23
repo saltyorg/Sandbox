@@ -29,16 +29,16 @@ barcodebuddy_role_paths_folders_list:
 barcodebuddy_role_web_subdomain: "{{ barcodebuddy_name }}"
 barcodebuddy_role_web_domain: "{{ user.domain }}"
 barcodebuddy_role_web_port: "80"
-barcodebuddy_role_web_url: "{{ 'https://' + (barcodebuddy_role_web_subdomain + '.' + barcodebuddy_role_web_domain
-                       if (barcodebuddy_role_web_subdomain | length > 0)
-                       else barcodebuddy_role_web_domain) }}"
+barcodebuddy_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='barcodebuddy') + '.' + lookup('role_var', '_web_domain', role='barcodebuddy')
+                            if (lookup('role_var', '_web_subdomain', role='barcodebuddy') | length > 0)
+                            else lookup('role_var', '_web_domain', role='barcodebuddy')) }}"
 
 ################################
 # DNS
 ################################
 
-barcodebuddy_role_dns_record: "{{ barcodebuddy_role_web_subdomain }}"
-barcodebuddy_role_dns_zone: "{{ barcodebuddy_role_web_domain }}"
+barcodebuddy_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='barcodebuddy') }}"
+barcodebuddy_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='barcodebuddy') }}"
 barcodebuddy_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -60,8 +60,9 @@ barcodebuddy_role_docker_container: "{{ barcodebuddy_name }}"
 
 # Image
 barcodebuddy_role_docker_image_pull: true
+barcodebuddy_role_docker_image_repo: "f0rc3/barcodebuddy"
 barcodebuddy_role_docker_image_tag: "latest"
-barcodebuddy_role_docker_image: "f0rc3/barcodebuddy:{{ barcodebuddy_role_docker_image_tag }}"
+barcodebuddy_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='barcodebuddy') }}:{{ lookup('role_var', '_docker_image_tag', role='barcodebuddy') }}"
 
 # Envs
 barcodebuddy_role_docker_envs_default:
@@ -69,15 +70,15 @@ barcodebuddy_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 barcodebuddy_role_docker_envs_custom: {}
-barcodebuddy_role_docker_envs: "{{ barcodebuddy_role_docker_envs_default
-                              | combine(barcodebuddy_role_docker_envs_custom) }}"
+barcodebuddy_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='barcodebuddy')
+                                   | combine(lookup('role_var', '_docker_envs_custom', role='barcodebuddy')) }}"
 
 # Volumes
 barcodebuddy_role_docker_volumes_default:
-  - "{{ barcodebuddy_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='barcodebuddy') }}:/config"
 barcodebuddy_role_docker_volumes_custom: []
-barcodebuddy_role_docker_volumes: "{{ barcodebuddy_role_docker_volumes_default
-                                 + barcodebuddy_role_docker_volumes_custom }}"
+barcodebuddy_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='barcodebuddy')
+                                      + lookup('role_var', '_docker_volumes_custom', role='barcodebuddy') }}"
 
 # Hostname
 barcodebuddy_role_docker_hostname: "{{ barcodebuddy_name }}"
@@ -87,8 +88,8 @@ barcodebuddy_role_docker_networks_alias: "{{ barcodebuddy_name }}"
 barcodebuddy_role_docker_networks_default: []
 barcodebuddy_role_docker_networks_custom: []
 barcodebuddy_role_docker_networks: "{{ docker_networks_common
-                                  + barcodebuddy_role_docker_networks_default
-                                  + barcodebuddy_role_docker_networks_custom }}"
+                                       + lookup('role_var', '_docker_networks_default', role='barcodebuddy')
+                                       + lookup('role_var', '_docker_networks_custom', role='barcodebuddy') }}"
 
 # Restart Policy
 barcodebuddy_role_docker_restart_policy: unless-stopped
