@@ -31,16 +31,16 @@ actualbudget_role_paths_folders_list:
 actualbudget_role_web_subdomain: "{{ actualbudget_name }}"
 actualbudget_role_web_domain: "{{ user.domain }}"
 actualbudget_role_web_port: "5006"
-actualbudget_role_web_url: "{{ 'https://' + (actualbudget_role_web_subdomain + '.' + actualbudget_role_web_domain
-                       if (actualbudget_role_web_subdomain | length > 0)
-                       else actualbudget_role_web_domain) }}"
+actualbudget_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='actualbudget') + '.' + lookup('role_var', '_web_domain', role='actualbudget')
+                            if (lookup('role_var', '_web_subdomain', role='actualbudget') | length > 0)
+                            else lookup('role_var', '_web_domain', role='actualbudget')) }}"
 
 ################################
 # DNS
 ################################
 
-actualbudget_role_dns_record: "{{ actualbudget_role_web_subdomain }}"
-actualbudget_role_dns_zone: "{{ actualbudget_role_web_domain }}"
+actualbudget_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='actualbudget') }}"
+actualbudget_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='actualbudget') }}"
 actualbudget_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,23 +64,24 @@ actualbudget_role_docker_container: "{{ actualbudget_name }}"
 
 # Image
 actualbudget_role_docker_image_pull: true
+actualbudget_role_docker_image_repo: "actualbudget/actual-server"
 actualbudget_role_docker_image_tag: "latest"
-actualbudget_role_docker_image: "actualbudget/actual-server:{{ actualbudget_role_docker_image_tag }}"
+actualbudget_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='actualbudget') }}:{{ lookup('role_var', '_docker_image_tag', role='actualbudget') }}"
 
 # Envs
 actualbudget_role_docker_envs_default:
   TZ: "{{ tz }}"
 actualbudget_role_docker_envs_custom: {}
-actualbudget_role_docker_envs: "{{ actualbudget_role_docker_envs_default
-                              | combine(actualbudget_role_docker_envs_custom) }}"
+actualbudget_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='actualbudget')
+                                   | combine(lookup('role_var', '_docker_envs_custom', role='actualbudget')) }}"
 
 # Volumes
 actualbudget_role_docker_volumes_default:
-  - "{{ actualbudget_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='actualbudget') }}:/data"
   - "/etc/localtime:/etc/localtime:ro"
 actualbudget_role_docker_volumes_custom: []
-actualbudget_role_docker_volumes: "{{ actualbudget_role_docker_volumes_default
-                                 + actualbudget_role_docker_volumes_custom }}"
+actualbudget_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='actualbudget')
+                                      + lookup('role_var', '_docker_volumes_custom', role='actualbudget') }}"
 
 # Hostname
 actualbudget_role_docker_hostname: "{{ actualbudget_name }}"
@@ -90,8 +91,8 @@ actualbudget_role_docker_networks_alias: "{{ actualbudget_name }}"
 actualbudget_role_docker_networks_default: []
 actualbudget_role_docker_networks_custom: []
 actualbudget_role_docker_networks: "{{ docker_networks_common
-                                  + actualbudget_role_docker_networks_default
-                                  + actualbudget_role_docker_networks_custom }}"
+                                       + lookup('role_var', '_docker_networks_default', role='actualbudget')
+                                       + lookup('role_var', '_docker_networks_custom', role='actualbudget') }}"
 
 # Restart Policy
 actualbudget_role_docker_restart_policy: unless-stopped
