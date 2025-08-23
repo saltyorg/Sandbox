@@ -22,7 +22,7 @@
 
 - name: "Settings | Check if AdGuardHome.yaml exists"
   ansible.builtin.stat:
-    path: "{{ adguardhome_role_paths_config_path }}"
+    path: "{{ lookup('role_var', '_paths_config_path', role='adguardhome') }}"
   register: adguardhome_config
 
 - name: "Settings | New AdGuardHome.yaml tasks"
@@ -31,7 +31,7 @@
     - name: "Settings | Import AdGuardHome.yaml.j2"
       ansible.builtin.template:
         src: AdGuardHome.yaml.j2
-        dest: '{{ adguardhome_role_paths_config_path }}'
+        dest: "{{ lookup('role_var', '_paths_config_path', role='adguardhome') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

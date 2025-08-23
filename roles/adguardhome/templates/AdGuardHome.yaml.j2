@@ -70,7 +70,7 @@ dns:
   local_ptr_upstreams: []
 tls:
   enabled: true
-  server_name: {{ adguardhome_role_web_subdomain }}.{{ adguardhome_role_web_domain }}
+  server_name: {{ lookup('role_var', '_web_subdomain', role='adguardhome') }}.{{ lookup('role_var', '_web_domain', role='adguardhome') }}
   force_https: false
   port_https: 0
   port_dns_over_tls: 0
