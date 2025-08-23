@@ -28,12 +28,12 @@
     name: "Beets Import"
     user: "{{ user.name }}"
     special_time: hourly
-    job: "docker exec -u abc {{ lookup('vars', role_name + '_name') }} /bin/bash -c 'beet import -q /downloads'"
+    job: "docker exec -u abc {{ lookup('role_var', '_docker_container', role='beets') }} /bin/bash -c 'beet import -q /downloads'"
     state: present
 
 - name: Wait for config.yaml to be created
   ansible.builtin.wait_for:
-    path: "/opt/{{ lookup('vars', role_name + '_name') }}/config.yaml"
+    path: "{{ lookup('role_var', '_paths_location', role='beets') }}/config.yaml"
     state: present
 
 - name: Stop Docker container
@@ -41,7 +41,7 @@
 
 - name: Set filename length
   ansible.builtin.lineinfile:
-    path: "/opt/{{ lookup('vars', role_name + '_name') }}/config.yaml"
+    path: "{{ lookup('role_var', '_paths_location', role='beets') }}/config.yaml"
     line: "max_filename_length: 255"
     insertafter: per_disc*
     state: present

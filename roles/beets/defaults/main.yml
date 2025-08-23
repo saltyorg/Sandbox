@@ -30,16 +30,16 @@ beets_role_paths_folders_list:
 beets_role_web_subdomain: "{{ beets_name }}"
 beets_role_web_domain: "{{ user.domain }}"
 beets_role_web_port: "8337"
-beets_role_web_url: "{{ 'https://' + (beets_role_web_subdomain + '.' + beets_role_web_domain
-                if (beets_role_web_subdomain | length > 0)
-                else beets_role_web_domain) }}"
+beets_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='beets') + '.' + lookup('role_var', '_web_domain', role='beets')
+                     if (lookup('role_var', '_web_subdomain', role='beets') | length > 0)
+                     else lookup('role_var', '_web_domain', role='beets')) }}"
 
 ################################
 # DNS
 ################################
 
-beets_role_dns_record: "{{ beets_role_web_subdomain }}"
-beets_role_dns_zone: "{{ beets_role_web_domain }}"
+beets_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='beets') }}"
+beets_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='beets') }}"
 beets_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -61,8 +61,9 @@ beets_role_docker_container: "{{ beets_name }}"
 
 # Image
 beets_role_docker_image_pull: true
+beets_role_docker_image_repo: "lscr.io/linuxserver/beets"
 beets_role_docker_image_tag: "latest"
-beets_role_docker_image: "lscr.io/linuxserver/beets:{{ beets_role_docker_image_tag }}"
+beets_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='beets') }}:{{ lookup('role_var', '_docker_image_tag', role='beets') }}"
 
 # Envs
 beets_role_docker_envs_default:
@@ -70,16 +71,16 @@ beets_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 beets_role_docker_envs_custom: {}
-beets_role_docker_envs: "{{ beets_role_docker_envs_default
-                       | combine(beets_role_docker_envs_custom) }}"
+beets_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='beets')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='beets')) }}"
 
 # Volumes
 beets_role_docker_volumes_default:
-  - "{{ beets_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='beets') }}:/config"
   - "/mnt/unionfs/Media/Music:/music"
 beets_role_docker_volumes_custom: []
-beets_role_docker_volumes: "{{ beets_role_docker_volumes_default
-                          + beets_role_docker_volumes_custom }}"
+beets_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='beets')
+                               + lookup('role_var', '_docker_volumes_custom', role='beets') }}"
 
 # Hostname
 beets_role_docker_hostname: "{{ beets_name }}"
@@ -89,8 +90,8 @@ beets_role_docker_networks_alias: "{{ beets_name }}"
 beets_role_docker_networks_default: []
 beets_role_docker_networks_custom: []
 beets_role_docker_networks: "{{ docker_networks_common
-                           + beets_role_docker_networks_default
-                           + beets_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='beets')
+                                + lookup('role_var', '_docker_networks_custom', role='beets') }}"
 
 # Restart Policy
 beets_role_docker_restart_policy: unless-stopped
