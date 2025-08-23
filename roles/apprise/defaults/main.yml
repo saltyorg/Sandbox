@@ -29,16 +29,16 @@ apprise_role_paths_folders_list:
 apprise_role_web_subdomain: "{{ apprise_name }}"
 apprise_role_web_domain: "{{ user.domain }}"
 apprise_role_web_port: "8000"
-apprise_role_web_url: "{{ 'https://' + (apprise_role_web_subdomain + '.' + apprise_role_web_domain
-                  if (apprise_role_web_subdomain | length > 0)
-                  else apprise_role_web_domain) }}"
+apprise_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='apprise') + '.' + lookup('role_var', '_web_domain', role='apprise')
+                       if (lookup('role_var', '_web_subdomain', role='apprise') | length > 0)
+                       else lookup('role_var', '_web_domain', role='apprise')) }}"
 
 ################################
 # DNS
 ################################
 
-apprise_role_dns_record: "{{ apprise_role_web_subdomain }}"
-apprise_role_dns_zone: "{{ apprise_role_web_domain }}"
+apprise_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='apprise') }}"
+apprise_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='apprise') }}"
 apprise_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -60,8 +60,9 @@ apprise_role_docker_container: "{{ apprise_name }}"
 
 # Image
 apprise_role_docker_image_pull: true
+apprise_role_docker_image_repo: "lscr.io/linuxserver/apprise-api"
 apprise_role_docker_image_tag: "latest"
-apprise_role_docker_image: "lscr.io/linuxserver/apprise-api:{{ apprise_role_docker_image_tag }}"
+apprise_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='apprise') }}:{{ lookup('role_var', '_docker_image_tag', role='apprise') }}"
 
 # Envs
 apprise_role_docker_envs_default:
@@ -69,15 +70,15 @@ apprise_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 apprise_role_docker_envs_custom: {}
-apprise_role_docker_envs: "{{ apprise_role_docker_envs_default
-                         | combine(apprise_role_docker_envs_custom) }}"
+apprise_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='apprise')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='apprise')) }}"
 
 # Volumes
 apprise_role_docker_volumes_default:
-  - "{{ apprise_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='apprise') }}:/config"
 apprise_role_docker_volumes_custom: []
-apprise_role_docker_volumes: "{{ apprise_role_docker_volumes_default
-                            + apprise_role_docker_volumes_custom }}"
+apprise_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='apprise')
+                                 + lookup('role_var', '_docker_volumes_custom', role='apprise') }}"
 
 # Hostname
 apprise_role_docker_hostname: "{{ apprise_name }}"
@@ -87,8 +88,8 @@ apprise_role_docker_networks_alias: "{{ apprise_name }}"
 apprise_role_docker_networks_default: []
 apprise_role_docker_networks_custom: []
 apprise_role_docker_networks: "{{ docker_networks_common
-                             + apprise_role_docker_networks_default
-                             + apprise_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='apprise')
+                                  + lookup('role_var', '_docker_networks_custom', role='apprise') }}"
 
 # Restart Policy
 apprise_role_docker_restart_policy: unless-stopped
