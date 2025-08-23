@@ -10,7 +10,7 @@
 - name: Bookstack | Generate App Key
   community.docker.docker_container:
     name: bookstack-app-key
-    image: "{{ bookstack_role_docker_image }}"
+    image: "{{ lookup('role_var', '_docker_image', role='bookstack') }}"
     command: "appkey"
     detach: false
     entrypoint: "/bin/bash"
@@ -49,7 +49,7 @@
     name: "bookstackapp"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_role_docker_env_password }}"
+    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     state: present
 
 - name: Remove existing Docker container
