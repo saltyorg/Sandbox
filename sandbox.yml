@@ -24,7 +24,6 @@
     - { role: airsonic, tags: ['airsonic'] }
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
-    - { role: aria2_ng, tags: ['aria2-ng'] }
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
     - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
