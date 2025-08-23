@@ -35,16 +35,16 @@ airdcpp_role_paths_folders_list:
 airdcpp_role_web_subdomain: "{{ airdcpp_name }}"
 airdcpp_role_web_domain: "{{ user.domain }}"
 airdcpp_role_web_port: "5600"
-airdcpp_role_web_url: "{{ 'https://' + (airdcpp_role_web_subdomain + '.' + airdcpp_role_web_domain
-                  if (airdcpp_role_web_subdomain | length > 0)
-                  else airdcpp_role_web_domain) }}"
+airdcpp_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='airdcpp') + '.' + lookup('role_var', '_web_domain', role='airdcpp')
+                       if (lookup('role_var', '_web_subdomain', role='airdcpp') | length > 0)
+                       else lookup('role_var', '_web_domain', role='airdcpp')) }}"
 
 ################################
 # DNS
 ################################
 
-airdcpp_role_dns_record: "{{ airdcpp_role_web_subdomain }}"
-airdcpp_role_dns_zone: "{{ airdcpp_role_web_domain }}"
+airdcpp_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='airdcpp') }}"
+airdcpp_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='airdcpp') }}"
 airdcpp_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -68,8 +68,9 @@ airdcpp_role_docker_container: "{{ airdcpp_name }}"
 
 # Image
 airdcpp_role_docker_image_pull: true
+airdcpp_role_docker_image_repo: "gangefors/airdcpp-webclient"
 airdcpp_role_docker_image_tag: "latest"
-airdcpp_role_docker_image: "gangefors/airdcpp-webclient:{{ airdcpp_role_docker_image_tag }}"
+airdcpp_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='airdcpp') }}:{{ lookup('role_var', '_docker_image_tag', role='airdcpp') }}"
 
 # Ports
 airdcpp_role_docker_ports_defaults:
@@ -77,23 +78,23 @@ airdcpp_role_docker_ports_defaults:
   - "21248:21248/udp"
   - "21249:21249"
 airdcpp_role_docker_ports_custom: []
-airdcpp_role_docker_ports: "{{ airdcpp_role_docker_ports_defaults
-                          + airdcpp_role_docker_ports_custom }}"
+airdcpp_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='airdcpp')
+                               + lookup('role_var', '_docker_ports_custom', role='airdcpp') }}"
 
 # Envs
 airdcpp_role_docker_envs_default:
   TZ: "{{ tz }}"
 airdcpp_role_docker_envs_custom: {}
-airdcpp_role_docker_envs: "{{ airdcpp_role_docker_envs_default
-                         | combine(airdcpp_role_docker_envs_custom) }}"
+airdcpp_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='airdcpp')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='airdcpp')) }}"
 
 # Volumes
 airdcpp_role_docker_volumes_default:
-  - "{{ airdcpp_role_paths_location }}:/.airdcpp"
+  - "{{ lookup('role_var', '_paths_location', role='airdcpp') }}:/.airdcpp"
   - "/mnt/local/downloads/airdcpp:/Downloads"
 airdcpp_role_docker_volumes_custom: []
-airdcpp_role_docker_volumes: "{{ airdcpp_role_docker_volumes_default
-                            + airdcpp_role_docker_volumes_custom }}"
+airdcpp_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='airdcpp')
+                                 + lookup('role_var', '_docker_volumes_custom', role='airdcpp') }}"
 
 # Hostname
 airdcpp_role_docker_hostname: "{{ airdcpp_name }}"
@@ -103,8 +104,8 @@ airdcpp_role_docker_networks_alias: "{{ airdcpp_name }}"
 airdcpp_role_docker_networks_default: []
 airdcpp_role_docker_networks_custom: []
 airdcpp_role_docker_networks: "{{ docker_networks_common
-                             + airdcpp_role_docker_networks_default
-                             + airdcpp_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='airdcpp')
+                                  + lookup('role_var', '_docker_networks_custom', role='airdcpp') }}"
 
 # Restart Policy
 airdcpp_role_docker_restart_policy: unless-stopped

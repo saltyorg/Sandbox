@@ -22,18 +22,18 @@
 
 - name: Check WebServer.xml exists
   ansible.builtin.stat:
-    path: "{{ airdcpp_role_paths_location }}/WebServer.xml"
+    path: "{{ lookup('role_var', '_paths_location', role='airdcpp') }}/WebServer.xml"
   register: webserver_xml
 
 - name: Check DCPlusPlus.xml exists
   ansible.builtin.stat:
-    path: "{{ airdcpp_role_paths_location }}/DCPlusPlus.xml"
+    path: "{{ lookup('role_var', '_paths_location', role='airdcpp') }}/DCPlusPlus.xml"
   register: dcplusplus_xml
 
 - name: Import default 'WebServer.xml'
   ansible.builtin.copy:
     src: WebServer.xml
-    dest: "{{ airdcpp_role_paths_location }}/WebServer.xml"
+    dest: "{{ lookup('role_var', '_paths_location', role='airdcpp') }}/WebServer.xml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -43,7 +43,7 @@
 - name: Import default 'DCPlusPlus.xml'
   ansible.builtin.copy:
     src: DCPlusPlus.xml
-    dest: "{{ airdcpp_role_paths_location }}/DCPlusPlus.xml"
+    dest: "{{ lookup('role_var', '_paths_location', role='airdcpp') }}/DCPlusPlus.xml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
