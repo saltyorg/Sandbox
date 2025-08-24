@@ -31,16 +31,16 @@ comixed_role_paths_folders_list:
 comixed_role_web_subdomain: "{{ comixed_name }}"
 comixed_role_web_domain: "{{ user.domain }}"
 comixed_role_web_port: "7171"
-comixed_role_web_url: "{{ 'https://' + (comixed_role_web_subdomain + '.' + comixed_role_web_domain
-                  if (comixed_role_web_subdomain | length > 0)
-                  else comixed_role_web_domain) }}"
+comixed_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='comixed') + '.' + lookup('role_var', '_web_domain', role='comixed')
+                       if (lookup('role_var', '_web_subdomain', role='comixed') | length > 0)
+                       else lookup('role_var', '_web_domain', role='comixed')) }}"
 
 ################################
 # DNS
 ################################
 
-comixed_role_dns_record: "{{ comixed_role_web_subdomain }}"
-comixed_role_dns_zone: "{{ comixed_role_web_domain }}"
+comixed_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='comixed') }}"
+comixed_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='comixed') }}"
 comixed_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,16 +62,17 @@ comixed_role_docker_container: "{{ comixed_name }}"
 
 # Image
 comixed_role_docker_image_pull: true
+comixed_role_docker_image_repo: "comixed/comixed"
 comixed_role_docker_image_tag: "latest"
-comixed_role_docker_image: "comixed/comixed:{{ comixed_role_docker_image_tag }}"
+comixed_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='comixed') }}:{{ lookup('role_var', '_docker_image_tag', role='comixed') }}"
 
 # Volumes
 comixed_role_docker_volumes_default:
-  - "{{ comixed_role_paths_location }}:/root/.comixed"
+  - "{{ lookup('role_var', '_paths_location', role='comixed') }}:/root/.comixed"
   - "/mnt/unionfs/Media/Comics:/comic_dir"
 comixed_role_docker_volumes_custom: []
-comixed_role_docker_volumes: "{{ comixed_role_docker_volumes_default
-                            + comixed_role_docker_volumes_custom }}"
+comixed_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='comixed')
+                                 + lookup('role_var', '_docker_volumes_custom', role='comixed') }}"
 
 # Hostname
 comixed_role_docker_hostname: "{{ comixed_name }}"
@@ -81,8 +82,8 @@ comixed_role_docker_networks_alias: "{{ comixed_name }}"
 comixed_role_docker_networks_default: []
 comixed_role_docker_networks_custom: []
 comixed_role_docker_networks: "{{ docker_networks_common
-                             + comixed_role_docker_networks_default
-                             + comixed_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='comixed')
+                                  + lookup('role_var', '_docker_networks_custom', role='comixed') }}"
 
 # Restart Policy
 comixed_role_docker_restart_policy: unless-stopped
