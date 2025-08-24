@@ -32,16 +32,16 @@ code_server_role_paths_folders_list:
 code_server_role_web_subdomain: "{{ code_server_name }}"
 code_server_role_web_domain: "{{ user.domain }}"
 code_server_role_web_port: "8080"
-code_server_role_web_url: "{{ 'https://' + (code_server_role_web_subdomain + '.' + code_server_role_web_domain
-                      if (code_server_role_web_subdomain | length > 0)
-                      else code_server_role_web_domain) }}"
+code_server_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='code_server') + '.' + lookup('role_var', '_web_domain', role='code_server')
+                           if (lookup('role_var', '_web_subdomain', role='code_server') | length > 0)
+                           else lookup('role_var', '_web_domain', role='code_server')) }}"
 
 ################################
 # DNS
 ################################
 
-code_server_role_dns_record: "{{ code_server_role_web_subdomain }}"
-code_server_role_dns_zone: "{{ code_server_role_web_domain }}"
+code_server_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='code_server') }}"
+code_server_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='code_server') }}"
 code_server_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ code_server_role_docker_container: "{{ code_server_name }}"
 
 # Image
 code_server_role_docker_image_pull: true
+code_server_role_docker_image_repo: "codercom/code-server"
 code_server_role_docker_image_tag: "latest"
-code_server_role_docker_image: "codercom/code-server:{{ code_server_role_docker_image_tag }}"
+code_server_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='code_server') }}:{{ lookup('role_var', '_docker_image_tag', role='code_server') }}"
 
 # Envs
 code_server_role_docker_envs_default:
@@ -73,18 +74,18 @@ code_server_role_docker_envs_default:
   PASSWORD: "{{ user.pass }}"
   DOCKER_USER: "{{ user.name }}"
 code_server_role_docker_envs_custom: {}
-code_server_role_docker_envs: "{{ code_server_role_docker_envs_default
-                             | combine(code_server_role_docker_envs_custom) }}"
+code_server_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='code_server')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='code_server')) }}"
 
 # Volumes
 code_server_role_docker_volumes_default:
-  - "{{ code_server_role_paths_location }}/project:/home/coder/project"
-  - "{{ code_server_role_paths_location }}/.config:/home/coder/.config"
-  - "{{ code_server_role_paths_location }}/.local:/home/coder/.local"
+  - "{{ lookup('role_var', '_paths_location', role='code_server') }}/project:/home/coder/project"
+  - "{{ lookup('role_var', '_paths_location', role='code_server') }}/.config:/home/coder/.config"
+  - "{{ lookup('role_var', '_paths_location', role='code_server') }}/.local:/home/coder/.local"
   - "{{ server_appdata_path }}:/host_opt"
 code_server_role_docker_volumes_custom: []
-code_server_role_docker_volumes: "{{ code_server_role_docker_volumes_default
-                                + code_server_role_docker_volumes_custom }}"
+code_server_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='code_server')
+                                     + lookup('role_var', '_docker_volumes_custom', role='code_server') }}"
 
 # Hostname
 code_server_role_docker_hostname: "{{ code_server_name }}"
@@ -94,8 +95,8 @@ code_server_role_docker_networks_alias: "{{ code_server_name }}"
 code_server_role_docker_networks_default: []
 code_server_role_docker_networks_custom: []
 code_server_role_docker_networks: "{{ docker_networks_common
-                                 + code_server_role_docker_networks_default
-                                 + code_server_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='code_server')
+                                      + lookup('role_var', '_docker_networks_custom', role='code_server') }}"
 
 # Restart Policy
 code_server_role_docker_restart_policy: unless-stopped

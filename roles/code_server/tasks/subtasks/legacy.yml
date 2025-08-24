@@ -12,19 +12,19 @@
     path: "/opt/coder"
   register: code_server_oldfolder
 
-- name: Legacy | Check if {{ code_server_role_paths_location }} folder exists
+- name: Legacy | Check if {{ lookup('role_var', '_paths_location', role='code_server') }} folder exists
   ansible.builtin.stat:
-    path: "{{ code_server_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='code_server') }}"
   register: code_server_newfolder
 
-- name: "Fail when '/opt/coder' does not exist"
+- name: "Legacy | Fail when '/opt/coder' does not exist"
   ansible.builtin.fail:
     msg: "A migration has been attempted, but the /opt/coder folder is missing. If you have already run the migration once, you don't need to pass the -e 'code_server_migrate_coder=true' argument anymore. If this is your first time running the migration but you're using a custom folder, move the folder manually to '/opt/code-server', remove the old 'coder' subdomain then run the tag normally."
   when: (not code_server_oldfolder.stat.exists)
 
-- name: "Fail when {{ code_server_role_paths_location }} already exists"
+- name: "Legacy | Fail when {{ lookup('role_var', '_paths_location', role='code_server') }} already exists"
   ansible.builtin.fail:
-    msg: "A migration has been attempted, but the {{ code_server_role_paths_location }} folder already exists. If you have already run the migration once, you don't need to pass the -e 'code_server_migrate_coder=true' argument anymore. If this is your first time running the migration, then you have created a folder manually or have already a container using the {{ code_server_role_paths_location }} folder. In order for the migration to actually run, an '/opt/coder' folder must exists, while {{ code_server_role_paths_location }} must not."
+    msg: "A migration has been attempted, but the {{ lookup('role_var', '_paths_location', role='code_server') }} folder already exists. If you have already run the migration once, you don't need to pass the -e 'code_server_migrate_coder=true' argument anymore. If this is your first time running the migration, then you have created a folder manually or have already a container using the {{ lookup('role_var', '_paths_location', role='code_server') }} folder. In order for the migration to actually run, an '/opt/coder' folder must exists, while {{ lookup('role_var', '_paths_location', role='code_server') }} must not."
   when: (code_server_newfolder.stat.exists)
 
 - name: Legacy | Delete old DNS record
@@ -40,11 +40,11 @@
 
 - name: Legacy | Move opt folder 'coder' to 'code-server'
   ansible.builtin.shell: |
-    mv /opt/coder "{{ code_server_role_paths_location }}"
+    mv /opt/coder "{{ lookup('role_var', '_paths_location', role='code_server') }}"
 
 - name: Legacy | Set permissions on 'code_server'
   ansible.builtin.file:
-    path: "{{ code_server_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='code_server') }}"
     state: directory
     recurse: true
     owner: "{{ user.name }}"
