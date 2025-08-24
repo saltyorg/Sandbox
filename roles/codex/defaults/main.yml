@@ -1,5 +1,5 @@
 ##########################################################################
-# Title:            Sandbox: Codex            | Default Variables        #
+# Title:            Sandbox: Codex | Default Variables                   #
 # Author(s):        CHAIR/Raneydazed                                     #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
@@ -30,16 +30,16 @@ codex_role_paths_folders_list:
 codex_role_web_subdomain: "{{ codex_name }}"
 codex_role_web_domain: "{{ user.domain }}"
 codex_role_web_port: "9810"
-codex_role_web_url: "{{ 'https://' + (codex_role_web_subdomain + '.' + codex_role_web_domain
-                if (codex_role_web_subdomain | length > 0)
-                else codex_role_web_domain) }}"
+codex_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='codex') + '.' + lookup('role_var', '_web_domain', role='codex')
+                     if (lookup('role_var', '_web_subdomain', role='codex') | length > 0)
+                     else lookup('role_var', '_web_domain', role='codex')) }}"
 
 ################################
 # DNS
 ################################
 
-codex_role_dns_record: "{{ lookup('vars', codex_name + '_web_subdomain', default=codex_role_web_subdomain) }}"
-codex_role_dns_zone: "{{ lookup('vars', codex_name + '_web_domain', default=codex_role_web_domain) }}"
+codex_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='codex') }}"
+codex_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='codex') }}"
 codex_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -65,8 +65,7 @@ codex_role_docker_container: "{{ codex_name }}"
 codex_role_docker_image_pull: true
 codex_role_docker_image_repo: "docker.io/ajslater/codex"
 codex_role_docker_image_tag: "latest"
-codex_role_docker_image: "{{ lookup('vars', codex_name + '_docker_image_repo', default=codex_role_docker_image_repo)
-                        + ':' + lookup('vars', codex_name + '_docker_image_tag', default=codex_role_docker_image_tag) }}"
+codex_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='codex') }}:{{ lookup('role_var', '_docker_image_tag', role='codex') }}"
 
 # Envs
 codex_role_docker_envs_default:
@@ -74,15 +73,15 @@ codex_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 codex_role_docker_envs_custom: {}
-codex_role_docker_envs: "{{ lookup('vars', codex_name + '_docker_envs_default', default=codex_role_docker_envs_default)
-                       | combine(lookup('vars', codex_name + '_docker_envs_custom', default=codex_role_docker_envs_custom)) }}"
+codex_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='codex')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='codex')) }}"
 
 # Volumes
 codex_role_docker_volumes_default:
-  - "{{ codex_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='codex') }}:/config"
 codex_role_docker_volumes_custom: []
-codex_role_docker_volumes: "{{ lookup('vars', codex_name + '_docker_volumes_default', default=codex_role_docker_volumes_default)
-                          + lookup('vars', codex_name + '_docker_volumes_custom', default=codex_role_docker_volumes_custom) }}"
+codex_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='codex')
+                               + lookup('role_var', '_docker_volumes_custom', role='codex') }}"
 
 # Hostname
 codex_role_docker_hostname: "{{ codex_name }}"
@@ -92,8 +91,8 @@ codex_role_docker_networks_alias: "{{ codex_name }}"
 codex_role_docker_networks_default: []
 codex_role_docker_networks_custom: []
 codex_role_docker_networks: "{{ docker_networks_common
-                           + lookup('vars', codex_name + '_docker_networks_default', default=codex_role_docker_networks_default)
-                           + lookup('vars', codex_name + '_docker_networks_custom', default=codex_role_docker_networks_custom) }}"
+                                + lookup('role_var', '_docker_networks_default', role='codex')
+                                + lookup('role_var', '_docker_networks_custom', role='codex') }}"
 
 # Restart Policy
 codex_role_docker_restart_policy: unless-stopped
