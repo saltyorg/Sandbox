@@ -29,16 +29,16 @@ cherry_role_paths_folders_list:
 cherry_role_web_subdomain: "{{ cherry_name }}"
 cherry_role_web_domain: "{{ user.domain }}"
 cherry_role_web_port: "8000"
-charry_role_web_url: "{{ 'https://' + (charry_role_web_subdomain + '.' + charry_role_web_domain
-                 if (charry_role_web_subdomain | length > 0)
-                 else charry_role_web_domain) }}"
+cherry_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='cherry') + '.' + lookup('role_var', '_web_domain', role='cherry')
+                      if (lookup('role_var', '_web_subdomain', role='cherry') | length > 0)
+                      else lookup('role_var', '_web_domain', role='cherry')) }}"
 
 ################################
 # DNS
 ################################
 
-cherry_role_dns_record: "{{ cherry_role_web_subdomain }}"
-cherry_role_dns_zone: "{{ cherry_role_web_domain }}"
+cherry_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='cherry') }}"
+cherry_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='cherry') }}"
 cherry_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ cherry_role_docker_container: "{{ cherry_name }}"
 
 # Image
 cherry_role_docker_image_pull: true
+cherry_role_docker_image_repo: "haishanh/cherry"
 cherry_role_docker_image_tag: "latest"
-cherry_role_docker_image: "haishanh/cherry:{{ cherry_role_docker_image_tag }}"
+cherry_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='cherry') }}:{{ lookup('role_var', '_docker_image_tag', role='cherry') }}"
 
 # Envs
 cherry_role_docker_envs_default:
@@ -73,15 +74,15 @@ cherry_role_docker_envs_default:
   JWT_SECRET: "{{ cherry_secret_key.stdout }}"
   ENABLE_HTTP_REMOTE_USER: "1"
 cherry_role_docker_envs_custom: {}
-cherry_role_docker_envs: "{{ cherry_role_docker_envs_default
-                        | combine(cherry_role_docker_envs_custom) }}"
+cherry_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='cherry')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='cherry')) }}"
 
 # Volumes
 cherry_role_docker_volumes_default:
-  - "{{ cherry_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='cherry') }}:/data"
 cherry_role_docker_volumes_custom: []
-cherry_role_docker_volumes: "{{ cherry_role_docker_volumes_default
-                           + cherry_role_docker_volumes_custom }}"
+cherry_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='cherry')
+                                + lookup('role_var', '_docker_volumes_custom', role='cherry') }}"
 
 # Hostname
 cherry_role_docker_hostname: "{{ cherry_name }}"
@@ -91,8 +92,8 @@ cherry_role_docker_networks_alias: "{{ cherry_name }}"
 cherry_role_docker_networks_default: []
 cherry_role_docker_networks_custom: []
 cherry_role_docker_networks: "{{ docker_networks_common
-                            + cherry_role_docker_networks_default
-                            + cherry_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='cherry')
+                                 + lookup('role_var', '_docker_networks_custom', role='cherry') }}"
 
 # Restart Policy
 cherry_role_docker_restart_policy: unless-stopped
