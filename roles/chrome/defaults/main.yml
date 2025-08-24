@@ -31,8 +31,9 @@ chrome_role_docker_container: "{{ chrome_name }}"
 
 # Image
 chrome_role_docker_image_pull: true
-chrome_role_docker_image: "gcr.io/zenika-hub/alpine-chrome"
+chrome_role_docker_image_repo: "gcr.io/zenika-hub/alpine-chrome"
 chrome_role_docker_image_tag: "124"
+chrome_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='chrome') }}:{{ lookup('role_var', '_docker_image_tag', role='chrome') }}"
 
 # Envs
 chrome_role_docker_envs_default:
@@ -40,8 +41,8 @@ chrome_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
 chrome_role_docker_envs_custom: {}
-chrome_role_docker_envs: "{{ chrome_role_docker_envs_default
-                         | combine(chrome_role_docker_envs_custom) }}"
+chrome_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='chrome')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='chrome')) }}"
 
 # Commands
 chrome_role_docker_commands_default:
@@ -52,8 +53,8 @@ chrome_role_docker_commands_default:
   - "--remote-debugging-port=9222"
   - "--hide-scrollbars"
 chrome_role_docker_commands_custom: []
-chrome_role_docker_commands: "{{ chrome_role_docker_commands_default
-                             + chrome_role_docker_commands_custom }}"
+chrome_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='chrome')
+                                 + lookup('role_var', '_docker_commands_custom', role='chrome') }}"
 
 # Hostname
 chrome_role_docker_hostname: "{{ chrome_name }}"
@@ -63,8 +64,8 @@ chrome_role_docker_networks_alias: "{{ chrome_name }}"
 chrome_role_docker_networks_default: []
 chrome_role_docker_networks_custom: []
 chrome_role_docker_networks: "{{ docker_networks_common
-                             + chrome_role_docker_networks_default
-                             + chrome_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='chrome')
+                                 + lookup('role_var', '_docker_networks_custom', role='chrome') }}"
 
 # Restart Policy
 chrome_role_docker_restart_policy: unless-stopped
