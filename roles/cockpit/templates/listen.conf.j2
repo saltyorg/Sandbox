@@ -1,4 +1,4 @@
 [Socket]
 ListenStream=
-ListenStream=172.19.0.1:{{ cockpit_role_web_port }}
+ListenStream=172.19.0.1:{{ lookup('role_var', '_web_port', role='cockpit') }}
 FreeBind=yes

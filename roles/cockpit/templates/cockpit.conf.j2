@@ -1,5 +1,5 @@
 [WebService]
-Origins = {{ cockpit_role_web_url }}
+Origins = {{ lookup('role_var', '_web_url', role='cockpit') }}
 ProtocolHeader = X-Forwarded-Proto
 ForwardedForHeader = X-Forwarded-For
 AllowUnencrypted = true

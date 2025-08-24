@@ -16,10 +16,10 @@ http:
       service: "{{ cockpit_name }}"
       tls:
         options: securetls@file
-        certResolver: {{ cockpit_role_traefik_certresolver }}
+        certResolver: {{ lookup('role_var', '_traefik_certresolver', role='cockpit') }}
 
   services:
     {{ cockpit_name }}:
       loadBalancer:
         servers:
-          - url: "http://172.19.0.1:{{ cockpit_role_web_port }}"
+          - url: "http://172.19.0.1:{{ lookup('role_var', '_web_port', role='cockpit') }}"

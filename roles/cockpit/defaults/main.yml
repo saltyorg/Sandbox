@@ -17,7 +17,6 @@ cockpit_name: cockpit
 # Settings
 ################################
 
-cockpit_traefik_enabled: true
 cockpit_vm_enabled: false
 cockpit_service_after: docker.service
 put_cockpit_dpkg_into_hold: true
@@ -45,9 +44,9 @@ cockpit_role_paths_folders_list:
 cockpit_role_web_subdomain: "{{ cockpit_name }}"
 cockpit_role_web_domain: "{{ user.domain }}"
 cockpit_role_web_port: "1337"
-cockpit_role_web_url: "{{ 'https://' + (cockpit_role_web_subdomain + '.' + cockpit_role_web_domain
-                  if (cockpit_role_web_subdomain | length > 0)
-                  else cockpit_role_web_domain) }}"
+cockpit_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='cockpit') + '.' + lookup('role_var', '_web_domain', role='cockpit')
+                       if (lookup('role_var', '_web_subdomain', role='cockpit') | length > 0)
+                       else lookup('role_var', '_web_domain', role='cockpit')) }}"
 
 ################################
 # DNS
@@ -65,4 +64,5 @@ cockpit_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 cockpit_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 cockpit_role_traefik_middleware_custom: ""
 cockpit_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+cockpit_role_traefik_enabled: true
 cockpit_role_traefik_api_enabled: false

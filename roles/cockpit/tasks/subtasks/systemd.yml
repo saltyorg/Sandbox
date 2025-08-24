@@ -10,7 +10,7 @@
 - name: System | Import 'cockpit_config'
   ansible.builtin.template:
     src: cockpit.conf.j2
-    dest: "{{ cockpit_role_paths_config_location }}"
+    dest: "{{ lookup('role_var', '_paths_config_location', role='cockpit') }}"
     mode: "0664"
     owner: root
     group: root
@@ -19,7 +19,7 @@
 - name: System | Import 'cockpit_socket'
   ansible.builtin.template:
     src: listen.conf.j2
-    dest: "{{ cockpit_role_paths_socket_location }}"
+    dest: "{{ lookup('role_var', '_paths_socket_location', role='cockpit') }}"
     mode: "0664"
     owner: root
     group: root
@@ -28,7 +28,7 @@
 - name: System | Import 'socket_override'
   ansible.builtin.template:
     src: override.conf.j2
-    dest: "{{ cockpit_role_paths_socket_override_location }}"
+    dest: "{{ lookup('role_var', '_paths_socket_override_location', role='cockpit') }}"
     mode: "0664"
     owner: root
     group: root
@@ -37,7 +37,7 @@
 - name: System | Import 'service_override'
   ansible.builtin.template:
     src: override.conf.j2
-    dest: "{{ cockpit_role_paths_override_location }}"
+    dest: "{{ lookup('role_var', '_paths_override_location', role='cockpit') }}"
     mode: "0664"
     owner: root
     group: root
