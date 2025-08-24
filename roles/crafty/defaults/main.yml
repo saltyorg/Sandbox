@@ -38,25 +38,25 @@ crafty_role_web_domain: "{{ user.domain }}"
 crafty_role_web_port: "8443"
 crafty_role_web_scheme: "https"
 crafty_role_web_serverstransport: "skipverify@file"
-crafty_role_web_url: "{{ 'https://' + (crafty_role_web_subdomain + '.' + crafty_role_web_domain
-                 if (crafty_role_web_subdomain | length > 0)
-                 else crafty_role_web_domain) }}"
+crafty_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='crafty') + '.' + lookup('role_var', '_web_domain', role='crafty')
+                      if (lookup('role_var', '_web_subdomain', role='crafty') | length > 0)
+                      else lookup('role_var', '_web_domain', role='crafty')) }}"
 
 crafty_role_dynmap_web_subdomain: "{{ crafty_name }}-map"
 crafty_role_dynmap_web_domain: "{{ user.domain }}"
 crafty_role_dynmap_web_port: "8123"
-crafty_role_dynmap_host: "{{ crafty_role_dynmap_web_subdomain
-                        + '.' + crafty_role_dynmap_web_domain }}"
+crafty_role_dynmap_host: "{{ lookup('role_var', '_dynmap_web_subdomain', role='crafty')
+                             + '.' + lookup('role_var', '_dynmap_web_domain', role='crafty') }}"
 
 ################################
 # DNS
 ################################
 
-crafty_role_dns_record: "{{ crafty_role_web_subdomain }}"
-crafty_role_dns_zone: "{{ crafty_role_web_domain }}"
+crafty_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='crafty') }}"
+crafty_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='crafty') }}"
 crafty_role_dns_proxy: "{{ dns.proxied }}"
-crafty_dynmap_role_dns_record: "{{ crafty_role_dynmap_web_subdomain }}"
-crafty_dynmap_role_dns_zone: "{{ crafty_role_web_domain }}"
+crafty_dynmap_role_dns_record: "{{ lookup('role_var', '_dynmap_web_subdomain', role='crafty') }}"
+crafty_dynmap_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='crafty') }}"
 crafty_dynmap_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -78,53 +78,54 @@ crafty_role_docker_container: "{{ crafty_name }}"
 
 # Image
 crafty_role_docker_image_pull: true
+crafty_role_docker_image_repo: "arcadiatechnology/crafty-4"
 crafty_role_docker_image_tag: "latest"
-crafty_role_docker_image: "arcadiatechnology/crafty-4:{{ crafty_role_docker_image_tag }}"
+crafty_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='crafty') }}:{{ lookup('role_var', '_docker_image_tag', role='crafty') }}"
 
 # Ports
 crafty_role_docker_ports_defaults:
   - "19132:19132/udp"
   - "25500-25600:25500-25600"
 crafty_role_docker_ports_custom: []
-crafty_role_docker_ports: "{{ crafty_role_docker_ports_defaults
-                         + crafty_role_docker_ports_custom }}"
+crafty_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='crafty')
+                              + lookup('role_var', '_docker_ports_custom', role='crafty') }}"
 
 # Envs
 crafty_role_docker_envs_default:
   TZ: "{{ tz }}"
 crafty_role_docker_envs_custom: {}
-crafty_role_docker_envs: "{{ crafty_role_docker_envs_default
-                        | combine(crafty_role_docker_envs_custom) }}"
+crafty_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='crafty')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='crafty')) }}"
 
 # Volumes
 crafty_role_docker_volumes_default:
-  - "{{ crafty_role_paths_location }}/backups:/crafty/backups"
-  - "{{ crafty_role_paths_location }}/logs:/crafty/logs"
-  - "{{ crafty_role_paths_location }}/servers:/crafty/servers"
-  - "{{ crafty_role_paths_location }}/config:/crafty/app/config"
-  - "{{ crafty_role_paths_location }}/import:/crafty/import"
+  - "{{ lookup('role_var', '_paths_location', role='crafty') }}/backups:/crafty/backups"
+  - "{{ lookup('role_var', '_paths_location', role='crafty') }}/logs:/crafty/logs"
+  - "{{ lookup('role_var', '_paths_location', role='crafty') }}/servers:/crafty/servers"
+  - "{{ lookup('role_var', '_paths_location', role='crafty') }}/config:/crafty/app/config"
+  - "{{ lookup('role_var', '_paths_location', role='crafty') }}/import:/crafty/import"
 crafty_role_docker_volumes_custom: []
-crafty_role_docker_volumes: "{{ crafty_role_docker_volumes_default
-                           + crafty_role_docker_volumes_custom }}"
+crafty_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='crafty')
+                                + lookup('role_var', '_docker_volumes_custom', role='crafty') }}"
 
 # Labels
 crafty_role_docker_labels_default:
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.entrypoints": "web" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.service": "{{ crafty_name }}-map" }'
-  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.rule": "Host(`{{ crafty_role_dynmap_host }}`)" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.rule": "Host(`{{ lookup("role_var", "_dynmap_host", role="crafty") }}`)" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.middlewares": "{{ traefik_default_middleware_http }}" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.priority": "20" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.entrypoints": "websecure" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.service": "{{ crafty_name }}-map" }'
-  - '{ "traefik.http.routers.{{ crafty_name }}-map.rule": "Host(`{{ crafty_role_dynmap_host }}`)" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.rule": "Host(`{{ lookup("role_var", "_dynmap_host", role="crafty") }}`)" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.options": "securetls@file" }'
-  - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.certresolver": "{{ crafty_role_traefik_certresolver }}" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.certresolver": "{{ lookup("role_var", "_traefik_certresolver", role="crafty") }}" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.middlewares": "{{ traefik_default_middleware }}" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.priority": "20" }'
-  - '{ "traefik.http.services.{{ crafty_name }}-map.loadbalancer.server.port": "{{ crafty_role_dynmap_web_port }}" }'
+  - '{ "traefik.http.services.{{ crafty_name }}-map.loadbalancer.server.port": "{{ lookup("role_var", "_dynmap_web_port", role="crafty") }}" }'
 crafty_role_docker_labels_custom: {}
-crafty_role_docker_labels: "{{ crafty_role_docker_labels_default
-                          | combine(crafty_role_docker_labels_custom) }}"
+crafty_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='crafty')
+                               | combine(lookup('role_var', '_docker_labels_custom', role='crafty')) }}"
 
 # Hostname
 crafty_role_docker_hostname: "{{ crafty_name }}"
@@ -134,8 +135,8 @@ crafty_role_docker_networks_alias: "{{ crafty_name }}"
 crafty_role_docker_networks_default: []
 crafty_role_docker_networks_custom: []
 crafty_role_docker_networks: "{{ docker_networks_common
-                            + crafty_role_docker_networks_default
-                            + crafty_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='crafty')
+                                 + lookup('role_var', '_docker_networks_custom', role='crafty') }}"
 
 # Restart Policy
 crafty_role_docker_restart_policy: unless-stopped

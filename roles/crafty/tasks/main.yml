@@ -21,9 +21,9 @@
     dns_zone: "{{ lookup('role_var', '_dynmap_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_dynmap_dns_proxy') }}"
 
-- name: Check if '{{ crafty_role_paths_location }}' exists
+- name: Check if '{{ lookup('role_var', '_paths_location', role='crafty') }}' exists
   ansible.builtin.stat:
-    path: "{{ crafty_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='crafty') }}"
   register: crafty_config
 
 - name: Remove existing Docker container
@@ -35,7 +35,7 @@
 - name: Import 'config.json'
   ansible.builtin.template:
     src: config.json.j2
-    dest: "{{ crafty_role_paths_location }}/config/default.json"
+    dest: "{{ lookup('role_var', '_paths_location', role='crafty') }}/config/default.json"
     mode: "0664"
     owner: "{{ user.name }}"
     group: root
