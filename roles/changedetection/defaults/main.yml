@@ -29,16 +29,16 @@ changedetection_role_paths_folders_list:
 changedetection_role_web_subdomain: "{{ changedetection_name }}"
 changedetection_role_web_domain: "{{ user.domain }}"
 changedetection_role_web_port: "5000"
-changedetection_role_web_url: "{{ 'https://' + (changedetection_role_web_subdomain + '.' + changedetection_role_web_domain
-                          if (changedetection_role_web_subdomain | length > 0)
-                          else changedetection_role_web_domain) }}"
+changedetection_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='changedetection') + '.' + lookup('role_var', '_web_domain', role='changedetection')
+                               if (lookup('role_var', '_web_subdomain', role='changedetection') | length > 0)
+                               else lookup('role_var', '_web_domain', role='changedetection')) }}"
 
 ################################
 # DNS
 ################################
 
-changedetection_role_dns_record: "{{ changedetection_role_web_subdomain }}"
-changedetection_role_dns_zone: "{{ changedetection_role_web_domain }}"
+changedetection_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='changedetection') }}"
+changedetection_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='changedetection') }}"
 changedetection_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,25 +62,26 @@ changedetection_role_docker_container: "{{ changedetection_name }}"
 
 # Image
 changedetection_role_docker_image_pull: true
+changedetection_role_docker_image_repo: "lscr.io/linuxserver/changedetection.io"
 changedetection_role_docker_image_tag: "latest"
-changedetection_role_docker_image: "lscr.io/linuxserver/changedetection.io:{{ changedetection_role_docker_image_tag }}"
+changedetection_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='changedetection') }}:{{ lookup('role_var', '_docker_image_tag', role='changedetection') }}"
 
 # Envs
 changedetection_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  BASE_URL: "{{ changedetection_role_web_url }}"
+  BASE_URL: "{{ lookup('role_var', '_web_url', role='changedetection') }}"
 changedetection_role_docker_envs_custom: {}
-changedetection_role_docker_envs: "{{ changedetection_role_docker_envs_default
-                                 | combine(changedetection_role_docker_envs_custom) }}"
+changedetection_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='changedetection')
+                                      | combine(lookup('role_var', '_docker_envs_custom', role='changedetection')) }}"
 
 # Volumes
 changedetection_role_docker_volumes_default:
-  - "{{ changedetection_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='changedetection') }}:/config"
 changedetection_role_docker_volumes_custom: []
-changedetection_role_docker_volumes: "{{ changedetection_role_docker_volumes_default
-                                    + changedetection_role_docker_volumes_custom }}"
+changedetection_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='changedetection')
+                                         + lookup('role_var', '_docker_volumes_custom', role='changedetection') }}"
 
 # Hostname
 changedetection_role_docker_hostname: "{{ changedetection_name }}"
@@ -90,8 +91,8 @@ changedetection_role_docker_networks_alias: "{{ changedetection_name }}"
 changedetection_role_docker_networks_default: []
 changedetection_role_docker_networks_custom: []
 changedetection_role_docker_networks: "{{ docker_networks_common
-                                     + changedetection_role_docker_networks_default
-                                     + changedetection_role_docker_networks_custom }}"
+                                          + lookup('role_var', '_docker_networks_default', role='changedetection')
+                                          + lookup('role_var', '_docker_networks_custom', role='changedetection') }}"
 
 # Restart Policy
 changedetection_role_docker_restart_policy: unless-stopped
