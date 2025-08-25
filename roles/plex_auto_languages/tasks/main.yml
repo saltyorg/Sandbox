@@ -17,7 +17,7 @@
   block:
     - name: Check config exists
       ansible.builtin.stat:
-        path: "{{ plex_auto_languages_config_location }}"
+        path: "{{ plex_auto_languages_role_paths_config_location }}"
       register: plex_auto_languages_config
 
     - name: Set Default Plex instance
@@ -35,7 +35,7 @@
     - name: Import default config
       ansible.builtin.template:
         src: config.yaml.j2
-        dest: "{{ plex_auto_languages_config_location }}"
+        dest: "{{ plex_auto_languages_role_paths_config_location }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
