@@ -31,9 +31,9 @@ plex_auto_languages_role_paths_folders_list:
 plex_auto_languages_role_docker_container: "{{ plex_auto_languages_name }}"
 
 # Image
-plex_auto_languages_role_docker_image_pull: true
-plex_auto_languages_role_docker_image_tag: "latest"
-plex_auto_languages_role_docker_image: "remirigal/plex-auto-languages:{{ plex_auto_languages_role_docker_image_tag }}"
+plex_auto_languages_docker_image_tag: "latest"
+plex_auto_languages_docker_image: "journeyover/plex-auto-languages:{{ plex_auto_languages_docker_image_tag }}"
+plex_auto_languages_docker_image_pull: true
 
 # Envs
 plex_auto_languages_role_docker_envs_default:
