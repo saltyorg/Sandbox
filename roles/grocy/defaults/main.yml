@@ -29,16 +29,16 @@ grocy_role_paths_folders_list:
 grocy_role_web_subdomain: "{{ grocy_name }}"
 grocy_role_web_domain: "{{ user.domain }}"
 grocy_role_web_port: "80"
-grocy_role_web_url: "{{ 'https://' + (grocy_role_web_subdomain + '.' + grocy_role_web_domain
-                if (grocy_role_web_subdomain | length > 0)
-                else grocy_role_web_domain) }}"
+grocy_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='grocy') + '.' + lookup('role_var', '_web_domain', role='grocy')
+                     if (lookup('role_var', '_web_subdomain', role='grocy') | length > 0)
+                     else lookup('role_var', '_web_domain', role='grocy')) }}"
 
 ################################
 # DNS
 ################################
 
-grocy_role_dns_record: "{{ grocy_role_web_subdomain }}"
-grocy_role_dns_zone: "{{ grocy_role_web_domain }}"
+grocy_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='grocy') }}"
+grocy_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='grocy') }}"
 grocy_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -50,6 +50,8 @@ grocy_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 grocy_role_traefik_middleware_custom: ""
 grocy_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 grocy_role_traefik_enabled: true
+grocy_role_traefik_api_enabled: false
+grocy_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
@@ -60,8 +62,9 @@ grocy_role_docker_container: "{{ grocy_name }}"
 
 # Image
 grocy_role_docker_image_pull: true
+grocy_role_docker_image_repo: "lscr.io/linuxserver/grocy"
 grocy_role_docker_image_tag: "latest"
-grocy_role_docker_image: "lscr.io/linuxserver/grocy:{{ grocy_role_docker_image_tag }}"
+grocy_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='grocy') }}:{{ lookup('role_var', '_docker_image_tag', role='grocy') }}"
 
 # Envs
 grocy_role_docker_envs_default:
@@ -69,15 +72,15 @@ grocy_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 grocy_role_docker_envs_custom: {}
-grocy_role_docker_envs: "{{ grocy_role_docker_envs_default
-                       | combine(grocy_role_docker_envs_custom) }}"
+grocy_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='grocy')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='grocy')) }}"
 
 # Volumes
 grocy_role_docker_volumes_default:
-  - "{{ grocy_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='grocy') }}:/config"
 grocy_role_docker_volumes_custom: []
-grocy_role_docker_volumes: "{{ grocy_role_docker_volumes_default
-                          + grocy_role_docker_volumes_custom }}"
+grocy_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='grocy')
+                               + lookup('role_var', '_docker_volumes_custom', role='grocy') }}"
 
 # Hostname
 grocy_role_docker_hostname: "{{ grocy_name }}"
@@ -87,8 +90,8 @@ grocy_role_docker_networks_alias: "{{ grocy_name }}"
 grocy_role_docker_networks_default: []
 grocy_role_docker_networks_custom: []
 grocy_role_docker_networks: "{{ docker_networks_common
-                           + grocy_role_docker_networks_default
-                           + grocy_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='grocy')
+                                + lookup('role_var', '_docker_networks_custom', role='grocy') }}"
 
 # Restart Policy
 grocy_role_docker_restart_policy: unless-stopped
