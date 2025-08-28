@@ -38,16 +38,16 @@ homarr_role_paths_folders_list:
 homarr_role_web_subdomain: "{{ homarr_name }}"
 homarr_role_web_domain: "{{ user.domain }}"
 homarr_role_web_port: "7575"
-homarr_role_web_url: "{{ 'https://' + (homarr_role_web_subdomain + '.' + homarr_role_web_domain
-                 if (homarr_role_web_subdomain | length > 0)
-                 else homarr_role_web_domain) }}"
+homarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='homarr') + '.' + lookup('role_var', '_web_domain', role='homarr')
+                      if (lookup('role_var', '_web_subdomain', role='homarr') | length > 0)
+                      else lookup('role_var', '_web_domain', role='homarr')) }}"
 
 ################################
 # DNS
 ################################
 
-homarr_role_dns_record: "{{ homarr_role_web_subdomain }}"
-homarr_role_dns_zone: "{{ homarr_role_web_domain }}"
+homarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='homarr') }}"
+homarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='homarr') }}"
 homarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -71,27 +71,28 @@ homarr_role_docker_container: "{{ homarr_name }}"
 
 # Image
 homarr_role_docker_image_pull: true
+homarr_role_docker_image_repo: "ghcr.io/ajnart/homarr"
 homarr_role_docker_image_tag: "latest"
-homarr_role_docker_image: "ghcr.io/ajnart/homarr:{{ homarr_role_docker_image_tag }}"
+homarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='homarr') }}:{{ lookup('role_var', '_docker_image_tag', role='homarr') }}"
 
 # Envs
 homarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-  BASE_URL: "{{ homarr_role_web_subdomain + '.' + homarr_role_web_domain }}"
+  BASE_URL: "{{ lookup('role_var', '_web_subdomain', role='homarr') + '.' + lookup('role_var', '_web_domain', role='homarr') }}"
   PASSWORD: "{{ user.pass }}"
   DOCKER_HOST: "tcp://{{ homarr_name }}-docker-socket-proxy:2375"
   NODE_TLS_REJECT_UNAUTHORIZED: "0"
 homarr_role_docker_envs_custom: {}
-homarr_role_docker_envs: "{{ homarr_role_docker_envs_default
-                        | combine(homarr_role_docker_envs_custom) }}"
+homarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='homarr')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='homarr')) }}"
 
 # Volumes
 homarr_role_docker_volumes_default:
-  - "{{ homarr_role_paths_location }}:/app/data/configs"
-  - "{{ homarr_role_paths_location }}/icons:/app/public/icons"
+  - "{{ lookup('role_var', '_paths_location', role='homarr') }}:/app/data/configs"
+  - "{{ lookup('role_var', '_paths_location', role='homarr') }}/icons:/app/public/icons"
 homarr_role_docker_volumes_custom: []
-homarr_role_docker_volumes: "{{ homarr_role_docker_volumes_default
-                           + homarr_role_docker_volumes_custom }}"
+homarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='homarr')
+                                + lookup('role_var', '_docker_volumes_custom', role='homarr') }}"
 
 # Hostname
 homarr_role_docker_hostname: "{{ homarr_name }}"
@@ -101,8 +102,8 @@ homarr_role_docker_networks_alias: "{{ homarr_name }}"
 homarr_role_docker_networks_default: []
 homarr_role_docker_networks_custom: []
 homarr_role_docker_networks: "{{ docker_networks_common
-                            + homarr_role_docker_networks_default
-                            + homarr_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='homarr')
+                                 + lookup('role_var', '_docker_networks_custom', role='homarr') }}"
 
 # Restart Policy
 homarr_role_docker_restart_policy: unless-stopped
