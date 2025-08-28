@@ -10,8 +10,7 @@
 - name: Fail when default doplarr.discord_token is specified
   ansible.builtin.fail:
     msg: "You must specify a Discord bot token in the settings under doplarr.discord_token."
-  when: (doplarr.discord_token == 'your_discord_bot_token') and
-        (not continuous_integration)
+  when: (doplarr.discord_token == 'your_discord_bot_token') and (not continuous_integration)
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

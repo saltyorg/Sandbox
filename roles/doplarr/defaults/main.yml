@@ -22,8 +22,9 @@ doplarr_role_docker_container: "{{ doplarr_name }}"
 
 # Image
 doplarr_role_docker_image_pull: true
+doplarr_role_docker_image_repo: "lscr.io/linuxserver/doplarr"
 doplarr_role_docker_image_tag: "latest"
-doplarr_role_docker_image: "lscr.io/linuxserver/doplarr:{{ doplarr_role_docker_image_tag }}"
+doplarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='doplarr') }}:{{ lookup('role_var', '_docker_image_tag', role='doplarr') }}"
 
 # Envs
 doplarr_role_docker_envs_default:
@@ -47,8 +48,8 @@ doplarr_role_docker_envs_default:
   PARTIAL_SEASONS: "{{ doplarr.partial_seasons | default('true', true) }}"
   LOG_LEVEL: "{{ doplarr.log_level | default(':info', true) }}"
 doplarr_role_docker_envs_custom: []
-doplarr_role_docker_envs: "{{ doplarr_role_docker_envs_default
-                         | combine(doplarr_role_docker_envs_custom) }}"
+doplarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='doplarr')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='doplarr')) }}"
 
 # Hostname
 doplarr_role_docker_hostname: "{{ doplarr_name }}"
@@ -58,8 +59,8 @@ doplarr_role_docker_networks_alias: "{{ doplarr_name }}"
 doplarr_role_docker_networks_default: []
 doplarr_role_docker_networks_custom: []
 doplarr_role_docker_networks: "{{ docker_networks_common
-                             + doplarr_role_docker_networks_default
-                             + doplarr_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='doplarr')
+                                  + lookup('role_var', '_docker_networks_custom', role='doplarr') }}"
 
 # Restart Policy
 doplarr_role_docker_restart_policy: unless-stopped
