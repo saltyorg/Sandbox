@@ -12,7 +12,7 @@
     name: docker_socket_proxy
   vars:
     docker_socket_proxy_name: "{{ dockwatch_name }}-docker-socket-proxy"
-    docker_socket_proxy_role_docker_envs: "{{ dockwatch_role_docker_socket_proxy_envs }}"
+    docker_socket_proxy_role_docker_envs: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='dockwatch') }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

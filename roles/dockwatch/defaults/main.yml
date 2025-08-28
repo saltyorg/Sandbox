@@ -51,16 +51,16 @@ dockwatch_role_paths_folders_list:
 dockwatch_role_web_subdomain: "{{ dockwatch_name }}"
 dockwatch_role_web_domain: "{{ user.domain }}"
 dockwatch_role_web_port: "80"
-dockwatch_role_web_url: "{{ 'https://' + (dockwatch_role_web_subdomain + '.' + dockwatch_role_web_domain
-                    if (dockwatch_role_web_subdomain | length > 0)
-                    else dockwatch_role_web_domain) }}"
+dockwatch_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='dockwatch') + '.' + lookup('role_var', '_web_domain', role='dockwatch')
+                         if (lookup('role_var', '_web_subdomain', role='dockwatch') | length > 0)
+                         else lookup('role_var', '_web_domain', role='dockwatch')) }}"
 
 ################################
 # DNS
 ################################
 
-dockwatch_role_dns_record: "{{ dockwatch_role_web_subdomain }}"
-dockwatch_role_dns_zone: "{{ dockwatch_role_web_domain }}"
+dockwatch_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='dockwatch') }}"
+dockwatch_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='dockwatch') }}"
 dockwatch_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -84,8 +84,9 @@ dockwatch_role_docker_container: "{{ dockwatch_name }}"
 
 # Image
 dockwatch_role_docker_image_pull: true
+dockwatch_role_docker_image_repo: "ghcr.io/notifiarr/dockwatch"
 dockwatch_role_docker_image_tag: "main"
-dockwatch_role_docker_image: "ghcr.io/notifiarr/dockwatch:{{ dockwatch_role_docker_image_tag }}"
+dockwatch_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='dockwatch') }}:{{ lookup('role_var', '_docker_image_tag', role='dockwatch') }}"
 
 # Envs
 dockwatch_role_docker_envs_default:
@@ -94,15 +95,15 @@ dockwatch_role_docker_envs_default:
   TZ: "{{ tz }}"
   DOCKER_HOST: "{{ dockwatch_name }}-docker-socket-proxy:2375"
 dockwatch_role_docker_envs_custom: {}
-dockwatch_role_docker_envs: "{{ dockwatch_role_docker_envs_default
-                           | combine(dockwatch_role_docker_envs_custom) }}"
+dockwatch_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='dockwatch')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='dockwatch')) }}"
 
 # Volumes
 dockwatch_role_docker_volumes_default:
-  - "{{ dockwatch_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='dockwatch') }}:/config"
 dockwatch_role_docker_volumes_custom: []
-dockwatch_role_docker_volumes: "{{ dockwatch_role_docker_volumes_default
-                              + dockwatch_role_docker_volumes_custom }}"
+dockwatch_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='dockwatch')
+                                   + lookup('role_var', '_docker_volumes_custom', role='dockwatch') }}"
 
 # Hostname
 dockwatch_role_docker_hostname: "{{ dockwatch_name }}"
@@ -112,8 +113,8 @@ dockwatch_role_docker_networks_alias: "{{ dockwatch_name }}"
 dockwatch_role_docker_networks_default: []
 dockwatch_role_docker_networks_custom: []
 dockwatch_role_docker_networks: "{{ docker_networks_common
-                               + dockwatch_role_docker_networks_default
-                               + dockwatch_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='dockwatch')
+                                    + lookup('role_var', '_docker_networks_custom', role='dockwatch') }}"
 
 # Restart Policy
 dockwatch_role_docker_restart_policy: unless-stopped
