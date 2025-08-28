@@ -44,16 +44,16 @@ delugevpn_role_paths_folders_list:
 delugevpn_role_web_subdomain: "{{ delugevpn_name }}"
 delugevpn_role_web_domain: "{{ user.domain }}"
 delugevpn_role_web_port: "8112"
-delugevpn_role_web_url: "{{ 'https://' + (delugevpn_role_web_subdomain + '.' + delugevpn_role_web_domain
-                    if (delugevpn_role_web_subdomain | length > 0)
-                    else delugevpn_role_web_domain) }}"
+delugevpn_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='delugevpn') + '.' + lookup('role_var', '_web_domain', role='delugevpn')
+                         if (lookup('role_var', '_web_subdomain', role='delugevpn') | length > 0)
+                         else lookup('role_var', '_web_domain', role='delugevpn')) }}"
 
 ################################
 # DNS
 ################################
 
-delugevpn_role_dns_record: "{{ delugevpn_role_web_subdomain }}"
-delugevpn_role_dns_zone: "{{ delugevpn_role_web_domain }}"
+delugevpn_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='delugevpn') }}"
+delugevpn_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='delugevpn') }}"
 delugevpn_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -77,16 +77,17 @@ delugevpn_role_docker_container: "{{ delugevpn_name }}"
 
 # Image
 delugevpn_role_docker_image_pull: true
+delugevpn_role_docker_image_repo: "binhex/arch-delugevpn"
 delugevpn_role_docker_image_tag: "latest"
-delugevpn_role_docker_image: "binhex/arch-delugevpn:{{ delugevpn_role_docker_image_tag }}"
+delugevpn_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='delugevpn') }}:{{ lookup('role_var', '_docker_image_tag', role='delugevpn') }}"
 
 # Ports
 delugevpn_role_docker_ports_defaults:
   - "58112:58112"
   - "58846:58846"
 delugevpn_role_docker_ports_custom: []
-delugevpn_role_docker_ports: "{{ delugevpn_role_docker_ports_defaults
-                            + delugevpn_role_docker_ports_custom }}"
+delugevpn_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='delugevpn')
+                                 + lookup('role_var', '_docker_ports_custom', role='delugevpn') }}"
 
 # Envs
 delugevpn_role_docker_envs_default:
@@ -107,17 +108,17 @@ delugevpn_role_docker_envs_default:
   DEBUG: "false"
   UMASK: "022"
 delugevpn_role_docker_envs_custom: {}
-delugevpn_role_docker_envs: "{{ delugevpn_role_docker_envs_default
-                           | combine(delugevpn_role_docker_envs_custom) }}"
+delugevpn_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='delugevpn')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='delugevpn')) }}"
 
 # Volumes
 delugevpn_role_docker_volumes_default:
-  - "{{ delugevpn_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='delugevpn') }}:/config"
   - "/etc/localtime:/etc/localtime:ro"
   - "/opt/scripts:/scripts"
 delugevpn_role_docker_volumes_custom: []
-delugevpn_role_docker_volumes: "{{ delugevpn_role_docker_volumes_default
-                              + delugevpn_role_docker_volumes_custom }}"
+delugevpn_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='delugevpn')
+                                   + lookup('role_var', '_docker_volumes_custom', role='delugevpn') }}"
 
 # Hostname
 delugevpn_role_docker_hostname: "{{ delugevpn_name }}"
@@ -127,8 +128,8 @@ delugevpn_role_docker_networks_alias: "{{ delugevpn_name }}"
 delugevpn_role_docker_networks_default: []
 delugevpn_role_docker_networks_custom: []
 delugevpn_role_docker_networks: "{{ docker_networks_common
-                               + delugevpn_role_docker_networks_default
-                               + delugevpn_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='delugevpn')
+                                    + lookup('role_var', '_docker_networks_custom', role='delugevpn') }}"
 
 # Restart Policy
 delugevpn_role_docker_restart_policy: unless-stopped
