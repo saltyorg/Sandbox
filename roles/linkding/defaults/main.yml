@@ -29,16 +29,16 @@ linkding_role_paths_folders_list:
 linkding_role_web_subdomain: "{{ linkding_name }}"
 linkding_role_web_domain: "{{ user.domain }}"
 linkding_role_web_port: "9090"
-linkding_role_web_url: "{{ 'https://' + (linkding_role_web_subdomain + '.' + linkding_role_web_domain
-                   if (linkding_role_web_subdomain | length > 0)
-                   else linkding_role_web_domain) }}"
+linkding_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='linkding') + '.' + lookup('role_var', '_web_domain', role='linkding')
+                        if (lookup('role_var', '_web_subdomain', role='linkding') | length > 0)
+                        else lookup('role_var', '_web_domain', role='linkding')) }}"
 
 ################################
 # DNS
 ################################
 
-linkding_role_dns_record: "{{ linkding_role_web_subdomain }}"
-linkding_role_dns_zone: "{{ linkding_role_web_domain }}"
+linkding_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='linkding') }}"
+linkding_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='linkding') }}"
 linkding_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -65,7 +65,8 @@ linkding_role_docker_container: "{{ linkding_name }}"
 # Image
 linkding_role_docker_image_pull: true
 linkding_role_docker_image_tag: "latest"
-linkding_role_docker_image: "sissbruecker/linkding:{{ linkding_role_docker_image_tag }}"
+linkding_role_docker_image_repo: "sissbruecker/linkding"
+linkding_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='linkding') }}:{{ lookup('role_var', '_docker_image_tag', role='linkding') }}"
 
 # Envs
 linkding_role_docker_envs_default:
@@ -78,17 +79,17 @@ linkding_role_docker_envs_default:
   LD_DISABLE_BACKGROUND_TASKS: "false"
   LD_DISABLE_URL_VALIDATION: "false"
   LD_ENABLE_AUTH_PROXY: "false"
-  LD_CSRF_TRUSTED_ORIGINS: "{{ linkding_role_web_url }}"
+  LD_CSRF_TRUSTED_ORIGINS: "{{ lookup('role_var', '_web_url', role='linkding') }}"
 linkding_role_docker_envs_custom: {}
-linkding_role_docker_envs: "{{ linkding_role_docker_envs_default
-                          | combine(linkding_role_docker_envs_custom) }}"
+linkding_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='linkding')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='linkding')) }}"
 
 # Volumes
 linkding_role_docker_volumes_default:
-  - "{{ linkding_role_paths_location }}:/etc/linkding/data"
+  - "{{ lookup('role_var', '_paths_location', role='linkding') }}:/etc/linkding/data"
 linkding_role_docker_volumes_custom: []
-linkding_role_docker_volumes: "{{ linkding_role_docker_volumes_default
-                             + linkding_role_docker_volumes_custom }}"
+linkding_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='linkding')
+                                  + lookup('role_var', '_docker_volumes_custom', role='linkding') }}"
 
 # Hostname
 linkding_role_docker_hostname: "{{ linkding_name }}"
@@ -98,8 +99,8 @@ linkding_role_docker_networks_alias: "{{ linkding_name }}"
 linkding_role_docker_networks_default: []
 linkding_role_docker_networks_custom: []
 linkding_role_docker_networks: "{{ docker_networks_common
-                              + linkding_role_docker_networks_default
-                              + linkding_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='linkding')
+                                   + lookup('role_var', '_docker_networks_custom', role='linkding') }}"
 
 # Restart Policy
 linkding_role_docker_restart_policy: unless-stopped
