@@ -30,16 +30,16 @@ dashy_role_paths_config_location: "{{ dashy_role_paths_location }}/conf.yml"
 dashy_role_web_subdomain: "{{ dashy_name }}"
 dashy_role_web_domain: "{{ user.domain }}"
 dashy_role_web_port: "8080"
-dashy_role_web_url: "{{ 'https://' + (dashy_role_web_subdomain + '.' + dashy_role_web_domain
-                if (dashy_role_web_subdomain | length > 0)
-                else dashy_role_web_domain) }}"
+dashy_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='dashy') + '.' + lookup('role_var', '_web_domain', role='dashy')
+                     if (lookup('role_var', '_web_subdomain', role='dashy') | length > 0)
+                     else lookup('role_var', '_web_domain', role='dashy')) }}"
 
 ################################
 # DNS
 ################################
 
-dashy_role_dns_record: "{{ dashy_role_web_subdomain }}"
-dashy_role_dns_zone: "{{ dashy_role_web_domain }}"
+dashy_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='dashy') }}"
+dashy_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='dashy') }}"
 dashy_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,15 +63,16 @@ dashy_role_docker_container: "{{ dashy_name }}"
 
 # Image
 dashy_role_docker_image_pull: true
+dashy_role_docker_image_repo: "lissy93/dashy"
 dashy_role_docker_image_tag: "latest"
-dashy_role_docker_image: "lissy93/dashy:{{ dashy_role_docker_image_tag }}"
+dashy_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='dashy') }}:{{ lookup('role_var', '_docker_image_tag', role='dashy') }}"
 
 # Volumes
 dashy_role_docker_volumes_default:
-  - "{{ dashy_role_paths_location }}:/app/user-data"
+  - "{{ lookup('role_var', '_paths_location', role='dashy') }}:/app/user-data"
 dashy_role_docker_volumes_custom: []
-dashy_role_docker_volumes: "{{ dashy_role_docker_volumes_default
-                          + dashy_role_docker_volumes_custom }}"
+dashy_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='dashy')
+                               + lookup('role_var', '_docker_volumes_custom', role='dashy') }}"
 
 # Hostname
 dashy_role_docker_hostname: "{{ dashy_name }}"
@@ -81,8 +82,8 @@ dashy_role_docker_networks_alias: "{{ dashy_name }}"
 dashy_role_docker_networks_default: []
 dashy_role_docker_networks_custom: []
 dashy_role_docker_networks: "{{ docker_networks_common
-                           + dashy_role_docker_networks_default
-                           + dashy_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='dashy')
+                                + lookup('role_var', '_docker_networks_custom', role='dashy') }}"
 
 # Restart Policy
 dashy_role_docker_restart_policy: unless-stopped

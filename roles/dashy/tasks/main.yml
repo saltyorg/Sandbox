@@ -20,18 +20,18 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check if `{{ dashy_role_paths_config_location | basename }}` exists
+- name: Check if `{{ lookup('role_var', '_paths_config_location', role='dashy') | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ dashy_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='dashy') }}"
   register: dashy_config
 
-- name: New `{{ dashy_role_paths_config_location | basename }}` tasks
+- name: New `{{ lookup('role_var', '_paths_config_location', role='dashy') | basename }}` tasks
   when: not dashy_config.stat.exists
   block:
-    - name: Import default `{{ dashy_role_paths_config_location | basename }}`
+    - name: Import default `{{ lookup('role_var', '_paths_config_location', role='dashy') | basename }}`
       ansible.builtin.template:
         src: conf.yml.j2
-        dest: "{{ dashy_role_paths_config_location }}"
+        dest: "{{ lookup('role_var', '_paths_config_location', role='dashy') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
