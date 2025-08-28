@@ -32,7 +32,8 @@ maybe_finance_worker_role_docker_container: "{{ maybe_finance_worker_name }}"
 # Image
 maybe_finance_worker_role_docker_image_pull: true
 maybe_finance_worker_role_docker_image_tag: "latest"
-maybe_finance_worker_role_docker_image: "ghcr.io/maybe-finance/maybe:{{ maybe_finance_worker_role_docker_image_tag }}"
+maybe_finance_worker_role_docker_image_repo: "ghcr.io/maybe-finance/maybe"
+maybe_finance_worker_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='maybe_finance_worker') }}:{{ lookup('role_var', '_docker_image_tag', role='maybe_finance_worker') }}"
 
 # Envs
 maybe_finance_worker_role_docker_envs_default:
@@ -44,23 +45,23 @@ maybe_finance_worker_role_docker_envs_default:
   RAILS_ASSUME_SSL: "false"
   GOOD_JOB_EXECUTION_MODE: "async"
   SECRET_KEY_BASE: "{{ maybe_finance_saltbox_facts.facts.secret_key_base }}"
-  DB_USERNAME: "{{ postgres_role_docker_env_user }}"
-  DB_PASSWORD: "{{ postgres_role_docker_env_password }}"
-  DB_HOST: "{{ maybe_finance_postgres_name }}"
+  DB_USERNAME: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  DB_HOST: "{{ lookup('role_var', '_postgres_name', role='maybe_finance') }}"
   DB_PORT: "5432"
-  POSTGRES_USER: "{{ postgres_role_docker_env_user }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
   REDIS_URL: "redis://{{ maybe_finance_name }}-redis:6379/1"
-  POSTGRES_PASSWORD: "{{ postgres_role_docker_env_password }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
 maybe_finance_worker_role_docker_envs_custom: {}
-maybe_finance_worker_role_docker_envs: "{{ maybe_finance_worker_role_docker_envs_default
-                           | combine(maybe_finance_worker_role_docker_envs_custom) }}"
+maybe_finance_worker_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='maybe_finance_worker')
+                                           | combine(lookup('role_var', '_docker_envs_custom', role='maybe_finance_worker')) }}"
 
 # Commands
 maybe_finance_worker_role_docker_commands_default:
   - "bundle exec sidekiq"
 maybe_finance_worker_role_docker_commands_custom: []
-maybe_finance_worker_role_docker_commands: "{{ maybe_finance_worker_role_docker_commands_default
-                               + maybe_finance_worker_role_docker_commands_custom }}"
+maybe_finance_worker_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='maybe_finance_worker')
+                                               + lookup('role_var', '_docker_commands_custom', role='maybe_finance_worker') }}"
 
 # Hostname
 maybe_finance_worker_role_docker_hostname: "{{ maybe_finance_worker_name }}"
@@ -70,8 +71,8 @@ maybe_finance_worker_role_docker_networks_alias: "{{ maybe_finance_worker_name }
 maybe_finance_worker_role_docker_networks_default: []
 maybe_finance_worker_role_docker_networks_custom: []
 maybe_finance_worker_role_docker_networks: "{{ docker_networks_common
-                               + maybe_finance_worker_role_docker_networks_default
-                               + maybe_finance_worker_role_docker_networks_custom }}"
+                                               + lookup('role_var', '_docker_networks_default', role='maybe_finance_worker')
+                                               + lookup('role_var', '_docker_networks_custom', role='maybe_finance_worker') }}"
 
 # Restart Policy
 maybe_finance_worker_role_docker_restart_policy: unless-stopped
@@ -80,6 +81,6 @@ maybe_finance_worker_role_docker_restart_policy: unless-stopped
 maybe_finance_worker_role_docker_state: started
 
 # Dependencies
-maybe_finance_worker_depends_on: "{{ maybe_finance_worker_postgres_name }}"
-maybe_finance_worker_depends_on_delay: "5"
-maybe_finance_worker_depends_on_healthchecks: "true"
+maybe_finance_worker_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='maybe_finance') }}"
+maybe_finance_worker_role_depends_on_delay: "5"
+maybe_finance_worker_role_depends_on_healthchecks: "true"
