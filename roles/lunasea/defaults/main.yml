@@ -27,16 +27,16 @@ lunasea_role_paths_folders_list: []
 lunasea_role_web_subdomain: "{{ lunasea_name }}"
 lunasea_role_web_domain: "{{ user.domain }}"
 lunasea_role_web_port: "80"
-lunasea_role_web_url: "{{ 'https://' + (lunasea_role_web_subdomain + '.' + lunasea_role_web_domain
-                  if (lunasea_role_web_subdomain | length > 0)
-                  else lunasea_role_web_domain) }}"
+lunasea_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='lunasea') + '.' + lookup('role_var', '_web_domain', role='lunasea')
+                       if (lookup('role_var', '_web_subdomain', role='lunasea') | length > 0)
+                       else lookup('role_var', '_web_domain', role='lunasea')) }}"
 
 ################################
 # DNS
 ################################
 
-lunasea_role_dns_record: "{{ lunasea_role_web_subdomain }}"
-lunasea_role_dns_zone: "{{ lunasea_role_web_domain }}"
+lunasea_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='lunasea') }}"
+lunasea_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='lunasea') }}"
 lunasea_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -61,14 +61,15 @@ lunasea_role_docker_container: "{{ lunasea_name }}"
 # Image
 lunasea_role_docker_image_pull: true
 lunasea_role_docker_image_tag: "stable"
-lunasea_role_docker_image: "ghcr.io/jagandeepbrar/lunasea:{{ lunasea_role_docker_image_tag }}"
+lunasea_role_docker_image_repo: "ghcr.io/jagandeepbrar/lunasea"
+lunasea_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='lunasea') }}:{{ lookup('role_var', '_docker_image_tag', role='lunasea') }}"
 
 # Envs
 lunasea_role_docker_envs_default:
   TZ: "{{ tz }}"
 lunasea_role_docker_envs_custom: {}
-lunasea_role_docker_envs: "{{ lunasea_role_docker_envs_default
-                         | combine(lunasea_role_docker_envs_custom) }}"
+lunasea_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='lunasea')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='lunasea')) }}"
 
 # Hostname
 lunasea_role_docker_hostname: "{{ lunasea_name }}"
@@ -78,8 +79,8 @@ lunasea_role_docker_networks_alias: "{{ lunasea_name }}"
 lunasea_role_docker_networks_default: []
 lunasea_role_docker_networks_custom: []
 lunasea_role_docker_networks: "{{ docker_networks_common
-                             + lunasea_role_docker_networks_default
-                             + lunasea_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='lunasea')
+                                  + lookup('role_var', '_docker_networks_custom', role='lunasea') }}"
 
 # Restart Policy
 lunasea_role_docker_restart_policy: unless-stopped
