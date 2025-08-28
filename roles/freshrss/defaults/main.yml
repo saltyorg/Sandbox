@@ -18,9 +18,9 @@ freshrss_name: freshrss
 ################################
 
 freshrss_role_paths_folder: "{{ freshrss_name }}"
-freshrss_role_paths_location: "{{ server_appdata_path }}/{{ freshrss_role_paths_folder }}"
+freshrss_role_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='freshrss') }}"
 freshrss_role_paths_folders_list:
-  - "{{ freshrss_role_paths_location }}"
+  - "{{ lookup('role_var', '_paths_location', role='freshrss') }}"
 
 ################################
 # Web
@@ -29,16 +29,16 @@ freshrss_role_paths_folders_list:
 freshrss_role_web_subdomain: "{{ freshrss_name }}"
 freshrss_role_web_domain: "{{ user.domain }}"
 freshrss_role_web_port: "80"
-freshrss_role_web_url: "{{ 'https://' + (freshrss_role_web_subdomain + '.' + freshrss_role_web_domain
-                   if (freshrss_role_web_subdomain | length > 0)
-                   else freshrss_role_web_domain) }}"
+freshrss_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='freshrss') + '.' + lookup('role_var', '_web_domain', role='freshrss')
+                        if (lookup('role_var', '_web_subdomain', role='freshrss') | length > 0)
+                        else lookup('role_var', '_web_domain', role='freshrss')) }}"
 
 ################################
 # DNS
 ################################
 
-freshrss_role_dns_record: "{{ freshrss_role_web_subdomain }}"
-freshrss_role_dns_zone: "{{ freshrss_role_web_domain }}"
+freshrss_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='freshrss') }}"
+freshrss_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='freshrss') }}"
 freshrss_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ freshrss_role_docker_container: "{{ freshrss_name }}"
 
 # Image
 freshrss_role_docker_image_pull: true
+freshrss_role_docker_image_repo: "lscr.io/linuxserver/freshrss"
 freshrss_role_docker_image_tag: "amd64-latest"
-freshrss_role_docker_image: "lscr.io/linuxserver/freshrss:{{ freshrss_role_docker_image_tag }}"
+freshrss_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='freshrss') }}:{{ lookup('role_var', '_docker_image_tag', role='freshrss') }}"
 
 # Envs
 freshrss_role_docker_envs_default:
@@ -71,15 +72,15 @@ freshrss_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 freshrss_role_docker_envs_custom: {}
-freshrss_role_docker_envs: "{{ freshrss_role_docker_envs_default
-                          | combine(freshrss_role_docker_envs_custom) }}"
+freshrss_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='freshrss')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='freshrss')) }}"
 
 # Volumes
 freshrss_role_docker_volumes_default:
-  - "{{ freshrss_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='freshrss') }}:/config"
 freshrss_role_docker_volumes_custom: []
-freshrss_role_docker_volumes: "{{ freshrss_role_docker_volumes_default
-                             + freshrss_role_docker_volumes_custom }}"
+freshrss_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='freshrss')
+                                  + lookup('role_var', '_docker_volumes_custom', role='freshrss') }}"
 
 # Hostname
 freshrss_role_docker_hostname: "{{ freshrss_name }}"
@@ -89,8 +90,8 @@ freshrss_role_docker_networks_alias: "{{ freshrss_name }}"
 freshrss_role_docker_networks_default: []
 freshrss_role_docker_networks_custom: []
 freshrss_role_docker_networks: "{{ docker_networks_common
-                              + freshrss_role_docker_networks_default
-                              + freshrss_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='freshrss')
+                                   + lookup('role_var', '_docker_networks_custom', role='freshrss') }}"
 
 # Restart Policy
 freshrss_role_docker_restart_policy: unless-stopped
