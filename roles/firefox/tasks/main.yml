@@ -20,10 +20,10 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Import default `{{ firefox_role_paths_env_file_location | basename }}` if necessary
+- name: Import default `{{ lookup('role_var', '_paths_env_file_location', role='firefox') | basename }}` if necessary
   ansible.builtin.template:
     src: env.j2
-    dest: "{{ firefox_role_paths_env_file_location }}"
+    dest: "{{ lookup('role_var', '_paths_env_file_location', role='firefox') }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -38,8 +38,8 @@
 
 - name: Wait for service availability
   ansible.builtin.wait_for:
-    host: "{{ firefox_role_docker_networks_alias }}"
-    port: "{{ firefox_role_web_port }}"
+    host: "{{ lookup('role_var', '_docker_networks_alias', role='firefox') }}"
+    port: "{{ lookup('role_var', '_web_port', role='firefox') }}"
 
-- name: Remove empty subdirectories of `{{ firefox_role_paths_location }}`
-  ansible.builtin.shell: find "{{ firefox_role_paths_location }}" -maxdepth 1 -type d -empty -exec rmdir {} +
+- name: Remove empty subdirectories of `{{ lookup('role_var', '_paths_location', role='firefox') }}`
+  ansible.builtin.shell: find "{{ lookup('role_var', '_paths_location', role='firefox') }}" -maxdepth 1 -type d -empty -exec rmdir {} +

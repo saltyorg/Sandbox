@@ -32,9 +32,9 @@ firefox_role_paths_env_file_location: "{{ firefox_role_paths_location }}/.env"
 firefox_role_web_subdomain: "{{ firefox_name }}"
 firefox_role_web_domain: "{{ user.domain }}"
 firefox_role_web_port: "5800"
-firefox_role_web_url: "{{ 'https://' + (firefox_role_web_subdomain + '.' + firefox_role_web_domain
-                  if (firefox_role_web_subdomain | length > 0)
-                  else firefox_role_web_domain) }}"
+firefox_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='firefox') + '.' + lookup('role_var', '_web_domain', role='firefox')
+                       if (lookup('role_var', '_web_subdomain', role='firefox') | length > 0)
+                       else lookup('role_var', '_web_domain', role='firefox')) }}"
 
 ################################
 # VNC
@@ -46,8 +46,8 @@ firefox_vnc_port: "5900"
 # DNS
 ################################
 
-firefox_role_dns_record: "{{ firefox_role_web_subdomain }}"
-firefox_role_dns_zone: "{{ firefox_role_web_domain }}"
+firefox_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='firefox') }}"
+firefox_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='firefox') }}"
 firefox_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -71,18 +71,19 @@ firefox_role_docker_container: "{{ firefox_name }}"
 
 # Image
 firefox_role_docker_image_pull: true
+firefox_role_docker_image_repo: "jlesage/firefox"
 firefox_role_docker_image_tag: "latest"
-firefox_role_docker_image: "jlesage/firefox:{{ firefox_role_docker_image_tag }}"
+firefox_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='firefox') }}:{{ lookup('role_var', '_docker_image_tag', role='firefox') }}"
 
 # Envs
-firefox_role_docker_env_file: "{{ firefox_role_paths_env_file_location }}"
+firefox_role_docker_env_file: "{{ lookup('role_var', '_paths_env_file_location', role='firefox') }}"
 
 # Volumes
 firefox_role_docker_volumes_default:
-  - "{{ firefox_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='firefox') }}:/config"
 firefox_role_docker_volumes_custom: []
-firefox_role_docker_volumes: "{{ firefox_role_docker_volumes_default
-                            + firefox_role_docker_volumes_custom }}"
+firefox_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='firefox')
+                                 + lookup('role_var', '_docker_volumes_custom', role='firefox') }}"
 
 # Hostname
 firefox_role_docker_hostname: "{{ firefox_name }}"
@@ -92,15 +93,15 @@ firefox_role_docker_networks_alias: "{{ firefox_name }}"
 firefox_role_docker_networks_default: []
 firefox_role_docker_networks_custom: []
 firefox_role_docker_networks: "{{ docker_networks_common
-                             + firefox_role_docker_networks_default
-                             + firefox_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='firefox')
+                                  + lookup('role_var', '_docker_networks_custom', role='firefox') }}"
 
 # Capabilities
 firefox_role_docker_capabilities_default:
   - "SYS_NICE"
 firefox_role_docker_capabilities_custom: []
-firefox_role_docker_capabilities: "{{ firefox_role_docker_capabilities_default
-                                 + firefox_role_docker_capabilities_custom }}"
+firefox_role_docker_capabilities: "{{ lookup('role_var', '_docker_capabilities_default', role='firefox')
+                                      + lookup('role_var', '_docker_capabilities_custom', role='firefox') }}"
 
 # Restart Policy
 firefox_role_docker_restart_policy: unless-stopped
