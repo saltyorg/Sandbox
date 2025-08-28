@@ -17,14 +17,14 @@ linkwarden_name: linkwarden
 # Settings
 ################################
 
-linkwarden_postgres_name: "{{ linkwarden_name }}-postgres"
-linkwarden_postgres_role_docker_env_user: "{{ linkwarden_name }}"
-linkwarden_postgres_role_docker_env_password: "{{ linkwarden_name }}"
-linkwarden_postgres_role_docker_env_db: "{{ linkwarden_name }}"
-linkwarden_postgres_role_docker_image_tag: "16-alpine"
-linkwarden_postgres_role_docker_image_repo: "postgres"
-linkwarden_postgres_role_paths_folder: "{{ linkwarden_name }}"
-linkwarden_postgres_role_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+linkwarden_role_postgres_name: "{{ linkwarden_name }}-postgres"
+linkwarden_role_postgres_docker_env_user: "{{ linkwarden_name }}"
+linkwarden_role_postgres_docker_env_password: "{{ linkwarden_name }}"
+linkwarden_role_postgres_docker_env_db: "{{ linkwarden_name }}"
+linkwarden_role_postgres_docker_image_tag: "16-alpine"
+linkwarden_role_postgres_docker_image_repo: "postgres"
+linkwarden_role_postgres_paths_folder: "{{ linkwarden_name }}"
+linkwarden_role_postgres_paths_location: "{{ server_appdata_path }}/{{ linkwarden_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -42,16 +42,16 @@ linkwarden_role_paths_folders_list:
 linkwarden_role_web_subdomain: "{{ linkwarden_name }}"
 linkwarden_role_web_domain: "{{ user.domain }}"
 linkwarden_role_web_port: "3000"
-linkwarden_role_web_url: "{{ 'https://' + (linkwarden_role_web_subdomain + '.' + linkwarden_role_web_domain
-                     if (linkwarden_role_web_subdomain | length > 0)
-                     else linkwarden_role_web_domain) }}"
+linkwarden_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='linkwarden') + '.' + lookup('role_var', '_web_domain', role='linkwarden')
+                          if (lookup('role_var', '_web_subdomain', role='linkwarden') | length > 0)
+                          else lookup('role_var', '_web_domain', role='linkwarden')) }}"
 
 ################################
 # DNS
 ################################
 
-linkwarden_role_dns_record: "{{ linkwarden_role_web_subdomain }}"
-linkwarden_role_dns_zone: "{{ linkwarden_role_web_domain }}"
+linkwarden_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='linkwarden') }}"
+linkwarden_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='linkwarden') }}"
 linkwarden_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -76,7 +76,8 @@ linkwarden_role_docker_container: "{{ linkwarden_name }}"
 # Image
 linkwarden_role_docker_image_pull: true
 linkwarden_role_docker_image_tag: "latest"
-linkwarden_role_docker_image: "ghcr.io/linkwarden/linkwarden:{{ linkwarden_role_docker_image_tag }}"
+linkwarden_role_docker_image_repo: "ghcr.io/linkwarden/linkwarden"
+linkwarden_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='linkwarden') }}:{{ lookup('role_var', '_docker_image_tag', role='linkwarden') }}"
 
 # Envs
 linkwarden_role_docker_envs_default:
@@ -84,18 +85,18 @@ linkwarden_role_docker_envs_default:
   NEXT_PUBLIC_CREDENTIALS_ENABLED: "true"
   STORAGE_FOLDER: "/data"
   NEXTAUTH_SECRET: "{{ linkwarden_secret_key.stdout }}"
-  NEXTAUTH_URL: "{{ linkwarden_role_web_url }}/api/v1/auth"
-  DATABASE_URL: "postgresql://{{ linkwarden_postgres_role_docker_env_user }}:{{ linkwarden_postgres_role_docker_env_password }}@{{ linkwarden_postgres_name }}:5432/{{ linkwarden_postgres_role_docker_env_db }}"
+  NEXTAUTH_URL: "{{ lookup('role_var', '_web_url', role='linkwarden') }}/api/v1/auth"
+  DATABASE_URL: "postgresql://{{ lookup('role_var', '_postgres_docker_env_user', role='linkwarden') }}:{{ lookup('role_var', '_postgres_docker_env_password', role='linkwarden') }}@{{ lookup('role_var', '_postgres_name', role='linkwarden') }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='linkwarden') }}"
 linkwarden_role_docker_envs_custom: {}
-linkwarden_role_docker_envs: "{{ linkwarden_role_docker_envs_default
-                            | combine(linkwarden_role_docker_envs_custom) }}"
+linkwarden_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='linkwarden')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='linkwarden')) }}"
 
 # Volumes
 linkwarden_role_docker_volumes_default:
-  - "{{ linkwarden_role_paths_location }}:/data/data"
+  - "{{ lookup('role_var', '_paths_location', role='linkwarden') }}:/data/data"
 linkwarden_role_docker_volumes_custom: []
-linkwarden_role_docker_volumes: "{{ linkwarden_role_docker_volumes_default
-                               + linkwarden_role_docker_volumes_custom }}"
+linkwarden_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='linkwarden')
+                                    + lookup('role_var', '_docker_volumes_custom', role='linkwarden') }}"
 
 # Hostname
 linkwarden_role_docker_hostname: "{{ linkwarden_name }}"
@@ -105,8 +106,8 @@ linkwarden_role_docker_networks_alias: "{{ linkwarden_name }}"
 linkwarden_role_docker_networks_default: []
 linkwarden_role_docker_networks_custom: []
 linkwarden_role_docker_networks: "{{ docker_networks_common
-                                + linkwarden_role_docker_networks_default
-                                + linkwarden_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='linkwarden')
+                                     + lookup('role_var', '_docker_networks_custom', role='linkwarden') }}"
 
 # Restart Policy
 linkwarden_role_docker_restart_policy: unless-stopped
@@ -115,6 +116,6 @@ linkwarden_role_docker_restart_policy: unless-stopped
 linkwarden_role_docker_state: started
 
 # Dependencies
-linkwarden_depends_on: "{{ linkwarden_postgres_name }}"
-linkwarden_depends_on_delay: "0"
-linkwarden_depends_on_healthchecks: "false"
+linkwarden_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='linkwarden') }}"
+linkwarden_role_depends_on_delay: "0"
+linkwarden_role_depends_on_healthchecks: "false"
