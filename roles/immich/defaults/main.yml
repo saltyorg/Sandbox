@@ -90,7 +90,7 @@ immich_role_docker_envs_default:
   TZ: "{{ tz }}"
   DB_HOSTNAME: "{{ lookup('role_var', '_postgres_name', role='immich') }}"
   DB_USERNAME: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password ', role='postgres') }}"
+  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
   DB_DATABASE_NAME: "{{ lookup('role_var', '_postgres_docker_env_db', role='immich') }}"
   REDIS_HOSTNAME: "{{ immich_name }}-redis"
   DISABLE_MACHINE_LEARNING: "false"

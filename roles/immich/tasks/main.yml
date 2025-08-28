@@ -31,9 +31,9 @@
     name: postgres
   vars:
     postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='immich') }}"]
-    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db ', role='immich') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='immich') }}"
     postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='immich') }}"
-    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo ', role='immich') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='immich') }}"
     postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='immich') }}"
     postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='immich') }}"
     postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='immich') }}"
