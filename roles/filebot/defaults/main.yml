@@ -30,16 +30,16 @@ filebot_role_paths_config_location: "{{ filebot_role_paths_location }}/config.ym
 filebot_role_web_subdomain: "{{ filebot_name }}"
 filebot_role_web_domain: "{{ user.domain }}"
 filebot_role_web_port: "5800"
-filebot_role_web_url: "{{ 'https://' + (filebot_role_web_subdomain + '.' + filebot_role_web_domain
-                  if (filebot_role_web_subdomain | length > 0)
-                  else filebot_role_web_domain) }}"
+filebot_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='filebot') + '.' + lookup('role_var', '_web_domain', role='filebot')
+                       if (lookup('role_var', '_web_subdomain', role='filebot') | length > 0)
+                       else lookup('role_var', '_web_domain', role='filebot')) }}"
 
 ################################
 # DNS
 ################################
 
-filebot_role_dns_record: "{{ filebot_role_web_subdomain }}"
-filebot_role_dns_zone: "{{ filebot_role_web_domain }}"
+filebot_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='filebot') }}"
+filebot_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='filebot') }}"
 filebot_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ filebot_role_docker_container: "{{ filebot_name }}"
 
 # Image
 filebot_role_docker_image_pull: true
+filebot_role_docker_image_repo: "jlesage/filebot"
 filebot_role_docker_image_tag: "latest"
-filebot_role_docker_image: "jlesage/filebot:{{ filebot_role_docker_image_tag }}"
+filebot_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='filebot') }}:{{ lookup('role_var', '_docker_image_tag', role='filebot') }}"
 
 # Envs
 filebot_role_docker_envs_default:
@@ -73,17 +74,17 @@ filebot_role_docker_envs_default:
   GROUP_ID: "{{ gid }}"
   UMASK: "022"
 filebot_role_docker_envs_custom: {}
-filebot_role_docker_envs: "{{ filebot_role_docker_envs_default
-                         | combine(filebot_role_docker_envs_custom) }}"
+filebot_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='filebot')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='filebot')) }}"
 
 # Volumes
 filebot_role_docker_volumes_default:
-  - "{{ filebot_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='filebot') }}:/config"
   - "/mnt/unionfs/Media/:/storage/Media/"
   - "/mnt/local/downloads:/storage/downloads"
 filebot_role_docker_volumes_custom: []
-filebot_role_docker_volumes: "{{ filebot_role_docker_volumes_default
-                            + filebot_role_docker_volumes_custom }}"
+filebot_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='filebot')
+                                 + lookup('role_var', '_docker_volumes_custom', role='filebot') }}"
 
 # Hostname
 filebot_role_docker_hostname: "{{ filebot_name }}"
@@ -93,8 +94,8 @@ filebot_role_docker_networks_alias: "{{ filebot_name }}"
 filebot_role_docker_networks_default: []
 filebot_role_docker_networks_custom: []
 filebot_role_docker_networks: "{{ docker_networks_common
-                             + filebot_role_docker_networks_default
-                             + filebot_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='filebot')
+                                  + lookup('role_var', '_docker_networks_custom', role='filebot') }}"
 
 # Restart Policy
 filebot_role_docker_restart_policy: unless-stopped
