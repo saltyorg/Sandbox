@@ -29,16 +29,16 @@ gitea_role_paths_folders_list:
 gitea_role_web_subdomain: "{{ gitea_name }}"
 gitea_role_web_domain: "{{ user.domain }}"
 gitea_role_web_port: "3000"
-gitea_role_web_url: "{{ 'https://' + (gitea_role_web_subdomain + '.' + gitea_role_web_domain
-                if (gitea_role_web_subdomain | length > 0)
-                else gitea_role_web_domain) }}"
+gitea_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='gitea') + '.' + lookup('role_var', '_web_domain', role='gitea')
+                     if (lookup('role_var', '_web_subdomain', role='gitea') | length > 0)
+                     else lookup('role_var', '_web_domain', role='gitea')) }}"
 
 ################################
 # DNS
 ################################
 
-gitea_role_dns_record: "{{ gitea_role_web_subdomain }}"
-gitea_role_dns_zone: "{{ gitea_role_web_domain }}"
+gitea_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='gitea') }}"
+gitea_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='gitea') }}"
 gitea_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ gitea_role_docker_container: "{{ gitea_name }}"
 
 # Image
 gitea_role_docker_image_pull: true
+gitea_role_docker_image_repo: "gitea/gitea"
 gitea_role_docker_image_tag: "latest"
-gitea_role_docker_image: "gitea/gitea:{{ gitea_role_docker_image_tag }}"
+gitea_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='gitea') }}:{{ lookup('role_var', '_docker_image_tag', role='gitea') }}"
 
 # Envs
 gitea_role_docker_envs_default:
@@ -72,23 +73,23 @@ gitea_role_docker_envs_default:
   GITEA__database__DB_TYPE: "mysql"
   GITEA__database__HOST: "mariadb:3306"
   GITEA__database__USER: "root"
-  GITEA__database__PASSWD: "{{ mariadb_role_docker_env_password }}"
+  GITEA__database__PASSWD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   GITEA__database__NAME: "gitea"
   DISABLE_SSH: "true"
   RUN_MODE: "prod"
-  ROOT_URL: "{{ gitea_role_web_url }}/"
+  ROOT_URL: "{{ lookup('role_var', '_web_url', role='gitea') }}/"
 gitea_role_docker_envs_custom: {}
-gitea_role_docker_envs: "{{ gitea_role_docker_envs_default
-                       | combine(gitea_role_docker_envs_custom) }}"
+gitea_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='gitea')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='gitea')) }}"
 
 # Volumes
 gitea_role_docker_volumes_default:
-  - "{{ gitea_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='gitea') }}:/data"
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
 gitea_role_docker_volumes_custom: []
-gitea_role_docker_volumes: "{{ gitea_role_docker_volumes_default
-                          + gitea_role_docker_volumes_custom }}"
+gitea_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='gitea')
+                               + lookup('role_var', '_docker_volumes_custom', role='gitea') }}"
 
 # Hostname
 gitea_role_docker_hostname: "{{ gitea_name }}"
@@ -98,8 +99,8 @@ gitea_role_docker_networks_alias: "{{ gitea_name }}"
 gitea_role_docker_networks_default: []
 gitea_role_docker_networks_custom: []
 gitea_role_docker_networks: "{{ docker_networks_common
-                           + gitea_role_docker_networks_default
-                           + gitea_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='gitea')
+                                + lookup('role_var', '_docker_networks_custom', role='gitea') }}"
 
 # Restart Policy
 gitea_role_docker_restart_policy: unless-stopped
