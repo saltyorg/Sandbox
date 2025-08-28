@@ -33,8 +33,8 @@ lgsm_role_web_domain: "{{ user.domain }}"
 # DNS
 ################################
 
-lgsm_role_dns_record: "{{ lookup('vars', lgsm_name + '_web_subdomain', default=lgsm_role_web_subdomain) }}"
-lgsm_role_dns_zone: "{{ lookup('vars', lgsm_name + '_web_domain', default=lgsm_role_web_domain) }}"
+lgsm_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='lgsm') }}"
+lgsm_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='lgsm') }}"
 lgsm_role_dns_proxy: false
 
 ################################
@@ -48,15 +48,14 @@ lgsm_role_docker_container: "{{ lgsm_name }}"
 lgsm_role_docker_image_pull: true
 lgsm_role_docker_image_repo: "gameservermanagers/gameserver"
 lgsm_role_docker_image_tag: "{{ lgsm_name | replace('lgsm_', '') }}"
-lgsm_role_docker_image: "{{ lookup('vars', lgsm_name + '_docker_image_repo', default=lgsm_role_docker_image_repo)
-                             + ':' + lookup('vars', lgsm_name + '_docker_image_tag', default=lgsm_role_docker_image_tag) }}"
+lgsm_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='lgsm') }}:{{ lookup('role_var', '_docker_image_tag', role='lgsm') }}"
 
 # Volumes
 lgsm_role_docker_volumes_default:
-  - "{{ lgsm_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='lgsm') }}:/data"
 lgsm_role_docker_volumes_custom: []
-lgsm_role_docker_volumes: "{{ lookup('vars', lgsm_name + '_docker_volumes_default', default=lgsm_role_docker_volumes_default)
-                               + lookup('vars', lgsm_name + '_docker_volumes_custom', default=lgsm_role_docker_volumes_custom) }}"
+lgsm_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='lgsm')
+                              + lookup('role_var', '_docker_volumes_custom', role='lgsm') }}"
 
 # Hostname
 lgsm_role_docker_hostname: "{{ lgsm_name }}"
@@ -66,8 +65,8 @@ lgsm_role_docker_networks_alias: "{{ lgsm_name }}"
 lgsm_role_docker_networks_default: []
 lgsm_role_docker_networks_custom: []
 lgsm_role_docker_networks: "{{ docker_networks_common
-                                + lookup('vars', lgsm_name + '_docker_networks_default', default=lgsm_role_docker_networks_default)
-                                + lookup('vars', lgsm_name + '_docker_networks_custom', default=lgsm_role_docker_networks_custom) }}"
+                               + lookup('role_var', '_docker_networks_default', role='lgsm')
+                               + lookup('role_var', '_docker_networks_custom', role='lgsm') }}"
 
 # Restart Policy
 lgsm_role_docker_restart_policy: unless-stopped
