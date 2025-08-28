@@ -29,16 +29,16 @@ deemix_role_paths_folders_list:
 deemix_role_web_subdomain: "{{ deemix_name }}"
 deemix_role_web_domain: "{{ user.domain }}"
 deemix_role_web_port: "6595"
-deemix_role_web_url: "{{ 'https://' + (deemix_role_web_subdomain + '.' + deemix_role_web_domain
-                 if (deemix_role_web_subdomain | length > 0)
-                 else deemix_role_web_domain) }}"
+deemix_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='deemix') + '.' + lookup('role_var', '_web_domain', role='deemix')
+                      if (lookup('role_var', '_web_subdomain', role='deemix') | length > 0)
+                      else lookup('role_var', '_web_domain', role='deemix')) }}"
 
 ################################
 # DNS
 ################################
 
-deemix_role_dns_record: "{{ deemix_role_web_subdomain }}"
-deemix_role_dns_zone: "{{ deemix_role_web_domain }}"
+deemix_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='deemix') }}"
+deemix_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='deemix') }}"
 deemix_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ deemix_role_docker_container: "{{ deemix_name }}"
 
 # Image
 deemix_role_docker_image_pull: true
+deemix_role_docker_image_repo: "registry.gitlab.com/bockiii/deemix-docker"
 deemix_role_docker_image_tag: "latest"
-deemix_role_docker_image: "registry.gitlab.com/bockiii/deemix-docker:{{ deemix_role_docker_image_tag }}"
+deemix_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='deemix') }}:{{ lookup('role_var', '_docker_image_tag', role='deemix') }}"
 
 # Envs
 deemix_role_docker_envs_default:
@@ -73,15 +74,15 @@ deemix_role_docker_envs_default:
   UMASK_SET: "022"
   REVERSEPROXY: "true"
 deemix_role_docker_envs_custom: {}
-deemix_role_docker_envs: "{{ deemix_role_docker_envs_default
-                        | combine(deemix_role_docker_envs_custom) }}"
+deemix_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='deemix')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='deemix')) }}"
 
 # Volumes
 deemix_role_docker_volumes_default:
-  - "{{ deemix_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='deemix') }}:/config"
 deemix_role_docker_volumes_custom: []
-deemix_role_docker_volumes: "{{ deemix_role_docker_volumes_default
-                           + deemix_role_docker_volumes_custom }}"
+deemix_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='deemix')
+                                + lookup('role_var', '_docker_volumes_custom', role='deemix') }}"
 
 # Hostname
 deemix_role_docker_hostname: "{{ deemix_name }}"
@@ -91,8 +92,8 @@ deemix_role_docker_networks_alias: "{{ deemix_name }}"
 deemix_role_docker_networks_default: []
 deemix_role_docker_networks_custom: []
 deemix_role_docker_networks: "{{ docker_networks_common
-                            + deemix_role_docker_networks_default
-                            + deemix_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='deemix')
+                                 + lookup('role_var', '_docker_networks_custom', role='deemix') }}"
 
 # Restart Policy
 deemix_role_docker_restart_policy: unless-stopped
