@@ -22,20 +22,10 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-# - name: Create directories
-#   ansible.builtin.file:
-#     path: "{{ item }}"
-#     state: directory
-#     owner: "1500"
-#     group: "invoiceninja"
-#     mode: "0775"
-#     recurse: true
-#   with_items: "{{ lookup('vars', role_name + '_role_paths_folders_list') }}"
-
 - name: "Settings | Import in-vhost.conf"
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: '{{ invoiceninjav5_role_paths_location }}/{{ item }}'
+    dest: "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/{{ item }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -58,16 +48,16 @@
     nginx_role_docker_image: "nginx:latest"
     nginx_role_paths_folder: ""
     nginx_role_paths_folders_list: []
-    nginx_role_web_subdomain: "{{ invoiceninjav5_nginx_role_web_subdomain }}"
-    nginx_role_web_domain: "{{ invoiceninjav5_nginx_role_web_domain }}"
-    nginx_role_dns_record: "{{ invoiceninjav5_nginx_role_dns_record }}"
-    nginx_role_dns_zone: "{{ invoiceninjav5_nginx_role_dns_zone }}"
-    nginx_role_dns_proxy: "{{ invoiceninjav5_nginx_role_dns_proxy }}"
+    nginx_role_web_subdomain: "{{ lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') }}"
+    nginx_role_web_domain: "{{ lookup('role_var', '_nginx_web_domain', role='invoiceninjav5') }}"
+    nginx_role_dns_record: "{{ lookup('role_var', '_nginx_dns_record', role='invoiceninjav5') }}"
+    nginx_role_dns_zone: "{{ lookup('role_var', '_nginx_dns_zone', role='invoiceninjav5') }}"
+    nginx_role_dns_proxy: "{{ lookup('role_var', '_nginx_dns_proxy', role='invoiceninjav5') }}"
     nginx_instances: ["invoiceninja-nginx"]
     nginx_role_traefik_gzip_enabled: false
     nginx_role_docker_volumes_default:
-      - "{{ invoiceninjav5_role_paths_location }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
-      - "{{ invoiceninjav5_role_paths_location }}/public:/var/www/app/public:ro"
+      - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
+      - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/public:/var/www/app/public:ro"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

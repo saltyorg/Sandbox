@@ -37,20 +37,20 @@ invoiceninjav5_role_paths_group: "1500"
 # Web
 ################################
 
-invoiceninjav5_nginx_role_web_subdomain: "invoiceninja"
-invoiceninjav5_nginx_role_web_domain: "{{ user.domain }}"
-invoiceninjav5_nginx_role_web_port: "80"
-invoiceninjav5_nginx_role_web_url: "{{ 'https://' + (invoiceninjav5_nginx_role_web_subdomain + '.' + invoiceninjav5_nginx_role_web_domain
-                               if (invoiceninjav5_nginx_role_web_subdomain | length > 0)
-                               else invoiceninjav5_nginx_role_web_domain) }}"
+invoiceninjav5_role_nginx_web_subdomain: "invoiceninja"
+invoiceninjav5_role_nginx_web_domain: "{{ user.domain }}"
+invoiceninjav5_role_nginx_web_port: "80"
+invoiceninjav5_role_nginx_web_url: "{{ 'https://' + (lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') + '.' + lookup('role_var', '_nginx_web_domain', role='invoiceninjav5')
+                                    if (lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') | length > 0)
+                                    else lookup('role_var', '_nginx_web_domain', role='invoiceninjav5')) }}"
 
 ################################
 # DNS
 ################################
 
-invoiceninjav5_nginx_role_dns_record: "{{ invoiceninjav5_nginx_role_web_subdomain }}"
-invoiceninjav5_nginx_role_dns_zone: "{{ invoiceninjav5_nginx_role_web_domain }}"
-invoiceninjav5_nginx_role_dns_proxy: "{{ dns.proxied }}"
+invoiceninjav5_role_nginx_dns_record: "{{ lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') }}"
+invoiceninjav5_role_nginx_dns_zone: "{{ lookup('role_var', '_nginx_web_domain', role='invoiceninjav5') }}"
+invoiceninjav5_role_nginx_dns_proxy: "{{ dns.proxied }}"
 
 ################################
 # Docker
@@ -61,13 +61,14 @@ invoiceninjav5_role_docker_container: "{{ invoiceninjav5_name }}"
 
 # Image
 invoiceninjav5_role_docker_image_pull: true
+invoiceninjav5_role_docker_image_repo: "invoiceninja/invoiceninja"
 invoiceninjav5_role_docker_image_tag: "5"
-invoiceninjav5_role_docker_image: "invoiceninja/invoiceninja:{{ invoiceninjav5_role_docker_image_tag }}"
+invoiceninjav5_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='invoiceninjav5') }}:{{ lookup('role_var', '_docker_image_tag', role='invoiceninjav5') }}"
 
 # Envs
 invoiceninjav5_role_docker_envs_default:
   TZ: "{{ tz }}"
-  APP_URL: "{{ invoiceninjav5_nginx_role_web_url }}"
+  APP_URL: "{{ lookup('role_var', '_nginx_web_url', role='invoiceninjav5') }}"
   APP_KEY: "{{ invoiceninja.app_key | default('base64:O1S3kAJEDgo92gPkXtxfdCJpoGShgKloUSdcaHMXmoY=', true) }}"
   APP_ENV: "production"
   APP_DEBUG: "false"
@@ -85,18 +86,18 @@ invoiceninjav5_role_docker_envs_default:
   IN_USER_EMAIL: "{{ user.email }}"
   IN_PASSWORD: "{{ user.pass }}"
 invoiceninjav5_role_docker_envs_custom: {}
-invoiceninjav5_role_docker_envs: "{{ invoiceninjav5_role_docker_envs_default
-                                | combine(invoiceninjav5_role_docker_envs_custom) }}"
+invoiceninjav5_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='invoiceninjav5')
+                                     | combine(lookup('role_var', '_docker_envs_custom', role='invoiceninjav5')) }}"
 
 # Volumes
 invoiceninjav5_role_docker_volumes_default:
-  - "{{ invoiceninjav5_role_paths_location }}/public:/var/www/app/public"
-  - "{{ invoiceninjav5_role_paths_location }}/storage:/var/www/app/storage"
-  - "{{ invoiceninjav5_role_paths_location }}/php.ini:/usr/local/etc/php/php.ini"
-  - "{{ invoiceninjav5_role_paths_location }}/php-cli.ini:/usr/local/etc/php/php-cli.ini"
+  - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/public:/var/www/app/public"
+  - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/storage:/var/www/app/storage"
+  - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/php.ini:/usr/local/etc/php/php.ini"
+  - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/php-cli.ini:/usr/local/etc/php/php-cli.ini"
 invoiceninjav5_role_docker_volumes_custom: []
-invoiceninjav5_role_docker_volumes: "{{ invoiceninjav5_role_docker_volumes_default
-                                   + invoiceninjav5_role_docker_volumes_custom }}"
+invoiceninjav5_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='invoiceninjav5')
+                                        + lookup('role_var', '_docker_volumes_custom', role='invoiceninjav5') }}"
 
 # Hostname
 invoiceninjav5_role_docker_hostname: "{{ invoiceninjav5_name }}"
@@ -106,8 +107,8 @@ invoiceninjav5_role_docker_networks_alias: "{{ invoiceninjav5_name }}"
 invoiceninjav5_role_docker_networks_default: []
 invoiceninjav5_role_docker_networks_custom: []
 invoiceninjav5_role_docker_networks: "{{ docker_networks_common
-                                    + invoiceninjav5_role_docker_networks_default
-                                    + invoiceninjav5_role_docker_networks_custom }}"
+                                         + lookup('role_var', '_docker_networks_default', role='invoiceninjav5')
+                                         + lookup('role_var', '_docker_networks_custom', role='invoiceninjav5') }}"
 
 # Restart Policy
 invoiceninjav5_role_docker_restart_policy: unless-stopped
