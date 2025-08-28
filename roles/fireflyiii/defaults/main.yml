@@ -17,12 +17,12 @@ fireflyiii_name: fireflyiii
 # Settings
 ################################
 
-fireflyiii_mariadb_name: "{{ fireflyiii_name }}-mariadb"
-fireflyiii_mariadb_role_paths_folder: "{{ fireflyiii_name }}"
-fireflyiii_mariadb_role_paths_location: "{{ server_appdata_path }}/{{ mariadb_role_paths_folder }}/mariadb"
-fireflyiii_mariadb_role_docker_image_tag: "lts"
-fireflyiii_mariadb_role_docker_env_password: "{{ fireflyiii_db_password_saltbox_facts.facts.secret_key }}"
-fireflyiii_mariadb_role_docker_env_db: "{{ fireflyiii_name }}-mariadb"
+fireflyiii_role_mariadb_name: "{{ fireflyiii_name }}-mariadb"
+fireflyiii_role_mariadb_paths_folder: "{{ fireflyiii_name }}"
+fireflyiii_role_mariadb_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='mariadb') }}/mariadb"
+fireflyiii_role_mariadb_docker_image_tag: "lts"
+fireflyiii_role_mariadb_docker_env_password: "{{ fireflyiii_db_password_saltbox_facts.facts.secret_key }}"
+fireflyiii_role_mariadb_docker_env_db: "{{ fireflyiii_name }}-mariadb"
 
 ################################
 # Paths
@@ -40,16 +40,16 @@ fireflyiii_role_paths_folders_list:
 fireflyiii_role_web_subdomain: "{{ fireflyiii_name }}"
 fireflyiii_role_web_domain: "{{ user.domain }}"
 fireflyiii_role_web_port: "8080"
-fireflyiii_role_web_url: "{{ 'https://' + (fireflyiii_role_web_subdomain + '.' + fireflyiii_role_web_domain
-                     if (fireflyiii_role_web_subdomain | length > 0)
-                     else fireflyiii_role_web_domain) }}"
+fireflyiii_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='fireflyiii') + '.' + lookup('role_var', '_web_domain', role='fireflyiii')
+                          if (lookup('role_var', '_web_subdomain', role='fireflyiii') | length > 0)
+                          else lookup('role_var', '_web_domain', role='fireflyiii')) }}"
 
 ################################
 # DNS
 ################################
 
-fireflyiii_role_dns_record: "{{ fireflyiii_role_web_subdomain }}"
-fireflyiii_role_dns_zone: "{{ fireflyiii_role_web_domain }}"
+fireflyiii_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='fireflyiii') }}"
+fireflyiii_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='fireflyiii') }}"
 fireflyiii_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -73,8 +73,9 @@ fireflyiii_role_docker_container: "{{ fireflyiii_name }}"
 
 # Image
 fireflyiii_role_docker_image_pull: true
+fireflyiii_role_docker_image_repo: "fireflyiii/core"
 fireflyiii_role_docker_image_tag: "latest"
-fireflyiii_role_docker_image: "fireflyiii/core:{{ fireflyiii_role_docker_image_tag }}"
+fireflyiii_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='fireflyiii') }}:{{ lookup('role_var', '_docker_image_tag', role='fireflyiii') }}"
 
 # Envs
 fireflyiii_role_docker_envs_default:
@@ -95,20 +96,20 @@ fireflyiii_role_docker_envs_default:
   DB_USERNAME: "root"
   DB_PASSWORD: "{{ fireflyiii_db_password_saltbox_facts.facts.secret_key }}"
   AUTHENTICATION_GUARD: "web"
-  APP_URL: "{{ fireflyiii_role_web_url }}"
+  APP_URL: "{{ lookup('role_var', '_web_url', role='fireflyiii') }}"
   ALLOW_WEBHOOKS: "True"
 fireflyiii_role_docker_envs_custom: {}
-fireflyiii_role_docker_envs: "{{ fireflyiii_role_docker_envs_default
-                       | combine(fireflyiii_role_docker_envs_custom) }}"
+fireflyiii_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='fireflyiii')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='fireflyiii')) }}"
 
 # Volumes
 fireflyiii_role_docker_volumes_default:
-  - "{{ fireflyiii_role_paths_location }}/upload:/var/www/html/storage/upload"
+  - "{{ lookup('role_var', '_paths_location', role='fireflyiii') }}/upload:/var/www/html/storage/upload"
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
 fireflyiii_role_docker_volumes_custom: []
-fireflyiii_role_docker_volumes: "{{ fireflyiii_role_docker_volumes_default
-                           + fireflyiii_role_docker_volumes_custom }}"
+fireflyiii_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='fireflyiii')
+                                    + lookup('role_var', '_docker_volumes_custom', role='fireflyiii') }}"
 
 # Hostname
 fireflyiii_role_docker_hostname: "{{ fireflyiii_name }}"
@@ -118,8 +119,8 @@ fireflyiii_role_docker_networks_alias: "{{ fireflyiii_name }}"
 fireflyiii_role_docker_networks_default: []
 fireflyiii_role_docker_networks_custom: []
 fireflyiii_role_docker_networks: "{{ docker_networks_common
-                            + fireflyiii_role_docker_networks_default
-                            + fireflyiii_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='fireflyiii')
+                                     + lookup('role_var', '_docker_networks_custom', role='fireflyiii') }}"
 
 # Restart Policy
 fireflyiii_role_docker_restart_policy: unless-stopped

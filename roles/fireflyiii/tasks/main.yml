@@ -40,12 +40,12 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_instances: ["{{ fireflyiii_mariadb_name }}"]
-    mariadb_role_paths_folder: "{{ fireflyiii_mariadb_role_paths_folder }}"
-    mariadb_role_paths_location: "{{ fireflyiii_mariadb_role_paths_location }}"
-    mariadb_role_docker_image_tag: "{{ fireflyiii_mariadb_role_docker_image_tag }}"
-    mariadb_role_docker_env_db: "{{ fireflyiii_mariadb_role_docker_env_db }}"
-    mariadb_role_docker_env_password: "{{ fireflyiii_mariadb_role_docker_env_password }}"
+    mariadb_instances: ["{{ lookup('role_var', '_mariadb_name', role='fireflyiii') }}"]
+    mariadb_role_paths_folder: "{{ lookup('role_var', '_mariadb_paths_folder', role='fireflyiii') }}"
+    mariadb_role_paths_location: "{{ lookup('role_var', '_mariadb_paths_location', role='fireflyiii') }}"
+    mariadb_role_docker_image_tag: "{{ lookup('role_var', '_mariadb_docker_image_tag', role='fireflyiii') }}"
+    mariadb_role_docker_env_db: "{{ lookup('role_var', '_mariadb_docker_env_db', role='fireflyiii') }}"
+    mariadb_role_docker_env_password: "{{ lookup('role_var', '_mariadb_docker_env_password', role='fireflyiii') }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
