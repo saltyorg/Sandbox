@@ -17,12 +17,14 @@ n8n_name: n8n
 # Settings
 ################################
 
-n8n_postgres_name: "{{ n8n_name }}-postgres"
-n8n_postgres_role_docker_env_db: "{{ n8n_name }}"
-n8n_postgres_role_docker_image_tag: "14-alpine"
-n8n_postgres_role_docker_image_repo: "postgres"
-n8n_postgres_role_paths_folder: "{{ n8n_name }}"
-n8n_postgres_role_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+n8n_role_postgres_username: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+n8n_role_postgres_password: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+n8n_role_postgres_name: "{{ n8n_name }}-postgres"
+n8n_role_postgres_docker_env_db: "{{ n8n_name }}"
+n8n_role_postgres_docker_image_tag: "14-alpine"
+n8n_role_postgres_docker_image_repo: "postgres"
+n8n_role_postgres_paths_folder: "{{ n8n_name }}"
+n8n_role_postgres_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='postgres') }}/postgres"
 
 ################################
 # Paths
@@ -40,16 +42,16 @@ n8n_role_paths_folders_list:
 n8n_role_web_subdomain: "{{ n8n_name }}"
 n8n_role_web_domain: "{{ user.domain }}"
 n8n_role_web_port: "5678"
-n8n_role_web_url: "{{ 'https://' + (n8n_role_web_subdomain + '.' + n8n_role_web_domain
-              if (n8n_role_web_subdomain | length > 0)
-              else n8n_role_web_domain) }}"
+n8n_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='n8n') + '.' + lookup('role_var', '_web_domain', role='n8n')
+                   if (lookup('role_var', '_web_subdomain', role='n8n') | length > 0)
+                   else lookup('role_var', '_web_domain', role='n8n')) }}"
 
 ################################
 # DNS
 ################################
 
-n8n_role_dns_record: "{{ n8n_role_web_subdomain }}"
-n8n_role_dns_zone: "{{ n8n_role_web_domain }}"
+n8n_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='n8n') }}"
+n8n_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='n8n') }}"
 n8n_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -74,19 +76,20 @@ n8n_role_docker_container: "{{ n8n_name }}"
 # Image
 n8n_role_docker_image_pull: true
 n8n_role_docker_image_tag: "latest"
-n8n_role_docker_image: "n8nio/n8n:{{ n8n_role_docker_image_tag }}"
+n8n_role_docker_image_repo: "n8nio/n8n"
+n8n_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='n8n') }}:{{ lookup('role_var', '_docker_image_tag', role='n8n') }}"
 
 # Envs
 n8n_role_docker_envs_default:
   GENERIC_TIMEZONE: "{{ tz }}"
   TZ: "{{ tz }}"
   DB_TYPE: "postgresdb"
-  DB_POSTGRESDB_DATABASE: "{{ n8n_postgres_role_docker_env_db }}"
-  DB_POSTGRESDB_HOST: "{{ n8n_postgres_name }}"
+  DB_POSTGRESDB_DATABASE: "{{ lookup('role_var', '_postgres_docker_env_db', role='n8n') }}"
+  DB_POSTGRESDB_HOST: "{{ lookup('role_var', '_postgres_name', role='n8n') }}"
   DB_POSTGRESDB_PORT: "5432"
-  DB_POSTGRESDB_USER: "{{ postgres_role_docker_env_user }}"
-  DB_POSTGRESDB_PASSWORD: "{{ postgres_role_docker_env_password }}"
-  N8N_EDITOR_BASE_URL: "{{ n8n_role_web_url }}"
+  DB_POSTGRESDB_USER: "{{ lookup('role_var', '_postgres_username', role='n8n') }}"
+  DB_POSTGRESDB_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='n8n') }}"
+  N8N_EDITOR_BASE_URL: "{{ lookup('role_var', '_web_url', role='n8n') }}"
   N8N_DIAGNOSTICS_ENABLED: "false"
   N8N_HIRING_BANNER_ENABLED: "false"
   N8N_USER_MANAGEMENT_DISABLED: "true"
@@ -94,15 +97,15 @@ n8n_role_docker_envs_default:
   WEBHOOK_URL: "{{ n8n_role_web_url }}/"
   N8N_PROXY_HOPS: "1"
 n8n_role_docker_envs_custom: {}
-n8n_role_docker_envs: "{{ n8n_role_docker_envs_default
-                     | combine(n8n_role_docker_envs_custom) }}"
+n8n_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='n8n')
+                          | combine(lookup('role_var', '_docker_envs_custom', role='n8n')) }}"
 
 # Volumes
 n8n_role_docker_volumes_default:
-  - "{{ n8n_role_paths_location }}:/home/node/.n8n"
+  - "{{ lookup('role_var', '_paths_location', role='n8n') }}:/home/node/.n8n"
 n8n_role_docker_volumes_custom: []
-n8n_role_docker_volumes: "{{ n8n_role_docker_volumes_default
-                        + n8n_role_docker_volumes_custom }}"
+n8n_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='n8n')
+                             + lookup('role_var', '_docker_volumes_custom', role='n8n') }}"
 
 # Hostname
 n8n_role_docker_hostname: "{{ n8n_name }}"
@@ -112,8 +115,8 @@ n8n_role_docker_networks_alias: "{{ n8n_name }}"
 n8n_role_docker_networks_default: []
 n8n_role_docker_networks_custom: []
 n8n_role_docker_networks: "{{ docker_networks_common
-                         + n8n_role_docker_networks_default
-                         + n8n_role_docker_networks_custom }}"
+                              + lookup('role_var', '_docker_networks_default', role='n8n')
+                              + lookup('role_var', '_docker_networks_custom', role='n8n') }}"
 
 # Restart Policy
 n8n_role_docker_restart_policy: unless-stopped
@@ -122,9 +125,9 @@ n8n_role_docker_restart_policy: unless-stopped
 n8n_role_docker_state: started
 
 # Dependencies
-n8n_depends_on: "{{ n8n_postgres_name }}"
-n8n_depends_on_delay: "0"
-n8n_depends_on_healthchecks: "false"
+n8n_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='n8n') }}"
+n8n_role_depends_on_delay: "0"
+n8n_role_depends_on_healthchecks: "false"
 
 # User
 n8n_role_docker_user: "{{ uid }}:{{ gid }}"

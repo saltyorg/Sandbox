@@ -17,14 +17,14 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ semaphoreui_postgres_name }}"]
-    postgres_role_docker_image_tag: "{{ semaphoreui_postgres_role_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ semaphoreui_postgres_role_docker_image_repo }}"
-    postgres_role_docker_env_db: "{{ semaphoreui_postgres_role_docker_env_db }}"
-    postgres_role_docker_env_user: "{{ semaphoreui_postgres_role_docker_env_user }}"
-    postgres_role_docker_env_password: "{{ semaphoreui_postgres_role_docker_env_password }}"
-    postgres_role_paths_folder: "{{ semaphoreui_postgres_role_paths_folder }}"
-    postgres_role_paths_location: "{{ semaphoreui_postgres_role_paths_location }}"
+    postgres_instances: ["{{ semaphoreui_role_postgres_name }}"]
+    postgres_role_docker_image_tag: "{{ semaphoreui_role_postgres_docker_image_tag }}"
+    postgres_role_docker_image_repo: "{{ semaphoreui_role_postgres_docker_image_repo }}"
+    postgres_role_docker_env_db: "{{ semaphoreui_role_postgres_docker_env_db }}"
+    postgres_role_docker_env_user: "{{ semaphoreui_role_postgres_docker_env_user }}"
+    postgres_role_docker_env_password: "{{ semaphoreui_role_postgres_docker_env_password }}"
+    postgres_role_paths_folder: "{{ semaphoreui_role_postgres_paths_folder }}"
+    postgres_role_paths_location: "{{ semaphoreui_role_postgres_paths_location }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

@@ -34,28 +34,29 @@ plextraktsync_role_docker_container: "{{ plextraktsync_name }}"
 # Image
 plextraktsync_role_docker_image_pull: true
 plextraktsync_role_docker_image_tag: "latest"
-plextraktsync_role_docker_image: "ghcr.io/taxel/plextraktsync:{{ plextraktsync_role_docker_image_tag }}"
+plextraktsync_role_docker_image_repo: "ghcr.io/taxel/plextraktsync"
+plextraktsync_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='plextraktsync') }}:{{ lookup('role_var', '_docker_image_tag', role='plextraktsync') }}"
 
 # Envs
 plextraktsync_role_docker_envs_default:
   TZ: "{{ tz }}"
 plextraktsync_role_docker_envs_custom: {}
-plextraktsync_role_docker_envs: "{{ plextraktsync_role_docker_envs_default
-                               | combine(plextraktsync_role_docker_envs_custom) }}"
+plextraktsync_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='plextraktsync')
+                                    | combine(lookup('role_var', '_docker_envs_custom', role='plextraktsync')) }}"
 
 # Commands
 plextraktsync_role_docker_commands_default:
   - watch
 plextraktsync_role_docker_commands_custom: []
-plextraktsync_role_docker_commands: "{{ plextraktsync_role_docker_commands_default
-                                   + plextraktsync_role_docker_commands_custom }}"
+plextraktsync_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='plextraktsync')
+                                        + lookup('role_var', '_docker_commands_custom', role='plextraktsync') }}"
 
 # Volumes
 plextraktsync_role_docker_volumes_default:
-  - "{{ plextraktsync_role_paths_location }}:/app/config"
+  - "{{ lookup('role_var', '_paths_location', role='plextraktsync') }}:/app/config"
 plextraktsync_role_docker_volumes_custom: []
-plextraktsync_role_docker_volumes: "{{ plextraktsync_role_docker_volumes_default
-                                  + plextraktsync_role_docker_volumes_custom }}"
+plextraktsync_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='plextraktsync')
+                                       + lookup('role_var', '_docker_volumes_custom', role='plextraktsync') }}"
 
 # Hostname
 plextraktsync_role_docker_hostname: "{{ plextraktsync_name }}"
@@ -65,8 +66,8 @@ plextraktsync_role_docker_networks_alias: "{{ plextraktsync_name }}"
 plextraktsync_role_docker_networks_default: []
 plextraktsync_role_docker_networks_custom: []
 plextraktsync_role_docker_networks: "{{ docker_networks_common
-                                   + plextraktsync_role_docker_networks_default
-                                   + plextraktsync_role_docker_networks_custom }}"
+                                        + lookup('role_var', '_docker_networks_default', role='plextraktsync')
+                                        + lookup('role_var', '_docker_networks_custom', role='plextraktsync') }}"
 
 # Restart Policy
 plextraktsync_role_docker_restart_policy: unless-stopped

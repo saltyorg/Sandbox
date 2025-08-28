@@ -27,7 +27,7 @@
   community.general.cloudflare_dns:
     account_api_key: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
-    port: "{{ minecraft_role_docker_ports_25565 }}"
+    port: "{{ lookup('role_var', '_docker_ports_25565', role='minecraft') }}"
     priority: 1
     proto: tcp
     proxied: false

@@ -39,16 +39,16 @@ tubearchivist_role_paths_folders_list:
 tubearchivist_role_web_subdomain: "{{ tubearchivist_name }}"
 tubearchivist_role_web_domain: "{{ user.domain }}"
 tubearchivist_role_web_port: "8000"
-tubearchivist_role_web_url: "{{ 'https://' + (tubearchivist_role_web_subdomain + '.' + tubearchivist_role_web_domain
-                        if (tubearchivist_role_web_subdomain | length > 0)
-                        else tubearchivist_role_web_domain) }}"
+tubearchivist_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='tubearchivist') + '.' + lookup('role_var', '_web_domain', role='tubearchivist')
+                             if (lookup('role_var', '_web_subdomain', role='tubearchivist') | length > 0)
+                             else lookup('role_var', '_web_domain', role='tubearchivist')) }}"
 
 ################################
 # DNS
 ################################
 
-tubearchivist_role_dns_record: "{{ tubearchivist_role_web_subdomain }}"
-tubearchivist_role_dns_zone: "{{ tubearchivist_role_web_domain }}"
+tubearchivist_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='tubearchivist') }}"
+tubearchivist_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='tubearchivist') }}"
 tubearchivist_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -73,38 +73,39 @@ tubearchivist_role_docker_container: "{{ tubearchivist_name }}"
 # Image
 tubearchivist_role_docker_image_pull: true
 tubearchivist_role_docker_image_tag: "v0.4.13"
-tubearchivist_role_docker_image: "bbilly1/tubearchivist:{{ tubearchivist_role_docker_image_tag }}"
+tubearchivist_role_docker_image_repo: "bbilly1/tubearchivist"
+tubearchivist_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tubearchivist') }}:{{ lookup('role_var', '_docker_image_tag', role='tubearchivist') }}"
 
 # Envs
 tubearchivist_role_docker_envs_http_header: "{{ 'HTTP_REMOTE_USER'
-                                        if ('authelia' in tubearchivist_role_traefik_sso_middleware)
-                                        else ('HTTP_X_AUTHENTIK_USERNAME'
-                                             if ('authentik' in tubearchivist_role_traefik_sso_middleware)
-                                             else '') }}"
+                                             if ('authelia' in lookup('role_var', '_traefik_sso_middleware', role='tubearchivist'))
+                                             else ('HTTP_X_AUTHENTIK_USERNAME'
+                                                  if ('authentik' in lookup('role_var', '_traefik_sso_middleware', role='tubearchivist'))
+                                                  else '') }}"
 tubearchivist_role_docker_envs_default:
   TZ: "{{ tz }}"
   ES_URL: "http://{{ tubearchivist_name }}-elasticsearch:9200"
   REDIS_HOST: "{{ tubearchivist_name }}-redis"
   HOST_UID: "{{ uid }}"
   HOST_GID: "{{ gid }}"
-  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ tubearchivist_role_web_subdomain + '.' + tubearchivist_role_web_domain }} {{ tubearchivist_role_web_url }}"
+  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ lookup('role_var', '_web_subdomain', role='tubearchivist') + '.' + lookup('role_var', '_web_domain', role='tubearchivist') }} {{ lookup('role_var', '_web_url', role='tubearchivist') }}"
   TA_ENABLE_AUTH_PROXY: "{{ 'true' if (tubearchivist_role_traefik_sso_middleware | length > 0) else omit }}"
   TA_AUTH_PROXY_USERNAME_HEADER: "{{ tubearchivist_role_docker_envs_http_header if (tubearchivist_role_traefik_sso_middleware | length > 0) else omit }}"
   TA_USERNAME: "{{ user.name }}"
   TA_PASSWORD: "{{ user.pass }}"
-  ELASTIC_PASSWORD: "{{ elasticsearch_role_docker_env_password }}"
+  ELASTIC_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='elasticsearch') }}"
   ENABLE_CAST: "{{ tubearchivist_enable_cast }}"
 tubearchivist_role_docker_envs_custom: {}
-tubearchivist_role_docker_envs: "{{ tubearchivist_role_docker_envs_default
-                               | combine(tubearchivist_role_docker_envs_custom) }}"
+tubearchivist_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tubearchivist')
+                                    | combine(lookup('role_var', '_docker_envs_custom', role='tubearchivist')) }}"
 
 # Volumes
 tubearchivist_role_docker_volumes_default:
-  - "{{ tubearchivist_role_paths_downloads_location }}/:/youtube"
-  - "{{ tubearchivist_role_paths_location }}/cache:/cache"
+  - "{{ lookup('role_var', '_paths_downloads_location', role='tubearchivist') }}/:/youtube"
+  - "{{ lookup('role_var', '_paths_location', role='tubearchivist') }}/cache:/cache"
 tubearchivist_role_docker_volumes_custom: []
-tubearchivist_role_docker_volumes: "{{ tubearchivist_role_docker_volumes_default
-                                  + tubearchivist_role_docker_volumes_custom }}"
+tubearchivist_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tubearchivist')
+                                       + lookup('role_var', '_docker_volumes_custom', role='tubearchivist') }}"
 
 # Hostname
 tubearchivist_role_docker_hostname: "{{ tubearchivist_name }}"
@@ -114,8 +115,8 @@ tubearchivist_role_docker_networks_alias: "{{ tubearchivist_name }}"
 tubearchivist_role_docker_networks_default: []
 tubearchivist_role_docker_networks_custom: []
 tubearchivist_role_docker_networks: "{{ docker_networks_common
-                                   + tubearchivist_role_docker_networks_default
-                                   + tubearchivist_role_docker_networks_custom }}"
+                                        + lookup('role_var', '_docker_networks_default', role='tubearchivist')
+                                        + lookup('role_var', '_docker_networks_custom', role='tubearchivist') }}"
 
 # Restart Policy
 tubearchivist_role_docker_restart_policy: unless-stopped
@@ -124,6 +125,6 @@ tubearchivist_role_docker_restart_policy: unless-stopped
 tubearchivist_role_docker_state: started
 
 # Dependencies
-tubearchivist_depends_on: "{{ tubearchivist_name }}-elasticsearch,{{ tubearchivist_name }}-redis"
-tubearchivist_depends_on_delay: "0"
-tubearchivist_depends_on_healthchecks: "false"
+tubearchivist_role_depends_on: "{{ tubearchivist_name }}-elasticsearch,{{ tubearchivist_name }}-redis"
+tubearchivist_role_depends_on_delay: "0"
+tubearchivist_role_depends_on_healthchecks: "false"

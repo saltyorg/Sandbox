@@ -33,7 +33,8 @@ nabarr_role_docker_container: "{{ nabarr_name }}"
 # Image
 nabarr_role_docker_image_pull: true
 nabarr_role_docker_image_tag: "latest"
-nabarr_role_docker_image: "saltydk/nabarr:{{ nabarr_role_docker_image_tag }}"
+nabarr_role_docker_image_repo: "saltydk/nabarr"
+nabarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='nabarr') }}:{{ lookup('role_var', '_docker_image_tag', role='nabarr') }}"
 
 # Envs
 nabarr_role_docker_envs_default:
@@ -42,15 +43,15 @@ nabarr_role_docker_envs_default:
   PGID: "{{ gid }}"
   APP_VERBOSITY: "0"
 nabarr_role_docker_envs_custom: {}
-nabarr_role_docker_envs: "{{ nabarr_role_docker_envs_default
-                        | combine(nabarr_role_docker_envs_custom) }}"
+nabarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='nabarr')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='nabarr')) }}"
 
 # Volumes
 nabarr_role_docker_volumes_default:
-  - "{{ nabarr_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='nabarr') }}:/config"
 nabarr_role_docker_volumes_custom: []
-nabarr_role_docker_volumes: "{{ nabarr_role_docker_volumes_default
-                           + nabarr_role_docker_volumes_custom }}"
+nabarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='nabarr')
+                                + lookup('role_var', '_docker_volumes_custom', role='nabarr') }}"
 
 # Hostname
 nabarr_role_docker_hostname: "{{ nabarr_name }}"
@@ -60,8 +61,8 @@ nabarr_role_docker_networks_alias: "{{ nabarr_name }}"
 nabarr_role_docker_networks_default: []
 nabarr_role_docker_networks_custom: []
 nabarr_role_docker_networks: "{{ docker_networks_common
-                            + nabarr_role_docker_networks_default
-                            + nabarr_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='nabarr')
+                                 + lookup('role_var', '_docker_networks_custom', role='nabarr') }}"
 
 # Restart Policy
 nabarr_role_docker_restart_policy: unless-stopped

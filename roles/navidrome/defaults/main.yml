@@ -29,16 +29,16 @@ navidrome_role_paths_folders_list:
 navidrome_role_web_subdomain: "{{ navidrome_name }}"
 navidrome_role_web_domain: "{{ user.domain }}"
 navidrome_role_web_port: "4533"
-navidrome_role_web_url: "{{ 'https://' + (navidrome_role_web_subdomain + '.' + navidrome_role_web_domain
-                    if (navidrome_role_web_subdomain | length > 0)
-                    else navidrome_role_web_domain) }}"
+navidrome_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='navidrome') + '.' + lookup('role_var', '_web_domain', role='navidrome')
+                         if (lookup('role_var', '_web_subdomain', role='navidrome') | length > 0)
+                         else lookup('role_var', '_web_domain', role='navidrome')) }}"
 
 ################################
 # DNS
 ################################
 
-navidrome_role_dns_record: "{{ navidrome_role_web_subdomain }}"
-navidrome_role_dns_zone: "{{ navidrome_role_web_domain }}"
+navidrome_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='navidrome') }}"
+navidrome_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='navidrome') }}"
 navidrome_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,15 +63,16 @@ navidrome_role_docker_container: "{{ navidrome_name }}"
 # Image
 navidrome_role_docker_image_pull: true
 navidrome_role_docker_image_tag: "latest"
-navidrome_role_docker_image: "deluan/navidrome:{{ navidrome_role_docker_image_tag }}"
+navidrome_role_docker_image_repo: "deluan/navidrome"
+navidrome_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='navidrome') }}:{{ lookup('role_var', '_docker_image_tag', role='navidrome') }}"
 
 # Volumes
 navidrome_role_docker_volumes_default:
-  - "{{ navidrome_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='navidrome') }}:/data"
   - "/mnt/unionfs/Media/Music:/music"
 navidrome_role_docker_volumes_custom: []
-navidrome_role_docker_volumes: "{{ navidrome_role_docker_volumes_default
-                              + navidrome_role_docker_volumes_custom }}"
+navidrome_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='navidrome')
+                                   + lookup('role_var', '_docker_volumes_custom', role='navidrome') }}"
 
 # Hostname
 navidrome_role_docker_hostname: "{{ navidrome_name }}"
@@ -81,8 +82,8 @@ navidrome_role_docker_networks_alias: "{{ navidrome_name }}"
 navidrome_role_docker_networks_default: []
 navidrome_role_docker_networks_custom: []
 navidrome_role_docker_networks: "{{ docker_networks_common
-                               + navidrome_role_docker_networks_default
-                               + navidrome_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='navidrome')
+                                    + lookup('role_var', '_docker_networks_custom', role='navidrome') }}"
 
 # Restart Policy
 navidrome_role_docker_restart_policy: unless-stopped

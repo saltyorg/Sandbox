@@ -17,7 +17,7 @@
     name: "photoprisms"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_role_docker_env_password }}"
+    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     state: present
   ignore_errors: true
 

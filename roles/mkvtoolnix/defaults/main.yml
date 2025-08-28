@@ -29,16 +29,16 @@ mkvtoolnix_role_paths_folders_list:
 mkvtoolnix_role_web_subdomain: "{{ mkvtoolnix_name }}"
 mkvtoolnix_role_web_domain: "{{ user.domain }}"
 mkvtoolnix_role_web_port: "5800"
-mkvtoolnix_role_web_url: "{{ 'https://' + (mkvtoolnix_role_web_subdomain + '.' + mkvtoolnix_role_web_domain
-                     if (mkvtoolnix_role_web_subdomain | length > 0)
-                     else mkvtoolnix_role_web_domain) }}"
+mkvtoolnix_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='mkvtoolnix') + '.' + lookup('role_var', '_web_domain', role='mkvtoolnix')
+                          if (lookup('role_var', '_web_subdomain', role='mkvtoolnix') | length > 0)
+                          else lookup('role_var', '_web_domain', role='mkvtoolnix')) }}"
 
 ################################
 # DNS
 ################################
 
-mkvtoolnix_role_dns_record: "{{ mkvtoolnix_role_web_subdomain }}"
-mkvtoolnix_role_dns_zone: "{{ mkvtoolnix_role_web_domain }}"
+mkvtoolnix_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='mkvtoolnix') }}"
+mkvtoolnix_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='mkvtoolnix') }}"
 mkvtoolnix_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,7 +63,8 @@ mkvtoolnix_role_docker_container: "{{ mkvtoolnix_name }}"
 # Image
 mkvtoolnix_role_docker_image_pull: true
 mkvtoolnix_role_docker_image_tag: "latest"
-mkvtoolnix_role_docker_image: "jlesage/mkvtoolnix:{{ mkvtoolnix_role_docker_image_tag }}"
+mkvtoolnix_role_docker_image_repo: "jlesage/mkvtoolnix"
+mkvtoolnix_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='mkvtoolnix') }}:{{ lookup('role_var', '_docker_image_tag', role='mkvtoolnix') }}"
 
 # Envs
 mkvtoolnix_role_docker_envs_default:
@@ -76,16 +77,16 @@ mkvtoolnix_role_docker_envs_default:
   UMASK: "000"
   ENABLE_CJK_FONT: "1"
 mkvtoolnix_role_docker_envs_custom: {}
-mkvtoolnix_role_docker_envs: "{{ mkvtoolnix_role_docker_envs_default
-                            | combine(mkvtoolnix_role_docker_envs_custom) }}"
+mkvtoolnix_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='mkvtoolnix')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='mkvtoolnix')) }}"
 
 # Volumes
 mkvtoolnix_role_docker_volumes_default:
-  - "{{ mkvtoolnix_role_paths_location }}:/config:rw"
+  - "{{ lookup('role_var', '_paths_location', role='mkvtoolnix') }}:/config:rw"
   - "/mnt/unionfs:/storage"
 mkvtoolnix_role_docker_volumes_custom: []
-mkvtoolnix_role_docker_volumes: "{{ mkvtoolnix_role_docker_volumes_default
-                               + mkvtoolnix_role_docker_volumes_custom }}"
+mkvtoolnix_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='mkvtoolnix')
+                                    + lookup('role_var', '_docker_volumes_custom', role='mkvtoolnix') }}"
 
 # Hostname
 mkvtoolnix_role_docker_hostname: "{{ mkvtoolnix_name }}"
@@ -95,8 +96,8 @@ mkvtoolnix_role_docker_networks_alias: "{{ mkvtoolnix_name }}"
 mkvtoolnix_role_docker_networks_default: []
 mkvtoolnix_role_docker_networks_custom: []
 mkvtoolnix_role_docker_networks: "{{ docker_networks_common
-                                + mkvtoolnix_role_docker_networks_default
-                                + mkvtoolnix_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='mkvtoolnix')
+                                     + lookup('role_var', '_docker_networks_custom', role='mkvtoolnix') }}"
 
 # Restart Policy
 mkvtoolnix_role_docker_restart_policy: unless-stopped

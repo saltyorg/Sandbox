@@ -30,16 +30,16 @@ mylar3_role_paths_folders_list:
 mylar3_role_web_subdomain: "{{ mylar3_name }}"
 mylar3_role_web_domain: "{{ user.domain }}"
 mylar3_role_web_port: "8090"
-mylar3_role_web_url: "{{ 'https://' + (mylar3_role_web_subdomain + '.' + mylar3_role_web_domain
-                 if (mylar3_role_web_subdomain | length > 0)
-                 else mylar3_role_web_domain) }}"
+mylar3_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='mylar3') + '.' + lookup('role_var', '_web_domain', role='mylar3')
+                      if (lookup('role_var', '_web_subdomain', role='mylar3') | length > 0)
+                      else lookup('role_var', '_web_domain', role='mylar3')) }}"
 
 ################################
 # DNS
 ################################
 
-mylar3_role_dns_record: "{{ mylar3_role_web_subdomain }}"
-mylar3_role_dns_zone: "{{ mylar3_role_web_domain }}"
+mylar3_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='mylar3') }}"
+mylar3_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='mylar3') }}"
 mylar3_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,7 +64,8 @@ mylar3_role_docker_container: "{{ mylar3_name }}"
 # Image
 mylar3_role_docker_image_pull: true
 mylar3_role_docker_image_tag: "latest"
-mylar3_role_docker_image: "lscr.io/linuxserver/mylar3:{{ mylar3_role_docker_image_tag }}"
+mylar3_role_docker_image_repo: "lscr.io/linuxserver/mylar3"
+mylar3_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='mylar3') }}:{{ lookup('role_var', '_docker_image_tag', role='mylar3') }}"
 
 # Envs
 mylar3_role_docker_envs_default:
@@ -72,16 +73,16 @@ mylar3_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 mylar3_role_docker_envs_custom: {}
-mylar3_role_docker_envs: "{{ mylar3_role_docker_envs_default
-                        | combine(mylar3_role_docker_envs_custom) }}"
+mylar3_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='mylar3')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='mylar3')) }}"
 
 # Volumes
 mylar3_role_docker_volumes_default:
-  - "{{ mylar3_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='mylar3') }}:/config"
   - "/mnt/unionfs/Media/Comics:/comics"
 mylar3_role_docker_volumes_custom: []
-mylar3_role_docker_volumes: "{{ mylar3_role_docker_volumes_default
-                           + mylar3_role_docker_volumes_custom }}"
+mylar3_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='mylar3')
+                                + lookup('role_var', '_docker_volumes_custom', role='mylar3') }}"
 
 # Hostname
 mylar3_role_docker_hostname: "{{ mylar3_name }}"
@@ -91,8 +92,8 @@ mylar3_role_docker_networks_alias: "{{ mylar3_name }}"
 mylar3_role_docker_networks_default: []
 mylar3_role_docker_networks_custom: []
 mylar3_role_docker_networks: "{{ docker_networks_common
-                            + mylar3_role_docker_networks_default
-                            + mylar3_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='mylar3')
+                                 + lookup('role_var', '_docker_networks_custom', role='mylar3') }}"
 
 # Restart Policy
 mylar3_role_docker_restart_policy: unless-stopped

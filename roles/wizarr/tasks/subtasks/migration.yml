@@ -10,20 +10,20 @@
 - name: Migration | Check if `{{ wizarr_role_paths_location }}` exists
   ansible.builtin.stat:
     path: "{{ wizarr_role_paths_location }}"
-  register: wizarr_role_role_paths_location_stat
+  register: wizarr_role_paths_location_stat
 
 - name: Migration | Check if `{{ wizarr_role_paths_location }}/database` exists
   ansible.builtin.stat:
     path: "{{ wizarr_role_paths_location }}/database"
-  register: wizarr_role_role_paths_database_stat
+  register: wizarr_role_paths_database_stat
 
 - name: Migration | Check if `{{ wizarr_role_paths_location }}/database.db` exists
   ansible.builtin.stat:
     path: "{{ wizarr_role_paths_location }}/database"
-  register: wizarr_role_role_paths_database_file_stat
+  register: wizarr_role_paths_database_file_stat
 
 - name: Migration | Backup old database directory
-  when: wizarr_role_role_paths_location_stat.stat.exists and wizarr_role_role_paths_database_file_stat.stat.exists and (not wizarr_role_role_paths_database_stat.stat.exists)
+  when: wizarr_role_paths_location_stat.stat.exists and wizarr_role_paths_database_file_stat.stat.exists and (not wizarr_role_paths_database_stat.stat.exists)
   block:
     - name: Migration | Check database version
       ansible.builtin.shell: sqlite3 -readonly "{{ wizarr_role_paths_location }}/database.db" "SELECT value FROM settings WHERE key='version'"

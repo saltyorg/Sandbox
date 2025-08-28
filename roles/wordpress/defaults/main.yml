@@ -107,6 +107,6 @@ wordpress_role_docker_state: started
 wordpress_role_docker_user: "{{ uid }}:{{ gid }}"
 
 # Dependencies
-wordpress_depends_on: "mariadb"
-wordpress_depends_on_delay: "0"
-wordpress_depends_on_healthchecks: "false"
+wordpress_role_depends_on: "mariadb"
+wordpress_role_depends_on_delay: "0"
+wordpress_role_depends_on_healthchecks: "false"

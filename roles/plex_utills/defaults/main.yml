@@ -30,16 +30,16 @@ plex_utills_role_paths_folders_list:
 plex_utills_role_web_subdomain: "{{ plex_utills_name }}"
 plex_utills_role_web_domain: "{{ user.domain }}"
 plex_utills_role_web_port: "80"
-plex_utils_role_web_url: "{{ 'https://' + (plex_utils_role_web_subdomain + '.' + plex_utils_role_web_domain
-                     if (plex_utils_role_web_subdomain | length > 0)
-                     else plex_utils_role_web_domain) }}"
+plex_utills_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='plex_utills') + '.' + lookup('role_var', '_web_domain', role='plex_utills')
+                           if (lookup('role_var', '_web_subdomain', role='plex_utills') | length > 0)
+                           else lookup('role_var', '_web_domain', role='plex_utills')) }}"
 
 ################################
 # DNS
 ################################
 
-plex_utills_role_dns_record: "{{ plex_utills_role_web_subdomain }}"
-plex_utills_role_dns_zone: "{{ plex_utills_role_web_domain }}"
+plex_utills_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='plex_utills') }}"
+plex_utills_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='plex_utills') }}"
 plex_utills_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,24 +64,26 @@ plex_utills_role_docker_container: "{{ plex_utills_name }}"
 # Image
 plex_utills_role_docker_image_pull: true
 plex_utills_role_docker_image_tag: "latest"
-plex_utills_role_docker_image: "jkirkcaldy/plex-utills:{{ plex_utills_role_docker_image_tag }}"
+plex_utills_role_docker_image_repo: "jkirkcaldy/plex-utills"
+plex_utills_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='plex_utills') }}:{{ lookup('role_var', '_docker_image_tag', role='plex_utills') }}"
 
 # Envs
 plex_utills_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-plex_utills_role_docker_envs: "{{ plex_utills_role_docker_envs_default
-                             | combine(plex_utills_role_docker_envs_custom) }}"
+plex_utills_role_docker_envs_custom: {}
+plex_utills_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='plex_utills')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='plex_utills')) }}"
 
 # Volumes
 plex_utills_role_docker_volumes_default:
-  - "{{ plex_utills_role_paths_location }}:/config"
-  - "{{ plex_utills_role_paths_location }}/logs:/logs"
+  - "{{ lookup('role_var', '_paths_location', role='plex_utills') }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='plex_utills') }}/logs:/logs"
   - "/mnt:/films"
 plex_utills_role_docker_volumes_custom: []
-plex_utills_role_docker_volumes: "{{ plex_utills_role_docker_volumes_default
-                                + plex_utills_role_docker_volumes_custom }}"
+plex_utills_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='plex_utills')
+                                     + lookup('role_var', '_docker_volumes_custom', role='plex_utills') }}"
 
 # Hostname
 plex_utills_role_docker_hostname: "{{ plex_utills_name }}"
@@ -91,8 +93,8 @@ plex_utills_role_docker_networks_alias: "{{ plex_utills_name }}"
 plex_utills_role_docker_networks_default: []
 plex_utills_role_docker_networks_custom: []
 plex_utills_role_docker_networks: "{{ docker_networks_common
-                                 + plex_utills_role_docker_networks_default
-                                 + plex_utills_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='plex_utills')
+                                      + lookup('role_var', '_docker_networks_custom', role='plex_utills') }}"
 
 # Restart Policy
 plex_utills_role_docker_restart_policy: unless-stopped

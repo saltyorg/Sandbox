@@ -25,9 +25,9 @@
 
 # Plex Tasks
 
-- name: "Settings | Check if '{{ plex_role_paths_config_location | basename }}' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_config_location', role='plex') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ plex_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
   register: preferences_xml
 
 - name: Settings | {{ plex_name }} auth token tasks
@@ -35,7 +35,7 @@
   block:
     - name: Settings | Fetch {{ plex_name }} auth token
       community.general.xml:
-        path: "{{ plex_role_paths_config_location }}"
+        path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
         xpath: /Preferences
         content: attribute
       register: preferences_xml_resp
@@ -45,12 +45,12 @@
       ansible.builtin.set_fact:
         plex_auth_token: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineToken }}"
 
-- name: Settings | Check if `{{ notifiarr_role_paths_config_location | basename }}` exists
+- name: Settings | Check if `{{ lookup('role_var', '_paths_config_location', role='notifiarr') | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ notifiarr_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='notifiarr') }}"
   register: notifiarr_config
 
-- name: Settings | New `{{ notifiarr_role_paths_config_location | basename }}` tasks
+- name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='notifiarr') | basename }}` tasks
   when: not notifiarr_config.stat.exists
   block:
     - name: Get Instance Info
@@ -61,10 +61,10 @@
           - radarr
           - lidarr
 
-    - name: Settings | Import default `{{ notifiarr_role_paths_config_location | basename }}`
+    - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='notifiarr') | basename }}`
       ansible.builtin.template:
         src: notifiarr.conf.j2
-        dest: "{{ notifiarr_role_paths_config_location }}"
+        dest: "{{ lookup('role_var', '_paths_config_location', role='notifiarr') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

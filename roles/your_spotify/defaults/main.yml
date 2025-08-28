@@ -42,8 +42,8 @@ your_spotify_role_web_url: "{{ 'https://' + (your_spotify_role_web_subdomain + '
 # DNS
 ################################
 
-your_spotify_role_dns_record: "{{ your_spotify_role_web_subdomain }}"
-your_spotify_role_dns_zone: "{{ your_spotify_role_web_domain }}"
+your_spotify_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='your_spotify') }}"
+your_spotify_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='your_spotify') }}"
 your_spotify_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -102,6 +102,6 @@ your_spotify_role_docker_restart_policy: unless-stopped
 your_spotify_role_docker_state: started
 
 # Dependencies
-your_spotify_depends_on: "your-spotify-db"
-your_spotify_depends_on_delay: "0"
-your_spotify_depends_on_healthchecks: "false"
+your_spotify_role_depends_on: "your-spotify-db"
+your_spotify_role_depends_on_delay: "0"
+your_spotify_role_depends_on_healthchecks: "false"

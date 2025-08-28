@@ -13,9 +13,9 @@
   when: not plex_name is defined
 
 # Plex Tasks
-- name: "Settings | Check if '{{ plex_role_paths_config_location | basename }}' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_config_location', role='plex') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ plex_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
   register: preferences_xml
 
 - name: Settings | {{ plex_name }} info tasks
@@ -23,7 +23,7 @@
   block:
     - name: Settings | Fetch {{ plex_name }} info
       community.general.xml:
-        path: "{{ plex_role_paths_config_location }}"
+        path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
         xpath: /Preferences
         content: attribute
       register: preferences_xml_resp
@@ -41,18 +41,18 @@
       ansible.builtin.set_fact:
         plex_online_username: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineUsername }}"
 
-- name: Settings | Check if `{{ membarr_role_paths_config_location | basename }}` exists
+- name: Settings | Check if `{{ lookup('role_var', '_paths_config_location', role='membarr') | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ membarr_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='membarr') }}"
   register: membarr_config
 
-- name: Settings | New `{{ membarr_role_paths_config_location | basename }}` tasks
+- name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='membarr') | basename }}` tasks
   when: not membarr_config.stat.exists
   block:
-    - name: Settings | Import default `{{ membarr_role_paths_config_location | basename }}`
+    - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='membarr') | basename }}`
       ansible.builtin.template:
         src: config.ini.j2
-        dest: "{{ membarr_role_paths_config_location }}"
+        dest: "{{ lookup('role_var', '_paths_config_location', role='membarr') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

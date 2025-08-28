@@ -17,13 +17,13 @@ teslamate_name: teslamate
 
 teslamate_secret_key: "{{ teslamate_saltbox_facts.facts.secret_key }}"
 
-teslamate_postgres_name: "{{ teslamate_name }}-postgres"
-teslamate_postgres_role_docker_env_db: "{{ teslamate_name }}"
-teslamate_postgres_role_docker_env_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
-teslamate_postgres_role_docker_image_tag: "16"
-teslamate_postgres_role_docker_image_repo: "postgres"
-teslamate_postgres_role_paths_folder: "{{ teslamate_name }}"
-teslamate_postgres_role_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+teslamate_role_postgres_name: "{{ teslamate_name }}-postgres"
+teslamate_role_postgres_docker_env_db: "{{ teslamate_name }}"
+teslamate_role_postgres_docker_env_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
+teslamate_role_postgres_docker_image_tag: "16"
+teslamate_role_postgres_docker_image_repo: "postgres"
+teslamate_role_postgres_paths_folder: "{{ teslamate_name }}"
+teslamate_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -41,16 +41,16 @@ teslamate_role_paths_folders_list:
 teslamate_role_web_subdomain: "{{ teslamate_name }}"
 teslamate_role_web_domain: "{{ user.domain }}"
 teslamate_role_web_port: "4000"
-teslamate_role_web_url: "{{ 'https://' + (teslamate_role_web_subdomain + '.' + teslamate_role_web_domain
-                    if (teslamate_role_web_subdomain | length > 0)
-                    else teslamate_role_web_domain) }}"
+teslamate_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='teslamate') + '.' + lookup('role_var', '_web_domain', role='teslamate')
+                         if (lookup('role_var', '_web_subdomain', role='teslamate') | length > 0)
+                         else lookup('role_var', '_web_domain', role='teslamate')) }}"
 
 ################################
 # DNS
 ################################
 
-teslamate_role_dns_record: "{{ teslamate_role_web_subdomain }}"
-teslamate_role_dns_zone: "{{ teslamate_role_web_domain }}"
+teslamate_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='teslamate') }}"
+teslamate_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='teslamate') }}"
 teslamate_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -75,15 +75,16 @@ teslamate_role_docker_container: "{{ teslamate_name }}"
 # Image
 teslamate_role_docker_image_pull: true
 teslamate_role_docker_image_tag: "latest"
-teslamate_role_docker_image: "teslamate/teslamate:{{ teslamate_role_docker_image_tag }}"
+teslamate_role_docker_image_repo: "teslamate/teslamate"
+teslamate_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='teslamate') }}:{{ lookup('role_var', '_docker_image_tag', role='teslamate') }}"
 
 # Envs
 teslamate_role_docker_envs_default:
-  DATABASE_USER: "{{ postgres_role_docker_env_user }}"
-  DATABASE_PASS: "{{ teslamate_postgres_role_docker_env_password }}"
-  DATABASE_NAME: "{{ teslamate_postgres_role_docker_env_db }}"
+  DATABASE_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  DATABASE_PASS: "{{ teslamate_role_postgres_docker_env_password }}"
+  DATABASE_NAME: "{{ teslamate_role_postgres_docker_env_db }}"
   ENCRYPTION_KEY: "{{ teslamate_secret_key }}"
-  DATABASE_HOST: "{{ teslamate_postgres_name }}"
+  DATABASE_HOST: "{{ teslamate_role_postgres_name }}"
   DATABASE_PORT: "5432"
   MQTT_HOST: "mqtt"
   CHECK_ORIGIN: "false"
@@ -91,15 +92,15 @@ teslamate_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 teslamate_role_docker_envs_custom: {}
-teslamate_role_docker_envs: "{{ teslamate_role_docker_envs_default
-                           | combine(teslamate_role_docker_envs_custom) }}"
+teslamate_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='teslamate')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='teslamate')) }}"
 
 # Volumes
 teslamate_role_docker_volumes_default:
-  - "{{ teslamate_role_paths_location }}:/opt/app/import"
+  - "{{ lookup('role_var', '_paths_location', role='teslamate') }}:/opt/app/import"
 teslamate_role_docker_volumes_custom: []
-teslamate_role_docker_volumes: "{{ teslamate_role_docker_volumes_default
-                              + teslamate_role_docker_volumes_custom }}"
+teslamate_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='teslamate')
+                                   + lookup('role_var', '_docker_volumes_custom', role='teslamate') }}"
 
 # Hostname
 teslamate_role_docker_hostname: "{{ teslamate_name }}"
@@ -109,8 +110,8 @@ teslamate_role_docker_networks_alias: "{{ teslamate_name }}"
 teslamate_role_docker_networks_default: []
 teslamate_role_docker_networks_custom: []
 teslamate_role_docker_networks: "{{ docker_networks_common
-                               + teslamate_role_docker_networks_default
-                               + teslamate_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='teslamate')
+                                    + lookup('role_var', '_docker_networks_custom', role='teslamate') }}"
 
 # Restart Policy
 teslamate_role_docker_restart_policy: unless-stopped

@@ -29,16 +29,16 @@ ombi_role_paths_folders_list:
 ombi_role_web_subdomain: "{{ ombi_name }}"
 ombi_role_web_domain: "{{ user.domain }}"
 ombi_role_web_port: "3579"
-ombi_role_web_url: "{{ 'https://' + (lookup('vars', ombi_name + '_web_subdomain', default=ombi_role_web_subdomain) + '.' + lookup('vars', ombi_name + '_web_domain', default=ombi_role_web_domain)
-               if (lookup('vars', ombi_name + '_web_subdomain', default=ombi_role_web_subdomain) | length > 0)
-               else lookup('vars', ombi_name + '_web_domain', default=ombi_role_web_domain)) }}"
+ombi_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='ombi') + '.' + lookup('role_var', '_web_domain', role='ombi')
+                    if (lookup('role_var', '_web_subdomain', role='ombi') | length > 0)
+                    else lookup('role_var', '_web_domain', role='ombi')) }}"
 
 ################################
 # DNS
 ################################
 
-ombi_role_dns_record: "{{ lookup('vars', ombi_name + '_web_subdomain', default=ombi_role_web_subdomain) }}"
-ombi_role_dns_zone: "{{ lookup('vars', ombi_name + '_web_domain', default=ombi_role_web_domain) }}"
+ombi_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='ombi') }}"
+ombi_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='ombi') }}"
 ombi_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,8 +64,7 @@ ombi_role_docker_container: "{{ ombi_name }}"
 ombi_role_docker_image_pull: true
 ombi_role_docker_image_repo: "lscr.io/linuxserver/ombi"
 ombi_role_docker_image_tag: "latest"
-ombi_role_docker_image: "{{ lookup('vars', ombi_name + '_docker_image_repo', default=ombi_role_docker_image_repo)
-                       + ':' + lookup('vars', ombi_name + '_docker_image_tag', default=ombi_role_docker_image_tag) }}"
+ombi_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='ombi') }}:{{ lookup('role_var', '_docker_image_tag', role='ombi') }}"
 # Envs
 ombi_role_docker_envs_default:
   PUID: "{{ uid }}"
@@ -73,15 +72,15 @@ ombi_role_docker_envs_default:
   UMASK: "002"
   TZ: "{{ tz }}"
 ombi_role_docker_envs_custom: {}
-ombi_role_docker_envs: "{{ lookup('vars', ombi_name + '_docker_envs_default', default=ombi_role_docker_envs_default)
-                      | combine(lookup('vars', ombi_name + '_docker_envs_custom', default=ombi_role_docker_envs_custom)) }}"
+ombi_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='ombi')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='ombi')) }}"
 
 # Volumes
 ombi_role_docker_volumes_default:
-  - "{{ ombi_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='ombi') }}:/config"
 ombi_role_docker_volumes_custom: []
-ombi_role_docker_volumes: "{{ lookup('vars', ombi_name + '_docker_volumes_default', default=ombi_role_docker_volumes_default)
-                         + lookup('vars', ombi_name + '_docker_volumes_custom', default=ombi_role_docker_volumes_custom) }}"
+ombi_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='ombi')
+                              + lookup('role_var', '_docker_volumes_custom', role='ombi') }}"
 
 # Hostname
 ombi_role_docker_hostname: "{{ ombi_name }}"
@@ -91,8 +90,8 @@ ombi_role_docker_networks_alias: "{{ ombi_name }}"
 ombi_role_docker_networks_default: []
 ombi_role_docker_networks_custom: []
 ombi_role_docker_networks: "{{ docker_networks_common
-                          + lookup('vars', ombi_name + '_docker_networks_default', default=ombi_role_docker_networks_default)
-                          + lookup('vars', ombi_name + '_docker_networks_custom', default=ombi_role_docker_networks_custom) }}"
+                               + lookup('role_var', '_docker_networks_default', role='ombi')
+                               + lookup('role_var', '_docker_networks_custom', role='ombi') }}"
 
 # Restart Policy
 ombi_role_docker_restart_policy: unless-stopped

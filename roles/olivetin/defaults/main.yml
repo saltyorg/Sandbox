@@ -30,16 +30,16 @@ olivetin_role_paths_folders_list:
 olivetin_role_web_subdomain: "{{ olivetin_name }}"
 olivetin_role_web_domain: "{{ user.domain }}"
 olivetin_role_web_port: "1337"
-olivetin_role_web_url: "{{ 'https://' + (olivetin_role_web_subdomain + '.' + olivetin_role_web_domain
-                   if (olivetin_role_web_subdomain | length > 0)
-                   else olivetin_role_web_domain) }}"
+olivetin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='olivetin') + '.' + lookup('role_var', '_web_domain', role='olivetin')
+                        if (lookup('role_var', '_web_subdomain', role='olivetin') | length > 0)
+                        else lookup('role_var', '_web_domain', role='olivetin')) }}"
 
 ################################
 # DNS
 ################################
 
-olivetin_role_dns_record: "{{ olivetin_role_web_subdomain }}"
-olivetin_role_dns_zone: "{{ olivetin_role_web_domain }}"
+olivetin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='olivetin') }}"
+olivetin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='olivetin') }}"
 olivetin_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -66,22 +66,23 @@ olivetin_role_docker_container: "{{ olivetin_name }}"
 # Image
 olivetin_role_docker_image_pull: true
 olivetin_role_docker_image_tag: "latest"
-olivetin_role_docker_image: "jamesread/olivetin:{{ olivetin_role_docker_image_tag }}"
+olivetin_role_docker_image_repo: "jamesread/olivetin"
+olivetin_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='olivetin') }}:{{ lookup('role_var', '_docker_image_tag', role='olivetin') }}"
 
 # Envs
 olivetin_role_docker_envs_default:
   TZ: "{{ tz }}"
 olivetin_role_docker_envs_custom: {}
-olivetin_role_docker_envs: "{{ olivetin_role_docker_envs_default
-                          | combine(olivetin_role_docker_envs_custom) }}"
+olivetin_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='olivetin')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='olivetin')) }}"
 
 # Volumes
 olivetin_role_docker_volumes_default:
   - "/var/run/docker.sock:/var/run/docker.sock"
-  - "{{ olivetin_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='olivetin') }}:/config"
 olivetin_role_docker_volumes_custom: []
-olivetin_role_docker_volumes: "{{ olivetin_role_docker_volumes_default
-                             + olivetin_role_docker_volumes_custom }}"
+olivetin_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='olivetin')
+                                  + lookup('role_var', '_docker_volumes_custom', role='olivetin') }}"
 
 # Hostname
 olivetin_role_docker_hostname: "{{ olivetin_name }}"
@@ -91,8 +92,8 @@ olivetin_role_docker_networks_alias: "{{ olivetin_name }}"
 olivetin_role_docker_networks_default: []
 olivetin_role_docker_networks_custom: []
 olivetin_role_docker_networks: "{{ docker_networks_common
-                              + olivetin_role_docker_networks_default
-                              + olivetin_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='olivetin')
+                                   + lookup('role_var', '_docker_networks_custom', role='olivetin') }}"
 
 # Restart Policy
 olivetin_role_docker_restart_policy: unless-stopped

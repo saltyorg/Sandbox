@@ -32,7 +32,7 @@
   block:
     - name: Set '_nextcloud_config_path' variable
       ansible.builtin.set_fact:
-        _nextcloud_config_path: "{{ nextcloud_role_paths_location }}/config/config.php"
+        _nextcloud_config_path: "{{ lookup('role_var', '_paths_location', role='nextcloud') }}/config/config.php"
 
     - name: Wait for 'config.php' to be created
       ansible.builtin.wait_for:

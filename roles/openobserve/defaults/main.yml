@@ -29,16 +29,16 @@ openobserve_role_paths_folders_list:
 openobserve_role_web_subdomain: "{{ openobserve_name }}"
 openobserve_role_web_domain: "{{ user.domain }}"
 openobserve_role_web_port: "5080"
-openobserve_role_web_url: "{{ 'https://' + (openobserve_role_web_subdomain + '.' + openobserve_role_web_domain
-                      if (openobserve_role_web_subdomain | length > 0)
-                      else openobserve_role_web_domain) }}"
+openobserve_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='openobserve') + '.' + lookup('role_var', '_web_domain', role='openobserve')
+                           if (lookup('role_var', '_web_subdomain', role='openobserve') | length > 0)
+                           else lookup('role_var', '_web_domain', role='openobserve')) }}"
 
 ################################
 # DNS
 ################################
 
-openobserve_role_dns_record: "{{ openobserve_role_web_subdomain }}"
-openobserve_role_dns_zone: "{{ openobserve_role_web_domain }}"
+openobserve_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='openobserve') }}"
+openobserve_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='openobserve') }}"
 openobserve_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,7 +63,8 @@ openobserve_role_docker_container: "{{ openobserve_name }}"
 # Image
 openobserve_role_docker_image_pull: true
 openobserve_role_docker_image_tag: "latest"
-openobserve_role_docker_image: "public.ecr.aws/zinclabs/openobserve:{{ openobserve_role_docker_image_tag }}"
+openobserve_role_docker_image_repo: "public.ecr.aws/zinclabs/openobserve"
+openobserve_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='openobserve') }}:{{ lookup('role_var', '_docker_image_tag', role='openobserve') }}"
 
 # Envs
 openobserve_role_docker_envs_default:
@@ -73,15 +74,15 @@ openobserve_role_docker_envs_default:
   ZO_ROOT_USER_EMAIL: "{{ user.email }}"
   ZO_ROOT_USER_PASSWORD: "{{ user.pass }}"
 openobserve_role_docker_envs_custom: {}
-openobserve_role_docker_envs: "{{ openobserve_role_docker_envs_default
-                        | combine(openobserve_role_docker_envs_custom) }}"
+openobserve_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='openobserve')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='openobserve')) }}"
 
 # Volumes
 openobserve_role_docker_volumes_default:
-  - "{{ openobserve_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='openobserve') }}:/data"
 openobserve_role_docker_volumes_custom: []
-openobserve_role_docker_volumes: "{{ openobserve_role_docker_volumes_default
-                           + openobserve_role_docker_volumes_custom }}"
+openobserve_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='openobserve')
+                                     + lookup('role_var', '_docker_volumes_custom', role='openobserve') }}"
 
 # Hostname
 openobserve_role_docker_hostname: "{{ openobserve_name }}"
@@ -91,8 +92,8 @@ openobserve_role_docker_networks_alias: "{{ openobserve_name }}"
 openobserve_role_docker_networks_default: []
 openobserve_role_docker_networks_custom: []
 openobserve_role_docker_networks: "{{ docker_networks_common
-                            + openobserve_role_docker_networks_default
-                            + openobserve_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='openobserve')
+                                      + lookup('role_var', '_docker_networks_custom', role='openobserve') }}"
 
 # Restart Policy
 openobserve_role_docker_restart_policy: unless-stopped

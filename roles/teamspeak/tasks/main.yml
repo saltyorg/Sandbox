@@ -19,7 +19,7 @@
     name: "{{ teamspeak_name }}"
     login_host: "mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_role_docker_env_password }}"
+    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     state: present
 
 - name: Get next available port within the range of '9987-9997' # noqa fqcn[action]

@@ -31,16 +31,16 @@ tandoor_role_paths_folders_list:
 tandoor_role_web_subdomain: "{{ tandoor_name }}"
 tandoor_role_web_domain: "{{ user.domain }}"
 tandoor_role_web_port: "8080"
-tandoor_role_web_url: "{{ 'https://' + (tandoor_role_web_subdomain + '.' + tandoor_role_web_domain
-                  if (tandoor_role_web_subdomain | length > 0)
-                  else tandoor_role_web_domain) }}"
+tandoor_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='tandoor') + '.' + lookup('role_var', '_web_domain', role='tandoor')
+                       if (lookup('role_var', '_web_subdomain', role='tandoor') | length > 0)
+                       else lookup('role_var', '_web_domain', role='tandoor')) }}"
 
 ################################
 # DNS
 ################################
 
-tandoor_role_dns_record: "{{ tandoor_role_web_subdomain }}"
-tandoor_role_dns_zone: "{{ tandoor_role_web_domain }}"
+tandoor_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='tandoor') }}"
+tandoor_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='tandoor') }}"
 tandoor_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -65,7 +65,8 @@ tandoor_role_docker_container: "{{ tandoor_name }}"
 # Image
 tandoor_role_docker_image_pull: true
 tandoor_role_docker_image_tag: "latest"
-tandoor_role_docker_image: "vabene1111/recipes:{{ tandoor_role_docker_image_tag }}"
+tandoor_role_docker_image_repo: "vabene1111/recipes"
+tandoor_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tandoor') }}:{{ lookup('role_var', '_docker_image_tag', role='tandoor') }}"
 
 # Envs
 tandoor_role_docker_envs_default:
@@ -74,23 +75,23 @@ tandoor_role_docker_envs_default:
   DB_ENGINE: "django.db.backends.postgresql"
   POSTGRES_HOST: "postgres"
   POSTGRES_PORT: "5432"
-  POSTGRES_USER: "{{ postgres_role_docker_env_user }}"
-  POSTGRES_PASSWORD: "{{ postgres_role_docker_env_password }}"
-  POSTGRES_DB: "{{ postgres_role_docker_env_db }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  POSTGRES_DB: "{{ lookup('role_var', '_docker_env_db', role='postgres') }}"
   DEBUG: "0"
   GUNICORN_MEDIA: "1"
   REMOTE_USER_AUTH: "1"
 tandoor_role_docker_envs_custom: {}
-tandoor_role_docker_envs: "{{ tandoor_role_docker_envs_default
-                         | combine(tandoor_role_docker_envs_custom) }}"
+tandoor_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tandoor')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='tandoor')) }}"
 
 # Volumes
 tandoor_role_docker_volumes_default:
-  - "{{ tandoor_role_paths_location }}/staticfiles:/opt/recipes/staticfiles"
-  - "{{ tandoor_role_paths_location }}/mediafiles:/opt/recipes/mediafiles"
+  - "{{ lookup('role_var', '_paths_location', role='tandoor') }}/staticfiles:/opt/recipes/staticfiles"
+  - "{{ lookup('role_var', '_paths_location', role='tandoor') }}/mediafiles:/opt/recipes/mediafiles"
 tandoor_role_docker_volumes_custom: []
-tandoor_role_docker_volumes: "{{ tandoor_role_docker_volumes_default
-                            + tandoor_role_docker_volumes_custom }}"
+tandoor_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tandoor')
+                                 + lookup('role_var', '_docker_volumes_custom', role='tandoor') }}"
 
 # Hostname
 tandoor_role_docker_hostname: "{{ tandoor_name }}"
@@ -100,8 +101,8 @@ tandoor_role_docker_networks_alias: "{{ tandoor_name }}"
 tandoor_role_docker_networks_default: []
 tandoor_role_docker_networks_custom: []
 tandoor_role_docker_networks: "{{ docker_networks_common
-                             + tandoor_role_docker_networks_default
-                             + tandoor_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='tandoor')
+                                  + lookup('role_var', '_docker_networks_custom', role='tandoor') }}"
 
 # Restart Policy
 tandoor_role_docker_restart_policy: unless-stopped
@@ -110,6 +111,6 @@ tandoor_role_docker_restart_policy: unless-stopped
 tandoor_role_docker_state: started
 
 # Dependencies
-tandoor_depends_on: "postgres"
-tandoor_depends_on_delay: "0"
-tandoor_depends_on_healthchecks: "false"
+tandoor_role_depends_on: "postgres"
+tandoor_role_depends_on_delay: "0"
+tandoor_role_depends_on_healthchecks: "false"

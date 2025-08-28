@@ -19,7 +19,7 @@
 
 - name: Check config exists
   ansible.builtin.stat:
-    path: "{{ olivetin_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='olivetin') }}"
   register: olivetin_config
 
 - name: Create directories
@@ -28,7 +28,7 @@
 - name: Import default config
   ansible.builtin.template:
     src: config.yaml.j2
-    dest: "{{ olivetin_role_paths_config_location }}"
+    dest: "{{ lookup('role_var', '_paths_config_location', role='olivetin') }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"

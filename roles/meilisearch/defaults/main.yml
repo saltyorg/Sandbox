@@ -31,7 +31,8 @@ meilisearch_role_docker_container: "{{ meilisearch_name }}"
 
 # Image
 meilisearch_role_docker_image_pull: true
-meilisearch_role_docker_image: "getmeili/meilisearch:{{ meilisearch_role_docker_image_tag }}"
+meilisearch_role_docker_image_repo: "getmeili/meilisearch"
+meilisearch_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='meilisearch') }}:{{ lookup('role_var', '_docker_image_tag', role='meilisearch') }}"
 meilisearch_role_docker_image_tag: "v1.11.1"
 
 # Envs
@@ -42,15 +43,15 @@ meilisearch_role_docker_envs_default:
   MEILI_NO_ANALYTICS: "true"
   MEILI_MASTER_KEY: "{{ meilisearch_saltbox_facts.facts.secret_key }}"
 meilisearch_role_docker_envs_custom: {}
-meilisearch_role_docker_envs: "{{ meilisearch_role_docker_envs_default
-                         | combine(meilisearch_role_docker_envs_custom) }}"
+meilisearch_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='meilisearch')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='meilisearch')) }}"
 
 # Volumes
 meilisearch_role_docker_volumes_default:
-  - "{{ meilisearch_role_paths_location }}/data:/meili_data"
+  - "{{ lookup('role_var', '_paths_location', role='meilisearch') }}/data:/meili_data"
 meilisearch_role_docker_volumes_custom: []
-meilisearch_role_docker_volumes: "{{ meilisearch_role_docker_volumes_default
-                            + meilisearch_role_docker_volumes_custom }}"
+meilisearch_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='meilisearch')
+                                     + lookup('role_var', '_docker_volumes_custom', role='meilisearch') }}"
 
 # Hostname
 meilisearch_role_docker_hostname: "{{ meilisearch_name }}"
@@ -60,8 +61,8 @@ meilisearch_role_docker_networks_alias: "{{ meilisearch_name }}"
 meilisearch_role_docker_networks_default: []
 meilisearch_role_docker_networks_custom: []
 meilisearch_role_docker_networks: "{{ docker_networks_common
-                             + meilisearch_role_docker_networks_default
-                             + meilisearch_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='meilisearch')
+                                      + lookup('role_var', '_docker_networks_custom', role='meilisearch') }}"
 
 # Restart Policy
 meilisearch_role_docker_restart_policy: unless-stopped

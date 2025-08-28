@@ -16,12 +16,12 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ miniflux_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ miniflux_postgres_role_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ miniflux_postgres_role_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ miniflux_postgres_role_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ miniflux_postgres_role_paths_folder }}"
-    postgres_role_paths_location: "{{ miniflux_postgres_role_paths_location }}"
+    postgres_instances: ["{{ miniflux_role_postgres_name }}"]
+    postgres_role_docker_env_db: "{{ miniflux_role_postgres_docker_env_db }}"
+    postgres_role_docker_image_tag: "{{ miniflux_role_postgres_docker_image_tag }}"
+    postgres_role_docker_image_repo: "{{ miniflux_role_postgres_docker_image_repo }}"
+    postgres_role_paths_folder: "{{ miniflux_role_postgres_paths_folder }}"
+    postgres_role_paths_location: "{{ miniflux_role_postgres_paths_location }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

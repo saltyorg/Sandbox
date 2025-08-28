@@ -35,16 +35,16 @@ rdtclient_role_paths_folders_list:
 rdtclient_role_web_subdomain: "{{ rdtclient_name }}"
 rdtclient_role_web_domain: "{{ user.domain }}"
 rdtclient_role_web_port: "6500"
-rdtclient_role_web_url: "{{ 'https://' + (rdtclient_role_web_subdomain + '.' + rdtclient_role_web_domain
-                    if (rdtclient_role_web_subdomain | length > 0)
-                    else rdtclient_role_web_domain) }}"
+rdtclient_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='rdtclient') + '.' + lookup('role_var', '_web_domain', role='rdtclient')
+                         if (lookup('role_var', '_web_subdomain', role='rdtclient') | length > 0)
+                         else lookup('role_var', '_web_domain', role='rdtclient')) }}"
 
 ################################
 # DNS
 ################################
 
-rdtclient_role_dns_record: "{{ rdtclient_role_web_subdomain }}"
-rdtclient_role_dns_zone: "{{ rdtclient_role_web_domain }}"
+rdtclient_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='rdtclient') }}"
+rdtclient_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='rdtclient') }}"
 rdtclient_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -69,7 +69,8 @@ rdtclient_role_docker_container: "{{ rdtclient_name }}"
 # Image
 rdtclient_role_docker_image_pull: true
 rdtclient_role_docker_image_tag: "latest"
-rdtclient_role_docker_image: "rogerfar/rdtclient:{{ rdtclient_role_docker_image_tag }}"
+rdtclient_role_docker_image_repo: "rogerfar/rdtclient"
+rdtclient_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='rdtclient') }}:{{ lookup('role_var', '_docker_image_tag', role='rdtclient') }}"
 
 # Envs
 rdtclient_role_docker_envs_default:
@@ -77,18 +78,18 @@ rdtclient_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 rdtclient_role_docker_envs_custom: {}
-rdtclient_role_docker_envs: "{{ rdtclient_role_docker_envs_default
-                           | combine(rdtclient_role_docker_envs_custom) }}"
+rdtclient_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='rdtclient')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='rdtclient')) }}"
 
 # Volumes
 rdtclient_role_docker_volumes_default:
-  - "{{ rdtclient_role_paths_location }}:/data"
-  - "{{ rdtclient_role_paths_config_location }}:/data/config"
-  - "{{ rdtclient_role_paths_db_location }}:/data/db"
+  - "{{ lookup('role_var', '_paths_location', role='rdtclient') }}:/data"
+  - "{{ lookup('role_var', '_paths_config_location', role='rdtclient') }}:/data/config"
+  - "{{ lookup('role_var', '_paths_db_location', role='rdtclient') }}:/data/db"
   - "{{ rdtclient_role_paths_downloads_location }}:/data/downloads"
 rdtclient_role_docker_volumes_custom: []
-rdtclient_role_docker_volumes: "{{ rdtclient_role_docker_volumes_default
-                              + rdtclient_role_docker_volumes_custom }}"
+rdtclient_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='rdtclient')
+                                   + lookup('role_var', '_docker_volumes_custom', role='rdtclient') }}"
 
 # Hostname
 rdtclient_role_docker_hostname: "{{ rdtclient_name }}"
@@ -98,8 +99,8 @@ rdtclient_role_docker_networks_alias: "{{ rdtclient_name }}"
 rdtclient_role_docker_networks_default: []
 rdtclient_role_docker_networks_custom: []
 rdtclient_role_docker_networks: "{{ docker_networks_common
-                               + rdtclient_role_docker_networks_default
-                               + rdtclient_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='rdtclient')
+                                    + lookup('role_var', '_docker_networks_custom', role='rdtclient') }}"
 
 # Restart Policy
 rdtclient_role_docker_restart_policy: unless-stopped

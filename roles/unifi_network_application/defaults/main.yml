@@ -41,15 +41,15 @@ unifi_network_application_role_web_port: "8443"
 unifi_network_application_role_web_scheme: "https"
 unifi_network_application_role_web_serverstransport: "skipverify@file"
 unifi_network_application_role_web_url: "{{ 'https://' + (unifi_network_application_role_web_subdomain + '.' + unifi_network_application_role_web_domain
-                                    if (unifi_network_application_role_web_subdomain | length > 0)
-                                    else unifi_network_application_role_web_domain) }}"
+                                         if (unifi_network_application_role_web_subdomain | length > 0)
+                                         else unifi_network_application_role_web_domain) }}"
 
 ################################
 # DNS
 ################################
 
-unifi_network_application_role_dns_record: "{{ unifi_network_application_role_web_subdomain }}"
-unifi_network_application_role_dns_zone: "{{ unifi_network_application_role_web_domain }}"
+unifi_network_application_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='unifi_network_application') }}"
+unifi_network_application_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='unifi_network_application') }}"
 unifi_network_application_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -75,7 +75,7 @@ unifi_network_application_role_docker_container: "{{ unifi_network_application_n
 unifi_network_application_role_docker_image_pull: true
 unifi_network_application_role_docker_image_tag: "latest"
 unifi_network_application_role_docker_image_repo: "lscr.io/linuxserver/unifi-network-application"
-unifi_network_application_role_docker_image: "{{ unifi_network_application_role_docker_image_repo }}:{{ unifi_network_application_role_docker_image_tag }}"
+unifi_network_application_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='unifi_network_application') }}:{{ lookup('role_var', '_docker_image_tag', role='unifi_network_application') }}"
 
 # Ports
 unifi_network_application_role_docker_ports_defaults:
@@ -125,6 +125,6 @@ unifi_network_application_role_docker_restart_policy: unless-stopped
 unifi_network_application_role_docker_state: started
 
 # Dependencies
-unifi_network_application_depends_on: "{{ unifi_network_application_name }}-mongo"
-unifi_network_application_depends_on_delay: "0"
-unifi_network_application_depends_on_healthchecks: "false"
+unifi_network_application_role_depends_on: "{{ unifi_network_application_name }}-mongo"
+unifi_network_application_role_depends_on_delay: "0"
+unifi_network_application_role_depends_on_healthchecks: "false"

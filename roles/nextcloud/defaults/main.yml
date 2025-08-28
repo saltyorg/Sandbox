@@ -37,16 +37,16 @@ nextcloud_role_paths_folders_list:
 nextcloud_role_web_subdomain: "{{ nextcloud_name }}"
 nextcloud_role_web_domain: "{{ user.domain }}"
 nextcloud_role_web_port: "80"
-nextcloud_role_web_url: "{{ 'https://' + (nextcloud_role_web_subdomain + '.' + nextcloud_role_web_domain
-                    if (nextcloud_role_web_subdomain | length > 0)
-                    else nextcloud_role_web_domain) }}"
+nextcloud_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud')
+                         if (lookup('role_var', '_web_subdomain', role='nextcloud') | length > 0)
+                         else lookup('role_var', '_web_domain', role='nextcloud')) }}"
 
 ################################
 # DNS
 ################################
 
-nextcloud_role_dns_record: "{{ nextcloud_role_web_subdomain }}"
-nextcloud_role_dns_zone: "{{ nextcloud_role_web_domain }}"
+nextcloud_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') }}"
+nextcloud_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='nextcloud') }}"
 nextcloud_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -71,43 +71,44 @@ nextcloud_role_docker_container: "{{ nextcloud_name }}"
 # Image
 nextcloud_role_docker_image_pull: true
 nextcloud_role_docker_image_tag: "latest"
-nextcloud_role_docker_image: "nextcloud:{{ nextcloud_role_docker_image_tag }}"
+nextcloud_role_docker_image_repo: "nextcloud"
+nextcloud_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='nextcloud') }}:{{ lookup('role_var', '_docker_image_tag', role='nextcloud') }}"
 
 # Envs
 nextcloud_role_docker_envs_default:
   TZ: "{{ tz }}"
   NEXTCLOUD_ADMIN_USER: "{{ user.name }}"
   NEXTCLOUD_ADMIN_PASSWORD: "{{ user.pass }}"
-  NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_role_web_subdomain + '.' + nextcloud_role_web_domain }}"
+  NEXTCLOUD_TRUSTED_DOMAINS: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud') }}"
   NEXTCLOUD_DATA_DIR: "{{ nextcloud_data_directory }}"
   MYSQL_DATABASE: "nextcloud"
   MYSQL_USER: "root"
-  MYSQL_PASSWORD: "{{ mariadb_role_docker_env_password }}"
+  MYSQL_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   MYSQL_HOST: "mariadb"
-  OVERWRITEHOST: "{{ nextcloud_role_web_subdomain + '.' + nextcloud_role_web_domain }}"
+  OVERWRITEHOST: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud') }}"
   OVERWRITEPROTOCOL: "https"
-  OVERWRITECLIURL: "https://{{ nextcloud_role_web_subdomain + '.' + nextcloud_role_web_domain }}"
+  OVERWRITECLIURL: "{{ lookup('role_var', '_web_url', role='nextcloud') }}"
   PHP_MEMORY_LIMIT: "{{ nextcloud_php_memory_limit }}"
   PHP_UPLOAD_LIMIT: "{{ nextcloud_php_upload_limit }}"
   TRUSTED_PROXIES: "172.19.0.0/16"
 nextcloud_role_docker_envs_custom: {}
-nextcloud_role_docker_envs: "{{ nextcloud_role_docker_envs_default
-                           | combine(nextcloud_role_docker_envs_custom) }}"
+nextcloud_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='nextcloud')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='nextcloud')) }}"
 
 # Volumes
 nextcloud_role_docker_volumes_default:
-  - "{{ nextcloud_role_paths_location }}:/var/www/html"
+  - "{{ lookup('role_var', '_paths_location', role='nextcloud') }}:/var/www/html"
 nextcloud_role_docker_volumes_custom: []
-nextcloud_role_docker_volumes: "{{ nextcloud_role_docker_volumes_default
-                              + nextcloud_role_docker_volumes_custom }}"
+nextcloud_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='nextcloud')
+                                   + lookup('role_var', '_docker_volumes_custom', role='nextcloud') }}"
 
 # Labels
 nextcloud_role_docker_labels_default:
   traefik.http.middlewares.nextcloud-caldav.replacepathregex.regex: "^/.well-known/ca(l|rd)dav"
   traefik.http.middlewares.nextcloud-caldav.replacepathregex.replacement: "/remote.php/dav/"
 nextcloud_role_docker_labels_custom: {}
-nextcloud_role_docker_labels: "{{ nextcloud_role_docker_labels_default
-                             | combine(nextcloud_role_docker_labels_custom) }}"
+nextcloud_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='nextcloud')
+                                  | combine(lookup('role_var', '_docker_labels_custom', role='nextcloud')) }}"
 
 # Hostname
 nextcloud_role_docker_hostname: "{{ nextcloud_name }}"
@@ -117,8 +118,8 @@ nextcloud_role_docker_networks_alias: "{{ nextcloud_name }}"
 nextcloud_role_docker_networks_default: []
 nextcloud_role_docker_networks_custom: []
 nextcloud_role_docker_networks: "{{ docker_networks_common
-                               + nextcloud_role_docker_networks_default
-                               + nextcloud_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='nextcloud')
+                                    + lookup('role_var', '_docker_networks_custom', role='nextcloud') }}"
 
 # Restart Policy
 nextcloud_role_docker_restart_policy: unless-stopped
@@ -130,6 +131,6 @@ nextcloud_role_docker_state: started
 nextcloud_role_docker_user: "{{ uid }}:{{ gid }}"
 
 # Dependencies
-nextcloud_depends_on: "mariadb"
-nextcloud_depends_on_delay: "0"
-nextcloud_depends_on_healthchecks: "false"
+nextcloud_role_depends_on: "mariadb"
+nextcloud_role_depends_on_delay: "0"
+nextcloud_role_depends_on_healthchecks: "false"

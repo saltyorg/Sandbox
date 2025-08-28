@@ -70,17 +70,17 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ teslamate_postgres_name }}"]
-    postgres_role_paths_folder: "{{ teslamate_postgres_role_paths_folder }}"
-    postgres_role_paths_location: "{{ teslamate_postgres_role_paths_location }}"
-    postgres_role_docker_image_repo: "{{ teslamate_postgres_role_docker_image_repo }}"
-    postgres_role_docker_image_tag: "{{ teslamate_postgres_role_docker_image_tag }}"
-    postgres_role_docker_env_db: "{{ teslamate_postgres_role_docker_env_db }}"
-    postgres_role_docker_env_password: "{{ teslamate_postgres_role_docker_env_password }}"
+    postgres_instances: ["{{ teslamate_role_postgres_name }}"]
+    postgres_role_paths_folder: "{{ teslamate_role_postgres_paths_folder }}"
+    postgres_role_paths_location: "{{ teslamate_role_postgres_paths_location }}"
+    postgres_role_docker_image_repo: "{{ teslamate_role_postgres_docker_image_repo }}"
+    postgres_role_docker_image_tag: "{{ teslamate_role_postgres_docker_image_tag }}"
+    postgres_role_docker_env_db: "{{ teslamate_role_postgres_docker_env_db }}"
+    postgres_role_docker_env_password: "{{ teslamate_role_postgres_docker_env_password }}"
 
 - name: Print Teslamate DB Password
   ansible.builtin.debug:
-    msg: "{{ teslamate_postgres_role_docker_env_password }}"
+    msg: "{{ teslamate_role_postgres_docker_env_password }}"
   tags:
     - teslamate-postgres-password
 

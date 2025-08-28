@@ -17,7 +17,7 @@ wikijs_name: wikijs
 # Settings
 ################################
 
-wikijs_postgres_name: "{{ wikijs_name }}-postgres"
+wikijs_role_postgres_name: "{{ wikijs_name }}-postgres"
 wikijs_role_postgres_docker_env_db: "{{ wikijs_name }}"
 wikijs_role_postgres_docker_image_tag: "15-alpine"
 wikijs_role_postgres_docker_image_repo: "postgres"
@@ -40,16 +40,16 @@ wikijs_role_paths_folders_list:
 wikijs_role_web_subdomain: "{{ wikijs_name }}"
 wikijs_role_web_domain: "{{ user.domain }}"
 wikijs_role_web_port: "3000"
-wikijs_role_web_url: "{{ 'https://' + (wikijs_role_web_subdomain + '.' + wikijs_role_web_domain
-                 if (wikijs_role_web_subdomain | length > 0)
-                 else wikijs_role_web_domain) }}"
+wikijs_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wikijs') + '.' + lookup('role_var', '_web_domain', role='wikijs')
+                      if (lookup('role_var', '_web_subdomain', role='wikijs') | length > 0)
+                      else lookup('role_var', '_web_domain', role='wikijs')) }}"
 
 ################################
 # DNS
 ################################
 
-wikijs_role_dns_record: "{{ wikijs_role_web_subdomain }}"
-wikijs_role_dns_zone: "{{ wikijs_role_web_domain }}"
+wikijs_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wikijs') }}"
+wikijs_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wikijs') }}"
 wikijs_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -80,14 +80,14 @@ wikijs_role_docker_image: "ghcr.io/requarks/wiki:{{ wikijs_role_docker_image_tag
 wikijs_role_docker_envs_default:
   TZ: "{{ tz }}"
   DB_TYPE: "postgres"
-  DB_HOST: "{{ wikijs_postgres_name }}"
+  DB_HOST: "{{ wikijs_role_postgres_name }}"
   DB_PORT: "5432"
   DB_USER: "{{ postgres_role_docker_env_user }}"
   DB_PASS: "{{ postgres_role_docker_env_password }}"
   DB_NAME: "{{ wikijs_role_postgres_docker_env_db }}"
 wikijs_role_docker_envs_custom: {}
 wikijs_role_docker_envs: "{{ wikijs_role_docker_envs_default
-                        | combine(wikijs_role_docker_envs_custom) }}"
+                             | combine(wikijs_role_docker_envs_custom) }}"
 
 # Hostname
 wikijs_role_docker_hostname: "{{ wikijs_name }}"
@@ -97,8 +97,8 @@ wikijs_role_docker_networks_alias: "{{ wikijs_name }}"
 wikijs_role_docker_networks_default: []
 wikijs_role_docker_networks_custom: []
 wikijs_role_docker_networks: "{{ docker_networks_common
-                            + wikijs_role_docker_networks_default
-                            + wikijs_role_docker_networks_custom }}"
+                                 + wikijs_role_docker_networks_default
+                                 + wikijs_role_docker_networks_custom }}"
 
 # Restart Policy
 wikijs_role_docker_restart_policy: unless-stopped
@@ -107,6 +107,6 @@ wikijs_role_docker_restart_policy: unless-stopped
 wikijs_role_docker_state: started
 
 # Dependencies
-wikijs_depends_on: "{{ wikijs_postgres_name }}"
-wikijs_depends_on_delay: "0"
-wikijs_depends_on_healthchecks: "false"
+wikijs_role_depends_on: "{{ wikijs_role_postgres_name }}"
+wikijs_role_depends_on_delay: "0"
+wikijs_role_depends_on_healthchecks: "false"

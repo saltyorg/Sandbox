@@ -29,16 +29,16 @@ monitorr_role_paths_folders_list:
 monitorr_role_web_subdomain: "{{ monitorr_name }}"
 monitorr_role_web_domain: "{{ user.domain }}"
 monitorr_role_web_port: "80"
-monitorr_role_web_url: "{{ 'https://' + (monitorr_role_web_subdomain + '.' + monitorr_role_web_domain
-                   if (monitorr_role_web_subdomain | length > 0)
-                   else monitorr_role_web_domain) }}"
+monitorr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='monitorr') + '.' + lookup('role_var', '_web_domain', role='monitorr')
+                        if (lookup('role_var', '_web_subdomain', role='monitorr') | length > 0)
+                        else lookup('role_var', '_web_domain', role='monitorr')) }}"
 
 ################################
 # DNS
 ################################
 
-monitorr_role_dns_record: "{{ monitorr_role_web_subdomain }}"
-monitorr_role_dns_zone: "{{ monitorr_role_web_domain }}"
+monitorr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='monitorr') }}"
+monitorr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='monitorr') }}"
 monitorr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,7 +63,8 @@ monitorr_role_docker_container: "{{ monitorr_name }}"
 # Image
 monitorr_role_docker_image_pull: true
 monitorr_role_docker_image_tag: "develop"
-monitorr_role_docker_image: "monitorr/monitorr:{{ monitorr_role_docker_image_tag }}"
+monitorr_role_docker_image_repo: "monitorr/monitorr"
+monitorr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='monitorr') }}:{{ lookup('role_var', '_docker_image_tag', role='monitorr') }}"
 
 # Envs
 monitorr_role_docker_envs_default:
@@ -71,15 +72,15 @@ monitorr_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 monitorr_role_docker_envs_custom: {}
-monitorr_role_docker_envs: "{{ monitorr_role_docker_envs_default
-                          | combine(monitorr_role_docker_envs_custom) }}"
+monitorr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='monitorr')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='monitorr')) }}"
 
 # Volumes
 monitorr_role_docker_volumes_default:
-  - "{{ monitorr_role_paths_location }}:/app"
+  - "{{ lookup('role_var', '_paths_location', role='monitorr') }}:/app"
 monitorr_role_docker_volumes_custom: []
-monitorr_role_docker_volumes: "{{ monitorr_role_docker_volumes_default
-                             + monitorr_role_docker_volumes_custom }}"
+monitorr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='monitorr')
+                                  + lookup('role_var', '_docker_volumes_custom', role='monitorr') }}"
 
 # Hostname
 monitorr_role_docker_hostname: "{{ monitorr_name }}"
@@ -89,8 +90,8 @@ monitorr_role_docker_networks_alias: "{{ monitorr_name }}"
 monitorr_role_docker_networks_default: []
 monitorr_role_docker_networks_custom: []
 monitorr_role_docker_networks: "{{ docker_networks_common
-                              + monitorr_role_docker_networks_default
-                              + monitorr_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='monitorr')
+                                   + lookup('role_var', '_docker_networks_custom', role='monitorr') }}"
 
 # Restart Policy
 monitorr_role_docker_restart_policy: unless-stopped

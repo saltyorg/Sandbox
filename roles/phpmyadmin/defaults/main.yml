@@ -21,16 +21,16 @@ phpmyadmin_name: phpmyadmin
 phpmyadmin_role_web_subdomain: "{{ phpmyadmin_name }}"
 phpmyadmin_role_web_domain: "{{ user.domain }}"
 phpmyadmin_role_web_port: "80"
-phpmyadmin_role_web_url: "{{ 'https://' + (phpmyadmin_role_web_subdomain + '.' + phpmyadmin_role_web_domain
-                     if (phpmyadmin_role_web_subdomain | length > 0)
-                     else phpmyadmin_role_web_domain) }}"
+phpmyadmin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='phpmyadmin') + '.' + lookup('role_var', '_web_domain', role='phpmyadmin')
+                          if (lookup('role_var', '_web_subdomain', role='phpmyadmin') | length > 0)
+                          else lookup('role_var', '_web_domain', role='phpmyadmin')) }}"
 
 ################################
 # DNS
 ################################
 
-phpmyadmin_role_dns_record: "{{ phpmyadmin_role_web_subdomain }}"
-phpmyadmin_role_dns_zone: "{{ phpmyadmin_role_web_domain }}"
+phpmyadmin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='phpmyadmin') }}"
+phpmyadmin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='phpmyadmin') }}"
 phpmyadmin_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -55,19 +55,20 @@ phpmyadmin_role_docker_container: "{{ phpmyadmin_name }}"
 # Image
 phpmyadmin_role_docker_image_pull: true
 phpmyadmin_role_docker_image_tag: "latest"
-phpmyadmin_role_docker_image: "phpmyadmin:{{ phpmyadmin_role_docker_image_tag }}"
+phpmyadmin_role_docker_image_repo: "phpmyadmin"
+phpmyadmin_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='phpmyadmin') }}:{{ lookup('role_var', '_docker_image_tag', role='phpmyadmin') }}"
 
 # Envs
 phpmyadmin_role_docker_envs_default:
   TZ: "{{ tz }}"
   PMA_ARBITRARY: "1"
-  PMA_ABSOLUTE_URI: "{{ phpmyadmin_role_web_url }}"
+  PMA_ABSOLUTE_URI: "{{ lookup('role_var', '_web_url', role='phpmyadmin') }}"
   PMA_VERBOSE: "Saltbox"
   PMA_PORT: "3306"
   HIDE_PHP_VERSION: "true"
 phpmyadmin_role_docker_envs_custom: {}
-phpmyadmin_role_docker_envs: "{{ phpmyadmin_role_docker_envs_default
-                            | combine(phpmyadmin_role_docker_envs_custom) }}"
+phpmyadmin_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='phpmyadmin')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='phpmyadmin')) }}"
 
 # Hostname
 phpmyadmin_role_docker_hostname: "{{ phpmyadmin_name }}"
@@ -77,8 +78,8 @@ phpmyadmin_role_docker_networks_alias: "{{ phpmyadmin_name }}"
 phpmyadmin_role_docker_networks_default: []
 phpmyadmin_role_docker_networks_custom: []
 phpmyadmin_role_docker_networks: "{{ docker_networks_common
-                                + phpmyadmin_role_docker_networks_default
-                                + phpmyadmin_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='phpmyadmin')
+                                     + lookup('role_var', '_docker_networks_custom', role='phpmyadmin') }}"
 
 # Restart Policy
 phpmyadmin_role_docker_restart_policy: unless-stopped
