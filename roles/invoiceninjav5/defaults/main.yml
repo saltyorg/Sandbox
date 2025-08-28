@@ -117,6 +117,6 @@ invoiceninjav5_role_docker_restart_policy: unless-stopped
 invoiceninjav5_role_docker_state: started
 
 # Dependencies
-invoiceninjav5_depends_on: "invoiceninja-nginx,mariadb"
-invoiceninjav5_depends_on_delay: "0"
-invoiceninjav5_depends_on_healthchecks: "false"
+invoiceninjav5_role_depends_on: "invoiceninja-nginx,mariadb"
+invoiceninjav5_role_depends_on_delay: "0"
+invoiceninjav5_role_depends_on_healthchecks: "false"

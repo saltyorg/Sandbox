@@ -111,9 +111,9 @@ joplin_role_docker_restart_policy: unless-stopped
 joplin_role_docker_state: started
 
 # Dependencies
-joplin_depends_on: "{{ lookup('role_var', '_postgres_name', role='joplin') }}"
-joplin_depends_on_delay: "0"
-joplin_depends_on_healthchecks: "false"
+joplin_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='joplin') }}"
+joplin_role_depends_on_delay: "0"
+joplin_role_depends_on_healthchecks: "false"
 
 # Create Docker Container Timeout
 joplin_docker_create_timeout: 300

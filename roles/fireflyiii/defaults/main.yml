@@ -129,6 +129,6 @@ fireflyiii_role_docker_restart_policy: unless-stopped
 fireflyiii_role_docker_state: started
 
 # Dependencies
-fireflyiii_depends_on: "{{ fireflyiii_name }}-mariadb"
-fireflyiii_depends_on_delay: "0"
-fireflyiii_depends_on_healthchecks: "false"
+fireflyiii_role_depends_on: "{{ fireflyiii_name }}-mariadb"
+fireflyiii_role_depends_on_delay: "0"
+fireflyiii_role_depends_on_healthchecks: "false"

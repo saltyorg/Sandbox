@@ -105,6 +105,6 @@ fireflyiii_importer_role_docker_restart_policy: unless-stopped
 fireflyiii_importer_role_docker_state: started
 
 # Dependencies
-fireflyiii_importer_depends_on: "{{ fireflyiii_name }}"
-fireflyiii_importer_depends_on_delay: "0"
-fireflyiii_importer_depends_on_healthchecks: "false"
+fireflyiii_importer_role_depends_on: "{{ fireflyiii_name }}"
+fireflyiii_importer_role_depends_on_delay: "0"
+fireflyiii_importer_role_depends_on_healthchecks: "false"

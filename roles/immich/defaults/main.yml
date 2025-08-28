@@ -126,6 +126,6 @@ immich_role_docker_restart_policy: unless-stopped
 immich_role_docker_state: started
 
 # Dependencies
-immich_depends_on: "{{ lookup('role_var', '_postgres_name', role='immich') }},{{ immich_name }}-redis"
-immich_depends_on_delay: "0"
-immich_depends_on_healthchecks: "false"
+immich_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='immich') }},{{ immich_name }}-redis"
+immich_role_depends_on_delay: "0"
+immich_role_depends_on_healthchecks: "false"

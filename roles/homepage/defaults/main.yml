@@ -118,6 +118,6 @@ homepage_role_docker_state: started
 homepage_role_docker_user: "{{ uid }}:{{ gid }}"
 
 # Dependencies
-homepage_depends_on: "{{ homepage_name }}-docker-socket-proxy"
-homepage_depends_on_delay: "0"
-homepage_depends_on_healthchecks: "false"
+homepage_role_depends_on: "{{ homepage_name }}-docker-socket-proxy"
+homepage_role_depends_on_delay: "0"
+homepage_role_depends_on_healthchecks: "false"

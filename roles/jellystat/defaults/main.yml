@@ -119,6 +119,6 @@ jellystat_role_docker_restart_policy: unless-stopped
 jellystat_role_docker_state: started
 
 # Dependencies
-jellystat_depends_on: "{{ lookup('role_var', '_postgres_name', role='jellystat') }}"
-jellystat_depends_on_delay: "0"
-jellystat_depends_on_healthchecks: "false"
+jellystat_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='jellystat') }}"
+jellystat_role_depends_on_delay: "0"
+jellystat_role_depends_on_healthchecks: "false"

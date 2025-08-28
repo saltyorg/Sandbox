@@ -109,6 +109,6 @@ gitea_role_docker_restart_policy: unless-stopped
 gitea_role_docker_state: started
 
 # Dependencies
-gitea_depends_on: "mariadb"
-gitea_depends_on_delay: "0"
-gitea_depends_on_healthchecks: "false"
+gitea_role_depends_on: "mariadb"
+gitea_role_depends_on_delay: "0"
+gitea_role_depends_on_healthchecks: "false"

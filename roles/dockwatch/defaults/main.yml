@@ -123,6 +123,6 @@ dockwatch_role_docker_restart_policy: unless-stopped
 dockwatch_role_docker_state: started
 
 # Dependencies
-dockwatch_depends_on: "{{ dockwatch_name }}-docker-socket-proxy"
-dockwatch_depends_on_delay: "0"
-dockwatch_depends_on_healthchecks: "false"
+dockwatch_role_depends_on: "{{ dockwatch_name }}-docker-socket-proxy"
+dockwatch_role_depends_on_delay: "0"
+dockwatch_role_depends_on_healthchecks: "false"

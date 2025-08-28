@@ -112,6 +112,6 @@ homarr_role_docker_restart_policy: unless-stopped
 homarr_role_docker_state: started
 
 # Dependencies
-homarr_depends_on: "{{ homarr_name }}-docker-socket-proxy"
-homarr_depends_on_delay: "0"
-homarr_depends_on_healthchecks: "false"
+homarr_role_depends_on: "{{ homarr_name }}-docker-socket-proxy"
+homarr_role_depends_on_delay: "0"
+homarr_role_depends_on_healthchecks: "false"
