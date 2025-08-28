@@ -18,7 +18,6 @@ jellyseerr_instances: ["jellyseerr"]
 ################################
 
 jellyseerr_log_level: "INFO"
-jellyseerr_emby: false
 
 ################################
 # Paths
@@ -36,16 +35,16 @@ jellyseerr_role_paths_folders_list:
 jellyseerr_role_web_subdomain: "{{ jellyseerr_name }}"
 jellyseerr_role_web_domain: "{{ user.domain }}"
 jellyseerr_role_web_port: "5055"
-jellyseerr_role_web_url: "{{ 'https://' + (lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_role_web_subdomain) + '.' + lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_role_web_domain)
-                     if (lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_role_web_subdomain) | length > 0)
-                     else lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_role_web_domain)) }}"
+jellyseerr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='jellyseerr') + '.' + lookup('role_var', '_web_domain', role='jellyseerr')
+                          if (lookup('role_var', '_web_subdomain', role='jellyseerr') | length > 0)
+                          else lookup('role_var', '_web_domain', role='jellyseerr')) }}"
 
 ################################
 # DNS
 ################################
 
-jellyseerr_role_dns_record: "{{ lookup('vars', jellyseerr_name + '_web_subdomain', default=jellyseerr_role_web_subdomain) }}"
-jellyseerr_role_dns_zone: "{{ lookup('vars', jellyseerr_name + '_web_domain', default=jellyseerr_role_web_domain) }}"
+jellyseerr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='jellyseerr') }}"
+jellyseerr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='jellyseerr') }}"
 jellyseerr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -71,25 +70,23 @@ jellyseerr_role_docker_container: "{{ jellyseerr_name }}"
 jellyseerr_role_docker_image_pull: true
 jellyseerr_role_docker_image_repo: "fallenbagel/jellyseerr"
 jellyseerr_role_docker_image_tag: "latest"
-jellyseerr_role_docker_image: "{{ lookup('vars', jellyseerr_name + '_docker_image_repo', default=jellyseerr_role_docker_image_repo)
-                             + ':' + lookup('vars', jellyseerr_name + '_docker_image_tag', default=jellyseerr_role_docker_image_tag) }}"
+jellyseerr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='jellyseerr') }}:{{ lookup('role_var', '_docker_image_tag', role='jellyseerr') }}"
 
 # Envs
 jellyseerr_role_docker_envs_default:
   UMASK: "002"
   TZ: "{{ tz }}"
   LOG_LEVEL: "{{ jellyseerr_log_level }}"
-  JELLYFIN_TYPE: "{{ 'emby' if jellyseerr_emby else omit }}"
 jellyseerr_role_docker_envs_custom: {}
-jellyseerr_role_docker_envs: "{{ lookup('vars', jellyseerr_name + '_docker_envs_default', default=jellyseerr_role_docker_envs_default)
-                            | combine(lookup('vars', jellyseerr_name + '_docker_envs_custom', default=jellyseerr_role_docker_envs_custom)) }}"
+jellyseerr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='jellyseerr')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='jellyseerr')) }}"
 
 # Volumes
 jellyseerr_role_docker_volumes_default:
-  - "{{ jellyseerr_role_paths_location }}:/app/config"
+  - "{{ lookup('role_var', '_paths_location', role='jellyseerr') }}:/app/config"
 jellyseerr_role_docker_volumes_custom: []
-jellyseerr_role_docker_volumes: "{{ lookup('vars', jellyseerr_name + '_docker_volumes_default', default=jellyseerr_role_docker_volumes_default)
-                               + lookup('vars', jellyseerr_name + '_docker_volumes_custom', default=jellyseerr_role_docker_volumes_custom) }}"
+jellyseerr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='jellyseerr')
+                                    + lookup('role_var', '_docker_volumes_custom', role='jellyseerr') }}"
 
 # Hostname
 jellyseerr_role_docker_hostname: "{{ jellyseerr_name }}"
@@ -99,8 +96,8 @@ jellyseerr_role_docker_networks_alias: "{{ jellyseerr_name }}"
 jellyseerr_role_docker_networks_default: []
 jellyseerr_role_docker_networks_custom: []
 jellyseerr_role_docker_networks: "{{ docker_networks_common
-                                + lookup('vars', jellyseerr_name + '_docker_networks_default', default=jellyseerr_role_docker_networks_default)
-                                + lookup('vars', jellyseerr_name + '_docker_networks_custom', default=jellyseerr_role_docker_networks_custom) }}"
+                                     + lookup('role_var', '_docker_networks_default', role='jellyseerr')
+                                     + lookup('role_var', '_docker_networks_custom', role='jellyseerr') }}"
 
 # Restart Policy
 jellyseerr_role_docker_restart_policy: unless-stopped
