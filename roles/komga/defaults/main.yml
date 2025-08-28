@@ -30,16 +30,16 @@ komga_role_paths_folders_list:
 komga_role_web_subdomain: "{{ komga_name }}"
 komga_role_web_domain: "{{ user.domain }}"
 komga_role_web_port: "25600"
-komga_role_web_url: "{{ 'https://' + (komga_role_web_subdomain + '.' + komga_role_web_domain
-                if (komga_role_web_subdomain | length > 0)
-                else komga_role_web_domain) }}"
+komga_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='komga') + '.' + lookup('role_var', '_web_domain', role='komga')
+                     if (lookup('role_var', '_web_subdomain', role='komga') | length > 0)
+                     else lookup('role_var', '_web_domain', role='komga')) }}"
 
 ################################
 # DNS
 ################################
 
-komga_role_dns_record: "{{ komga_role_web_subdomain }}"
-komga_role_dns_zone: "{{ komga_role_web_domain }}"
+komga_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='komga') }}"
+komga_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='komga') }}"
 komga_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,15 +64,16 @@ komga_role_docker_container: "{{ komga_name }}"
 # Image
 komga_role_docker_image_pull: true
 komga_role_docker_image_tag: "latest"
-komga_role_docker_image: "gotson/komga:{{ komga_role_docker_image_tag }}"
+komga_role_docker_image_repo: "gotson/komga"
+komga_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='komga') }}:{{ lookup('role_var', '_docker_image_tag', role='komga') }}"
 
 # Volumes
 komga_role_docker_volumes_default:
-  - "{{ komga_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='komga') }}:/config"
   - "/mnt/unionfs/Media/Comics:/comics"
 komga_role_docker_volumes_custom: []
-komga_role_docker_volumes: "{{ komga_role_docker_volumes_default
-                          + komga_role_docker_volumes_custom }}"
+komga_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='komga')
+                               + lookup('role_var', '_docker_volumes_custom', role='komga') }}"
 
 # Hostname
 komga_role_docker_hostname: "{{ komga_name }}"
@@ -82,8 +83,8 @@ komga_role_docker_networks_alias: "{{ komga_name }}"
 komga_role_docker_networks_default: []
 komga_role_docker_networks_custom: []
 komga_role_docker_networks: "{{ docker_networks_common
-                           + komga_role_docker_networks_default
-                           + komga_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='komga')
+                                + lookup('role_var', '_docker_networks_custom', role='komga') }}"
 
 # Restart Policy
 komga_role_docker_restart_policy: unless-stopped
