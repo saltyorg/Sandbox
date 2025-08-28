@@ -41,16 +41,16 @@ homepage_role_paths_folders_list:
 homepage_role_web_subdomain: "{{ homepage_name }}"
 homepage_role_web_domain: "{{ user.domain }}"
 homepage_role_web_port: "3000"
-homepage_role_web_url: "{{ 'https://' + (homepage_role_web_subdomain + '.' + homepage_role_web_domain
-                   if (homepage_role_web_subdomain | length > 0)
-                   else homepage_role_web_domain) }}"
+homepage_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='homepage') + '.' + lookup('role_var', '_web_domain', role='homepage')
+                        if (lookup('role_var', '_web_subdomain', role='homepage') | length > 0)
+                        else lookup('role_var', '_web_domain', role='homepage')) }}"
 
 ################################
 # DNS
 ################################
 
-homepage_role_dns_record: "{{ homepage_role_web_subdomain }}"
-homepage_role_dns_zone: "{{ homepage_role_web_domain }}"
+homepage_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='homepage') }}"
+homepage_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='homepage') }}"
 homepage_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -74,27 +74,28 @@ homepage_role_docker_container: "{{ homepage_name }}"
 
 # Image
 homepage_role_docker_image_pull: true
+homepage_role_docker_image_repo: "ghcr.io/gethomepage/homepage"
 homepage_role_docker_image_tag: "latest"
-homepage_role_docker_image: "ghcr.io/gethomepage/homepage:{{ homepage_role_docker_image_tag }}"
+homepage_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='homepage') }}:{{ lookup('role_var', '_docker_image_tag', role='homepage') }}"
 
 # Envs
 homepage_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  HOMEPAGE_ALLOWED_HOSTS: "{{ traefik_host + ',' + homepage_name + ':' + homepage_role_web_port }}"
+  HOMEPAGE_ALLOWED_HOSTS: "{{ traefik_host + ',' + homepage_name + ':' + lookup('role_var', '_web_port', role='homepage') }}"
 homepage_role_docker_envs_custom: {}
-homepage_role_docker_envs: "{{ homepage_role_docker_envs_default
-                          | combine(homepage_role_docker_envs_custom) }}"
+homepage_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='homepage')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='homepage')) }}"
 
 # Volumes
 homepage_role_docker_volumes_default:
-  - "{{ homepage_role_paths_location }}/config:/app/config"
-  - "{{ homepage_role_paths_location }}/images:/app/public/images"
-  - "{{ homepage_role_paths_location }}/icons:/app/public/icons"
+  - "{{ lookup('role_var', '_paths_location', role='homepage') }}/config:/app/config"
+  - "{{ lookup('role_var', '_paths_location', role='homepage') }}/images:/app/public/images"
+  - "{{ lookup('role_var', '_paths_location', role='homepage') }}/icons:/app/public/icons"
 homepage_role_docker_volumes_custom: []
-homepage_role_docker_volumes: "{{ homepage_role_docker_volumes_default
-                             + homepage_role_docker_volumes_custom }}"
+homepage_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='homepage')
+                                  + lookup('role_var', '_docker_volumes_custom', role='homepage') }}"
 
 # Hostname
 homepage_role_docker_hostname: "{{ homepage_name }}"
@@ -104,8 +105,8 @@ homepage_role_docker_networks_alias: "{{ homepage_name }}"
 homepage_role_docker_networks_default: []
 homepage_role_docker_networks_custom: []
 homepage_role_docker_networks: "{{ docker_networks_common
-                              + homepage_role_docker_networks_default
-                              + homepage_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='homepage')
+                                   + lookup('role_var', '_docker_networks_custom', role='homepage') }}"
 
 # Restart Policy
 homepage_role_docker_restart_policy: unless-stopped

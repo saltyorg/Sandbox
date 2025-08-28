@@ -13,7 +13,7 @@
     name: docker_socket_proxy
   vars:
     docker_socket_proxy_name: "{{ homepage_name }}-docker-socket-proxy"
-    docker_socket_proxy_role_docker_envs: "{{ homepage_role_docker_socket_proxy_envs }}"
+    docker_socket_proxy_role_docker_envs: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='homepage') }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
@@ -25,9 +25,9 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Check if `{{ homepage_role_paths_location | basename }}` exists
+- name: Check if `{{ lookup('role_var', '_paths_location', role='homepage') | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ homepage_role_paths_location }}/config"
+    path: "{{ lookup('role_var', '_paths_location', role='homepage') }}/config"
   register: homepage_role_web_config
 
 - name: Create directories
