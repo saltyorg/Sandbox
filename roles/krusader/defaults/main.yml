@@ -38,16 +38,16 @@ krusader_role_paths_folders_list:
 krusader_role_web_subdomain: "{{ krusader_name }}"
 krusader_role_web_domain: "{{ user.domain }}"
 krusader_role_web_port: "6080"
-krusader_role_web_url: "{{ 'https://' + (krusader_role_web_subdomain + '.' + krusader_role_web_domain
-                   if (krusader_role_web_subdomain | length > 0)
-                   else krusader_role_web_domain) }}"
+krusader_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='krusader') + '.' + lookup('role_var', '_web_domain', role='krusader')
+                        if (lookup('role_var', '_web_subdomain', role='krusader') | length > 0)
+                        else lookup('role_var', '_web_domain', role='krusader')) }}"
 
 ################################
 # DNS
 ################################
 
-krusader_role_dns_record: "{{ krusader_role_web_subdomain }}"
-krusader_role_dns_zone: "{{ krusader_role_web_domain }}"
+krusader_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='krusader') }}"
+krusader_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='krusader') }}"
 krusader_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -72,7 +72,8 @@ krusader_role_docker_container: "{{ krusader_name }}"
 # Image
 krusader_role_docker_image_pull: true
 krusader_role_docker_image_tag: "latest"
-krusader_role_docker_image: "binhex/arch-krusader:{{ krusader_role_docker_image_tag }}"
+krusader_role_docker_image_repo: "binhex/arch-krusader"
+krusader_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='krusader') }}:{{ lookup('role_var', '_docker_image_tag', role='krusader') }}"
 
 # Envs
 krusader_role_docker_envs_default:
@@ -84,15 +85,15 @@ krusader_role_docker_envs_default:
   WEBPAGE_TITLE: "Krusader File Manager Web"
   TEMP_FOLDER: "/tmp"
 krusader_role_docker_envs_custom: {}
-krusader_role_docker_envs: "{{ krusader_role_docker_envs_default
-                          | combine(krusader_role_docker_envs_custom) }}"
+krusader_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='krusader')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='krusader')) }}"
 
 # Volumes
 krusader_role_docker_volumes_default:
-  - "{{ krusader_role_paths_location }}/config:/config"
+  - "{{ lookup('role_var', '_paths_location', role='krusader') }}/config:/config"
 krusader_role_docker_volumes_custom: []
-krusader_role_docker_volumes: "{{ krusader_role_docker_volumes_default
-                             + krusader_role_docker_volumes_custom }}"
+krusader_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='krusader')
+                                  + lookup('role_var', '_docker_volumes_custom', role='krusader') }}"
 
 # Hostname
 krusader_role_docker_hostname: "{{ krusader_name }}"
@@ -102,8 +103,8 @@ krusader_role_docker_networks_alias: "{{ krusader_name }}"
 krusader_role_docker_networks_default: []
 krusader_role_docker_networks_custom: []
 krusader_role_docker_networks: "{{ docker_networks_common
-                              + krusader_role_docker_networks_default
-                              + krusader_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='krusader')
+                                   + lookup('role_var', '_docker_networks_custom', role='krusader') }}"
 
 # Restart Policy
 krusader_role_docker_restart_policy: unless-stopped
@@ -112,6 +113,6 @@ krusader_role_docker_restart_policy: unless-stopped
 krusader_role_docker_state: started
 
 # Dependencies
-krusader_depends_on: "{{ krusader_name }}-docker-socket-proxy"
-krusader_depends_on_delay: "0"
-krusader_depends_on_healthchecks: "false"
+krusader_role_depends_on: "{{ krusader_name }}-docker-socket-proxy"
+krusader_role_depends_on_delay: "0"
+krusader_role_depends_on_healthchecks: "false"
