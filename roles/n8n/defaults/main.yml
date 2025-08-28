@@ -62,7 +62,7 @@ n8n_traefik_middleware_custom: ""
 n8n_traefik_certresolver: "{{ traefik_default_certresolver }}"
 n8n_traefik_enabled: true
 n8n_traefik_api_enabled: true
-n8n_traefik_api_endpoint: "PathPrefix(`/api`)"
+n8n_traefik_api_endpoint: "PathPrefix(`/api`) || PathPrefix(`/webhook`)"
 
 ################################
 # Docker
