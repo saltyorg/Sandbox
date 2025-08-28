@@ -22,8 +22,9 @@ flaresolverr_role_docker_container: "{{ flaresolverr_name }}"
 
 # Image
 flaresolverr_role_docker_image_pull: true
+flaresolverr_role_docker_image_repo: "ghcr.io/flaresolverr/flaresolverr"
 flaresolverr_role_docker_image_tag: "latest"
-flaresolverr_role_docker_image: "ghcr.io/flaresolverr/flaresolverr:{{ flaresolverr_role_docker_image_tag }}"
+flaresolverr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='flaresolverr') }}:{{ lookup('role_var', '_docker_image_tag', role='flaresolverr') }}"
 
 # Envs
 flaresolverr_role_docker_envs_default:
@@ -32,8 +33,8 @@ flaresolverr_role_docker_envs_default:
   CAPTCHA_SOLVER: "hcaptcha-solver"
   TZ: "{{ tz }}"
 flaresolverr_role_docker_envs_custom: {}
-flaresolverr_role_docker_envs: "{{ flaresolverr_role_docker_envs_default
-                              | combine(flaresolverr_role_docker_envs_custom) }}"
+flaresolverr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='flaresolverr')
+                                   | combine(lookup('role_var', '_docker_envs_custom', role='flaresolverr')) }}"
 
 # Hostname
 flaresolverr_role_docker_hostname: "{{ flaresolverr_name }}"
@@ -43,8 +44,8 @@ flaresolverr_role_docker_networks_alias: "{{ flaresolverr_name }}"
 flaresolverr_role_docker_networks_default: []
 flaresolverr_role_docker_networks_custom: []
 flaresolverr_role_docker_networks: "{{ docker_networks_common
-                                  + flaresolverr_role_docker_networks_default
-                                  + flaresolverr_role_docker_networks_custom }}"
+                                       + lookup('role_var', '_docker_networks_default', role='flaresolverr')
+                                       + lookup('role_var', '_docker_networks_custom', role='flaresolverr') }}"
 
 # Restart Policy
 flaresolverr_role_docker_restart_policy: unless-stopped
