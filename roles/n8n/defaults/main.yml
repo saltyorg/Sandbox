@@ -91,6 +91,8 @@ n8n_role_docker_envs_default:
   N8N_HIRING_BANNER_ENABLED: "false"
   N8N_USER_MANAGEMENT_DISABLED: "true"
   N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+  WEBHOOK_URL: "{{ n8n_role_web_url }}/"
+  N8N_PROXY_HOPS: "1"
 n8n_role_docker_envs_custom: {}
 n8n_role_docker_envs: "{{ n8n_role_docker_envs_default
                      | combine(n8n_role_docker_envs_custom) }}"
