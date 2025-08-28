@@ -46,16 +46,16 @@ dashdot_role_paths_folders_list:
 dashdot_role_web_subdomain: "{{ dashdot_name }}"
 dashdot_role_web_domain: "{{ user.domain }}"
 dashdot_role_web_port: "3001"
-dashdot_role_web_url: "{{ 'https://' + (dashdot_role_web_subdomain + '.' + dashdot_role_web_domain
-                  if (dashdot_role_web_subdomain | length > 0)
-                  else dashdot_role_web_domain) }}"
+dashdot_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='dashdot') + '.' + lookup('role_var', '_web_domain', role='dashdot')
+                       if (lookup('role_var', '_web_subdomain', role='dashdot') | length > 0)
+                       else lookup('role_var', '_web_domain', role='dashdot')) }}"
 
 ################################
 # DNS
 ################################
 
-dashdot_role_dns_record: "{{ dashdot_role_web_subdomain }}"
-dashdot_role_dns_zone: "{{ dashdot_role_web_domain }}"
+dashdot_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='dashdot') }}"
+dashdot_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='dashdot') }}"
 dashdot_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -79,13 +79,14 @@ dashdot_role_docker_container: "{{ dashdot_name }}"
 
 # Image
 dashdot_role_docker_image_pull: true
+dashdot_role_docker_image_repo: "mauricenino/dashdot"
 dashdot_role_docker_image_tag: "latest"
-dashdot_role_docker_image: "mauricenino/dashdot:{{ dashdot_role_docker_image_tag }}"
+dashdot_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='dashdot') }}:{{ lookup('role_var', '_docker_image_tag', role='dashdot') }}"
 
 # Envs
 dashdot_role_docker_envs_default:
   DASHDOT_SHOW_HOST: "{{ dashdot_show_host }}"
-  DASHDOT_CUSTOM_HOST: "{{ dashdot_role_web_subdomain + '.' + dashdot_role_web_domain }}"
+  DASHDOT_CUSTOM_HOST: "{{ lookup('role_var', '_web_subdomain', role='dashdot') + '.' + lookup('role_var', '_web_domain', role='dashdot') }}"
   DASHDOT_ENABLE_CPU_TEMPS: "{{ dashdot_cpu_temps }}"
   DASHDOT_USE_IMPERIAL: "{{ dashdot_imperial }}"
   DASHDOT_ALWAYS_SHOW_PERCENTAGES: "{{ dashdot_always_show_percentages }}"
@@ -99,15 +100,15 @@ dashdot_role_docker_envs_default:
   DASHDOT_GPU_LABEL_LIST: "{{ dashdot_gpu_label_list }}"
   DASHDOT_ACCEPT_OOKLA_EULA: "true"
 dashdot_role_docker_envs_custom: {}
-dashdot_role_docker_envs: "{{ dashdot_role_docker_envs_default
-                         | combine(dashdot_role_docker_envs_custom) }}"
+dashdot_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='dashdot')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='dashdot')) }}"
 
 # Volumes
 dashdot_role_docker_volumes_default:
   - "/:/mnt/host:ro"
 dashdot_role_docker_volumes_custom: []
-dashdot_role_docker_volumes: "{{ dashdot_role_docker_volumes_default
-                            + dashdot_role_docker_volumes_custom }}"
+dashdot_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='dashdot')
+                                 + lookup('role_var', '_docker_volumes_custom', role='dashdot') }}"
 
 # Hostname
 dashdot_role_docker_hostname: "{{ dashdot_name }}"
@@ -117,8 +118,8 @@ dashdot_role_docker_networks_alias: "{{ dashdot_name }}"
 dashdot_role_docker_networks_default: []
 dashdot_role_docker_networks_custom: []
 dashdot_role_docker_networks: "{{ docker_networks_common
-                             + dashdot_role_docker_networks_default
-                             + dashdot_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='dashdot')
+                                  + lookup('role_var', '_docker_networks_custom', role='dashdot') }}"
 
 # Restart Policy
 dashdot_role_docker_restart_policy: unless-stopped
