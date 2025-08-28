@@ -39,16 +39,16 @@ jellystat_role_paths_folders_list:
 jellystat_role_web_subdomain: "{{ jellystat_name }}"
 jellystat_role_web_domain: "{{ user.domain }}"
 jellystat_role_web_port: "3000"
-jellystat_role_web_url: "{{ 'https://' + (lookup('vars', jellystat_name + '_web_subdomain', default=jellystat_role_web_subdomain) + '.' + lookup('vars', jellystat_name + '_web_domain', default=jellystat_role_web_domain)
-                    if (lookup('vars', jellystat_name + '_web_subdomain', default=jellystat_role_web_subdomain) | length > 0)
-                    else lookup('vars', jellystat_name + '_web_domain', default=jellystat_role_web_domain)) }}"
+jellystat_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='jellystat') + '.' + lookup('role_var', '_web_domain', role='jellystat')
+                         if (lookup('role_var', '_web_subdomain', role='jellystat') | length > 0)
+                         else lookup('role_var', '_web_domain', role='jellystat')) }}"
 
 ################################
 # DNS
 ################################
 
-jellystat_role_dns_record: "{{ lookup('vars', jellystat_name + '_web_subdomain', default=jellystat_role_web_subdomain) }}"
-jellystat_role_dns_zone: "{{ lookup('vars', jellystat_name + '_web_domain', default=jellystat_role_web_domain) }}"
+jellystat_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='jellystat') }}"
+jellystat_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='jellystat') }}"
 jellystat_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -81,26 +81,25 @@ jellystat_role_docker_container: "{{ jellystat_name }}"
 jellystat_role_docker_image_pull: true
 jellystat_role_docker_image_repo: "cyfershepard/jellystat"
 jellystat_role_docker_image_tag: "latest"
-jellystat_role_docker_image: "{{ lookup('vars', jellystat_name + '_docker_image_repo', default=jellystat_role_docker_image_repo)
-                            + ':' + lookup('vars', jellystat_name + '_docker_image_tag', default=jellystat_role_docker_image_tag) }}"
+jellystat_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='jellystat') }}:{{ lookup('role_var', '_docker_image_tag', role='jellystat') }}"
 
 # Envs
 jellystat_role_docker_envs_default:
-  POSTGRES_USER: "{{ postgres_role_docker_env_user }}"
-  POSTGRES_PASSWORD: "{{ postgres_role_docker_env_password }}"
-  POSTGRES_IP: "{{ jellystat_postgres_name }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user ', role='postgres') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password ', role='postgres') }}"
+  POSTGRES_IP: "{{ lookup('role_var', '_postgres_name', role='jellystat') }}"
   POSTGRES_PORT: "5432"
   JWT_SECRET: "{{ jwt_token.stdout }}"
 jellystat_role_docker_envs_custom: {}
-jellystat_role_docker_envs: "{{ lookup('vars', jellystat_name + '_docker_envs_default', default=jellystat_role_docker_envs_default)
-                           | combine(lookup('vars', jellystat_name + '_docker_envs_custom', default=jellystat_role_docker_envs_custom)) }}"
+jellystat_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='jellystat')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='jellystat')) }}"
 
 # Volumes
 jellystat_role_docker_volumes_default:
-  - "{{ jellystat_role_paths_location }}:/app/backend/backup-data"
+  - "{{ lookup('role_var', '_paths_location', role='jellystat') }}:/app/backend/backup-data"
 jellystat_role_docker_volumes_custom: []
-jellystat_role_docker_volumes: "{{ lookup('vars', jellystat_name + '_docker_volumes_default', default=jellystat_role_docker_volumes_default)
-                              + lookup('vars', jellystat_name + '_docker_volumes_custom', default=jellystat_role_docker_volumes_custom) }}"
+jellystat_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='jellystat')
+                                   + lookup('role_var', '_docker_volumes_custom', role='jellystat') }}"
 
 # Hostname
 jellystat_role_docker_hostname: "{{ jellystat_name }}"
@@ -110,8 +109,8 @@ jellystat_role_docker_networks_alias: "{{ jellystat_name }}"
 jellystat_role_docker_networks_default: []
 jellystat_role_docker_networks_custom: []
 jellystat_role_docker_networks: "{{ docker_networks_common
-                               + lookup('vars', jellystat_name + '_docker_networks_default', default=jellystat_role_docker_networks_default)
-                               + lookup('vars', jellystat_name + '_docker_networks_custom', default=jellystat_role_docker_networks_custom) }}"
+                                    + lookup('role_var', '_docker_networks_default', role='jellystat')
+                                    + lookup('role_var', '_docker_networks_custom', role='jellystat') }}"
 
 # Restart Policy
 jellystat_role_docker_restart_policy: unless-stopped
@@ -120,6 +119,6 @@ jellystat_role_docker_restart_policy: unless-stopped
 jellystat_role_docker_state: started
 
 # Dependencies
-jellystat_depends_on: "{{ jellystat_postgres_name }}"
+jellystat_depends_on: "{{ lookup('role_var', '_postgres_name', role='jellystat') }}"
 jellystat_depends_on_delay: "0"
 jellystat_depends_on_healthchecks: "false"
