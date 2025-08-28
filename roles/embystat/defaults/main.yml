@@ -30,16 +30,16 @@ embystat_role_paths_folders_list:
 embystat_role_web_subdomain: "{{ embystat_name }}"
 embystat_role_web_domain: "{{ user.domain }}"
 embystat_role_web_port: "6555"
-embystat_role_web_url: "{{ 'https://' + (embystat_role_web_subdomain + '.' + embystat_role_web_domain
-                   if (embystat_role_web_subdomain | length > 0)
-                   else embystat_role_web_domain) }}"
+embystat_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='embystat') + '.' + lookup('role_var', '_web_domain', role='embystat')
+                        if (lookup('role_var', '_web_subdomain', role='embystat') | length > 0)
+                        else lookup('role_var', '_web_domain', role='embystat')) }}"
 
 ################################
 # DNS
 ################################
 
-embystat_role_dns_record: "{{ embystat_role_web_subdomain }}"
-embystat_role_dns_zone: "{{ embystat_role_web_domain }}"
+embystat_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='embystat') }}"
+embystat_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='embystat') }}"
 embystat_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,15 +63,16 @@ embystat_role_docker_container: "{{ embystat_name }}"
 
 # Image
 embystat_role_docker_image_pull: true
+embystat_role_docker_image_repo: "uping/embystat"
 embystat_role_docker_image_tag: "beta-linux-x64"
-embystat_role_docker_image: "uping/embystat:{{ embystat_role_docker_image_tag }}"
+embystat_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='embystat') }}:{{ lookup('role_var', '_docker_image_tag', role='embystat') }}"
 
 # Volumes
 embystat_role_docker_volumes_default:
-  - "{{ embystat_role_paths_location }}/config:/app/data"
+  - "{{ lookup('role_var', '_paths_location', role='embystat') }}/config:/app/data"
 embystat_role_docker_volumes_custom: []
-embystat_role_docker_volumes: "{{ embystat_role_docker_volumes_default
-                             + embystat_role_docker_volumes_custom }}"
+embystat_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='embystat')
+                                  + lookup('role_var', '_docker_volumes_custom', role='embystat') }}"
 
 # Hostname
 embystat_role_docker_hostname: "{{ embystat_name }}"
@@ -81,8 +82,8 @@ embystat_role_docker_networks_alias: "{{ embystat_name }}"
 embystat_role_docker_networks_default: []
 embystat_role_docker_networks_custom: []
 embystat_role_docker_networks: "{{ docker_networks_common
-                              + embystat_role_docker_networks_default
-                              + embystat_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='embystat')
+                                   + lookup('role_var', '_docker_networks_custom', role='embystat') }}"
 
 # Restart Policy
 embystat_role_docker_restart_policy: unless-stopped
