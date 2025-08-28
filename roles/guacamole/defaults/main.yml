@@ -8,6 +8,12 @@
 ##########################################################################
 ---
 ################################
+# Basics
+################################
+
+guacamole_name: guacamole
+
+################################
 # Settings
 ################################
 
@@ -19,12 +25,6 @@ guacamole_cas_enable: false
 guacamole_openid_enable: false
 guacamole_saml_enable: false
 guacamole_header_enable: false
-
-################################
-# Basics
-################################
-
-guacamole_name: guacamole
 
 ################################
 # Paths
@@ -43,16 +43,16 @@ guacamole_role_paths_folders_list:
 guacamole_role_web_subdomain: "{{ guacamole_name }}"
 guacamole_role_web_domain: "{{ user.domain }}"
 guacamole_role_web_port: "8080"
-guacamole_role_web_url: "{{ 'https://' + (guacamole_role_web_subdomain + '.' + guacamole_role_web_domain
-                    if (guacamole_role_web_subdomain | length > 0)
-                    else guacamole_role_web_domain) }}"
+guacamole_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='guacamole') + '.' + lookup('role_var', '_web_domain', role='guacamole')
+                         if (lookup('role_var', '_web_subdomain', role='guacamole') | length > 0)
+                         else lookup('role_var', '_web_domain', role='guacamole')) }}"
 
 ################################
 # DNS
 ################################
 
-guacamole_role_dns_record: "{{ guacamole_role_web_subdomain }}"
-guacamole_role_dns_zone: "{{ guacamole_role_web_domain }}"
+guacamole_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='guacamole') }}"
+guacamole_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='guacamole') }}"
 guacamole_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -76,8 +76,9 @@ guacamole_role_docker_container: "{{ guacamole_name }}"
 
 # Image
 guacamole_role_docker_image_pull: true
+guacamole_role_docker_image_repo: "jasonbean/guacamole"
 guacamole_role_docker_image_tag: "latest"
-guacamole_role_docker_image: "jasonbean/guacamole:{{ guacamole_role_docker_image_tag }}"
+guacamole_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='guacamole') }}:{{ lookup('role_var', '_docker_image_tag', role='guacamole') }}"
 
 # Envs
 guacamole_role_docker_envs_default:
@@ -93,15 +94,15 @@ guacamole_role_docker_envs_default:
   OPT_SAML: "{{ 'Y' if guacamole_saml_enable else omit }}"
   OPT_HEADER: "{{ 'Y' if guacamole_header_enable else omit }}"
 guacamole_role_docker_envs_custom: {}
-guacamole_role_docker_envs: "{{ guacamole_role_docker_envs_default
-                           | combine(guacamole_role_docker_envs_custom) }}"
+guacamole_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='guacamole')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='guacamole')) }}"
 
 # Volumes
 guacamole_role_docker_volumes_default:
-  - "{{ guacamole_role_paths_location }}/config:/config"
+  - "{{ lookup('role_var', '_paths_location', role='guacamole') }}/config:/config"
 guacamole_role_docker_volumes_custom: []
-guacamole_role_docker_volumes: "{{ guacamole_role_docker_volumes_default
-                              + guacamole_role_docker_volumes_custom }}"
+guacamole_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='guacamole')
+                                   + lookup('role_var', '_docker_volumes_custom', role='guacamole') }}"
 
 # Hostname
 guacamole_role_docker_hostname: "{{ guacamole_name }}"
@@ -111,8 +112,8 @@ guacamole_role_docker_networks_alias: "{{ guacamole_name }}"
 guacamole_role_docker_networks_default: []
 guacamole_role_docker_networks_custom: []
 guacamole_role_docker_networks: "{{ docker_networks_common
-                               + guacamole_role_docker_networks_default
-                               + guacamole_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='guacamole')
+                                    + lookup('role_var', '_docker_networks_custom', role='guacamole') }}"
 
 # Restart Policy
 guacamole_role_docker_restart_policy: unless-stopped

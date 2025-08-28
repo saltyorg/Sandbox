@@ -29,7 +29,7 @@
 
 - name: Post-Install | Ensure guacamole config folder has the correct permissions
   ansible.builtin.file:
-    path: "{{ guacamole_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='guacamole') }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
