@@ -31,16 +31,16 @@ influxdb2_role_paths_folders_list:
 influxdb2_role_web_subdomain: "{{ influxdb2_name }}"
 influxdb2_role_web_domain: "{{ user.domain }}"
 influxdb2_role_web_port: "8086"
-influxdb2_role_web_url: "{{ 'https://' + (influxdb2_role_web_subdomain + '.' + influxdb2_role_web_domain
-                    if (influxdb2_role_web_subdomain | length > 0)
-                    else influxdb2_role_web_domain) }}"
+influxdb2_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='influxdb2') + '.' + lookup('role_var', '_web_domain', role='influxdb2')
+                         if (lookup('role_var', '_web_subdomain', role='influxdb2') | length > 0)
+                         else lookup('role_var', '_web_domain', role='influxdb2')) }}"
 
 ################################
 # DNS
 ################################
 
-influxdb2_role_dns_record: "{{ influxdb2_role_web_subdomain }}"
-influxdb2_role_dns_zone: "{{ influxdb2_role_web_domain }}"
+influxdb2_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='influxdb2') }}"
+influxdb2_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='influxdb2') }}"
 influxdb2_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -66,16 +66,15 @@ influxdb2_role_docker_container: "{{ influxdb2_name }}"
 influxdb2_role_docker_image_pull: true
 influxdb2_role_docker_image_tag: "2-alpine"
 influxdb2_role_docker_image_repo: "influxdb"
-influxdb2_role_docker_image: "{{ lookup('vars', influxdb2_name + '_docker_image_repo', default=influxdb2_role_docker_image_repo)
-                           + ':' + lookup('vars', influxdb2_name + '_docker_image_tag', default=influxdb2_role_docker_image_tag) }}"
+influxdb2_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='influxdb2') }}:{{ lookup('role_var', '_docker_image_tag', role='influxdb2') }}"
 
 # Volumes
 influxdb2_role_docker_volumes_default:
-  - "{{ influxdb2_role_paths_location }}/data:/var/lib/influxdb22"
-  - "{{ influxdb2_role_paths_location }}/config:/etc/influxdb22"
+  - "{{ lookup('role_var', '_paths_location', role='influxdb2') }}/data:/var/lib/influxdb22"
+  - "{{ lookup('role_var', '_paths_location', role='influxdb2') }}/config:/etc/influxdb22"
 influxdb2_role_docker_volumes_custom: []
-influxdb2_role_docker_volumes: "{{ lookup('vars', influxdb2_name + '_docker_volumes_default', default=influxdb2_role_docker_volumes_default)
-                             + lookup('vars', influxdb2_name + '_docker_volumes_custom', default=influxdb2_role_docker_volumes_custom) }}"
+influxdb2_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='influxdb2')
+                                   + lookup('role_var', '_docker_volumes_custom', role='influxdb2') }}"
 
 # Hostname
 influxdb2_role_docker_hostname: "{{ influxdb2_name }}"
@@ -85,8 +84,8 @@ influxdb2_role_docker_networks_alias: "{{ influxdb2_name }}"
 influxdb2_role_docker_networks_default: []
 influxdb2_role_docker_networks_custom: []
 influxdb2_role_docker_networks: "{{ docker_networks_common
-                              + lookup('vars', influxdb2_name + '_docker_networks_default', default=influxdb2_role_docker_networks_default)
-                              + lookup('vars', influxdb2_name + '_docker_networks_dcustom', default=influxdb2_role_docker_networks_custom) }}"
+                                    + lookup('role_var', '_docker_networks_default', role='influxdb2')
+                                    + lookup('role_var', '_docker_networks_custom', role='influxdb2') }}"
 
 # Restart Policy
 influxdb2_role_docker_restart_policy: unless-stopped
