@@ -22,15 +22,16 @@ gotenberg_role_docker_container: "{{ gotenberg_name }}"
 
 # Image
 gotenberg_role_docker_image_pull: true
+gotenberg_role_docker_image_repo: "gotenberg/gotenberg"
 gotenberg_role_docker_image_tag: "latest"
-gotenberg_role_docker_image: "gotenberg/gotenberg:{{ gotenberg_role_docker_image_tag }}"
+gotenberg_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='gotenberg') }}:{{ lookup('role_var', '_docker_image_tag', role='gotenberg') }}"
 
 # Envs
 gotenberg_role_docker_envs_default:
   TZ: "{{ tz }}"
 gotenberg_role_docker_envs_custom: {}
-gotenberg_role_docker_envs: "{{ gotenberg_role_docker_envs_default
-                           | combine(gotenberg_role_docker_envs_custom) }}"
+gotenberg_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='gotenberg')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='gotenberg')) }}"
 
 # Hostname
 gotenberg_role_docker_hostname: "{{ gotenberg_name }}"
@@ -40,8 +41,8 @@ gotenberg_role_docker_networks_alias: "{{ gotenberg_name }}"
 gotenberg_role_docker_networks_default: []
 gotenberg_role_docker_networks_custom: []
 gotenberg_role_docker_networks: "{{ docker_networks_common
-                               + gotenberg_role_docker_networks_default
-                               + gotenberg_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='gotenberg')
+                                    + lookup('role_var', '_docker_networks_custom', role='gotenberg') }}"
 
 # Restart Policy
 gotenberg_role_docker_restart_policy: always
