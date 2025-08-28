@@ -29,16 +29,16 @@ mealie_role_paths_folders_list:
 mealie_role_web_subdomain: "{{ mealie_name }}"
 mealie_role_web_domain: "{{ user.domain }}"
 mealie_role_web_port: "9000"
-mealie_role_web_url: "{{ 'https://' + (mealie_role_web_subdomain + '.' + mealie_role_web_domain
-                      if (mealie_role_web_subdomain | length > 0)
-                      else mealie_role_web_domain) }}"
+mealie_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='mealie') + '.' + lookup('role_var', '_web_domain', role='mealie')
+                      if (lookup('role_var', '_web_subdomain', role='mealie') | length > 0)
+                      else lookup('role_var', '_web_domain', role='mealie')) }}"
 
 ################################
 # DNS
 ################################
 
-mealie_role_dns_record: "{{ mealie_role_web_subdomain }}"
-mealie_role_dns_zone: "{{ mealie_role_web_domain }}"
+mealie_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='mealie') }}"
+mealie_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='mealie') }}"
 mealie_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,7 +63,8 @@ mealie_role_docker_container: "{{ mealie_name }}"
 # Image
 mealie_role_docker_image_pull: true
 mealie_role_docker_image_tag: "latest"
-mealie_role_docker_image: "ghcr.io/mealie-recipes/mealie:{{ mealie_role_docker_image_tag }}"
+mealie_role_docker_image_repo: "ghcr.io/mealie-recipes/mealie"
+mealie_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='mealie') }}:{{ lookup('role_var', '_docker_image_tag', role='mealie') }}"
 
 # Envs
 mealie_role_docker_envs_default:
@@ -71,17 +72,17 @@ mealie_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  BASE_URL: "{{ mealie_role_web_url }}"
+  BASE_URL: "{{ lookup('role_var', '_web_url', role='mealie') }}"
 mealie_role_docker_envs_custom: {}
-mealie_role_docker_envs: "{{ mealie_role_docker_envs_default
-                              | combine(mealie_role_docker_envs_custom) }}"
+mealie_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='mealie')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='mealie')) }}"
 
 # Volumes
 mealie_role_docker_volumes_default:
-  - "{{ mealie_role_paths_location }}:/app/data"
+  - "{{ lookup('role_var', '_paths_location', role='mealie') }}:/app/data"
 mealie_role_docker_volumes_custom: []
-mealie_role_docker_volumes: "{{ mealie_role_docker_volumes_default
-                                 + mealie_role_docker_volumes_custom }}"
+mealie_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='mealie')
+                                + lookup('role_var', '_docker_volumes_custom', role='mealie') }}"
 
 # Hostname
 mealie_role_docker_hostname: "{{ mealie_name }}"
@@ -91,8 +92,8 @@ mealie_role_docker_networks_alias: "{{ mealie_name }}"
 mealie_role_docker_networks_default: []
 mealie_role_docker_networks_custom: []
 mealie_role_docker_networks: "{{ docker_networks_common
-                                  + mealie_role_docker_networks_default
-                                  + mealie_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='mealie')
+                                 + lookup('role_var', '_docker_networks_custom', role='mealie') }}"
 
 # Restart Policy
 mealie_role_docker_restart_policy: unless-stopped
