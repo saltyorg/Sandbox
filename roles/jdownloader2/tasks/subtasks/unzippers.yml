@@ -7,22 +7,22 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-- name: "unzippers | Check if '{{ jdownloader2_role_paths_tools_location }}/sevenzipjbinding1509.jar' exists"
+- name: "unzippers | Check if '{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') }}/sevenzipjbinding1509.jar' exists"
   ansible.builtin.stat:
-    path: "{{ jdownloader2_role_paths_tools_location }}/sevenzipjbinding1509.jar"
+    path: "{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') }}/sevenzipjbinding1509.jar"
   register: sevenzip_1509
 
-- name: "unzippers | Check if '{{ jdownloader2_role_paths_tools_location }}/sevenzipjbinding1509Linux.jar' exists"
+- name: "unzippers | Check if '{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') }}/sevenzipjbinding1509Linux.jar' exists"
   ansible.builtin.stat:
-    path: "{{ jdownloader2_role_paths_tools_location }}/sevenzipjbinding1509Linux.jar"
+    path: "{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') }}/sevenzipjbinding1509Linux.jar"
   register: sevenzip_1509linux
 
-- name: unzippers | Import tools "{{ jdownloader2_role_paths_tools_location | basename }}" tasks
+- name: unzippers | Import tools "{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') | basename }}" tasks
   block:
     - name: unzippers | Import 7zip 1509
       ansible.builtin.copy:
         src: "sevenzipjbinding1509.jar"
-        dest: "{{ jdownloader2_role_paths_tools_location }}/sevenzipjbinding1509.jar"
+        dest: "{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') }}/sevenzipjbinding1509.jar"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0775"
@@ -32,7 +32,7 @@
     - name: unzippers | Import 7zip 1509Linux
       ansible.builtin.copy:
         src: "sevenzipjbinding1509Linux.jar"
-        dest: "{{ jdownloader2_role_paths_tools_location }}/sevenzipjbinding1509Linux.jar"
+        dest: "{{ lookup('role_var', '_paths_tools_location', role='jdownloader2') }}/sevenzipjbinding1509Linux.jar"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0775"
