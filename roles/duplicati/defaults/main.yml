@@ -30,16 +30,16 @@ duplicati_role_paths_folders_list:
 duplicati_role_web_subdomain: "{{ duplicati_name }}"
 duplicati_role_web_domain: "{{ user.domain }}"
 duplicati_role_web_port: "8200"
-duplicati_role_web_url: "{{ 'https://' + (duplicati_role_web_subdomain + '.' + duplicati_role_web_domain
-                    if (duplicati_role_web_subdomain | length > 0)
-                    else duplicati_role_web_domain) }}"
+duplicati_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='duplicati') + '.' + lookup('role_var', '_web_domain', role='duplicati')
+                         if (lookup('role_var', '_web_subdomain', role='duplicati') | length > 0)
+                         else lookup('role_var', '_web_domain', role='duplicati')) }}"
 
 ################################
 # DNS
 ################################
 
-duplicati_role_dns_record: "{{ duplicati_role_web_subdomain }}"
-duplicati_role_dns_zone: "{{ duplicati_role_web_domain }}"
+duplicati_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='duplicati') }}"
+duplicati_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='duplicati') }}"
 duplicati_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ duplicati_role_docker_container: "{{ duplicati_name }}"
 
 # Image
 duplicati_role_docker_image_pull: true
+duplicati_role_docker_image_repo: "linuxserver/duplicati"
 duplicati_role_docker_image_tag: "latest"
-duplicati_role_docker_image: "linuxserver/duplicati:{{ duplicati_role_docker_image_tag }}"
+duplicati_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='duplicati') }}:{{ lookup('role_var', '_docker_image_tag', role='duplicati') }}"
 
 # Envs
 duplicati_role_docker_envs_default:
@@ -72,17 +73,17 @@ duplicati_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
 duplicati_role_docker_envs_custom: {}
-duplicati_role_docker_envs: "{{ duplicati_role_docker_envs_default
-                           | combine(duplicati_role_docker_envs_custom) }}"
+duplicati_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='duplicati')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='duplicati')) }}"
 
 # Volumes
 duplicati_role_docker_volumes_default:
-  - "{{ duplicati_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='duplicati') }}:/config"
   - "/opt:/saltbox/opt"
   - "/srv/git/saltbox:/saltbox/saltbox"
 duplicati_role_docker_volumes_custom: []
-duplicati_role_docker_volumes: "{{ duplicati_role_docker_volumes_default
-                              + duplicati_role_docker_volumes_custom }}"
+duplicati_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='duplicati')
+                                   + lookup('role_var', '_docker_volumes_custom', role='duplicati') }}"
 
 # Hostname
 duplicati_role_docker_hostname: "{{ duplicati_name }}"
@@ -92,8 +93,8 @@ duplicati_role_docker_networks_alias: "{{ duplicati_name }}"
 duplicati_role_docker_networks_default: []
 duplicati_role_docker_networks_custom: []
 duplicati_role_docker_networks: "{{ docker_networks_common
-                               + duplicati_role_docker_networks_default
-                               + duplicati_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='duplicati')
+                                    + lookup('role_var', '_docker_networks_custom', role='duplicati') }}"
 
 # Restart Policy
 duplicati_role_docker_restart_policy: unless-stopped
