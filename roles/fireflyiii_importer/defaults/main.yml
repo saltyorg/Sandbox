@@ -30,16 +30,16 @@ fireflyiii_importer_role_paths_folders_list:
 fireflyiii_importer_role_web_subdomain: "{{ fireflyiii_importer_name }}"
 fireflyiii_importer_role_web_domain: "{{ user.domain }}"
 fireflyiii_importer_role_web_port: "8080"
-fireflyiii_importer_role_web_url: "{{ 'https://' + (fireflyiii_importer_role_web_subdomain + '.' + fireflyiii_importer_role_web_domain
-                              if (fireflyiii_importer_role_web_subdomain | length > 0)
-                              else fireflyiii_importer_role_web_domain) }}"
+fireflyiii_importer_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='fireflyiii_importer') + '.' + lookup('role_var', '_web_domain', role='fireflyiii_importer')
+                                   if (lookup('role_var', '_web_subdomain', role='fireflyiii_importer') | length > 0)
+                                   else lookup('role_var', '_web_domain', role='fireflyiii_importer')) }}"
 
 ################################
 # DNS
 ################################
 
-fireflyiii_importer_role_dns_record: "{{ fireflyiii_importer_role_web_subdomain }}"
-fireflyiii_importer_role_dns_zone: "{{ fireflyiii_importer_role_web_domain }}"
+fireflyiii_importer_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='fireflyiii_importer') }}"
+fireflyiii_importer_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='fireflyiii_importer') }}"
 fireflyiii_importer_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,28 +63,29 @@ fireflyiii_importer_role_docker_container: "{{ fireflyiii_importer_name }}"
 
 # Image
 fireflyiii_importer_role_docker_image_pull: true
+fireflyiii_importer_role_docker_image_repo: "fireflyiii/data-importer"
 fireflyiii_importer_role_docker_image_tag: "latest"
-fireflyiii_importer_role_docker_image: "fireflyiii/data-importer:{{ fireflyiii_importer_role_docker_image_tag }}"
+fireflyiii_importer_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='fireflyiii_importer') }}:{{ lookup('role_var', '_docker_image_tag', role='fireflyiii_importer') }}"
 
 # Envs
 fireflyiii_importer_role_docker_envs_default:
   IMPORT_DIR_ALLOWLIST: /import
   FIREFLY_III_URL: "http://{{ fireflyiii_name }}:8080"
-  VANITY_URL: "{{ fireflyiii_role_web_url }}"
+  VANITY_URL: "{{ lookup('role_var', '_web_url', role='fireflyiii') }}"
   TRUSTED_PROXIES: "**"
   TZ: "{{ tz }}"
 fireflyiii_importer_role_docker_envs_custom: {}
-fireflyiii_importer_role_docker_envs: "{{ fireflyiii_importer_role_docker_envs_default
-                                 | combine(fireflyiii_importer_role_docker_envs_custom) }}"
+fireflyiii_importer_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='fireflyiii_importer')
+                                          | combine(lookup('role_var', '_docker_envs_custom', role='fireflyiii_importer')) }}"
 
 # Volumes
 fireflyiii_importer_role_docker_volumes_default:
-  - "{{ fireflyiii_role_paths_location }}/import:/import"
-  - /etc/timezone:/etc/timezone:ro
-  - /etc/localtime:/etc/localtime:ro
+  - "{{ lookup('role_var', '_paths_location', role='fireflyiii') }}/import:/import"
+  - "/etc/timezone:/etc/timezone:ro"
+  - "/etc/localtime:/etc/localtime:ro"
 fireflyiii_importer_role_docker_volumes_custom: []
-fireflyiii_importer_role_docker_volumes: "{{ fireflyiii_importer_role_docker_volumes_default
-                                    + fireflyiii_importer_role_docker_volumes_custom }}"
+fireflyiii_importer_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='fireflyiii_importer')
+                                             + lookup('role_var', '_docker_volumes_custom', role='fireflyiii_importer') }}"
 
 # Hostname
 fireflyiii_importer_role_docker_hostname: "{{ fireflyiii_importer_name }}"
@@ -94,8 +95,8 @@ fireflyiii_importer_role_docker_networks_alias: "{{ fireflyiii_importer_name }}"
 fireflyiii_importer_role_docker_networks_default: []
 fireflyiii_importer_role_docker_networks_custom: []
 fireflyiii_importer_role_docker_networks: "{{ docker_networks_common
-                                     + fireflyiii_importer_role_docker_networks_default
-                                     + fireflyiii_importer_role_docker_networks_custom }}"
+                                              + lookup('role_var', '_docker_networks_default', role='fireflyiii_importer')
+                                              + lookup('role_var', '_docker_networks_custom', role='fireflyiii_importer') }}"
 
 # Restart Policy
 fireflyiii_importer_role_docker_restart_policy: unless-stopped
