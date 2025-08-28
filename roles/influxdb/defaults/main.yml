@@ -31,15 +31,16 @@ influxdb_role_docker_container: "{{ influxdb_name }}"
 
 # Image
 influxdb_role_docker_image_pull: true
+influxdb_role_docker_image_repo: "influxdb"
 influxdb_role_docker_image_tag: "1.8.4"
-influxdb_role_docker_image: "influxdb:{{ influxdb_role_docker_image_tag }}"
+influxdb_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='influxdb') }}:{{ lookup('role_var', '_docker_image_tag', role='influxdb') }}"
 
 # Volumes
 influxdb_role_docker_volumes_default:
-  - "{{ influxdb_role_paths_location }}:/var/lib/influxdb"
+  - "{{ lookup('role_var', '_paths_location', role='influxdb') }}:/var/lib/influxdb"
 influxdb_role_docker_volumes_custom: []
-influxdb_role_docker_volumes: "{{ influxdb_role_docker_volumes_default
-                             + influxdb_role_docker_volumes_custom }}"
+influxdb_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='influxdb')
+                                  + lookup('role_var', '_docker_volumes_custom', role='influxdb') }}"
 
 # Hostname
 influxdb_role_docker_hostname: "{{ influxdb_name }}"
@@ -49,8 +50,8 @@ influxdb_role_docker_networks_alias: "{{ influxdb_name }}"
 influxdb_role_docker_networks_default: []
 influxdb_role_docker_networks_custom: []
 influxdb_role_docker_networks: "{{ docker_networks_common
-                              + influxdb_role_docker_networks_default
-                              + influxdb_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='influxdb')
+                                   + lookup('role_var', '_docker_networks_custom', role='influxdb') }}"
 
 # Restart Policy
 influxdb_role_docker_restart_policy: unless-stopped
