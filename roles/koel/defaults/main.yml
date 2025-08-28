@@ -33,16 +33,16 @@ koel_role_paths_folders_list:
 koel_role_web_subdomain: "{{ koel_name }}"
 koel_role_web_domain: "{{ user.domain }}"
 koel_role_web_port: "80"
-koel_role_web_url: "{{ 'https://' + (koel_role_web_subdomain + '.' + koel_role_web_domain
-               if (koel_role_web_subdomain | length > 0)
-               else koel_role_web_domain) }}"
+koel_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='koel') + '.' + lookup('role_var', '_web_domain', role='koel')
+                    if (lookup('role_var', '_web_subdomain', role='koel') | length > 0)
+                    else lookup('role_var', '_web_domain', role='koel')) }}"
 
 ################################
 # DNS
 ################################
 
-koel_role_dns_record: "{{ koel_role_web_subdomain }}"
-koel_role_dns_zone: "{{ koel_role_web_domain }}"
+koel_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='koel') }}"
+koel_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='koel') }}"
 koel_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -67,7 +67,8 @@ koel_role_docker_container: "{{ koel_name }}"
 # Image
 koel_role_docker_image_pull: true
 koel_role_docker_image_tag: "latest"
-koel_role_docker_image: "phanan/koel:{{ koel_role_docker_image_tag }}"
+koel_role_docker_image_repo: "phanan/koel"
+koel_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='koel') }}:{{ lookup('role_var', '_docker_image_tag', role='koel') }}"
 
 # Envs
 koel_role_docker_envs_default:
@@ -77,22 +78,22 @@ koel_role_docker_envs_default:
   DB_PORT: "3306"
   DB_DATABASE: "{{ koel_name }}"
   DB_USERNAME: "root"
-  DB_PASSWORD: "{{ mariadb_role_docker_env_password }}"
+  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   APP_KEY: "base64:{{ koel_secret_key }}"
-  APP_URL: "{{ koel_role_web_url }}"
+  APP_URL: "{{ lookup('role_var', '_web_url', role='koel') }}"
   FORCE_HTTPS: "true"
 koel_role_docker_envs_custom: {}
-koel_role_docker_envs: "{{ koel_role_docker_envs_default
-                      | combine(koel_role_docker_envs_custom) }}"
+koel_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='koel')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='koel')) }}"
 
 # Volumes
 koel_role_docker_volumes_default:
   - "/mnt/unionfs/Media/Music:/music:ro"
-  - "{{ koel_role_paths_location }}/app/covers:/var/www/html/public/img/covers"
-  - "{{ koel_role_paths_location }}/app/search-indexes:/var/www/html/storage/search-indexes"
+  - "{{ lookup('role_var', '_paths_location', role='koel') }}/app/covers:/var/www/html/public/img/covers"
+  - "{{ lookup('role_var', '_paths_location', role='koel') }}/app/search-indexes:/var/www/html/storage/search-indexes"
 koel_role_docker_volumes_custom: []
-koel_role_docker_volumes: "{{ koel_role_docker_volumes_default
-                         + koel_role_docker_volumes_custom }}"
+koel_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='koel')
+                              + lookup('role_var', '_docker_volumes_custom', role='koel') }}"
 
 # Hostname
 koel_role_docker_hostname: "{{ koel_name }}"
@@ -102,8 +103,8 @@ koel_role_docker_networks_alias: "{{ koel_name }}"
 koel_role_docker_networks_default: []
 koel_role_docker_networks_custom: []
 koel_role_docker_networks: "{{ docker_networks_common
-                          + koel_role_docker_networks_default
-                          + koel_role_docker_networks_custom }}"
+                               + lookup('role_var', '_docker_networks_default', role='koel')
+                               + lookup('role_var', '_docker_networks_custom', role='koel') }}"
 
 # Restart Policy
 koel_role_docker_restart_policy: unless-stopped
@@ -112,6 +113,6 @@ koel_role_docker_restart_policy: unless-stopped
 koel_role_docker_state: started
 
 # Dependencies
-koel_depends_on: "{{ koel_name }}-mariadb"
-koel_depends_on_delay: "0"
-koel_depends_on_healthchecks: "false"
+koel_role_depends_on: "{{ koel_name }}-mariadb"
+koel_role_depends_on_delay: "0"
+koel_role_depends_on_healthchecks: "false"

@@ -9,7 +9,7 @@
 ---
 - name: Check if db folder exists
   ansible.builtin.stat:
-    path: "{{ server_appdata_path }}/{{ koel_role_paths_folder }}/db"
+    path: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='koel') }}/db"
   register: stat_koel_db_folder
 
 - name: Remove legacy MariaDB Docker container
@@ -23,19 +23,19 @@
   vars:
     mariadb_instances: ["{{ koel_name }}-mariadb"]
     mariadb_role_paths_folder: "{{ koel_name }}"
-    mariadb_role_paths_location: "{{ server_appdata_path }}/{{ koel_role_paths_folder }}/db"
+    mariadb_role_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='koel') }}/db"
 
 - name: MariaDB | Create koel database
   community.mysql.mysql_db:
     name: "koel"
     login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_role_docker_env_password }}"
+    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     state: present
 
 - name: Check if db folder exists
   ansible.builtin.stat:
-    path: "{{ koel_role_paths_location }}/vars.ini"
+    path: "{{ lookup('role_var', '_paths_location', role='koel') }}/vars.ini"
   register: stat_vars_ini
 
 - name: "Generate Secret Key for sessions"
@@ -43,9 +43,9 @@
   register: generate_koel_secret_key
   when: not stat_vars_ini.stat.exists
 
-- name: "Add Secret Key to '{{ koel_role_paths_location }}/vars.ini'"
+- name: "Add Secret Key to '{{ lookup('role_var', '_paths_location', role='koel') }}/vars.ini'"
   community.general.ini_file:
-    path: "{{ koel_role_paths_location }}/vars.ini"
+    path: "{{ lookup('role_var', '_paths_location', role='koel') }}/vars.ini"
     section: "general"
     option: app_key
     value: "{{ generate_koel_secret_key.stdout }}"
@@ -56,7 +56,7 @@
 
 - name: "Set koel_secret_key variable"
   ansible.builtin.set_fact:
-    koel_secret_key: "{{ lookup('ini', 'app_key section=general file=' + koel_role_paths_location + '/vars.ini') | default(generate_koel_secret_key.stdout) }}"
+    koel_secret_key: "{{ lookup('ini', 'app_key section=general file=' + lookup('role_var', '_paths_location', role='koel') + '/vars.ini') | default(generate_koel_secret_key.stdout) }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
@@ -103,6 +103,6 @@
     login_db: "koel"
     login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
-    login_password: "{{ mariadb_role_docker_env_password }}"
+    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `is_admin` = "1", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
   when: not stat_koel_db_folder.stat.exists
