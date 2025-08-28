@@ -30,16 +30,16 @@ esphome_role_paths_folders_list:
 esphome_role_web_subdomain: "{{ esphome_name }}"
 esphome_role_web_domain: "{{ user.domain }}"
 esphome_role_web_port: "6052"
-esphome_role_web_url: "{{ 'https://' + (esphome_role_web_subdomain + '.' + esphome_role_web_domain
-                        if (esphome_role_web_subdomain | length > 0)
-                        else esphome_role_web_domain) }}"
+esphome_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='esphome') + '.' + lookup('role_var', '_web_domain', role='esphome')
+                       if (lookup('role_var', '_web_subdomain', role='esphome') | length > 0)
+                       else lookup('role_var', '_web_domain', role='esphome')) }}"
 
 ################################
 # DNS
 ################################
 
-esphome_role_dns_record: "{{ esphome_role_web_subdomain }}"
-esphome_role_dns_zone: "{{ esphome_role_web_domain }}"
+esphome_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='esphome') }}"
+esphome_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='esphome') }}"
 esphome_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ esphome_role_docker_container: "{{ esphome_name }}"
 
 # Image
 esphome_role_docker_image_pull: true
+esphome_role_docker_image_repo: "ghcr.io/imagegenius/esphome"
 esphome_role_docker_image_tag: "latest"
-esphome_role_docker_image: "ghcr.io/imagegenius/esphome:latest"
+esphome_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='esphome') }}:{{ lookup('role_var', '_docker_image_tag', role='esphome') }}"
 
 # Envs
 esphome_role_docker_envs_default:
@@ -72,16 +73,16 @@ esphome_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
 esphome_role_docker_envs_custom: {}
-esphome_role_docker_envs: "{{ esphome_role_docker_envs_default
-                               | combine(esphome_role_docker_envs_custom) }}"
+esphome_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='esphome')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='esphome')) }}"
 
 # Volumes
 esphome_role_docker_volumes_default:
-  - "{{ esphome_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='esphome') }}:/config"
   - /etc/localtime:/etc/localtime:ro
 esphome_role_docker_volumes_custom: []
-esphome_role_docker_volumes: "{{ esphome_role_docker_volumes_default
-                                  + esphome_role_docker_volumes_custom }}"
+esphome_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='esphome')
+                                 + lookup('role_var', '_docker_volumes_custom', role='esphome') }}"
 
 # Hostname
 esphome_role_docker_hostname: "{{ esphome_name }}"
@@ -91,8 +92,8 @@ esphome_role_docker_networks_alias: "{{ esphome_name }}"
 esphome_role_docker_networks_default: []
 esphome_role_docker_networks_custom: []
 esphome_role_docker_networks: "{{ docker_networks_common
-                                   + esphome_role_docker_networks_default
-                                   + esphome_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='esphome')
+                                  + lookup('role_var', '_docker_networks_custom', role='esphome') }}"
 
 # Network Mode
 esphome_role_docker_network_mode: "host"
