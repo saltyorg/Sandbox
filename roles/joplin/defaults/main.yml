@@ -17,7 +17,7 @@ joplin_name: joplin
 # Settings
 ################################
 
-joplin_postgres_name: "{{ joplin_name }}-postgres"
+joplin_role_postgres_name: "{{ joplin_name }}-postgres"
 joplin_role_postgres_docker_image_tag: "13"
 joplin_role_postgres_docker_image_repo: "postgres"
 joplin_role_postgres_docker_env_db: "joplin"
