@@ -30,16 +30,16 @@ homeassistant_role_paths_folders_list:
 homeassistant_role_web_subdomain: "{{ homeassistant_name }}"
 homeassistant_role_web_domain: "{{ user.domain }}"
 homeassistant_role_web_port: "8123"
-homeassistant_role_web_url: "{{ 'https://' + (homeassistant_role_web_subdomain + '.' + homeassistant_role_web_domain
-                        if (homeassistant_role_web_subdomain | length > 0)
-                        else homeassistant_role_web_domain) }}"
+homeassistant_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='homeassistant') + '.' + lookup('role_var', '_web_domain', role='homeassistant')
+                             if (lookup('role_var', '_web_subdomain', role='homeassistant') | length > 0)
+                             else lookup('role_var', '_web_domain', role='homeassistant')) }}"
 
 ################################
 # DNS
 ################################
 
-homeassistant_role_dns_record: "{{ homeassistant_role_web_subdomain }}"
-homeassistant_role_dns_zone: "{{ homeassistant_role_web_domain }}"
+homeassistant_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='homeassistant') }}"
+homeassistant_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='homeassistant') }}"
 homeassistant_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ homeassistant_role_docker_container: "{{ homeassistant_name }}"
 
 # Image
 homeassistant_role_docker_image_pull: true
+homeassistant_role_docker_image_repo: "lscr.io/linuxserver/homeassistant"
 homeassistant_role_docker_image_tag: "latest"
-homeassistant_role_docker_image: "lscr.io/linuxserver/homeassistant:{{ homeassistant_role_docker_image_tag }}"
+homeassistant_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='homeassistant') }}:{{ lookup('role_var', '_docker_image_tag', role='homeassistant') }}"
 
 # Envs
 homeassistant_role_docker_envs_default:
@@ -72,16 +73,16 @@ homeassistant_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
 homeassistant_role_docker_envs_custom: {}
-homeassistant_role_docker_envs: "{{ homeassistant_role_docker_envs_default
-                               | combine(homeassistant_role_docker_envs_custom) }}"
+homeassistant_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='homeassistant')
+                                    | combine(lookup('role_var', '_docker_envs_custom', role='homeassistant')) }}"
 
 # Volumes
 homeassistant_role_docker_volumes_default:
-  - "{{ homeassistant_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='homeassistant') }}:/config"
   - /etc/localtime:/etc/localtime:ro
 homeassistant_role_docker_volumes_custom: []
-homeassistant_role_docker_volumes: "{{ homeassistant_role_docker_volumes_default
-                                  + homeassistant_role_docker_volumes_custom }}"
+homeassistant_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='homeassistant')
+                                       + lookup('role_var', '_docker_volumes_custom', role='homeassistant') }}"
 
 # Hostname
 homeassistant_role_docker_hostname: "{{ homeassistant_name }}"
@@ -91,8 +92,8 @@ homeassistant_role_docker_networks_alias: "{{ homeassistant_name }}"
 homeassistant_role_docker_networks_default: []
 homeassistant_role_docker_networks_custom: []
 homeassistant_role_docker_networks: "{{ docker_networks_common
-                                   + homeassistant_role_docker_networks_default
-                                   + homeassistant_role_docker_networks_custom }}"
+                                        + lookup('role_var', '_docker_networks_default', role='homeassistant')
+                                        + lookup('role_var', '_docker_networks_custom', role='homeassistant') }}"
 
 # Network Mode
 homeassistant_role_docker_network_mode: "host"

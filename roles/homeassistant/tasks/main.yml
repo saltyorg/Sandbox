@@ -20,18 +20,18 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: "Check if '{{ homeassistant_role_paths_conf | basename }}' exists"
+- name: "Check if '{{ lookup('role_var', '_paths_conf', role='homeassistant') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ homeassistant_role_paths_conf }}"
+    path: "{{ lookup('role_var', '_paths_conf', role='homeassistant') }}"
   register: homeassistant_config
 
-- name: Settings | New `{{ homeassistant_role_paths_conf | basename }}` tasks
+- name: Settings | New `{{ lookup('role_var', '_paths_conf', role='homeassistant') | basename }}` tasks
   when: not homeassistant_config.stat.exists
   block:
-    - name: "Create '{{ homeassistant_role_paths_conf | basename }}' if it doesnt exist"
+    - name: "Create '{{ lookup('role_var', '_paths_conf', role='homeassistant') | basename }}' if it doesnt exist"
       ansible.builtin.template:
         src: configuration.yaml.j2
-        dest: "{{ homeassistant_role_paths_conf }}"
+        dest: "{{ lookup('role_var', '_paths_conf', role='homeassistant') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
@@ -41,13 +41,13 @@
 
 - name: Wait for 'configuration.yaml' to be created
   ansible.builtin.wait_for:
-    path: "{{ homeassistant_role_paths_conf }}"
+    path: "{{ lookup('role_var', '_paths_conf', role='homeassistant') }}"
     state: present
   when: (not continuous_integration)
 
-- name: Chown '{{ homeassistant_role_paths_location }}'
+- name: Chown '{{ lookup('role_var', '_paths_location', role='homeassistant') }}'
   ansible.builtin.file:
-    path: "{{ homeassistant_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='homeassistant') }}"
     state: directory
     recurse: true
     owner: "{{ user.name }}"
