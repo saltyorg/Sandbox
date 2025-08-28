@@ -29,16 +29,16 @@ gaps_role_paths_folders_list:
 gaps_role_web_subdomain: "{{ gaps_name }}"
 gaps_role_web_domain: "{{ user.domain }}"
 gaps_role_web_port: "8484"
-gaps_role_web_url: "{{ 'https://' + (gaps_role_web_subdomain + '.' + gaps_role_web_domain
-               if (gaps_role_web_subdomain | length > 0)
-               else gaps_role_web_domain) }}"
+gaps_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='gaps') + '.' + lookup('role_var', '_web_domain', role='gaps')
+                    if (lookup('role_var', '_web_subdomain', role='gaps') | length > 0)
+                    else lookup('role_var', '_web_domain', role='gaps')) }}"
 
 ################################
 # DNS
 ################################
 
-gaps_role_dns_record: "{{ gaps_role_web_subdomain }}"
-gaps_role_dns_zone: "{{ gaps_role_web_domain }}"
+gaps_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='gaps') }}"
+gaps_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='gaps') }}"
 gaps_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,25 +62,25 @@ gaps_role_docker_container: "{{ gaps_name }}"
 
 # Image
 gaps_role_docker_image_pull: true
+gaps_role_docker_image_repo: "housewrecker/gaps"
 gaps_role_docker_image_tag: "latest"
-gaps_role_docker_image: "housewrecker/gaps:{{ gaps_role_docker_image_tag }}"
+gaps_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='gaps') }}:{{ lookup('role_var', '_docker_image_tag', role='gaps') }}"
 
 # Envs
 gaps_role_docker_envs_default:
   TZ: "{{ tz }}"
-  # BASE_URL: "{{ gaps_role_web_url }}"
   ENABLE_LOGIN: "false"
   ENABLE_SSL: "false"
 gaps_role_docker_envs_custom: {}
-gaps_role_docker_envs: "{{ gaps_role_docker_envs_default
-                      | combine(gaps_role_docker_envs_custom) }}"
+gaps_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='gaps')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='gaps')) }}"
 
 # Volumes
 gaps_role_docker_volumes_default:
-  - "{{ gaps_role_paths_location }}:/usr/data"
+  - "{{ lookup('role_var', '_paths_location', role='gaps') }}:/usr/data"
 gaps_role_docker_volumes_custom: []
-gaps_role_docker_volumes: "{{ gaps_role_docker_volumes_default
-                         + gaps_role_docker_volumes_custom }}"
+gaps_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='gaps')
+                              + lookup('role_var', '_docker_volumes_custom', role='gaps') }}"
 
 # Hostname
 gaps_role_docker_hostname: "{{ gaps_name }}"
@@ -90,8 +90,8 @@ gaps_role_docker_networks_alias: "{{ gaps_name }}"
 gaps_role_docker_networks_default: []
 gaps_role_docker_networks_custom: []
 gaps_role_docker_networks: "{{ docker_networks_common
-                          + gaps_role_docker_networks_default
-                          + gaps_role_docker_networks_custom }}"
+                               + lookup('role_var', '_docker_networks_default', role='gaps')
+                               + lookup('role_var', '_docker_networks_custom', role='gaps') }}"
 
 # Restart Policy
 gaps_role_docker_restart_policy: unless-stopped
