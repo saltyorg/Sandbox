@@ -31,16 +31,16 @@ handbrake_role_paths_folders_list:
 handbrake_role_web_subdomain: "{{ handbrake_name }}"
 handbrake_role_web_domain: "{{ user.domain }}"
 handbrake_role_web_port: "5800"
-handbrake_role_web_url: "{{ 'https://' + (handbrake_role_web_subdomain + '.' + handbrake_role_web_domain
-                    if (handbrake_role_web_subdomain | length > 0)
-                    else handbrake_role_web_domain) }}"
+handbrake_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='handbrake') + '.' + lookup('role_var', '_web_domain', role='handbrake')
+                         if (lookup('role_var', '_web_subdomain', role='handbrake') | length > 0)
+                         else lookup('role_var', '_web_domain', role='handbrake')) }}"
 
 ################################
 # DNS
 ################################
 
-handbrake_role_dns_record: "{{ handbrake_role_web_subdomain }}"
-handbrake_role_dns_zone: "{{ handbrake_role_web_domain }}"
+handbrake_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='handbrake') }}"
+handbrake_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='handbrake') }}"
 handbrake_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,8 +64,9 @@ handbrake_role_docker_container: "{{ handbrake_name }}"
 
 # Image
 handbrake_role_docker_image_pull: true
+handbrake_role_docker_image_repo: "jlesage/handbrake"
 handbrake_role_docker_image_tag: "latest"
-handbrake_role_docker_image: "jlesage/handbrake:{{ handbrake_role_docker_image_tag }}"
+handbrake_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='handbrake') }}:{{ lookup('role_var', '_docker_image_tag', role='handbrake') }}"
 
 # Envs
 handbrake_role_docker_envs_default:
@@ -76,18 +77,18 @@ handbrake_role_docker_envs_default:
   ENABLE_CJK_FONT: "1"
   VNC_PASSWORD: "{{ handbrake.handbrake_pass | default('saltbox', true) }}"
 handbrake_role_docker_envs_custom: {}
-handbrake_role_docker_envs: "{{ handbrake_role_docker_envs_default
-                           | combine(handbrake_role_docker_envs_custom) }}"
+handbrake_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='handbrake')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='handbrake')) }}"
 
 # Volumes
 handbrake_role_docker_volumes_default:
-  - "{{ handbrake_role_paths_location }}:/config:rw"
+  - "{{ lookup('role_var', '_paths_location', role='handbrake') }}:/config:rw"
   - "/mnt:/storage:ro"
   - "/mnt/local/downloads/handbrake/watch:/watch:rw"
   - "/mnt/local/downloads/handbrake/output:/output:rw"
 handbrake_role_docker_volumes_custom: []
-handbrake_role_docker_volumes: "{{ handbrake_role_docker_volumes_default
-                              + handbrake_role_docker_volumes_custom }}"
+handbrake_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='handbrake')
+                                   + lookup('role_var', '_docker_volumes_custom', role='handbrake') }}"
 
 # Hostname
 handbrake_role_docker_hostname: "{{ handbrake_name }}"
@@ -97,8 +98,8 @@ handbrake_role_docker_networks_alias: "{{ handbrake_name }}"
 handbrake_role_docker_networks_default: []
 handbrake_role_docker_networks_custom: []
 handbrake_role_docker_networks: "{{ docker_networks_common
-                               + handbrake_role_docker_networks_default
-                               + handbrake_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='handbrake')
+                                    + lookup('role_var', '_docker_networks_custom', role='handbrake') }}"
 
 # Restart Policy
 handbrake_role_docker_restart_policy: unless-stopped
