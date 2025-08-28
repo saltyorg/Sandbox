@@ -17,7 +17,7 @@
   ignore_errors: true
   ansible.posix.sysctl:
     name: "vm.max_map_count"
-    value: "{{ elasticsearch_sysctl_vm_max_map_count }}"
+    value: "{{ lookup('role_var', '_sysctl_vm_max_map_count', role='elasticsearch') }}"
     state: present
 
 - name: Create Docker container

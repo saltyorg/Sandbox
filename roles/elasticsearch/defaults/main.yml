@@ -20,7 +20,7 @@ elasticsearch_name: elasticsearch
 elasticsearch_role_docker_env_password: "elastic789"
 elasticsearch_role_docker_env_http_port: "9200"
 elasticsearch_role_docker_env_transport_port: "9300"
-elasticsearch_sysctl_vm_max_map_count: "262144"
+elasticsearch_role_sysctl_vm_max_map_count: "262144"
 
 ################################
 # Paths
@@ -41,8 +41,9 @@ elasticsearch_role_docker_container: "{{ elasticsearch_name }}"
 
 # Image
 elasticsearch_role_docker_image_pull: true
+elasticsearch_role_docker_image_repo: "docker.elastic.co/elasticsearch/elasticsearch"
 elasticsearch_role_docker_image_tag: "8.11.0"
-elasticsearch_role_docker_image: "docker.elastic.co/elasticsearch/elasticsearch:{{ elasticsearch_role_docker_image_tag }}"
+elasticsearch_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='elasticsearch') }}:{{ lookup('role_var', '_docker_image_tag', role='elasticsearch') }}"
 
 # Envs
 elasticsearch_role_docker_envs_default:
@@ -50,19 +51,17 @@ elasticsearch_role_docker_envs_default:
   discovery.type: "single-node"
   node.name: "{{ elasticsearch_name }}"
   xpack.security.enabled: "false"
-  ELASTIC_PASSWORD: "{{ elasticsearch_role_docker_env_password }}"
-  # ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-  # ENROLLMENT_TOKEN: "<token>"
+  ELASTIC_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='elasticsearch') }}"
 elasticsearch_role_docker_envs_custom: {}
-elasticsearch_role_docker_envs: "{{ elasticsearch_role_docker_envs_default
-                               | combine(elasticsearch_role_docker_envs_custom) }}"
+elasticsearch_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='elasticsearch')
+                                    | combine(lookup('role_var', '_docker_envs_custom', role='elasticsearch')) }}"
 
 # Volumes
 elasticsearch_role_docker_volumes_default:
-  - "{{ elasticsearch_role_paths_location }}:/usr/share/elasticsearch/data"
+  - "{{ lookup('role_var', '_paths_location', role='elasticsearch') }}:/usr/share/elasticsearch/data"
 elasticsearch_role_docker_volumes_custom: []
-elasticsearch_role_docker_volumes: "{{ elasticsearch_role_docker_volumes_default
-                                  + elasticsearch_role_docker_volumes_custom }}"
+elasticsearch_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='elasticsearch')
+                                       + lookup('role_var', '_docker_volumes_custom', role='elasticsearch') }}"
 
 # Hostname
 elasticsearch_role_docker_hostname: "{{ elasticsearch_name }}"
@@ -72,8 +71,8 @@ elasticsearch_role_docker_networks_alias: "{{ elasticsearch_name }}"
 elasticsearch_role_docker_networks_default: []
 elasticsearch_role_docker_networks_custom: []
 elasticsearch_role_docker_networks: "{{ docker_networks_common
-                                   + elasticsearch_role_docker_networks_default
-                                   + elasticsearch_role_docker_networks_custom }}"
+                                        + lookup('role_var', '_docker_networks_default', role='elasticsearch')
+                                        + lookup('role_var', '_docker_networks_custom', role='elasticsearch') }}"
 
 # Restart Policy
 elasticsearch_role_docker_restart_policy: always
