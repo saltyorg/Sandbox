@@ -18,11 +18,11 @@ logarr_name: logarr
 
 logarr_role_paths_folder: "{{ logarr_name }}"
 logarr_role_paths_location: "{{ server_appdata_path }}/{{ logarr_role_paths_folder }}"
+logarr_role_paths_config_location: "{{ logarr_role_paths_locationlookup }}/userdata/config.json"
 logarr_role_paths_folders_list:
   - "{{ logarr_role_paths_location }}"
   - "{{ logarr_role_paths_location }}/config"
   - "{{ logarr_role_paths_location }}/userdata"
-logarr_role_paths_config_location: "{{ logarr_role_paths_location }}/userdata/config.json"
 
 ################################
 # Web
@@ -31,16 +31,16 @@ logarr_role_paths_config_location: "{{ logarr_role_paths_location }}/userdata/co
 logarr_role_web_subdomain: "{{ logarr_name }}"
 logarr_role_web_domain: "{{ user.domain }}"
 logarr_role_web_port: "80"
-logarr_role_web_url: "{{ 'https://' + (logarr_role_web_subdomain + '.' + logarr_role_web_domain
-                 if (logarr_role_web_subdomain | length > 0)
-                 else logarr_role_web_domain) }}"
+logarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='logarr') + '.' + lookup('role_var', '_web_domain', role='logarr')
+                      if (lookup('role_var', '_web_subdomain', role='logarr') | length > 0)
+                      else lookup('role_var', '_web_domain', role='logarr')) }}"
 
 ################################
 # DNS
 ################################
 
-logarr_role_dns_record: "{{ logarr_role_web_subdomain }}"
-logarr_role_dns_zone: "{{ logarr_role_web_domain }}"
+logarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='logarr') }}"
+logarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='logarr') }}"
 logarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -65,7 +65,8 @@ logarr_role_docker_container: "{{ logarr_name }}"
 # Image
 logarr_role_docker_image_pull: true
 logarr_role_docker_image_tag: "latest"
-logarr_role_docker_image: "monitorr/logarr-alpha:{{ logarr_role_docker_image_tag }}"
+logarr_role_docker_image_repo: "monitorr/logarr-alpha"
+logarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='logarr') }}:{{ lookup('role_var', '_docker_image_tag', role='logarr') }}"
 
 # Envs
 logarr_role_docker_envs_default:
@@ -73,17 +74,17 @@ logarr_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 logarr_role_docker_envs_custom: {}
-logarr_role_docker_envs: "{{ logarr_role_docker_envs_default
-                        | combine(logarr_role_docker_envs_custom) }}"
+logarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='logarr')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='logarr')) }}"
 
 # Volumes
 logarr_role_docker_volumes_default:
-  - "{{ logarr_role_paths_location }}:/app"
-  - "{{ logarr_role_paths_location }}/config:/config"
+  - "{{ lookup('role_var', '_paths_location', role='logarr') }}:/app"
+  - "{{ lookup('role_var', '_paths_location', role='logarr') }}/config:/config"
   - "{{ server_appdata_path }}:/opt"
 logarr_role_docker_volumes_custom: []
-logarr_role_docker_volumes: "{{ logarr_role_docker_volumes_default
-                           + logarr_role_docker_volumes_custom }}"
+logarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='logarr')
+                                + lookup('role_var', '_docker_volumes_custom', role='logarr') }}"
 
 # Hostname
 logarr_role_docker_hostname: "{{ logarr_name }}"
@@ -93,8 +94,8 @@ logarr_role_docker_networks_alias: "{{ logarr_name }}"
 logarr_role_docker_networks_default: []
 logarr_role_docker_networks_custom: []
 logarr_role_docker_networks: "{{ docker_networks_common
-                            + logarr_role_docker_networks_default
-                            + logarr_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='logarr')
+                                 + lookup('role_var', '_docker_networks_custom', role='logarr') }}"
 
 # Restart Policy
 logarr_role_docker_restart_policy: unless-stopped

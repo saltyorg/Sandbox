@@ -12,7 +12,7 @@
     },
     "preferences": {
         "sitetitle": "saltbox",
-        "siteurl": "https:\/\/logarr.{{ user.domain }}",
+        "siteurl": "https:\/\/{{ lookup('role_var', '_web_subdomain', role='logarr') + '.' + lookup('role_var', '_web_domain', role='logarr') }}",
         "updateBranch": "alpha",
         "timezone": "Etc\/GMT",
         "timestandard": "False",

@@ -6,18 +6,18 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Settings | Check if `{{ logarr_role_paths_config_location | basename }}` exists
+- name: Settings | Check if `{{ lookup('role_var', '_paths_config_location', role='logarr') | basename }}` exists
   ansible.builtin.stat:
-    path: "{{ logarr_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='logarr') }}"
   register: logarr_config
 
-- name: Settings | New `{{ logarr_role_paths_config_location | basename }}` tasks
+- name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='logarr') | basename }}` tasks
   when: not logarr_config.stat.exists
   block:
-    - name: Settings | Import default `{{ logarr_role_paths_config_location | basename }}`
+    - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='logarr') | basename }}`
       ansible.builtin.template:
         src: config.json.j2
-        dest: "{{ logarr_role_paths_config_location }}"
+        dest: "{{ lookup('role_var', '_paths_config_location', role='logarr') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
