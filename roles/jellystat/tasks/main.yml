@@ -22,7 +22,7 @@
 
 - name: Check if JWT secret file exists
   ansible.builtin.stat:
-    path: "{{ jellystat_role_paths_jwt_secret_file }}"
+    path: "{{ lookup('role_var', '_paths_jwt_secret_file', role='jellystat') }}"
   register: jwt_file
 
 - name: Generate JWT Token Secret
@@ -33,14 +33,14 @@
 - name: Store JWT Token Secret in a file
   ansible.builtin.copy:
     content: "{{ jwt_secret.stdout }}"
-    dest: "{{ jellystat_role_paths_jwt_secret_file }}"
+    dest: "{{ lookup('role_var', '_paths_jwt_secret_file', role='jellystat') }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
   when: not jwt_file.stat.exists
 
 - name: Read JWT Token Secret from file
-  ansible.builtin.shell: cat "{{ jellystat_role_paths_jwt_secret_file }}"
+  ansible.builtin.shell: cat "{{ lookup('role_var', '_paths_jwt_secret_file', role='jellystat') }}"
   register: jwt_token
   changed_when: false
 
@@ -48,10 +48,10 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ jellystat_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ jellystat_postgres_role_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ jellystat_postgres_role_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ jellystat_postgres_role_docker_image_repo }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='jellystat') }}"]
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='jellystat') }}"
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='jellystat') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='jellystat') }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

@@ -17,10 +17,10 @@ jellystat_name: jellystat
 # Settings
 ################################
 
-jellystat_postgres_name: "{{ jellystat_name }}-postgres"
-jellystat_postgres_role_docker_env_db: "jfstat"
-jellystat_postgres_role_docker_image_tag: "15.2-alpine"
-jellystat_postgres_role_docker_image_repo: "postgres"
+jellystat_role_postgres_name: "{{ jellystat_name }}-postgres"
+jellystat_role_postgres_docker_env_db: "jfstat"
+jellystat_role_postgres_docker_image_tag: "15.2-alpine"
+jellystat_role_postgres_docker_image_repo: "postgres"
 
 ################################
 # Paths
