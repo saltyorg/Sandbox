@@ -18,7 +18,7 @@ logarr_name: logarr
 
 logarr_role_paths_folder: "{{ logarr_name }}"
 logarr_role_paths_location: "{{ server_appdata_path }}/{{ logarr_role_paths_folder }}"
-logarr_role_paths_config_location: "{{ logarr_role_paths_locationlookup }}/userdata/config.json"
+logarr_role_paths_config_location: "{{ logarr_role_paths_location }}/userdata/config.json"
 logarr_role_paths_folders_list:
   - "{{ logarr_role_paths_location }}"
   - "{{ logarr_role_paths_location }}/config"
