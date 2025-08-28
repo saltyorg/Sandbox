@@ -30,16 +30,16 @@ kitana_role_paths_config_location: "{{ kitana_role_paths_location }}/config.yml"
 kitana_role_web_subdomain: "{{ kitana_name }}"
 kitana_role_web_domain: "{{ user.domain }}"
 kitana_role_web_port: "31337"
-kitana_role_web_url: "{{ 'https://' + (kitana_role_web_subdomain + '.' + kitana_role_web_domain
-                 if (kitana_role_web_subdomain | length > 0)
-                 else kitana_role_web_domain) }}"
+kitana_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='kitana') + '.' + lookup('role_var', '_web_domain', role='kitana')
+                      if (lookup('role_var', '_web_subdomain', role='kitana') | length > 0)
+                      else lookup('role_var', '_web_domain', role='kitana')) }}"
 
 ################################
 # DNS
 ################################
 
-kitana_role_dns_record: "{{ kitana_role_web_subdomain }}"
-kitana_role_dns_zone: "{{ kitana_role_web_domain }}"
+kitana_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='kitana') }}"
+kitana_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='kitana') }}"
 kitana_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,29 +63,30 @@ kitana_role_docker_container: "{{ kitana_name }}"
 
 # Image
 kitana_role_docker_image_pull: true
+kitana_role_docker_image_repo: "pannal/kitana"
 kitana_role_docker_image_tag: "latest"
-kitana_role_docker_image: "pannal/kitana:{{ kitana_role_docker_image_tag }}"
+kitana_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='kitana') }}:{{ lookup('role_var', '_docker_image_tag', role='kitana') }}"
 
 # Envs
 kitana_role_docker_envs_default:
   TZ: "{{ tz }}"
 kitana_role_docker_envs_custom: {}
-kitana_role_docker_envs: "{{ kitana_role_docker_envs_default
-                        | combine(kitana_role_docker_envs_custom) }}"
+kitana_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='kitana')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='kitana')) }}"
 
 # Commands
 kitana_role_docker_commands_default:
   - "-P"
 kitana_role_docker_commands_custom: []
-kitana_role_docker_commands: "{{ kitana_role_docker_commands_default
-                            + kitana_role_docker_commands_custom }}"
+kitana_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='kitana')
+                                 + lookup('role_var', '_docker_commands_custom', role='kitana') }}"
 
 # Volumes
 kitana_role_docker_volumes_default:
-  - "{{ kitana_role_paths_location }}:/app/data"
+  - "{{ lookup('role_var', '_paths_location', role='kitana') }}:/app/data"
 kitana_role_docker_volumes_custom: []
-kitana_role_docker_volumes: "{{ kitana_role_docker_volumes_default
-                           + kitana_role_docker_volumes_custom }}"
+kitana_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='kitana')
+                                + lookup('role_var', '_docker_volumes_custom', role='kitana') }}"
 
 # Hostname
 kitana_role_docker_hostname: "{{ kitana_name }}"
@@ -95,8 +96,8 @@ kitana_role_docker_networks_alias: "{{ kitana_name }}"
 kitana_role_docker_networks_default: []
 kitana_role_docker_networks_custom: []
 kitana_role_docker_networks: "{{ docker_networks_common
-                            + kitana_role_docker_networks_default
-                            + kitana_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='kitana')
+                                 + lookup('role_var', '_docker_networks_custom', role='kitana') }}"
 
 # Restart Policy
 kitana_role_docker_restart_policy: unless-stopped
