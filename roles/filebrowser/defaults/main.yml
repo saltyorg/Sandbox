@@ -35,16 +35,16 @@ filebrowser_role_paths_db_folder: "{{ filebrowser_role_paths_location }}/databas
 filebrowser_role_web_subdomain: "{{ filebrowser_name }}"
 filebrowser_role_web_domain: "{{ user.domain }}"
 filebrowser_role_web_port: "80"
-filebrowser_role_web_url: "{{ 'https://' + (filebrowser_role_web_subdomain + '.' + filebrowser_role_web_domain
-                      if (filebrowser_role_web_subdomain | length > 0)
-                      else filebrowser_role_web_domain) }}"
+filebrowser_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='filebrowser') + '.' + lookup('role_var', '_web_domain', role='filebrowser')
+                           if (lookup('role_var', '_web_subdomain', role='filebrowser') | length > 0)
+                           else lookup('role_var', '_web_domain', role='filebrowser')) }}"
 
 ################################
 # DNS
 ################################
 
-filebrowser_role_dns_record: "{{ filebrowser_role_web_subdomain }}"
-filebrowser_role_dns_zone: "{{ filebrowser_role_web_domain }}"
+filebrowser_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='filebrowser') }}"
+filebrowser_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='filebrowser') }}"
 filebrowser_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -68,24 +68,25 @@ filebrowser_role_docker_container: "{{ filebrowser_name }}"
 
 # Image
 filebrowser_role_docker_image_pull: true
+filebrowser_role_docker_image_repo: "filebrowser/filebrowser"
 filebrowser_role_docker_image_tag: "latest"
-filebrowser_role_docker_image: "filebrowser/filebrowser:{{ filebrowser_role_docker_image_tag }}"
+filebrowser_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='filebrowser') }}:{{ lookup('role_var', '_docker_image_tag', role='filebrowser') }}"
 
 # Envs
 filebrowser_role_docker_envs_default:
   TZ: "{{ tz }}"
 filebrowser_role_docker_envs_custom: {}
-filebrowser_role_docker_envs: "{{ filebrowser_role_docker_envs_default
-                             | combine(filebrowser_role_docker_envs_custom) }}"
+filebrowser_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='filebrowser')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='filebrowser')) }}"
 
 # Volumes
 filebrowser_role_docker_volumes_default:
-  - "{{ filebrowser_role_paths_db_folder }}:/database"
-  - "{{ filebrowser_role_paths_config_folder }}:/config"
+  - "{{ lookup('role_var', '_paths_db_folder', role='filebrowser') }}:/database"
+  - "{{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}:/config"
   - "/mnt/unionfs:/srv:rslave"
 filebrowser_role_docker_volumes_custom: []
-filebrowser_role_docker_volumes: "{{ filebrowser_role_docker_volumes_default
-                                + filebrowser_role_docker_volumes_custom }}"
+filebrowser_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='filebrowser')
+                                     + lookup('role_var', '_docker_volumes_custom', role='filebrowser') }}"
 
 # Hostname
 filebrowser_role_docker_hostname: "{{ filebrowser_name }}"
@@ -95,8 +96,8 @@ filebrowser_role_docker_networks_alias: "{{ filebrowser_name }}"
 filebrowser_role_docker_networks_default: []
 filebrowser_role_docker_networks_custom: []
 filebrowser_role_docker_networks: "{{ docker_networks_common
-                                 + filebrowser_role_docker_networks_default
-                                 + filebrowser_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='filebrowser')
+                                      + lookup('role_var', '_docker_networks_custom', role='filebrowser') }}"
 
 # Restart Policy
 filebrowser_role_docker_restart_policy: unless-stopped

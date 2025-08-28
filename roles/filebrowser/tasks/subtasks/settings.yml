@@ -7,67 +7,67 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: "Settings | Check if '{{ filebrowser_role_paths_config_location | basename }}' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_config_location', role='filebrowser') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ filebrowser_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='filebrowser') }}"
   register: filebrowser_json
 
-- name: "Settings | Check if '{{ filebrowser_role_paths_config_folder | basename }}' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_config_folder', role='filebrowser') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ filebrowser_role_paths_config_folder }}"
+    path: "{{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}"
   register: filebrowser_config_folder
 
-- name: "Settings | Check if '{{ filebrowser_role_paths_config_folder | basename }}/settings.json' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_config_folder', role='filebrowser') | basename }}/settings.json' exists"
   ansible.builtin.stat:
-    path: "{{ filebrowser_role_paths_config_folder }}/settings.json"
+    path: "{{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json"
   register: filebrowser_config_folder_json
 
-- name: Settings | Migrate `{{ filebrowser_role_paths_config_location | basename }}` tasks
+- name: Settings | Migrate `{{ lookup('role_var', '_paths_config_location', role='filebrowser') | basename }}` tasks
   when: (filebrowser_json.stat.exists) and (not filebrowser_config_folder_json.stat.exists)
   block:
     - name: Settings | Migrate filebrowser.json to settings.json
       ansible.builtin.copy:
-        src: "{{ filebrowser_role_paths_config_location }}"
-        dest: "{{ filebrowser_role_paths_config_folder }}/settings.json"
+        src: "{{ lookup('role_var', '_paths_config_location', role='filebrowser') }}"
+        dest: "{{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
 
     - name: Settings | Migrate JSON database path
-      ansible.builtin.shell: jq '.database = "/database/filebrowser.db"' {{ filebrowser_role_paths_config_folder }}/settings.json | sponge {{ filebrowser_role_paths_config_folder }}/settings.json
+      ansible.builtin.shell: jq '.database = "/database/filebrowser.db"' {{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json | sponge {{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json
 
     - name: Settings | Remove legacy filebrowser.json
       ansible.builtin.file:
-        path: "{{ filebrowser_role_paths_config_location }}"
+        path: "{{ lookup('role_var', '_paths_config_location', role='filebrowser') }}"
         state: absent
 
-- name: "Settings | Check if '{{ filebrowser_role_paths_db_location | basename }}' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_db_location', role='filebrowser') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ filebrowser_role_paths_db_location }}"
+    path: "{{ lookup('role_var', '_paths_db_location', role='filebrowser') }}"
   register: filebrowser_db
 
-- name: "Settings | Check if '{{ filebrowser_role_paths_db_folder | basename }}' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_db_folder', role='filebrowser') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ filebrowser_role_paths_db_folder }}"
+    path: "{{ lookup('role_var', '_paths_db_folder', role='filebrowser') }}"
   register: filebrowser_db_folder
 
-- name: "Settings | Check if '{{ filebrowser_role_paths_db_folder | basename }}/filebrowser.db' exists"
+- name: "Settings | Check if '{{ lookup('role_var', '_paths_db_folder', role='filebrowser') | basename }}/filebrowser.db' exists"
   ansible.builtin.stat:
-    path: "{{ filebrowser_role_paths_db_folder }}/filebrowser.db"
+    path: "{{ lookup('role_var', '_paths_db_folder', role='filebrowser') }}/filebrowser.db"
   register: filebrowser_db_folder_db
 
 - name: Settings | Migrate filebrowser.db tasks
   when: (filebrowser_db.stat.exists) and (not filebrowser_db_folder_db.stat.exists)
   block:
-    - name: Settings | Migrate `{{ filebrowser_role_paths_db_location | basename }}`
+    - name: Settings | Migrate `{{ lookup('role_var', '_paths_db_location', role='filebrowser') | basename }}`
       ansible.builtin.copy:
-        src: "{{ filebrowser_role_paths_db_location }}"
-        dest: "{{ filebrowser_role_paths_db_folder }}/filebrowser.db"
+        src: "{{ lookup('role_var', '_paths_db_location', role='filebrowser') }}"
+        dest: "{{ lookup('role_var', '_paths_db_folder', role='filebrowser') }}/filebrowser.db"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
 
     - name: Settings | Remove legacy filebrowser.db
       ansible.builtin.file:
-        path: "{{ filebrowser_role_paths_db_location }}"
+        path: "{{ lookup('role_var', '_paths_db_location', role='filebrowser') }}"
         state: absent
