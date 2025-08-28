@@ -17,12 +17,12 @@ maybe_finance_name: maybe-finance
 # Settings
 ################################
 
-maybe_finance_postgres_name: "{{ maybe_finance_name }}-postgres"
-maybe_finance_postgres_role_docker_env_db: "{{ maybe_finance_name }}"
-maybe_finance_postgres_role_docker_image_tag: "16"
-maybe_finance_postgres_role_docker_image_repo: "postgres"
-maybe_finance_postgres_role_paths_folder: "{{ maybe_finance_name }}"
-maybe_finance_postgres_role_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_postgres_role_paths_folder }}/postgres"
+maybe_finance_role_postgres_name: "{{ maybe_finance_name }}-postgres"
+maybe_finance_role_postgres_docker_env_db: "{{ maybe_finance_name }}"
+maybe_finance_role_postgres_docker_image_tag: "16"
+maybe_finance_role_postgres_docker_image_repo: "postgres"
+maybe_finance_role_postgres_paths_folder: "{{ maybe_finance_name }}"
+maybe_finance_role_postgres_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -40,16 +40,16 @@ maybe_finance_role_paths_folders_list:
 maybe_finance_role_web_subdomain: "{{ maybe_finance_name }}"
 maybe_finance_role_web_domain: "{{ user.domain }}"
 maybe_finance_role_web_port: "3000"
-maybe_finance_role_web_url: "{{ 'https://' + (maybe_finance_role_web_subdomain + '.' + maybe_finance_role_web_domain
-                         if (maybe_finance_role_web_subdomain | length > 0)
-                         else maybe_finance_role_web_domain) }}"
+maybe_finance_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='maybe_finance') + '.' + lookup('role_var', '_web_domain', role='maybe_finance')
+                             if (lookup('role_var', '_web_subdomain', role='maybe_finance') | length > 0)
+                             else lookup('role_var', '_web_domain', role='maybe_finance')) }}"
 
 ################################
 # DNS
 ################################
 
-maybe_finance_role_dns_record: "{{ maybe_finance_role_web_subdomain }}"
-maybe_finance_role_dns_zone: "{{ maybe_finance_role_web_domain }}"
+maybe_finance_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='maybe_finance') }}"
+maybe_finance_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='maybe_finance') }}"
 maybe_finance_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -74,7 +74,8 @@ maybe_finance_role_docker_container: "{{ maybe_finance_name }}"
 # Image
 maybe_finance_role_docker_image_pull: true
 maybe_finance_role_docker_image_tag: "latest"
-maybe_finance_role_docker_image: "ghcr.io/maybe-finance/maybe:{{ maybe_finance_role_docker_image_tag }}"
+maybe_finance_role_docker_image_repo: "ghcr.io/maybe-finance/maybe"
+maybe_finance_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='maybe_finance') }}:{{ lookup('role_var', '_docker_image_tag', role='maybe_finance') }}"
 
 # Envs
 maybe_finance_role_docker_envs_default:
@@ -86,23 +87,23 @@ maybe_finance_role_docker_envs_default:
   RAILS_ASSUME_SSL: "false"
   GOOD_JOB_EXECUTION_MODE: "async"
   SECRET_KEY_BASE: "{{ maybe_finance_saltbox_facts.facts.secret_key_base }}"
-  DB_USERNAME: "{{ postgres_role_docker_env_user }}"
-  DB_PASSWORD: "{{ postgres_role_docker_env_password }}"
-  DB_HOST: "{{ maybe_finance_postgres_name }}"
+  DB_USERNAME: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  DB_HOST: "{{ lookup('role_var', '_postgres_name', role='maybe_finance') }}"
   DB_PORT: "5432"
   REDIS_URL: "redis://{{ maybe_finance_name }}-redis:6379/1"
-  POSTGRES_USER: "{{ postgres_role_docker_env_user }}"
-  POSTGRES_PASSWORD: "{{ postgres_role_docker_env_password }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
 maybe_finance_role_docker_envs_custom: {}
-maybe_finance_role_docker_envs: "{{ maybe_finance_role_docker_envs_default
-                           | combine(maybe_finance_role_docker_envs_custom) }}"
+maybe_finance_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='maybe_finance')
+                                    | combine(lookup('role_var', '_docker_envs_custom', role='maybe_finance')) }}"
 
 # Volumes
 maybe_finance_role_docker_volumes_default:
-  - "{{ maybe_finance_role_paths_location }}:/rails/storage"
+  - "{{ lookup('role_var', '_paths_location', role='maybe_finance') }}:/rails/storage"
 maybe_finance_role_docker_volumes_custom: []
-maybe_finance_role_docker_volumes: "{{ maybe_finance_role_docker_volumes_default
-                              + maybe_finance_role_docker_volumes_custom }}"
+maybe_finance_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='maybe_finance')
+                                       + lookup('role_var', '_docker_volumes_custom', role='maybe_finance') }}"
 
 # Hostname
 maybe_finance_role_docker_hostname: "{{ maybe_finance_name }}"
@@ -112,8 +113,8 @@ maybe_finance_role_docker_networks_alias: "{{ maybe_finance_name }}"
 maybe_finance_role_docker_networks_default: []
 maybe_finance_role_docker_networks_custom: []
 maybe_finance_role_docker_networks: "{{ docker_networks_common
-                               + maybe_finance_role_docker_networks_default
-                               + maybe_finance_role_docker_networks_custom }}"
+                                        + lookup('role_var', '_docker_networks_default', role='maybe_finance')
+                                        + lookup('role_var', '_docker_networks_custom', role='maybe_finance') }}"
 
 # Restart Policy
 maybe_finance_role_docker_restart_policy: unless-stopped
@@ -122,6 +123,6 @@ maybe_finance_role_docker_restart_policy: unless-stopped
 maybe_finance_role_docker_state: started
 
 # Dependencies
-maybe_finance_depends_on: "{{ maybe_finance_postgres_name }}"
-maybe_finance_depends_on_delay: "5"
-maybe_finance_depends_on_healthchecks: "true"
+maybe_finance_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='maybe_finance') }}"
+maybe_finance_role_depends_on_delay: "5"
+maybe_finance_role_depends_on_healthchecks: "true"

@@ -17,7 +17,7 @@
 - name: Generate Secret Key Base
   community.docker.docker_container:
     name: maybe_finance-secret-key
-    image: "{{ maybe_finance_role_docker_image }}"
+    image: "{{ lookup('role_var', '_docker_image', role='maybe_finance') }}"
     command: "sh -c 'head -c 32 /dev/urandom | base64'"
     detach: false
     networks:
@@ -52,18 +52,18 @@
   vars:
     redis_instances: ["{{ maybe_finance_name }}-redis"]
     redis_role_paths_folder: "{{ maybe_finance_name }}"
-    redis_role_paths_location: "{{ server_appdata_path }}/{{ redis_role_paths_folder }}/redis"
+    redis_role_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='redis') }}/redis"
 
 - name: Import PostgreSQL Role
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ maybe_finance_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ maybe_finance_postgres_role_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ maybe_finance_postgres_role_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ maybe_finance_postgres_role_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ maybe_finance_postgres_role_paths_folder }}"
-    postgres_role_paths_location: "{{ maybe_finance_postgres_role_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='maybe_finance') }}"]
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='maybe_finance') }}"
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='maybe_finance') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='maybe_finance') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='maybe_finance') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='maybe_finance') }}"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
