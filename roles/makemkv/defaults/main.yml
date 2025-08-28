@@ -30,16 +30,16 @@ makemkv_role_paths_folders_list:
 makemkv_role_web_subdomain: "{{ makemkv_name }}"
 makemkv_role_web_domain: "{{ user.domain }}"
 makemkv_role_web_port: "5800"
-makemkv_role_web_url: "{{ 'https://' + (makemkv_role_web_subdomain + '.' + makemkv_role_web_domain
-                  if (makemkv_role_web_subdomain | length > 0)
-                  else makemkv_role_web_domain) }}"
+makemkv_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='makemkv') + '.' + lookup('role_var', '_web_domain', role='makemkv')
+                       if (lookup('role_var', '_web_subdomain', role='makemkv') | length > 0)
+                       else lookup('role_var', '_web_domain', role='makemkv')) }}"
 
 ################################
 # DNS
 ################################
 
-makemkv_role_dns_record: "{{ makemkv_role_web_subdomain }}"
-makemkv_role_dns_zone: "{{ makemkv_role_web_domain }}"
+makemkv_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='makemkv') }}"
+makemkv_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='makemkv') }}"
 makemkv_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,7 +64,8 @@ makemkv_role_docker_container: "{{ makemkv_name }}"
 # Image
 makemkv_role_docker_image_pull: true
 makemkv_role_docker_image_tag: "latest"
-makemkv_role_docker_image: "jlesage/makemkv:{{ makemkv_role_docker_image_tag }}"
+makemkv_role_docker_image_repo: "jlesage/makemkv"
+makemkv_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='makemkv') }}:{{ lookup('role_var', '_docker_image_tag', role='makemkv') }}"
 # Envs
 makemkv_role_docker_envs_default:
   TZ: "{{ tz }}"
@@ -72,17 +73,17 @@ makemkv_role_docker_envs_default:
   GROUP_ID: "{{ gid }}"
   KEEP_APP_RUNNING: "1"
 makemkv_role_docker_envs_custom: {}
-makemkv_role_docker_envs: "{{ makemkv_role_docker_envs_default
-                         | combine(makemkv_role_docker_envs_custom) }}"
+makemkv_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='makemkv')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='makemkv')) }}"
 
 # Volumes
 makemkv_role_docker_volumes_default:
-  - "{{ makemkv_role_paths_location }}:/docker/appdata/makemkv"
+  - "{{ lookup('role_var', '_paths_location', role='makemkv') }}:/docker/appdata/makemkv"
   - "/mnt/unionfs:/storage:ro"
   - "/mnt/unionfs/makemkv:/output:rw"
 makemkv_role_docker_volumes_custom: []
-makemkv_role_docker_volumes: "{{ makemkv_role_docker_volumes_default
-                            + makemkv_role_docker_volumes_custom }}"
+makemkv_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='makemkv')
+                                 + lookup('role_var', '_docker_volumes_custom', role='makemkv') }}"
 
 # Hostname
 makemkv_role_docker_hostname: "{{ makemkv_name }}"
@@ -92,8 +93,8 @@ makemkv_role_docker_networks_alias: "{{ makemkv_name }}"
 makemkv_role_docker_networks_default: []
 makemkv_role_docker_networks_custom: []
 makemkv_role_docker_networks: "{{ docker_networks_common
-                             + makemkv_role_docker_networks_default
-                             + makemkv_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='makemkv')
+                                  + lookup('role_var', '_docker_networks_custom', role='makemkv') }}"
 
 # Restart Policy
 makemkv_role_docker_restart_policy: unless-stopped
