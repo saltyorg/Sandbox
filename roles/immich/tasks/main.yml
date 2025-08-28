@@ -19,7 +19,7 @@
     redis_instances: ["{{ immich_name }}-redis"]
     redis_role_docker_image_tag: "8-alpine"
     redis_role_paths_folder: "{{ immich_name }}"
-    redis_role_paths_location: "{{ server_appdata_path }}/{{ redis_role_paths_folder }}/redis"
+    redis_role_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='redis') }}/redis"
 
 - name: Remove legacy PostgreSQL Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -30,14 +30,14 @@
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ immich_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ immich_postgres_role_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ immich_postgres_role_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ immich_postgres_role_docker_image_repo }}"
-    postgres_role_docker_shm_size: "{{ immich_postgres_role_docker_shm_size }}"
-    postgres_role_paths_folder: "{{ immich_postgres_role_paths_folder }}"
-    postgres_role_paths_location: "{{ immich_postgres_role_paths_location }}"
-    postgres_role_docker_envs_custom: "{{ immich_postgres_role_docker_envs_custom }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='immich') }}"]
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db ', role='immich') }}"
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='immich') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo ', role='immich') }}"
+    postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='immich') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='immich') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='immich') }}"
+    postgres_role_docker_envs_custom: "{{ lookup('role_var', '_postgres_docker_envs_custom', role='immich') }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

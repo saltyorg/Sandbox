@@ -18,14 +18,14 @@ immich_name: immich
 ################################
 
 immich_photos_location: "/mnt/unionfs/Media/Photos"
-immich_postgres_name: "{{ immich_name }}-postgres"
-immich_postgres_role_docker_env_db: "{{ immich_name }}"
-immich_postgres_role_docker_image_tag: "14-vectorchord0.4.3-pgvectors0.2.0"
-immich_postgres_role_docker_image_repo: "ghcr.io/immich-app/postgres"
-immich_postgres_role_docker_shm_size: "128M"
-immich_postgres_role_paths_folder: "{{ immich_name }}"
-immich_postgres_role_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
-immich_postgres_role_docker_envs_custom:
+immich_role_postgres_name: "{{ immich_name }}-postgres"
+immich_role_postgres_docker_env_db: "{{ immich_name }}"
+immich_role_postgres_docker_image_tag: "14-vectorchord0.4.3-pgvectors0.2.0"
+immich_role_postgres_docker_image_repo: "ghcr.io/immich-app/postgres"
+immich_role_postgres_docker_shm_size: "128M"
+immich_role_postgres_paths_folder: "{{ immich_name }}"
+immich_role_postgres_paths_location: "{{ server_appdata_path }}/{{ immich_role_postgres_paths_folder }}/postgres"
+immich_role_postgres_docker_envs_custom:
   POSTGRES_INITDB_ARGS: '--data-checksums'
 
 ################################
@@ -46,16 +46,16 @@ immich_role_paths_folders_list:
 immich_role_web_subdomain: "{{ immich_name }}"
 immich_role_web_domain: "{{ user.domain }}"
 immich_role_web_port: "8080"
-immich_role_web_url: "{{ 'https://' + (immich_role_web_subdomain + '.' + immich_role_web_domain
-                 if (immich_role_web_subdomain | length > 0)
-                 else immich_role_web_domain) }}"
+immich_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='immich') + '.' + lookup('role_var', '_web_domain', role='immich')
+                      if (lookup('role_var', '_web_subdomain', role='immich') | length > 0)
+                      else lookup('role_var', '_web_domain', role='immich')) }}"
 
 ################################
 # DNS
 ################################
 
-immich_role_dns_record: "{{ immich_role_web_subdomain }}"
-immich_role_dns_zone: "{{ immich_role_web_domain }}"
+immich_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='immich') }}"
+immich_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='immich') }}"
 immich_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -79,33 +79,34 @@ immich_role_docker_container: "{{ immich_name }}"
 
 # Image
 immich_role_docker_image_pull: true
+immich_role_docker_image_repo: "ghcr.io/imagegenius/immich"
 immich_role_docker_image_tag: "latest"
-immich_role_docker_image: "ghcr.io/imagegenius/immich:{{ immich_role_docker_image_tag }}"
+immich_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='immich') }}:{{ lookup('role_var', '_docker_image_tag', role='immich') }}"
 
 # Envs
 immich_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  DB_HOSTNAME: "{{ immich_postgres_name }}"
-  DB_USERNAME: "{{ postgres_role_docker_env_user }}"
-  DB_PASSWORD: "{{ postgres_role_docker_env_password }}"
-  DB_DATABASE_NAME: "{{ immich_postgres_role_docker_env_db }}"
+  DB_HOSTNAME: "{{ lookup('role_var', '_postgres_name', role='immich') }}"
+  DB_USERNAME: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password ', role='postgres') }}"
+  DB_DATABASE_NAME: "{{ lookup('role_var', '_postgres_docker_env_db', role='immich') }}"
   REDIS_HOSTNAME: "{{ immich_name }}-redis"
   DISABLE_MACHINE_LEARNING: "false"
   MACHINE_LEARNING_WORKERS: "1"
   MACHINE_LEARNING_WORKER_TIMEOUT: "120"
 immich_role_docker_envs_custom: {}
-immich_role_docker_envs: "{{ immich_role_docker_envs_default
-                        | combine(immich_role_docker_envs_custom) }}"
+immich_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='immich')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='immich')) }}"
 
 # Volumes
 immich_role_docker_volumes_default:
-  - "{{ immich_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='immich') }}:/config"
   - "{{ immich_photos_location }}:/photos"
 immich_role_docker_volumes_custom: []
-immich_role_docker_volumes: "{{ immich_role_docker_volumes_default
-                           + immich_role_docker_volumes_custom }}"
+immich_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='immich')
+                                + lookup('role_var', '_docker_volumes_custom', role='immich') }}"
 
 # Hostname
 immich_role_docker_hostname: "{{ immich_name }}"
@@ -115,8 +116,8 @@ immich_role_docker_networks_alias: "{{ immich_name }}"
 immich_role_docker_networks_default: []
 immich_role_docker_networks_custom: []
 immich_role_docker_networks: "{{ docker_networks_common
-                            + immich_role_docker_networks_default
-                            + immich_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='immich')
+                                 + lookup('role_var', '_docker_networks_custom', role='immich') }}"
 
 # Restart Policy
 immich_role_docker_restart_policy: unless-stopped
@@ -125,6 +126,6 @@ immich_role_docker_restart_policy: unless-stopped
 immich_role_docker_state: started
 
 # Dependencies
-immich_depends_on: "{{ immich_postgres_name }},{{ immich_name }}-redis"
+immich_depends_on: "{{ lookup('role_var', '_postgres_name', role='immich') }},{{ immich_name }}-redis"
 immich_depends_on_delay: "0"
 immich_depends_on_healthchecks: "false"
