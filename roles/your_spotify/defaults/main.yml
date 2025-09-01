@@ -76,8 +76,8 @@ your_spotify_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   APP_URL: "{{ your_spotify_role_web_url }}"
-  SPOTIFY_PUBLIC: "{{ your_spotify.public_key }}"
-  SPOTIFY_SECRET: "{{ your_spotify.secret_key }}"
+  SPOTIFY_PUBLIC: "{{ your_spotify.public_key | default('') }}"
+  SPOTIFY_SECRET: "{{ your_spotify.secret_key | default('') }}"
   CORS: "{{ your_spotify_role_web_url + ':443' }}"
   MONGO_ENDPOINT: "mongodb://your-spotify-db:27017/your_spotify"
 your_spotify_role_docker_envs_custom: {}
