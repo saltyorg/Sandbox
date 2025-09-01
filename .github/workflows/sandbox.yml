@@ -77,9 +77,6 @@ jobs:
       - name: Print pip dependencies
         run: cat /srv/git/sb/requirements-saltbox.txt
 
-      - name: Edit accounts.yml
-        run: cd /srv/git/saltbox && sed -i 's/seed/runner/g' accounts.yml
-
       - name: Create, chown and chmod /tmp/ansible
         run: sudo mkdir /tmp/ansible && sudo chown -R runner:runner /tmp/ansible && chmod 0777 /tmp/ansible
 
@@ -93,6 +90,12 @@ jobs:
           echo "dockerhub:" >> /tmp/vars.yml
           echo "  token: ${{ secrets.DOCKERHUB_TOKEN }}" >> /tmp/vars.yml
           echo "  user: ${{ secrets.DOCKERHUB_USERNAME }}" >> /tmp/vars.yml
+
+      - name: Install Saltbox Preinstall
+        run: sudo /srv/ansible/venv/bin/ansible-playbook saltbox.yml --tags "preinstall" --skip-tags "settings" --extra-vars "@vars.yml"
+
+      - name: Run saltbox.fact
+        run: /srv/git/saltbox/ansible_facts.d/saltbox.fact
 
       - name: Install Saltbox Core
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --tags "core" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
