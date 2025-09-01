@@ -7,6 +7,11 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
+- name: Check for required variables
+  ansible.builtin.fail:
+    msg: "You need to set goplaxt_role_trakt_id and goplaxt_role_trakt_secret using the inventory."
+  when: (not continuous_integration) and (goplaxt_role_trakt_id | length == 0) and (goplaxt_role_trakt_secret | length == 0)
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:

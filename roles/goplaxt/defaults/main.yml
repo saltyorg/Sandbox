@@ -7,12 +7,18 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-
 ################################
 # Basics
 ################################
 
 goplaxt_name: goplaxt
+
+################################
+# Settings
+################################
+
+goplaxt_role_trakt_id: ""
+goplaxt_role_trakt_secret: ""
 
 ################################
 # Paths
@@ -70,8 +76,8 @@ goplaxt_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='go
 # Envs
 goplaxt_role_docker_envs_default:
   TZ: "{{ tz }}"
-  TRAKT_ID: "{{ goplaxt.trakt_id | default(omit) }}"
-  TRAKT_SECRET: "{{ goplaxt.trakt_secret | default(omit) }}"
+  TRAKT_ID: "{{ goplaxt_role_trakt_id }}"
+  TRAKT_SECRET: "{{ goplaxt_role_trakt_secret }}"
   REDIRECT_URI: "{{ lookup('role_var', '_web_url', role='goplaxt') }}"
 goplaxt_role_docker_envs_custom: {}
 goplaxt_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='goplaxt')
