@@ -7,7 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-
 - name: Settings | Check if `{{ lookup('role_var', '_paths_sa_location', role='a_train') | basename }}` exists
   ansible.builtin.stat:
     path: "{{ lookup('role_var', '_paths_sa_location', role='a_train') }}"
