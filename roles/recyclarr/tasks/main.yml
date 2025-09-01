@@ -13,28 +13,5 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check config exists
-  ansible.builtin.stat:
-    path: "{{ recyclarr_config_location }}"
-  register: recyclarr_config
-
-- name: Generate default config
-  community.docker.docker_container:
-    name: recyclarr-config
-    image: "{{ recyclarr_docker_image }}"
-    user: "{{ uid }}:{{ gid }}"
-    env:
-      RECYCLARR_CREATE_CONFIG: "true"
-    volumes:
-      - "{{ recyclarr_paths_location }}:/config"
-    networks:
-      - name: saltbox
-    comparisons:
-      '*': ignore
-    auto_remove: yes
-    state: started
-    pull: true
-  when: (not recyclarr_config.stat.exists)
-
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
