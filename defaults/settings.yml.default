@@ -1,10 +1,4 @@
 ---
-delugevpn:
-  vpn_endpoint: netherlands.ovpn
-  vpn_pass: your_vpn_password
-  vpn_prov: pia
-  vpn_user: your_vpn_username
-  vpn_client: wireguard
 foundry:
   user: your_foundryvtt_username
   pass: your_foundryvtt_password

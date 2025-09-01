@@ -16,11 +16,15 @@ delugevpn_name: delugevpn
 ################################
 # Settings
 ################################
-
-delugevpn_log_level_daemon: info
-delugevpn_log_level_web: info
-delugevpn_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
-delugevpn_lan_network: "172.19.0.0/16"
+# https://github.com/binhex/arch-delugevpn for options
+delugevpn_role_log_level_daemon: info
+delugevpn_role_log_level_web: info
+delugevpn_role_name_servers: "84.200.69.80,1.1.1.1,84.200.70.40,1.0.0.1"
+delugevpn_role_lan_network: "172.19.0.0/16"
+delugevpn_role_vpn_user: ""
+delugevpn_role_vpn_pass: ""
+delugevpn_role_vpn_prov: "pia"
+delugevpn_role_vpn_client: "wireguard"
 
 ################################
 # Paths
@@ -91,22 +95,22 @@ delugevpn_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', ro
 
 # Envs
 delugevpn_role_docker_envs_default:
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
-  TZ: "{{ tz }}"
-  VPN_ENABLED: "yes"
-  VPN_USER: "{{ delugevpn.vpn_user | default('username', true) }}"
-  VPN_PASS: "{{ delugevpn.vpn_pass | default('password', true) }}"
-  VPN_PROV: "{{ delugevpn.vpn_prov | default('pia', true) }}"
-  VPN_CLIENT: "{{ delugevpn.vpn_client | default('wireguard', true) }}"
-  STRICT_PORT_FORWARD: "yes"
-  ENABLE_PRIVOXY: "no"
-  LAN_NETWORK: "{{ delugevpn_lan_network }}"
-  NAME_SERVERS: "{{ delugevpn_name_servers }}"
-  DELUGE_DAEMON_LOG_LEVEL: "{{ delugevpn_log_level_daemon }}"
-  DELUGE_WEB_LOG_LEVEL: "{{ delugevpn_log_level_web }}"
   DEBUG: "false"
+  DELUGE_DAEMON_LOG_LEVEL: "{{ lookup('role_var', '_log_level_daemon', role='delugevpn') }}"
+  DELUGE_WEB_LOG_LEVEL: "{{ lookup('role_var', '_log_level_web', role='delugevpn') }}"
+  ENABLE_PRIVOXY: "no"
+  LAN_NETWORK: "{{ lookup('role_var', '_lan_network', role='delugevpn') }}"
+  NAME_SERVERS: "{{ lookup('role_var', '_name_servers', role='delugevpn') }}"
+  PGID: "{{ gid }}"
+  PUID: "{{ uid }}"
+  STRICT_PORT_FORWARD: "yes"
+  TZ: "{{ tz }}"
   UMASK: "022"
+  VPN_CLIENT: "{{ lookup('role_var', '_vpn_client', role='delugevpn') }}"
+  VPN_ENABLED: "yes"
+  VPN_PASS: "{{ lookup('role_var', '_vpn_pass', role='delugevpn') }}"
+  VPN_PROV: "{{ lookup('role_var', '_vpn_prov', role='delugevpn') }}"
+  VPN_USER: "{{ lookup('role_var', '_vpn_user', role='delugevpn') }}"
 delugevpn_role_docker_envs_custom: {}
 delugevpn_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='delugevpn')
                                 | combine(lookup('role_var', '_docker_envs_custom', role='delugevpn')) }}"
