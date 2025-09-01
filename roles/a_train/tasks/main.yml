@@ -16,7 +16,7 @@
 - name: Set Default Autoscan instance
   ansible.builtin.set_fact:
     autoscan_name: "{{ autoscan_instances[0] }}"
-  when: not autoscan_name is defined
+  when: (not autoscan_name is defined)
 
 - name: Import Settings task
   ansible.builtin.import_tasks: "subtasks/settings.yml"

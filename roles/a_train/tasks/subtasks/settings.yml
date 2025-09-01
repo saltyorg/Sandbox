@@ -20,15 +20,15 @@
 - name: "Fail when 'account.json' is `not present`"
   ansible.builtin.fail:
     msg: "You need to setup your service account file. Create a service account, add it to the team drives you wish to monitor and copy the json file as 'account.json' to `{{ lookup('role_var', '_paths_location', role='a_train') }}`"
-  when: (not a_train_sa.stat.exists) and (not continuous_integration)
+  when: (not continuous_integration) and (not a_train_sa.stat.exists)
 
 - name: "Fail when remotes are `not added`"
   ansible.builtin.fail:
-    msg: "You need to add remotes you wish to monitor in the settings file."
-  when: ("" in a_train.remotes) and (not a_train_config.stat.exists) and (not continuous_integration)
+    msg: "You need to add remotes you wish to monitor in a_train_role_remotes using the inventory."
+  when: (not continuous_integration) and (not a_train_config.stat.exists) and ("" in lookup('role_var', '_remotes', role='a_train'))
 
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='a_train') | basename }}` tasks
-  when: (not a_train_config.stat.exists) and (not continuous_integration)
+  when: (not continuous_integration) and (not a_train_config.stat.exists)
   block:
     - name: Import Settings task
       ansible.builtin.import_tasks: "config.yml"

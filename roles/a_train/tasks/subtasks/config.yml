@@ -9,7 +9,7 @@
 ---
 - name: Get remote types from rclone config
   ansible.builtin.shell: "echo {{ lookup('ini', 'type', section=item, file=lookup('role_var', '_paths_rclone_config_location', role='a_train')) }}"
-  with_items: "{{ a_train.remotes }}"
+  with_items: "{{ lookup('role_var', '_remotes', role='a_train') }}"
   register: remote_type
 
 - name: Set variable for remote types along with empty default variables
