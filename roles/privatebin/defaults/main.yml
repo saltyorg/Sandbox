@@ -75,8 +75,8 @@ privatebin_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role
 
 # Volumes
 privatebin_role_docker_volumes_default:
-  - "{{ privatebin_role_paths_location }}:/srv/data"
-  - "{{ privatebin_role_paths_location }}/conf.php:/srv/cfg/conf.php:ro"
+  - "{{ lookup('role_var', '_paths_location', role='privatebin') }}:/srv/data"
+  - "{{ lookup('role_var', '_paths_location', role='privatebin') }}/conf.php:/srv/cfg/conf.php:ro"
   - "{{ privatebin_name }}_tmpfs_run:/run"
 privatebin_role_docker_volumes_custom: []
 privatebin_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='privatebin')
