@@ -22,13 +22,13 @@
 
 - name: Check 'conf.php'' exists
   ansible.builtin.stat:
-    path: "{{ privatebin_role_paths_location }}/conf.php"
+    path: "{{ lookup('role_var', '_paths_location', role='privatebin') }}/conf.php"
   register: conf_php
 
 - name: Import default 'conf.php'
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/PrivateBin/PrivateBin/master/cfg/conf.sample.php
-    dest: "{{ privatebin_role_paths_location }}/conf.php"
+    dest: "{{ lookup('role_var', '_paths_location', role='privatebin') }}/conf.php"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     validate_certs: false

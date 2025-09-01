@@ -29,16 +29,16 @@ privatebin_role_paths_folders_list:
 privatebin_role_web_subdomain: "{{ privatebin_name }}"
 privatebin_role_web_domain: "{{ user.domain }}"
 privatebin_role_web_port: "8080"
-privatebin_role_web_url: "{{ 'https://' + (privatebin_role_web_subdomain + '.' + privatebin_role_web_domain
-                     if (privatebin_role_web_subdomain | length > 0)
-                     else privatebin_role_web_domain) }}"
+privatebin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='privatebin') + '.' + lookup('role_var', '_web_domain', role='privatebin')
+                          if (lookup('role_var', '_web_subdomain', role='privatebin') | length > 0)
+                          else lookup('role_var', '_web_domain', role='privatebin')) }}"
 
 ################################
 # DNS
 ################################
 
-privatebin_role_dns_record: "{{ privatebin_role_web_subdomain }}"
-privatebin_role_dns_zone: "{{ privatebin_role_web_domain }}"
+privatebin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='privatebin') }}"
+privatebin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='privatebin') }}"
 privatebin_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,15 +63,15 @@ privatebin_role_docker_container: "{{ privatebin_name }}"
 # Image
 privatebin_role_docker_image_pull: true
 privatebin_role_docker_image_tag: "latest"
-privatebin_role_docker_image: "privatebin/nginx-fpm-alpine:{{ privatebin_role_docker_image_tag }}"
+privatebin_role_docker_image: "privatebin/nginx-fpm-alpine:{{ lookup('role_var', '_docker_image_tag', role='privatebin') }}"
 
 # Envs
 privatebin_role_docker_envs_default:
   TZ: "{{ tz }}"
   PHP_TZ: "{{ tz }}"
 privatebin_role_docker_envs_custom: {}
-privatebin_role_docker_envs: "{{ privatebin_role_docker_envs_default
-                            | combine(privatebin_role_docker_envs_custom) }}"
+privatebin_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='privatebin')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='privatebin')) }}"
 
 # Volumes
 privatebin_role_docker_volumes_default:
@@ -79,8 +79,8 @@ privatebin_role_docker_volumes_default:
   - "{{ privatebin_role_paths_location }}/conf.php:/srv/cfg/conf.php:ro"
   - "{{ privatebin_name }}_tmpfs_run:/run"
 privatebin_role_docker_volumes_custom: []
-privatebin_role_docker_volumes: "{{ privatebin_role_docker_volumes_default
-                               + privatebin_role_docker_volumes_custom }}"
+privatebin_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='privatebin')
+                                    + lookup('role_var', '_docker_volumes_custom', role='privatebin') }}"
 
 # Mounts
 privatebin_role_docker_mounts_default:
@@ -89,8 +89,8 @@ privatebin_role_docker_mounts_default:
   - target: /var/lib/nginx/tmp
     type: tmpfs
 privatebin_role_docker_mounts_custom: []
-privatebin_role_docker_mounts: "{{ privatebin_role_docker_mounts_default
-                              + privatebin_role_docker_mounts_custom }}"
+privatebin_role_docker_mounts: "{{ lookup('role_var', '_docker_mounts_default', role='privatebin')
+                                   + lookup('role_var', '_docker_mounts_custom', role='privatebin') }}"
 
 # Hostname
 privatebin_role_docker_hostname: "{{ privatebin_name }}"
@@ -100,8 +100,8 @@ privatebin_role_docker_networks_alias: "{{ privatebin_name }}"
 privatebin_role_docker_networks_default: []
 privatebin_role_docker_networks_custom: []
 privatebin_role_docker_networks: "{{ docker_networks_common
-                                + privatebin_role_docker_networks_default
-                                + privatebin_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='privatebin')
+                                     + lookup('role_var', '_docker_networks_custom', role='privatebin') }}"
 
 # Read Only
 privatebin_role_docker_read_only: true
