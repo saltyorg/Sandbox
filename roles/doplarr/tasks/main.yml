@@ -7,10 +7,18 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Fail when default doplarr.discord_token is specified
+- name: Check for required variables
   ansible.builtin.fail:
-    msg: "You must specify a Discord bot token in the settings under doplarr.discord_token."
-  when: (doplarr.discord_token == 'your_discord_bot_token') and (not continuous_integration)
+    msg: "You need to set doplarr_role_discord_token, doplarr_role_overseerr_url, doplarr_role_overseerr_api, doplarr_role_radarr_api, doplarr_role_radarr_url, doplarr_role_sonarr_api, doplarr_role_sonarr_url, and doplarr_role_discord_role_id using the inventory."
+  when: (not continuous_integration) and
+        ((doplarr_role_discord_token | length == 0) or
+         (doplarr_role_overseerr_url | length == 0) or
+         (doplarr_role_overseerr_api | length == 0) or
+         (doplarr_role_radarr_api | length == 0) or
+         (doplarr_role_radarr_url | length == 0) or
+         (doplarr_role_sonarr_api | length == 0) or
+         (doplarr_role_sonarr_url | length == 0) or
+         (doplarr_role_discord_role_id | length == 0))
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

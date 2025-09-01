@@ -14,6 +14,27 @@
 doplarr_name: doplarr
 
 ################################
+# Settings
+################################
+
+doplarr_role_discord_token: ""
+doplarr_role_overseerr_url: ""
+doplarr_role_overseerr_api: ""
+doplarr_role_radarr_api: ""
+doplarr_role_radarr_url: ""
+doplarr_role_sonarr_api: ""
+doplarr_role_sonarr_url: ""
+doplarr_role_discord_max_results: "25"
+doplarr_role_discord_role_id: ""
+doplarr_role_discord_requested_msg_style: ":plain"
+doplarr_role_sonarr_quality_profile: ""
+doplarr_role_radarr_quality_profile: ""
+doplarr_role_sonarr_language_profile: ""
+doplarr_role_overseer_default_id: ""
+doplarr_role_partial_seasons: "true"
+doplarr_role_log_level: ":info"
+
+################################
 # Docker
 ################################
 
@@ -31,22 +52,22 @@ doplarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  DISCORD__TOKEN: "{{ doplarr.discord_token }}"
-  OVERSEERR__URL: "{{ doplarr.overseerr_url | default(omit) }}"
-  OVERSEERR__API: "{{ doplarr.overseerr_api | default(omit) }}"
-  RADARR__API: "{{ doplarr.radarr_api | default(omit) }}"
-  RADARR__URL: "{{ doplarr.radarr_url | default(omit) }}"
-  SONARR__API: "{{ doplarr.sonarr_api | default(omit) }}"
-  SONARR__URL: "{{ doplarr.sonarr_url | default(omit) }}"
-  DISCORD__MAX_RESULTS: "{{ doplarr.discord_max_results | default('25') }}"
-  DISCORD__ROLE_ID: "{{ doplarr.discord_role_id | default(omit) }}"
-  DISCORD__REQUESTED_MSG_STYLE: "{{ doplarr.discord_requested_msg_style | default(':plain') }}"
-  SONARR__QUALITY_PROFILE: "{{ doplarr.sonarr_quality_profile | default(omit) }}"
-  RADARR__QUALITY_PROFILE: "{{ doplarr.radarr_quality_profile | default(omit) }}"
-  SONARR__LANGUAGE_PROFILE: "{{ doplarr.sonarr_language_profile | default(omit) }}"
-  OVERSEERR__DEFAULT_ID: "{{ doplarr.overseer_default_id | default(omit) }}"
-  PARTIAL_SEASONS: "{{ doplarr.partial_seasons | default('true') }}"
-  LOG_LEVEL: "{{ doplarr.log_level | default(':info') }}"
+  DISCORD__TOKEN: "{{ doplarr_role_discord_token }}"
+  OVERSEERR__URL: "{{ doplarr_role_overseerr_url }}"
+  OVERSEERR__API: "{{ doplarr_role_overseerr_api }}"
+  RADARR__API: "{{ doplarr_role_radarr_api }}"
+  RADARR__URL: "{{ doplarr_role_radarr_url }}"
+  SONARR__API: "{{ doplarr_role_sonarr_api }}"
+  SONARR__URL: "{{ doplarr_role_sonarr_url }}"
+  DISCORD__MAX_RESULTS: "{{ doplarr_role_discord_max_results }}"
+  DISCORD__ROLE_ID: "{{ doplarr_role_discord_role_id }}"
+  DISCORD__REQUESTED_MSG_STYLE: "{{ doplarr_role_discord_requested_msg_style }}"
+  SONARR__QUALITY_PROFILE: "{{ doplarr_role_sonarr_quality_profile }}"
+  RADARR__QUALITY_PROFILE: "{{ doplarr_role_radarr_quality_profile }}"
+  SONARR__LANGUAGE_PROFILE: "{{ doplarr_role_sonarr_language_profile }}"
+  OVERSEERR__DEFAULT_ID: "{{ doplarr_role_overseer_default_id }}"
+  PARTIAL_SEASONS: "{{ doplarr_role_partial_seasons }}"
+  LOG_LEVEL: "{{ doplarr_role_log_level }}"
 doplarr_role_docker_envs_custom: []
 doplarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='doplarr')
                               | combine(lookup('role_var', '_docker_envs_custom', role='doplarr')) }}"
