@@ -29,8 +29,8 @@ foundry:
   pass: your_foundryvtt_password
   app_key: your_foundryvtt_license
 goplaxt:
-  trakt_id: ~
-  trakt_secret: ~
+  trakt_id:
+  trakt_secret:
 handbrake:
   handbrake_pass: saltbox
 invoiceninja:
