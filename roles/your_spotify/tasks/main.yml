@@ -9,8 +9,8 @@
 ---
 - name: Fail if settings.yml values are empty
   ansible.builtin.fail:
-    msg: "You must configure 'settings.yml' with public and secret keys."
-  when: (not continuous_integration) and (not your_spotify_settings_set)
+    msg: "You must configure your_spotify_role_public_key and your_spotify_role_secret_key using the inventory"
+  when: (not continuous_integration) and (your_spotify_role_public_key | length == 0) and (your_spotify_role_secret_key | length == 0)
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

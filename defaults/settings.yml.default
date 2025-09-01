@@ -62,6 +62,3 @@ transmissionvpn:
   vpn_user:
   vpn_pass:
   vpn_prov:
-your_spotify:
-  public_key:
-  secret_key:

@@ -14,18 +14,11 @@
 your_spotify_name: your-spotify
 
 ################################
-# Lookups
+# Settings
 ################################
 
-your_spotify_settings_set: "{{ (your_spotify is defined) and
-                               (your_spotify is not none) and
-                               (your_spotify | trim | length > 0) and
-                               (your_spotify.public_key is defined) and
-                               (your_spotify.public_key is not none) and
-                               (your_spotify.public_key | trim | length > 0) and
-                               (your_spotify.secret_key is defined) and
-                               (your_spotify.secret_key is not none) and
-                               (your_spotify.secret_key | trim | length > 0) }}"
+your_spotify_role_public_key: ""
+your_spotify_role_secret_key: ""
 
 ################################
 # Web
@@ -34,9 +27,9 @@ your_spotify_settings_set: "{{ (your_spotify is defined) and
 your_spotify_role_web_subdomain: "spotify"
 your_spotify_role_web_domain: "{{ user.domain }}"
 your_spotify_role_web_port: "80"
-your_spotify_role_web_url: "{{ 'https://' + (your_spotify_role_web_subdomain + '.' + your_spotify_role_web_domain
-                       if (your_spotify_role_web_subdomain | length > 0)
-                       else your_spotify_role_web_domain) }}"
+your_spotify_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='your_spotify') + '.' + lookup('role_var', '_web_domain', role='your_spotify')
+                            if (lookup('role_var', '_web_subdomain', role='your_spotify') | length > 0)
+                            else lookup('role_var', '_web_domain', role='your_spotify')) }}"
 
 ################################
 # DNS
@@ -67,22 +60,23 @@ your_spotify_role_docker_container: "{{ your_spotify_name }}"
 
 # Image
 your_spotify_role_docker_image_pull: true
+your_spotify_role_docker_image_repo: "lscr.io/linuxserver/your_spotify"
 your_spotify_role_docker_image_tag: "latest"
-your_spotify_role_docker_image: "lscr.io/linuxserver/your_spotify:{{ your_spotify_role_docker_image_tag }}"
+your_spotify_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='your_spotify') }}:{{ lookup('role_var', '_docker_image_tag', role='your_spotify') }}"
 
 # Envs
 your_spotify_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  APP_URL: "{{ your_spotify_role_web_url }}"
-  SPOTIFY_PUBLIC: "{{ your_spotify.public_key | default(omit) }}"
-  SPOTIFY_SECRET: "{{ your_spotify.secret_key | default(omit) }}"
-  CORS: "{{ your_spotify_role_web_url + ':443' }}"
+  APP_URL: "{{ lookup('role_var', '_web_url', role='your_spotify') }}"
+  SPOTIFY_PUBLIC: "{{ your_spotify_role_public_key }}"
+  SPOTIFY_SECRET: "{{ your_spotify_role_secret_key }}"
+  CORS: "{{ lookup('role_var', '_web_url', role='your_spotify') + ':443' }}"
   MONGO_ENDPOINT: "mongodb://your-spotify-db:27017/your_spotify"
 your_spotify_role_docker_envs_custom: {}
-your_spotify_role_docker_envs: "{{ your_spotify_role_docker_envs_default
-                              | combine(your_spotify_role_docker_envs_custom) }}"
+your_spotify_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='your_spotify')
+                                   | combine(lookup('role_var', '_docker_envs_custom', role='your_spotify')) }}"
 
 # Hostname
 your_spotify_role_docker_hostname: "{{ your_spotify_name }}"
@@ -92,8 +86,8 @@ your_spotify_role_docker_networks_alias: "{{ your_spotify_name }}"
 your_spotify_role_docker_networks_default: []
 your_spotify_role_docker_networks_custom: []
 your_spotify_role_docker_networks: "{{ docker_networks_common
-                                  + your_spotify_role_docker_networks_default
-                                  + your_spotify_role_docker_networks_custom }}"
+                                       + lookup('role_var', '_docker_networks_default', role='your_spotify')
+                                       + lookup('role_var', '_docker_networks_custom', role='your_spotify') }}"
 
 # Restart Policy
 your_spotify_role_docker_restart_policy: unless-stopped
