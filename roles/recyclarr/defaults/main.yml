@@ -40,6 +40,7 @@ recyclarr_role_docker_image: "ghcr.io/recyclarr/recyclarr:{{ recyclarr_role_dock
 recyclarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   CRON_SCHEDULE: "{{ recyclarr.cron_schedule }}"
+  RECYCLARR_CREATE_CONFIG: "true"
 recyclarr_role_docker_envs_custom: {}
 recyclarr_role_docker_envs: "{{ recyclarr_role_docker_envs_default
                            | combine(recyclarr_role_docker_envs_custom) }}"
