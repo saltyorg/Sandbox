@@ -57,17 +57,20 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Install sb binary
+        run: curl -s https://api.github.com/repos/saltyorg/sb-go/releases/latest | jq -r '.assets[] | select(.name == "sb_linux_amd64") | .browser_download_url' | xargs sudo curl -Lo /usr/local/bin/sb && sudo chmod +x /usr/local/bin/sb
+
+      - name: Check sb version
+        run: /usr/local/bin/sb version
+
       - name: Install Dependencies
-        run: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v -b role-refactor && ansible --version # Edit back before replacing master
+        run: /usr/local/bin/sb setup -b role-refactor && /srv/ansible/venv/bin/ansible --version # Remove branch flag once we move to master
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
 
-      - name: Reinstall pip dependencies # Remove before replacing master
-        run: sudo /srv/ansible/venv/bin/pip install -r /srv/git/saltbox/requirements/requirements-saltbox.txt
-
       - name: Print pip dependencies
-        run: cat /srv/git/sb/requirements-saltbox.txt
+        run: cat /srv/git/saltbox/requirements/requirements-saltbox.txt
 
       - name: Create, chown and chmod /tmp/ansible
         run: sudo mkdir /tmp/ansible && sudo chown -R runner:runner /tmp/ansible && chmod 0777 /tmp/ansible
