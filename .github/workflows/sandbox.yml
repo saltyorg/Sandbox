@@ -77,10 +77,12 @@ jobs:
           chmod: "0755"
 
       - name: Check sb version
-        run: ~/bin/sb version
+        run: |
+          sudo mv /opt/hostedtoolcache/saltyorg/sb-go/latest/linux-amd64/sb /usr/local/bin/sb
+          /usr/local/bin/sb version
 
       - name: Install Dependencies
-        run: ~/bin/sb setup -v -b role-refactor && /srv/ansible/venv/bin/ansible --version # Remove branch flag once we move to master
+        run: /usr/local/bin/sb setup -v -b role-refactor && /srv/ansible/venv/bin/ansible --version # Remove branch flag once we move to master
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
