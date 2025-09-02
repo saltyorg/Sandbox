@@ -59,6 +59,7 @@ jobs:
         with:
           repo: saltyorg/sb-go
           tag: latest
+          extension-matching: disable
           platform: linux
           arch: amd64
           rename-to: sb
