@@ -42,7 +42,7 @@ jobs:
       - id: set-matrix
         run: |
           ROLES=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | awk -F',' '{ for( i=1; i<=NF; i++ ) print $i }' | awk '{ gsub(/ /,""); print }'| sort -u | awk -vORS=, '{ print $1 }' | sed 's/,$/\n/')
-          echo "matrix={\"roles\":[$ROLES],\"os\":[\"20.04\",\"22.04\",\"24.04\"]}" >> $GITHUB_OUTPUT
+          echo "matrix={\"roles\":[$ROLES],\"os\":[\"22.04\",\"24.04\"]}" >> $GITHUB_OUTPUT
 
   install:
     name: '${{ matrix.roles }}-${{ matrix.os }}'
