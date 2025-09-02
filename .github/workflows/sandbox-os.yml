@@ -103,7 +103,12 @@ jobs:
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --tags "core" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
       - name: Copy default configuration
-        run: cp --update=none defaults/ansible.cfg.default ansible.cfg && cp --update=none defaults/settings.yml.default settings.yml
+        run: |
+          if touch /tmp/test1 && cp --update=none /tmp/test1 /tmp/test2 2>/dev/null; then
+            cp --update=none defaults/ansible.cfg.default ansible.cfg && cp --update=none defaults/settings.yml.default settings.yml
+          else
+            cp -n defaults/ansible.cfg.default ansible.cfg && cp -n defaults/settings.yml.default settings.yml
+          fi
 
       - name: Install ${{ matrix.roles }}
         run: sudo ansible-playbook sandbox.yml --tags "${{ matrix.roles }}" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
