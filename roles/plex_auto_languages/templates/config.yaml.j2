@@ -36,7 +36,7 @@ plexautolanguages:
   # Plex configuration
   plex:
     # A valid Plex URL (required)
-    url: "{{ plex_role_web_url }}"
+    url: "{{ lookup('role_var', '_web_url', role='plex') }}"
     # A valid Plex Token (required)
     token: "{{ plex_auth_token | default('') }}"
 

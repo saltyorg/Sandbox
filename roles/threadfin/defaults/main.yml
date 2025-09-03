@@ -30,8 +30,8 @@ threadfin_role_web_subdomain: "{{ threadfin_name }}"
 threadfin_role_web_domain: "{{ user.domain }}"
 threadfin_role_web_port: "34400"
 threadfin_role_web_url: "{{ 'https://' + (threadfin_role_web_subdomain + '.' + threadfin_role_web_domain
-                    if (threadfin_role_web_subdomain | length > 0)
-                    else threadfin_role_web_domain) }}"
+                         if (threadfin_role_web_subdomain | length > 0)
+                         else threadfin_role_web_domain) }}"
 
 ################################
 # DNS
@@ -71,14 +71,14 @@ threadfin_role_docker_envs_default:
   - THREADFIN_DEBUG: "0"
 threadfin_role_docker_envs_custom: {}
 threadfin_role_docker_envs: "{{ threadfin_role_docker_envs_default
-                           | combine(threadfin_role_docker_envs_custom) }}"
+                                | combine(threadfin_role_docker_envs_custom) }}"
 
 # Volumes
 threadfin_role_docker_volumes_default:
   - "{{ threadfin_role_paths_location }}:/home/threadfin/conf:rw"
 threadfin_role_docker_volumes_custom: []
 threadfin_role_docker_volumes: "{{ threadfin_role_docker_volumes_default
-                              + threadfin_role_docker_volumes_custom }}"
+                                   + threadfin_role_docker_volumes_custom }}"
 
 # Hostname
 threadfin_role_docker_hostname: "{{ threadfin_name }}"
@@ -88,8 +88,8 @@ threadfin_role_docker_networks_alias: "{{ threadfin_name }}"
 threadfin_role_docker_networks_default: []
 threadfin_role_docker_networks_custom: []
 threadfin_role_docker_networks: "{{ docker_networks_common
-                               + threadfin_role_docker_networks_default
-                               + threadfin_role_docker_networks_custom }}"
+                                    + threadfin_role_docker_networks_default
+                                    + threadfin_role_docker_networks_custom }}"
 
 # Restart Policy
 threadfin_role_docker_restart_policy: unless-stopped

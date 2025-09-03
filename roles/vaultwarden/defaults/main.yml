@@ -31,8 +31,8 @@ vaultwarden_role_web_subdomain: "{{ vaultwarden_name }}"
 vaultwarden_role_web_domain: "{{ user.domain }}"
 vaultwarden_role_web_port: "6423"
 vaultwarden_role_web_url: "{{ 'https://' + (vaultwarden_role_web_subdomain + '.' + vaultwarden_role_web_domain
-                      if (vaultwarden_role_web_subdomain | length > 0)
-                      else vaultwarden_role_web_domain) }}"
+                           if (vaultwarden_role_web_subdomain | length > 0)
+                           else vaultwarden_role_web_domain) }}"
 
 ################################
 # DNS
@@ -72,7 +72,7 @@ vaultwarden_role_docker_envs_default:
   ROCKET_PORT: "{{ vaultwarden_role_web_port }}"
 vaultwarden_role_docker_envs_custom: {}
 vaultwarden_role_docker_envs: "{{ vaultwarden_role_docker_envs_default
-                             | combine(vaultwarden_role_docker_envs_custom) }}"
+                                  | combine(vaultwarden_role_docker_envs_custom) }}"
 
 # Volumes
 vaultwarden_role_docker_volumes_default:
@@ -80,7 +80,7 @@ vaultwarden_role_docker_volumes_default:
   - "{{ vaultwarden_role_paths_location }}/env:/.env"
 vaultwarden_role_docker_volumes_custom: []
 vaultwarden_role_docker_volumes: "{{ vaultwarden_role_docker_volumes_default
-                                + vaultwarden_role_docker_volumes_custom }}"
+                                     + vaultwarden_role_docker_volumes_custom }}"
 
 # Hostname
 vaultwarden_role_docker_hostname: "{{ vaultwarden_name }}"
@@ -90,8 +90,8 @@ vaultwarden_role_docker_networks_alias: "{{ vaultwarden_name }}"
 vaultwarden_role_docker_networks_default: []
 vaultwarden_role_docker_networks_custom: []
 vaultwarden_role_docker_networks: "{{ docker_networks_common
-                                 + vaultwarden_role_docker_networks_default
-                                 + vaultwarden_role_docker_networks_custom }}"
+                                      + vaultwarden_role_docker_networks_default
+                                      + vaultwarden_role_docker_networks_custom }}"
 
 # Restart Policy
 vaultwarden_role_docker_restart_policy: unless-stopped

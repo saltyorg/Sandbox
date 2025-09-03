@@ -30,8 +30,8 @@ syncthing_role_web_subdomain: "{{ syncthing_name }}"
 syncthing_role_web_domain: "{{ user.domain }}"
 syncthing_role_web_port: "8384"
 syncthing_role_web_url: "{{ 'https://' + (syncthing_role_web_subdomain + '.' + syncthing_role_web_domain
-                    if (syncthing_role_web_subdomain | length > 0)
-                    else syncthing_role_web_domain) }}"
+                         if (syncthing_role_web_subdomain | length > 0)
+                         else syncthing_role_web_domain) }}"
 
 ################################
 # DNS
@@ -72,7 +72,7 @@ syncthing_role_docker_ports_defaults:
   - "21027:21027/udp"
 syncthing_role_docker_ports_custom: []
 syncthing_role_docker_ports: "{{ syncthing_role_docker_ports_defaults
-                            + syncthing_role_docker_ports_custom }}"
+                                 + syncthing_role_docker_ports_custom }}"
 
 # Envs
 syncthing_role_docker_envs_default:
@@ -81,14 +81,14 @@ syncthing_role_docker_envs_default:
   TZ: "{{ tz }}"
 syncthing_role_docker_envs_custom: {}
 syncthing_role_docker_envs: "{{ syncthing_role_docker_envs_default
-                           | combine(syncthing_role_docker_envs_custom) }}"
+                                | combine(syncthing_role_docker_envs_custom) }}"
 
 # Volumes
 syncthing_role_docker_volumes_default:
   - "{{ syncthing_role_paths_location }}:/config"
 syncthing_role_docker_volumes_custom: []
 syncthing_role_docker_volumes: "{{ syncthing_role_docker_volumes_default
-                              + syncthing_role_docker_volumes_custom }}"
+                                   + syncthing_role_docker_volumes_custom }}"
 
 # Hostname
 syncthing_role_docker_hostname: "{{ syncthing_name }}"
@@ -98,8 +98,8 @@ syncthing_role_docker_networks_alias: "{{ syncthing_name }}"
 syncthing_role_docker_networks_default: []
 syncthing_role_docker_networks_custom: []
 syncthing_role_docker_networks: "{{ docker_networks_common
-                               + syncthing_role_docker_networks_default
-                               + syncthing_role_docker_networks_custom }}"
+                                    + syncthing_role_docker_networks_default
+                                    + syncthing_role_docker_networks_custom }}"
 
 # Restart Policy
 syncthing_role_docker_restart_policy: unless-stopped

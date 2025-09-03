@@ -87,7 +87,7 @@ rocketchat_role_docker_envs_default:
   DEPLOY_METHOD: "docker"
 rocketchat_role_docker_envs_custom: {}
 rocketchat_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='rocketchat')
-                            | combine(lookup('role_var', '_docker_envs_custom', role='rocketchat')) }}"
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='rocketchat')) }}"
 
 # Volumes
 rocketchat_role_docker_volumes_default:

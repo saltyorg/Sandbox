@@ -74,14 +74,14 @@ requestrr_role_docker_envs_default:
   UMASK: "002"
 requestrr_role_docker_envs_custom: {}
 requestrr_role_docker_envs: "{{ lookup('vars', requestrr_name + '_docker_envs_default', default=requestrr_role_docker_envs_default)
-                           | combine(lookup('vars', requestrr_name + '_docker_envs_custom', default=requestrr_role_docker_envs_custom)) }}"
+                                | combine(lookup('vars', requestrr_name + '_docker_envs_custom', default=requestrr_role_docker_envs_custom)) }}"
 
 # Volumes
 requestrr_role_docker_volumes_default:
   - "{{ requestrr_role_paths_location }}:/root/config"
 requestrr_role_docker_volumes_custom: []
 requestrr_role_docker_volumes: "{{ lookup('vars', requestrr_name + '_docker_volumes_default', default=requestrr_role_docker_volumes_default)
-                              + lookup('vars', requestrr_name + '_docker_volumes_custom', default=requestrr_role_docker_volumes_custom) }}"
+                                   + lookup('vars', requestrr_name + '_docker_volumes_custom', default=requestrr_role_docker_volumes_custom) }}"
 
 # Hostname
 requestrr_role_docker_hostname: "{{ requestrr_name }}"
@@ -91,8 +91,8 @@ requestrr_role_docker_networks_alias: "{{ requestrr_name }}"
 requestrr_role_docker_networks_default: []
 requestrr_role_docker_networks_custom: []
 requestrr_role_docker_networks: "{{ docker_networks_common
-                               + lookup('vars', requestrr_name + '_docker_networks_default', default=requestrr_role_docker_networks_default)
-                               + lookup('vars', requestrr_name + '_docker_networks_custom', default=requestrr_role_docker_networks_custom) }}"
+                                    + lookup('vars', requestrr_name + '_docker_networks_default', default=requestrr_role_docker_networks_default)
+                                    + lookup('vars', requestrr_name + '_docker_networks_custom', default=requestrr_role_docker_networks_custom) }}"
 
 # Restart Policy
 requestrr_role_docker_restart_policy: unless-stopped

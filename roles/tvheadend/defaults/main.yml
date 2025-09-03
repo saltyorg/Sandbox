@@ -33,8 +33,8 @@ tvheadend_role_web_subdomain: "{{ tvheadend_name }}"
 tvheadend_role_web_domain: "{{ user.domain }}"
 tvheadend_role_web_port: "9981"
 tvheadend_role_web_url: "{{ 'https://' + (tvheadend_role_web_subdomain + '.' + tvheadend_role_web_domain
-                    if (tvheadend_role_web_subdomain | length > 0)
-                    else tvheadend_role_web_domain) }}"
+                         if (tvheadend_role_web_subdomain | length > 0)
+                         else tvheadend_role_web_domain) }}"
 
 ################################
 # DNS
@@ -75,7 +75,7 @@ tvheadend_role_docker_envs_default:
   PGID: "{{ gid }}"
 tvheadend_role_docker_envs_custom: {}
 tvheadend_role_docker_envs: "{{ tvheadend_role_docker_envs_default
-                           | combine(tvheadend_role_docker_envs_custom) }}"
+                                | combine(tvheadend_role_docker_envs_custom) }}"
 
 # Volumes
 tvheadend_role_docker_volumes_default:
@@ -83,7 +83,7 @@ tvheadend_role_docker_volumes_default:
   - "{{ tvheadend_role_paths_downloads_location }}:/recordings"
 tvheadend_role_docker_volumes_custom: []
 tvheadend_role_docker_volumes: "{{ tvheadend_role_docker_volumes_default
-                              + tvheadend_role_docker_volumes_custom }}"
+                                   + tvheadend_role_docker_volumes_custom }}"
 
 # Hostname
 tvheadend_role_docker_hostname: "{{ tvheadend_name }}"
@@ -93,8 +93,8 @@ tvheadend_role_docker_networks_alias: "{{ tvheadend_name }}"
 tvheadend_role_docker_networks_default: []
 tvheadend_role_docker_networks_custom: []
 tvheadend_role_docker_networks: "{{ docker_networks_common
-                               + tvheadend_role_docker_networks_default
-                               + tvheadend_role_docker_networks_custom }}"
+                                    + tvheadend_role_docker_networks_default
+                                    + tvheadend_role_docker_networks_custom }}"
 
 # Restart Policy
 tvheadend_role_docker_restart_policy: unless-stopped

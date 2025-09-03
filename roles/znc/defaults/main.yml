@@ -30,8 +30,8 @@ znc_role_web_subdomain: "{{ znc_name }}"
 znc_role_web_domain: "{{ user.domain }}"
 znc_role_web_port: "6501"
 znc_role_web_url: "{{ 'https://' + (znc_role_web_subdomain + '.' + znc_role_web_domain
-              if (znc_role_web_subdomain | length > 0)
-              else znc_role_web_domain) }}"
+                   if (znc_role_web_subdomain | length > 0)
+                   else znc_role_web_domain) }}"
 
 ################################
 # DNS
@@ -71,7 +71,7 @@ znc_role_docker_ports_defaults:
   - "6502:6502"
 znc_role_docker_ports_custom: []
 znc_role_docker_ports: "{{ znc_role_docker_ports_defaults
-                      + znc_role_docker_ports_custom }}"
+                           + znc_role_docker_ports_custom }}"
 
 # Envs
 znc_role_docker_envs_default:
@@ -80,14 +80,14 @@ znc_role_docker_envs_default:
   TZ: "{{ tz }}"
 znc_role_docker_envs_custom: {}
 znc_role_docker_envs: "{{ znc_role_docker_envs_default
-                     | combine(znc_role_docker_envs_custom) }}"
+                          | combine(znc_role_docker_envs_custom) }}"
 
 # Volumes
 znc_role_docker_volumes_default:
   - "{{ znc_role_paths_location }}:/config"
 znc_role_docker_volumes_custom: []
 znc_role_docker_volumes: "{{ znc_role_docker_volumes_default
-                        + znc_role_docker_volumes_custom }}"
+                             + znc_role_docker_volumes_custom }}"
 
 # Hostname
 znc_role_docker_hostname: "{{ znc_name }}"
@@ -97,8 +97,8 @@ znc_role_docker_networks_alias: "{{ znc_name }}"
 znc_role_docker_networks_default: []
 znc_role_docker_networks_custom: []
 znc_role_docker_networks: "{{ docker_networks_common
-                         + znc_role_docker_networks_default
-                         + znc_role_docker_networks_custom }}"
+                              + znc_role_docker_networks_default
+                              + znc_role_docker_networks_custom }}"
 
 # Restart Policy
 znc_role_docker_restart_policy: unless-stopped

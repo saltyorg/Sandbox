@@ -84,7 +84,7 @@ unifi_network_application_role_docker_ports_defaults:
   - "10001:10001/udp"
 unifi_network_application_role_docker_ports_custom: []
 unifi_network_application_role_docker_ports: "{{ unifi_network_application_role_docker_ports_defaults
-                                            + unifi_network_application_role_docker_ports_custom }}"
+                                                 + unifi_network_application_role_docker_ports_custom }}"
 
 # Envs
 unifi_network_application_role_docker_envs_default:
@@ -98,14 +98,14 @@ unifi_network_application_role_docker_envs_default:
   MONGO_DBNAME: "{{ unifi_network_application_mongo_dbname }}"
 unifi_network_application_role_docker_envs_custom: {}
 unifi_network_application_role_docker_envs: "{{ unifi_network_application_role_docker_envs_default
-                                           | combine(unifi_network_application_role_docker_envs_custom) }}"
+                                                | combine(unifi_network_application_role_docker_envs_custom) }}"
 
 # Volumes
 unifi_network_application_role_docker_volumes_default:
   - "{{ unifi_network_application_role_paths_location }}:/config"
 unifi_network_application_role_docker_volumes_custom: []
 unifi_network_application_role_docker_volumes: "{{ unifi_network_application_role_docker_volumes_default
-                                              + unifi_network_application_role_docker_volumes_custom }}"
+                                                   + unifi_network_application_role_docker_volumes_custom }}"
 
 # Hostname
 unifi_network_application_role_docker_hostname: "{{ unifi_network_application_name }}"
@@ -115,8 +115,8 @@ unifi_network_application_role_docker_networks_alias: "{{ unifi_network_applicat
 unifi_network_application_role_docker_networks_default: []
 unifi_network_application_role_docker_networks_custom: []
 unifi_network_application_role_docker_networks: "{{ docker_networks_common
-                                               + unifi_network_application_role_docker_networks_default
-                                               + unifi_network_application_role_docker_networks_custom }}"
+                                                    + unifi_network_application_role_docker_networks_default
+                                                    + unifi_network_application_role_docker_networks_custom }}"
 
 # Restart Policy
 unifi_network_application_role_docker_restart_policy: unless-stopped

@@ -30,8 +30,8 @@ xteve_role_web_subdomain: "{{ xteve_name }}"
 xteve_role_web_domain: "{{ user.domain }}"
 xteve_role_web_port: "34400"
 xteve_role_web_url: "{{ 'https://' + (xteve_role_web_subdomain + '.' + xteve_role_web_domain
-                if (xteve_role_web_subdomain | length > 0)
-                else xteve_role_web_domain) }}"
+                     if (xteve_role_web_subdomain | length > 0)
+                     else xteve_role_web_domain) }}"
 
 ################################
 # DNS
@@ -74,7 +74,7 @@ xteve_role_docker_envs_default:
   XTEVE_API: "1"
 xteve_role_docker_envs_custom: {}
 xteve_role_docker_envs: "{{ xteve_role_docker_envs_default
-                       | combine(xteve_role_docker_envs_custom) }}"
+                            | combine(xteve_role_docker_envs_custom) }}"
 
 # Volumes
 xteve_role_docker_volumes_default:
@@ -83,7 +83,7 @@ xteve_role_docker_volumes_default:
   - "{{ xteve_role_paths_location }}/app/guide2go:/home/xteve/guide2go/conf:rw"
 xteve_role_docker_volumes_custom: []
 xteve_role_docker_volumes: "{{ xteve_role_docker_volumes_default
-                          + xteve_role_docker_volumes_custom }}"
+                               + xteve_role_docker_volumes_custom }}"
 
 # Hostname
 xteve_role_docker_hostname: "{{ xteve_name }}"
@@ -93,8 +93,8 @@ xteve_role_docker_networks_alias: "{{ xteve_name }}"
 xteve_role_docker_networks_default: []
 xteve_role_docker_networks_custom: []
 xteve_role_docker_networks: "{{ docker_networks_common
-                           + xteve_role_docker_networks_default
-                           + xteve_role_docker_networks_custom }}"
+                                + xteve_role_docker_networks_default
+                                + xteve_role_docker_networks_custom }}"
 
 # Restart Policy
 xteve_role_docker_restart_policy: unless-stopped

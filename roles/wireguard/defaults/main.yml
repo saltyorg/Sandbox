@@ -36,8 +36,8 @@ wireguard_role_web_subdomain: "{{ wireguard_name }}"
 wireguard_role_web_domain: "{{ user.domain }}"
 wireguard_role_web_port: "51821"
 wireguard_role_web_url: "{{ 'https://' + (wireguard_role_web_subdomain + '.' + wireguard_role_web_domain
-                    if (wireguard_role_web_subdomain | length > 0)
-                    else wireguard_role_web_domain) }}"
+                         if (wireguard_role_web_subdomain | length > 0)
+                         else wireguard_role_web_domain) }}"
 
 ################################
 # DNS
@@ -76,7 +76,7 @@ wireguard_role_docker_ports_defaults:
   - "{{ wireguard_listen_port }}:51820/udp"
 wireguard_role_docker_ports_custom: []
 wireguard_role_docker_ports: "{{ wireguard_role_docker_ports_defaults
-                            + wireguard_role_docker_ports_custom }}"
+                                 + wireguard_role_docker_ports_custom }}"
 
 # Envs
 wireguard_role_docker_envs_default:
@@ -86,14 +86,14 @@ wireguard_role_docker_envs_default:
   WG_PORT: "{{ wireguard_listen_port }}"
 wireguard_role_docker_envs_custom: {}
 wireguard_role_docker_envs: "{{ wireguard_role_docker_envs_default
-                           | combine(wireguard_role_docker_envs_custom) }}"
+                                | combine(wireguard_role_docker_envs_custom) }}"
 
 # Volumes
 wireguard_role_docker_volumes_default:
   - "{{ wireguard_role_paths_location }}:/etc/wireguard"
 wireguard_role_docker_volumes_custom: []
 wireguard_role_docker_volumes: "{{ wireguard_role_docker_volumes_default
-                              + wireguard_role_docker_volumes_custom }}"
+                                   + wireguard_role_docker_volumes_custom }}"
 
 # Hostname
 wireguard_role_docker_hostname: "{{ wireguard_name }}"
@@ -103,8 +103,8 @@ wireguard_role_docker_networks_alias: "{{ wireguard_name }}"
 wireguard_role_docker_networks_default: []
 wireguard_role_docker_networks_custom: []
 wireguard_role_docker_networks: "{{ docker_networks_common
-                               + wireguard_role_docker_networks_default
-                               + wireguard_role_docker_networks_custom }}"
+                                    + wireguard_role_docker_networks_default
+                                    + wireguard_role_docker_networks_custom }}"
 
 # Capabilities
 wireguard_role_docker_capabilities_default:
@@ -112,7 +112,7 @@ wireguard_role_docker_capabilities_default:
   - SYS_MODULE
 wireguard_role_docker_capabilities_custom: []
 wireguard_role_docker_capabilities: "{{ wireguard_role_docker_capabilities_default
-                                   + wireguard_role_docker_capabilities_custom }}"
+                                        + wireguard_role_docker_capabilities_custom }}"
 
 # Sysctls
 wireguard_role_docker_sysctls:

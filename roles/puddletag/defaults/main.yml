@@ -30,8 +30,8 @@ puddletag_role_web_subdomain: "{{ puddletag_name }}"
 puddletag_role_web_domain: "{{ user.domain }}"
 puddletag_role_web_port: "8080"
 puddletag_role_web_url: "{{ 'https://' + (puddletag_role_web_subdomain + '.' + puddletag_role_web_domain
-                    if (puddletag_role_web_subdomain | length > 0)
-                    else puddletag_role_web_domain) }}"
+                         if (puddletag_role_web_subdomain | length > 0)
+                         else puddletag_role_web_domain) }}"
 
 ################################
 # DNS

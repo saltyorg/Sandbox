@@ -28,8 +28,8 @@ vnstat_role_web_subdomain: "{{ vnstat_name }}"
 vnstat_role_web_domain: "{{ user.domain }}"
 vnstat_role_web_port: "8685"
 vnstat_role_web_url: "{{ 'https://' + (vnstat_role_web_subdomain + '.' + vnstat_role_web_domain
-                 if (vnstat_role_web_subdomain | length > 0)
-                 else vnstat_role_web_domain) }}"
+                      if (vnstat_role_web_subdomain | length > 0)
+                      else vnstat_role_web_domain) }}"
 
 ################################
 # DNS
@@ -72,14 +72,14 @@ vnstat_role_docker_envs_default:
   RUN_VNSTATD: "0"
 vnstat_role_docker_envs_custom: {}
 vnstat_role_docker_envs: "{{ vnstat_role_docker_envs_default
-                        | combine(vnstat_role_docker_envs_custom) }}"
+                             | combine(vnstat_role_docker_envs_custom) }}"
 
 # Volumes
 vnstat_role_docker_volumes_default:
   - "vnstat:/var/lib/vnstat:ro"
 vnstat_role_docker_volumes_custom: []
 vnstat_role_docker_volumes: "{{ vnstat_role_docker_volumes_default
-                           + vnstat_role_docker_volumes_custom }}"
+                                + vnstat_role_docker_volumes_custom }}"
 
 # Hostname
 vnstat_role_docker_hostname: "{{ vnstat_name }}"
@@ -89,8 +89,8 @@ vnstat_role_docker_networks_alias: "{{ vnstat_name }}"
 vnstat_role_docker_networks_default: []
 vnstat_role_docker_networks_custom: []
 vnstat_role_docker_networks: "{{ docker_networks_common
-                            + vnstat_role_docker_networks_default
-                            + vnstat_role_docker_networks_custom }}"
+                                 + vnstat_role_docker_networks_default
+                                 + vnstat_role_docker_networks_custom }}"
 
 # Restart Policy
 vnstat_role_docker_restart_policy: unless-stopped

@@ -113,7 +113,7 @@ rflood_role_docker_ports_defaults:
   - "{{ rflood_role_docker_ports_6881 }}:{{ rflood_role_docker_ports_6881 }}/udp"
 rflood_role_docker_ports_custom: []
 rflood_role_docker_ports: "{{ lookup('vars', rflood_name + '_docker_ports_defaults', default=rflood_role_docker_ports_defaults)
-                         + lookup('vars', rflood_name + '_docker_ports_custom', default=rflood_role_docker_ports_custom) }}"
+                              + lookup('vars', rflood_name + '_docker_ports_custom', default=rflood_role_docker_ports_custom) }}"
 
 # Envs
 rflood_role_docker_envs_default:
@@ -124,7 +124,7 @@ rflood_role_docker_envs_default:
   FLOOD_AUTH: "false"
 rflood_role_docker_envs_custom: {}
 rflood_role_docker_envs: "{{ lookup('vars', rflood_name + '_docker_envs_default', default=rflood_role_docker_envs_default)
-                        | combine(lookup('vars', rflood_name + '_docker_envs_custom', default=rflood_role_docker_envs_custom)) }}"
+                             | combine(lookup('vars', rflood_name + '_docker_envs_custom', default=rflood_role_docker_envs_custom)) }}"
 
 # Volumes
 rflood_role_docker_volumes_default:
@@ -132,7 +132,7 @@ rflood_role_docker_volumes_default:
   - "{{ server_appdata_path }}/scripts:/scripts"
 rflood_role_docker_volumes_custom: []
 rflood_role_docker_volumes: "{{ lookup('vars', rflood_name + '_docker_volumes_default', default=rflood_role_docker_volumes_default)
-                           + lookup('vars', rflood_name + '_docker_volumes_custom', default=rflood_role_docker_volumes_custom) }}"
+                                + lookup('vars', rflood_name + '_docker_volumes_custom', default=rflood_role_docker_volumes_custom) }}"
 
 # Hostname
 rflood_role_docker_hostname: "{{ rflood_name }}"
@@ -142,8 +142,8 @@ rflood_role_docker_networks_alias: "{{ rflood_name }}"
 rflood_role_docker_networks_default: []
 rflood_role_docker_networks_custom: []
 rflood_role_docker_networks: "{{ docker_networks_common
-                            + lookup('vars', rflood_name + '_docker_networks_default', default=rflood_role_docker_networks_default)
-                            + lookup('vars', rflood_name + '_docker_networks_custom', default=rflood_role_docker_networks_custom) }}"
+                                 + lookup('vars', rflood_name + '_docker_networks_default', default=rflood_role_docker_networks_default)
+                                 + lookup('vars', rflood_name + '_docker_networks_custom', default=rflood_role_docker_networks_custom) }}"
 
 # Restart Policy
 rflood_role_docker_restart_policy: unless-stopped

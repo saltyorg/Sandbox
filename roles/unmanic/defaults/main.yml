@@ -32,8 +32,8 @@ unmanic_role_web_subdomain: "{{ unmanic_name }}"
 unmanic_role_web_domain: "{{ user.domain }}"
 unmanic_role_web_port: "8888"
 unmanic_role_web_url: "{{ 'https://' + (unmanic_role_web_subdomain + '.' + unmanic_role_web_domain
-                  if (unmanic_role_web_subdomain | length > 0)
-                  else unmanic_role_web_domain) }}"
+                       if (unmanic_role_web_subdomain | length > 0)
+                       else unmanic_role_web_domain) }}"
 
 ################################
 # DNS
@@ -74,7 +74,7 @@ unmanic_role_docker_envs_default:
   TZ: "{{ tz }}"
 unmanic_role_docker_envs_custom: {}
 unmanic_role_docker_envs: "{{ unmanic_role_docker_envs_default
-                         | combine(unmanic_role_docker_envs_custom) }}"
+                              | combine(unmanic_role_docker_envs_custom) }}"
 
 # Volumes
 unmanic_role_docker_volumes_default:
@@ -83,7 +83,7 @@ unmanic_role_docker_volumes_default:
   - "/mnt/unionfs/Media:/library"
 unmanic_role_docker_volumes_custom: []
 unmanic_role_docker_volumes: "{{ unmanic_role_docker_volumes_default
-                            + unmanic_role_docker_volumes_custom }}"
+                                 + unmanic_role_docker_volumes_custom }}"
 
 # Hostname
 unmanic_role_docker_hostname: "{{ unmanic_name }}"
@@ -93,8 +93,8 @@ unmanic_role_docker_networks_alias: "{{ unmanic_name }}"
 unmanic_role_docker_networks_default: []
 unmanic_role_docker_networks_custom: []
 unmanic_role_docker_networks: "{{ docker_networks_common
-                             + unmanic_role_docker_networks_default
-                             + unmanic_role_docker_networks_custom }}"
+                                  + unmanic_role_docker_networks_default
+                                  + unmanic_role_docker_networks_custom }}"
 
 # Restart Policy
 unmanic_role_docker_restart_policy: unless-stopped

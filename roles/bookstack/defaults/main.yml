@@ -30,8 +30,8 @@ bookstack_role_web_subdomain: "{{ bookstack_name }}"
 bookstack_role_web_domain: "{{ user.domain }}"
 bookstack_role_web_port: "80"
 bookstack_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='bookstack') + '.' + lookup('role_var', '_web_domain', role='bookstack')
-                    if (lookup('role_var', '_web_subdomain', role='bookstack') | length > 0)
-                    else lookup('role_var', '_web_domain', role='bookstack')) }}"
+                         if (lookup('role_var', '_web_subdomain', role='bookstack') | length > 0)
+                         else lookup('role_var', '_web_domain', role='bookstack')) }}"
 
 ################################
 # DNS

@@ -30,8 +30,8 @@ forgejo_role_web_subdomain: "{{ forgejo_name }}"
 forgejo_role_web_domain: "{{ user.domain }}"
 forgejo_role_web_port: "3000"
 forgejo_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='forgejo') + '.' + lookup('role_var', '_web_domain', role='forgejo')
-                          if (lookup('role_var', '_web_subdomain', role='forgejo') | length > 0)
-                          else lookup('role_var', '_web_domain', role='forgejo')) }}"
+                       if (lookup('role_var', '_web_subdomain', role='forgejo') | length > 0)
+                       else lookup('role_var', '_web_domain', role='forgejo')) }}"
 
 ################################
 # DNS

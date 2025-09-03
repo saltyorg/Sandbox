@@ -30,8 +30,8 @@ wrapperr_role_web_subdomain: "{{ wrapperr_name }}"
 wrapperr_role_web_domain: "{{ user.domain }}"
 wrapperr_role_web_port: "8282"
 wrapperr_role_web_url: "{{ 'https://' + (wrapperr_role_web_subdomain + '.' + wrapperr_role_web_domain
-                   if (wrapperr_role_web_subdomain | length > 0)
-                   else wrapperr_role_web_domain) }}"
+                        if (wrapperr_role_web_subdomain | length > 0)
+                        else wrapperr_role_web_domain) }}"
 
 ################################
 # DNS
@@ -70,7 +70,7 @@ wrapperr_role_docker_volumes_default:
   - "{{ wrapperr_role_paths_location }}:/app/config"
 wrapperr_role_docker_volumes_custom: []
 wrapperr_role_docker_volumes: "{{ wrapperr_role_docker_volumes_default
-                             + wrapperr_role_docker_volumes_custom }}"
+                                  + wrapperr_role_docker_volumes_custom }}"
 
 # Hostname
 wrapperr_role_docker_hostname: "{{ wrapperr_name }}"
@@ -80,8 +80,8 @@ wrapperr_role_docker_networks_alias: "{{ wrapperr_name }}"
 wrapperr_role_docker_networks_default: []
 wrapperr_role_docker_networks_custom: []
 wrapperr_role_docker_networks: "{{ docker_networks_common
-                              + wrapperr_role_docker_networks_default
-                              + wrapperr_role_docker_networks_custom }}"
+                                   + wrapperr_role_docker_networks_default
+                                   + wrapperr_role_docker_networks_custom }}"
 
 # Restart Policy
 wrapperr_role_docker_restart_policy: unless-stopped

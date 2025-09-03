@@ -45,8 +45,8 @@ transmissionvpn_role_web_subdomain: "{{ transmissionvpn_name }}"
 transmissionvpn_role_web_domain: "{{ user.domain }}"
 transmissionvpn_role_web_port: "9091"
 transmissionvpn_role_web_url: "{{ 'https://' + (transmissionvpn_role_web_subdomain + '.' + transmissionvpn_role_web_domain
-                          if (transmissionvpn_role_web_subdomain | length > 0)
-                          else transmissionvpn_role_web_domain) }}"
+                               if (transmissionvpn_role_web_subdomain | length > 0)
+                               else transmissionvpn_role_web_domain) }}"
 
 ################################
 # DNS
@@ -93,7 +93,7 @@ transmissionvpn_role_docker_envs_default:
   TRANSMISSION_HOME: "{{ transmissionvpn_transmission_home }}"
 transmissionvpn_role_docker_envs_custom: {}
 transmissionvpn_role_docker_envs: "{{ transmissionvpn_role_docker_envs_default
-                                 | combine(transmissionvpn_role_docker_envs_custom) }}"
+                                      | combine(transmissionvpn_role_docker_envs_custom) }}"
 
 # Volumes
 transmissionvpn_role_docker_volumes_default:
@@ -104,7 +104,7 @@ transmissionvpn_role_docker_volumes_default:
   - "{{ transmissionvpn_role_paths_downloads_location }}:/data"
 transmissionvpn_role_docker_volumes_custom: []
 transmissionvpn_role_docker_volumes: "{{ transmissionvpn_role_docker_volumes_default
-                                    + transmissionvpn_role_docker_volumes_custom }}"
+                                         + transmissionvpn_role_docker_volumes_custom }}"
 
 # Hostname
 transmissionvpn_role_docker_hostname: "{{ transmissionvpn_name }}"
@@ -114,15 +114,15 @@ transmissionvpn_role_docker_networks_alias: "{{ transmissionvpn_name }}"
 transmissionvpn_role_docker_networks_default: []
 transmissionvpn_role_docker_networks_custom: []
 transmissionvpn_role_docker_networks: "{{ docker_networks_common
-                                     + transmissionvpn_role_docker_networks_default
-                                     + transmissionvpn_role_docker_networks_custom }}"
+                                          + transmissionvpn_role_docker_networks_default
+                                          + transmissionvpn_role_docker_networks_custom }}"
 
 # Capabilities
 transmissionvpn_role_docker_capabilities_default:
   - NET_ADMIN
 transmissionvpn_role_docker_capabilities_custom: []
 transmissionvpn_role_docker_capabilities: "{{ transmissionvpn_role_docker_capabilities_default
-                                         + transmissionvpn_role_docker_capabilities_custom }}"
+                                              + transmissionvpn_role_docker_capabilities_custom }}"
 
 # Restart Policy
 transmissionvpn_role_docker_restart_policy: unless-stopped

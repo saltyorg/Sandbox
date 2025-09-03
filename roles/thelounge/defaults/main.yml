@@ -30,8 +30,8 @@ thelounge_role_web_subdomain: "{{ thelounge_name }}"
 thelounge_role_web_domain: "{{ user.domain }}"
 thelounge_role_web_port: "9000"
 thelounge_role_web_url: "{{ 'https://' + (thelounge_role_web_subdomain + '.' + thelounge_role_web_domain
-                    if (thelounge_role_web_subdomain | length > 0)
-                    else thelounge_role_web_domain) }}"
+                         if (thelounge_role_web_subdomain | length > 0)
+                         else thelounge_role_web_domain) }}"
 
 ################################
 # DNS
@@ -73,14 +73,14 @@ thelounge_role_docker_envs_default:
   TZ: "{{ tz }}"
 thelounge_role_docker_envs_custom: {}
 thelounge_role_docker_envs: "{{ thelounge_role_docker_envs_default
-                           | combine(thelounge_role_docker_envs_custom) }}"
+                                | combine(thelounge_role_docker_envs_custom) }}"
 
 # Volumes
 thelounge_role_docker_volumes_default:
   - "{{ thelounge_role_paths_location }}:/config"
 thelounge_role_docker_volumes_custom: []
 thelounge_role_docker_volumes: "{{ thelounge_role_docker_volumes_default
-                              + thelounge_role_docker_volumes_custom }}"
+                                   + thelounge_role_docker_volumes_custom }}"
 
 # Hostname
 thelounge_role_docker_hostname: "{{ thelounge_name }}"
@@ -90,8 +90,8 @@ thelounge_role_docker_networks_alias: "{{ thelounge_name }}"
 thelounge_role_docker_networks_default: []
 thelounge_role_docker_networks_custom: []
 thelounge_role_docker_networks: "{{ docker_networks_common
-                               + thelounge_role_docker_networks_default
-                               + thelounge_role_docker_networks_custom }}"
+                                    + thelounge_role_docker_networks_default
+                                    + thelounge_role_docker_networks_custom }}"
 
 # Restart Policy
 thelounge_role_docker_restart_policy: unless-stopped

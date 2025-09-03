@@ -30,8 +30,8 @@ speedtest_role_web_subdomain: "{{ speedtest_name }}"
 speedtest_role_web_domain: "{{ user.domain }}"
 speedtest_role_web_port: "80"
 speedtest_role_web_url: "{{ 'https://' + (speedtest_role_web_subdomain + '.' + speedtest_role_web_domain
-                    if (speedtest_role_web_subdomain | length > 0)
-                    else speedtest_role_web_domain) }}"
+                         if (speedtest_role_web_subdomain | length > 0)
+                         else speedtest_role_web_domain) }}"
 
 ################################
 # DNS
@@ -86,14 +86,14 @@ speedtest_role_docker_envs_default:
   TP_THEME: "{{ lookup('vars', speedtest_name + '_themepark_theme', default=speedtest_themepark_theme) }}"
 speedtest_role_docker_envs_custom: {}
 speedtest_role_docker_envs: "{{ speedtest_role_docker_envs_default
-                           | combine(speedtest_role_docker_envs_custom) }}"
+                                | combine(speedtest_role_docker_envs_custom) }}"
 
 # Volumes
 speedtest_role_docker_volumes_default:
   - "{{ speedtest_role_paths_location }}:/config"
 speedtest_role_docker_volumes_custom: []
 speedtest_role_docker_volumes: "{{ speedtest_role_docker_volumes_default
-                              + speedtest_role_docker_volumes_custom }}"
+                                   + speedtest_role_docker_volumes_custom }}"
 
 # Hostname
 speedtest_role_docker_hostname: "{{ speedtest_name }}"
@@ -103,8 +103,8 @@ speedtest_role_docker_networks_alias: "{{ speedtest_name }}"
 speedtest_role_docker_networks_default: []
 speedtest_role_docker_networks_custom: []
 speedtest_role_docker_networks: "{{ docker_networks_common
-                               + speedtest_role_docker_networks_default
-                               + speedtest_role_docker_networks_custom }}"
+                                    + speedtest_role_docker_networks_default
+                                    + speedtest_role_docker_networks_custom }}"
 
 # Restart Policy
 speedtest_role_docker_restart_policy: unless-stopped

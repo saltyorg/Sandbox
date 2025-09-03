@@ -31,8 +31,8 @@ resiliosync_role_web_subdomain: "{{ resiliosync_name }}"
 resiliosync_role_web_domain: "{{ user.domain }}"
 resiliosync_role_web_port: "8888"
 resiliosync_role_web_url: "{{ 'https://' + (resiliosync_role_web_subdomain + '.' + resiliosync_role_web_domain
-                      if (resiliosync_role_web_subdomain | length > 0)
-                      else resiliosync_role_web_domain) }}"
+                           if (resiliosync_role_web_subdomain | length > 0)
+                           else resiliosync_role_web_domain) }}"
 
 ################################
 # DNS
@@ -71,7 +71,7 @@ resiliosync_role_docker_ports_defaults:
   - "{{ resiliosync_data_port }}:{{ resiliosync_data_port }}"
 resiliosync_role_docker_ports_custom: []
 resiliosync_role_docker_ports: "{{ resiliosync_role_docker_ports_defaults
-                              + resiliosync_role_docker_ports_custom }}"
+                                   + resiliosync_role_docker_ports_custom }}"
 
 # Volumes
 resiliosync_role_docker_volumes_global: false
@@ -81,7 +81,7 @@ resiliosync_role_docker_volumes_default:
   - "/home:/mnt/mounted_folders/home"
 resiliosync_role_docker_volumes_custom: []
 resiliosync_role_docker_volumes: "{{ resiliosync_role_docker_volumes_default
-                                + resiliosync_role_docker_volumes_custom }}"
+                                     + resiliosync_role_docker_volumes_custom }}"
 
 # Hostname
 resiliosync_role_docker_hostname: "{{ resiliosync_name }}"
@@ -91,8 +91,8 @@ resiliosync_role_docker_networks_alias: "{{ resiliosync_name }}"
 resiliosync_role_docker_networks_default: []
 resiliosync_role_docker_networks_custom: []
 resiliosync_role_docker_networks: "{{ docker_networks_common
-                                 + resiliosync_role_docker_networks_default
-                                 + resiliosync_role_docker_networks_custom }}"
+                                      + resiliosync_role_docker_networks_default
+                                      + resiliosync_role_docker_networks_custom }}"
 
 # Restart Policy
 resiliosync_role_docker_restart_policy: unless-stopped

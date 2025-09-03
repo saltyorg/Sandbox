@@ -31,8 +31,8 @@ reposilite_role_web_subdomain: "{{ reposilite_name }}"
 reposilite_role_web_domain: "{{ user.domain }}"
 reposilite_role_web_port: "8080"
 respoilite_role_web_url: "{{ 'https://' + (respoilite_role_web_subdomain + '.' + respoilite_role_web_domain
-                     if (respoilite_role_web_subdomain | length > 0)
-                     else respoilite_role_web_domain) }}"
+                          if (respoilite_role_web_subdomain | length > 0)
+                          else respoilite_role_web_domain) }}"
 
 ################################
 # DNS
@@ -74,14 +74,14 @@ reposilite_role_docker_envs_default:
   REPOSILITE_OPTS: "--token {{ user.name }}:{{ user.pass }}"
 reposilite_role_docker_envs_custom: {}
 reposilite_role_docker_envs: "{{ reposilite_role_docker_envs_default
-                            | combine(reposilite_role_docker_envs_custom) }}"
+                                 | combine(reposilite_role_docker_envs_custom) }}"
 
 # Volumes
 reposilite_role_docker_volumes_default:
   - "{{ reposilite_role_paths_location }}:/app/data"
 reposilite_role_docker_volumes_custom: []
 reposilite_role_docker_volumes: "{{ reposilite_role_docker_volumes_default
-                               + reposilite_role_docker_volumes_custom }}"
+                                    + reposilite_role_docker_volumes_custom }}"
 
 # Hostname
 reposilite_role_docker_hostname: "{{ reposilite_name }}"
@@ -91,8 +91,8 @@ reposilite_role_docker_networks_alias: "{{ reposilite_name }}"
 reposilite_role_docker_networks_default: []
 reposilite_role_docker_networks_custom: []
 reposilite_role_docker_networks: "{{ docker_networks_common
-                                + reposilite_role_docker_networks_default
-                                + reposilite_role_docker_networks_custom }}"
+                                     + reposilite_role_docker_networks_default
+                                     + reposilite_role_docker_networks_custom }}"
 
 # Restart Policy
 reposilite_role_docker_restart_policy: unless-stopped
