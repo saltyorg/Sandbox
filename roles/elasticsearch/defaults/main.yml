@@ -75,7 +75,7 @@ elasticsearch_role_docker_networks: "{{ docker_networks_common
                                         + lookup('role_var', '_docker_networks_custom', role='elasticsearch') }}"
 
 # Restart Policy
-elasticsearch_role_docker_restart_policy: always
+elasticsearch_role_docker_restart_policy: unless-stopped
 
 # State
 elasticsearch_role_docker_state: started
