@@ -45,7 +45,7 @@ gotenberg_role_docker_networks: "{{ docker_networks_common
                                     + lookup('role_var', '_docker_networks_custom', role='gotenberg') }}"
 
 # Restart Policy
-gotenberg_role_docker_restart_policy: always
+gotenberg_role_docker_restart_policy: unless-stopped
 
 # State
 gotenberg_role_docker_state: started
