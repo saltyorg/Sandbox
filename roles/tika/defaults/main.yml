@@ -44,7 +44,7 @@ tika_role_docker_networks: "{{ docker_networks_common
                           + tika_role_docker_networks_custom }}"
 
 # Restart Policy
-tika_role_docker_restart_policy: always
+tika_role_docker_restart_policy: unless-stopped
 
 # State
 tika_role_docker_state: started
