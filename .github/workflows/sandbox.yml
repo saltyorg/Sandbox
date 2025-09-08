@@ -90,16 +90,19 @@ jobs:
       - name: Print pip dependencies
         run: cat /srv/git/saltbox/requirements/requirements-saltbox.txt
 
-      - name: Create, chown and chmod /tmp/ansible
-        run: sudo mkdir /tmp/ansible && sudo chown -R runner:runner /tmp/ansible && chmod 0777 /tmp/ansible
+      - name: Edit accounts.yml
+        run: cd /srv/git/saltbox && sed -i 's/seed/runner/g' accounts.yml
 
       - name: Syntax Check
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
 
+      - name: Create basic vars file
+        run: |
+          echo "continuous_integration: true" > /tmp/vars.yml
+
       - name: Create CI vars file
         if: github.repository == 'saltyorg/Sandbox' && github.event.repository.fork == false
         run: |
-          echo "continuous_integration: true" > /tmp/vars.yml
           echo "dockerhub:" >> /tmp/vars.yml
           echo "  token: ${{ secrets.DOCKERHUB_TOKEN }}" >> /tmp/vars.yml
           echo "  user: ${{ secrets.DOCKERHUB_USERNAME }}" >> /tmp/vars.yml
