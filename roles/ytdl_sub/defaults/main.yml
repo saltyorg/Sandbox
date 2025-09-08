@@ -19,6 +19,7 @@ ytdl_sub_name: ytdl-sub
 
 ytdl_sub_cron_schedule: "0 */6 * * *"
 ytdl_sub_cron_on_start: "true"
+ytdl_sub_role_image_type: "headless"
 
 ################################
 # Paths
@@ -36,6 +37,37 @@ ytdl_sub_role_paths_folders_list:
   - "{{ ytdl_sub_role_paths_download_folder }}/music"
 
 ################################
+# Web
+################################
+
+ytdl_sub_role_web_subdomain: "{{ ytdl_sub_name }}"
+ytdl_sub_role_web_domain: "{{ user.domain }}"
+ytdl_sub_role_web_port: "8080"
+ytdl_sub_role_web_url: "{{ 'https://' + (ytdl_sub_role_web_subdomain + '.' + ytdl_sub_role_web_domain
+                 if (ytdl_sub_role_web_subdomain | length > 0)
+                 else ytdl_sub_role_web_domain) }}"
+
+################################
+# DNS
+################################
+
+ytdl_sub_role_dns_record: "{{ ytdl_sub_role_web_subdomain }}"
+ytdl_sub_role_dns_zone: "{{ ytdl_sub_role_web_domain }}"
+ytdl_sub_role_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+ytdl_sub_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+ytdl_sub_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+ytdl_sub_role_traefik_middleware_custom: ""
+ytdl_sub_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+ytdl_sub_role_traefik_enabled: true
+ytdl_sub_role_traefik_api_enabled: false
+ytdl_sub_role_traefik_api_endpoint: ""
+
+################################
 # Docker
 ################################
 
@@ -44,8 +76,9 @@ ytdl_sub_role_docker_container: "{{ ytdl_sub_name }}"
 
 # Image
 ytdl_sub_role_docker_image_pull: true
-ytdl_sub_role_docker_image_tag: "ubuntu-latest"
-ytdl_sub_role_docker_image: "ghcr.io/jmbannon/ytdl-sub:{{ ytdl_sub_role_docker_image_tag }}"
+ytdl_sub_role_docker_image_repo: "{{ 'ghcr.io/jmbannon/ytdl-sub-gui' if ytdl_sub_role_image_type == 'gui' else 'ghcr.io/jmbannon/ytdl-sub' }}"
+ytdl_sub_role_docker_image_tag: "{{ 'latest' if ytdl_sub_role_image_type == 'gui' else 'ubuntu-latest' }}"
+ytdl_sub_role_docker_image: "{{ ytdl_sub_role_docker_image_repo }}:{{ ytdl_sub_role_docker_image_tag }}"
 
 # Envs
 ytdl_sub_role_docker_envs_default:
