@@ -44,8 +44,8 @@ ytdl_sub_web_subdomain: "{{ ytdl_sub_name }}"
 ytdl_sub_web_domain: "{{ user.domain }}"
 ytdl_sub_web_port: "8080"
 ytdl_sub_web_url: "{{ 'https://' + (ytdl_sub_web_subdomain + '.' + ytdl_sub_web_domain
-                 if (ytdl_sub_web_subdomain | length > 0)
-                 else ytdl_sub_web_domain) }}"
+                   if (ytdl_sub_web_subdomain | length > 0)
+                   else ytdl_sub_web_domain) }}"
 
 ################################
 # DNS
