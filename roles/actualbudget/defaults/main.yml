@@ -21,8 +21,8 @@ actualbudget_role_paths_folder: "{{ actualbudget_name }}"
 actualbudget_role_paths_location: "{{ server_appdata_path }}/{{ actualbudget_role_paths_folder }}"
 actualbudget_role_paths_folders_list:
   - "{{ actualbudget_role_paths_location }}"
-  - "{{ actualbudget_role_paths_location }}:/server-files"
-  - "{{ actualbudget_role_paths_location }}:/user-files"
+  - "{{ actualbudget_role_paths_location }}/server-files"
+  - "{{ actualbudget_role_paths_location }}/user-files"
 
 ################################
 # Web
