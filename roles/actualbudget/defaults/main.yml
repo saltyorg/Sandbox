@@ -21,8 +21,8 @@ actualbudget_paths_folder: "{{ actualbudget_name }}"
 actualbudget_paths_location: "{{ server_appdata_path }}/{{ actualbudget_paths_folder }}"
 actualbudget_paths_folders_list:
   - "{{ actualbudget_paths_location }}"
-  - "{{ actualbudget_paths_location }}:/server-files"
-  - "{{ actualbudget_paths_location }}:/user-files"
+  - "{{ actualbudget_paths_location }}/server-files"
+  - "{{ actualbudget_paths_location }}/user-files"
 
 ################################
 # Web
