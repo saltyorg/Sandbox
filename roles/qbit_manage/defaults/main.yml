@@ -23,6 +23,37 @@ qbit_manage_role_paths_folders_list:
   - "{{ qbit_manage_role_paths_location }}"
 
 ################################
+# Web
+################################
+
+qbit_manage_role_web_subdomain: "{{ qbit_manage_name }}"
+qbit_manage_role_web_domain: "{{ user.domain }}"
+qbit_manage_role_web_port: "8080"
+qbit_manage_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='qbit_manage') + '.' + lookup('role_var', '_web_domain', role='qbit_manage')
+                           if (lookup('role_var', '_web_subdomain', role='qbit_manage') | length > 0)
+                           else lookup('role_var', '_web_domain', role='qbit_manage')) }}"
+
+################################
+# DNS
+################################
+
+qbit_manage_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='qbit_manage') }}"
+qbit_manage_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='qbit_manage') }}"
+qbit_manage_role_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+qbit_manage_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+qbit_manage_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+qbit_manage_role_traefik_middleware_custom: ""
+qbit_manage_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+qbit_manage_role_traefik_enabled: true
+qbit_manage_role_traefik_api_enabled: true
+qbit_manage_role_traefik_api_endpoint: "PathPrefix(`/api`)"
+
+################################
 # Docker
 ################################
 
