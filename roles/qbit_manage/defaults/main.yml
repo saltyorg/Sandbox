@@ -23,6 +23,37 @@ qbit_manage_paths_folders_list:
   - "{{ qbit_manage_paths_location }}"
 
 ################################
+# Web
+################################
+
+qbit_manage_web_subdomain: "{{ qbit_manage_name }}"
+qbit_manage_web_domain: "{{ user.domain }}"
+qbit_manage_web_port: "8080"
+qbit_manage_web_url: "{{ 'https://' + (qbit_manage_web_subdomain + '.' + qbit_manage_web_domain
+                      if (qbit_manage_web_subdomain | length > 0)
+                      else qbit_manage_web_domain) }}"
+
+################################
+# DNS
+################################
+
+qbit_manage_dns_record: "{{ qbit_manage_web_subdomain }}"
+qbit_manage_dns_zone: "{{ qbit_manage_web_domain }}"
+qbit_manage_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+qbit_manage_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+qbit_manage_traefik_middleware_default: "{{ traefik_default_middleware }}"
+qbit_manage_traefik_middleware_custom: ""
+qbit_manage_traefik_certresolver: "{{ traefik_default_certresolver }}"
+qbit_manage_traefik_enabled: true
+qbit_manage_traefik_api_enabled: true
+qbit_manage_traefik_api_endpoint: "PathPrefix(`/api`)"
+
+################################
 # Docker
 ################################
 
