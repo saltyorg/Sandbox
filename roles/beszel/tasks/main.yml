@@ -1,0 +1,50 @@
+#########################################################################
+# Title:            Sandbox: Beszel                                     #
+# Author(s):        f4bio                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Beszel | Generate App Key
+  community.docker.docker_container:
+    name: beszel-app-key
+    image: "{{ beszel_docker_image }}"
+    command: "appkey"
+    detach: no
+    entrypoint: "/bin/bash"
+    networks:
+      - name: saltbox
+    cleanup: yes
+    state: started
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+    pull: true
+  register: beszel_generated_app_key
+
+- name: "Save Beszel App Key Saltbox facts"
+  saltbox_facts:
+    role: "beszel"
+    instance: "beszel"
+    keys:
+      app_key: "{{ beszel_generated_app_key.container.Output }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: beszel_saltbox_facts
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
