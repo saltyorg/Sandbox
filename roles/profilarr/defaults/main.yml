@@ -68,6 +68,8 @@ profilarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Envs
 profilarr_role_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 profilarr_role_docker_envs_custom: {}
 profilarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='profilarr')
@@ -96,6 +98,3 @@ profilarr_role_docker_restart_policy: unless-stopped
 
 # State
 profilarr_role_docker_state: started
-
-# User
-profilarr_role_docker_user: "{{ uid }}:{{ gid }}"
