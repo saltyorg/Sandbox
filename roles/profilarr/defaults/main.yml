@@ -74,6 +74,8 @@ profilarr_docker_ports: "{{ profilarr_docker_ports_defaults
 
 # Envs
 profilarr_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 profilarr_docker_envs_custom: {}
 profilarr_docker_envs: "{{ profilarr_docker_envs_default
@@ -140,6 +142,3 @@ profilarr_docker_restart_policy: unless-stopped
 
 # State
 profilarr_docker_state: started
-
-# User
-profilarr_docker_user: "{{ uid }}:{{ gid }}"
