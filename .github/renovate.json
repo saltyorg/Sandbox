@@ -13,7 +13,7 @@
     },
     "baseBranches": [
         "$default",
-        "role-factor"
+        "role-refactor"
     ], 
     "labels": [
         "dependencies"
