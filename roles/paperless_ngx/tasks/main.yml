@@ -48,7 +48,7 @@
     name: gotenberg
   vars:
     gotenberg_name: "{{ paperless_ngx_name }}-gotenberg"
-    gotenberg_role_docker_image_tag: "7.8"
+    gotenberg_role_docker_image_tag: "8.22"
     gotenberg_role_docker_commands:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
