@@ -68,9 +68,6 @@ qbittorrentvpn:
   vpn_client: wireguard
 recyclarr:
   cron_schedule: "@daily"
-sarotate:
-  remotes: [""]
-  sa_path: "your_sa_folder_path"
   sleeptime:
   rc_port:
   rc_user:
