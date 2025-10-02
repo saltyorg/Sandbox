@@ -54,8 +54,6 @@
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
       - "--api-timeout=300s"
-      - "--uno-listener-restart-threshold=300"
-      - "--uno-listener-start-timeout=300s"
 
 - name: Remove legacy Tika Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
