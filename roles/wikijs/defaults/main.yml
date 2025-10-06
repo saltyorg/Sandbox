@@ -91,8 +91,8 @@ wikijs_role_docker_envs_default:
   DB_TYPE: "postgres"
   DB_HOST: "{{ lookup('role_var', '_postgres_name', role='wikijs') }}"
   DB_PORT: "5432"
-  DB_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-  DB_PASS: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  DB_USER: "{{ lookup('role_var', '_postgres_user', role='wikijs') }}"
+  DB_PASS: "{{ lookup('role_var', '_postgres_password', role='wikijs') }}"
   DB_NAME: "{{ lookup('role_var', '_postgres_docker_env_db', role='wikijs') }}"
 wikijs_role_docker_envs_custom: {}
 wikijs_role_docker_envs: "{{ wikijs_role_docker_envs_default
