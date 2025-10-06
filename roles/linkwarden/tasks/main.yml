@@ -7,18 +7,20 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ linkwarden_role_postgres_name }}"]
-    postgres_role_docker_env_user: "{{ linkwarden_role_postgres_docker_env_user }}"
-    postgres_role_docker_env_password: "{{ linkwarden_role_postgres_docker_env_password }}"
-    postgres_role_docker_env_db: "{{ linkwarden_role_postgres_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ linkwarden_role_postgres_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ linkwarden_role_postgres_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ linkwarden_role_postgres_paths_folder }}"
-    postgres_role_paths_location: "{{ linkwarden_role_postgres_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='linkwarden') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='linkwarden') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='linkwarden') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='linkwarden') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='linkwarden') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='linkwarden') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='linkwarden') }}"
+    postgres_role_docker_env_user: "{{ lookup('role_var', '_postgres_user', role='linkwarden') }}"
+    postgres_role_docker_env_password: "{{ lookup('role_var', '_postgres_password', role='linkwarden') }}"
+  when: lookup('role_var', '_postgres_deploy', role='linkwarden')
 
 - name: "Generate Secret Key"
   ansible.builtin.shell: "openssl rand -base64 45"

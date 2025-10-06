@@ -17,12 +17,19 @@ linkwarden_name: linkwarden
 # Settings
 ################################
 
+linkwarden_role_postgres_deploy: true
 linkwarden_role_postgres_name: "{{ linkwarden_name }}-postgres"
-linkwarden_role_postgres_docker_env_user: "{{ linkwarden_name }}"
-linkwarden_role_postgres_docker_env_password: "{{ linkwarden_name }}"
+linkwarden_role_postgres_user: "{{ linkwarden_name }}"
+linkwarden_role_postgres_password: "{{ linkwarden_name }}"
 linkwarden_role_postgres_docker_env_db: "{{ linkwarden_name }}"
 linkwarden_role_postgres_docker_image_tag: "16-alpine"
 linkwarden_role_postgres_docker_image_repo: "postgres"
+linkwarden_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='linkwarden') }} -U {{ lookup('role_var', '_postgres_user', role='linkwarden') }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 linkwarden_role_postgres_paths_folder: "{{ linkwarden_name }}"
 linkwarden_role_postgres_paths_location: "{{ server_appdata_path }}/{{ linkwarden_role_postgres_paths_folder }}/postgres"
 
