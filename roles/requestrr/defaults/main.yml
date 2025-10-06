@@ -78,7 +78,7 @@ requestrr_role_docker_envs: "{{ lookup('vars', requestrr_name + '_docker_envs_de
 
 # Volumes
 requestrr_role_docker_volumes_default:
-  - "{{ requestrr_role_paths_location }}:/root/config"
+  - "{{ lookup('role_var', '_paths_location', role='requestrr') }}:/root/config"
 requestrr_role_docker_volumes_custom: []
 requestrr_role_docker_volumes: "{{ lookup('vars', requestrr_name + '_docker_volumes_default', default=requestrr_role_docker_volumes_default)
                                    + lookup('vars', requestrr_name + '_docker_volumes_custom', default=requestrr_role_docker_volumes_custom) }}"
