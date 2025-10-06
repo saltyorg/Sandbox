@@ -17,13 +17,21 @@ joplin_name: joplin
 # Settings
 ################################
 
+joplin_role_postgres_deploy: true
 joplin_role_postgres_name: "{{ joplin_name }}-postgres"
+joplin_role_postgres_user: "joplin"
+joplin_role_postgres_password: "joplin"
+joplin_role_postgres_docker_env_db: "joplin"
 joplin_role_postgres_docker_image_tag: "13"
 joplin_role_postgres_docker_image_repo: "postgres"
-joplin_role_postgres_docker_env_db: "joplin"
-joplin_role_postgres_docker_env_user: "joplin"
-joplin_role_postgres_docker_env_password: "joplin"
+joplin_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='joplin') }} -U {{ lookup('role_var', '_postgres_user', role='joplin') }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 joplin_role_postgres_paths_folder: "{{ joplin_name }}"
+joplin_role_postgres_paths_location: "{{ server_appdata_path }}/{{ joplin_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
