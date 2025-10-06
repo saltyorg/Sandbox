@@ -23,16 +23,18 @@
   ansible.builtin.shell: "yyq -i 'del(.tandoor)' {{ playbook_dir }}/settings.yml"
   when: tandoor is defined
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
     postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='tandoor') }}"]
-    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='tandoor') }}"
-    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='tandoor') }}"
     postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='tandoor') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='tandoor') }}"
     postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='tandoor') }}"
     postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='tandoor') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='tandoor') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='tandoor') }}"
+  when: lookup('role_var', '_postgres_deploy', role='tandoor')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
