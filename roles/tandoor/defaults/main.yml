@@ -17,10 +17,19 @@ tandoor_name: tandoor
 # Settings
 ################################
 
+tandoor_role_postgres_deploy: true
 tandoor_role_postgres_name: "{{ tandoor_name }}-postgres"
+tandoor_role_postgres_user: "{{ postgres_role_docker_env_user }}"
+tandoor_role_postgres_password: "{{ postgres_role_docker_env_password }}"
 tandoor_role_postgres_docker_env_db: "{{ tandoor_name }}"
-tandoor_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
-tandoor_role_postgres_docker_image_tag: "{{ lookup('role_var', '_docker_image_tag', role='postgres') }}"
+tandoor_role_postgres_docker_image_tag: "17-alpine"
+tandoor_role_postgres_docker_image_repo: "postgres"
+tandoor_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='tandoor') }} -U {{ postgres_role_docker_env_user }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 tandoor_role_postgres_paths_folder: "{{ tandoor_name }}"
 tandoor_role_postgres_paths_location: "{{ server_appdata_path }}/{{ tandoor_role_postgres_paths_folder }}/postgres"
 
