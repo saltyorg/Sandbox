@@ -82,7 +82,7 @@
 
 - name: Print Teslamate DB Password
   ansible.builtin.debug:
-    msg: "{{ teslamate_role_postgres_docker_env_password }}"
+    msg: "{{ lookup('role_var', '_postgres_password', role='teslamate') }}"
   tags:
     - teslamate-postgres-password
 

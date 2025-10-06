@@ -88,7 +88,7 @@ teslamate_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Envs
 teslamate_role_docker_envs_default:
-  DATABASE_USER: "{{ lookup('role_var', '_postgres_user', role='postgres') }}"
+  DATABASE_USER: "{{ lookup('role_var', '_postgres_user', role='teslamate') }}"
   DATABASE_PASS: "{{ lookup('role_var', '_postgres_password', role='teslamate') }}"
   DATABASE_NAME: "{{ lookup('role_var', '_postgres_docker_env_db', role='teslamate') }}"
   ENCRYPTION_KEY: "{{ teslamate_secret_key }}"
