@@ -14,6 +14,17 @@
 tandoor_name: tandoor
 
 ################################
+# Settings
+################################
+
+tandoor_role_postgres_name: "{{ tandoor_name }}-postgres"
+tandoor_role_postgres_docker_env_db: "{{ tandoor_name }}"
+tandoor_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+tandoor_role_postgres_docker_image_tag: "{{ lookup('role_var', '_docker_image_tag', role='postgres') }}"
+tandoor_role_postgres_paths_folder: "{{ tandoor_name }}"
+tandoor_role_postgres_paths_location: "{{ server_appdata_path }}/{{ tandoor_role_postgres_paths_folder }}/postgres"
+
+################################
 # Paths
 ################################
 
@@ -73,7 +84,7 @@ tandoor_role_docker_envs_default:
   TZ: "{{ tz }}"
   SECRET_KEY: "{{ tandoor_saltbox_facts.facts.secret_key }}"
   DB_ENGINE: "django.db.backends.postgresql"
-  POSTGRES_HOST: "postgres"
+  POSTGRES_HOST: "{{ lookup('role_var', '_postgres_name', role='tandoor') }}"
   POSTGRES_PORT: "5432"
   POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
   POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
@@ -111,6 +122,6 @@ tandoor_role_docker_restart_policy: unless-stopped
 tandoor_role_docker_state: started
 
 # Dependencies
-tandoor_role_depends_on: "postgres"
+tandoor_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='tandoor') }}"
 tandoor_role_depends_on_delay: "0"
 tandoor_role_depends_on_healthchecks: "false"
