@@ -12,16 +12,18 @@
   vars:
     _var_prefix: "{{ miniflux_name }}-postgres"
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ miniflux_role_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ miniflux_role_postgres_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ miniflux_role_postgres_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ miniflux_role_postgres_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ miniflux_role_postgres_paths_folder }}"
-    postgres_role_paths_location: "{{ miniflux_role_postgres_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='miniflux') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='miniflux') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='miniflux') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='miniflux') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='miniflux') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='miniflux') }}"
+  when: lookup('role_var', '_postgres_deploy', role='miniflux')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
