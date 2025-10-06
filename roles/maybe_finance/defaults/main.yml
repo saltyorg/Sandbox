@@ -20,7 +20,7 @@ maybe_finance_name: maybe-finance
 maybe_finance_role_postgres_name: "{{ maybe_finance_name }}-postgres"
 maybe_finance_role_postgres_docker_env_db: "{{ maybe_finance_name }}"
 maybe_finance_role_postgres_docker_image_tag: "16"
-maybe_finance_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+maybe_finance_role_postgres_docker_image_repo: "postgres"
 maybe_finance_role_postgres_paths_folder: "{{ maybe_finance_name }}"
 maybe_finance_role_postgres_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_role_postgres_paths_folder }}/postgres"
 

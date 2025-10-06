@@ -21,9 +21,9 @@ teslamate_role_postgres_name: "{{ teslamate_name }}-postgres"
 teslamate_role_postgres_docker_env_db: "{{ teslamate_name }}"
 teslamate_role_postgres_docker_env_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
 teslamate_role_postgres_docker_image_tag: "16"
-teslamate_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+teslamate_role_postgres_docker_image_repo: "postgres"
 teslamate_role_postgres_paths_folder: "{{ teslamate_name }}"
-teslamate_role_postgres_paths_location: "{{ server_appdata_path }}/{{ teslamate_role_postgres_paths_folder }}/postgres"
+teslamate_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths

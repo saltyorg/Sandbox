@@ -19,12 +19,12 @@ semaphoreui_name: semaphoreui
 
 semaphoreui_role_postgres_name: "{{ semaphoreui_name }}-postgres"
 semaphoreui_role_postgres_docker_image_tag: "15"
-semaphoreui_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+semaphoreui_role_postgres_docker_image_repo: "postgres"
 semaphoreui_role_postgres_docker_env_db: "semaphoreui"
 semaphoreui_role_postgres_docker_env_user: "semaphoreui"
 semaphoreui_role_postgres_docker_env_password: "semaphoreui"
 semaphoreui_role_postgres_paths_folder: "{{ semaphoreui_name }}"
-semaphoreui_role_postgres_paths_location: "{{ server_appdata_path }}/{{ semaphoreui_role_postgres_paths_folder }}/postgres"
+semaphoreui_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths

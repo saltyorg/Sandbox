@@ -22,7 +22,7 @@ linkwarden_role_postgres_docker_env_user: "{{ linkwarden_name }}"
 linkwarden_role_postgres_docker_env_password: "{{ linkwarden_name }}"
 linkwarden_role_postgres_docker_env_db: "{{ linkwarden_name }}"
 linkwarden_role_postgres_docker_image_tag: "16-alpine"
-linkwarden_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+linkwarden_role_postgres_docker_image_repo: "postgres"
 linkwarden_role_postgres_paths_folder: "{{ linkwarden_name }}"
 linkwarden_role_postgres_paths_location: "{{ server_appdata_path }}/{{ linkwarden_role_postgres_paths_folder }}/postgres"
 

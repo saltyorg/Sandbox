@@ -20,9 +20,9 @@ paperless_ngx_name: paperless
 paperless_ngx_role_postgres_name: "{{ paperless_ngx_name }}-postgres"
 paperless_ngx_role_postgres_docker_env_db: "{{ paperless_ngx_name }}"
 paperless_ngx_role_postgres_docker_image_tag: "14-alpine"
-paperless_ngx_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+paperless_ngx_role_postgres_docker_image_repo: "postgres"
 paperless_ngx_role_postgres_paths_folder: "{{ paperless_ngx_name }}"
-paperless_ngx_role_postgres_paths_location: "{{ server_appdata_path }}/{{ paperless_ngx_role_postgres_paths_folder }}/postgres"
+paperless_ngx_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
 
 ################################
 # Paths
