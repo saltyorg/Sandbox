@@ -12,7 +12,13 @@
 ################################
 
 resiliosync_name: resiliosync
-resiliosync_data_port: "55555"
+
+
+################################
+# Settings
+################################
+
+resiliosync_role_data_port: "55555"
 
 ################################
 # Paths
@@ -30,16 +36,16 @@ resiliosync_role_paths_folders_list:
 resiliosync_role_web_subdomain: "{{ resiliosync_name }}"
 resiliosync_role_web_domain: "{{ user.domain }}"
 resiliosync_role_web_port: "8888"
-resiliosync_role_web_url: "{{ 'https://' + (resiliosync_role_web_subdomain + '.' + resiliosync_role_web_domain
-                           if (resiliosync_role_web_subdomain | length > 0)
-                           else resiliosync_role_web_domain) }}"
+resiliosync_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='resiliosync') + '.' + lookup('role_var', '_web_domain', role='resiliosync')
+                           if (lookup('role_var', '_web_subdomain', role='resiliosync') | length > 0)
+                           else lookup('role_var', '_web_domain', role='resiliosync')) }}"
 
 ################################
 # DNS
 ################################
 
-resiliosync_role_dns_record: "{{ resiliosync_role_web_subdomain }}"
-resiliosync_role_dns_zone: "{{ resiliosync_role_web_domain }}"
+resiliosync_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='resiliosync') }}"
+resiliosync_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='resiliosync') }}"
 resiliosync_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,25 +69,26 @@ resiliosync_role_docker_container: "{{ resiliosync_name }}"
 
 # Image
 resiliosync_role_docker_image_pull: true
+resiliosync_role_docker_image_repo: "resilio/sync"
 resiliosync_role_docker_image_tag: "latest"
-resiliosync_role_docker_image: "resilio/sync:{{ resiliosync_role_docker_image_tag }}"
+resiliosync_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='resiliosync') }}:{{ lookup('role_var', '_docker_image_tag', role='resiliosync') }}"
 
 # Ports
 resiliosync_role_docker_ports_defaults:
-  - "{{ resiliosync_data_port }}:{{ resiliosync_data_port }}"
+  - "{{ lookup('role_var', '_data_port', role='resiliosync') }}:{{ lookup('role_var', '_data_port', role='resiliosync') }}"
 resiliosync_role_docker_ports_custom: []
-resiliosync_role_docker_ports: "{{ resiliosync_role_docker_ports_defaults
-                                   + resiliosync_role_docker_ports_custom }}"
+resiliosync_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='resiliosync')
+                                   + lookup('role_var', '_docker_ports_custom', role='resiliosync') }}"
 
 # Volumes
 resiliosync_role_docker_volumes_global: false
 resiliosync_role_docker_volumes_default:
-  - "{{ resiliosync_role_paths_location }}:/mnt/sync"
+  - "{{ lookup('role_var', '_paths_location', role='resiliosync') }}:/mnt/sync"
   - "/mnt:/mnt/mounted_folders/mnt"
   - "/home:/mnt/mounted_folders/home"
 resiliosync_role_docker_volumes_custom: []
-resiliosync_role_docker_volumes: "{{ resiliosync_role_docker_volumes_default
-                                     + resiliosync_role_docker_volumes_custom }}"
+resiliosync_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='resiliosync')
+                                     + lookup('role_var', '_docker_volumes_custom', role='resiliosync') }}"
 
 # Hostname
 resiliosync_role_docker_hostname: "{{ resiliosync_name }}"
@@ -91,8 +98,8 @@ resiliosync_role_docker_networks_alias: "{{ resiliosync_name }}"
 resiliosync_role_docker_networks_default: []
 resiliosync_role_docker_networks_custom: []
 resiliosync_role_docker_networks: "{{ docker_networks_common
-                                      + resiliosync_role_docker_networks_default
-                                      + resiliosync_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='resiliosync')
+                                      + lookup('role_var', '_docker_networks_custom', role='resiliosync') }}"
 
 # Restart Policy
 resiliosync_role_docker_restart_policy: unless-stopped
