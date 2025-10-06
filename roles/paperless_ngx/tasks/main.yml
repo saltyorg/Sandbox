@@ -27,16 +27,18 @@
   vars:
     var_prefix: "{{ paperless_ngx_name }}_postgres"
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ paperless_ngx_role_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ paperless_ngx_role_postgres_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ paperless_ngx_role_postgres_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ paperless_ngx_role_postgres_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ paperless_ngx_role_postgres_paths_folder }}"
-    postgres_role_paths_location: "{{ paperless_ngx_role_postgres_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='paperless_ngx') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='paperless_ngx') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='paperless_ngx') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='paperless_ngx') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='paperless_ngx') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='paperless_ngx') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='paperless_ngx') }}"
+  when: lookup('role_var', '_postgres_deploy', role='paperless_ngx')
 
 - name: Remove legacy Gotenberg Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

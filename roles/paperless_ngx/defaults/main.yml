@@ -17,12 +17,21 @@ paperless_ngx_name: paperless
 # Settings
 ################################
 
+paperless_ngx_role_postgres_deploy: true
 paperless_ngx_role_postgres_name: "{{ paperless_ngx_name }}-postgres"
+paperless_ngx_role_postgres_user: "{{ postgres_role_docker_env_user }}"
+paperless_ngx_role_postgres_password: "{{ postgres_role_docker_env_password }}"
 paperless_ngx_role_postgres_docker_env_db: "{{ paperless_ngx_name }}"
 paperless_ngx_role_postgres_docker_image_tag: "14-alpine"
 paperless_ngx_role_postgres_docker_image_repo: "postgres"
+paperless_ngx_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='paperless_ngx') }} -U {{ postgres_role_docker_env_user }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 paperless_ngx_role_postgres_paths_folder: "{{ paperless_ngx_name }}"
-paperless_ngx_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+paperless_ngx_role_postgres_paths_location: "{{ server_appdata_path }}/{{ paperless_ngx_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
