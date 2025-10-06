@@ -21,7 +21,8 @@ pufferpanel_role_paths_folder: "{{ pufferpanel_name }}"
 pufferpanel_role_paths_location: "{{ server_appdata_path }}/{{ pufferpanel_role_paths_folder }}"
 pufferpanel_role_paths_folders_list:
   - "{{ pufferpanel_role_paths_location }}/config"
-  - "{{ pufferpanel_role_paths_location }}/servers"
+  - "{{ pufferpanel_role_paths_location }}/data"
+  - "{{ pufferpanel_role_paths_location }}/logs"
 
 ################################
 # Web
@@ -30,16 +31,16 @@ pufferpanel_role_paths_folders_list:
 pufferpanel_role_web_subdomain: "{{ pufferpanel_name }}"
 pufferpanel_role_web_domain: "{{ user.domain }}"
 pufferpanel_role_web_port: "8080"
-pufferpanel_role_web_url: "{{ 'https://' + (pufferpanel_role_web_subdomain + '.' + pufferpanel_role_web_domain
-                           if (pufferpanel_role_web_subdomain | length > 0)
-                           else pufferpanel_role_web_domain) }}"
+pufferpanel_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='pufferpanel') + '.' + lookup('role_var', '_web_domain', role='pufferpanel')
+                           if (lookup('role_var', '_web_subdomain', role='pufferpanel') | length > 0)
+                           else lookup('role_var', '_web_domain', role='pufferpanel')) }}"
 
 ################################
 # DNS
 ################################
 
-pufferpanel_role_dns_record: "{{ pufferpanel_role_web_subdomain }}"
-pufferpanel_role_dns_zone: "{{ pufferpanel_role_web_domain }}"
+pufferpanel_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='pufferpanel') }}"
+pufferpanel_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='pufferpanel') }}"
 pufferpanel_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -61,32 +62,34 @@ pufferpanel_role_docker_container: "{{ pufferpanel_name }}"
 
 # Image
 pufferpanel_role_docker_image_pull: true
+pufferpanel_role_docker_image_repo: "pufferpanel/pufferpanel"
 pufferpanel_role_docker_image_tag: "latest"
-pufferpanel_role_docker_image: "pufferpanel/pufferpanel:{{ pufferpanel_role_docker_image_tag }}"
+pufferpanel_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='pufferpanel') }}:{{ lookup('role_var', '_docker_image_tag', role='pufferpanel') }}"
 
 # Ports
 pufferpanel_role_docker_ports_defaults:
   - "5657:5657"
 pufferpanel_role_docker_ports_custom: []
-pufferpanel_role_docker_ports: "{{ pufferpanel_role_docker_ports_defaults
-                              + pufferpanel_role_docker_ports_custom }}"
+pufferpanel_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='pufferpanel')
+                                   + lookup('role_var', '_docker_ports_custom', role='pufferpanel') }}"
 
 # Envs
 pufferpanel_role_docker_envs_default:
   TZ: "{{ tz }}"
-  PUFFER_DAEMON_DATA_SERVERS: "{{ pufferpanel_role_paths_location }}/servers"
+  GIN_MODE: "release"
 pufferpanel_role_docker_envs_custom: {}
-pufferpanel_role_docker_envs: "{{ pufferpanel_role_docker_envs_default
-                             | combine(pufferpanel_role_docker_envs_custom) }}"
+pufferpanel_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='pufferpanel')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='pufferpanel')) }}"
 
 # Volumes
 pufferpanel_role_docker_volumes_default:
-  - "{{ pufferpanel_role_paths_location }}/config:/etc/pufferpanel"
-  - "{{ pufferpanel_role_paths_location }}/servers:{{ pufferpanel_role_paths_location }}/servers"
+  - "{{ lookup('role_var', '_paths_location', role='pufferpanel') }}/config:/etc/pufferpanel"
+  - "{{ lookup('role_var', '_paths_location', role='pufferpanel') }}/data:/var/lib/pufferpanel"
+  - "{{ lookup('role_var', '_paths_location', role='pufferpanel') }}/logs:/var/log/pufferpanel"
   - "/var/run/docker.sock:/var/run/docker.sock"
 pufferpanel_role_docker_volumes_custom: []
-pufferpanel_role_docker_volumes: "{{ pufferpanel_role_docker_volumes_default
-                                + pufferpanel_role_docker_volumes_custom }}"
+pufferpanel_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='pufferpanel')
+                                     + lookup('role_var', '_docker_volumes_custom', role='pufferpanel') }}"
 
 # Hostname
 pufferpanel_role_docker_hostname: "{{ pufferpanel_name }}"
@@ -96,8 +99,8 @@ pufferpanel_role_docker_networks_alias: "{{ pufferpanel_name }}"
 pufferpanel_role_docker_networks_default: []
 pufferpanel_role_docker_networks_custom: []
 pufferpanel_role_docker_networks: "{{ docker_networks_common
-                                 + pufferpanel_role_docker_networks_default
-                                 + pufferpanel_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='pufferpanel')
+                                      + lookup('role_var', '_docker_networks_custom', role='pufferpanel') }}"
 
 # Restart Policy
 pufferpanel_role_docker_restart_policy: unless-stopped
