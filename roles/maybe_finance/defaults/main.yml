@@ -96,13 +96,13 @@ maybe_finance_role_docker_envs_default:
   RAILS_ASSUME_SSL: "false"
   GOOD_JOB_EXECUTION_MODE: "async"
   SECRET_KEY_BASE: "{{ maybe_finance_saltbox_facts.facts.secret_key_base }}"
-  DB_USERNAME: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-  DB_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  DB_USERNAME: "{{ lookup('role_var', '_postgres_user', role='maybe_finance') }}"
+  DB_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='maybe_finance') }}"
   DB_HOST: "{{ lookup('role_var', '_postgres_name', role='maybe_finance') }}"
   DB_PORT: "5432"
   REDIS_URL: "redis://{{ maybe_finance_name }}-redis:6379/1"
-  POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-  POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='maybe_finance') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='maybe_finance') }}"
 maybe_finance_role_docker_envs_custom: {}
 maybe_finance_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='maybe_finance')
                                     | combine(lookup('role_var', '_docker_envs_custom', role='maybe_finance')) }}"
