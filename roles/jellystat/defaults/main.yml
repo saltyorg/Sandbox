@@ -96,8 +96,8 @@ jellystat_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Envs
 jellystat_role_docker_envs_default:
-  POSTGRES_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-  POSTGRES_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='jellystat') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='jellystat') }}"
   POSTGRES_IP: "{{ lookup('role_var', '_postgres_name', role='jellystat') }}"
   POSTGRES_PORT: "5432"
   JWT_SECRET: "{{ jwt_token.stdout }}"
