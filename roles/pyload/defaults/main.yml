@@ -29,16 +29,16 @@ pyload_role_paths_folders_list:
 pyload_role_web_subdomain: "{{ pyload_name }}"
 pyload_role_web_domain: "{{ user.domain }}"
 pyload_role_web_port: "8000"
-pyload_role_web_url: "{{ 'https://' + (pyload_role_web_subdomain + '.' + pyload_role_web_domain
-                      if (pyload_role_web_subdomain | length > 0)
-                      else pyload_role_web_domain) }}"
+pyload_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='pyload') + '.' + lookup('role_var', '_web_domain', role='pyload')
+                      if (lookup('role_var', '_web_subdomain', role='pyload') | length > 0)
+                      else lookup('role_var', '_web_domain', role='pyload')) }}"
 
 ################################
 # DNS
 ################################
 
-pyload_role_dns_record: "{{ pyload_role_web_subdomain }}"
-pyload_role_dns_zone: "{{ pyload_role_web_domain }}"
+pyload_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='pyload') }}"
+pyload_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='pyload') }}"
 pyload_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ pyload_role_docker_container: "{{ pyload_name }}"
 
 # Image
 pyload_role_docker_image_pull: true
+pyload_role_docker_image_repo: "lscr.io/linuxserver/pyload-ng"
 pyload_role_docker_image_tag: "latest"
-pyload_role_docker_image: "lscr.io/linuxserver/pyload-ng:{{ pyload_role_docker_image_tag }}"
+pyload_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='pyload') }}:{{ lookup('role_var', '_docker_image_tag', role='pyload') }}"
 
 # Envs
 pyload_role_docker_envs_default:
@@ -71,15 +72,15 @@ pyload_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 pyload_role_docker_envs_custom: {}
-pyload_role_docker_envs: "{{ pyload_role_docker_envs_default
-                             | combine(pyload_role_docker_envs_custom) }}"
+pyload_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='pyload')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='pyload')) }}"
 
 # Volumes
 pyload_role_docker_volumes_default:
-  - "{{ pyload_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='pyload') }}:/config"
 pyload_role_docker_volumes_custom: []
-pyload_role_docker_volumes: "{{ pyload_role_docker_volumes_default
-                                + pyload_role_docker_volumes_custom }}"
+pyload_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='pyload')
+                                + lookup('role_var', '_docker_volumes_custom', role='pyload') }}"
 
 # Hostname
 pyload_role_docker_hostname: "{{ pyload_name }}"
@@ -89,8 +90,8 @@ pyload_role_docker_networks_alias: "{{ pyload_name }}"
 pyload_role_docker_networks_default: []
 pyload_role_docker_networks_custom: []
 pyload_role_docker_networks: "{{ docker_networks_common
-                                 + pyload_role_docker_networks_default
-                                 + pyload_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='pyload')
+                                 + lookup('role_var', '_docker_networks_custom', role='pyload') }}"
 
 # Restart Policy
 pyload_role_docker_restart_policy: unless-stopped
