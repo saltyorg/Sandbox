@@ -30,16 +30,16 @@ reposilite_role_paths_folders_list:
 reposilite_role_web_subdomain: "{{ reposilite_name }}"
 reposilite_role_web_domain: "{{ user.domain }}"
 reposilite_role_web_port: "8080"
-respoilite_role_web_url: "{{ 'https://' + (respoilite_role_web_subdomain + '.' + respoilite_role_web_domain
-                          if (respoilite_role_web_subdomain | length > 0)
-                          else respoilite_role_web_domain) }}"
+reposilite_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='reposilite') + '.' + lookup('role_var', '_web_domain', role='reposilite')
+                          if (lookup('role_var', '_web_subdomain', role='reposilite') | length > 0)
+                          else lookup('role_var', '_web_domain', role='reposilite')) }}"
 
 ################################
 # DNS
 ################################
 
-reposilite_role_dns_record: "{{ reposilite_role_web_subdomain }}"
-reposilite_role_dns_zone: "{{ reposilite_role_web_domain }}"
+reposilite_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='reposilite') }}"
+reposilite_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='reposilite') }}"
 reposilite_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ reposilite_role_docker_container: "{{ reposilite_name }}"
 
 # Image
 reposilite_role_docker_image_pull: true
+reposilite_role_docker_image_repo: "ghcr.io/dzikoysk/reposilite"
 reposilite_role_docker_image_tag: "latest"
-reposilite_role_docker_image: "ghcr.io/dzikoysk/reposilite:{{ reposilite_role_docker_image_tag }}"
+reposilite_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='reposilite') }}:{{ lookup('role_var', '_docker_image_tag', role='reposilite') }}"
 
 # Envs
 reposilite_role_docker_envs_default:
@@ -73,15 +74,15 @@ reposilite_role_docker_envs_default:
   PGID: "{{ gid }}"
   REPOSILITE_OPTS: "--token {{ user.name }}:{{ user.pass }}"
 reposilite_role_docker_envs_custom: {}
-reposilite_role_docker_envs: "{{ reposilite_role_docker_envs_default
-                                 | combine(reposilite_role_docker_envs_custom) }}"
+reposilite_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='reposilite')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='reposilite')) }}"
 
 # Volumes
 reposilite_role_docker_volumes_default:
-  - "{{ reposilite_role_paths_location }}:/app/data"
+  - "{{ lookup('role_var', '_paths_location', role='reposilite') }}:/app/data"
 reposilite_role_docker_volumes_custom: []
-reposilite_role_docker_volumes: "{{ reposilite_role_docker_volumes_default
-                                    + reposilite_role_docker_volumes_custom }}"
+reposilite_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='reposilite')
+                                    + lookup('role_var', '_docker_volumes_custom', role='reposilite') }}"
 
 # Hostname
 reposilite_role_docker_hostname: "{{ reposilite_name }}"
@@ -91,8 +92,8 @@ reposilite_role_docker_networks_alias: "{{ reposilite_name }}"
 reposilite_role_docker_networks_default: []
 reposilite_role_docker_networks_custom: []
 reposilite_role_docker_networks: "{{ docker_networks_common
-                                     + reposilite_role_docker_networks_default
-                                     + reposilite_role_docker_networks_custom }}"
+                                     + lookup('role_var', '_docker_networks_default', role='reposilite')
+                                     + lookup('role_var', '_docker_networks_custom', role='reposilite') }}"
 
 # Restart Policy
 reposilite_role_docker_restart_policy: unless-stopped
