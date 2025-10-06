@@ -17,10 +17,19 @@ maybe_finance_name: maybe-finance
 # Settings
 ################################
 
+maybe_finance_role_postgres_deploy: true
 maybe_finance_role_postgres_name: "{{ maybe_finance_name }}-postgres"
+maybe_finance_role_postgres_user: "{{ postgres_role_docker_env_user }}"
+maybe_finance_role_postgres_password: "{{ postgres_role_docker_env_password }}"
 maybe_finance_role_postgres_docker_env_db: "{{ maybe_finance_name }}"
 maybe_finance_role_postgres_docker_image_tag: "16"
 maybe_finance_role_postgres_docker_image_repo: "postgres"
+maybe_finance_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='maybe_finance') }} -U {{ postgres_role_docker_env_user }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 maybe_finance_role_postgres_paths_folder: "{{ maybe_finance_name }}"
 maybe_finance_role_postgres_paths_location: "{{ server_appdata_path }}/{{ maybe_finance_role_postgres_paths_folder }}/postgres"
 
