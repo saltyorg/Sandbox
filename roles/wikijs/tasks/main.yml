@@ -12,16 +12,18 @@
   vars:
     var_prefix: "{{ wikijs_name }}_postgres"
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ wikijs_role_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ wikijs_role_postgres_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ wikijs_role_postgres_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ wikijs_role_postgres_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ wikijs_role_postgres_paths_folder }}"
-    postgres_role_paths_location: "{{ wikijs_role_postgres_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='wikijs') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='wikijs') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='wikijs') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='wikijs') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='wikijs') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='wikijs') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='wikijs') }}"
+  when: lookup('role_var', '_postgres_deploy', role='wikijs')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
