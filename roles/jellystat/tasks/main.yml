@@ -44,14 +44,18 @@
   register: jwt_token
   changed_when: false
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
     postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='jellystat') }}"]
-    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='jellystat') }}"
     postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='jellystat') }}"
     postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='jellystat') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='jellystat') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='jellystat') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='jellystat') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='jellystat') }}"
+  when: lookup('role_var', '_postgres_deploy', role='jellystat')
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
