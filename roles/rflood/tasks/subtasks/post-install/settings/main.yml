@@ -18,4 +18,4 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-  loop: "{{ lookup('role_var', 'config_rflood_rc_settings_list', role='rflood') }}"
+  loop: "{{ lookup('role_var', '_config_rflood_rc_settings_list', role='rflood') }}"

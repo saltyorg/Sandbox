@@ -66,24 +66,24 @@ rflood_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 # Config
 ################################
 
-rflood_config_public_trackers: false
+rflood_role_config_public_trackers: false
 
 # rtorrent.rc
-rflood_config_rflood_rc_settings_default:
+rflood_role_config_rflood_rc_settings_default:
   # IP address that is reported to the tracker
   - { option: "network.local_address.set", value: "{{ ip_address_public }}" }
   # Ports
   - { option: "network.port_range.set", value: "{{ lookup('role_var', '_docker_ports_50000', role='rflood') }}-{{ lookup('role_var', '_docker_ports_50000', role='rflood') }}" }
   - { option: "dht.port.set", value: "{{ lookup('role_var', '_docker_ports_6881', role='rflood') }}" }
   # Enable / Disable Public Trackers
-  - { option: "dht.mode.set", value: "{{ rflood_config_public_trackers | ternary('on', 'disable') }}" }
-  - { option: "trackers.use_udp.set", value: "{{ rflood_config_public_trackers | ternary('yes', 'no') }}" }
-  - { option: "protocol.pex.set", value: "{{ rflood_config_public_trackers | ternary('yes', 'no') }}" }
+  - { option: "dht.mode.set", value: "{{ lookup('role_var', '_config_public_trackers', role='rflood') | ternary('on', 'disable') }}" }
+  - { option: "trackers.use_udp.set", value: "{{ lookup('role_var', '_config_public_trackers', role='rflood') | ternary('yes', 'no') }}" }
+  - { option: "protocol.pex.set", value: "{{ lookup('role_var', '_config_public_trackers', role='rflood') | ternary('yes', 'no') }}" }
   # Maximum XMLRPC payloads
   - { option: "network.xmlrpc.size_limit.set", value: "20M" }
-rflood_config_rflood_rc_settings_custom: []
-rflood_config_rflood_rc_settings_list: "{{ lookup('role_var', '_config_rflood_rc_settings_default', role='rflood')
-                                           + lookup('role_var', '_config_rflood_rc_settings_custom', role='rflood') }}"
+rflood_role_config_rflood_rc_settings_custom: []
+rflood_role_config_rflood_rc_settings_list: "{{ lookup('role_var', '_config_rflood_rc_settings_default', role='rflood')
+                                                + lookup('role_var', '_config_rflood_rc_settings_custom', role='rflood') }}"
 
 ################################
 # Docker
