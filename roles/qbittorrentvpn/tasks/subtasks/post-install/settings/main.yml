@@ -9,7 +9,7 @@
 ---
 - name: Post-Install | Settings | Update HostHeaderValidation 'qbittorrentvpn.conf' config settings
   community.general.ini_file:
-    path: "{{ qbittorrentvpn_role_paths_conf }}"
+    path: "{{ lookup('role_var', '_paths_conf', role='qbittorrentvpn') }}"
     section: Preferences
     option: WebUI\HostHeaderValidation
     value: "false"
@@ -21,7 +21,7 @@
 
 - name: Post-Install | Settings | Update CSRFProtection 'qbittorrentvpn.conf' config settings
   community.general.ini_file:
-    path: "{{ qbittorrentvpn_role_paths_conf }}"
+    path: "{{ lookup('role_var', '_paths_conf', role='qbittorrentvpn') }}"
     section: Preferences
     option: WebUI\CSRFProtection
     value: "false"
@@ -41,7 +41,7 @@
     section: Preferences
     option: WebUI\Username
     value: '{{ user.name }}'
-    path: "{{ qbittorrentvpn_role_paths_conf }}"
+    path: "{{ lookup('role_var', '_paths_conf', role='qbittorrentvpn') }}"
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -52,7 +52,7 @@
     section: Preferences
     option: WebUI\Password_PBKDF2
     value: '{{ qbittorrent_hashed_passwd.msg }}'
-    path: "{{ qbittorrentvpn_role_paths_conf }}"
+    path: "{{ lookup('role_var', '_paths_conf', role='qbittorrentvpn') }}"
     state: present
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
