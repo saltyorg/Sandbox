@@ -17,14 +17,21 @@ n8n_name: n8n
 # Settings
 ################################
 
-n8n_role_postgres_username: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-n8n_role_postgres_password: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
+n8n_role_postgres_deploy: true
 n8n_role_postgres_name: "{{ n8n_name }}-postgres"
+n8n_role_postgres_user: "{{ postgres_role_docker_env_user }}"
+n8n_role_postgres_password: "{{ postgres_role_docker_env_password }}"
 n8n_role_postgres_docker_env_db: "{{ n8n_name }}"
 n8n_role_postgres_docker_image_tag: "14-alpine"
 n8n_role_postgres_docker_image_repo: "postgres"
+n8n_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='n8n') }} -U {{ postgres_role_docker_env_user }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 n8n_role_postgres_paths_folder: "{{ n8n_name }}"
-n8n_role_postgres_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='postgres') }}/postgres"
+n8n_role_postgres_paths_location: "{{ server_appdata_path }}/{{ n8n_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -87,7 +94,7 @@ n8n_role_docker_envs_default:
   DB_POSTGRESDB_DATABASE: "{{ lookup('role_var', '_postgres_docker_env_db', role='n8n') }}"
   DB_POSTGRESDB_HOST: "{{ lookup('role_var', '_postgres_name', role='n8n') }}"
   DB_POSTGRESDB_PORT: "5432"
-  DB_POSTGRESDB_USER: "{{ lookup('role_var', '_postgres_username', role='n8n') }}"
+  DB_POSTGRESDB_USER: "{{ lookup('role_var', '_postgres_user', role='n8n') }}"
   DB_POSTGRESDB_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='n8n') }}"
   N8N_EDITOR_BASE_URL: "{{ lookup('role_var', '_web_url', role='n8n') }}"
   N8N_DIAGNOSTICS_ENABLED: "false"

@@ -12,16 +12,18 @@
   vars:
     var_prefix: "{{ n8n_name }}_postgres"
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ n8n_role_postgres_name }}"]
-    postgres_role_docker_env_db: "{{ n8n_role_postgres_docker_env_db }}"
-    postgres_role_docker_image_tag: "{{ n8n_role_postgres_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ n8n_role_postgres_docker_image_repo }}"
-    postgres_role_paths_folder: "{{ n8n_role_postgres_paths_folder }}"
-    postgres_role_paths_location: "{{ n8n_role_postgres_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='n8n') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='n8n') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='n8n') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='n8n') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='n8n') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='n8n') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='n8n') }}"
+  when: lookup('role_var', '_postgres_deploy', role='n8n')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
