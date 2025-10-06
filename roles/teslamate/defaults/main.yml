@@ -17,13 +17,21 @@ teslamate_name: teslamate
 
 teslamate_secret_key: "{{ teslamate_saltbox_facts.facts.secret_key }}"
 
+teslamate_role_postgres_deploy: true
 teslamate_role_postgres_name: "{{ teslamate_name }}-postgres"
+teslamate_role_postgres_user: "{{ postgres_role_docker_env_user }}"
+teslamate_role_postgres_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
 teslamate_role_postgres_docker_env_db: "{{ teslamate_name }}"
-teslamate_role_postgres_docker_env_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
 teslamate_role_postgres_docker_image_tag: "16"
 teslamate_role_postgres_docker_image_repo: "postgres"
+teslamate_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='teslamate') }} -U {{ postgres_role_docker_env_user }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 teslamate_role_postgres_paths_folder: "{{ teslamate_name }}"
-teslamate_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+teslamate_role_postgres_paths_location: "{{ server_appdata_path }}/{{ teslamate_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
