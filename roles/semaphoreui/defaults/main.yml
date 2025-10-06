@@ -17,14 +17,21 @@ semaphoreui_name: semaphoreui
 # Settings
 ################################
 
+semaphoreui_role_postgres_deploy: true
 semaphoreui_role_postgres_name: "{{ semaphoreui_name }}-postgres"
+semaphoreui_role_postgres_user: "semaphoreui"
+semaphoreui_role_postgres_password: "semaphoreui"
+semaphoreui_role_postgres_docker_env_db: "semaphoreui"
 semaphoreui_role_postgres_docker_image_tag: "15"
 semaphoreui_role_postgres_docker_image_repo: "postgres"
-semaphoreui_role_postgres_docker_env_db: "semaphoreui"
-semaphoreui_role_postgres_docker_env_user: "semaphoreui"
-semaphoreui_role_postgres_docker_env_password: "semaphoreui"
+semaphoreui_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='semaphoreui') }} -U {{ lookup('role_var', '_postgres_user', role='semaphoreui') }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
 semaphoreui_role_postgres_paths_folder: "{{ semaphoreui_name }}"
-semaphoreui_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+semaphoreui_role_postgres_paths_location: "{{ server_appdata_path }}/{{ semaphoreui_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths

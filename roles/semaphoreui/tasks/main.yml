@@ -12,18 +12,20 @@
   vars:
     var_prefix: "{{ semaphoreui_name }}_postgres"
 
-- name: PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
-    postgres_instances: ["{{ semaphoreui_role_postgres_name }}"]
-    postgres_role_docker_image_tag: "{{ semaphoreui_role_postgres_docker_image_tag }}"
-    postgres_role_docker_image_repo: "{{ semaphoreui_role_postgres_docker_image_repo }}"
-    postgres_role_docker_env_db: "{{ semaphoreui_role_postgres_docker_env_db }}"
-    postgres_role_docker_env_user: "{{ semaphoreui_role_postgres_docker_env_user }}"
-    postgres_role_docker_env_password: "{{ semaphoreui_role_postgres_docker_env_password }}"
-    postgres_role_paths_folder: "{{ semaphoreui_role_postgres_paths_folder }}"
-    postgres_role_paths_location: "{{ semaphoreui_role_postgres_paths_location }}"
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='semaphoreui') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='semaphoreui') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='semaphoreui') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='semaphoreui') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='semaphoreui') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='semaphoreui') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='semaphoreui') }}"
+    postgres_role_docker_env_user: "{{ lookup('role_var', '_postgres_user', role='semaphoreui') }}"
+    postgres_role_docker_env_password: "{{ lookup('role_var', '_postgres_password', role='semaphoreui') }}"
+  when: lookup('role_var', '_postgres_deploy', role='semaphoreui')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
