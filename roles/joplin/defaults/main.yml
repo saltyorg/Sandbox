@@ -92,7 +92,7 @@ joplin_role_docker_envs_default:
   APP_BASE_URL: "{{ lookup('role_var', '_web_url', role='joplin') }}"
   APP_PORT: "22300"
   POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='joplin') }}"
-  POSTGRES_DATABASE: "{{ lookup('role_var', '_docker_env_db', role='joplin') }}"
+  POSTGRES_DATABASE: "{{ lookup('role_var', '_postgres_docker_env_db', role='joplin') }}"
   POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='joplin') }}"
   POSTGRES_PORT: "5432"
   POSTGRES_HOST: "{{ lookup('role_var', '_postgres_name', role='joplin') }}"
