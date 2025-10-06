@@ -19,8 +19,10 @@ jellystat_name: jellystat
 
 jellystat_role_postgres_name: "{{ jellystat_name }}-postgres"
 jellystat_role_postgres_docker_env_db: "jfstat"
+jellystat_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
 jellystat_role_postgres_docker_image_tag: "15.2-alpine"
-jellystat_role_postgres_docker_image_repo: "postgres"
+jellystat_role_postgres_paths_folder: "{{ jellystat_name }}"
+jellystat_role_postgres_paths_location: "{{ server_appdata_path }}/{{ jellystat_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths

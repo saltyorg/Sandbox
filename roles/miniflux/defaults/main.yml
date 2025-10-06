@@ -26,9 +26,9 @@ miniflux_role_postgres_password: "{{ lookup('role_var', '_docker_env_password', 
 miniflux_role_postgres_name: "{{ miniflux_name }}-postgres"
 miniflux_role_postgres_docker_env_db: "miniflux"
 miniflux_role_postgres_docker_image_tag: "14-alpine"
-miniflux_role_postgres_docker_image_repo: "postgres"
+miniflux_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
 miniflux_role_postgres_paths_folder: "{{ miniflux_name }}"
-miniflux_role_postgres_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='postgres') }}/postgres"
+miniflux_role_postgres_paths_location: "{{ server_appdata_path }}/{{ miniflux_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -119,6 +119,6 @@ miniflux_role_docker_restart_policy: unless-stopped
 miniflux_role_docker_state: started
 
 # Dependencies
-minuflux_role_depends_on: "{{ minuflux_role_postgres_name }}"
-minuflux_role_depends_on_delay: "0"
-minuflux_role_depends_on_healthchecks: "false"
+miniflux_role_depends_on: "{{ miniflux_role_postgres_name }}"
+miniflux_role_depends_on_delay: "0"
+miniflux_role_depends_on_healthchecks: "false"

@@ -18,12 +18,13 @@ joplin_name: joplin
 ################################
 
 joplin_role_postgres_name: "{{ joplin_name }}-postgres"
-joplin_role_postgres_docker_image_tag: "13"
-joplin_role_postgres_docker_image_repo: "postgres"
 joplin_role_postgres_docker_env_db: "joplin"
+joplin_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
+joplin_role_postgres_docker_image_tag: "13"
 joplin_role_postgres_docker_env_user: "joplin"
 joplin_role_postgres_docker_env_password: "joplin"
 joplin_role_postgres_paths_folder: "{{ joplin_name }}"
+joplin_role_postgres_paths_location: "{{ server_appdata_path }}/{{ joplin_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths

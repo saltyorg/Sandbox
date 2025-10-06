@@ -20,9 +20,9 @@ wikijs_name: wikijs
 wikijs_role_postgres_name: "{{ wikijs_name }}-postgres"
 wikijs_role_postgres_docker_env_db: "{{ wikijs_name }}"
 wikijs_role_postgres_docker_image_tag: "15-alpine"
-wikijs_role_postgres_docker_image_repo: "postgres"
+wikijs_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
 wikijs_role_postgres_paths_folder: "{{ wikijs_name }}"
-wikijs_role_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_role_paths_folder }}/postgres"
+wikijs_role_postgres_paths_location: "{{ server_appdata_path }}/{{ wikijs_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
@@ -82,8 +82,8 @@ wikijs_role_docker_envs_default:
   DB_TYPE: "postgres"
   DB_HOST: "{{ wikijs_role_postgres_name }}"
   DB_PORT: "5432"
-  DB_USER: "{{ postgres_role_docker_env_user }}"
-  DB_PASS: "{{ postgres_role_docker_env_password }}"
+  DB_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
+  DB_PASS: "{{ lookup('role_var', '_docker_env_password', role='postgres') }}"
   DB_NAME: "{{ wikijs_role_postgres_docker_env_db }}"
 wikijs_role_docker_envs_custom: {}
 wikijs_role_docker_envs: "{{ wikijs_role_docker_envs_default

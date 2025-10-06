@@ -22,9 +22,9 @@ n8n_role_postgres_password: "{{ lookup('role_var', '_docker_env_password', role=
 n8n_role_postgres_name: "{{ n8n_name }}-postgres"
 n8n_role_postgres_docker_env_db: "{{ n8n_name }}"
 n8n_role_postgres_docker_image_tag: "14-alpine"
-n8n_role_postgres_docker_image_repo: "postgres"
+n8n_role_postgres_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='postgres') }}"
 n8n_role_postgres_paths_folder: "{{ n8n_name }}"
-n8n_role_postgres_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='postgres') }}/postgres"
+n8n_role_postgres_paths_location: "{{ server_appdata_path }}/{{ n8n_role_postgres_paths_folder }}/postgres"
 
 ################################
 # Paths
