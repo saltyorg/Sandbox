@@ -26,18 +26,20 @@
   vars:
     var_prefix: "{{ immich_name }}_postgres"
 
-- name: Import PostgreSQL Role
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
     postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='immich') }}"]
-    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='immich') }}"
     postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='immich') }}"
     postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='immich') }}"
-    postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='immich') }}"
     postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='immich') }}"
     postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='immich') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='immich') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='immich') }}"
+    postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='immich') }}"
     postgres_role_docker_envs_custom: "{{ lookup('role_var', '_postgres_docker_envs_custom', role='immich') }}"
+  when: lookup('role_var', '_postgres_deploy', role='immich')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
