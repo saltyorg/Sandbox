@@ -29,16 +29,16 @@ wrapperr_role_paths_folders_list:
 wrapperr_role_web_subdomain: "{{ wrapperr_name }}"
 wrapperr_role_web_domain: "{{ user.domain }}"
 wrapperr_role_web_port: "8282"
-wrapperr_role_web_url: "{{ 'https://' + (wrapperr_role_web_subdomain + '.' + wrapperr_role_web_domain
-                        if (wrapperr_role_web_subdomain | length > 0)
-                        else wrapperr_role_web_domain) }}"
+wrapperr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wrapperr') + '.' + lookup('role_var', '_web_domain', role='wrapperr')
+                        if (lookup('role_var', '_web_subdomain', role='wrapperr') | length > 0)
+                        else lookup('role_var', '_web_domain', role='wrapperr')) }}"
 
 ################################
 # DNS
 ################################
 
-wrapperr_role_dns_record: "{{ wrapperr_role_web_subdomain }}"
-wrapperr_role_dns_zone: "{{ wrapperr_role_web_domain }}"
+wrapperr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wrapperr') }}"
+wrapperr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wrapperr') }}"
 wrapperr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,15 +62,16 @@ wrapperr_role_docker_container: "{{ wrapperr_name }}"
 
 # Image
 wrapperr_role_docker_image_pull: true
+wrapperr_role_docker_image_repo: "aunefyren/wrapperr"
 wrapperr_role_docker_image_tag: "latest"
-wrapperr_role_docker_image: "aunefyren/wrapperr:{{ wrapperr_role_docker_image_tag }}"
+wrapperr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='wrapperr') }}:{{ lookup('role_var', '_docker_image_tag', role='wrapperr') }}"
 
 # Volumes
 wrapperr_role_docker_volumes_default:
-  - "{{ wrapperr_role_paths_location }}:/app/config"
+  - "{{ lookup('role_var', '_paths_location', role='wrapperr') }}:/app/config"
 wrapperr_role_docker_volumes_custom: []
-wrapperr_role_docker_volumes: "{{ wrapperr_role_docker_volumes_default
-                                  + wrapperr_role_docker_volumes_custom }}"
+wrapperr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='wrapperr')
+                                  + lookup('role_var', '_docker_volumes_custom', role='wrapperr') }}"
 
 # Hostname
 wrapperr_role_docker_hostname: "{{ wrapperr_name }}"
@@ -80,8 +81,8 @@ wrapperr_role_docker_networks_alias: "{{ wrapperr_name }}"
 wrapperr_role_docker_networks_default: []
 wrapperr_role_docker_networks_custom: []
 wrapperr_role_docker_networks: "{{ docker_networks_common
-                                   + wrapperr_role_docker_networks_default
-                                   + wrapperr_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='wrapperr')
+                                   + lookup('role_var', '_docker_networks_custom', role='wrapperr') }}"
 
 # Restart Policy
 wrapperr_role_docker_restart_policy: unless-stopped

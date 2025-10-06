@@ -29,16 +29,16 @@ xteve_role_paths_folders_list:
 xteve_role_web_subdomain: "{{ xteve_name }}"
 xteve_role_web_domain: "{{ user.domain }}"
 xteve_role_web_port: "34400"
-xteve_role_web_url: "{{ 'https://' + (xteve_role_web_subdomain + '.' + xteve_role_web_domain
-                     if (xteve_role_web_subdomain | length > 0)
-                     else xteve_role_web_domain) }}"
+xteve_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='xteve') + '.' + lookup('role_var', '_web_domain', role='xteve')
+                     if (lookup('role_var', '_web_subdomain', role='xteve') | length > 0)
+                     else lookup('role_var', '_web_domain', role='xteve')) }}"
 
 ################################
 # DNS
 ################################
 
-xteve_role_dns_record: "{{ xteve_role_web_subdomain }}"
-xteve_role_dns_zone: "{{ xteve_role_web_domain }}"
+xteve_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='xteve') }}"
+xteve_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='xteve') }}"
 xteve_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ xteve_role_docker_container: "{{ xteve_name }}"
 
 # Image
 xteve_role_docker_image_pull: true
+xteve_role_docker_image_repo: "dnsforge/xteve"
 xteve_role_docker_image_tag: "latest"
-xteve_role_docker_image: "dnsforge/xteve:{{ xteve_role_docker_image_tag }}"
+xteve_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='xteve') }}:{{ lookup('role_var', '_docker_image_tag', role='xteve') }}"
 
 # Envs
 xteve_role_docker_envs_default:
@@ -73,17 +74,17 @@ xteve_role_docker_envs_default:
   XTEVE_GID: "{{ gid }}"
   XTEVE_API: "1"
 xteve_role_docker_envs_custom: {}
-xteve_role_docker_envs: "{{ xteve_role_docker_envs_default
-                            | combine(xteve_role_docker_envs_custom) }}"
+xteve_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='xteve')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='xteve')) }}"
 
 # Volumes
 xteve_role_docker_volumes_default:
-  - "{{ xteve_role_paths_location }}/app/config:/home/xteve/conf:rw"
-  - "{{ xteve_role_paths_location }}/app/tmp:/tmp/xteve:rw"
-  - "{{ xteve_role_paths_location }}/app/guide2go:/home/xteve/guide2go/conf:rw"
+  - "{{ lookup('role_var', '_paths_location', role='xteve') }}/app/config:/home/xteve/conf"
+  - "{{ lookup('role_var', '_paths_location', role='xteve') }}/app/tmp:/tmp/xteve"
+  - "{{ lookup('role_var', '_paths_location', role='xteve') }}/app/guide2go:/home/xteve/guide2go/conf"
 xteve_role_docker_volumes_custom: []
-xteve_role_docker_volumes: "{{ xteve_role_docker_volumes_default
-                               + xteve_role_docker_volumes_custom }}"
+xteve_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='xteve')
+                               + lookup('role_var', '_docker_volumes_custom', role='xteve') }}"
 
 # Hostname
 xteve_role_docker_hostname: "{{ xteve_name }}"
@@ -93,8 +94,8 @@ xteve_role_docker_networks_alias: "{{ xteve_name }}"
 xteve_role_docker_networks_default: []
 xteve_role_docker_networks_custom: []
 xteve_role_docker_networks: "{{ docker_networks_common
-                                + xteve_role_docker_networks_default
-                                + xteve_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='xteve')
+                                + lookup('role_var', '_docker_networks_custom', role='xteve') }}"
 
 # Restart Policy
 xteve_role_docker_restart_policy: unless-stopped

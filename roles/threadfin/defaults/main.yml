@@ -29,16 +29,16 @@ threadfin_role_paths_folders_list:
 threadfin_role_web_subdomain: "{{ threadfin_name }}"
 threadfin_role_web_domain: "{{ user.domain }}"
 threadfin_role_web_port: "34400"
-threadfin_role_web_url: "{{ 'https://' + (threadfin_role_web_subdomain + '.' + threadfin_role_web_domain
-                         if (threadfin_role_web_subdomain | length > 0)
-                         else threadfin_role_web_domain) }}"
+threadfin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='threadfin') + '.' + lookup('role_var', '_web_domain', role='threadfin')
+                         if (lookup('role_var', '_web_subdomain', role='threadfin') | length > 0)
+                         else lookup('role_var', '_web_domain', role='threadfin')) }}"
 
 ################################
 # DNS
 ################################
 
-threadfin_role_dns_record: "{{ threadfin_role_web_subdomain }}"
-threadfin_role_dns_zone: "{{ threadfin_role_web_domain }}"
+threadfin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='threadfin') }}"
+threadfin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='threadfin') }}"
 threadfin_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -61,24 +61,25 @@ threadfin_role_docker_container: "{{ threadfin_name }}"
 
 # Image
 threadfin_role_docker_image_pull: true
+threadfin_role_docker_image_repo: "fyb3roptik/threadfin"
 threadfin_role_docker_image_tag: "latest"
-threadfin_role_docker_image: "fyb3roptik/threadfin:{{ threadfin_role_docker_image_tag }}"
+threadfin_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='threadfin') }}:{{ lookup('role_var', '_docker_image_tag', role='threadfin') }}"
 
 # Envs
 threadfin_role_docker_envs_default:
-  - TZ: "{{ tz }}"
-  - THREADFIN_BRANCH: "main"
-  - THREADFIN_DEBUG: "0"
+  TZ: "{{ tz }}"
+  THREADFIN_BRANCH: "main"
+  THREADFIN_DEBUG: "0"
 threadfin_role_docker_envs_custom: {}
-threadfin_role_docker_envs: "{{ threadfin_role_docker_envs_default
-                                | combine(threadfin_role_docker_envs_custom) }}"
+threadfin_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='threadfin')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='threadfin')) }}"
 
 # Volumes
 threadfin_role_docker_volumes_default:
-  - "{{ threadfin_role_paths_location }}:/home/threadfin/conf:rw"
+  - "{{ lookup('role_var', '_paths_location', role='threadfin') }}:/home/threadfin/conf"
 threadfin_role_docker_volumes_custom: []
-threadfin_role_docker_volumes: "{{ threadfin_role_docker_volumes_default
-                                   + threadfin_role_docker_volumes_custom }}"
+threadfin_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='threadfin')
+                                   + lookup('role_var', '_docker_volumes_custom', role='threadfin') }}"
 
 # Hostname
 threadfin_role_docker_hostname: "{{ threadfin_name }}"
@@ -88,8 +89,8 @@ threadfin_role_docker_networks_alias: "{{ threadfin_name }}"
 threadfin_role_docker_networks_default: []
 threadfin_role_docker_networks_custom: []
 threadfin_role_docker_networks: "{{ docker_networks_common
-                                    + threadfin_role_docker_networks_default
-                                    + threadfin_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='threadfin')
+                                    + lookup('role_var', '_docker_networks_custom', role='threadfin') }}"
 
 # Restart Policy
 threadfin_role_docker_restart_policy: unless-stopped

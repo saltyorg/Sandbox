@@ -82,10 +82,10 @@ handbrake_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role=
 
 # Volumes
 handbrake_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='handbrake') }}:/config:rw"
+  - "{{ lookup('role_var', '_paths_location', role='handbrake') }}:/config"
   - "/mnt:/storage:ro"
-  - "/mnt/local/downloads/handbrake/watch:/watch:rw"
-  - "/mnt/local/downloads/handbrake/output:/output:rw"
+  - "/mnt/local/downloads/handbrake/watch:/watch"
+  - "/mnt/local/downloads/handbrake/output:/output"
 handbrake_role_docker_volumes_custom: []
 handbrake_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='handbrake')
                                    + lookup('role_var', '_docker_volumes_custom', role='handbrake') }}"

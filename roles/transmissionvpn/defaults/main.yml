@@ -28,7 +28,6 @@ transmissionvpn_umask_set: "022"
 transmissionvpn_role_paths_folder: "{{ transmissionvpn_name }}"
 transmissionvpn_role_paths_location: "{{ server_appdata_path }}/{{ transmissionvpn_role_paths_folder }}"
 transmissionvpn_role_paths_downloads_location: "{{ downloads_torrents_path }}/{{ transmissionvpn_role_paths_folder }}"
-
 transmissionvpn_role_paths_folders_list:
   - "{{ transmissionvpn_role_paths_location }}"
   - "{{ transmissionvpn_role_paths_downloads_location }}"
@@ -44,16 +43,16 @@ transmissionvpn_role_paths_folders_list:
 transmissionvpn_role_web_subdomain: "{{ transmissionvpn_name }}"
 transmissionvpn_role_web_domain: "{{ user.domain }}"
 transmissionvpn_role_web_port: "9091"
-transmissionvpn_role_web_url: "{{ 'https://' + (transmissionvpn_role_web_subdomain + '.' + transmissionvpn_role_web_domain
-                               if (transmissionvpn_role_web_subdomain | length > 0)
-                               else transmissionvpn_role_web_domain) }}"
+transmissionvpn_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='transmissionvpn') + '.' + lookup('role_var', '_web_domain', role='transmissionvpn')
+                               if (lookup('role_var', '_web_subdomain', role='transmissionvpn') | length > 0)
+                               else lookup('role_var', '_web_domain', role='transmissionvpn')) }}"
 
 ################################
 # DNS
 ################################
 
-transmissionvpn_role_dns_record: "{{ transmissionvpn_role_web_subdomain }}"
-transmissionvpn_role_dns_zone: "{{ transmissionvpn_role_web_domain }}"
+transmissionvpn_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='transmissionvpn') }}"
+transmissionvpn_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='transmissionvpn') }}"
 transmissionvpn_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -77,8 +76,9 @@ transmissionvpn_role_docker_container: "{{ transmissionvpn_name }}"
 
 # Image
 transmissionvpn_role_docker_image_pull: true
+transmissionvpn_role_docker_image_repo: "haugene/transmission-openvpn"
 transmissionvpn_role_docker_image_tag: "latest"
-transmissionvpn_role_docker_image: "haugene/transmission-openvpn:{{ transmissionvpn_role_docker_image_tag }}"
+transmissionvpn_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='transmissionvpn') }}:{{ lookup('role_var', '_docker_image_tag', role='transmissionvpn') }}"
 
 # Envs
 transmissionvpn_role_docker_envs_default:
@@ -92,19 +92,19 @@ transmissionvpn_role_docker_envs_default:
   CREATE_TUN_DEVICE: "{{ transmissionvpn_create_tun_device }}"
   TRANSMISSION_HOME: "{{ transmissionvpn_transmission_home }}"
 transmissionvpn_role_docker_envs_custom: {}
-transmissionvpn_role_docker_envs: "{{ transmissionvpn_role_docker_envs_default
-                                      | combine(transmissionvpn_role_docker_envs_custom) }}"
+transmissionvpn_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='transmissionvpn')
+                                      | combine(lookup('role_var', '_docker_envs_custom', role='transmissionvpn')) }}"
 
 # Volumes
 transmissionvpn_role_docker_volumes_default:
-  - "{{ transmissionvpn_role_paths_location }}:/config"
-  - "{{ transmissionvpn_role_paths_location }}/data:/opt/transmissionvpn"
+  - "{{ lookup('role_var', '_paths_location', role='transmissionvpn') }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='transmissionvpn') }}/data:/opt/transmissionvpn"
   - "{{ server_appdata_path }}/scripts:/scripts"
-  - "{{ transmissionvpn_role_paths_location }}/vpn:/etc/openvpn/custom"
-  - "{{ transmissionvpn_role_paths_downloads_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='transmissionvpn') }}/vpn:/etc/openvpn/custom"
+  - "{{ lookup('role_var', '_paths_downloads_location', role='transmissionvpn') }}:/data"
 transmissionvpn_role_docker_volumes_custom: []
-transmissionvpn_role_docker_volumes: "{{ transmissionvpn_role_docker_volumes_default
-                                         + transmissionvpn_role_docker_volumes_custom }}"
+transmissionvpn_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='transmissionvpn')
+                                         + lookup('role_var', '_docker_volumes_custom', role='transmissionvpn') }}"
 
 # Hostname
 transmissionvpn_role_docker_hostname: "{{ transmissionvpn_name }}"
@@ -114,8 +114,8 @@ transmissionvpn_role_docker_networks_alias: "{{ transmissionvpn_name }}"
 transmissionvpn_role_docker_networks_default: []
 transmissionvpn_role_docker_networks_custom: []
 transmissionvpn_role_docker_networks: "{{ docker_networks_common
-                                          + transmissionvpn_role_docker_networks_default
-                                          + transmissionvpn_role_docker_networks_custom }}"
+                                          + lookup('role_var', '_docker_networks_default', role='transmissionvpn')
+                                          + lookup('role_var', '_docker_networks_custom', role='transmissionvpn') }}"
 
 # Capabilities
 transmissionvpn_role_docker_capabilities_default:

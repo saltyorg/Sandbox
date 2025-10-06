@@ -74,7 +74,7 @@ minecraft_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Ports
 minecraft_role_docker_ports_defaults:
-  - "{{ minecraft_role_docker_ports_25565 }}:25565/tcp"
+  - "{{ lookup('role_var', '_docker_ports_25565', role='minecraft') }}:25565/tcp"
 minecraft_role_docker_ports_custom: []
 minecraft_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='minecraft')
                                  + lookup('role_var', '_docker_ports_custom', role='minecraft') }}"

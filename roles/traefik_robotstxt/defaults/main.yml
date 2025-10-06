@@ -21,8 +21,9 @@ traefik_robotstxt_role_docker_container: "{{ traefik_robotstxt_name }}"
 
 # Image
 traefik_robotstxt_role_docker_image_pull: true
+traefik_robotstxt_role_docker_image_repo: "mstroecker/zig-robotstxt"
 traefik_robotstxt_role_docker_image_tag: "latest"
-traefik_robotstxt_role_docker_image: "mstroecker/zig-robotstxt:{{ traefik_robotstxt_role_docker_image_tag }}"
+traefik_robotstxt_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='traefik_robotstxt') }}:{{ lookup('role_var', '_docker_image_tag', role='traefik_robotstxt') }}"
 
 # Labels
 traefik_robotstxt_role_docker_labels_default:
@@ -33,8 +34,8 @@ traefik_robotstxt_role_docker_labels_default:
   traefik.http.services.robotstxt.loadbalancer.server.port: "8080"
   traefik.http.routers.robotstxt.priority: "99"
 traefik_robotstxt_role_docker_labels_custom: {}
-traefik_robotstxt_role_docker_labels: "{{ traefik_robotstxt_role_docker_labels_default
-                                     | combine(traefik_robotstxt_role_docker_labels_custom) }}"
+traefik_robotstxt_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='traefik_robotstxt')
+                                          | combine(lookup('role_var', '_docker_labels_custom', role='traefik_robotstxt')) }}"
 
 # Hostname
 traefik_robotstxt_role_docker_hostname: "{{ traefik_robotstxt_name }}"
@@ -44,8 +45,8 @@ traefik_robotstxt_role_docker_networks_alias: "{{ traefik_robotstxt_name }}"
 traefik_robotstxt_role_docker_networks_default: []
 traefik_robotstxt_role_docker_networks_custom: []
 traefik_robotstxt_role_docker_networks: "{{ docker_networks_common
-                                       + traefik_robotstxt_role_docker_networks_default
-                                       + traefik_robotstxt_role_docker_networks_custom }}"
+                                            + lookup('role_var', '_docker_networks_default', role='traefik_robotstxt')
+                                            + lookup('role_var', '_docker_networks_custom', role='traefik_robotstxt') }}"
 
 # Restart Policy
 traefik_robotstxt_role_docker_restart_policy: unless-stopped

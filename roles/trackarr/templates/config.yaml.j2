@@ -40,8 +40,8 @@ server:
   apikey: "{{ trackarr_server_apikey }}"
   host: 0.0.0.0
   pass: "{{ user.pass }}"
-  port: "{{ trackarr_role_web_port }}"
-  publicurl: "{{ trackarr_role_web_url }}"
+  port: "{{ lookup('role_var', '_web_port', role='trackarr') }}"
+  publicurl: "{{ lookup('role_var', '_web_url', role='trackarr') }}"
   user: {{ user.name }}
 trackers:
   iptorrents:

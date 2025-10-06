@@ -22,15 +22,16 @@ tika_role_docker_container: "{{ tika_name }}"
 
 # Image
 tika_role_docker_image_pull: true
+tika_role_docker_image_repo: "ghcr.io/paperless-ngx/tika"
 tika_role_docker_image_tag: "latest"
-tika_role_docker_image: "ghcr.io/paperless-ngx/tika:{{ tika_role_docker_image_tag }}"
+tika_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tika') }}:{{ lookup('role_var', '_docker_image_tag', role='tika') }}"
 
 # Envs
 tika_role_docker_envs_default:
   TZ: "{{ tz }}"
 tika_role_docker_envs_custom: {}
-tika_role_docker_envs: "{{ tika_role_docker_envs_default
-                      | combine(tika_role_docker_envs_custom) }}"
+tika_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tika')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='tika')) }}"
 
 # Hostname
 tika_role_docker_hostname: "{{ tika_name }}"
@@ -40,8 +41,8 @@ tika_role_docker_networks_alias: "{{ tika_name }}"
 tika_role_docker_networks_default: []
 tika_role_docker_networks_custom: []
 tika_role_docker_networks: "{{ docker_networks_common
-                          + tika_role_docker_networks_default
-                          + tika_role_docker_networks_custom }}"
+                               + lookup('role_var', '_docker_networks_default', role='tika')
+                               + lookup('role_var', '_docker_networks_custom', role='tika') }}"
 
 # Restart Policy
 tika_role_docker_restart_policy: unless-stopped

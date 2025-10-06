@@ -32,16 +32,16 @@ tvheadend_role_paths_folders_list:
 tvheadend_role_web_subdomain: "{{ tvheadend_name }}"
 tvheadend_role_web_domain: "{{ user.domain }}"
 tvheadend_role_web_port: "9981"
-tvheadend_role_web_url: "{{ 'https://' + (tvheadend_role_web_subdomain + '.' + tvheadend_role_web_domain
-                         if (tvheadend_role_web_subdomain | length > 0)
-                         else tvheadend_role_web_domain) }}"
+tvheadend_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='tvheadend') + '.' + lookup('role_var', '_web_domain', role='tvheadend')
+                         if (lookup('role_var', '_web_subdomain', role='tvheadend') | length > 0)
+                         else lookup('role_var', '_web_domain', role='tvheadend')) }}"
 
 ################################
 # DNS
 ################################
 
-tvheadend_role_dns_record: "{{ tvheadend_role_web_subdomain }}"
-tvheadend_role_dns_zone: "{{ tvheadend_role_web_domain }}"
+tvheadend_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='tvheadend') }}"
+tvheadend_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='tvheadend') }}"
 tvheadend_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -65,8 +65,9 @@ tvheadend_role_docker_container: "{{ tvheadend_name }}"
 
 # Image
 tvheadend_role_docker_image_pull: true
+tvheadend_role_docker_image_repo: "lscr.io/linuxserver/tvheadend"
 tvheadend_role_docker_image_tag: "latest"
-tvheadend_role_docker_image: "lscr.io/linuxserver/tvheadend:{{ tvheadend_role_docker_image_tag }}"
+tvheadend_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tvheadend') }}:{{ lookup('role_var', '_docker_image_tag', role='tvheadend') }}"
 
 # Envs
 tvheadend_role_docker_envs_default:
@@ -74,16 +75,16 @@ tvheadend_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
 tvheadend_role_docker_envs_custom: {}
-tvheadend_role_docker_envs: "{{ tvheadend_role_docker_envs_default
-                                | combine(tvheadend_role_docker_envs_custom) }}"
+tvheadend_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tvheadend')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='tvheadend')) }}"
 
 # Volumes
 tvheadend_role_docker_volumes_default:
-  - "{{ tvheadend_role_paths_location }}:/config"
-  - "{{ tvheadend_role_paths_downloads_location }}:/recordings"
+  - "{{ lookup('role_var', '_paths_location', role='tvheadend') }}:/config"
+  - "{{ lookup('role_var', '_paths_downloads_location', role='tvheadend') }}:/recordings"
 tvheadend_role_docker_volumes_custom: []
-tvheadend_role_docker_volumes: "{{ tvheadend_role_docker_volumes_default
-                                   + tvheadend_role_docker_volumes_custom }}"
+tvheadend_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tvheadend')
+                                   + lookup('role_var', '_docker_volumes_custom', role='tvheadend') }}"
 
 # Hostname
 tvheadend_role_docker_hostname: "{{ tvheadend_name }}"
@@ -93,8 +94,8 @@ tvheadend_role_docker_networks_alias: "{{ tvheadend_name }}"
 tvheadend_role_docker_networks_default: []
 tvheadend_role_docker_networks_custom: []
 tvheadend_role_docker_networks: "{{ docker_networks_common
-                                    + tvheadend_role_docker_networks_default
-                                    + tvheadend_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='tvheadend')
+                                    + lookup('role_var', '_docker_networks_custom', role='tvheadend') }}"
 
 # Restart Policy
 tvheadend_role_docker_restart_policy: unless-stopped

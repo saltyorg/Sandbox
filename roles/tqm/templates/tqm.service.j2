@@ -5,9 +5,9 @@ Description=tqm service
 User={{ user.name }}
 Group={{ user.name }}
 Type=oneshot
-WorkingDirectory={{ tqm_role_paths_location }}
+WorkingDirectory={{ lookup('role_var', '_paths_location', role='tqm') }}
 ExecStartPre=/bin/sleep 30
-ExecStart={{ tqm_role_paths_location }}/tqm \
+ExecStart={{ lookup('role_var', '_paths_location', role='tqm') }}/tqm \
   clean {{ tqm.download_client | default('qbt', true)  }}
 
 [Install]

@@ -30,16 +30,16 @@ wordpress_role_paths_recursive: true
 wordpress_role_web_subdomain: "{{ wordpress_name }}"
 wordpress_role_web_domain: "{{ user.domain }}"
 wordpress_role_web_port: "80"
-wordpress_role_web_url: "{{ 'https://' + (lookup('vars', wordpress_name + '_web_subdomain', default=wordpress_role_web_subdomain) + '.' + lookup('vars', wordpress_name + '_web_domain', default=wordpress_role_web_domain)
-                         if (lookup('vars', wordpress_name + '_web_subdomain', default=wordpress_role_web_subdomain) | length > 0)
-                         else lookup('vars', wordpress_name + '_web_domain', default=wordpress_role_web_domain)) }}"
+wordpress_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wordpress') + '.' + lookup('role_var', '_web_domain', role='wordpress')
+                         if (lookup('role_var', '_web_subdomain', role='wordpress') | length > 0)
+                         else lookup('role_var', '_web_domain', role='wordpress')) }}"
 
 ################################
 # DNS
 ################################
 
-wordpress_role_dns_record: "{{ lookup('vars', wordpress_name + '_web_subdomain', default=wordpress_role_web_subdomain) }}"
-wordpress_role_dns_zone: "{{ lookup('vars', wordpress_name + '_web_domain', default=wordpress_role_web_domain) }}"
+wordpress_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wordpress') }}"
+wordpress_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wordpress') }}"
 wordpress_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -65,8 +65,7 @@ wordpress_role_docker_container: "{{ wordpress_name }}"
 wordpress_role_docker_image_pull: true
 wordpress_role_docker_image_repo: "wordpress"
 wordpress_role_docker_image_tag: "latest"
-wordpress_role_docker_image: "{{ lookup('vars', wordpress_name + '_docker_image_repo', default=wordpress_role_docker_image_repo)
-                                 + ':' + lookup('vars', wordpress_name + '_docker_image_tag', default=wordpress_role_docker_image_tag) }}"
+wordpress_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='wordpress') }}:{{ lookup('role_var', '_docker_image_tag', role='wordpress') }}"
 
 # Envs
 wordpress_role_docker_envs_default:
@@ -76,15 +75,15 @@ wordpress_role_docker_envs_default:
   WORDPRESS_DB_PASSWORD: "password321"
   WORDPRESS_DB_NAME: "{{ wordpress_name }}"
 wordpress_role_docker_envs_custom: {}
-wordpress_role_docker_envs: "{{ lookup('vars', wordpress_name + '_docker_envs_default', default=wordpress_role_docker_envs_default)
-                                | combine(lookup('vars', wordpress_name + '_docker_envs_custom', default=wordpress_role_docker_envs_custom)) }}"
+wordpress_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='wordpress')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='wordpress')) }}"
 
 # Volumes
 wordpress_role_docker_volumes_default:
-  - "{{ wordpress_role_paths_location }}:/var/www/html"
+  - "{{ lookup('role_var', '_paths_location', role='wordpress') }}:/var/www/html"
 wordpress_role_docker_volumes_custom: []
-wordpress_role_docker_volumes: "{{ lookup('vars', wordpress_name + '_docker_volumes_default', default=wordpress_role_docker_volumes_default)
-                                   + lookup('vars', wordpress_name + '_docker_volumes_custom', default=wordpress_role_docker_volumes_custom) }}"
+wordpress_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='wordpress')
+                                   + lookup('role_var', '_docker_volumes_custom', role='wordpress') }}"
 
 # Hostname
 wordpress_role_docker_hostname: "{{ wordpress_name }}"
@@ -94,8 +93,8 @@ wordpress_role_docker_networks_alias: "{{ wordpress_name }}"
 wordpress_role_docker_networks_default: []
 wordpress_role_docker_networks_custom: []
 wordpress_role_docker_networks: "{{ docker_networks_common
-                                    + lookup('vars', wordpress_name + '_docker_networks_default', default=wordpress_role_docker_networks_default)
-                                    + lookup('vars', wordpress_name + '_docker_networks_custom', default=wordpress_role_docker_networks_custom) }}"
+                                    + lookup('role_var', '_docker_networks_default', role='wordpress')
+                                    + lookup('role_var', '_docker_networks_custom', role='wordpress') }}"
 
 # Restart Policy
 wordpress_role_docker_restart_policy: unless-stopped

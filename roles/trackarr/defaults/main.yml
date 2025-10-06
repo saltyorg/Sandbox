@@ -19,9 +19,9 @@ trackarr_name: trackarr
 
 trackarr_role_paths_folder: "{{ trackarr_name }}"
 trackarr_role_paths_location: "{{ server_appdata_path }}/{{ trackarr_role_paths_folder }}"
+trackarr_role_paths_config_location: "{{ trackarr_role_paths_location }}/config.yaml"
 trackarr_role_paths_folders_list:
   - "{{ trackarr_role_paths_location }}"
-trackarr_role_paths_config_location: "{{ trackarr_role_paths_location }}/config.yaml"
 
 ################################
 # Web
@@ -30,16 +30,16 @@ trackarr_role_paths_config_location: "{{ trackarr_role_paths_location }}/config.
 trackarr_role_web_subdomain: "{{ trackarr_name }}"
 trackarr_role_web_domain: "{{ user.domain }}"
 trackarr_role_web_port: "7337"
-trackarr_role_web_url: "{{ 'https://' + (trackarr_role_web_subdomain + '.' + trackarr_role_web_domain
-                        if (trackarr_role_web_subdomain | length > 0)
-                        else trackarr_role_web_domain) }}"
+trackarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='trackarr') + '.' + lookup('role_var', '_web_domain', role='trackarr')
+                        if (lookup('role_var', '_web_subdomain', role='trackarr') | length > 0)
+                        else lookup('role_var', '_web_domain', role='trackarr')) }}"
 
 ################################
 # DNS
 ################################
 
-trackarr_role_dns_record: "{{ trackarr_role_web_subdomain }}"
-trackarr_role_dns_zone: "{{ trackarr_role_web_domain }}"
+trackarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='trackarr') }}"
+trackarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='trackarr') }}"
 trackarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -70,8 +70,9 @@ trackarr_role_docker_container: "{{ trackarr_name }}"
 
 # Image
 trackarr_role_docker_image_pull: true
+trackarr_role_docker_image_repo: "cloudb0x/trackarr"
 trackarr_role_docker_image_tag: "latest"
-trackarr_role_docker_image: "cloudb0x/trackarr:{{ trackarr_role_docker_image_tag }}"
+trackarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='trackarr') }}:{{ lookup('role_var', '_docker_image_tag', role='trackarr') }}"
 
 # Envs
 trackarr_role_docker_envs_log_level: "1"
@@ -79,17 +80,17 @@ trackarr_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  VERBOSE: "{{ trackarr_role_docker_envs_log_level }}"
+  VERBOSE: "{{ lookup('role_var', '_docker_envs_log_level', role='trackarr') }}"
 trackarr_role_docker_envs_custom: {}
-trackarr_role_docker_envs: "{{ trackarr_role_docker_envs_default
-                               | combine(trackarr_role_docker_envs_custom) }}"
+trackarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='trackarr')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='trackarr')) }}"
 
 # Volumes
 trackarr_role_docker_volumes_default:
-  - "{{ trackarr_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='trackarr') }}:/config"
 trackarr_role_docker_volumes_custom: []
-trackarr_role_docker_volumes: "{{ trackarr_role_docker_volumes_default
-                                  + trackarr_role_docker_volumes_custom }}"
+trackarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='trackarr')
+                                  + lookup('role_var', '_docker_volumes_custom', role='trackarr') }}"
 
 # Hostname
 trackarr_role_docker_hostname: "{{ trackarr_name }}"
@@ -99,8 +100,8 @@ trackarr_role_docker_networks_alias: "{{ trackarr_name }}"
 trackarr_role_docker_networks_default: []
 trackarr_role_docker_networks_custom: []
 trackarr_role_docker_networks: "{{ docker_networks_common
-                                   + trackarr_role_docker_networks_default
-                                   + trackarr_role_docker_networks_custom }}"
+                                   + lookup('role_var', '_docker_networks_default', role='trackarr')
+                                   + lookup('role_var', '_docker_networks_custom', role='trackarr') }}"
 
 # Restart Policy
 trackarr_role_docker_restart_policy: unless-stopped

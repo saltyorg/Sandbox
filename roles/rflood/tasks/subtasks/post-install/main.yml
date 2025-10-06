@@ -9,7 +9,7 @@
 ---
 - name: Post-Install | Wait for config files to be created
   ansible.builtin.wait_for:
-    path: "{{ rflood_role_paths_rtorrent_rc_location }}"
+    path: "{{ lookup('role_var', '_paths_rtorrent_rc_location', role='rflood') }}"
     state: present
 
 - name: Post-Install | Wait for 10 seconds

@@ -27,16 +27,16 @@ vnstat_rate_unit: "1" # Used traffic rate unit, 0: bytes, 1: bits
 vnstat_role_web_subdomain: "{{ vnstat_name }}"
 vnstat_role_web_domain: "{{ user.domain }}"
 vnstat_role_web_port: "8685"
-vnstat_role_web_url: "{{ 'https://' + (vnstat_role_web_subdomain + '.' + vnstat_role_web_domain
-                      if (vnstat_role_web_subdomain | length > 0)
-                      else vnstat_role_web_domain) }}"
+vnstat_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='vnstat') + '.' + lookup('role_var', '_web_domain', role='vnstat')
+                      if (lookup('role_var', '_web_subdomain', role='vnstat') | length > 0)
+                      else lookup('role_var', '_web_domain', role='vnstat')) }}"
 
 ################################
 # DNS
 ################################
 
-vnstat_role_dns_record: "{{ vnstat_role_web_subdomain }}"
-vnstat_role_dns_zone: "{{ vnstat_role_web_domain }}"
+vnstat_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='vnstat') }}"
+vnstat_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='vnstat') }}"
 vnstat_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -60,8 +60,9 @@ vnstat_role_docker_container: "{{ vnstat_name }}"
 
 # Image
 vnstat_role_docker_image_pull: true
+vnstat_role_docker_image_repo: "vergoh/vnstat"
 vnstat_role_docker_image_tag: "latest"
-vnstat_role_docker_image: "vergoh/vnstat:{{ vnstat_role_docker_image_tag }}"
+vnstat_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='vnstat') }}:{{ lookup('role_var', '_docker_image_tag', role='vnstat') }}"
 
 # Envs
 vnstat_role_docker_envs_default:
@@ -71,15 +72,15 @@ vnstat_role_docker_envs_default:
   RATE_UNIT: "{{ vnstat_rate_unit }}"
   RUN_VNSTATD: "0"
 vnstat_role_docker_envs_custom: {}
-vnstat_role_docker_envs: "{{ vnstat_role_docker_envs_default
-                             | combine(vnstat_role_docker_envs_custom) }}"
+vnstat_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='vnstat')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='vnstat')) }}"
 
 # Volumes
 vnstat_role_docker_volumes_default:
   - "vnstat:/var/lib/vnstat:ro"
 vnstat_role_docker_volumes_custom: []
-vnstat_role_docker_volumes: "{{ vnstat_role_docker_volumes_default
-                                + vnstat_role_docker_volumes_custom }}"
+vnstat_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='vnstat')
+                                + lookup('role_var', '_docker_volumes_custom', role='vnstat') }}"
 
 # Hostname
 vnstat_role_docker_hostname: "{{ vnstat_name }}"
@@ -89,8 +90,8 @@ vnstat_role_docker_networks_alias: "{{ vnstat_name }}"
 vnstat_role_docker_networks_default: []
 vnstat_role_docker_networks_custom: []
 vnstat_role_docker_networks: "{{ docker_networks_common
-                                 + vnstat_role_docker_networks_default
-                                 + vnstat_role_docker_networks_custom }}"
+                                 + lookup('role_var', '_docker_networks_default', role='vnstat')
+                                 + lookup('role_var', '_docker_networks_custom', role='vnstat') }}"
 
 # Restart Policy
 vnstat_role_docker_restart_policy: unless-stopped

@@ -9,7 +9,7 @@
 ---
 - name: Post-Install | Settings | Update 'rtorrent.rc' config settings
   community.general.ini_file:
-    path: "{{ rflood_role_paths_rtorrent_rc_location }}"
+    path: "{{ lookup('role_var', '_paths_rtorrent_rc_location', role='rflood') }}"
     section: null
     option: "{{ item.option }}"
     value: "{{ item.value }}"
@@ -18,4 +18,4 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-  loop: "{{ rflood_config_rflood_rc_settings_list }}"
+  loop: "{{ lookup('role_var', 'config_rflood_rc_settings_list', role='rflood') }}"

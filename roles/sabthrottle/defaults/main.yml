@@ -32,22 +32,23 @@ sabthrottle_role_docker_container: "{{ sabthrottle_name }}"
 
 # Image
 sabthrottle_role_docker_image_pull: true
+sabthrottle_role_docker_image_repo: "8a8al00ey/sabthrottle"
 sabthrottle_role_docker_image_tag: "latest"
-sabthrottle_role_docker_image: "8a8al00ey/sabthrottle:{{ sabthrottle_role_docker_image_tag }}"
+sabthrottle_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='sabthrottle') }}:{{ lookup('role_var', '_docker_image_tag', role='sabthrottle') }}"
 
 # Envs
 sabthrottle_role_docker_envs_default:
   TZ: "{{ tz }}"
 sabthrottle_role_docker_envs_custom: {}
-sabthrottle_role_docker_envs: "{{ sabthrottle_role_docker_envs_default
-                             | combine(sabthrottle_role_docker_envs_custom) }}"
+sabthrottle_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='sabthrottle')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='sabthrottle')) }}"
 
 # Volumes
 sabthrottle_role_docker_volumes_default:
-  - "{{ sabthrottle_role_paths_config_location }}:/sabthrottle/config.json:ro"
+  - "{{ lookup('role_var', '_paths_config_location', role='sabthrottle') }}:/sabthrottle/config.json:ro"
 sabthrottle_role_docker_volumes_custom: []
-sabthrottle_role_docker_volumes: "{{ sabthrottle_role_docker_volumes_default
-                                + sabthrottle_role_docker_volumes_custom }}"
+sabthrottle_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='sabthrottle')
+                                     + lookup('role_var', '_docker_volumes_custom', role='sabthrottle') }}"
 
 # Hostname
 sabthrottle_role_docker_hostname: "{{ sabthrottle_name }}"
@@ -57,8 +58,8 @@ sabthrottle_role_docker_networks_alias: "{{ sabthrottle_name }}"
 sabthrottle_role_docker_networks_default: []
 sabthrottle_role_docker_networks_custom: []
 sabthrottle_role_docker_networks: "{{ docker_networks_common
-                                 + sabthrottle_role_docker_networks_default
-                                 + sabthrottle_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='sabthrottle')
+                                      + lookup('role_var', '_docker_networks_custom', role='sabthrottle') }}"
 
 # Restart Policy
 sabthrottle_role_docker_restart_policy: unless-stopped

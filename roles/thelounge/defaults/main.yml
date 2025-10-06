@@ -29,16 +29,16 @@ thelounge_role_paths_folders_list:
 thelounge_role_web_subdomain: "{{ thelounge_name }}"
 thelounge_role_web_domain: "{{ user.domain }}"
 thelounge_role_web_port: "9000"
-thelounge_role_web_url: "{{ 'https://' + (thelounge_role_web_subdomain + '.' + thelounge_role_web_domain
-                         if (thelounge_role_web_subdomain | length > 0)
-                         else thelounge_role_web_domain) }}"
+thelounge_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='thelounge') + '.' + lookup('role_var', '_web_domain', role='thelounge')
+                         if (lookup('role_var', '_web_subdomain', role='thelounge') | length > 0)
+                         else lookup('role_var', '_web_domain', role='thelounge')) }}"
 
 ################################
 # DNS
 ################################
 
-thelounge_role_dns_record: "{{ thelounge_role_web_subdomain }}"
-thelounge_role_dns_zone: "{{ thelounge_role_web_domain }}"
+thelounge_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='thelounge') }}"
+thelounge_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='thelounge') }}"
 thelounge_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -63,8 +63,9 @@ thelounge_role_docker_container: "{{ thelounge_name }}"
 
 # Image
 thelounge_role_docker_image_pull: true
+thelounge_role_docker_image_repo: "lscr.io/linuxserver/thelounge"
 thelounge_role_docker_image_tag: "latest"
-thelounge_role_docker_image: "lscr.io/linuxserver/thelounge:{{ thelounge_role_docker_image_tag }}"
+thelounge_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='thelounge') }}:{{ lookup('role_var', '_docker_image_tag', role='thelounge') }}"
 
 # Envs
 thelounge_role_docker_envs_default:
@@ -72,15 +73,15 @@ thelounge_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 thelounge_role_docker_envs_custom: {}
-thelounge_role_docker_envs: "{{ thelounge_role_docker_envs_default
-                                | combine(thelounge_role_docker_envs_custom) }}"
+thelounge_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='thelounge')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='thelounge')) }}"
 
 # Volumes
 thelounge_role_docker_volumes_default:
-  - "{{ thelounge_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='thelounge') }}:/config"
 thelounge_role_docker_volumes_custom: []
-thelounge_role_docker_volumes: "{{ thelounge_role_docker_volumes_default
-                                   + thelounge_role_docker_volumes_custom }}"
+thelounge_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='thelounge')
+                                   + lookup('role_var', '_docker_volumes_custom', role='thelounge') }}"
 
 # Hostname
 thelounge_role_docker_hostname: "{{ thelounge_name }}"
@@ -90,8 +91,8 @@ thelounge_role_docker_networks_alias: "{{ thelounge_name }}"
 thelounge_role_docker_networks_default: []
 thelounge_role_docker_networks_custom: []
 thelounge_role_docker_networks: "{{ docker_networks_common
-                                    + thelounge_role_docker_networks_default
-                                    + thelounge_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='thelounge')
+                                    + lookup('role_var', '_docker_networks_custom', role='thelounge') }}"
 
 # Restart Policy
 thelounge_role_docker_restart_policy: unless-stopped

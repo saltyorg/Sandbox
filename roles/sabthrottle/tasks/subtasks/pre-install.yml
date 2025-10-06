@@ -9,7 +9,7 @@
 ---
 - name: Pre-Install | Check if config exists
   ansible.builtin.stat:
-    path: "{{ sabthrottle_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='sabthrottle') }}"
   register: sabthrottle_role_paths_config_location_stat
 
 - name: Pre-Install | Set Default Plex instance
@@ -27,7 +27,7 @@
     - name: Pre-Install | Import default config
       ansible.builtin.template:
         src: 'config.json.j2'
-        dest: "{{ sabthrottle_role_paths_config_location }}"
+        dest: "{{ lookup('role_var', '_paths_config_location', role='sabthrottle') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"

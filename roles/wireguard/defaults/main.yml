@@ -35,16 +35,16 @@ wireguard_role_paths_folders_list:
 wireguard_role_web_subdomain: "{{ wireguard_name }}"
 wireguard_role_web_domain: "{{ user.domain }}"
 wireguard_role_web_port: "51821"
-wireguard_role_web_url: "{{ 'https://' + (wireguard_role_web_subdomain + '.' + wireguard_role_web_domain
-                         if (wireguard_role_web_subdomain | length > 0)
-                         else wireguard_role_web_domain) }}"
+wireguard_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wireguard') + '.' + lookup('role_var', '_web_domain', role='wireguard')
+                         if (lookup('role_var', '_web_subdomain', role='wireguard') | length > 0)
+                         else lookup('role_var', '_web_domain', role='wireguard')) }}"
 
 ################################
 # DNS
 ################################
 
-wireguard_role_dns_record: "{{ wireguard_role_web_subdomain }}"
-wireguard_role_dns_zone: "{{ wireguard_role_web_domain }}"
+wireguard_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wireguard') }}"
+wireguard_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wireguard') }}"
 wireguard_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -68,15 +68,16 @@ wireguard_role_docker_container: "{{ wireguard_name }}"
 
 # Image
 wireguard_role_docker_image_pull: true
+wireguard_role_docker_image_repo: "ghcr.io/wg-easy/wg-easy"
 wireguard_role_docker_image_tag: "14"
-wireguard_role_docker_image: "ghcr.io/wg-easy/wg-easy:{{ wireguard_role_docker_image_tag }}"
+wireguard_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='wireguard') }}:{{ lookup('role_var', '_docker_image_tag', role='wireguard') }}"
 
 # Ports
 wireguard_role_docker_ports_defaults:
   - "{{ wireguard_listen_port }}:51820/udp"
 wireguard_role_docker_ports_custom: []
-wireguard_role_docker_ports: "{{ wireguard_role_docker_ports_defaults
-                                 + wireguard_role_docker_ports_custom }}"
+wireguard_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='wireguard')
+                                 + lookup('role_var', '_docker_ports_custom', role='wireguard') }}"
 
 # Envs
 wireguard_role_docker_envs_default:
@@ -85,15 +86,15 @@ wireguard_role_docker_envs_default:
   PASSWORD_HASH: "{{ user.pass | password_hash('bcrypt') }}"
   WG_PORT: "{{ wireguard_listen_port }}"
 wireguard_role_docker_envs_custom: {}
-wireguard_role_docker_envs: "{{ wireguard_role_docker_envs_default
-                                | combine(wireguard_role_docker_envs_custom) }}"
+wireguard_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='wireguard')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='wireguard')) }}"
 
 # Volumes
 wireguard_role_docker_volumes_default:
-  - "{{ wireguard_role_paths_location }}:/etc/wireguard"
+  - "{{ lookup('role_var', '_paths_location', role='wireguard') }}:/etc/wireguard"
 wireguard_role_docker_volumes_custom: []
-wireguard_role_docker_volumes: "{{ wireguard_role_docker_volumes_default
-                                   + wireguard_role_docker_volumes_custom }}"
+wireguard_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='wireguard')
+                                   + lookup('role_var', '_docker_volumes_custom', role='wireguard') }}"
 
 # Hostname
 wireguard_role_docker_hostname: "{{ wireguard_name }}"
@@ -103,8 +104,8 @@ wireguard_role_docker_networks_alias: "{{ wireguard_name }}"
 wireguard_role_docker_networks_default: []
 wireguard_role_docker_networks_custom: []
 wireguard_role_docker_networks: "{{ docker_networks_common
-                                    + wireguard_role_docker_networks_default
-                                    + wireguard_role_docker_networks_custom }}"
+                                    + lookup('role_var', '_docker_networks_default', role='wireguard')
+                                    + lookup('role_var', '_docker_networks_custom', role='wireguard') }}"
 
 # Capabilities
 wireguard_role_docker_capabilities_default:

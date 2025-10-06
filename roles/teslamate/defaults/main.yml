@@ -81,10 +81,10 @@ teslamate_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 # Envs
 teslamate_role_docker_envs_default:
   DATABASE_USER: "{{ lookup('role_var', '_docker_env_user', role='postgres') }}"
-  DATABASE_PASS: "{{ teslamate_role_postgres_docker_env_password }}"
-  DATABASE_NAME: "{{ teslamate_role_postgres_docker_env_db }}"
+  DATABASE_PASS: "{{ lookup('role_var', '_postgres_docker_env_password', role='teslamate') }}"
+  DATABASE_NAME: "{{ lookup('role_var', '_postgres_docker_env_db', role='teslamate') }}"
   ENCRYPTION_KEY: "{{ teslamate_secret_key }}"
-  DATABASE_HOST: "{{ teslamate_role_postgres_name }}"
+  DATABASE_HOST: "{{ lookup('role_var', '_postgres_name', role='teslamate') }}"
   DATABASE_PORT: "5432"
   MQTT_HOST: "mqtt"
   CHECK_ORIGIN: "false"

@@ -80,7 +80,7 @@ makemkv_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='m
 makemkv_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='makemkv') }}:/docker/appdata/makemkv"
   - "/mnt/unionfs:/storage:ro"
-  - "/mnt/unionfs/makemkv:/output:rw"
+  - "/mnt/unionfs/makemkv:/output"
 makemkv_role_docker_volumes_custom: []
 makemkv_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='makemkv')
                                  + lookup('role_var', '_docker_volumes_custom', role='makemkv') }}"

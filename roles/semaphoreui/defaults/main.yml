@@ -83,7 +83,7 @@ semaphoreui_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role
 semaphoreui_role_docker_envs_default:
   SEMAPHORE_DB_USER: "semaphoreui"
   SEMAPHORE_DB_PASS: "semaphoreui"
-  SEMAPHORE_DB_HOST: "{{ semaphoreui_role_postgres_name }}" # for postgres, change to: postgres
+  SEMAPHORE_DB_HOST: "{{ lookup('role_var', '_postgres_name', role='semaphoreui') }}" # for postgres, change to: postgres
   SEMAPHORE_DB_PORT: "5432" # change to 5432 for postgres
   SEMAPHORE_DB_DIALECT: "postgres" # for postgres, change to: postgres
   SEMAPHORE_DB: "semaphoreui"

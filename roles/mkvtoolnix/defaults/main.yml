@@ -82,7 +82,7 @@ mkvtoolnix_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role
 
 # Volumes
 mkvtoolnix_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='mkvtoolnix') }}:/config:rw"
+  - "{{ lookup('role_var', '_paths_location', role='mkvtoolnix') }}:/config"
   - "/mnt/unionfs:/storage"
 mkvtoolnix_role_docker_volumes_custom: []
 mkvtoolnix_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='mkvtoolnix')

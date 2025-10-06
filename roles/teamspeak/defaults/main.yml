@@ -67,9 +67,9 @@ teamspeak_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Ports
 teamspeak_role_docker_ports_defaults:
-  - "{{ teamspeak_role_docker_ports_9987 }}:9987/udp"
-  - "{{ teamspeak_role_docker_ports_10011 }}:10011"
-  - "{{ teamspeak_role_docker_ports_30033 }}:30033"
+  - "{{ lookup('role_var', '_docker_ports_9987', role='teamspeak') }}:9987/udp"
+  - "{{ lookup('role_var', '_docker_ports_10011', role='teamspeak') }}:10011"
+  - "{{ lookup('role_var', '_docker_ports_30033', role='teamspeak') }}:30033"
 teamspeak_role_docker_ports_custom: []
 teamspeak_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='teamspeak')
                                  + lookup('role_var', '_docker_ports_custom', role='teamspeak') }}"

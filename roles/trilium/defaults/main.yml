@@ -29,16 +29,16 @@ trilium_role_paths_folders_list:
 trilium_role_web_subdomain: "{{ trilium_name }}"
 trilium_role_web_domain: "{{ user.domain }}"
 trilium_role_web_port: "8080"
-trilium_role_web_url: "{{ 'https://' + (trilium_role_web_subdomain + '.' + trilium_role_web_domain
-                       if (trilium_role_web_subdomain | length > 0)
-                       else trilium_role_web_domain) }}"
+trilium_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='trilium') + '.' + lookup('role_var', '_web_domain', role='trilium')
+                       if (lookup('role_var', '_web_subdomain', role='trilium') | length > 0)
+                       else lookup('role_var', '_web_domain', role='trilium')) }}"
 
 ################################
 # DNS
 ################################
 
-trilium_role_dns_record: "{{ trilium_role_web_subdomain }}"
-trilium_role_dns_zone: "{{ trilium_role_web_domain }}"
+trilium_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='trilium') }}"
+trilium_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='trilium') }}"
 trilium_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -62,8 +62,9 @@ trilium_role_docker_container: "{{ trilium_name }}"
 
 # Image
 trilium_role_docker_image_pull: true
+trilium_role_docker_image_repo: "triliumnext/notes"
 trilium_role_docker_image_tag: "latest"
-trilium_role_docker_image: "triliumnext/notes:{{ trilium_role_docker_image_tag }}"
+trilium_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='trilium') }}:{{ lookup('role_var', '_docker_image_tag', role='trilium') }}"
 
 # Envs
 trilium_role_docker_envs_default:
@@ -72,15 +73,15 @@ trilium_role_docker_envs_default:
   TZ: "{{ tz }}"
   TRILIUM_DATA_DIR: "/home/node/trilium-data"
 trilium_role_docker_envs_custom: {}
-trilium_role_docker_envs: "{{ trilium_role_docker_envs_default
-                              | combine(trilium_role_docker_envs_custom) }}"
+trilium_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='trilium')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='trilium')) }}"
 
 # Volumes
 trilium_role_docker_volumes_default:
   - "{{ trilium_role_paths_location }}:/home/node/trilium-data"
 trilium_role_docker_volumes_custom: []
-trilium_role_docker_volumes: "{{ trilium_role_docker_volumes_default
-                                 + trilium_role_docker_volumes_custom }}"
+trilium_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='trilium')
+                                 + lookup('role_var', '_docker_volumes_custom', role='trilium') }}"
 
 # Hostname
 trilium_role_docker_hostname: "{{ trilium_name }}"
@@ -90,8 +91,8 @@ trilium_role_docker_networks_alias: "{{ trilium_name }}"
 trilium_role_docker_networks_default: []
 trilium_role_docker_networks_custom: []
 trilium_role_docker_networks: "{{ docker_networks_common
-                                  + trilium_role_docker_networks_default
-                                  + trilium_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='trilium')
+                                  + lookup('role_var', '_docker_networks_custom', role='trilium') }}"
 
 # Restart Policy
 trilium_role_docker_restart_policy: unless-stopped

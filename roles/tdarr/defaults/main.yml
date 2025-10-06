@@ -44,16 +44,16 @@ tdarr_role_paths_folders_list:
 tdarr_role_web_subdomain: "{{ tdarr_name }}"
 tdarr_role_web_domain: "{{ user.domain }}"
 tdarr_role_web_port: "8265"
-tdarr_role_web_url: "{{ 'https://' + (tdarr_role_web_subdomain + '.' + tdarr_role_web_domain
-                     if (tdarr_role_web_subdomain | length > 0)
-                     else tdarr_role_web_domain) }}"
+tdarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='tdarr') + '.' + lookup('role_var', '_web_domain', role='tdarr')
+                     if (lookup('role_var', '_web_subdomain', role='tdarr') | length > 0)
+                     else lookup('role_var', '_web_domain', role='tdarr')) }}"
 
 ################################
 # DNS
 ################################
 
-tdarr_role_dns_record: "{{ tdarr_role_web_subdomain }}"
-tdarr_role_dns_zone: "{{ tdarr_role_web_domain }}"
+tdarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='tdarr') }}"
+tdarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='tdarr') }}"
 tdarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -77,15 +77,16 @@ tdarr_role_docker_container: "{{ tdarr_name }}"
 
 # Image
 tdarr_role_docker_image_pull: true
+tdarr_role_docker_image_repo: "haveagitgat/tdarr"
 tdarr_role_docker_image_tag: "latest"
-tdarr_role_docker_image: "haveagitgat/tdarr:{{ tdarr_role_docker_image_tag }}"
+tdarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tdarr') }}:{{ lookup('role_var', '_docker_image_tag', role='tdarr') }}"
 
 # Ports
 tdarr_role_docker_ports_defaults:
-  - "{{ tdarr_server_port }}:{{ tdarr_server_port }}"
+  - "{{ lookup('role_var', '_server_port', role='tdarr') }}:{{ lookup('role_var', '_server_port', role='tdarr') }}"
 tdarr_role_docker_ports_custom: []
-tdarr_role_docker_ports: "{{ tdarr_role_docker_ports_defaults if (tdarr_server_external) else []
-                             + tdarr_role_docker_ports_custom }}"
+tdarr_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='tdarr') if (tdarr_server_external) else []
+                             + lookup('role_var', '_docker_ports_custom', role='tdarr') }}"
 
 # Envs
 tdarr_role_docker_envs_default:
@@ -94,26 +95,26 @@ tdarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   serverIP: "0.0.0.0"
   webUIPort: "8265"
-  serverPort: "{{ tdarr_server_port }}"
+  serverPort: "{{ lookup('role_var', '_server_port', role='tdarr') }}"
   internalNode: "true"
   inContainer: "true"
 tdarr_role_docker_envs_custom: {}
-tdarr_role_docker_envs: "{{ tdarr_role_docker_envs_default
-                            | combine(tdarr_role_docker_envs_custom) }}"
+tdarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tdarr')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='tdarr')) }}"
 
 # Volumes
 tdarr_role_docker_volumes_default:
-  - "{{ tdarr_role_paths_configs_location }}:/app/configs"
-  - "{{ tdarr_role_paths_server_location }}:/app/server"
-  - "{{ tdarr_role_paths_logs_location }}:/app/logs"
-  - "{{ tdarr_role_paths_transcodes_location }}:/temp"
+  - "{{ lookup('role_var', '_paths_configs_location', role='tdarr') }}:/app/configs"
+  - "{{ lookup('role_var', '_paths_server_location', role='tdarr') }}:/app/server"
+  - "{{ lookup('role_var', '_paths_logs_location', role='tdarr') }}:/app/logs"
+  - "{{ lookup('role_var', '_paths_transcodes_location', role='tdarr') }}:/temp"
   - "/mnt/unionfs/Media:/media"
   - "/mnt/unionfs/Media/Movies:/movies"
   - "/mnt/unionfs/Media/TV:/tv"
   - "/dev/shm:/dev/shm"
 tdarr_role_docker_volumes_custom: []
-tdarr_role_docker_volumes: "{{ tdarr_role_docker_volumes_default
-                               + tdarr_role_docker_volumes_custom }}"
+tdarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tdarr')
+                               + lookup('role_var', '_docker_volumes_custom', role='tdarr') }}"
 
 # Hostname
 tdarr_role_docker_hostname: "{{ tdarr_name }}"
@@ -123,8 +124,8 @@ tdarr_role_docker_networks_alias: "{{ tdarr_name }}"
 tdarr_role_docker_networks_default: []
 tdarr_role_docker_networks_custom: []
 tdarr_role_docker_networks: "{{ docker_networks_common
-                                + tdarr_role_docker_networks_default
-                                + tdarr_role_docker_networks_custom }}"
+                                + lookup('role_var', '_docker_networks_default', role='tdarr')
+                                + lookup('role_var', '_docker_networks_custom', role='tdarr') }}"
 
 # Restart Policy
 tdarr_role_docker_restart_policy: unless-stopped

@@ -31,16 +31,16 @@ wizarr_role_paths_folders_list:
 wizarr_role_web_subdomain: "{{ wizarr_name }}"
 wizarr_role_web_domain: "{{ user.domain }}"
 wizarr_role_web_port: "5690"
-wizarr_role_web_url: "{{ 'https://' + (lookup('vars', wizarr_name + '_web_subdomain', default=wizarr_role_web_subdomain) + '.' + lookup('vars', wizarr_name + '_web_domain', default=wizarr_role_web_domain)
-                      if (lookup('vars', wizarr_name + '_web_subdomain', default=wizarr_role_web_subdomain) | length > 0)
-                      else lookup('vars', wizarr_name + '_web_domain', default=wizarr_role_web_domain)) }}"
+wizarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wizarr') + '.' + lookup('role_var', '_web_domain', role='wizarr')
+                      if (lookup('role_var', '_web_subdomain', role='wizarr') | length > 0)
+                      else lookup('role_var', '_web_domain', role='wizarr')) }}"
 
 ################################
 # DNS
 ################################
 
-wizarr_role_dns_record: "{{ lookup('vars', wizarr_name + '_web_subdomain', default=wizarr_role_web_subdomain) }}"
-wizarr_role_dns_zone: "{{ lookup('vars', wizarr_name + '_web_domain', default=wizarr_role_web_domain) }}"
+wizarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wizarr') }}"
+wizarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wizarr') }}"
 wizarr_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -66,26 +66,25 @@ wizarr_role_docker_container: "{{ wizarr_name }}"
 wizarr_role_docker_image_pull: true
 wizarr_role_docker_image_repo: "ghcr.io/wizarrrr/wizarr"
 wizarr_role_docker_image_tag: "latest"
-wizarr_role_docker_image: "{{ lookup('vars', wizarr_name + '_docker_image_repo', default=wizarr_role_docker_image_repo)
-                              + ':' + lookup('vars', wizarr_name + '_docker_image_tag', default=wizarr_role_docker_image_tag) }}"
+wizarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='wizarr') }}:{{ lookup('role_var', '_docker_image_tag', role='wizarr') }}"
 
 # Envs
 wizarr_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  DISABLE_BUILTIN_AUTH: "{{ 'true' if (wizarr_role_traefik_sso_middleware | length > 0) else 'false' }}"
+  DISABLE_BUILTIN_AUTH: "{{ 'true' if (lookup('role_var', '_traefik_sso_middleware', role='wizarr') | length > 0) else 'false' }}"
 wizarr_role_docker_envs_custom: {}
-wizarr_role_docker_envs: "{{ lookup('vars', wizarr_name + '_docker_envs_default', default=wizarr_role_docker_envs_default)
-                             | combine(lookup('vars', wizarr_name + '_docker_envs_custom', default=wizarr_role_docker_envs_custom)) }}"
+wizarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='wizarr')
+                             | combine(lookup('role_var', '_docker_envs_custom', role='wizarr')) }}"
 
 # Volumes
 wizarr_role_docker_volumes_default:
-  - "{{ wizarr_role_paths_location }}/database:/data/database"
-  - "{{ wizarr_role_paths_location }}/wizard:/data/wizard"
+  - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database:/data/database"
+  - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/wizard:/data/wizard"
 wizarr_role_docker_volumes_custom: []
-wizarr_role_docker_volumes: "{{ lookup('vars', wizarr_name + '_docker_volumes_default', default=wizarr_role_docker_volumes_default)
-                                + lookup('vars', wizarr_name + '_docker_volumes_custom', default=wizarr_role_docker_volumes_custom) }}"
+wizarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='wizarr')
+                                + lookup('role_var', '_docker_volumes_custom', role='wizarr') }}"
 
 # Hostname
 wizarr_role_docker_hostname: "{{ wizarr_name }}"
@@ -95,8 +94,8 @@ wizarr_role_docker_networks_alias: "{{ wizarr_name }}"
 wizarr_role_docker_networks_default: []
 wizarr_role_docker_networks_custom: []
 wizarr_role_docker_networks: "{{ docker_networks_common
-                                 + lookup('vars', wizarr_name + '_docker_networks_default', default=wizarr_role_docker_networks_default)
-                                 + lookup('vars', wizarr_name + '_docker_networks_custom', default=wizarr_role_docker_networks_custom) }}"
+                                 + lookup('role_var', '_docker_networks_default', role='wizarr')
+                                 + lookup('role_var', '_docker_networks_custom', role='wizarr') }}"
 
 # Restart Policy
 wizarr_role_docker_restart_policy: unless-stopped

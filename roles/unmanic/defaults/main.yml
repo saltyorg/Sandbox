@@ -31,16 +31,16 @@ unmanic_role_paths_folders_list:
 unmanic_role_web_subdomain: "{{ unmanic_name }}"
 unmanic_role_web_domain: "{{ user.domain }}"
 unmanic_role_web_port: "8888"
-unmanic_role_web_url: "{{ 'https://' + (unmanic_role_web_subdomain + '.' + unmanic_role_web_domain
-                       if (unmanic_role_web_subdomain | length > 0)
-                       else unmanic_role_web_domain) }}"
+unmanic_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='unmanic') + '.' + lookup('role_var', '_web_domain', role='unmanic')
+                       if (lookup('role_var', '_web_subdomain', role='unmanic') | length > 0)
+                       else lookup('role_var', '_web_domain', role='unmanic')) }}"
 
 ################################
 # DNS
 ################################
 
-unmanic_role_dns_record: "{{ unmanic_role_web_subdomain }}"
-unmanic_role_dns_zone: "{{ unmanic_role_web_domain }}"
+unmanic_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='unmanic') }}"
+unmanic_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='unmanic') }}"
 unmanic_role_dns_proxy: "{{ dns.proxied }}"
 
 ################################
@@ -64,8 +64,9 @@ unmanic_role_docker_container: "{{ unmanic_name }}"
 
 # Image
 unmanic_role_docker_image_pull: true
+unmanic_role_docker_image_repo: "josh5/unmanic"
 unmanic_role_docker_image_tag: "latest"
-unmanic_role_docker_image: "josh5/unmanic:{{ unmanic_role_docker_image_tag }}"
+unmanic_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='unmanic') }}:{{ lookup('role_var', '_docker_image_tag', role='unmanic') }}"
 
 # Envs
 unmanic_role_docker_envs_default:
@@ -73,17 +74,17 @@ unmanic_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 unmanic_role_docker_envs_custom: {}
-unmanic_role_docker_envs: "{{ unmanic_role_docker_envs_default
-                              | combine(unmanic_role_docker_envs_custom) }}"
+unmanic_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='unmanic')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='unmanic')) }}"
 
 # Volumes
 unmanic_role_docker_volumes_default:
-  - "{{ unmanic_role_paths_location }}:/config"
-  - "{{ unmanic_role_paths_transcodes_location }}:/tmp/unmanic"
+  - "{{ lookup('role_var', '_paths_location', role='unmanic') }}:/config"
+  - "{{ lookup('role_var', '_paths_transcodes_location', role='unmanic') }}:/tmp/unmanic"
   - "/mnt/unionfs/Media:/library"
 unmanic_role_docker_volumes_custom: []
-unmanic_role_docker_volumes: "{{ unmanic_role_docker_volumes_default
-                                 + unmanic_role_docker_volumes_custom }}"
+unmanic_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='unmanic')
+                                 + lookup('role_var', '_docker_volumes_custom', role='unmanic') }}"
 
 # Hostname
 unmanic_role_docker_hostname: "{{ unmanic_name }}"
@@ -93,8 +94,8 @@ unmanic_role_docker_networks_alias: "{{ unmanic_name }}"
 unmanic_role_docker_networks_default: []
 unmanic_role_docker_networks_custom: []
 unmanic_role_docker_networks: "{{ docker_networks_common
-                                  + unmanic_role_docker_networks_default
-                                  + unmanic_role_docker_networks_custom }}"
+                                  + lookup('role_var', '_docker_networks_default', role='unmanic')
+                                  + lookup('role_var', '_docker_networks_custom', role='unmanic') }}"
 
 # Restart Policy
 unmanic_role_docker_restart_policy: unless-stopped
