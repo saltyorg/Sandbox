@@ -40,7 +40,7 @@ kitana_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 kitana_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='kitana') }}"
 kitana_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='kitana') }}"
-kitana_role_dns_proxy: "{{ dns.proxied }}"
+kitana_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

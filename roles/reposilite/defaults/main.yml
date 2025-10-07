@@ -40,7 +40,7 @@ reposilite_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', 
 
 reposilite_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='reposilite') }}"
 reposilite_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='reposilite') }}"
-reposilite_role_dns_proxy: "{{ dns.proxied }}"
+reposilite_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

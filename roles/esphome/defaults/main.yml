@@ -40,7 +40,7 @@ esphome_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 esphome_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='esphome') }}"
 esphome_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='esphome') }}"
-esphome_role_dns_proxy: "{{ dns.proxied }}"
+esphome_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

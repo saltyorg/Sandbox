@@ -37,7 +37,7 @@ lunasea_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 lunasea_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='lunasea') }}"
 lunasea_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='lunasea') }}"
-lunasea_role_dns_proxy: "{{ dns.proxied }}"
+lunasea_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

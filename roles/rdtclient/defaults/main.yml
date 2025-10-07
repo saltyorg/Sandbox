@@ -45,7 +45,7 @@ rdtclient_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 rdtclient_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='rdtclient') }}"
 rdtclient_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='rdtclient') }}"
-rdtclient_role_dns_proxy: "{{ dns.proxied }}"
+rdtclient_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

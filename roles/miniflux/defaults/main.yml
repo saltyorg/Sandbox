@@ -63,7 +63,7 @@ miniflux_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 miniflux_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='miniflux') }}"
 miniflux_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='miniflux') }}"
-miniflux_role_dns_proxy: "{{ dns.proxied }}"
+miniflux_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

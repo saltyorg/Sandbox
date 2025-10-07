@@ -45,7 +45,7 @@ watchtower_host: "{{ lookup('role_var', '_web_subdomain', role='watchtower') + '
 
 watchtower_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='watchtower') }}"
 watchtower_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='watchtower') }}"
-watchtower_role_dns_proxy: "{{ dns.proxied }}"
+watchtower_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

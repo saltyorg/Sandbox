@@ -43,7 +43,7 @@ koel_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='
 
 koel_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='koel') }}"
 koel_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='koel') }}"
-koel_role_dns_proxy: "{{ dns.proxied }}"
+koel_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

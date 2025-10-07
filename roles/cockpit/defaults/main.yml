@@ -54,7 +54,7 @@ cockpit_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 cockpit_role_dns_record: "{{ cockpit_role_web_subdomain }}"
 cockpit_role_dns_zone: "{{ cockpit_role_web_domain }}"
-cockpit_role_dns_proxy: "{{ dns.proxied }}"
+cockpit_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

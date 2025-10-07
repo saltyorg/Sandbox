@@ -40,7 +40,7 @@ wordpress_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 wordpress_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wordpress') }}"
 wordpress_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wordpress') }}"
-wordpress_role_dns_proxy: "{{ dns.proxied }}"
+wordpress_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -39,7 +39,7 @@ xbackbone_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 xbackbone_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='xbackbone') }}"
 xbackbone_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='xbackbone') }}"
-xbackbone_role_dns_proxy: "{{ dns.proxied }}"
+xbackbone_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

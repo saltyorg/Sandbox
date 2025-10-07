@@ -39,7 +39,7 @@ bookstack_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 bookstack_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='bookstack') }}"
 bookstack_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='bookstack') }}"
-bookstack_role_dns_proxy: "{{ dns.proxied }}"
+bookstack_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

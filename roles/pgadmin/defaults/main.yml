@@ -30,7 +30,7 @@ pgadmin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 pgadmin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='pgadmin') }}"
 pgadmin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='pgadmin') }}"
-pgadmin_role_dns_proxy: "{{ dns.proxied }}"
+pgadmin_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

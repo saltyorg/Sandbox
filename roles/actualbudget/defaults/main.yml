@@ -41,7 +41,7 @@ actualbudget_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain'
 
 actualbudget_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='actualbudget') }}"
 actualbudget_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='actualbudget') }}"
-actualbudget_role_dns_proxy: "{{ dns.proxied }}"
+actualbudget_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

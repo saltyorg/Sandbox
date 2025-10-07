@@ -39,7 +39,7 @@ linkding_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 linkding_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='linkding') }}"
 linkding_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='linkding') }}"
-linkding_role_dns_proxy: "{{ dns.proxied }}"
+linkding_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

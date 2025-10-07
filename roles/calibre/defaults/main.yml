@@ -47,10 +47,10 @@ calibre_role_web2_role_web_url: "{{ 'https://' + (lookup('role_var', '_web2_subd
 
 calibre_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='calibre') }}"
 calibre_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='calibre') }}"
-calibre_role_dns_proxy: "{{ dns.proxied }}"
+calibre_role_dns_proxy: "{{ dns_proxied }}"
 calibre_role_dns2_record: "{{ lookup('role_var', '_web2_subdomain', role='calibre') }}"
 calibre_role_dns2_zone: "{{ lookup('role_var', '_web2_domain', role='calibre') }}"
-calibre_role_dns2_proxy: "{{ dns.proxied }}"
+calibre_role_dns2_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

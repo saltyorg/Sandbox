@@ -50,7 +50,7 @@ invoiceninjav5_role_nginx_web_url: "{{ 'https://' + (lookup('role_var', '_nginx_
 
 invoiceninjav5_role_nginx_dns_record: "{{ lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') }}"
 invoiceninjav5_role_nginx_dns_zone: "{{ lookup('role_var', '_nginx_web_domain', role='invoiceninjav5') }}"
-invoiceninjav5_role_nginx_dns_proxy: "{{ dns.proxied }}"
+invoiceninjav5_role_nginx_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Docker

@@ -39,7 +39,7 @@ medusa_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 medusa_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='medusa') }}"
 medusa_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='medusa') }}"
-medusa_role_dns_proxy: "{{ dns.proxied }}"
+medusa_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

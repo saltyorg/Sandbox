@@ -45,7 +45,7 @@ airdcpp_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 airdcpp_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='airdcpp') }}"
 airdcpp_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='airdcpp') }}"
-airdcpp_role_dns_proxy: "{{ dns.proxied }}"
+airdcpp_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

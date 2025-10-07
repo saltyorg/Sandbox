@@ -39,7 +39,7 @@ node_red_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 node_red_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='node_red') }}"
 node_red_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='node_red') }}"
-node_red_role_dns_proxy: "{{ dns.proxied }}"
+node_red_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

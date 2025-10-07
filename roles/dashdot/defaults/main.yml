@@ -56,7 +56,7 @@ dashdot_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 dashdot_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='dashdot') }}"
 dashdot_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='dashdot') }}"
-dashdot_role_dns_proxy: "{{ dns.proxied }}"
+dashdot_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

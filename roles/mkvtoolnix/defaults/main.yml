@@ -39,7 +39,7 @@ mkvtoolnix_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', 
 
 mkvtoolnix_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='mkvtoolnix') }}"
 mkvtoolnix_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='mkvtoolnix') }}"
-mkvtoolnix_role_dns_proxy: "{{ dns.proxied }}"
+mkvtoolnix_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

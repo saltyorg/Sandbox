@@ -48,7 +48,7 @@ karakeep_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 karakeep_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='karakeep') }}"
 karakeep_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='karakeep') }}"
-karakeep_role_dns_proxy: "{{ dns.proxied }}"
+karakeep_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

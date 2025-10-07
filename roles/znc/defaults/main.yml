@@ -39,7 +39,7 @@ znc_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='z
 
 znc_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='znc') }}"
 znc_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='znc') }}"
-znc_role_dns_proxy: "{{ dns.proxied }}"
+znc_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

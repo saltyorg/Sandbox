@@ -40,7 +40,7 @@ healthchecks_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain'
 
 healthchecks_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='healthchecks') }}"
 healthchecks_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='healthchecks') }}"
-healthchecks_role_dns_proxy: "{{ dns.proxied }}"
+healthchecks_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

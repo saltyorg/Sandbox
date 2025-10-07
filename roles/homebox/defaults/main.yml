@@ -39,7 +39,7 @@ homebox_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 homebox_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='homebox') }}"
 homebox_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='homebox') }}"
-homebox_role_dns_proxy: "{{ dns.proxied }}"
+homebox_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

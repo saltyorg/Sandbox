@@ -39,7 +39,7 @@ qbit_manage_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain',
 
 qbit_manage_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='qbit_manage') }}"
 qbit_manage_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='qbit_manage') }}"
-qbit_manage_role_dns_proxy: "{{ dns.proxied }}"
+qbit_manage_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

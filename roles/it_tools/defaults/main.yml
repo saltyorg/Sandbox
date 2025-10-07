@@ -30,7 +30,7 @@ it_tools_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 it_tools_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='it_tools') }}"
 it_tools_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='it_tools') }}"
-it_tools_role_dns_proxy: "{{ dns.proxied }}"
+it_tools_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

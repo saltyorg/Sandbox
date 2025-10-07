@@ -50,7 +50,7 @@ unifi_network_application_role_web_url: "{{ 'https://' + (unifi_network_applicat
 
 unifi_network_application_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='unifi_network_application') }}"
 unifi_network_application_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='unifi_network_application') }}"
-unifi_network_application_role_dns_proxy: "{{ dns.proxied }}"
+unifi_network_application_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -39,7 +39,7 @@ wrapperr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 wrapperr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wrapperr') }}"
 wrapperr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wrapperr') }}"
-wrapperr_role_dns_proxy: "{{ dns.proxied }}"
+wrapperr_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

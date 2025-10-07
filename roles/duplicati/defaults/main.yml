@@ -40,7 +40,7 @@ duplicati_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 duplicati_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='duplicati') }}"
 duplicati_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='duplicati') }}"
-duplicati_role_dns_proxy: "{{ dns.proxied }}"
+duplicati_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

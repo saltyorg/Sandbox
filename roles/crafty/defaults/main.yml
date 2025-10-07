@@ -54,10 +54,10 @@ crafty_role_dynmap_host: "{{ lookup('role_var', '_dynmap_web_subdomain', role='c
 
 crafty_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='crafty') }}"
 crafty_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='crafty') }}"
-crafty_role_dns_proxy: "{{ dns.proxied }}"
+crafty_role_dns_proxy: "{{ dns_proxied }}"
 crafty_role_dynmap_dns_record: "{{ lookup('role_var', '_dynmap_web_subdomain', role='crafty') }}"
 crafty_role_dynmap_dns_zone: "{{ lookup('role_var', '_web_domain', role='crafty') }}"
-crafty_role_dynmap_dns_proxy: "{{ dns.proxied }}"
+crafty_role_dynmap_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

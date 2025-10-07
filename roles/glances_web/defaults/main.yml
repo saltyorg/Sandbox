@@ -48,7 +48,7 @@ glances_web_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain',
 
 glances_web_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='glances_web') }}"
 glances_web_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='glances_web') }}"
-glances_web_role_dns_proxy: "{{ dns.proxied }}"
+glances_web_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

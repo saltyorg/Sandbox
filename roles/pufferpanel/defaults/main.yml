@@ -41,7 +41,7 @@ pufferpanel_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain',
 
 pufferpanel_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='pufferpanel') }}"
 pufferpanel_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='pufferpanel') }}"
-pufferpanel_role_dns_proxy: "{{ dns.proxied }}"
+pufferpanel_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

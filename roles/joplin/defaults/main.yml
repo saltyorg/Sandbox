@@ -59,7 +59,7 @@ joplin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 joplin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='joplin') }}"
 joplin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='joplin') }}"
-joplin_role_dns_proxy: "{{ dns.proxied }}"
+joplin_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -44,7 +44,7 @@ jdownloader2_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain'
 
 jdownloader2_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='jdownloader2') }}"
 jdownloader2_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='jdownloader2') }}"
-jdownloader2_role_dns_proxy: "{{ dns.proxied }}"
+jdownloader2_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

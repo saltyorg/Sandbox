@@ -48,7 +48,7 @@ homarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 homarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='homarr') }}"
 homarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='homarr') }}"
-homarr_role_dns_proxy: "{{ dns.proxied }}"
+homarr_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

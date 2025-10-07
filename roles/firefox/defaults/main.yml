@@ -48,7 +48,7 @@ firefox_vnc_port: "5900"
 
 firefox_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='firefox') }}"
 firefox_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='firefox') }}"
-firefox_role_dns_proxy: "{{ dns.proxied }}"
+firefox_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

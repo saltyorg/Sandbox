@@ -59,7 +59,7 @@ wikijs_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 wikijs_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wikijs') }}"
 wikijs_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wikijs') }}"
-wikijs_role_dns_proxy: "{{ dns.proxied }}"
+wikijs_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

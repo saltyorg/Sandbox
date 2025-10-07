@@ -39,7 +39,7 @@ thelounge_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 thelounge_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='thelounge') }}"
 thelounge_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='thelounge') }}"
-thelounge_role_dns_proxy: "{{ dns.proxied }}"
+thelounge_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

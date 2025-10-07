@@ -51,7 +51,7 @@ rocketchat_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', 
 
 rocketchat_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='rocketchat') }}"
 rocketchat_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='rocketchat') }}"
-rocketchat_role_dns_proxy: "{{ dns.proxied }}"
+rocketchat_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -39,7 +39,7 @@ freshrss_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 freshrss_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='freshrss') }}"
 freshrss_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='freshrss') }}"
-freshrss_role_dns_proxy: "{{ dns.proxied }}"
+freshrss_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

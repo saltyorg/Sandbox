@@ -41,7 +41,7 @@ qui_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='q
 
 qui_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='qui') }}"
 qui_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='qui') }}"
-qui_role_dns_proxy: "{{ dns.proxied }}"
+qui_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -39,7 +39,7 @@ privatebin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', 
 
 privatebin_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='privatebin') }}"
 privatebin_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='privatebin') }}"
-privatebin_role_dns_proxy: "{{ dns.proxied }}"
+privatebin_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

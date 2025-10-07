@@ -39,7 +39,7 @@ forgejo_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 
 forgejo_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='forgejo') }}"
 forgejo_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='forgejo') }}"
-forgejo_role_dns_proxy: "{{ dns.proxied }}"
+forgejo_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

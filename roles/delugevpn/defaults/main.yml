@@ -58,7 +58,7 @@ delugevpn_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 delugevpn_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='delugevpn') }}"
 delugevpn_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='delugevpn') }}"
-delugevpn_role_dns_proxy: "{{ dns.proxied }}"
+delugevpn_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

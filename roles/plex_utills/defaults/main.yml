@@ -40,7 +40,7 @@ plex_utills_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain',
 
 plex_utills_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='plex_utills') }}"
 plex_utills_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='plex_utills') }}"
-plex_utills_role_dns_proxy: "{{ dns.proxied }}"
+plex_utills_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -37,7 +37,7 @@ your_spotify_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain'
 
 your_spotify_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='your_spotify') }}"
 your_spotify_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='your_spotify') }}"
-your_spotify_role_dns_proxy: "{{ dns.proxied }}"
+your_spotify_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

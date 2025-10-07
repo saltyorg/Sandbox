@@ -64,7 +64,7 @@ paperless_ngx_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain
 
 paperless_ngx_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='paperless_ngx') }}"
 paperless_ngx_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='paperless_ngx') }}"
-paperless_ngx_role_dns_proxy: "{{ dns.proxied }}"
+paperless_ngx_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

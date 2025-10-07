@@ -39,7 +39,7 @@ paperless_ai_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain'
 
 paperless_ai_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='paperless_ai') }}"
 paperless_ai_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='paperless_ai') }}"
-paperless_ai_role_dns_proxy: "{{ dns.proxied }}"
+paperless_ai_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

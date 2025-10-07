@@ -53,7 +53,7 @@ ytdl_sub_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 ytdl_sub_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='ytdl_sub') }}"
 ytdl_sub_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='ytdl_sub') }}"
-ytdl_sub_role_dns_proxy: "{{ dns.proxied }}"
+ytdl_sub_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

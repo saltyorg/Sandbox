@@ -41,7 +41,7 @@ wizarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 wizarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='wizarr') }}"
 wizarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='wizarr') }}"
-wizarr_role_dns_proxy: "{{ dns.proxied }}"
+wizarr_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -40,7 +40,7 @@ funkwhale_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', r
 
 funkwhale_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='funkwhale') }}"
 funkwhale_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='funkwhale') }}"
-funkwhale_role_dns_proxy: "{{ dns.proxied }}"
+funkwhale_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

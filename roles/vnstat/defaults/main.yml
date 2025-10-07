@@ -37,7 +37,7 @@ vnstat_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role
 
 vnstat_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='vnstat') }}"
 vnstat_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='vnstat') }}"
-vnstat_role_dns_proxy: "{{ dns.proxied }}"
+vnstat_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik

@@ -39,7 +39,7 @@ airsonic_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', ro
 
 airsonic_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='airsonic') }}"
 airsonic_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='airsonic') }}"
-airsonic_role_dns_proxy: "{{ dns.proxied }}"
+airsonic_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik
