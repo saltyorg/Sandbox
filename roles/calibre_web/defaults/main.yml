@@ -53,7 +53,7 @@ calibre_web_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 calibre_web_role_traefik_enabled: true
 
 ################################
-# THEME
+# Theme
 ################################
 
 # Options can be found at https://github.com/themepark-dev/theme.park
