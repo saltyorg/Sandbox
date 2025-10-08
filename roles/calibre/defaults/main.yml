@@ -27,10 +27,10 @@ calibre_role_paths_folders_list:
 # Web
 ################################
 
-calibre_role_web_subdomain: "{{ calibre_name }}"
-calibre_role_web_domain: "{{ user.domain }}"
-calibre_role_web_port: "8080"
-calibre_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='calibre') + '.' + lookup('role_var', '_web_domain', role='calibre')
+calibre_web_role_subdomain: "{{ calibre_name }}"
+calibre_web_role_domain: "{{ user.domain }}"
+calibre_web_role_port: "8080"
+calibre_web_role_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='calibre') + '.' + lookup('role_var', '_web_domain', role='calibre')
                        if (lookup('role_var', '_web_subdomain', role='calibre') | length > 0)
                        else lookup('role_var', '_web_domain', role='calibre')) }}"
 

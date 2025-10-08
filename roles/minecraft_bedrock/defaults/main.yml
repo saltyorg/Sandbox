@@ -17,7 +17,7 @@ minecraft_bedrock_name: minecraft-bedrock
 # Settings
 ################################
 
-minecraft_role_bedrock_version: "LATEST"
+minecraft_bedrock_role_version: "LATEST"
 
 ################################
 # Paths
