@@ -17,7 +17,7 @@ immich_name: immich
 # Settings
 ################################
 
-immich_photos_location: "/mnt/unionfs/Media/Photos"
+immich_role_photos_location: "/mnt/unionfs/Media/Photos"
 immich_role_postgres_deploy: true
 immich_role_postgres_name: "{{ immich_name }}-postgres"
 immich_role_postgres_user: "{{ postgres_role_docker_env_user }}"
@@ -46,7 +46,7 @@ immich_role_paths_location: "{{ server_appdata_path }}/{{ immich_role_paths_fold
 immich_role_paths_folders_list:
   - "{{ immich_role_paths_location }}"
   - "{{ immich_role_paths_location }}/machine-learning"
-  - "{{ immich_photos_location }}"
+  - "{{ lookup('role_var', '_photos_location', role='immich') }}"
 
 ################################
 # Web

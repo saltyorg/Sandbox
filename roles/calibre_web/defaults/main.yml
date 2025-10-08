@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-calibre_role_web_name: calibre-web
+calibre_web_role_name: calibre-web
 
 ################################
 # Paths

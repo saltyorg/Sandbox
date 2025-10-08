@@ -17,8 +17,8 @@ tdarr_name: tdarr
 # Settings
 ################################
 
-tdarr_server_port: "8266"
-tdarr_server_external: false
+tdarr_role_server_port: "8266"
+tdarr_role_server_external: false
 
 ################################
 # Paths
@@ -85,7 +85,7 @@ tdarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tdar
 tdarr_role_docker_ports_defaults:
   - "{{ lookup('role_var', '_server_port', role='tdarr') }}:{{ lookup('role_var', '_server_port', role='tdarr') }}"
 tdarr_role_docker_ports_custom: []
-tdarr_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='tdarr') if (tdarr_server_external) else []
+tdarr_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='tdarr') if (lookup('role_var', '_server_external', role='tdarr')) else []
                              + lookup('role_var', '_docker_ports_custom', role='tdarr') }}"
 
 # Envs

@@ -86,7 +86,7 @@ rdtclient_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='rdtclient') }}:/data"
   - "{{ lookup('role_var', '_paths_config_location', role='rdtclient') }}:/data/config"
   - "{{ lookup('role_var', '_paths_db_location', role='rdtclient') }}:/data/db"
-  - "{{ rdtclient_role_paths_downloads_location }}:/data/downloads"
+  - "{{ lookup('role_var', '_paths_downloads_location', role='rdtclient') }}:/data/downloads"
 rdtclient_role_docker_volumes_custom: []
 rdtclient_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='rdtclient')
                                    + lookup('role_var', '_docker_volumes_custom', role='rdtclient') }}"

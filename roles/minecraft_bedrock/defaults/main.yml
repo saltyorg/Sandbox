@@ -12,7 +12,13 @@
 ################################
 
 minecraft_bedrock_name: minecraft-bedrock
-minecraft_bedrock_version: "LATEST"
+
+
+################################
+# Settings
+################################
+
+minecraft_role_bedrock_version: "LATEST"
 
 ################################
 # Paths
@@ -64,7 +70,7 @@ minecraft_bedrock_role_docker_envs_default:
   UID: "{{ uid }}"
   GID: "{{ gid }}"
   EULA: "TRUE"
-  VERSION: "{{ minecraft_bedrock_version }}"
+  VERSION: "{{ lookup('role_var', '_version', role='minecraft_bedrock') }}"
 minecraft_bedrock_role_docker_envs_custom: {}
 minecraft_bedrock_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='minecraft_bedrock')
                                         | combine(lookup('role_var', '_docker_envs_custom', role='minecraft_bedrock')) }}"

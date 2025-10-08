@@ -13,8 +13,6 @@
 
 qui_instances: ["qui"]
 
-qui_name: qui
-
 ################################
 # Paths
 ################################
@@ -68,24 +66,12 @@ qui_role_docker_image_repo: "ghcr.io/autobrr/qui"
 qui_role_docker_image_tag: "latest"
 qui_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='qui') }}:{{ lookup('role_var', '_docker_image_tag', role='qui') }}"
 
-# Ports
-qui_role_docker_ports_defaults: []
-qui_role_docker_ports_custom: []
-qui_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='qui')
-                           + lookup('role_var', '_docker_ports_custom', role='qui') }}"
-
 # Envs
 qui_role_docker_envs_default:
   TZ: "{{ tz }}"
 qui_role_docker_envs_custom: {}
 qui_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='qui')
                           | combine(lookup('role_var', '_docker_envs_custom', role='qui')) }}"
-
-# Commands
-qui_role_docker_commands_default: []
-qui_role_docker_commands_custom: []
-qui_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='qui')
-                              + lookup('role_var', '_docker_commands_custom', role='qui') }}"
 
 # Volumes
 qui_role_docker_volumes_default:
@@ -94,25 +80,12 @@ qui_role_docker_volumes_custom: []
 qui_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='qui')
                              + lookup('role_var', '_docker_volumes_custom', role='qui') }}"
 
-# Devices
-qui_role_docker_devices_default: []
-qui_role_docker_devices_custom: []
-qui_role_docker_devices: "{{ lookup('role_var', '_docker_devices_default', role='qui')
-                             + lookup('role_var', '_docker_devices_custom', role='qui') }}"
-
 # Hosts
 qui_role_docker_hosts_default: {}
 qui_role_docker_hosts_custom: {}
 qui_role_docker_hosts: "{{ docker_hosts_common
                            | combine(lookup('role_var', '_docker_hosts_default', role='qui'))
                            | combine(lookup('role_var', '_docker_hosts_custom', role='qui')) }}"
-
-# Labels
-qui_role_docker_labels_default: {}
-qui_role_docker_labels_custom: {}
-qui_role_docker_labels: "{{ docker_labels_common
-                            | combine(lookup('role_var', '_docker_labels_default', role='qui'))
-                            | combine(lookup('role_var', '_docker_labels_custom', role='qui')) }}"
 
 # Hostname
 qui_role_docker_hostname: "{{ qui_name }}"
@@ -124,18 +97,6 @@ qui_role_docker_networks_custom: []
 qui_role_docker_networks: "{{ docker_networks_common
                               + lookup('role_var', '_docker_networks_default', role='qui')
                               + lookup('role_var', '_docker_networks_custom', role='qui') }}"
-
-# Capabilities
-qui_role_docker_capabilities_default: []
-qui_role_docker_capabilities_custom: []
-qui_role_docker_capabilities: "{{ lookup('role_var', '_docker_capabilities_default', role='qui')
-                                  + lookup('role_var', '_docker_capabilities_custom', role='qui') }}"
-
-# Security Opts
-qui_role_docker_security_opts_default: []
-qui_role_docker_security_opts_custom: []
-qui_role_docker_security_opts: "{{ lookup('role_var', '_docker_security_opts_default', role='qui')
-                                   + lookup('role_var', '_docker_security_opts_custom', role='qui') }}"
 
 # Restart Policy
 qui_role_docker_restart_policy: unless-stopped

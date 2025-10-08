@@ -62,14 +62,15 @@ qbit_manage_role_docker_container: "{{ qbit_manage_name }}"
 
 # Image
 qbit_manage_role_docker_image_pull: true
+qbit_manage_role_docker_image_repo: "ghcr.io/hotio/qbitmanage"
 qbit_manage_role_docker_image_tag: "release"
-qbit_manage_role_docker_image: "ghcr.io/hotio/qbitmanage:{{ qbit_manage_role_docker_image_tag }}"
+qbit_manage_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='qbit_manage') }}:{{ lookup('role_var', '_docker_image_tag', role='qbit_manage') }}"
 
 # Ports
 qbit_manage_role_docker_ports_defaults: []
 qbit_manage_role_docker_ports_custom: []
-qbit_manage_role_docker_ports: "{{ qbit_manage_role_docker_ports_defaults
-                              + qbit_manage_role_docker_ports_custom }}"
+qbit_manage_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='qbit_manage')
+                                   + lookup('role_var', '_docker_ports_custom', role='qbit_manage') }}"
 
 # Envs
 qbit_manage_role_docker_envs_default:
@@ -97,15 +98,15 @@ qbit_manage_role_docker_envs_default:
   QBT_DEBUG: "{{ qbit_manage.qbt_debug }}"
   QBT_TRACE: "{{ qbit_manage.qbt_trace }}"
 qbit_manage_role_docker_envs_custom: {}
-qbit_manage_role_docker_envs: "{{ qbit_manage_role_docker_envs_default
-                             | combine(qbit_manage_role_docker_envs_custom) }}"
+qbit_manage_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='qbit_manage')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='qbit_manage')) }}"
 
 # Volumes
 qbit_manage_role_docker_volumes_default:
-  - "{{ qbit_manage_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='qbit_manage') }}:/config"
 qbit_manage_role_docker_volumes_custom: []
-qbit_manage_role_docker_volumes: "{{ qbit_manage_role_docker_volumes_default
-                                + qbit_manage_role_docker_volumes_custom }}"
+qbit_manage_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='qbit_manage')
+                                     + lookup('role_var', '_docker_volumes_custom', role='qbit_manage') }}"
 
 # Hostname
 qbit_manage_role_docker_hostname: "{{ qbit_manage_name }}"
@@ -115,8 +116,8 @@ qbit_manage_role_docker_networks_alias: "{{ qbit_manage_name }}"
 qbit_manage_role_docker_networks_default: []
 qbit_manage_role_docker_networks_custom: []
 qbit_manage_role_docker_networks: "{{ docker_networks_common
-                                 + qbit_manage_role_docker_networks_default
-                                 + qbit_manage_role_docker_networks_custom }}"
+                                      + lookup('role_var', '_docker_networks_default', role='qbit_manage')
+                                      + lookup('role_var', '_docker_networks_custom', role='qbit_manage') }}"
 
 # Restart Policy
 qbit_manage_role_docker_restart_policy: on-failure
