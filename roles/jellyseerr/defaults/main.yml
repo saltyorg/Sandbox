@@ -17,7 +17,7 @@ jellyseerr_instances: ["jellyseerr"]
 # Settings
 ################################
 
-jellyseerr_log_level: "INFO"
+jellyseerr_role_log_level: "INFO"
 
 ################################
 # Paths
@@ -76,7 +76,7 @@ jellyseerr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role=
 jellyseerr_role_docker_envs_default:
   UMASK: "002"
   TZ: "{{ tz }}"
-  LOG_LEVEL: "{{ jellyseerr_log_level }}"
+  LOG_LEVEL: "{{ lookup('role_var', '_log_level', role='jellyseerr') }}"
 jellyseerr_role_docker_envs_custom: {}
 jellyseerr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='jellyseerr')
                                  | combine(lookup('role_var', '_docker_envs_custom', role='jellyseerr')) }}"

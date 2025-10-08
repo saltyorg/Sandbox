@@ -17,7 +17,7 @@ notifiarr_name: notifiarr
 # Settings
 ################################
 
-notifiarr_privileged: false
+notifiarr_role_privileged: false
 
 ################################
 # Paths
@@ -29,10 +29,10 @@ notifiarr_role_paths_folders_list:
   - "{{ notifiarr_role_paths_location }}"
 notifiarr_role_paths_recursive: true
 notifiarr_role_paths_config_location: "{{ notifiarr_role_paths_location }}/notifiarr.conf"
-notifiarr_radarr_config: "{{ lookup('role_var', '_paths_location', role='radarr') }}/config.xml"
-notifiarr_sonarr_config: "{{ lookup('role_var', '_paths_location', role='sonarr') }}/config.xml"
-notifiarr_tautulli_config: "{{ lookup('role_var', '_paths_location', role='tautulli') }}/config.ini"
-tautulli_api_key: "{{ (lookup('ini', 'api_key section=General file={{ notifiarr_tautulli_config }}')) if tautulli_config.stat.exists else '' }}"
+notifiarr_role_radarr_config: "{{ lookup('role_var', '_paths_location', role='radarr') }}/config.xml"
+notifiarr_role_sonarr_config: "{{ lookup('role_var', '_paths_location', role='sonarr') }}/config.xml"
+notifiarr_role_tautulli_config: "{{ lookup('role_var', '_paths_location', role='tautulli') }}/config.ini"
+notifiarr_role_tautulli_api_key: "{{ lookup('ini', 'api_key section=General file=' ~ lookup('role_var', '_tautulli_config', role='notifiarr')) if notifiarr_tautulli_config_stat.stat.exists else '' }}"
 
 ################################
 # Web
@@ -122,4 +122,4 @@ notifiarr_role_docker_state: started
 notifiarr_role_docker_user: "{{ uid }}:{{ gid }}"
 
 # Privileged
-notifiarr_role_docker_privileged: "{{ notifiarr_privileged | bool }}"
+notifiarr_role_docker_privileged: "{{ lookup('role_var', '_privileged', role='notifiarr') | bool }}"

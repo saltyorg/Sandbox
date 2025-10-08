@@ -17,10 +17,10 @@ miniflux_name: miniflux
 # Settings
 ################################
 
-miniflux_admin_username: "{{ user.name }}"
-miniflux_admin_password: "{{ user.pass }}"
-miniflux_create_admin: "1"
-miniflux_run_migrations: "1"
+miniflux_role_admin_username: "{{ user.name }}"
+miniflux_role_admin_password: "{{ user.pass }}"
+miniflux_role_create_admin: "1"
+miniflux_role_run_migrations: "1"
 miniflux_role_postgres_deploy: true
 miniflux_role_postgres_name: "{{ miniflux_name }}-postgres"
 miniflux_role_postgres_user: "{{ postgres_role_docker_env_user }}"
@@ -93,10 +93,10 @@ miniflux_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='m
 # Envs
 miniflux_role_docker_envs_default:
   DATABASE_URL: "postgres://{{ lookup('role_var', '_postgres_user', role='miniflux') }}:{{ lookup('role_var', '_postgres_password', role='miniflux') }}@{{ lookup('role_var', '_postgres_name', role='miniflux') }}/{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}?sslmode=disable"
-  RUN_MIGRATIONS: "{{ miniflux_run_migrations }}"
-  CREATE_ADMIN: "{{ miniflux_create_admin }}"
-  ADMIN_USERNAME: "{{ miniflux_admin_username }}"
-  ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
+  RUN_MIGRATIONS: "{{ lookup('role_var', '_run_migrations', role='miniflux') }}"
+  CREATE_ADMIN: "{{ lookup('role_var', '_create_admin', role='miniflux') }}"
+  ADMIN_USERNAME: "{{ lookup('role_var', '_admin_username', role='miniflux') }}"
+  ADMIN_PASSWORD: "{{ lookup('role_var', '_admin_password', role='miniflux') }}"
 miniflux_role_docker_envs_custom: {}
 miniflux_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='miniflux')
                                | combine(lookup('role_var', '_docker_envs_custom', role='miniflux')) }}"

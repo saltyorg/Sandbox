@@ -17,18 +17,18 @@ dashdot_name: dashdot
 # Settings
 ################################
 
-dashdot_show_host: "false"
-dashdot_cpu_temps: "false"
-dashdot_imperial: "false"
-dashdot_always_show_percentages: "false"
-dashdot_title: "dash."
-dashdot_widget_list: "os,cpu,storage,ram,network"
-dashdot_os_label_list: "os,arch,up_since"
-dashdot_cpu_label_list: "brand,model,cores,threads,frequency"
-dashdot_storage_label_list: "brand,size,type"
-dashdot_ram_label_list: "brand,size,type,frequency"
-dashdot_network_label_list: "type,speed_up,speed_down,interface_speed"
-dashdot_gpu_label_list: "brand,model,memory"
+dashdot_role_show_host: "false"
+dashdot_role_cpu_temps: "false"
+dashdot_role_imperial: "false"
+dashdot_role_always_show_percentages: "false"
+dashdot_role_title: "dash."
+dashdot_role_widget_list: "os,cpu,storage,ram,network"
+dashdot_role_os_label_list: "os,arch,up_since"
+dashdot_role_cpu_label_list: "brand,model,cores,threads,frequency"
+dashdot_role_storage_label_list: "brand,size,type"
+dashdot_role_ram_label_list: "brand,size,type,frequency"
+dashdot_role_network_label_list: "type,speed_up,speed_down,interface_speed"
+dashdot_role_gpu_label_list: "brand,model,memory"
 
 ################################
 # Paths
@@ -85,19 +85,19 @@ dashdot_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='da
 
 # Envs
 dashdot_role_docker_envs_default:
-  DASHDOT_SHOW_HOST: "{{ dashdot_show_host }}"
+  DASHDOT_SHOW_HOST: "{{ lookup('role_var', '_show_host', role='dashdot') }}"
   DASHDOT_CUSTOM_HOST: "{{ lookup('role_var', '_web_subdomain', role='dashdot') + '.' + lookup('role_var', '_web_domain', role='dashdot') }}"
-  DASHDOT_ENABLE_CPU_TEMPS: "{{ dashdot_cpu_temps }}"
-  DASHDOT_USE_IMPERIAL: "{{ dashdot_imperial }}"
-  DASHDOT_ALWAYS_SHOW_PERCENTAGES: "{{ dashdot_always_show_percentages }}"
-  DASHDOT_PAGE_TITLE: "{{ dashdot_title }}"
-  DASHDOT_WIDGET_LIST: "{{ dashdot_widget_list }}"
-  DASHDOT_OS_LABEL_LIST: "{{ dashdot_os_label_list }}"
-  DASHDOT_CPU_LABEL_LIST: "{{ dashdot_cpu_label_list }}"
-  DASHDOT_STORAGE_LABEL_LIST: "{{ dashdot_storage_label_list }}"
-  DASHDOT_RAM_LABEL_LIST: "{{ dashdot_ram_label_list }}"
-  DASHDOT_NETWORK_LABEL_LIST: "{{ dashdot_network_label_list }}"
-  DASHDOT_GPU_LABEL_LIST: "{{ dashdot_gpu_label_list }}"
+  DASHDOT_ENABLE_CPU_TEMPS: "{{ lookup('role_var', '_cpu_temps', role='dashdot') }}"
+  DASHDOT_USE_IMPERIAL: "{{ lookup('role_var', '_imperial', role='dashdot') }}"
+  DASHDOT_ALWAYS_SHOW_PERCENTAGES: "{{ lookup('role_var', '_always_show_percentages', role='dashdot') }}"
+  DASHDOT_PAGE_TITLE: "{{ lookup('role_var', '_title', role='dashdot') }}"
+  DASHDOT_WIDGET_LIST: "{{ lookup('role_var', '_widget_list', role='dashdot') }}"
+  DASHDOT_OS_LABEL_LIST: "{{ lookup('role_var', '_os_label_list', role='dashdot') }}"
+  DASHDOT_CPU_LABEL_LIST: "{{ lookup('role_var', '_cpu_label_list', role='dashdot') }}"
+  DASHDOT_STORAGE_LABEL_LIST: "{{ lookup('role_var', '_storage_label_list', role='dashdot') }}"
+  DASHDOT_RAM_LABEL_LIST: "{{ lookup('role_var', '_ram_label_list', role='dashdot')dashdot_ram_label_list }}"
+  DASHDOT_NETWORK_LABEL_LIST: "{{ lookup('role_var', '_network_label_list', role='dashdot') }}"
+  DASHDOT_GPU_LABEL_LIST: "{{ lookup('role_var', '_gpu_label_list', role='dashdot') }}"
   DASHDOT_ACCEPT_OOKLA_EULA: "true"
 dashdot_role_docker_envs_custom: {}
 dashdot_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='dashdot')

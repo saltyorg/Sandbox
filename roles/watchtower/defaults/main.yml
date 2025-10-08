@@ -17,9 +17,9 @@ watchtower_instances: ["watchtower"]
 # Settings
 ################################
 
-watchtower_metrics_enable: false
-watchtower_metrics_external: false
-watchtower_poll_interval: "43200"
+watchtower_role_metrics_enable: false
+watchtower_role_metrics_external: false
+watchtower_role_poll_interval: "43200"
 
 ################################
 # Paths
@@ -55,7 +55,9 @@ watchtower_role_traefik_sso_middleware: ""
 watchtower_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 watchtower_role_traefik_middleware_custom: ""
 watchtower_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
-watchtower_role_traefik_enabled: "{{ true if (watchtower_metrics_enable and watchtower_metrics_external) else false }}"
+watchtower_role_traefik_enabled: "{{ true
+                                  if (lookup('role_var', '_metrics_enable', role='watchtower') and lookup('role_var', '_metrics_external', role='watchtower'))
+                                  else false }}"
 watchtower_role_traefik_api_enabled: false
 watchtower_role_traefik_api_endpoint: ""
 
@@ -76,8 +78,10 @@ watchtower_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role=
 watchtower_role_docker_envs_default:
   TZ: "{{ tz }}"
   WATCHTOWER_CLEANUP: "true"
-  WATCHTOWER_POLL_INTERVAL: "{{ watchtower_poll_interval }}"
-  WATCHTOWER_HTTP_API_METRICS: "{{ 'true' if watchtower_metrics_enable else omit }}"
+  WATCHTOWER_POLL_INTERVAL: "{{ lookup('role_var', '_poll_interval', role='watchtower') }}"
+  WATCHTOWER_HTTP_API_METRICS: "{{ 'true'
+                                if lookup('role_var', '_metrics_enable', role='watchtower')
+                                else omit }}"
 watchtower_role_docker_envs_custom: {}
 watchtower_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='watchtower')
                                  | combine(lookup('role_var', '_docker_envs_custom', role='watchtower')) }}"

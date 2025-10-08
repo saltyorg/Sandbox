@@ -29,8 +29,9 @@ requestrr_role_paths_folders_list:
 requestrr_role_web_subdomain: "{{ requestrr_name }}"
 requestrr_role_web_domain: "{{ user.domain }}"
 requestrr_role_web_port: "4545"
-requestrr_role_web_url: "{{ 'https://' + lookup('role_var', '_web_subdomain', role='requestrr')
-                            + '.' + lookup('role_var', '_web_domain', role='requestrr') }}"
+requestrr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='requestrr') + '.' + lookup('role_var', '_web_domain', role='requestrr')
+                         if (lookup('role_var', '_web_subdomain', role='requestrr') | length > 0)
+                         else lookup('role_var', '_web_domain', role='requestrr')) }}"
 
 ################################
 # DNS

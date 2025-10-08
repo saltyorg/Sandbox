@@ -112,7 +112,7 @@ immich_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='im
 # Volumes
 immich_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='immich') }}:/config"
-  - "{{ immich_photos_location }}:/photos"
+  - "{{ lookup('role_var', '_photos_location', role='immich') }}:/photos"
 immich_role_docker_volumes_custom: []
 immich_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='immich')
                                 + lookup('role_var', '_docker_volumes_custom', role='immich') }}"

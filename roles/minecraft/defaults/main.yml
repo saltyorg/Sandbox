@@ -11,7 +11,12 @@
 ################################
 
 minecraft_instances: ["minecraft"]
-minecraft_dynmap_router_enabled: false
+
+################################
+# Settings
+################################
+
+minecraft_role_dynmap_router_enabled: false
 
 ################################
 # Paths
@@ -91,7 +96,7 @@ minecraft_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role=
 
 # Volumes
 minecraft_role_docker_volumes_default:
-  - "{{ minecraft_role_paths_location }}/{{ minecraft_name }}/data:/data"
+  - "{{ lookup('role_var', '_paths_location', role='minecraft') }}/{{ minecraft_name }}/data:/data"
 minecraft_role_docker_volumes_custom: []
 minecraft_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='minecraft')
                                    + lookup('role_var', '_docker_volumes_custom', role='minecraft') }}"

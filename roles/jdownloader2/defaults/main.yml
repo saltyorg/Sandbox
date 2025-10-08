@@ -89,7 +89,7 @@ jdownloader2_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', ro
 # Volumes
 jdownloader2_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='jdownloader2') }}/config:/config"
-  - "{{ jdownloader2_role_paths_downloads_location }}:/output"
+  - "{{ lookup('role_var', '_paths_downloads_location', role='jdownloader2') }}:/output"
 jdownloader2_role_docker_volumes_custom: []
 jdownloader2_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='jdownloader2')
                                       + lookup('role_var', '_docker_volumes_custom', role='jdownloader2') }}"

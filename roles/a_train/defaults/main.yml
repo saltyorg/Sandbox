@@ -53,7 +53,7 @@ a_train_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='a
 
 # Volumes
 a_train_role_docker_volumes_default:
-  - "{{ a_train_role_paths_location }}:/data"
+  - "{{ lookup('role_var', '_paths_location', role='a_train') }}:/data"
 a_train_role_docker_volumes_custom: []
 a_train_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='a_train')
                                  + lookup('role_var', '_docker_volumes_custom', role='a_train') }}"

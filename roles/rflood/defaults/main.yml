@@ -37,8 +37,9 @@ rflood_role_paths_rtorrent_rc_location: "{{ rflood_role_paths_location }}/rtorre
 rflood_role_web_subdomain: "{{ rflood_name }}"
 rflood_role_web_domain: "{{ user.domain }}"
 rflood_role_web_port: "3000"
-rflood_role_web_url: "{{ 'https://' + lookup('role_var', '_web_subdomain', role='rflood')
-                         + '.' + lookup('role_var', '_web_domain', role='rflood') }}"
+rflood_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='rflood') + '.' + lookup('role_var', '_web_domain', role='rflood')
+                      if (lookup('role_var', '_web_subdomain', role='rflood') | length > 0)
+                      else lookup('role_var', '_web_domain', role='rflood')) }}"
 
 ################################
 # DNS

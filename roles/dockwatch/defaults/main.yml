@@ -11,7 +11,7 @@
 # Settings
 ################################
 
-dockwatch_post_enable: false
+dockwatch_role_post_enable: false
 
 ################################
 # Docker Socket Proxy
@@ -25,7 +25,9 @@ dockwatch_role_docker_socket_proxy_envs:
   IMAGES: "1"
   NETWORKS: "1"
   PORTS: "1"
-  POST: "{{ '1' if dockwatch_post_enable else omit }}"
+  POST: "{{ '1'
+         if lookup('role_var', '_post_enable', role='dockwatch')
+         else omit }}"
   VOLUMES: "1"
 
 ################################

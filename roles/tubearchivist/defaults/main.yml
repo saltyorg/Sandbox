@@ -18,7 +18,7 @@ tubearchivist_name: tubearchivist
 # Settings
 ################################
 
-tubearchivist_enable_cast: "false"
+tubearchivist_role_enable_cast: "false"
 
 ################################
 # Paths
@@ -94,7 +94,7 @@ tubearchivist_role_docker_envs_default:
   TA_USERNAME: "{{ user.name }}"
   TA_PASSWORD: "{{ user.pass }}"
   ELASTIC_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='elasticsearch') }}"
-  ENABLE_CAST: "{{ tubearchivist_enable_cast }}"
+  ENABLE_CAST: "{{ lookup('role_var', '_enable_cast', role='tubearchivist') }}"
 tubearchivist_role_docker_envs_custom: {}
 tubearchivist_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tubearchivist')
                                     | combine(lookup('role_var', '_docker_envs_custom', role='tubearchivist')) }}"

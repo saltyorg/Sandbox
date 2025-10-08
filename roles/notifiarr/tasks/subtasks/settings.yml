@@ -20,8 +20,8 @@
 # Tautulli Tasks
 - name: "Check if tautulli exists"
   ansible.builtin.stat:
-    path: "{{ notifiarr_tautulli_config }}"
-  register: tautulli_config
+    path: "{{ lookup('role_var', '_tautulli_config', role='notifiarr') }}"
+  register: notifiarr_tautulli_config_stat
 
 # Plex Tasks
 

@@ -15,13 +15,13 @@
 - name: "Check if tautulli exists"
   ansible.builtin.stat:
     path: "{{ varken_tautulli_config }}"
-  register: tautulli_config
+  register: varken_tautulli_config_stat
 
 # Sonarr Tasks
 - name: "Check if sonarr exists"
   ansible.builtin.stat:
     path: "{{ varken_sonarr_config }}"
-  register: sonarr_config
+  register: varken_sonarr_config_stat
 
 - name: Pull sonarr api key
   community.general.xml:
@@ -29,17 +29,19 @@
     xpath: /Config/ApiKey
     content: text
   register: xmlresp
-  when: sonarr_config.stat.exists
+  when: varken_sonarr_config_stat.stat.exists
 
 - name: Set 'sonarr_api_key'
   ansible.builtin.set_fact:
-    sonarr_api_key: "{{ xmlresp.matches[0].ApiKey if sonarr_config.stat.exists else '' }}"
+    sonarr_api_key: "{{ xmlresp.matches[0].ApiKey
+                     if varken_sonarr_config_stat.stat.exists
+                     else '' }}"
 
 # Radarr Tasks
 - name: "Check if radarr exists"
   ansible.builtin.stat:
     path: "{{ varken_radarr_config }}"
-  register: radarr_config
+  register: varken_radarr_config_stat
 
 - name: Pull radarr api key
   community.general.xml:
@@ -47,26 +49,30 @@
     xpath: /Config/ApiKey
     content: text
   register: xmlresp
-  when: radarr_config.stat.exists
+  when: varken_radarr_config_stat.stat.exists
 
 - name: Set 'radarr_api_key'
   ansible.builtin.set_fact:
-    radarr_api_key: "{{ xmlresp.matches[0].ApiKey if radarr_config.stat.exists else '' }}"
+    radarr_api_key: "{{ xmlresp.matches[0].ApiKey
+                     if varken_radarr_config_stat.stat.exists
+                     else '' }}"
 
 # Ombi Tasks
 - name: "Check if ombi exists"
   ansible.builtin.stat:
     path: "{{ varken_ombi_db }}"
-  register: ombi_config
+  register: varken_ombi_config_stat
 
 - name: Get Ombi API key
-  ansible.builtin.shell: sqlite3 "{{ varken_ombi_db }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 jinja[invalid]
+  ansible.builtin.shell: sqlite3 "{{ lookup('role_var', '_ombi_db', role='varken') }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 jinja[invalid]
   register: ombi_api_key
-  when: ombi_config.stat.exists
+  when: varken_ombi_config_stat.stat.exists
 
 - name: Set 'ombi_api_key'
   ansible.builtin.set_fact:
-    ombi_api_key: "{{ ombi_api_key.stdout if ombi_config.stat.exists else '' }}"
+    ombi_api_key: "{{ ombi_api_key.stdout
+                   if varken_ombi_config_stat.stat.exists
+                   else '' }}"
 
 - name: Import 'config.ini'
   ansible.builtin.template:

@@ -17,9 +17,9 @@ nextcloud_name: nextcloud
 # Settings
 ################################
 
-nextcloud_data_directory: "/var/www/html/data"
-nextcloud_php_memory_limit: "512M"
-nextcloud_php_upload_limit: "512M"
+nextcloud_role_data_directory: "/var/www/html/data"
+nextcloud_role_php_memory_limit: "512M"
+nextcloud_role_php_upload_limit: "512M"
 
 ################################
 # Paths
@@ -80,7 +80,7 @@ nextcloud_role_docker_envs_default:
   NEXTCLOUD_ADMIN_USER: "{{ user.name }}"
   NEXTCLOUD_ADMIN_PASSWORD: "{{ user.pass }}"
   NEXTCLOUD_TRUSTED_DOMAINS: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud') }}"
-  NEXTCLOUD_DATA_DIR: "{{ nextcloud_data_directory }}"
+  NEXTCLOUD_DATA_DIR: "{{ lookup('role_var', '_data_directory', role='nextcloud') }}"
   MYSQL_DATABASE: "nextcloud"
   MYSQL_USER: "root"
   MYSQL_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
@@ -88,8 +88,8 @@ nextcloud_role_docker_envs_default:
   OVERWRITEHOST: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud') }}"
   OVERWRITEPROTOCOL: "https"
   OVERWRITECLIURL: "{{ lookup('role_var', '_web_url', role='nextcloud') }}"
-  PHP_MEMORY_LIMIT: "{{ nextcloud_php_memory_limit }}"
-  PHP_UPLOAD_LIMIT: "{{ nextcloud_php_upload_limit }}"
+  PHP_MEMORY_LIMIT: "{{ lookup('role_var', '_php_memory_limit', role='nextcloud') }}"
+  PHP_UPLOAD_LIMIT: "{{ lookup('role_var', '_php_upload_limit', role='nextcloud') }}"
   TRUSTED_PROXIES: "172.19.0.0/16"
 nextcloud_role_docker_envs_custom: {}
 nextcloud_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='nextcloud')
