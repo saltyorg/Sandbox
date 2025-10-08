@@ -26,7 +26,7 @@
   ansible.builtin.dpkg_selections:
     name: "cockpit"
     selection: hold
-  when: put_cockpit_dpkg_into_hold
+  when: lookup('role_var', '_put_dpkg_into_hold', role='cockpit')
 
 - name: Package | Get 'cockpit' version
   ansible.builtin.command: "cockpit-bridge --version"
@@ -37,4 +37,4 @@
 - name: Package | Display 'cockpit' version
   ansible.builtin.debug:
     msg: "Cockpit version {{ cockpit_version.stdout.split()[1] }} installed."
-  when: cockpit_version is defined and cockpit_version.stdout is defined
+  when: (cockpit_version is defined) and (cockpit_version.stdout is defined)

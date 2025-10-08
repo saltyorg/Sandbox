@@ -9,5 +9,5 @@
 #########################################################################
 
 [Unit]
-After={{ cockpit_service_after }}
-Requires={{ cockpit_service_after }}
+After={{ lookup('role_var', '_service_after', role='cockpit') }}
+Requires={{ lookup('role_var', '_service_after', role='cockpit') }}

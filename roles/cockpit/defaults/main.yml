@@ -17,10 +17,10 @@ cockpit_name: cockpit
 # Settings
 ################################
 
-cockpit_vm_enabled: false
-cockpit_service_after: docker.service
-put_cockpit_dpkg_into_hold: true
-put_cockpit_machines_dpkg_into_hold: true
+cockpit_role_vm_enabled: false
+cockpit_role_service_after: docker.service
+cockpit_role_put_dpkg_into_hold: true
+cockpit_role_put_machines_dpkg_into_hold: true
 
 ################################
 # Paths

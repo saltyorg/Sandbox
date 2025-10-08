@@ -26,7 +26,7 @@
   ansible.builtin.dpkg_selections:
     name: "cockpit-machines"
     selection: hold
-  when: put_cockpit_machines_dpkg_into_hold
+  when: lookup('role_var', '_put_machines_dpkg_into_hold', role='cockpit')
 
 - name: VM | Install necessary packages for Cockpit Machines
   ansible.builtin.package:
