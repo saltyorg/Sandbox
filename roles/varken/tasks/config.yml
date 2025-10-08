@@ -14,18 +14,18 @@
 # Tautulli Tasks
 - name: "Check if tautulli exists"
   ansible.builtin.stat:
-    path: "{{ varken_tautulli_config }}"
+    path: "{{ lookup('role_var', '_tautulli_config', role='varken') }}"
   register: varken_tautulli_config_stat
 
 # Sonarr Tasks
 - name: "Check if sonarr exists"
   ansible.builtin.stat:
-    path: "{{ varken_sonarr_config }}"
+    path: "{{ lookup('role_var', '_sonarr_config', role='varken') }}"
   register: varken_sonarr_config_stat
 
 - name: Pull sonarr api key
   community.general.xml:
-    path: "{{ varken_sonarr_config }}"
+    path: "{{ lookup('role_var', '_sonarr_config', role='varken') }}"
     xpath: /Config/ApiKey
     content: text
   register: xmlresp
@@ -40,12 +40,12 @@
 # Radarr Tasks
 - name: "Check if radarr exists"
   ansible.builtin.stat:
-    path: "{{ varken_radarr_config }}"
+    path: "{{ lookup('role_var', '_radarr_config', role='varken') }}"
   register: varken_radarr_config_stat
 
 - name: Pull radarr api key
   community.general.xml:
-    path: "{{ varken_radarr_config }}"
+    path: "{{ lookup('role_var', '_radarr_config', role='varken') }}"
     xpath: /Config/ApiKey
     content: text
   register: xmlresp
@@ -60,7 +60,7 @@
 # Ombi Tasks
 - name: "Check if ombi exists"
   ansible.builtin.stat:
-    path: "{{ varken_ombi_db }}"
+    path: "{{ lookup('role_var', '_ombi_db', role='varken') }}"
   register: varken_ombi_config_stat
 
 - name: Get Ombi API key

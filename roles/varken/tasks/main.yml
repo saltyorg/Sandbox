@@ -10,22 +10,22 @@
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"
-  when: not tautulli_name is defined
+  when: (not tautulli_name is defined)
 
 - name: Set Default Ombi instance
   ansible.builtin.set_fact:
     ombi_name: "{{ ombi_instances[0] }}"
-  when: not ombi_name is defined
+  when: (not ombi_name is defined)
 
 - name: Set Default Sonarr instance
   ansible.builtin.set_fact:
     sonarr_name: "{{ sonarr_instances[0] }}"
-  when: not sonarr_name is defined
+  when: (not sonarr_name is defined)
 
 - name: Set Default Radarr instance
   ansible.builtin.set_fact:
     radarr_name: "{{ radarr_instances[0] }}"
-  when: not radarr_name is defined
+  when: (not radarr_name is defined)
 
 - name: InfluxDB Role
   ansible.builtin.include_role:
@@ -59,11 +59,11 @@
 - name: Check if varken config exists
   ansible.builtin.stat:
     path: "/opt/varken/varken.ini"
-  register: varken_config
+  register: varken_config_stat
 
 - name: Import config tasks
   ansible.builtin.import_tasks: config.yml
-  when: not varken_config.stat.exists
+  when: (not varken_config_stat.stat.exists)
 
 - name: Create and start varken container
   community.docker.docker_container:
