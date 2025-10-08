@@ -95,7 +95,7 @@ dashdot_role_docker_envs_default:
   DASHDOT_OS_LABEL_LIST: "{{ lookup('role_var', '_os_label_list', role='dashdot') }}"
   DASHDOT_CPU_LABEL_LIST: "{{ lookup('role_var', '_cpu_label_list', role='dashdot') }}"
   DASHDOT_STORAGE_LABEL_LIST: "{{ lookup('role_var', '_storage_label_list', role='dashdot') }}"
-  DASHDOT_RAM_LABEL_LIST: "{{ lookup('role_var', '_ram_label_list', role='dashdot')dashdot_ram_label_list }}"
+  DASHDOT_RAM_LABEL_LIST: "{{ lookup('role_var', '_ram_label_list', role='dashdot') }}"
   DASHDOT_NETWORK_LABEL_LIST: "{{ lookup('role_var', '_network_label_list', role='dashdot') }}"
   DASHDOT_GPU_LABEL_LIST: "{{ lookup('role_var', '_gpu_label_list', role='dashdot') }}"
   DASHDOT_ACCEPT_OOKLA_EULA: "true"
