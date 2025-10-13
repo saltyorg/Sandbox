@@ -32,18 +32,23 @@
   become: true
   become_user: "{{ user.name }}"
 
-- name: Set Python version
-  ansible.builtin.set_fact:
-    plex_dupefinder_python: "{{ 'python3'
-                             if ansible_distribution_version is version('20.04', '==')
-                             else 'python3.8' }}"
-
-- name: "Execute Python role"
+- name: Execute Python role
   ansible.builtin.include_role:
     name: "python"
   vars:
     python_version: "3.8"
-  when: ansible_distribution_version is version('20.04', '!=')
+
+- name: "Lookup Python 3.8 installation"
+  ansible.builtin.command: "{{ python_bin }} python find 3.8 --managed-python"
+  register: plex_dupefinder_python_install_path_lookup
+  changed_when: false
+  environment: "{{ python_environment }}"
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Set Python version
+  ansible.builtin.set_fact:
+    plex_dupefinder_python_install_path: "{{ plex_dupefinder_python_install_path_lookup.stdout }}"
 
 - name: Delete venv folder
   ansible.builtin.file:
@@ -52,7 +57,7 @@
 
 - name: Create venv
   ansible.builtin.command:
-    cmd: "{{ plex_dupefinder_python }} -m venv /opt/plex_dupefinder/venv"
+    cmd: "{{ plex_dupefinder_python_install_path }} -m venv /opt/plex_dupefinder/venv"
   args:
     creates: "/opt/plex_dupefinder/venv"
   become: true
