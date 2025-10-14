@@ -38,13 +38,6 @@ qbittorrentvpn:
   vpn_prov: pia
   vpn_user: your_vpn_username
   vpn_client: wireguard
-recyclarr:
-  cron_schedule: "@daily"
-  sleeptime:
-  rc_port:
-  rc_user:
-  rc_pass:
-  apprise:
 tqm:
   download_client: "qbt"
 transmissionvpn:

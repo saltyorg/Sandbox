@@ -14,6 +14,12 @@
 recyclarr_name: recyclarr
 
 ################################
+# Settings
+################################
+
+recyclarr_role_cron_schedule: "@daily"
+
+################################
 # Paths
 ################################
 
@@ -39,7 +45,7 @@ recyclarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 # Envs
 recyclarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-  CRON_SCHEDULE: "{{ recyclarr.cron_schedule }}"
+  CRON_SCHEDULE: "{{ lookup('role_var', '_cron_schedule', role='recyclarr') }}"
   RECYCLARR_CREATE_CONFIG: "true"
 recyclarr_role_docker_envs_custom: {}
 recyclarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='recyclarr')
