@@ -53,7 +53,7 @@ wizarr_traefik_middleware_custom: ""
 wizarr_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wizarr_traefik_enabled: true
 wizarr_traefik_api_enabled: true
-wizarr_traefik_api_endpoint: "PathPrefix(`/join`) || PathPrefix(`/j`) || PathPrefix(`/static`) || PathPrefix(`/setup`)"
+wizarr_traefik_api_endpoint: "PathPrefix(`/join`) || PathPrefix(`/j`) || PathPrefix(`/static`) || PathPrefix(`/setup`) || PathPrefix(`/wizard`) || PathPrefix(`/image-proxy`) || PathPrefix(`/cinema-posters`) || PathPrefix(`/invitation`)"
 
 ################################
 # Docker
