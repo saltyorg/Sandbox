@@ -40,7 +40,7 @@ firefox_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', rol
 # VNC
 ################################
 
-firefox_vnc_port: "5900"
+firefox_role_vnc_port: "5900"
 
 ################################
 # DNS
