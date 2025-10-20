@@ -119,7 +119,7 @@ jobs:
         run: sudo ansible-playbook sandbox.yml --tags "${{ matrix.roles }}" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
       - name: Run Tree on app data folder
-        run: tree -a /opt2
+        run: sudo tree -aug /opt2
 
       - name: Inspect all Docker containers
         run: |
