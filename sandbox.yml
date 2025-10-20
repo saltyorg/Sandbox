@@ -163,7 +163,6 @@
     - { role: tauticord, tags: ['tauticord'] }
     - { role: tdarr, tags: ['tdarr'] }
     - { role: tdarr_node, tags: ['tdarr-node'] }
-    - { role: teamspeak, tags: ['teamspeak'] }
     - { role: telegraf, tags: ['telegraf'] }
     - { role: teslamate, tags: ['teslamate'] }
     - { role: thelounge, tags: ['thelounge'] }
