@@ -19,6 +19,7 @@ gitea_name: gitea
 
 gitea_role_paths_folder: "{{ gitea_name }}"
 gitea_role_paths_location: "{{ server_appdata_path }}/{{ gitea_role_paths_folder }}"
+gitea_role_paths_recursive: true
 gitea_role_paths_folders_list:
   - "{{ gitea_role_paths_location }}"
   - "{{ gitea_role_paths_location }}/git"
