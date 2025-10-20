@@ -42,7 +42,7 @@
       when: opt_pmm.stat.exists
 
     - name: Relocate '{{ server_appdata_path }}/{{ plex_meta_manager_name }}' to '{{ server_appdata_path }}/kometa'
-      ansible.builtin.shell: "mv /opt/{{ plex_meta_manager_name }} {{ server_appdata_path }}/kometa"
+      ansible.builtin.shell: "mv {{ server_appdata_path }}/{{ plex_meta_manager_name }} {{ server_appdata_path }}/kometa"
       register: pmm_name_relocate
       when: opt_pmm_name is defined and opt_pmm_name.stat is defined and opt_pmm_name.stat.exists
 

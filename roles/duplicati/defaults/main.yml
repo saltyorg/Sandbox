@@ -79,7 +79,7 @@ duplicati_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role=
 # Volumes
 duplicati_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='duplicati') }}:/config"
-  - "/opt:/saltbox/opt"
+  - "{{ server_appdata_path }}:/saltbox/opt"
   - "/srv/git/saltbox:/saltbox/saltbox"
 duplicati_role_docker_volumes_custom: []
 duplicati_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='duplicati')
