@@ -37,6 +37,7 @@
       secret_key_base: "{{ maybe_finance_generated_secret_key.container.Output }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
   register: maybe_finance_saltbox_facts
 
 - name: Add DNS record

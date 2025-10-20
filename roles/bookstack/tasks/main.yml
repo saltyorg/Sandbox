@@ -31,6 +31,7 @@
       app_key: "{{ bookstack_generated_app_key.container.Output }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
   register: bookstack_saltbox_facts
 
 - name: Add DNS record

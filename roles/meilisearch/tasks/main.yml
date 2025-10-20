@@ -16,6 +16,7 @@
       secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=36) }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
   register: meilisearch_saltbox_facts
 
 - name: Remove existing Docker container

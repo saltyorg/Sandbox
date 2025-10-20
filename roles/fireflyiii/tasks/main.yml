@@ -23,6 +23,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
+    base_path: "{{ server_appdata_path }}"
   register: fireflyiii_db_password_saltbox_facts
 
 - name: "Save Fireflyiii AppKey Saltbox facts"
@@ -34,6 +35,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
+    base_path: "{{ server_appdata_path }}"
   register: fireflyiii_appkey_saltbox_facts
 
 - name: MariaDB Role

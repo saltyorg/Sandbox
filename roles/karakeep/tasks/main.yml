@@ -50,6 +50,7 @@
           secret_key: ""
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
+        base_path: "{{ server_appdata_path }}"
       register: hoarder_saltbox_facts
 
     - name: "Save Karakeep Saltbox facts"
@@ -60,6 +61,7 @@
           secret_key: "{{ hoarder_saltbox_facts.facts.secret_key }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
+        base_path: "{{ server_appdata_path }}"
 
     - name: "Delete legacy Hoarder Saltbox facts"
       saltbox_facts:
@@ -67,6 +69,7 @@
         instance: "hoarder"
         delete_type: "role"
         method: "delete"
+        base_path: "{{ server_appdata_path }}"
 
 - name: "Save Karakeep Saltbox Facts"
   saltbox_facts:
@@ -76,6 +79,7 @@
       secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=36) }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
   register: karakeep_saltbox_facts
 
 - name: Chrome role

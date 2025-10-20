@@ -46,6 +46,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
+    base_path: "{{ server_appdata_path }}"
   register: semaphoreui_saltbox_facts
 
 - name: Create directories

@@ -17,7 +17,8 @@ wireguard_name: wireguard
 # Settings
 ################################
 
-wireguard_listen_port: "51820"
+wireguard_role_listen_port: "51820"
+wireguard_role_dns: "1.1.1.1,8.8.8.8"
 
 ################################
 # Paths
@@ -38,6 +39,9 @@ wireguard_role_web_port: "51821"
 wireguard_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wireguard') + '.' + lookup('role_var', '_web_domain', role='wireguard')
                          if (lookup('role_var', '_web_subdomain', role='wireguard') | length > 0)
                          else lookup('role_var', '_web_domain', role='wireguard')) }}"
+wireguard_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='wireguard') + '.' + lookup('role_var', '_web_domain', role='wireguard')
+                          if (lookup('role_var', '_web_subdomain', role='wireguard') | length > 0)
+                          else lookup('role_var', '_web_domain', role='wireguard')) }}"
 
 ################################
 # DNS
@@ -69,12 +73,12 @@ wireguard_role_docker_container: "{{ wireguard_name }}"
 # Image
 wireguard_role_docker_image_pull: true
 wireguard_role_docker_image_repo: "ghcr.io/wg-easy/wg-easy"
-wireguard_role_docker_image_tag: "14"
+wireguard_role_docker_image_tag: "15"
 wireguard_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='wireguard') }}:{{ lookup('role_var', '_docker_image_tag', role='wireguard') }}"
 
 # Ports
 wireguard_role_docker_ports_defaults:
-  - "{{ wireguard_listen_port }}:51820/udp"
+  - "{{ lookup('role_var', '_listen_port', role='wireguard') }}:{{ lookup('role_var', '_listen_port', role='wireguard') }}/udp"
 wireguard_role_docker_ports_custom: []
 wireguard_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='wireguard')
                                  + lookup('role_var', '_docker_ports_custom', role='wireguard') }}"
@@ -82,16 +86,26 @@ wireguard_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', ro
 # Envs
 wireguard_role_docker_envs_default:
   TZ: "{{ tz }}"
-  WG_HOST: "{{ ip_address_public }}"
-  PASSWORD_HASH: "{{ user.pass | password_hash('bcrypt') }}"
-  WG_PORT: "{{ wireguard_listen_port }}"
+  DISABLE_IPV6: "{{ 'false' if docker_ipv6 else 'true' }}"
+  WG_DEVICE: "eth0"
+wireguard_role_docker_envs_setup:
+  INIT_ENABLED: "true"
+  INIT_USERNAME: "{{ user.name }}"
+  INIT_PASSWORD: "{{ user.pass }}"
+  INIT_HOST: "{{ lookup('role_var', '_web_host', role='wireguard') }}"
+  INIT_PORT: "{{ lookup('role_var', '_listen_port', role='wireguard') }}"
+  INIT_DNS: "{{ lookup('role_var', '_dns', role='wireguard') }}"
+  INIT_IPV4_CIDR: "10.8.0.0/24"
+  INIT_IPV6_CIDR: "2001:0DB8::/32"
 wireguard_role_docker_envs_custom: {}
 wireguard_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='wireguard')
+                                | combine(lookup('role_var', '_docker_envs_setup', role='wireguard'))
                                 | combine(lookup('role_var', '_docker_envs_custom', role='wireguard')) }}"
 
 # Volumes
 wireguard_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='wireguard') }}:/etc/wireguard"
+  - /lib/modules:/lib/modules:ro
 wireguard_role_docker_volumes_custom: []
 wireguard_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='wireguard')
                                    + lookup('role_var', '_docker_volumes_custom', role='wireguard') }}"
@@ -101,9 +115,15 @@ wireguard_role_docker_hostname: "{{ wireguard_name }}"
 
 # Networks
 wireguard_role_docker_networks_alias: "{{ wireguard_name }}"
-wireguard_role_docker_networks_default: []
+wireguard_role_docker_networks_default:
+  - name: wg
+    ipv4_address: "10.42.42.42"
+    ipv6_address: "{{ 'fdcc:ad94:bacf:61a3::2a' if docker_ipv6 else omit }}"
+    gw_priority: 1
+    driver_opts:
+      com.docker.network.endpoint.ifname: eth0
 wireguard_role_docker_networks_custom: []
-wireguard_role_docker_networks: "{{ docker_networks_common
+wireguard_role_docker_networks: "{{ (docker_networks_common | map('combine', {'driver_opts': {'com.docker.network.endpoint.ifname': 'eth1'}}) | list)
                                     + lookup('role_var', '_docker_networks_default', role='wireguard')
                                     + lookup('role_var', '_docker_networks_custom', role='wireguard') }}"
 
@@ -112,13 +132,21 @@ wireguard_role_docker_capabilities_default:
   - NET_ADMIN
   - SYS_MODULE
 wireguard_role_docker_capabilities_custom: []
-wireguard_role_docker_capabilities: "{{ wireguard_role_docker_capabilities_default
-                                        + wireguard_role_docker_capabilities_custom }}"
+wireguard_role_docker_capabilities: "{{ lookup('role_var', '_docker_capabilities_default', role='wireguard')
+                                        + lookup('role_var', '_docker_capabilities_custom', role='wireguard') }}"
 
 # Sysctls
-wireguard_role_docker_sysctls:
+wireguard_role_docker_sysctls_ipv4:
   net.ipv4.conf.all.src_valid_mark: "1"
   net.ipv4.ip_forward: "1"
+wireguard_role_docker_sysctls_ipv6:
+  net.ipv6.conf.all.disable_ipv6: "0"
+  net.ipv6.conf.all.forwarding: "1"
+  net.ipv6.conf.default.forwarding: "1"
+wireguard_role_docker_sysctls: "{{ lookup('role_var', '_docker_sysctls_ipv4', role='wireguard')
+                                   + (lookup('role_var', '_docker_sysctls_ipv6', role='wireguard')
+                                     if docker_ipv6
+                                     else []) }}"
 
 # Restart Policy
 wireguard_role_docker_restart_policy: unless-stopped
