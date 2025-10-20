@@ -87,7 +87,9 @@ jobs:
 
       - name: Create basic vars file
         run: |
-          echo "continuous_integration: true" > /tmp/vars.yml
+          echo "continuous_integration: true" > vars.yml
+          echo "server_appdata_path: /opt2" >> vars.yml
+          sudo mkdir -p /opt2
 
       - name: Create CI vars file
         if: github.repository == 'saltyorg/Sandbox' && github.event.repository.fork == false
@@ -115,6 +117,9 @@ jobs:
 
       - name: Install ${{ matrix.roles }}
         run: sudo ansible-playbook sandbox.yml --tags "${{ matrix.roles }}" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
+
+      - name: Run Tree on app data folder
+        run: tree -a /opt2
 
       - name: Inspect all Docker containers
         run: |
