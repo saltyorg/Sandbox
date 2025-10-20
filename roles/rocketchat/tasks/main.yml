@@ -41,7 +41,7 @@
 
 - name: Check if legacy mongodb folder exists
   ansible.builtin.stat:
-    path: "/opt/rocketchat_db"
+    path: "{{ server_appdata_path }}/rocketchat_db"
   register: rocketchat_db_legacy_folder
 
 - name: Check if new mongodb folder exists
@@ -51,7 +51,7 @@
 
 - name: Migrate mongodb directory
   migrate_folder:
-    legacy_path: "/opt/rocketchat_db"
+    legacy_path: "{{ server_appdata_path }}/rocketchat_db"
     new_path: "{{ rocketchat_role_paths_location }}/mongo"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"

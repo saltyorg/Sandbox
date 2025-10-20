@@ -37,19 +37,19 @@
     group: "{{ user.name }}"
     recurse: true
   with_items:
-    - '/opt/plex/Library/Application Support/Plex Media Server/Scanners'
-    - '/opt/plex/Library/Application Support/Plex Media Server/Scanners/Series'
+    - '{{ server_appdata_path }}/plex/Library/Application Support/Plex Media Server/Scanners'
+    - '{{ server_appdata_path }}/plex/Library/Application Support/Plex Media Server/Scanners/Series'
 
 - name: Get latest Extended Personal Media Scanner.py
   ansible.builtin.get_url:
     url: https://bitbucket.org/mjarends/plex-scanners/raw/8aa4517831e440512a9a0cb4110e786bf041feb5/Series/Extended%20Personal%20Media%20Scanner.py
 
-    dest: '/opt/plex/Library/Application Support/Plex Media Server/Scanners/Series/Extended Personal Media Scanner.py'
+    dest: '{{ server_appdata_path }}/plex/Library/Application Support/Plex Media Server/Scanners/Series/Extended Personal Media Scanner.py'
     mode: '0775'
 
 - name: Set Extended Personal Media Scanner directory permissions
   ansible.builtin.file:
-    path: '/opt/plex/Library/Application Support/Plex Media Server/Scanners'
+    path: '{{ server_appdata_path }}/plex/Library/Application Support/Plex Media Server/Scanners'
     state: directory
     mode: "0775"
     owner: "{{ user.name }}"
@@ -59,7 +59,7 @@
 - name: Clone Extended Personal Media Scanner Bundle
   ansible.builtin.git:
     repo: https://bitbucket.org/mjarends/extendedpersonalmedia-agent.bundle.git
-    dest: '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
+    dest: '{{ server_appdata_path }}/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
     clone: true
     version: HEAD
     force: true
@@ -68,7 +68,7 @@
 
 - name: Set Extended Personal Media Scanner directory permissions
   ansible.builtin.file:
-    path: '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
+    path: '{{ server_appdata_path }}/plex/Library/Application Support/Plex Media Server/Plug-ins/ExtendedPersonalMedia-Agent.bundle'
     state: directory
     mode: "0775"
     owner: "{{ user.name }}"

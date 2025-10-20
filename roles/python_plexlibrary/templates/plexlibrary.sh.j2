@@ -12,9 +12,9 @@ PATH='/usr/bin:/bin:/usr/local/bin'
 export PYTHONIOENCODING=UTF-8
 
 PYTHON_PATH='{{ python_plexlibrary_bin_folder }}/python3'
-LOG_PATH='/opt/python-plexlibrary/plexlibrary.log'
+LOG_PATH='{{ server_appdata_path }}/python-plexlibrary/plexlibrary.log'
 
 echo $(date) | tee -a $LOG_PATH
 echo "" | tee -a $LOG_PATH
 
-(cd /opt/python-plexlibrary && $PYTHON_PATH plexlibrary "$@")
+(cd {{ server_appdata_path }}/python-plexlibrary && $PYTHON_PATH plexlibrary "$@")

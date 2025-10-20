@@ -23,13 +23,13 @@
 
 - name: Check if legacy folder exists
   ansible.builtin.stat:
-    path: "/opt/{{ plex_name }}_patrol"
+    path: "{{ server_appdata_path }}/{{ plex_name }}_patrol"
   register: plex_patrol_legacy_folder
 
 - name: Migrate Plex Patrol directory
   migrate_folder:
-    legacy_path: "/opt/{{ plex_name }}_patrol"
-    new_path: "/opt/{{ plex_name }}-patrol"
+    legacy_path: "{{ server_appdata_path }}/{{ plex_name }}_patrol"
+    new_path: "{{ server_appdata_path }}/{{ plex_name }}-patrol"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0775'
@@ -38,7 +38,7 @@
 
 - name: Create plex_patrol directories
   ansible.builtin.file:
-    path: "/opt/{{ plex_name }}-patrol"
+    path: "{{ server_appdata_path }}/{{ plex_name }}-patrol"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -46,7 +46,7 @@
 
 - name: Check config exists
   ansible.builtin.stat:
-    path: "/opt/{{ plex_name }}-patrol/settings.ini"
+    path: "{{ server_appdata_path }}/{{ plex_name }}-patrol/settings.ini"
   register: plex_patrol_config
 
 - name: Import Plex Auth Token role
@@ -57,7 +57,7 @@
 - name: Import default config
   ansible.builtin.template:
     src: settings.ini.j2
-    dest: "/opt/{{ plex_name }}-patrol/settings.ini"
+    dest: "{{ server_appdata_path }}/{{ plex_name }}-patrol/settings.ini"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -71,7 +71,7 @@
     pull: true
     user: "{{ uid }}:{{ gid }}"
     volumes:
-      - "/opt/{{ plex_name }}-patrol:/config"
+      - "{{ server_appdata_path }}/{{ plex_name }}-patrol:/config"
     env:
       TZ: "{{ tz }}"
     labels:

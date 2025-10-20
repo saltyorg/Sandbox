@@ -14,18 +14,18 @@
 
 - name: Check if legacy folder exists
   ansible.builtin.stat:
-    path: "/opt/qbit_manage"
+    path: "{{ server_appdata_path }}/qbit_manage"
   register: qbit_manage_legacy_folder
 
 - name: Check if new folder exists
   ansible.builtin.stat:
-    path: "/opt/qbit-manage"
+    path: "{{ server_appdata_path }}/qbit-manage"
   register: qbit_manage_new_folder
 
 - name: Migrate qbit-manage directory
   migrate_folder:
-    legacy_path: /opt/qbit_manage
-    new_path: /opt/qbit-manage
+    legacy_path: "{{ server_appdata_path }}/qbit_manage"
+    new_path: "{{ server_appdata_path }}/qbit-manage"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0775'

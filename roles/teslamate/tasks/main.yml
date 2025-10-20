@@ -17,9 +17,9 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Check if '/opt/saltbox/teslamate_db.ini' folder exists
+- name: Check if '{{ server_appdata_path }}/saltbox/teslamate_db.ini' folder exists
   ansible.builtin.stat:
-    path: "/opt/saltbox/teslamate_db.ini"
+    path: "{{ server_appdata_path }}/saltbox/teslamate_db.ini"
   register: teslamate_db_stat
 
 - name: Migration Block

@@ -16,17 +16,17 @@
 
 - name: Check if legacy folder exists
   ansible.builtin.stat:
-    path: "/opt/hoarder"
+    path: "{{ server_appdata_path }}/hoarder"
   register: karakeep_legacy_folder
 
 - name: Check if new folder exists
   ansible.builtin.stat:
-    path: "/opt/karakeep"
+    path: "{{ server_appdata_path }}/karakeep"
   register: karakeep_new_folder
 
 - name: Migrate karakeep directory
   migrate_folder:
-    legacy_path: /opt/hoarder
+    legacy_path: "{{ server_appdata_path }}/hoarder"
     new_path: "{{ karakeep_role_paths_location }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -34,9 +34,9 @@
     recurse: false
   when: karakeep_legacy_folder.stat.exists and not karakeep_new_folder.stat.exists
 
-- name: Check if '/opt/saltbox/hoarder.ini' folder exists
+- name: Check if '{{ server_appdata_path }}/saltbox/hoarder.ini' folder exists
   ansible.builtin.stat:
-    path: "/opt/saltbox/hoarder.ini"
+    path: "{{ server_appdata_path }}/saltbox/hoarder.ini"
   register: hoarder_fact_stat
 
 - name: Migration Block

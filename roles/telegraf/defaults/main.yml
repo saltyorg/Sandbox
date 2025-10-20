@@ -75,7 +75,7 @@ telegraf_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='
 
 # Volumes
 telegraf_role_docker_volumes_default:
-  - "/opt/telegraf/{{ telegraf_name }}:/etc/telegraf:ro"
+  - "{{ server_appdata_path }}/telegraf/{{ telegraf_name }}:/etc/telegraf:ro"
   - "/var/run/docker.sock:/var/run/docker.sock:ro"
   - "/var/run/utmp:/var/run/utmp"
   - "/:/host:ro"

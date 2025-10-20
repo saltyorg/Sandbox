@@ -20,12 +20,12 @@
     recurse: true
     mode: "0775"
   with_items:
-    - "/opt/python-plexlibrary"
+    - "{{ server_appdata_path }}/python-plexlibrary"
 
 - name: Clone python-plexlibrary
   ansible.builtin.git:
     repo: "https://github.com/adamgot/python-plexlibrary.git"
-    dest: "/opt/python-plexlibrary"
+    dest: "{{ server_appdata_path }}/python-plexlibrary"
     version: master
     force: true
   become: true
@@ -51,22 +51,22 @@
 
 - name: Delete venv folder
   ansible.builtin.file:
-    path: "/opt/python-plexlibrary/venv"
+    path: "{{ server_appdata_path }}/python-plexlibrary/venv"
     state: absent
 
 - name: Create venv
   ansible.builtin.command:
-    cmd: "{{ python_plexlibrary_python_install_path }} -m venv /opt/python-plexlibrary/venv"
+    cmd: "{{ python_plexlibrary_python_install_path }} -m venv {{ server_appdata_path }}/python-plexlibrary/venv"
   args:
-    creates: "/opt/python-plexlibrary/venv"
+    creates: "{{ server_appdata_path }}/python-plexlibrary/venv"
   become: true
   become_user: "{{ user.name }}"
 
 - name: Install pip requirements
   ansible.builtin.pip:
-    requirements: "/opt/python-plexlibrary/requirements.txt"
-    virtualenv: "/opt/python-plexlibrary/venv"
-    virtualenv_command: "/opt/python-plexlibrary/venv/bin/python3 -m pip"
+    requirements: "{{ server_appdata_path }}/python-plexlibrary/requirements.txt"
+    virtualenv: "{{ server_appdata_path }}/python-plexlibrary/venv"
+    virtualenv_command: "{{ server_appdata_path }}/python-plexlibrary/venv/bin/python3 -m pip"
   become: true
   become_user: "{{ user.name }}"
 
@@ -74,8 +74,8 @@
   ansible.builtin.pip:
     name: trakt
     state: absent
-    virtualenv: "/opt/python-plexlibrary/venv"
-    virtualenv_command: "/opt/python-plexlibrary/venv/bin/python3 -m pip"
+    virtualenv: "{{ server_appdata_path }}/python-plexlibrary/venv"
+    virtualenv_command: "{{ server_appdata_path }}/python-plexlibrary/venv/bin/python3 -m pip"
   become: true
   become_user: "{{ user.name }}"
 
@@ -83,14 +83,14 @@
   ansible.builtin.pip:
     name: pytrakt
     state: present
-    virtualenv: "/opt/python-plexlibrary/venv"
-    virtualenv_command: "/opt/python-plexlibrary/venv/bin/python3 -m pip"
+    virtualenv: "{{ server_appdata_path }}/python-plexlibrary/venv"
+    virtualenv_command: "{{ server_appdata_path }}/python-plexlibrary/venv/bin/python3 -m pip"
   become: true
   become_user: "{{ user.name }}"
 
 - name: Find pip3 path
   ansible.builtin.find:
-    paths: /opt/python-plexlibrary/venv
+    paths: "{{ server_appdata_path }}/python-plexlibrary/venv"
     recurse: true
     patterns: 'pip3'
   register: files
@@ -101,13 +101,13 @@
 
 - name: Check config exists
   ansible.builtin.stat:
-    path: "/opt/python-plexlibrary/config.yml"
+    path: "{{ server_appdata_path }}/python-plexlibrary/config.yml"
   register: python_plexlibrary_config
 
 - name: Create config from template
   ansible.builtin.copy:
-    src: "/opt/python-plexlibrary/config-template.yml"
-    dest: "/opt/python-plexlibrary/config.yml"
+    src: "{{ server_appdata_path }}/python-plexlibrary/config-template.yml"
+    dest: "{{ server_appdata_path }}/python-plexlibrary/config.yml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -116,7 +116,7 @@
 
 - name: Add plex url to config file
   ansible.builtin.shell: |
-    yyq -i '.plex.baseurl = "{{ lookup('role_var', '_web_url', role='plex') }}"' /opt/python-plexlibrary/config.yml
+    yyq -i '.plex.baseurl = "{{ lookup('role_var', '_web_url', role='plex') }}"' {{ server_appdata_path }}/python-plexlibrary/config.yml
   become: true
   become_user: "{{ user.name }}"
 
@@ -127,15 +127,15 @@
 
 - name: Add plex token to config file
   ansible.builtin.shell: |
-    yyq -i '.plex.token = "{{ plex_auth_token }}"' /opt/python-plexlibrary/config.yml
+    yyq -i '.plex.token = "{{ plex_auth_token }}"' {{ server_appdata_path }}/python-plexlibrary/config.yml
   become: true
   become_user: "{{ user.name }}"
   when: plex_account_is_enabled
 
-- name: "Copy example recipes to '/opt/python-plexlibrary' folder"
+- name: "Copy example recipes to '{{ server_appdata_path }}/python-plexlibrary' folder"
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "/opt/python-plexlibrary/recipes/examples/saltbox/"
+    dest: "{{ server_appdata_path }}/python-plexlibrary/recipes/examples/saltbox/"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
@@ -143,10 +143,10 @@
   with_fileglob:
     - "recipes/*.yml"
 
-- name: "Copy helper scripts to '/opt/python-plexlibrary' folder"
+- name: "Copy helper scripts to '{{ server_appdata_path }}/python-plexlibrary' folder"
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: "/opt/python-plexlibrary/{{ item }}"
+    dest: "{{ server_appdata_path }}/python-plexlibrary/{{ item }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
@@ -157,13 +157,13 @@
 
 - name: "Create '/usr/local/bin' symlink"
   ansible.builtin.file:
-    src: "/opt/python-plexlibrary/plexlibrary.sh"
+    src: "{{ server_appdata_path }}/python-plexlibrary/plexlibrary.sh"
     dest: "/usr/local/bin/plexlibrary"
     state: link
 
 - name: "Add items to '.gitignore'"
   ansible.builtin.lineinfile:
-    path: "/opt/python-plexlibrary/.gitignore"
+    path: "{{ server_appdata_path }}/python-plexlibrary/.gitignore"
     state: present
     insertafter: EOF
     line: '{{ item }}'

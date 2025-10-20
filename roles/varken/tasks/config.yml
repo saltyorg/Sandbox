@@ -77,7 +77,7 @@
 - name: Import 'config.ini'
   ansible.builtin.template:
     src: varken.ini.j2
-    dest: /opt/varken/varken.ini
+    dest: "{{ server_appdata_path }}/varken/varken.ini"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"

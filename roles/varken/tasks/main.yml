@@ -50,7 +50,7 @@
 
 - name: Create required directories
   ansible.builtin.file:
-    path: "/opt/varken"
+    path: "{{ server_appdata_path }}/varken"
     state: directory
     mode: "0775"
     owner: "{{ user.name }}"
@@ -58,7 +58,7 @@
 
 - name: Check if varken config exists
   ansible.builtin.stat:
-    path: "/opt/varken/varken.ini"
+    path: "{{ server_appdata_path }}/varken/varken.ini"
   register: varken_config_stat
 
 - name: Import config tasks
@@ -78,7 +78,7 @@
       PGID: "{{ gid }}"
       TZ: "{{ tz }}"
     volumes:
-      - "/opt/varken:/config"
+      - "{{ server_appdata_path }}/varken:/config"
     labels:
       "com.github.saltbox.saltbox_managed": "true"
     networks:

@@ -22,18 +22,18 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
   with_items:
-    - /opt/kcptun-server
-    - /opt/kcptun-server/config
+    - "{{ server_appdata_path }}/kcptun-server"
+    - "{{ server_appdata_path }}/kcptun-server/config"
 
 - name: "Check if kcptun-server config file exists"
   ansible.builtin.stat:
-    path: "/opt/kcptun-server/config/config.json"
+    path: "{{ server_appdata_path }}/kcptun-server/config/config.json"
   register: kcptun_config
 
 - name: "Import config file if it doesnt exist"
   ansible.builtin.template:
     src: config.json.j2
-    dest: /opt/kcptun-server/config/config.json
+    dest: "{{ server_appdata_path }}/kcptun-server/config/config.json"
     force: true
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -48,7 +48,7 @@
     env:
       TZ: "{{ tz }}"
     volumes:
-      - "/opt/kcptun-server/config:/config"
+      - "{{ server_appdata_path }}/kcptun-server/config:/config"
     command: "/bin/server -c /config/config.json"
     labels:
       "com.github.saltbox.saltbox_managed": "true"

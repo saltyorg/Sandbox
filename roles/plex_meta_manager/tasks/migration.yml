@@ -12,40 +12,40 @@
   vars:
     var_prefix: "plex-meta-manager"
 
-- name: "Check if '/opt/plex-meta-manager' exists"
+- name: "Check if '{{ server_appdata_path }}/plex-meta-manager' exists"
   ansible.builtin.stat:
-    path: "/opt/plex-meta-manager"
+    path: "{{ server_appdata_path }}/plex-meta-manager"
   register: opt_pmm
 
 - name: "Check if overridden path exists"
   ansible.builtin.stat:
-    path: "/opt/{{ plex_meta_manager_name }}"
+    path: "{{ server_appdata_path }}/{{ plex_meta_manager_name }}"
   register: opt_pmm_name
   when: (plex_meta_manager_name is defined and plex_meta_manager_name | length > 0)
 
-- name: "Check if '/opt/kometa' exists"
+- name: "Check if '{{ server_appdata_path }}/kometa' exists"
   ansible.builtin.stat:
-    path: "/opt/kometa"
+    path: "{{ server_appdata_path }}/kometa"
   register: opt_kometa
 
 - name: Migrate PMM appdata
   when: (opt_pmm.stat.exists or (opt_pmm_name is defined and opt_pmm_name.stat is defined and opt_pmm_name.stat.exists))
   block:
-    - name: Relocate '/opt/kometa' to '/opt/kometa_bak'
-      ansible.builtin.shell: "mv /opt/kometa /opt/kometa_bak"
+    - name: Relocate '{{ server_appdata_path }}/kometa' to '{{ server_appdata_path }}/kometa_bak'
+      ansible.builtin.shell: "mv {{ server_appdata_path }}/kometa {{ server_appdata_path }}/kometa_bak"
       register: kometa_relocate
       when: opt_kometa.stat.exists
 
-    - name: Relocate '/opt/plex-meta-manager' to '/opt/kometa'
-      ansible.builtin.shell: "mv /opt/plex-meta-manager /opt/kometa"
+    - name: Relocate '{{ server_appdata_path }}/plex-meta-manager' to '{{ server_appdata_path }}/kometa'
+      ansible.builtin.shell: "mv {{ server_appdata_path }}/plex-meta-manager {{ server_appdata_path }}/kometa"
       register: pmm_relocate
       when: opt_pmm.stat.exists
 
-    - name: Relocate '/opt/{{ plex_meta_manager_name }}' to '/opt/kometa'
-      ansible.builtin.shell: "mv /opt/{{ plex_meta_manager_name }} /opt/kometa"
+    - name: Relocate '{{ server_appdata_path }}/{{ plex_meta_manager_name }}' to '{{ server_appdata_path }}/kometa'
+      ansible.builtin.shell: "mv /opt/{{ plex_meta_manager_name }} {{ server_appdata_path }}/kometa"
       register: pmm_name_relocate
       when: opt_pmm_name is defined and opt_pmm_name.stat is defined and opt_pmm_name.stat.exists
 
     - name: Print Kometa tag instructions
       ansible.builtin.debug:
-        msg: "Your appdata has been migrated to '/opt/kometa'. You may now run 'sb install sandbox-kometa' to deploy Kometa."
+        msg: "Your appdata has been migrated to '{{ server_appdata_path }}/kometa'. You may now run 'sb install sandbox-kometa' to deploy Kometa."

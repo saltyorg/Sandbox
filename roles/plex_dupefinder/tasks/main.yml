@@ -20,12 +20,12 @@
     mode: "0775"
     recurse: true
   with_items:
-    - /opt/plex_dupefinder
+    - "{{ server_appdata_path }}/plex_dupefinder"
 
 - name: Clone plex_dupefinder
   ansible.builtin.git:
     repo: https://github.com/l3uddz/plex_dupefinder.git
-    dest: /opt/plex_dupefinder
+    dest: "{{ server_appdata_path }}/plex_dupefinder"
     clone: true
     version: HEAD
     force: true
@@ -52,28 +52,28 @@
 
 - name: Delete venv folder
   ansible.builtin.file:
-    path: "/opt/plex_dupefinder/venv"
+    path: "{{ server_appdata_path }}/plex_dupefinder/venv"
     state: absent
 
 - name: Create venv
   ansible.builtin.command:
-    cmd: "{{ plex_dupefinder_python_install_path }} -m venv /opt/plex_dupefinder/venv"
+    cmd: "{{ plex_dupefinder_python_install_path }} -m venv {{ server_appdata_path }}/plex_dupefinder/venv"
   args:
-    creates: "/opt/plex_dupefinder/venv"
+    creates: "{{ server_appdata_path }}/plex_dupefinder/venv"
   become: true
   become_user: "{{ user.name }}"
 
 - name: Install pip requirements
   ansible.builtin.pip:
-    requirements: "/opt/plex_dupefinder/requirements.txt"
-    virtualenv: "/opt/plex_dupefinder/venv"
-    virtualenv_command: "/opt/plex_dupefinder/venv/bin/python3 -m pip"
+    requirements: "{{ server_appdata_path }}/plex_dupefinder/requirements.txt"
+    virtualenv: "{{ server_appdata_path }}/plex_dupefinder/venv"
+    virtualenv_command: "{{ server_appdata_path }}/plex_dupefinder/venv/bin/python3 -m pip"
   become: true
   become_user: "{{ user.name }}"
 
 - name: Check config exists
   ansible.builtin.stat:
-    path: "/opt/plex_dupefinder/config.json"
+    path: "{{ server_appdata_path }}/plex_dupefinder/config.json"
   register: plex_dupefinder_config
 
 - name: Import Plex Auth Token role
@@ -84,7 +84,7 @@
 - name: Import default config
   ansible.builtin.template:
     src: config.json.j2
-    dest: /opt/plex_dupefinder/config.json
+    dest: "{{ server_appdata_path }}/plex_dupefinder/config.json"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
@@ -92,7 +92,7 @@
 
 - name: Set plex_dupefinder.py as executable
   ansible.builtin.file:
-    path: /opt/plex_dupefinder/plex_dupefinder.py
+    path: "{{ server_appdata_path }}/plex_dupefinder/plex_dupefinder.py"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: a+x

@@ -119,7 +119,7 @@ delugevpn_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role=
 delugevpn_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='delugevpn') }}:/config"
   - "/etc/localtime:/etc/localtime:ro"
-  - "/opt/scripts:/scripts"
+  - "{{ server_appdata_path }}/scripts:/scripts"
 delugevpn_role_docker_volumes_custom: []
 delugevpn_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='delugevpn')
                                    + lookup('role_var', '_docker_volumes_custom', role='delugevpn') }}"
