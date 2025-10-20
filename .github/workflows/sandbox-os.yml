@@ -87,8 +87,8 @@ jobs:
 
       - name: Create basic vars file
         run: |
-          echo "continuous_integration: true" > vars.yml
-          echo "server_appdata_path: /opt2" >> vars.yml
+          echo "continuous_integration: true" > /tmp/vars.yml
+          echo "server_appdata_path: /opt2" >> /tmp/vars.yml
           sudo mkdir -p /opt2
 
       - name: Create CI vars file
