@@ -19,6 +19,7 @@ forgejo_name: forgejo
 
 forgejo_role_paths_folder: "{{ forgejo_name }}"
 forgejo_role_paths_location: "{{ server_appdata_path }}/{{ forgejo_role_paths_folder }}"
+forgejo_role_paths_recursive: true
 forgejo_role_paths_folders_list:
   - "{{ forgejo_role_paths_location }}"
   - "{{ forgejo_role_paths_location }}/git"
