@@ -21,6 +21,9 @@ gitea_role_paths_folder: "{{ gitea_name }}"
 gitea_role_paths_location: "{{ server_appdata_path }}/{{ gitea_role_paths_folder }}"
 gitea_role_paths_folders_list:
   - "{{ gitea_role_paths_location }}"
+  - "{{ gitea_role_paths_location }}/git"
+  - "{{ gitea_role_paths_location }}/gitea"
+  - "{{ gitea_role_paths_location }}/ssh"
 
 ################################
 # Web
@@ -76,7 +79,6 @@ gitea_role_docker_envs_default:
   GITEA__database__PASSWD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   GITEA__database__NAME: "gitea"
   DISABLE_SSH: "true"
-  RUN_MODE: "prod"
   ROOT_URL: "{{ lookup('role_var', '_web_url', role='gitea') }}/"
 gitea_role_docker_envs_custom: {}
 gitea_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='gitea')
