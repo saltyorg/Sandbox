@@ -21,6 +21,9 @@ forgejo_role_paths_folder: "{{ forgejo_name }}"
 forgejo_role_paths_location: "{{ server_appdata_path }}/{{ forgejo_role_paths_folder }}"
 forgejo_role_paths_folders_list:
   - "{{ forgejo_role_paths_location }}"
+  - "{{ forgejo_role_paths_location }}/git"
+  - "{{ forgejo_role_paths_location }}/gitea"
+  - "{{ forgejo_role_paths_location }}/ssh"
 
 ################################
 # Web
@@ -63,7 +66,7 @@ forgejo_role_docker_container: "{{ forgejo_name }}"
 # Image
 forgejo_role_docker_image_pull: true
 forgejo_role_docker_image_repo: "codeberg.org/forgejo/forgejo"
-forgejo_role_docker_image_tag: "1.20" # the Codeberg container registry does not provide a "latest" tag
+forgejo_role_docker_image_tag: "13" # the Codeberg container registry does not provide a "latest" tag
 forgejo_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='forgejo') }}:{{ lookup('role_var', '_docker_image_tag', role='forgejo') }}"
 
 # Envs
@@ -76,7 +79,6 @@ forgejo_role_docker_envs_default:
   DB_PASS: "password321"
   DB_DATABASE: "forgejo"
   DISABLE_SSH: "true"
-  RUN_MODE: "prod"
   ROOT_URL: "{{ lookup('role_var', '_web_url', role='forgejo') }}/"
 forgejo_role_docker_envs_custom: {}
 forgejo_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='forgejo')
