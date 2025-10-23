@@ -29,9 +29,10 @@ n8n_postgres_paths_location: "{{ server_appdata_path }}/{{ postgres_paths_folder
 ################################
 
 n8n_paths_folder: "{{ n8n_name }}"
-n8n_paths_location: "{{ server_appdata_path }}/{{ n8n_paths_folder }}/app"
+n8n_paths_location: "{{ server_appdata_path }}/{{ n8n_paths_folder }}"
 n8n_paths_folders_list:
   - "{{ n8n_paths_location }}"
+  - "{{ n8n_paths_location }}/data"
 
 ################################
 # Web
@@ -99,6 +100,8 @@ n8n_docker_envs_default:
   N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
   WEBHOOK_URL: "{{ n8n_web_url }}/"
   N8N_PROXY_HOPS: "1"
+  N8N_RUNNERS_ENABLED: "true"
+  N8N_USER_FOLDER: "/data"
 n8n_docker_envs_custom: {}
 n8n_docker_envs: "{{ n8n_docker_envs_default
                      | combine(n8n_docker_envs_custom) }}"
@@ -111,7 +114,7 @@ n8n_docker_commands: "{{ n8n_docker_commands_default
 
 # Volumes
 n8n_docker_volumes_default:
-  - "{{ n8n_paths_location }}:/home/node/.n8n"
+  - "{{ n8n_paths_location }}/data:/data"
 n8n_docker_volumes_custom: []
 n8n_docker_volumes: "{{ n8n_docker_volumes_default
                         + n8n_docker_volumes_custom }}"

@@ -12,7 +12,12 @@
   vars:
     var_prefix: "{{ n8n_name }}_postgres"
 
-- name: PostgreSQL Role
+- name: Check legacy path
+  ansible.builtin.stat:
+    path: "{{ n8n_paths_location }}/app"
+  register: stat_n8n_legacy_path
+
+- name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
   vars:
@@ -32,6 +37,16 @@
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Migrate n8n legacy directory
+  migrate_folder:
+    legacy_path: "{{ n8n_paths_location }}/app"
+    new_path: "{{ n8n_paths_location }}/data/.n8n"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0775'
+    recurse: false
+  when: stat_n8n_legacy_path.stat.exists
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
