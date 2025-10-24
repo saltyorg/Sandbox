@@ -12,7 +12,6 @@
 /.ansible/*
 
 # Sandbox
-/ansible.cfg
 /*.yml
 !/requirements.yml
 !/sandbox.yml
