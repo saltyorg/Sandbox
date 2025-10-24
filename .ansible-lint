@@ -4,15 +4,8 @@ exclude_paths:
   - .vscode/
   - bin/
   - defaults/
-  - library/
 
 offline: False
-
-mock_modules:
-  - find_open_port
-  - saltbox_facts
-  - qbittorrent_passwd
-  - migrate_folder
 
 mock_roles:
   - pre_tasks
