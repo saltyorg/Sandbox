@@ -104,5 +104,5 @@
     login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
     login_password: "{{ mariadb_docker_env_password }}"
-    query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}" `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
+    query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
   when: not stat_koel_db_folder.stat.exists
