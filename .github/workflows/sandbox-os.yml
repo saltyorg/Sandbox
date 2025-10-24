@@ -128,9 +128,9 @@ jobs:
       - name: Copy default configuration
         run: |
           if touch /tmp/test1 && cp --update=none /tmp/test1 /tmp/test2 2>/dev/null; then
-            cp --update=none defaults/ansible.cfg.default ansible.cfg && cp --update=none defaults/settings.yml.default settings.yml
+             && cp --update=none defaults/settings.yml.default settings.yml
           else
-            cp -n defaults/ansible.cfg.default ansible.cfg && cp -n defaults/settings.yml.default settings.yml
+            cp -n defaults/settings.yml.default settings.yml
           fi
 
       - name: Install ${{ matrix.roles }}
