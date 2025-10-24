@@ -14,12 +14,12 @@
   ansible.builtin.dpkg_selections:
     name: "cockpit"
     selection: install
-  when: ("cockpit" in ansible_facts.packages)
+  when: ("cockpit" in ansible_facts['packages'])
 
 - name: Package | Install 'cockpit' from backports
   ansible.builtin.apt:
     name: "cockpit"
-    default_release: "{{ ansible_distribution_release }}-backports"
+    default_release: "{{ ansible_facts['distribution_release'] }}-backports"
     state: latest
 
 - name: Package | Put 'cockpit' into hold
