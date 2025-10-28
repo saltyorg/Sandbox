@@ -17,8 +17,8 @@ suwayomi_name: suwayomi
 # Settings
 ################################
 
-suwayomi_download_as_cbz: "{{ suwayomi.download_as_cbz | default('true', true) }}"
-suwayomi_auto_download_chapters: "{{ suwayomi.auto_download_chapters | default('true', true) }}"
+suwayomi_download_as_cbz: "true"
+suwayomi_auto_download_chapters: "true"
 
 ################################
 # Paths
