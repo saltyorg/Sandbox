@@ -84,8 +84,6 @@ suwayomi_docker_ports: "{{ suwayomi_docker_ports_defaults
 
 # Envs
 suwayomi_docker_envs_default:
-  PUID: "{{ uid }}"
-  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   DOWNLOAD_AS_CBZ: "{{ suwayomi_download_as_cbz }}"
   AUTO_DOWNLOAD_CHAPTERS: "{{ suwayomi_auto_download_chapters }}"
