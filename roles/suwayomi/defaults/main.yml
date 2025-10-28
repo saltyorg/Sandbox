@@ -26,7 +26,7 @@ suwayomi_auto_download_chapters: "true"
 
 suwayomi_paths_folder: "{{ suwayomi_name }}"
 suwayomi_paths_location: "{{ server_appdata_path }}/{{ suwayomi_paths_folder }}"
-suwayomi_paths_downloads_location: "{{ downloads_path }}/{{ suwayomi_paths_folder }}"
+suwayomi_paths_downloads_location: "{{ downloads_root_path }}/{{ suwayomi_paths_folder }}"
 suwayomi_paths_folders_list:
   - "{{ suwayomi_paths_location }}"
   - "{{ suwayomi_paths_downloads_location }}"
