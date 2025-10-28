@@ -22,7 +22,7 @@ tika_role_docker_container: "{{ tika_name }}"
 
 # Image
 tika_role_docker_image_pull: true
-tika_role_docker_image_repo: "ghcr.io/paperless-ngx/tika"
+tika_role_docker_image_repo: "apache/tika"
 tika_role_docker_image_tag: "latest"
 tika_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tika') }}:{{ lookup('role_var', '_docker_image_tag', role='tika') }}"
 
