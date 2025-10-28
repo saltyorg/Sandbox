@@ -73,9 +73,6 @@ recyclarr:
   rc_user:
   rc_pass:
   apprise:
-suwayomi:
-  download_as_cbz: true
-  auto_download_chapters: true
 tqm:
   download_client: "qbt"
 transmissionvpn:
