@@ -23,7 +23,7 @@ tika_docker_container: "{{ tika_name }}"
 # Image
 tika_docker_image_pull: true
 tika_docker_image_tag: "latest"
-tika_docker_image: "ghcr.io/paperless-ngx/tika:{{ tika_docker_image_tag }}"
+tika_docker_image: "apache/tika:{{ tika_docker_image_tag }}"
 
 # Ports
 tika_docker_ports_defaults: []
