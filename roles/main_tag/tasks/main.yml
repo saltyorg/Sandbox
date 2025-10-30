@@ -13,4 +13,4 @@
   with_items: "{{ sandbox_roles }}"
   loop_control:
     loop_var: sandbox_role
-  when: ('sandbox-roles' in ansible_run_tags)
+  when: ('sandbox-roles' in ansible_run_tags) or ('roles' in ansible_run_tags)
