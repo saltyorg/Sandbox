@@ -145,7 +145,6 @@
     - { role: qbit_manage, tags: ['qbit-manage'] }
     - { role: qbittorrentvpn, tags: ['qbittorrentvpn'] }
     - { role: qui, tags: ['qui'] }
-    - { role: rdtclient, tags: ['rdtclient'] }
     - { role: recyclarr, tags: ['recyclarr'] }
     - { role: reposilite, tags: ['reposilite'] }
     - { role: requestrr, tags: ['requestrr'] }
