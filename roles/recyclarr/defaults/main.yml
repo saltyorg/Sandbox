@@ -27,7 +27,6 @@ recyclarr_role_paths_folder: "{{ recyclarr_name }}"
 recyclarr_role_paths_location: "{{ server_appdata_path }}/{{ recyclarr_role_paths_folder }}"
 recyclarr_role_paths_folders_list:
   - "{{ recyclarr_role_paths_location }}"
-  - "{{ recyclarr_role_paths_location }}/configs"
 
 ################################
 # Docker
