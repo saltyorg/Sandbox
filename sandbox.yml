@@ -105,7 +105,6 @@
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: linkding, tags: ['linkding'] }
     - { role: linkwarden, tags: ['linkwarden'] }
-    - { role: lunasea, tags: ['lunasea'] }
     - { role: makemkv, tags: ['makemkv'] }
     - { role: maybe_finance, tags: ['maybe-finance'] }
     - { role: mealie, tags: ['mealie'] }
