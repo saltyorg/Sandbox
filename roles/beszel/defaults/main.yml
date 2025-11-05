@@ -61,11 +61,12 @@ beszel_docker_container: "{{ beszel_name }}"
 # Image
 beszel_docker_image_pull: true
 beszel_docker_image_tag: "latest"
-beszel_docker_image: "lscr.io/henrygd/beszel:{{ beszel_docker_image_tag }}"
+beszel_docker_image: "docker.io/henrygd/beszel:{{ beszel_docker_image_tag }}"
 
 # Ports
 beszel_docker_ports_defaults: []
-beszel_docker_ports_custom: []
+beszel_docker_ports_custom:
+  - 8090:8090
 beszel_docker_ports: "{{ beszel_docker_ports_defaults
                             + beszel_docker_ports_custom }}"
 
@@ -73,7 +74,6 @@ beszel_docker_ports: "{{ beszel_docker_ports_defaults
 beszel_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
-  PGID: "{{ gid }}"PUID: "{{ uid }}"
   PGID: "{{ gid }}"
 beszel_docker_envs_custom: {}
 beszel_docker_envs: "{{ beszel_docker_envs_default

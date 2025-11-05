@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-beszel_agent_instances: ["beszel-agent"]
+beszel_agent_name: "beszel-agent"
 
 ################################
 # Paths
@@ -31,8 +31,8 @@ beszel_agent_docker_container: "{{ beszel_agent_name }}"
 
 # Image
 beszel_agent_docker_image_pull: true
-beszel_agent_docker_image_tag: "alpine"
-beszel_agent_docker_image_repo: "beszel-agent"
+beszel_agent_docker_image_tag: "latest"
+beszel_agent_docker_image_repo: "docker.io/henrygd/beszel-agent"
 beszel_agent_docker_image: "{{ lookup('vars', beszel_agent_name + '_docker_image_repo', default=beszel_agent_docker_image_repo) }}:{{ lookup('vars', beszel_agent_name + '_docker_image_tag', default=beszel_agent_docker_image_tag) }}"
 
 # Ports
@@ -49,12 +49,10 @@ beszel_agent_docker_envs_default:
   PGID: "{{ gid }}"
   LISTEN: "/beszel_socket/beszel.sock"
   HUB_URL: "http://beszel:8090"
-  TOKEN: "{{ beszel_agent_saltbox_facts.facts.agent_token }}"
-  KEY: "{{ beszel_agent_saltbox_facts.facts.agent_key }}"
+  # KEY: "{{ beszel_agent_saltbox_facts.facts.agent_key }}"
+  TOKEN: "{{ beszel_universal_token }}"
 beszel_agent_docker_envs_custom: {}
-beszel_agent_docker_envs:
-  "{{ lookup('vars', beszel_agent_name + '_', default=beszel_agent_docker_envs_default)
-  | combine(lookup('vars', beszel_agent_name + '_docker_envs_custom', default=beszel_agent_docker_envs_custom)) }}"
+beszel_agent_docker_envs: "{{ beszel_agent_docker_envs_default | combine(beszel_agent_docker_envs_custom) }}"
 
 # Commands
 beszel_agent_docker_commands_default: []

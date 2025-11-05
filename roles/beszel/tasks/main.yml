@@ -23,8 +23,24 @@
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
+- name: Prompt for universal token
+  ansible.builtin.pause:
+    prompt: "Go to Beszel Hub at {{ beszel_web_url }}/settings/tokens, activate and paste Universal token (e.g.: 'a68a9a0b-1337-1ee7-i33t-756df1b0e034')"
+  register: universal_token
+
+# - name: Prompt user for agent token
+#   ansible.builtin.pause:
+#     prompt: "Go to your Beszel Hub ({{ beszel_web_url }}), add new system and enter the token displayed (e.g., 'a68a9a0b-1337-1ee7-i33t-756df1b0e034')"
+#   register: agent_token
+
+# - name: Prompt user for agent key 
+#   ansible.builtin.pause:
+#     prompt: "...and the corresponding agent key (e.g., 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2YufokpaoKXT5mimcuu0JdfWadErOGAC6hn8+yB5D+')"
+#   register: agent_key
+
 - name: "Import Agent Role"
   ansible.builtin.include_role:
-    name: beszel-agent
+    name: beszel_agent
   vars:
-    beszel_agent: ["beszel-agent"]
+    beszel_hub_url: "{{ beszel_web_url }}"
+    beszel_universal_token: "{{ universal_token.user_input }}"
