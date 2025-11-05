@@ -1,0 +1,147 @@
+#########################################################################
+# Title:            Sandbox: Beszel                                     #
+# Author(s):        f4bio                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+beszel_name: beszel
+
+################################
+# Paths
+################################
+
+beszel_paths_folder: "{{ beszel_name }}"
+beszel_paths_location: "{{ server_appdata_path }}/{{ beszel_paths_folder }}"
+beszel_paths_folders_list:
+  - "{{ beszel_paths_location }}"
+
+################################
+# Web
+################################
+
+beszel_web_subdomain: "{{ beszel_name }}"
+beszel_web_domain: "{{ user.domain }}"
+beszel_web_port: "8090"
+beszel_web_url: "{{ 'https://' + (beszel_web_subdomain + '.' + beszel_web_domain
+                    if (beszel_web_subdomain | length > 0)
+                    else beszel_web_domain) }}"
+
+################################
+# DNS
+################################
+
+beszel_dns_record: "{{ beszel_web_subdomain }}"
+beszel_dns_zone: "{{ beszel_web_domain }}"
+beszel_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+beszel_traefik_sso_middleware: ""
+beszel_traefik_middleware_default: "{{ traefik_default_middleware }}"
+beszel_traefik_middleware_custom: ""
+beszel_traefik_certresolver: "{{ traefik_default_certresolver }}"
+beszel_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+beszel_docker_container: "{{ beszel_name }}"
+
+# Image
+beszel_docker_image_pull: true
+beszel_docker_image_tag: "latest"
+beszel_docker_image: "lscr.io/henrygd/beszel:{{ beszel_docker_image_tag }}"
+
+# Ports
+beszel_docker_ports_defaults: []
+beszel_docker_ports_custom: []
+beszel_docker_ports: "{{ beszel_docker_ports_defaults
+                            + beszel_docker_ports_custom }}"
+
+# Envs
+beszel_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+beszel_docker_envs_custom: {}
+beszel_docker_envs: "{{ beszel_docker_envs_default
+                           | combine(beszel_docker_envs_custom) }}"
+
+# Commands
+beszel_docker_commands_default: []
+beszel_docker_commands_custom: []
+beszel_docker_commands: "{{ beszel_docker_commands_default
+                               + beszel_docker_commands_custom }}"
+
+# Volumes
+beszel_docker_volumes_default:
+  - "{{ beszel_paths_location }}/data:/beszel_data"
+  - "{{ beszel_paths_location }}/socket:/beszel_socket"
+beszel_docker_volumes_custom: []
+beszel_docker_volumes: "{{ beszel_docker_volumes_default
+                              + beszel_docker_volumes_custom }}"
+
+# Devices
+beszel_docker_devices_default: []
+beszel_docker_devices_custom: []
+beszel_docker_devices: "{{ beszel_docker_devices_default
+                              + beszel_docker_devices_custom }}"
+
+# Hosts
+beszel_docker_hosts_default: {}
+beszel_docker_hosts_custom: {}
+beszel_docker_hosts: "{{ docker_hosts_common
+                            | combine(beszel_docker_hosts_default)
+                            | combine(beszel_docker_hosts_custom) }}"
+
+# Labels
+beszel_docker_labels_default: {}
+beszel_docker_labels_custom: {}
+beszel_docker_labels: "{{ docker_labels_common
+                             | combine(beszel_docker_labels_default)
+                             | combine(beszel_docker_labels_custom) }}"
+
+# Hostname
+beszel_docker_hostname: "{{ beszel_name }}"
+
+# Networks
+beszel_docker_networks_alias: "{{ beszel_name }}"
+beszel_docker_networks_default: []
+beszel_docker_networks_custom: []
+beszel_docker_networks: "{{ docker_networks_common
+                               + beszel_docker_networks_default
+                               + beszel_docker_networks_custom }}"
+
+# Capabilities
+beszel_docker_capabilities_default: []
+beszel_docker_capabilities_custom: []
+beszel_docker_capabilities: "{{ beszel_docker_capabilities_default
+                                   + beszel_docker_capabilities_custom }}"
+
+# Security Opts
+beszel_docker_security_opts_default: []
+beszel_docker_security_opts_custom: []
+beszel_docker_security_opts: "{{ beszel_docker_security_opts_default
+                                    + beszel_docker_security_opts_custom }}"
+
+# Restart Policy
+beszel_docker_restart_policy: unless-stopped
+
+# State
+beszel_docker_state: started
+
+# Dependencies
+beszel_depends_on_delay: "0"
+beszel_depends_on_healthchecks: "false"

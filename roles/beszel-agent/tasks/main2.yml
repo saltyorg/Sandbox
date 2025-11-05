@@ -1,0 +1,33 @@
+#########################################################################
+# Title:         Saltbox: Beszel-Agent Role                                    #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Prompt user for agent token
+  ansible.builtin.pause:
+    prompt: "Go to Beszel Hub, add new system and enter the token displayed (e.g., 'a1564dba-9d64-4be4-94ad-f209e9dd733f')"
+  register: agent_token
+
+- name: Prompt user for agent key 
+  ansible.builtin.pause:
+    prompt: "...and the corresponding agent key (e.g., 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2YufokpaoKXT5mimcuu0JdfWadErOGAC6hn8+yB5D+')"
+  register: agent_key
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Reset Beszel-Agent directory
+  ansible.builtin.file:
+    path: "{{ beszel_agent_paths_location }}"
+    state: absent
+  when: ('beszel-reset' in ansible_run_tags)
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

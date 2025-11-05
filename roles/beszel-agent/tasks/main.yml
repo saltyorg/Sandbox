@@ -1,0 +1,16 @@
+#########################################################################
+# Title:         Saltbox: Beszel-Agent Role                                    #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Saltbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute Beszel-Agent roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    beszel_agent_name: "{{ instance }}"
+  with_items: "{{ beszel_agent_instances }}"
+  loop_control:
+    loop_var: instance

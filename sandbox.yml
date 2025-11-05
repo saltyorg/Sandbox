@@ -29,6 +29,8 @@
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
     - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
+    - { role: beszel, tags: ['beszel'] }
+    - { role: beszel_agent, tags: ['beszel_agent'] }
     - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }
     - { role: calibre, tags: ['calibre'] }
