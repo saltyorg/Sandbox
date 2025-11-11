@@ -70,7 +70,7 @@ beszel_agent_docker_commands:
 
 # Volumes
 beszel_agent_docker_volumes_default:
-  - "{{ beszel_agent_paths_location }}:/data"
+  - "{{ beszel_agent_paths_location }}/data:/var/lib/beszel-agent"
   - "/var/run/docker.sock:/var/run/docker.sock:ro"
   - "/opt/beszel/socket:/beszel_socket" # todo: adjust if needed
 beszel_agent_docker_volumes_custom: []
