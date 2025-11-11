@@ -9,18 +9,35 @@
 ---
 # - name: Prompt for universal token
 #   ansible.builtin.pause:
-#     prompt: "Go to Beszel Hub at {{ beszel_hub_url }}/settings/tokens, activate and paste Universal token (e.g.: 'a68a9a0b-1337-1ee7-i33t-756df1b0e034')"
+#     prompt: "Go to your Beszel Hub, activate and paste \"Universal token\" (example: 'a68a9a0b-1337-1ee7-i33t-756df1b0e034')"
 #   register: universal_token
 
-# - name: Prompt user for agent token
-#   ansible.builtin.pause:
-#     prompt: "Go to your Beszel Hub ({{ beszel_hub_url }}), add new system and enter the token displayed (e.g., 'a68a9a0b-1337-1ee7-i33t-756df1b0e034')"
-#   register: agent_token
+- name: Prompt user for hub URL
+  ansible.builtin.pause:
+    prompt: "Paste your Beszel Hub URL (example: 'https://hub.beszel.io')"
+  register: beszel_agent_hub_url
 
-# - name: Prompt user for agent key 
-#   ansible.builtin.pause:
-#     prompt: "...and the corresponding agent key (e.g., 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2YufokpaoKXT5mimcuu0JdfWadErOGAC6hn8+yB5D+')"
-#   register: agent_key
+- name: Prompt user for agent public key
+  ansible.builtin.pause:
+    prompt: "Go to your Beszel Hub, \"+Add System\" and paste the displayed \"Public Key\" (example: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2YufokpaoKXT5mimcuu0JdfWadErOGAC6hn8+yB5D+')"
+  register: beszel_agent_public_key
+
+- name: Prompt user for agent token 
+  ansible.builtin.pause:
+    prompt: "...and the corresponding \"Token\" (example: 'a68a9a0b-1337-1ee7-i33t-756df1b0e034')"
+  register: beszel_agent_token
+
+- name: "Save Beszel Agent \"Public Key\" and \"Token\" Saltbox facts"
+  saltbox_facts:
+    role: "beszel_agent"
+    instance: "beszel_agent"
+    keys:
+      hub_url: "{{ beszel_agent_hub_url.user_input }}"
+      public_key: "{{ beszel_agent_public_key.user_input }}"
+      token: "{{ beszel_agent_token.user_input }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  register: beszel_agent_saltbox_facts
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

@@ -14,6 +14,13 @@
 beszel_agent_name: "beszel-agent"
 
 ################################
+# Defaults
+################################
+
+beszel_agent_hub_url: "http://beszel:8090"
+beszel_agent_listen: "/beszel_socket/beszel.sock"
+
+################################
 # Paths
 ################################
 
@@ -47,10 +54,10 @@ beszel_agent_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  LISTEN: "/beszel_socket/beszel.sock"
-  HUB_URL: "http://beszel:8090"
-  # KEY: "{{ beszel_agent_saltbox_facts.facts.agent_key }}"
-  TOKEN: "{{ beszel_universal_token }}"
+  LISTEN: "{{ beszel_agent_saltbox_facts.facts.listen | default(beszel_agent_listen) }}"
+  HUB_URL: "{{ beszel_agent_saltbox_facts.facts.hub_url | default(beszel_agent_hub_url) }}"
+  KEY: "{{ beszel_agent_saltbox_facts.facts.public_key }}"
+  TOKEN: "{{ beszel_agent_saltbox_facts.facts.token }}"
 beszel_agent_docker_envs_custom: {}
 beszel_agent_docker_envs: "{{ beszel_agent_docker_envs_default | combine(beszel_agent_docker_envs_custom) }}"
 
