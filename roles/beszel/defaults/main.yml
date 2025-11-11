@@ -1,7 +1,7 @@
 #########################################################################
 # Title:            Sandbox: Beszel                                     #
 # Author(s):        f4bio                                               #
-# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/f4bio/Sandbox                    #
 # --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
@@ -66,6 +66,7 @@ beszel_docker_image: "docker.io/henrygd/beszel:{{ beszel_docker_image_tag }}"
 # Ports
 beszel_docker_ports_defaults: []
 beszel_docker_ports_custom: []
+#  - "8090:8090" # TODO dev only - remove before pushing to main 
 beszel_docker_ports: "{{ beszel_docker_ports_defaults
                             + beszel_docker_ports_custom }}"
 

@@ -1,7 +1,7 @@
 #########################################################################
 # Title:            Sandbox: Beszel                                     #
 # Author(s):        f4bio                                               #
-# URL:              https://github.com/saltyorg/Sandbox                 #
+# URL:              https://github.com/f4bio/Sandbox                    #
 # --                                                                    #
 #########################################################################
 #                   GNU General Public License v3.0                     #
@@ -26,6 +26,3 @@
 - name: "Import Agent Role"
   ansible.builtin.include_role:
     name: beszel_agent
-  vars:
-    beszel_agent_hub_url: "{{ beszel_web_url }}"
-    beszel_agent_universal_token: "{{ universal_token.user_input }}"
