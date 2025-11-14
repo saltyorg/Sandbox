@@ -1,0 +1,152 @@
+##########################################################################
+# Title:         Sandbox: wishlist                                       #
+# Author(s):     Zuke97                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+wishlist_name: wishlist
+
+################################
+# Paths
+################################
+
+wishlist_paths_folder: "{{ wishlist_name }}"
+wishlist_paths_location: "{{ server_appdata_path }}/{{ wishlist_paths_folder }}"
+wishlist_paths_conf: "{{ wishlist_paths_location }}/configuration.yaml"
+wishlist_paths_folders_list:
+  - "{{ wishlist_paths_location }}"
+
+################################
+# Web
+################################
+
+wishlist_web_subdomain: "{{ wishlist_name }}"
+wishlist_web_domain: "{{ user.domain }}"
+wishlist_web_port: "3280"
+wishlist_web_url: "{{ 'https://' + (wishlist_web_subdomain + '.' + wishlist_web_domain
+                        if (wishlist_web_subdomain | length > 0)
+                        else wishlist_web_domain) }}"
+
+################################
+# DNS
+################################
+
+wishlist_dns_record: "{{ wishlist_web_subdomain }}"
+wishlist_dns_zone: "{{ wishlist_web_domain }}"
+wishlist_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+wishlist_traefik_sso_middleware: ""
+wishlist_traefik_middleware_default: "{{ traefik_default_middleware }}"
+wishlist_traefik_middleware_custom: ""
+wishlist_traefik_certresolver: "{{ traefik_default_certresolver }}"
+wishlist_traefik_enabled: true
+wishlist_traefik_api_enabled: false
+wishlist_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+wishlist_docker_container: "{{ wishlist_name }}"
+
+# Image
+wishlist_docker_image_pull: true
+wishlist_docker_image_tag: "latest"
+wishlist_docker_image: "ghcr.io/cmintey/wishlist:latest"
+
+# Ports
+wishlist_docker_ports_defaults: []
+wishlist_docker_ports_custom: []
+wishlist_docker_ports: "{{ wishlist_docker_ports_defaults
+                                + wishlist_docker_ports_custom }}"
+
+# Envs
+wishlist_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  ORIGIN: "{{ wishlist_web_url }}"
+  TOKEN_TIME: "72"
+wishlist_docker_envs_custom: {}
+wishlist_docker_envs: "{{ wishlist_docker_envs_default
+                               | combine(wishlist_docker_envs_custom) }}"
+
+# Commands
+wishlist_docker_commands_default: []
+wishlist_docker_commands_custom: []
+wishlist_docker_commands: "{{ wishlist_docker_commands_default
+                                   + wishlist_docker_commands_custom }}"
+
+# Volumes
+wishlist_docker_volumes_default:
+  - "{{ wishlist_paths_location }}/uploads:/usr/src/app/uploads"
+  - "{{ wishlist_paths_location }}/data:/usr/src/app/data"
+wishlist_docker_volumes_custom: []
+wishlist_docker_volumes: "{{ wishlist_docker_volumes_default
+                                  + wishlist_docker_volumes_custom }}"
+
+# Devices
+wishlist_docker_devices_default: []
+wishlist_docker_devices_custom: []
+wishlist_docker_devices: "{{ wishlist_docker_devices_default
+                                  + wishlist_docker_devices_custom }}"
+
+# Hosts
+wishlist_docker_hosts_default: {}
+wishlist_docker_hosts_custom: {}
+wishlist_docker_hosts: "{{ docker_hosts_common
+                                | combine(wishlist_docker_hosts_default)
+                                | combine(wishlist_docker_hosts_custom) }}"
+
+# Labels
+wishlist_docker_labels_default: {}
+wishlist_docker_labels_custom: {}
+wishlist_docker_labels: "{{ docker_labels_common
+                                 | combine(wishlist_docker_labels_default)
+                                 | combine(wishlist_docker_labels_custom) }}"
+
+# Hostname
+wishlist_docker_hostname: "{{ wishlist_name }}"
+
+# Networks
+wishlist_docker_networks_alias: "{{ wishlist_name }}"
+wishlist_docker_networks_default: []
+wishlist_docker_networks_custom: []
+wishlist_docker_networks: "{{ docker_networks_common
+                                   + wishlist_docker_networks_default
+                                   + wishlist_docker_networks_custom }}"
+
+# Capabilities
+wishlist_docker_capabilities_default: []
+wishlist_docker_capabilities_custom: []
+wishlist_docker_capabilities: "{{ wishlist_docker_capabilities_default
+                                       + wishlist_docker_capabilities_custom }}"
+
+# Network Mode
+wishlist_docker_network_mode_default: "{{ docker_networks_name_common }}"
+wishlist_docker_network_mode: "{{ lookup('vars', wishlist_name + '_docker_network_mode_default', default=wishlist_docker_network_mode_default) }}"
+
+
+# Security Opts
+wishlist_docker_security_opts_default: []
+wishlist_docker_security_opts_custom: []
+wishlist_docker_security_opts: "{{ wishlist_docker_security_opts_default
+                                        + wishlist_docker_security_opts_custom }}"
+
+# Restart Policy
+wishlist_docker_restart_policy: unless-stopped
+
+# State
+wishlist_docker_state: started
