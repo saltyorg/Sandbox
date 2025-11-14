@@ -193,6 +193,7 @@
     - { role: watchtower, tags: ['watchtower'] }
     - { role: wikijs, tags: ['wikijs'] }
     - { role: wireguard, tags: ['wireguard'] }
+    - { role: wishlist, tags: ['wishlist'] }
     - { role: wizarr, tags: ['wizarr'] }
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
