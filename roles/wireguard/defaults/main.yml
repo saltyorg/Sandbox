@@ -21,6 +21,15 @@ wireguard_role_listen_port: "51820"
 wireguard_role_dns: "1.1.1.1,8.8.8.8"
 
 ################################
+# Lookups
+################################
+
+# Do not edit or override using the inventory
+wireguard_role_docker_ipam_config:
+  - subnet: "10.42.42.0/24"
+  - subnet: "{{ 'fdcc:ad94:bacf:61a3::/64' if docker_ipv6 else omit }}"
+
+################################
 # Paths
 ################################
 
