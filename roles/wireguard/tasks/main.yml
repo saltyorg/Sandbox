@@ -29,7 +29,7 @@
     enable_ipv6: "{{ true
                   if docker_ipv6
                   else false }}"
-    ipam_config: "{{ lookup('role_var', '_docker_ipam_config', role='wireguard') | rejectattr('subnet', 'equalto', omit) | list }}"
+    ipam_config: "{{ lookup('role_var', '_docker_ipam_config', role='wireguard') | selectattr('subnet', 'defined') }}"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
