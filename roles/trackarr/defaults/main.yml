@@ -59,7 +59,7 @@ trackarr_role_traefik_api_endpoint: ""
 ################################
 
 # default to blank
-trackarr_server_apikey:
+trackarr_server_apikey: ""
 
 ################################
 # Docker
