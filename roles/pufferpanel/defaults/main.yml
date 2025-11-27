@@ -67,10 +67,10 @@ pufferpanel_role_docker_image_tag: "latest"
 pufferpanel_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='pufferpanel') }}:{{ lookup('role_var', '_docker_image_tag', role='pufferpanel') }}"
 
 # Ports
-pufferpanel_role_docker_ports_defaults:
+pufferpanel_role_docker_ports_default:
   - "5657:5657"
 pufferpanel_role_docker_ports_custom: []
-pufferpanel_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='pufferpanel')
+pufferpanel_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='pufferpanel')
                                    + lookup('role_var', '_docker_ports_custom', role='pufferpanel') }}"
 
 # Envs

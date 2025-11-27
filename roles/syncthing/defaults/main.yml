@@ -67,12 +67,12 @@ syncthing_role_docker_image_tag: "latest"
 syncthing_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='syncthing') }}:{{ lookup('role_var', '_docker_image_tag', role='syncthing') }}"
 
 # Ports
-syncthing_role_docker_ports_defaults:
+syncthing_role_docker_ports_default:
   - "22000:22000/tcp"
   - "22000:22000/udp"
   - "21027:21027/udp"
 syncthing_role_docker_ports_custom: []
-syncthing_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='syncthing')
+syncthing_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='syncthing')
                                  + lookup('role_var', '_docker_ports_custom', role='syncthing') }}"
 
 # Envs

@@ -65,9 +65,9 @@ booksonic_role_docker_image_tag: "2201.1.0"
 booksonic_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='booksonic') }}:{{ lookup('role_var', '_docker_image_tag', role='booksonic') }}"
 
 # Ports
-booksonic_role_docker_ports_defaults: []
+booksonic_role_docker_ports_default: []
 booksonic_role_docker_ports_custom: []
-booksonic_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='booksonic')
+booksonic_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='booksonic')
                                  + lookup('role_var', '_docker_ports_custom', role='booksonic') }}"
 
 # Envs

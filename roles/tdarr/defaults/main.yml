@@ -82,10 +82,10 @@ tdarr_role_docker_image_tag: "latest"
 tdarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tdarr') }}:{{ lookup('role_var', '_docker_image_tag', role='tdarr') }}"
 
 # Ports
-tdarr_role_docker_ports_defaults:
+tdarr_role_docker_ports_default:
   - "{{ lookup('role_var', '_server_port', role='tdarr') }}:{{ lookup('role_var', '_server_port', role='tdarr') }}"
 tdarr_role_docker_ports_custom: []
-tdarr_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='tdarr') if (lookup('role_var', '_server_external', role='tdarr')) else []
+tdarr_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='tdarr') if (lookup('role_var', '_server_external', role='tdarr')) else []
                              + lookup('role_var', '_docker_ports_custom', role='tdarr') }}"
 
 # Envs

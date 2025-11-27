@@ -57,10 +57,10 @@ minecraft_bedrock_role_docker_image_repo: "itzg/minecraft-bedrock-server"
 minecraft_bedrock_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='minecraft_bedrock') }}:{{ lookup('role_var', '_docker_image_tag', role='minecraft_bedrock') }}"
 
 # Ports
-minecraft_bedrock_role_docker_ports_defaults:
+minecraft_bedrock_role_docker_ports_default:
   - "19132:19132/udp"
 minecraft_bedrock_role_docker_ports_custom: []
-minecraft_bedrock_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='minecraft_bedrock')
+minecraft_bedrock_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='minecraft_bedrock')
                                          + lookup('role_var', '_docker_ports_custom', role='minecraft_bedrock') }}"
 
 # Envs

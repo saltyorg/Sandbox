@@ -52,11 +52,11 @@ factorio_role_docker_image_tag: "experimental"
 factorio_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='factorio') }}:{{ lookup('role_var', '_docker_image_tag', role='factorio') }}"
 
 # Ports
-factorio_role_docker_ports_defaults:
+factorio_role_docker_ports_default:
   - "27015:27015/tcp"
   - "34197:34197/udp"
 factorio_role_docker_ports_custom: []
-factorio_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='factorio')
+factorio_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='factorio')
                                 + lookup('role_var', '_docker_ports_custom', role='factorio') }}"
 
 # Envs

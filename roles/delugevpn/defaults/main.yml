@@ -86,11 +86,11 @@ delugevpn_role_docker_image_tag: "latest"
 delugevpn_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='delugevpn') }}:{{ lookup('role_var', '_docker_image_tag', role='delugevpn') }}"
 
 # Ports
-delugevpn_role_docker_ports_defaults:
+delugevpn_role_docker_ports_default:
   - "58112:58112"
   - "58846:58846"
 delugevpn_role_docker_ports_custom: []
-delugevpn_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='delugevpn')
+delugevpn_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='delugevpn')
                                  + lookup('role_var', '_docker_ports_custom', role='delugevpn') }}"
 
 # Envs

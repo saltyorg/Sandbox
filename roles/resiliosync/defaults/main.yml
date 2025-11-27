@@ -73,10 +73,10 @@ resiliosync_role_docker_image_tag: "latest"
 resiliosync_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='resiliosync') }}:{{ lookup('role_var', '_docker_image_tag', role='resiliosync') }}"
 
 # Ports
-resiliosync_role_docker_ports_defaults:
+resiliosync_role_docker_ports_default:
   - "{{ lookup('role_var', '_data_port', role='resiliosync') }}:{{ lookup('role_var', '_data_port', role='resiliosync') }}"
 resiliosync_role_docker_ports_custom: []
-resiliosync_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='resiliosync')
+resiliosync_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='resiliosync')
                                    + lookup('role_var', '_docker_ports_custom', role='resiliosync') }}"
 
 # Volumes

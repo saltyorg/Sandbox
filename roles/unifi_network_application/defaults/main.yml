@@ -78,12 +78,12 @@ unifi_network_application_role_docker_image_repo: "lscr.io/linuxserver/unifi-net
 unifi_network_application_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='unifi_network_application') }}:{{ lookup('role_var', '_docker_image_tag', role='unifi_network_application') }}"
 
 # Ports
-unifi_network_application_role_docker_ports_defaults:
+unifi_network_application_role_docker_ports_default:
   - "8080:8080/tcp"
   - "3478:3478/udp"
   - "10001:10001/udp"
 unifi_network_application_role_docker_ports_custom: []
-unifi_network_application_role_docker_ports: "{{ unifi_network_application_role_docker_ports_defaults
+unifi_network_application_role_docker_ports: "{{ unifi_network_application_role_docker_ports_default
                                                  + unifi_network_application_role_docker_ports_custom }}"
 
 # Envs

@@ -83,11 +83,11 @@ crafty_role_docker_image_tag: "latest"
 crafty_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='crafty') }}:{{ lookup('role_var', '_docker_image_tag', role='crafty') }}"
 
 # Ports
-crafty_role_docker_ports_defaults:
+crafty_role_docker_ports_default:
   - "19132:19132/udp"
   - "25500-25600:25500-25600"
 crafty_role_docker_ports_custom: []
-crafty_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='crafty')
+crafty_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='crafty')
                               + lookup('role_var', '_docker_ports_custom', role='crafty') }}"
 
 # Envs

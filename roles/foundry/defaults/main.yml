@@ -98,10 +98,10 @@ foundry_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', r
 foundry_role_docker_hostname: "{{ foundry_name }}"
 
 # Ports
-foundry_role_docker_ports_defaults:
+foundry_role_docker_ports_default:
   - "{{ lookup('role_var', '_web_port', role='foundry') }}:{{ lookup('role_var', '_web_port', role='foundry') }}"
 foundry_role_docker_ports_custom: []
-foundry_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='foundry')
+foundry_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='foundry')
                                + lookup('role_var', '_docker_ports_custom', role='foundry') }}"
 
 # Networks

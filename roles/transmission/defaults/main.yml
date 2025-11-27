@@ -79,11 +79,11 @@ transmission_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', rol
 transmission_role_docker_ports_51413: "{{ port_lookup_51413.meta.port
                                        if (port_lookup_51413.meta.port is defined) and (port_lookup_51413.meta.port | trim | length > 0)
                                        else '51413' }}"
-transmission_role_docker_ports_defaults:
+transmission_role_docker_ports_default:
   - "{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}:{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}"
   - "{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}:{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}/udp"
 transmission_role_docker_ports_custom: []
-transmission_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='transmission')
+transmission_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='transmission')
                                     + lookup('role_var', '_docker_ports_custom', role='transmission') }}"
 
 # Envs

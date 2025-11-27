@@ -86,10 +86,10 @@ wireguard_role_docker_image_tag: "15"
 wireguard_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='wireguard') }}:{{ lookup('role_var', '_docker_image_tag', role='wireguard') }}"
 
 # Ports
-wireguard_role_docker_ports_defaults:
+wireguard_role_docker_ports_default:
   - "{{ lookup('role_var', '_listen_port', role='wireguard') }}:{{ lookup('role_var', '_listen_port', role='wireguard') }}/udp"
 wireguard_role_docker_ports_custom: []
-wireguard_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='wireguard')
+wireguard_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='wireguard')
                                  + lookup('role_var', '_docker_ports_custom', role='wireguard') }}"
 
 # Envs

@@ -73,12 +73,12 @@ airdcpp_role_docker_image_tag: "latest"
 airdcpp_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='airdcpp') }}:{{ lookup('role_var', '_docker_image_tag', role='airdcpp') }}"
 
 # Ports
-airdcpp_role_docker_ports_defaults:
+airdcpp_role_docker_ports_default:
   - "21248:21248"
   - "21248:21248/udp"
   - "21249:21249"
 airdcpp_role_docker_ports_custom: []
-airdcpp_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='airdcpp')
+airdcpp_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='airdcpp')
                                + lookup('role_var', '_docker_ports_custom', role='airdcpp') }}"
 
 # Envs

@@ -78,10 +78,10 @@ minecraft_role_docker_image_tag: "latest"
 minecraft_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='minecraft') }}:{{ lookup('role_var', '_docker_image_tag', role='minecraft') }}"
 
 # Ports
-minecraft_role_docker_ports_defaults:
+minecraft_role_docker_ports_default:
   - "{{ lookup('role_var', '_docker_ports_25565', role='minecraft') }}:25565/tcp"
 minecraft_role_docker_ports_custom: []
-minecraft_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='minecraft')
+minecraft_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='minecraft')
                                  + lookup('role_var', '_docker_ports_custom', role='minecraft') }}"
 
 # Envs

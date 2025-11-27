@@ -37,10 +37,10 @@ tdarr_node_role_docker_image_tag: "latest"
 tdarr_node_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tdarr_node') }}:{{ lookup('role_var', '_docker_image_tag', role='tdarr_node') }}"
 
 # Ports
-tdarr_node_role_docker_ports_defaults:
+tdarr_node_role_docker_ports_default:
   - "{{ tdarr_node_node_port }}:{{ tdarr_node_node_port }}"
 tdarr_node_role_docker_ports_custom: []
-tdarr_node_role_docker_ports: "{{ tdarr_node_role_docker_ports_defaults if (tdarr_node_external) else []
+tdarr_node_role_docker_ports: "{{ tdarr_node_role_docker_ports_default if (tdarr_node_external) else []
                                   + tdarr_node_role_docker_ports_custom }}"
 
 # Envs

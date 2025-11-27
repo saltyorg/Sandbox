@@ -67,9 +67,9 @@ qbit_manage_role_docker_image_tag: "release"
 qbit_manage_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='qbit_manage') }}:{{ lookup('role_var', '_docker_image_tag', role='qbit_manage') }}"
 
 # Ports
-qbit_manage_role_docker_ports_defaults: []
+qbit_manage_role_docker_ports_default: []
 qbit_manage_role_docker_ports_custom: []
-qbit_manage_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='qbit_manage')
+qbit_manage_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='qbit_manage')
                                    + lookup('role_var', '_docker_ports_custom', role='qbit_manage') }}"
 
 # Envs

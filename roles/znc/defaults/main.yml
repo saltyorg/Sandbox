@@ -67,11 +67,11 @@ znc_role_docker_image_tag: "latest"
 znc_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='znc') }}:{{ lookup('role_var', '_docker_image_tag', role='znc') }}"
 
 # Ports
-znc_role_docker_ports_defaults:
+znc_role_docker_ports_default:
   - "{{ lookup('role_var', '_web_port', role='znc') }}:{{ lookup('role_var', '_web_port', role='znc') }}"
   - "6502:6502"
 znc_role_docker_ports_custom: []
-znc_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults', role='znc')
+znc_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='znc')
                            + lookup('role_var', '_docker_ports_custom', role='znc') }}"
 
 # Envs
