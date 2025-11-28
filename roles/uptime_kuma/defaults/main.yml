@@ -71,7 +71,7 @@ uptime_kuma_role_docker_container: "{{ uptime_kuma_name }}"
 
 # Image
 uptime_kuma_role_docker_image_pull: true
-uptime_kuma_role_docker_image_tag: "1" # Temporary until v2 is released and migration is added
+uptime_kuma_role_docker_image_tag: "2"
 uptime_kuma_role_docker_image_repo: "louislam/uptime-kuma"
 uptime_kuma_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='uptime_kuma') }}:{{ lookup('role_var', '_docker_image_tag', role='uptime_kuma') }}"
 
