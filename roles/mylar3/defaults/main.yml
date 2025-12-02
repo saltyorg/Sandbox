@@ -21,7 +21,7 @@ mylar3_role_paths_folder: "{{ mylar3_name }}"
 mylar3_role_paths_location: "{{ server_appdata_path }}/{{ mylar3_role_paths_folder }}"
 mylar3_role_paths_folders_list:
   - "{{ mylar3_role_paths_location }}"
-  - /mnt/local/Media/Comics
+  - "{{ server_local_folder_path }}/Media/Comics"
 
 ################################
 # Web

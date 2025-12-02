@@ -22,7 +22,7 @@ comixed_role_paths_folder: "{{ comixed_name }}"
 comixed_role_paths_location: "{{ server_appdata_path }}/{{ comixed_role_paths_folder }}"
 comixed_role_paths_folders_list:
   - "{{ comixed_role_paths_location }}"
-  - "/mnt/local/Media/Comics"
+  - "{{ server_local_folder_path }}/Media/Comics"
 
 ################################
 # Web

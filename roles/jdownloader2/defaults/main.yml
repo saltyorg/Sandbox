@@ -19,7 +19,7 @@ jdownloader2_name: jdownloader2
 
 jdownloader2_role_paths_folder: "{{ jdownloader2_name }}"
 jdownloader2_role_paths_location: "{{ server_appdata_path }}/{{ jdownloader2_role_paths_folder }}"
-jdownloader2_role_paths_downloads_location: "/mnt/local/downloads/{{ jdownloader2_name }}/output"
+jdownloader2_role_paths_downloads_location: "{{ server_local_folder_path }}/downloads/{{ jdownloader2_name }}/output"
 jdownloader2_role_paths_tools_location: "{{ jdownloader2_role_paths_location }}/config/libs"
 jdownloader2_role_paths_folders_list:
   - "{{ jdownloader2_role_paths_location }}"

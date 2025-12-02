@@ -81,7 +81,7 @@ filebot_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='f
 filebot_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='filebot') }}:/config"
   - "/mnt/unionfs/Media/:/storage/Media/"
-  - "/mnt/local/downloads:/storage/downloads"
+  - "/mnt/unionfs/downloads:/storage/downloads"
 filebot_role_docker_volumes_custom: []
 filebot_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='filebot')
                                  + lookup('role_var', '_docker_volumes_custom', role='filebot') }}"

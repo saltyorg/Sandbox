@@ -21,7 +21,7 @@ calibre_role_paths_folder: "{{ calibre_name }}"
 calibre_role_paths_location: "{{ server_appdata_path }}/{{ calibre_role_paths_folder }}"
 calibre_role_paths_folders_list:
   - "{{ calibre_role_paths_location }}"
-  - "/mnt/local/Media/Books"
+  - "{{ server_local_folder_path }}/Media/Books"
 
 ################################
 # Web

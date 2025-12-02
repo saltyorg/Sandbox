@@ -21,8 +21,8 @@ handbrake_role_paths_folder: "{{ handbrake_name }}"
 handbrake_role_paths_location: "{{ server_appdata_path }}/{{ handbrake_role_paths_folder }}"
 handbrake_role_paths_folders_list:
   - "{{ handbrake_role_paths_location }}"
-  - "/mnt/local/downloads/handbrake/watch"
-  - "/mnt/local/downloads/handbrake/output"
+  - "{{ server_local_folder_path }}/downloads/handbrake/watch"
+  - "{{ server_local_folder_path }}/downloads/handbrake/output"
 
 ################################
 # Web
@@ -84,8 +84,8 @@ handbrake_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role=
 handbrake_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='handbrake') }}:/config"
   - "/mnt:/storage:ro"
-  - "/mnt/local/downloads/handbrake/watch:/watch"
-  - "/mnt/local/downloads/handbrake/output:/output"
+  - "/mnt/unionfs/downloads/handbrake/watch:/watch"
+  - "/mnt/unionfs/downloads/handbrake/output:/output"
 handbrake_role_docker_volumes_custom: []
 handbrake_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='handbrake')
                                    + lookup('role_var', '_docker_volumes_custom', role='handbrake') }}"

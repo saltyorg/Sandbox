@@ -21,7 +21,7 @@ komga_role_paths_folder: "{{ komga_name }}"
 komga_role_paths_location: "{{ server_appdata_path }}/{{ komga_role_paths_folder }}"
 komga_role_paths_folders_list:
   - "{{ komga_role_paths_location }}"
-  - "/mnt/local/Media/Comics"
+  - "{{ server_local_folder_path }}/Media/Comics"
 
 ################################
 # Web

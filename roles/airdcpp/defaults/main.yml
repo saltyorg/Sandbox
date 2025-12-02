@@ -21,12 +21,12 @@ airdcpp_role_paths_folder: "{{ airdcpp_name }}"
 airdcpp_role_paths_location: "{{ server_appdata_path }}/{{ airdcpp_role_paths_folder }}"
 airdcpp_role_paths_folders_list:
   - "{{ airdcpp_role_paths_location }}"
-  - /mnt/local/downloads/airdcpp
-  - /mnt/local/downloads/airdcpp/Movies
-  - /mnt/local/downloads/airdcpp/TV
-  - /mnt/local/downloads/airdcpp/4K
-  - /mnt/local/downloads/airdcpp/4K/Movies
-  - /mnt/local/downloads/airdcpp/4K/TV
+  - "{{ server_local_folder_path }}/downloads/airdcpp"
+  - "{{ server_local_folder_path }}/downloads/airdcpp/Movies"
+  - "{{ server_local_folder_path }}/downloads/airdcpp/TV"
+  - "{{ server_local_folder_path }}/downloads/airdcpp/4K"
+  - "{{ server_local_folder_path }}/downloads/airdcpp/4K/Movies"
+  - "{{ server_local_folder_path }}/downloads/airdcpp/4K/TV"
 
 ################################
 # Web
@@ -91,7 +91,7 @@ airdcpp_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='a
 # Volumes
 airdcpp_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='airdcpp') }}:/.airdcpp"
-  - "/mnt/local/downloads/airdcpp:/Downloads"
+  - "/mnt/unionfs/downloads/airdcpp:/Downloads"
 airdcpp_role_docker_volumes_custom: []
 airdcpp_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='airdcpp')
                                  + lookup('role_var', '_docker_volumes_custom', role='airdcpp') }}"

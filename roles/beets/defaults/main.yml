@@ -21,7 +21,7 @@ beets_role_paths_folder: "{{ beets_name }}"
 beets_role_paths_location: "{{ server_appdata_path }}/{{ beets_role_paths_folder }}"
 beets_role_paths_folders_list:
   - "{{ beets_role_paths_location }}"
-  - "/mnt/local/downloads/music"
+  - "{{ server_local_folder_path }}/downloads/music"
 
 ################################
 # Web
