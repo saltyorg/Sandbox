@@ -1,0 +1,152 @@
+#########################################################################
+# Title:            Sandbox: Suwayomi                                   #
+# Author(s):        JohnClementine                                      #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+suwayomi_name: suwayomi
+
+################################
+# Paths
+################################
+
+suwayomi_role_paths_folder: "{{ suwayomi_name }}"
+suwayomi_role_paths_location: "{{ server_appdata_path }}/{{ suwayomi_role_paths_folder }}"
+suwayomi_role_paths_config_location: "{{ lookup('role_var', '_paths_location') }}/server.conf"
+suwayomi_role_paths_folders_list:
+  - "{{ lookup('role_var', '_paths_location') }}"
+  - "{{ server_local_folder_path }}/Media/Comics"
+
+################################
+# Web
+################################
+
+suwayomi_role_web_subdomain: "{{ suwayomi_name }}"
+suwayomi_role_web_domain: "{{ user.domain }}"
+suwayomi_role_web_port: "4567"
+suwayomi_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain') + '.' + lookup('role_var', '_web_domain')
+                   if (lookup('role_var', '_web_subdomain') | length > 0)
+                   else lookup('role_var', '_web_domain')) }}"
+
+################################
+# DNS
+################################
+
+suwayomi_role_dns_record: "{{ lookup('role_var', '_web_subdomain') }}"
+suwayomi_role_dns_zone: "{{ lookup('role_var', '_web_domain') }}"
+suwayomi_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+suwayomi_role_traefik_sso_middleware: ""
+suwayomi_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+suwayomi_role_traefik_middleware_custom: ""
+suwayomi_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+suwayomi_role_traefik_enabled: true
+suwayomi_role_traefik_api_enabled: false
+suwayomi_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+suwayomi_role_docker_container: "{{ suwayomi_name }}"
+
+# Image
+suwayomi_role_docker_image_pull: true
+suwayomi_role_docker_image_repo: "ghcr.io/suwayomi/suwayomi-server"
+suwayomi_role_docker_image_tag: "latest"
+suwayomi_role_docker_image: "{{ lookup('role_var', '_docker_image_repo') }}:{{ lookup('role_var', '_docker_image_tag') }}"
+
+# Ports
+suwayomi_role_docker_ports_defaults: []
+suwayomi_role_docker_ports_custom: []
+suwayomi_role_docker_ports: "{{ lookup('role_var', '_docker_ports_defaults')
+                               + lookup('role_var', '_docker_ports_custom') }}"
+
+# Envs
+suwayomi_role_docker_envs_default:
+  TZ: "{{ tz }}"
+suwayomi_role_docker_envs_custom: {}
+suwayomi_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default')
+                              | combine(lookup('role_var', '_docker_envs_custom')) }}"
+
+# Commands
+suwayomi_role_docker_commands_default: []
+suwayomi_role_docker_commands_custom: []
+suwayomi_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default')
+                                  + lookup('role_var', '_docker_commands_custom') }}"
+
+# Volumes
+suwayomi_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location') }}:/home/suwayomi/.local/share/Tachidesk"
+  - "/mnt/unionfs/Media/Comics:/comics"
+suwayomi_role_docker_volumes_custom: []
+suwayomi_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default')
+                                 + lookup('role_var', '_docker_volumes_custom') }}"
+
+# Devices
+suwayomi_role_docker_devices_default: []
+suwayomi_role_docker_devices_custom: []
+suwayomi_role_docker_devices: "{{ lookup('role_var', '_docker_devices_default')
+                                 + lookup('role_var', '_docker_devices_custom') }}"
+
+# Hosts
+suwayomi_role_docker_hosts_default: {}
+suwayomi_role_docker_hosts_custom: {}
+suwayomi_role_docker_hosts: "{{ docker_hosts_common
+                               | combine(lookup('role_var', '_docker_hosts_default'))
+                               | combine(lookup('role_var', '_docker_hosts_custom')) }}"
+
+# Labels
+suwayomi_role_docker_labels_default: {}
+suwayomi_role_docker_labels_custom: {}
+suwayomi_role_docker_labels: "{{ docker_labels_common
+                                | combine(lookup('role_var', '_docker_labels_default'))
+                                | combine(lookup('role_var', '_docker_labels_custom')) }}"
+
+# Hostname
+suwayomi_role_docker_hostname: "{{ suwayomi_name }}"
+
+# Network Mode
+suwayomi_role_docker_network_mode_default: "{{ docker_networks_name_common }}"
+suwayomi_role_docker_network_mode: "{{ lookup('role_var', '_docker_network_mode_default') }}"
+
+# Networks
+suwayomi_role_docker_networks_alias: "{{ suwayomi_name }}"
+suwayomi_role_docker_networks_default: []
+suwayomi_role_docker_networks_custom: []
+suwayomi_role_docker_networks: "{{ docker_networks_common
+                                  + lookup('role_var', '_docker_networks_default')
+                                  + lookup('role_var', '_docker_networks_custom') }}"
+
+# Capabilities
+suwayomi_role_docker_capabilities_default: []
+suwayomi_role_docker_capabilities_custom: []
+suwayomi_role_docker_capabilities: "{{ lookup('role_var', '_docker_capabilities_default')
+                                       + lookup('role_var', '_docker_capabilities_custom') }}"
+
+# Security Opts
+suwayomi_role_docker_security_opts_default: []
+suwayomi_role_docker_security_opts_custom: []
+suwayomi_role_docker_security_opts: "{{ lookup('role_var', '_docker_security_opts_default')
+                                        + lookup('role_var', '_docker_security_opts_custom') }}"
+
+# Restart Policy
+suwayomi_role_docker_restart_policy: unless-stopped
+
+# State
+suwayomi_role_docker_state: started
+
+# User
+suwayomi_role_docker_user: "{{ uid }}:{{ gid }}"
