@@ -1,0 +1,17 @@
+# Suwayomi Server Configuration
+# Documentation: https://github.com/Suwayomi/Suwayomi-Server/wiki/Configuring-Suwayomi-Server
+
+# Downloads Path Configuration
+# Points to /comics mount which maps to /mnt/unionfs/Media/Comics on host
+server.downloadsPath = "/comics"
+
+# Download Format
+server.downloadAsCbz = true
+
+# Downloader
+server.autoDownloadNewChapters = true # automatically download new chapters that have been retrieved
+
+# Extension Repository
+server.extensionRepos = [
+    "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"
+]
