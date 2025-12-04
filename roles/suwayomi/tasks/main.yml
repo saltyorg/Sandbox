@@ -20,5 +20,19 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
+- name: Check if `{{ suwayomi_paths_config_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ suwayomi_paths_config_location }}"
+  register: suwayomi_config
+
+- name: Import default server.conf
+  ansible.builtin.template:
+    src: server.conf.j2
+    dest: "{{ suwayomi_paths_config_location }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0664"
+  when: (not suwayomi_config.stat.exists) and (not continuous_integration)
+
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
