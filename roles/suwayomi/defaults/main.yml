@@ -105,8 +105,8 @@ suwayomi_role_docker_devices: "{{ lookup('role_var', '_docker_devices_default')
 suwayomi_role_docker_hosts_default: {}
 suwayomi_role_docker_hosts_custom: {}
 suwayomi_role_docker_hosts: "{{ docker_hosts_common
-                               | combine(lookup('role_var', '_docker_hosts_default'))
-                               | combine(lookup('role_var', '_docker_hosts_custom')) }}"
+                                | combine(lookup('role_var', '_docker_hosts_default'))
+                                | combine(lookup('role_var', '_docker_hosts_custom')) }}"
 
 # Labels
 suwayomi_role_docker_labels_default: {}
