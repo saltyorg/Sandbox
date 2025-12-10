@@ -67,6 +67,13 @@ komga_role_docker_image_tag: "latest"
 komga_role_docker_image_repo: "gotson/komga"
 komga_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='komga') }}:{{ lookup('role_var', '_docker_image_tag', role='komga') }}"
 
+# Envs
+komga_role_docker_envs_default:
+  KOMGA_CORS_ALLOWEDORIGINS: "*"
+komga_role_docker_envs_custom: {}
+komga_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='komga')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='komga')) }}"
+
 # Volumes
 komga_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='komga') }}:/config"
