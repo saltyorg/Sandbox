@@ -46,7 +46,7 @@ wishlist_dns_proxy: "{{ dns.proxied }}"
 # Traefik
 ################################
 
-wishlist_traefik_sso_middleware: ""
+wishlist_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 wishlist_traefik_middleware_default: "{{ traefik_default_middleware }}"
 wishlist_traefik_middleware_custom: ""
 wishlist_traefik_certresolver: "{{ traefik_default_certresolver }}"
