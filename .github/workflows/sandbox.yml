@@ -107,9 +107,6 @@ jobs:
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
 
-      - name: Print pip dependencies
-        run: cat /srv/git/sb/requirements-saltbox.txt
-
       - name: Edit accounts.yml
         run: cd /srv/git/saltbox && sed -i 's/seed/runner/g' accounts.yml
 
