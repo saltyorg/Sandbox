@@ -79,7 +79,8 @@ homeassistant_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', r
 # Volumes
 homeassistant_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='homeassistant') }}:/config"
-  - /etc/localtime:/etc/localtime:ro
+  - "/etc/localtime:/etc/localtime:ro"
+  - "/run/dbus:/run/dbus:ro"
 homeassistant_role_docker_volumes_custom: []
 homeassistant_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='homeassistant')
                                        + lookup('role_var', '_docker_volumes_custom', role='homeassistant') }}"
