@@ -8,12 +8,12 @@ jobs:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           path: sandbox
 
       - name: Checkout Saltbox repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: saltyorg/Saltbox
           path: saltbox
@@ -47,7 +47,7 @@ jobs:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Check Missing Entries
         run: ./scripts/check_missing_entries.sh
@@ -58,7 +58,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - id: set-matrix
         run: |
           ROLES=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | awk -F',' '{ for( i=1; i<=NF; i++ ) print $i }' | awk '{ gsub(/ /,""); print }'| sort -u | awk -vORS=, '{ print $1 }' | sed 's/,$/\n/')
