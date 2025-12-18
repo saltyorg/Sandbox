@@ -72,10 +72,26 @@ jobs:
       matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+
+      - name: Install sb binary
+        uses: jaxxstorm/action-install-gh-release@v2.1.0
+        with:
+          repo: saltyorg/sb-go
+          tag: latest
+          extension-matching: disable
+          platform: linux
+          arch: amd64
+          rename-to: sb
+          chmod: "0755"
+
+      - name: Check sb version
+        run: |
+          sudo mv /opt/hostedtoolcache/saltyorg/sb-go/latest/linux-amd64/sb /usr/local/bin/sb
+          /usr/local/bin/sb version
 
       - name: Install Dependencies
-        run: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v && ansible --version
+        run: /usr/local/bin/sb setup -v && /srv/ansible/venv/bin/ansible --version
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
