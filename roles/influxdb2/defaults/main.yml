@@ -89,8 +89,8 @@ influxdb2_docker_commands: "{{ lookup('vars', influxdb2_name + '_docker_commands
 
 # Volumes
 influxdb2_docker_volumes_default:
-  - "{{ influxdb2_paths_location }}/data:/var/lib/influxdb22"
-  - "{{ influxdb2_paths_location }}/config:/etc/influxdb22"
+  - "{{ influxdb2_paths_location }}/data:/var/lib/influxdb2"
+  - "{{ influxdb2_paths_location }}/config:/etc/influxdb2"
 influxdb2_docker_volumes_custom: []
 influxdb2_docker_volumes: "{{ lookup('vars', influxdb2_name + '_docker_volumes_default', default=influxdb2_docker_volumes_default)
                              + lookup('vars', influxdb2_name + '_docker_volumes_custom', default=influxdb2_docker_volumes_custom) }}"
