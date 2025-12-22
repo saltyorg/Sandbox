@@ -70,8 +70,8 @@ influxdb2_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Volumes
 influxdb2_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='influxdb2') }}/data:/var/lib/influxdb22"
-  - "{{ lookup('role_var', '_paths_location', role='influxdb2') }}/config:/etc/influxdb22"
+  - "{{ lookup('role_var', '_paths_location', role='influxdb2') }}/data:/var/lib/influxdb2"
+  - "{{ lookup('role_var', '_paths_location', role='influxdb2') }}/config:/etc/influxdb2"
 influxdb2_role_docker_volumes_custom: []
 influxdb2_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='influxdb2')
                                    + lookup('role_var', '_docker_volumes_custom', role='influxdb2') }}"
