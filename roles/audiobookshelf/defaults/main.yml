@@ -23,8 +23,8 @@ audiobookshelf_role_paths_folders_list:
   - "{{ audiobookshelf_role_paths_location }}"
   - "{{ audiobookshelf_role_paths_location }}/config"
   - "{{ audiobookshelf_role_paths_location }}/metadata"
-  - "/mnt/unionfs/Media/Audiobooks"
-  - "/mnt/unionfs/Media/Podcasts"
+  - "{{ server_local_folder_path }}/Media/Audiobooks"
+  - "{{ server_local_folder_path }}/Media/Podcasts"
 audiobookshelf_role_paths_recursive: true
 
 ################################
