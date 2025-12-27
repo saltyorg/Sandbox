@@ -10,7 +10,7 @@
 - name: Remove legacy redis Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ immich_name }}_redis"
+    container_name: "{{ immich_name }}_redis"
 
 - name: Import Redis Role
   ansible.builtin.include_role:
@@ -24,7 +24,7 @@
 - name: Remove legacy PostgreSQL Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ immich_name }}_postgres"
+    container_name: "{{ immich_name }}_postgres"
 
 - name: "Import Postgres Role"
   ansible.builtin.include_role:

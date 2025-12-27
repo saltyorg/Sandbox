@@ -37,7 +37,7 @@
 - name: Remove legacy mongodb Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ unifi_network_application_name }}_mongo"
+    container_name: "{{ unifi_network_application_name }}_mongo"
 
 - name: MongoDB Role
   ansible.builtin.include_role:

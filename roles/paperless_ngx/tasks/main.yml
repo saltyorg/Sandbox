@@ -11,7 +11,7 @@
 - name: Remove legacy redis Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ paperless_ngx_name }}_redis"
+    container_name: "{{ paperless_ngx_name }}_redis"
 
 - name: Redis Role
   ansible.builtin.include_role:
@@ -25,7 +25,7 @@
 - name: Remove legacy PostgreSQL Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ paperless_ngx_name }}_postgres"
+    container_name: "{{ paperless_ngx_name }}_postgres"
 
 - name: "Import Postgres Role"
   ansible.builtin.include_role:
@@ -43,7 +43,7 @@
 - name: Remove legacy Gotenberg Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ paperless_ngx_name }}_gotenberg"
+    container_name: "{{ paperless_ngx_name }}_gotenberg"
 
 - name: Gotenberg Role
   ansible.builtin.include_role:
@@ -60,7 +60,7 @@
 - name: Remove legacy Tika Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    var_prefix: "{{ paperless_ngx_name }}_tika"
+    container_name: "{{ paperless_ngx_name }}_tika"
 
 - name: Tika Role
   ansible.builtin.include_role:
