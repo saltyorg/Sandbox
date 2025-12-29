@@ -158,7 +158,7 @@ rutorrent_role_docker_ports_custom: []
 rutorrent_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default')
                                  + (lookup('role_var', '_docker_ports_dht')
                                    if not (lookup('role_var', '_public_trackers_disable', default=true) | bool)
-                                   else []) 
+                                   else [])
                                  + lookup('role_var', '_docker_ports_custom') }}"
 
 # Envs
