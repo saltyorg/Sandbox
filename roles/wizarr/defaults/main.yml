@@ -21,8 +21,6 @@ wizarr_role_paths_folder: "{{ wizarr_name }}"
 wizarr_role_paths_location: "{{ server_appdata_path }}/{{ wizarr_role_paths_folder }}"
 wizarr_role_paths_folders_list:
   - "{{ wizarr_role_paths_location }}"
-  - "{{ wizarr_role_paths_location }}/database"
-  - "{{ wizarr_role_paths_location }}/wizard"
 
 ################################
 # Web
@@ -80,8 +78,7 @@ wizarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='wi
 
 # Volumes
 wizarr_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database:/data/database"
-  - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/wizard:/data/wizard"
+  - "{{ lookup('role_var', '_paths_location', role='wizarr') }}:/data"
 wizarr_role_docker_volumes_custom: []
 wizarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='wizarr')
                                 + lookup('role_var', '_docker_volumes_custom', role='wizarr') }}"
