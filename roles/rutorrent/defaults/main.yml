@@ -206,7 +206,7 @@ rutorrent_role_docker_envs_default:
   RT_PREALLOCATE_TYPE: "{{ lookup('role_var', '_rt_preallocate_type') if (lookup('role_var', '_rt_preallocate_type') | length > 0) else omit }}"
   RT_DHT_PORT: "{{ (lookup('role_var', '_docker_port_dht') | string) if (lookup('role_var', '_docker_port_dht') | int) != 6881 else omit }}"
   RT_INC_PORT: "{{ (lookup('role_var', '_docker_port_inc') | string) if (lookup('role_var', '_docker_port_inc') | int) != 50000 else omit }}"
-  RU_REMOVE_CORE_PLUGINS: "{{ rutorrent_role_trim_plugins if rutorrent_role_trim_plugins | length > 0) else omit }}"
+  RU_REMOVE_CORE_PLUGINS: "{{ (rutorrent_role_trim_plugins if rutorrent_role_trim_plugins | length > 0) else omit }}"
   RU_HTTP_USER_AGENT: "{{ lookup('role_var', '_ru_http_user_agent') if (lookup('role_var', '_ru_http_user_agent') | length > 0) else omit }}"
   RU_HTTP_TIME_OUT: "{{ lookup('role_var', '_ru_http_time_out') if (lookup('role_var', '_ru_http_time_out') | length > 0) else omit }}"
   RU_HTTP_USE_GZIP: "{{ lookup('role_var', '_ru_http_use_gzip') if (lookup('role_var', '_ru_http_use_gzip') | length > 0) else omit }}"
