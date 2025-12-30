@@ -15,12 +15,12 @@
     dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
 - name: Add WebDAV DNS record
-  when: lookup('role_var', '_webdav_enable', default=true) | bool
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
     dns_record: "{{ lookup('role_var', '_webdav_dns_record') }}"
     dns_zone: "{{ lookup('role_var', '_webdav_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_webdav_dns_proxy') }}"
+  when: lookup('role_var', '_webdav_enable', default=true) | bool
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -38,16 +38,15 @@
     rutorrent_public_trackers_enable: "{{ not lookup('role_var', '_public_trackers_disable', default=true) | bool }}"
 
 - name: Import managed config file
-  when: not rutorrent_rtorrent_config.stat.exists
   ansible.builtin.template:
     src: "rtorrent.rc.j2"
     dest: "{{ rutorrent_role_paths_location }}/rtorrent/.rtorrent.rc"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
+  when: not rutorrent_rtorrent_config.stat.exists
 
 - name: Update managed settings in config file
-  when: (lookup('role_var', '_manage_rt_config_enable', default=true) | bool) and rutorrent_rtorrent_config.stat.exists
   community.general.ini_file:
     path: "{{ rutorrent_role_paths_location }}/rtorrent/.rtorrent.rc"
     section: null
@@ -62,6 +61,7 @@
     - { option: "dht.mode.set", value: "{{ rutorrent_public_trackers_enable | ternary('auto', 'disable') }}" }
     - { option: "trackers.use_udp.set", value: "{{ rutorrent_public_trackers_enable | ternary('yes', 'no') }}" }
     - { option: "protocol.pex.set", value: "{{ rutorrent_public_trackers_enable | ternary('yes', 'no') }}" }
+  when: (lookup('role_var', '_manage_rt_config_enable', default=true) | bool) and rutorrent_rtorrent_config.stat.exists
 
 - name: Import managed `conf.php` for Diskspace plugin
   ansible.builtin.template:
@@ -92,15 +92,10 @@
   register: rutorrent_port_lookup_inc
   ignore_errors: true
 
-- name: Prepare ports for Docker publishing
-  ansible.builtin.set_fact:
-    rutorrent_dht_port: "{{ rutorrent_port_lookup_dht.meta.port | default(rutorrent_dht_port_low) }}"
-    rutorrent_inc_port: "{{ rutorrent_port_lookup_inc.meta.port | default(rutorrent_inc_port_low) }}"
-
 - name: Update port ranges for next iteration
   ansible.builtin.set_fact:
-    rutorrent_dht_port_low: "{{ rutorrent_dht_port + (rutorrent_public_trackers_enable | int) }}"
-    rutorrent_inc_port_low: "{{ rutorrent_inc_port + 1 }}"
+    rutorrent_dht_port_low: "{{ rutorrent_role_docker_port_dht + (rutorrent_public_trackers_enable | int) }}"
+    rutorrent_inc_port_low: "{{ rutorrent_role_docker_port_inc + 1 }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
