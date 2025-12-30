@@ -71,11 +71,13 @@ rutorrent_role_ru_overwrite_uploaded_torrents: ""
 rutorrent_role_ru_forbid_user_settings: ""
 rutorrent_role_ru_locale: ""
 
-rutorrent_role_trim_plugins_template: "{{ lookup('role_var', '_trim_plugins_enable', default=true) | bool
-                                          | ternary('_cloudflare,autotools,cookies,extsearch,feeds,ipad,
-                                                    loginmgr,rss,rssurlrewrite,rutracker_check,unpack', '') | split(',')
-                                          | union(lookup('role_var', '_ru_remove_core_plugins', default='') | split(','))
-                                          | select | map('trim') | join(',') }}"
+# Do not edit or override using the inventory
+rutorrent_role_trim_plugins_default: "_cloudflare,autotools,cookies,extsearch,feeds,ipad,loginmgr,rss,rssurlrewrite,rutracker_check,unpack"
+# Do not edit or override using the inventory
+rutorrent_role_trim_plugins: "{{ lookup('role_var', '_trim_plugins_enable', default=true) | bool
+                                 | ternary(rutorrent_role_trim_plugins_default, '') | split(',')
+                                 | union(lookup('role_var', '_ru_remove_core_plugins', default='') | split(','))
+                                 | select | map('trim') | join(',') }}"
 
 ################################
 # Paths
@@ -85,7 +87,6 @@ rutorrent_role_paths_folder: "{{ rutorrent_name }}"
 rutorrent_role_paths_location: "{{ server_appdata_path }}/{{ rutorrent_role_paths_folder }}"
 rutorrent_role_paths_downloads_location: "{{ downloads_root_path }}/{{ rutorrent_role_paths_folder }}"
 rutorrent_role_paths_folders_list:
-  - "{{ rutorrent_role_paths_location }}"
   - "{{ rutorrent_role_paths_location }}/rtorrent"
   - "{{ rutorrent_role_paths_location }}/rutorrent/plugins-conf/diskspace"
   - "{{ rutorrent_role_paths_downloads_location }}/complete"
@@ -164,10 +165,10 @@ rutorrent_role_docker_port_inc: "{{ rutorrent_port_lookup_inc.meta.port
                                  else rutorrent_inc_port_low }}"
 
 rutorrent_role_docker_ports_default:
-  - "{{ rutorrent_role_docker_port_inc }}:{{ rutorrent_role_docker_port_inc }}"
-  - "{{ rutorrent_role_docker_port_inc }}:{{ rutorrent_role_docker_port_inc }}/udp"
+  - "{{ lookup('role_var', '_docker_port_inc' }}:{{ lookup('role_var', '_docker_port_inc' }}"
+  - "{{ lookup('role_var', '_docker_port_inc' }}:{{ lookup('role_var', '_docker_port_inc' }}/udp"
 rutorrent_role_docker_ports_dht:
-  - "{{ rutorrent_role_docker_port_dht }}:{{ rutorrent_role_docker_port_dht }}/udp"
+  - "{{ lookup('role_var', '_docker_port_dht' }}:{{ lookup('role_var', '_docker_port_dht' }}/udp"
 rutorrent_role_docker_ports_custom: []
 rutorrent_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default')
                                  + (lookup('role_var', '_docker_ports_dht')
@@ -203,9 +204,9 @@ rutorrent_role_docker_envs_default:
   RT_RECEIVE_BUFFER_SIZE: "{{ lookup('role_var', '_rt_receive_buffer_size') if (lookup('role_var', '_rt_receive_buffer_size') | length > 0) else omit }}"
   RT_SEND_BUFFER_SIZE: "{{ lookup('role_var', '_rt_send_buffer_size') if (lookup('role_var', '_rt_send_buffer_size') | length > 0) else omit }}"
   RT_PREALLOCATE_TYPE: "{{ lookup('role_var', '_rt_preallocate_type') if (lookup('role_var', '_rt_preallocate_type') | length > 0) else omit }}"
-  RT_DHT_PORT: "{{ (rutorrent_role_docker_port_dht | string) if rutorrent_role_docker_port_dht != 6881 else omit }}"
-  RT_INC_PORT: "{{ (rutorrent_role_docker_port_inc | string) if rutorrent_role_docker_port_inc != 50000 else omit }}"
-  RU_REMOVE_CORE_PLUGINS: "{{ lookup('role_var', '_trim_plugins_template') if (lookup('role_var', '_trim_plugins_template') | length > 0) else omit }}"
+  RT_DHT_PORT: "{{ (lookup('role_var', '_docker_port_dht') | string) if (lookup('role_var', '_docker_port_dht') | int) != 6881 else omit }}"
+  RT_INC_PORT: "{{ (lookup('role_var', '_docker_port_inc') | string) if (lookup('role_var', '_docker_port_inc') | int) != 50000 else omit }}"
+  RU_REMOVE_CORE_PLUGINS: "{{ rutorrent_role_trim_plugins if rutorrent_role_trim_plugins | length > 0) else omit }}"
   RU_HTTP_USER_AGENT: "{{ lookup('role_var', '_ru_http_user_agent') if (lookup('role_var', '_ru_http_user_agent') | length > 0) else omit }}"
   RU_HTTP_TIME_OUT: "{{ lookup('role_var', '_ru_http_time_out') if (lookup('role_var', '_ru_http_time_out') | length > 0) else omit }}"
   RU_HTTP_USE_GZIP: "{{ lookup('role_var', '_ru_http_use_gzip') if (lookup('role_var', '_ru_http_use_gzip') | length > 0) else omit }}"
