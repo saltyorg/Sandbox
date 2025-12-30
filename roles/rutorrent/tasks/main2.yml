@@ -94,8 +94,8 @@
 
 - name: Update port ranges for next iteration
   ansible.builtin.set_fact:
-    rutorrent_dht_port_low: "{{ lookup('role_var', '_docker_port_dht' | int) + (rutorrent_public_trackers_enable | int) }}"
-    rutorrent_inc_port_low: "{{ lookup('role_var', '_docker_port_inc' | int) + 1 }}"
+    rutorrent_dht_port_low: "{{ (lookup('role_var', '_docker_port_dht') | int) + (rutorrent_public_trackers_enable | int) }}"
+    rutorrent_inc_port_low: "{{ (lookup('role_var', '_docker_port_inc') | int) + 1 }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
