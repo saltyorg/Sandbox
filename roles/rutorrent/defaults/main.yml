@@ -165,10 +165,10 @@ rutorrent_role_docker_port_inc: "{{ rutorrent_port_lookup_inc.meta.port
                                  else rutorrent_inc_port_low }}"
 
 rutorrent_role_docker_ports_default:
-  - "{{ lookup('role_var', '_docker_port_inc' }}:{{ lookup('role_var', '_docker_port_inc' }}"
-  - "{{ lookup('role_var', '_docker_port_inc' }}:{{ lookup('role_var', '_docker_port_inc' }}/udp"
+  - "{{ lookup('role_var', '_docker_port_inc') }}:{{ lookup('role_var', '_docker_port_inc') }}"
+  - "{{ lookup('role_var', '_docker_port_inc') }}:{{ lookup('role_var', '_docker_port_inc') }}/udp"
 rutorrent_role_docker_ports_dht:
-  - "{{ lookup('role_var', '_docker_port_dht' }}:{{ lookup('role_var', '_docker_port_dht' }}/udp"
+  - "{{ lookup('role_var', '_docker_port_dht') }}:{{ lookup('role_var', '_docker_port_dht') }}/udp"
 rutorrent_role_docker_ports_custom: []
 rutorrent_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default')
                                  + (lookup('role_var', '_docker_ports_dht')
