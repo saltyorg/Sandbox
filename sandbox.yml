@@ -26,7 +26,6 @@
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
     - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
-    - { role: booksonic, tags: ['booksonic'] }
     - { role: bookstack, tags: ['bookstack'] }
     - { role: calibre, tags: ['calibre'] }
     - { role: calibre_web, tags: ['calibre-web'] }
