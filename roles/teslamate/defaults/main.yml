@@ -22,7 +22,7 @@ teslamate_role_postgres_name: "{{ teslamate_name }}-postgres"
 teslamate_role_postgres_user: "{{ postgres_role_docker_env_user }}"
 teslamate_role_postgres_password: "{{ teslamate_saltbox_facts.facts.postgres_password }}"
 teslamate_role_postgres_docker_env_db: "{{ teslamate_name }}"
-teslamate_role_postgres_docker_image_tag: "16"
+teslamate_role_postgres_docker_image_tag: "18"
 teslamate_role_postgres_docker_image_repo: "postgres"
 teslamate_role_postgres_docker_healthcheck:
   test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='teslamate') }} -U {{ postgres_role_docker_env_user }}"]
