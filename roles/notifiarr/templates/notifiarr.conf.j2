@@ -124,16 +124,6 @@ api_key   = "{{ radarr_info[instance]['api_key'] }}"
 {% endif %}
 {% endfor %}
 
-{% for instance in readarr_info %}
-{% if readarr_info[instance]['api_key'] != 'not installed' %}
-[[readarr]]
-name      = "{{ readarr_info[instance]['name'] }}"
-url       = "{{ readarr_info[instance]['url'] }}"
-api_key   = "{{ readarr_info[instance]['api_key'] }}"
-
-{% endif %}
-{% endfor %}
-
 {% for instance in sonarr_info %}
 {% if sonarr_info[instance]['api_key'] != 'not installed' %}
 [[sonarr]]
