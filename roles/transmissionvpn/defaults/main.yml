@@ -20,6 +20,9 @@ transmissionvpn_name: transmissionvpn
 transmissionvpn_create_tun_device: "false"
 transmissionvpn_transmission_home: "/opt/transmissionvpn"
 transmissionvpn_umask_set: "022"
+transmissionvpn_role_vpn_user: ""
+transmissionvpn_role_vpn_pass: ""
+transmissionvpn_role_vpn_prov: ""
 
 ################################
 # Paths
@@ -85,9 +88,9 @@ transmissionvpn_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  OPENVPN_PROVIDER: "{{ transmissionvpn.vpn_prov | default('pia', true) }}"
-  OPENVPN_USERNAME: "{{ transmissionvpn.vpn_user | default('username', true) }}"
-  OPENVPN_PASSWORD: "{{ transmissionvpn.vpn_pass | default('password', true) }}"
+  OPENVPN_PROVIDER: "{{ lookup('role_var', '_vpn_prov', role='transmissionvpn') }}"
+  OPENVPN_USERNAME: "{{ lookup('role_var', '_vpn_user', role='transmissionvpn') }}"
+  OPENVPN_PASSWORD: "{{ lookup('role_var', '_vpn_pass', role='transmissionvpn') }}"
   UMASK_SET: "{{ transmissionvpn_umask_set }}"
   CREATE_TUN_DEVICE: "{{ transmissionvpn_create_tun_device }}"
   TRANSMISSION_HOME: "{{ transmissionvpn_transmission_home }}"

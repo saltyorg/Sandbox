@@ -18,6 +18,7 @@ notifiarr_name: notifiarr
 ################################
 
 notifiarr_role_privileged: false
+notifiarr_role_api_key: "api-key-from-notifiarr.com"
 
 ################################
 # Paths

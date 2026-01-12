@@ -7,11 +7,10 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Fail when default membarr.discord_token is specified
+- name: Fail when default membarr_role_discord_token is specified
   ansible.builtin.fail:
-    msg: "You must specify a Discord bot token in the settings under membarr.discord_token."
-  when: (membarr.discord_token == 'your_discord_bot_token') and
-        (not continuous_integration)
+    msg: "You must specify a Discord bot token in membarr_role_discord_token using the inventory."
+  when: (lookup('role_var', '_discord_token', role='membarr') == 'your_discord_bot_token') and (not continuous_integration)
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

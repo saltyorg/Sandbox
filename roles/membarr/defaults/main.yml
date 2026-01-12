@@ -14,6 +14,12 @@
 membarr_name: membarr
 
 ################################
+# Settings
+################################
+
+membarr_role_discord_token: "your_discord_bot_token"
+
+################################
 # Paths
 ################################
 
@@ -40,7 +46,7 @@ membarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='me
 # Envs
 membarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-  token: "{{ membarr.discord_token }}"
+  token: "{{ lookup('role_var', '_discord_token', role='membarr') }}"
 membarr_role_docker_envs_custom: {}
 membarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='membarr')
                               | combine(lookup('role_var', '_docker_envs_custom', role='membarr')) }}"

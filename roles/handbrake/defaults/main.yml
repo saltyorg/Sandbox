@@ -14,6 +14,12 @@
 handbrake_name: handbrake
 
 ################################
+# Settings
+################################
+
+handbrake_role_handbrake_pass: "saltbox"
+
+################################
 # Paths
 ################################
 
@@ -75,7 +81,7 @@ handbrake_role_docker_envs_default:
   TZ: "{{ tz }}"
   CLEAN_TMP_DIR: "1"
   ENABLE_CJK_FONT: "1"
-  VNC_PASSWORD: "{{ handbrake.handbrake_pass | default('saltbox', true) }}"
+  VNC_PASSWORD: "{{ lookup('role_var', '_handbrake_pass', role='handbrake') }}"
 handbrake_role_docker_envs_custom: {}
 handbrake_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='handbrake')
                                 | combine(lookup('role_var', '_docker_envs_custom', role='handbrake')) }}"

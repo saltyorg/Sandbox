@@ -4,7 +4,7 @@
 ###############################################
 
 ## This API key must be copied from your notifiarr.com account.
-api_key = "{{ notifiarr.api_key }}"
+api_key = "{{ lookup('role_var', '_api_key', role='notifiarr') }}"
 
 ## Setting a UI password enables the human accessible web GUI. Must be at least 9 characters.
 ## The default username is admin; change it by setting ui_password to "username:password"

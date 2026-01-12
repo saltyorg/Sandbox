@@ -14,6 +14,13 @@
 moviematch_name: moviematch
 
 ################################
+# Settings
+################################
+
+moviematch_role_plex_url: "http://plex:32400"
+moviematch_role_libraries: "Movies"
+
+################################
 # Paths
 ################################
 
@@ -71,10 +78,10 @@ moviematch_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  PLEX_URL: "{{ moviematch.plex_url }}"
+  PLEX_URL: "{{ lookup('role_var', '_plex_url', role='moviematch') }}"
   PLEX_TOKEN: "{{ plex_auth_token }}"
   LOG_LEVEL: DEBUG
-  LIBRARY_FILTER: "{{ moviematch.libraries }}"
+  LIBRARY_FILTER: "{{ lookup('role_var', '_libraries', role='moviematch') }}"
 moviematch_role_docker_envs_custom: {}
 moviematch_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='moviematch')
                                  | combine(lookup('role_var', '_docker_envs_custom', role='moviematch')) }}"

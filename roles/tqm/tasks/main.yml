@@ -91,8 +91,8 @@
 
 - name: Fail if 'download_client' has not been set
   ansible.builtin.fail:
-    msg: "You need to edit 'tqm.download_client' in the settings.yml. Options are deluge and qbt"
-  when: (tqm.download_client | default("client") | ternary('true', 'false') == 'false') and not continuous_integration
+    msg: "You need to set 'tqm_role_download_client' (options: deluge, qbt)."
+  when: (lookup('role_var', '_download_client', role='tqm') | default("client") | ternary('true', 'false') == 'false') and (not continuous_integration)
 
 - name: Import 'tqm_service'
   ansible.builtin.template:
@@ -107,7 +107,7 @@
     state: started
     enabled: true
     daemon_reload: true
-  when: not continuous_integration
+  when: (not continuous_integration)
 
 - name: Import 'tqm_timer'
   ansible.builtin.template:
@@ -122,4 +122,4 @@
     state: started
     enabled: true
     daemon_reload: true
-  when: not continuous_integration
+  when: (not continuous_integration)

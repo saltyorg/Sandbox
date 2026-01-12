@@ -29,10 +29,6 @@
       register: preferences_xml_resp
       ignore_errors: true
 
-    - name: Settings | Register {{ plex_name }} Auth Token Value
-      ansible.builtin.set_fact:
-        plex_auth_token: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineToken }}"
-
     - name: Settings | Register {{ plex_name }} Friendly Server Name
       ansible.builtin.set_fact:
         plex_friendly_name: "{{ preferences_xml_resp.matches[0].Preferences.FriendlyName }}"
@@ -49,6 +45,11 @@
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='membarr') | basename }}` tasks
   when: not membarr_config.stat.exists
   block:
+    - name: Settings | Import Plex Auth Token role
+      ansible.builtin.include_role:
+        name: plex_auth_token
+      when: plex_account_is_enabled
+
     - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='membarr') | basename }}`
       ansible.builtin.template:
         src: config.ini.j2

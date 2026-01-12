@@ -8,7 +8,7 @@ Type=oneshot
 WorkingDirectory={{ lookup('role_var', '_paths_location', role='tqm') }}
 ExecStartPre=/bin/sleep 30
 ExecStart={{ lookup('role_var', '_paths_location', role='tqm') }}/tqm \
-  clean {{ tqm.download_client | default('qbt', true)  }}
+  clean {{ lookup('role_var', '_download_client', role='tqm') }}
 
 [Install]
 WantedBy=default.target

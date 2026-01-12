@@ -10,40 +10,18 @@
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"
-  when: not tautulli_name is defined
+  when: (not tautulli_name is defined)
 
 - name: Set Default Plex instance
   ansible.builtin.set_fact:
-    plex_name: "{{ plex_name | default(plex_instances[0]) }}"
-  when: not plex_name is defined
+    plex_name: "{{ plex_instances[0] }}"
+  when: (not plex_name is defined)
 
 # Tautulli Tasks
 - name: "Check if tautulli exists"
   ansible.builtin.stat:
     path: "{{ lookup('role_var', '_tautulli_config', role='notifiarr') }}"
   register: notifiarr_tautulli_config_stat
-
-# Plex Tasks
-
-- name: "Settings | Check if '{{ lookup('role_var', '_paths_config_location', role='plex') | basename }}' exists"
-  ansible.builtin.stat:
-    path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
-  register: preferences_xml
-
-- name: Settings | {{ plex_name }} auth token tasks
-  when: preferences_xml.stat.exists
-  block:
-    - name: Settings | Fetch {{ plex_name }} auth token
-      community.general.xml:
-        path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
-        xpath: /Preferences
-        content: attribute
-      register: preferences_xml_resp
-      ignore_errors: true
-
-    - name: Settings | Register {{ plex_name }} auth token value
-      ansible.builtin.set_fact:
-        plex_auth_token: "{{ preferences_xml_resp.matches[0].Preferences.PlexOnlineToken }}"
 
 - name: Settings | Check if `{{ lookup('role_var', '_paths_config_location', role='notifiarr') | basename }}` exists
   ansible.builtin.stat:
@@ -60,6 +38,11 @@
           - sonarr
           - radarr
           - lidarr
+
+    - name: Settings | Import Plex Auth Token role
+      ansible.builtin.include_role:
+        name: plex_auth_token
+      when: plex_account_is_enabled
 
     - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='notifiarr') | basename }}`
       ansible.builtin.template:
