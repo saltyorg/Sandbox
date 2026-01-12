@@ -149,9 +149,6 @@ jobs:
       - name: Install Saltbox Core
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --tags "core" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
-      - name: Copy default configuration
-        run: cp --update=none defaults/settings.yml.default settings.yml
-
       - name: Install ${{ matrix.roles }}
         run: sudo ansible-playbook sandbox.yml --tags "${{ matrix.roles }}" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
