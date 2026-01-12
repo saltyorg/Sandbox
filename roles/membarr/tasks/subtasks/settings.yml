@@ -10,7 +10,7 @@
 - name: Set Default Plex instance
   ansible.builtin.set_fact:
     plex_name: "{{ plex_instances[0] }}"
-  when: not plex_name is defined
+  when: (not plex_name is defined)
 
 # Plex Tasks
 - name: "Settings | Check if '{{ lookup('role_var', '_paths_config_location', role='plex') | basename }}' exists"
@@ -43,7 +43,7 @@
   register: membarr_config
 
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='membarr') | basename }}` tasks
-  when: not membarr_config.stat.exists
+  when: (not membarr_config.stat.exists)
   block:
     - name: Settings | Import Plex Auth Token role
       ansible.builtin.include_role:
