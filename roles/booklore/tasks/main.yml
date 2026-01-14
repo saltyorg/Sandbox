@@ -1,0 +1,50 @@
+#########################################################################
+# Title:            Sandbox: booklore                                   #
+# Author(s):        BeansIsFat                                          #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Check if db folder exists
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='booklore') }}/mariadb"
+  register: stat_booklore_db_folder
+
+- name: Remove legacy MariaDB Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    var_prefix: "{{ booklore_name }}_mariadb"
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+  vars:
+    mariadb_instances: ["{{ booklore_name }}-mariadb"]
+    mariadb_paths_folder: "{{ booklore_name }}"
+    mariadb_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='booklore') }}/mariadb"
+
+- name: MariaDB | Create booklore database
+  community.mysql.mysql_db:
+    name: "booklore"
+    login_host: "{{ booklore_name }}-mariadb"
+    login_user: "root"
+    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
+    state: present
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
