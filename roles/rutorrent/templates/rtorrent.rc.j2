@@ -1,0 +1,96 @@
+#########################################################################
+# Title:         Sandbox: ruTorrent | rTorrent Configuration            #
+# Author(s):     keldian                                                #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+
+# =======================================================================
+# Network
+# =======================================================================
+
+# Maximum and minimum number of peers to connect to per torrent
+throttle.min_peers.normal.set = 1
+throttle.max_peers.normal.set = 60
+
+# Same as above but for seeding completed torrents (-1 = same as downloading)
+throttle.min_peers.seed.set = 1
+throttle.max_peers.seed.set = 80
+
+# Number of peers to request from trackers
+trackers.numwant.set = 80
+
+# Public tracker toggles
+{% if rutorrent_public_trackers_enable %}
+trackers.use_udp.set = yes
+dht.mode.set = auto
+protocol.pex.set = yes
+{% else %}
+trackers.use_udp.set = no
+dht.mode.set = disable
+protocol.pex.set = no
+{% endif %}
+
+# Encryption options
+protocol.encryption.set = allow_incoming,try_outgoing,enable_retry,prefer_plaintext
+
+# Maximum number of file descriptors used simultaneously
+network.max_open_files.set = 1024
+
+# Network prioritization mode
+network.tos.set = throughput
+
+# =======================================================================
+# Bandwidth
+# =======================================================================
+
+# Global upload and download rate in KiB. "0" for unlimited
+throttle.global_down.max_rate.set_kb = 0
+throttle.global_up.max_rate.set_kb = 0
+
+# Maximum number of simultaneous uploads per torrent
+throttle.max_uploads.set = 100
+
+# Maximum number of simultaneous downloads and uploads
+throttle.max_downloads.global.set = 3
+throttle.max_uploads.global.set = 250
+
+# =======================================================================
+# System
+# =======================================================================
+
+# Set the umask for this process, which is applied to all files created by the program
+system.umask.set = 002
+
+# Add a preferred filename encoding to the list
+encoding.add = UTF-8
+
+# Check hash for finished torrents
+pieces.hash.on_completion.set = no
+
+# =======================================================================
+# Downloads
+# =======================================================================
+
+# Bypass the immutable bootstrap path to preserve hardlinks for *arr apps
+directory.default.set = {{ rutorrent_role_paths_downloads_complete_location }}
+
+# =======================================================================
+# Automation
+# =======================================================================
+
+# Watch a directory for new torrents, and stop those that have been deleted
+directory.watch.added = (cat,(cfg.watch)), load.start
+schedule2 = untied_directory, 5, 5, (cat,"stop_untied=",(cfg.watch),"*.torrent")
+
+# Close torrents when diskspace is low
+schedule2 = monitor_diskspace, 15, 60, ((close_low_diskspace,1000M))
+
+# Workaround for seedingtime plugin not always setting added date to new downloads
+method.set_key = event.download.inserted_new,set_addtime,"d.custom.set=addtime,(cat,$system.time=)"
+
+# =======================================================================
+# Custom
+# =======================================================================

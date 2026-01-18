@@ -1,0 +1,16 @@
+#########################################################################
+# Title:         Sandbox: ruTorrent                                     #
+# Author(s):     keldian                                                #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Execute rutorrent roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    rutorrent_name: "{{ instance }}"
+  with_items: "{{ rutorrent_instances }}"
+  loop_control:
+    loop_var: instance
