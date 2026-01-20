@@ -88,7 +88,7 @@
   find_open_port:
     low_bound: "{{ rutorrent_inc_port_low }}"
     high_bound: "{{ rutorrent_inc_port_low + 10 }}"
-    protocol: both
+    protocol: tcp
   register: rutorrent_port_lookup_inc
   ignore_errors: true
 
