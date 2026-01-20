@@ -17,10 +17,10 @@
 - name: Add WebDAV DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
-    dns_record: "{{ lookup('role_var', '_webdav_dns_record') }}"
-    dns_zone: "{{ lookup('role_var', '_webdav_dns_zone') }}"
-    dns_proxy: "{{ lookup('role_var', '_webdav_dns_proxy') }}"
-  when: lookup('role_var', '_webdav_enable', default=true) | bool
+    dns_record: "{{ lookup('role_var', '_webdav_dns_record', role='rutorrent') }}"
+    dns_zone: "{{ lookup('role_var', '_webdav_dns_zone', role='rutorrent') }}"
+    dns_proxy: "{{ lookup('role_var', '_webdav_dns_proxy', role='rutorrent') }}"
+  when: lookup('role_var', '_webdav_enable', default=true, role='rutorrent') | bool
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

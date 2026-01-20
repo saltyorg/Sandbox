@@ -72,9 +72,9 @@ rutorrent_role_ru_locale: ""
 # Do not edit or override using the inventory
 rutorrent_role_trim_plugins_default: "_cloudflare,autotools,cookies,extsearch,feeds,ipad,loginmgr,rss,rssurlrewrite,rutracker_check,unpack"
 # Do not edit or override using the inventory
-rutorrent_role_trim_plugins: "{{ lookup('role_var', '_trim_plugins_enable', default=true) | bool
+rutorrent_role_trim_plugins: "{{ lookup('role_var', '_trim_plugins_enable', default=true, role='rutorrent') | bool
                                  | ternary(rutorrent_role_trim_plugins_default, '') | split(',')
-                                 | union(lookup('role_var', '_ru_remove_core_plugins', default='') | split(','))
+                                 | union(lookup('role_var', '_ru_remove_core_plugins', default='', role='rutorrent') | split(','))
                                  | select | map('trim') | join(',') }}"
 
 ################################
@@ -97,29 +97,28 @@ rutorrent_role_paths_folders_list:
 rutorrent_role_web_subdomain: "{{ rutorrent_name }}"
 rutorrent_role_web_domain: "{{ user.domain }}"
 rutorrent_role_web_port: "8080"
-rutorrent_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain') + '.' + lookup('role_var', '_web_domain')
-                         if (lookup('role_var', '_web_subdomain') | length > 0)
-                         else lookup('role_var', '_web_domain')) }}"
+rutorrent_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='rutorrent') + '.' + lookup('role_var', '_web_domain', role='rutorrent')
+                         if (lookup('role_var', '_web_subdomain', role='rutorrent') | length > 0)
+                         else lookup('role_var', '_web_domain', role='rutorrent')) }}"
 
 rutorrent_role_web_api_port: "8000"
 
-rutorrent_role_webdav_subdomain: "{{ lookup('role_var', '_web_subdomain') | default(rutorrent_name, true) }}-dav"
-rutorrent_role_webdav_domain: "{{ lookup('role_var', '_web_domain') }}"
+rutorrent_role_webdav_subdomain: "{{ lookup('role_var', '_web_subdomain', role='rutorrent') | default(rutorrent_name, true) }}-dav"
+rutorrent_role_webdav_domain: "{{ lookup('role_var', '_web_domain', role='rutorrent') }}"
 rutorrent_role_webdav_port: "9000"
-rutorrent_role_webdav_host: "{{ lookup('role_var', '_webdav_subdomain') + '.' + lookup('role_var', '_webdav_domain')
-                             if (lookup('role_var', '_webdav_subdomain') | length > 0)
-                             else lookup('role_var', '_webdav_domain') }}"
-
+rutorrent_role_webdav_host: "{{ lookup('role_var', '_webdav_subdomain', role='rutorrent') + '.' + lookup('role_var', '_webdav_domain', role='rutorrent')
+                             if (lookup('role_var', '_webdav_subdomain', role='rutorrent') | length > 0)
+                             else lookup('role_var', '_webdav_domain', role='rutorrent') }}"
 ################################
 # DNS
 ################################
 
-rutorrent_role_dns_record: "{{ lookup('role_var', '_web_subdomain') }}"
-rutorrent_role_dns_zone: "{{ lookup('role_var', '_web_domain') }}"
+rutorrent_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='rutorrent') }}"
+rutorrent_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='rutorrent') }}"
 rutorrent_role_dns_proxy: "{{ dns_proxied }}"
 
-rutorrent_role_webdav_dns_record: "{{ lookup('role_var', '_webdav_subdomain') }}"
-rutorrent_role_webdav_dns_zone: "{{ lookup('role_var', '_webdav_domain') }}"
+rutorrent_role_webdav_dns_record: "{{ lookup('role_var', '_webdav_subdomain', role='rutorrent') }}"
+rutorrent_role_webdav_dns_zone: "{{ lookup('role_var', '_webdav_domain', role='rutorrent') }}"
 rutorrent_role_webdav_dns_proxy: "{{ dns_proxied }}"
 
 ################################
@@ -134,13 +133,13 @@ rutorrent_role_traefik_enabled: true
 
 rutorrent_role_traefik_middleware_basicauth: "{{ traefik_router }}-auth,{{ traefik_default_middleware_api }}"
 
-rutorrent_role_traefik_api_middleware: "{{ lookup('role_var', '_traefik_middleware_basicauth') }}"
+rutorrent_role_traefik_api_middleware: "{{ lookup('role_var', '_traefik_middleware_basicauth', role='rutorrent') }}"
 rutorrent_role_traefik_api_endpoint: "PathPrefix(`/RPC`)"
 rutorrent_role_traefik_api_enabled: true
 
-rutorrent_role_traefik_webdav_middleware: "{{ lookup('role_var', '_traefik_middleware_basicauth') }}"
-rutorrent_role_traefik_webdav_certresolver: "{{ lookup('role_var', '_traefik_certresolver') }}"
-rutorrent_role_traefik_webdav_enabled: "{{ (lookup('role_var', '_webdav_enable', default=true) | bool) }}"
+rutorrent_role_traefik_webdav_middleware: "{{ lookup('role_var', '_traefik_middleware_basicauth', role='rutorrent') }}"
+rutorrent_role_traefik_webdav_certresolver: "{{ lookup('role_var', '_traefik_certresolver', role='rutorrent') }}"
+rutorrent_role_traefik_webdav_enabled: "{{ (lookup('role_var', '_webdav_enable', default=true, role='rutorrent') | bool) }}"
 
 ################################
 # Docker
@@ -153,7 +152,7 @@ rutorrent_role_docker_container: "{{ rutorrent_name }}"
 rutorrent_role_docker_image_pull: true
 rutorrent_role_docker_image_tag: "latest"
 rutorrent_role_docker_image_repo: "crazymax/rtorrent-rutorrent"
-rutorrent_role_docker_image: "{{ lookup('role_var', '_docker_image_repo') }}:{{ lookup('role_var', '_docker_image_tag') }}"
+rutorrent_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='rutorrent') }}:{{ lookup('role_var', '_docker_image_tag', role='rutorrent') }}"
 
 # Ports
 rutorrent_role_docker_port_dht: "{{ rutorrent_port_lookup_dht.meta.port
@@ -164,64 +163,64 @@ rutorrent_role_docker_port_inc: "{{ rutorrent_port_lookup_inc.meta.port
                                  else rutorrent_inc_port_low }}"
 
 rutorrent_role_docker_ports_default:
-  - "{{ lookup('role_var', '_docker_port_inc') }}:{{ lookup('role_var', '_docker_port_inc') }}"
-  - "{{ lookup('role_var', '_docker_port_inc') }}:{{ lookup('role_var', '_docker_port_inc') }}/udp"
+  - "{{ lookup('role_var', '_docker_port_inc', role='rutorrent') }}:{{ lookup('role_var', '_docker_port_inc', role='rutorrent') }}"
+  - "{{ lookup('role_var', '_docker_port_inc', role='rutorrent') }}:{{ lookup('role_var', '_docker_port_inc', role='rutorrent') }}/udp"
 rutorrent_role_docker_ports_dht:
-  - "{{ lookup('role_var', '_docker_port_dht') }}:{{ lookup('role_var', '_docker_port_dht') }}/udp"
+  - "{{ lookup('role_var', '_docker_port_dht', role='rutorrent') }}:{{ lookup('role_var', '_docker_port_dht', role='rutorrent') }}/udp"
 rutorrent_role_docker_ports_custom: []
-rutorrent_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default')
-                                 + (lookup('role_var', '_docker_ports_dht')
-                                   if not (lookup('role_var', '_public_trackers_disable', default=true) | bool)
+rutorrent_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='rutorrent')
+                                 + (lookup('role_var', '_docker_ports_dht', role='rutorrent')
+                                   if not (lookup('role_var', '_public_trackers_disable', default=true, role='rutorrent') | bool)
                                    else [])
-                                 + lookup('role_var', '_docker_ports_custom') }}"
+                                 + lookup('role_var', '_docker_ports_custom', role='rutorrent') }}"
 
 # Envs
 rutorrent_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  WAN_IP: "{{ lookup('role_var', '_wan_ip') if (lookup('role_var', '_wan_ip') | length > 0) else omit }}"
-  WAN_IP_CMD: "{{ lookup('role_var', '_wan_ip_cmd') if (lookup('role_var', '_wan_ip_cmd') | length > 0) else omit }}"
-  MEMORY_LIMIT: "{{ lookup('role_var', '_memory_limit') if (lookup('role_var', '_memory_limit') | length > 0) else omit }}"
-  UPLOAD_MAX_SIZE: "{{ lookup('role_var', '_upload_max_size') if (lookup('role_var', '_upload_max_size') | length > 0) else omit }}"
-  CLEAR_ENV: "{{ lookup('role_var', '_clear_env') if (lookup('role_var', '_clear_env') | length > 0) else omit }}"
-  OPCACHE_MEM_SIZE: "{{ lookup('role_var', '_opcache_mem_size') if (lookup('role_var', '_opcache_mem_size') | length > 0) else omit }}"
-  MAX_FILE_UPLOADS: "{{ lookup('role_var', '_max_file_uploads') if (lookup('role_var', '_max_file_uploads') | length > 0) else omit }}"
-  REAL_IP_FROM: "{{ lookup('role_var', '_real_ip_from') if (lookup('role_var', '_real_ip_from') | length > 0) else omit }}"
-  REAL_IP_HEADER: "{{ lookup('role_var', '_real_ip_header') if (lookup('role_var', '_real_ip_header') | length > 0) else omit }}"
-  LOG_IP_VAR: "{{ lookup('role_var', '_log_ip_var') if (lookup('role_var', '_log_ip_var') | length > 0) else omit }}"
-  LOG_ACCESS: "{{ lookup('role_var', '_log_access') if (lookup('role_var', '_log_access') | length > 0) else omit }}"
-  XMLRPC_SIZE_LIMIT: "{{ lookup('role_var', '_xmlrpc_size_limit') if (lookup('role_var', '_xmlrpc_size_limit') | length > 0) else omit }}"
-  RT_LOG_LEVEL: "{{ lookup('role_var', '_rt_log_level') if (lookup('role_var', '_rt_log_level') | length > 0) else omit }}"
-  RT_LOG_EXECUTE: "{{ lookup('role_var', '_rt_log_execute') if (lookup('role_var', '_rt_log_execute') | length > 0) else omit }}"
-  RT_LOG_XMLRPC: "{{ lookup('role_var', '_rt_log_xmlrpc') if (lookup('role_var', '_rt_log_xmlrpc') | length > 0) else omit }}"
-  RT_SESSION_SAVE_SECONDS: "{{ lookup('role_var', '_rt_session_save_seconds') if (lookup('role_var', '_rt_session_save_seconds') | length > 0) else omit }}"
-  RT_TRACKER_DELAY_SCRAPE: "{{ lookup('role_var', '_rt_tracker_delay_scrape') if (lookup('role_var', '_rt_tracker_delay_scrape') | length > 0) else omit }}"
-  RT_RECEIVE_BUFFER_SIZE: "{{ lookup('role_var', '_rt_receive_buffer_size') if (lookup('role_var', '_rt_receive_buffer_size') | length > 0) else omit }}"
-  RT_SEND_BUFFER_SIZE: "{{ lookup('role_var', '_rt_send_buffer_size') if (lookup('role_var', '_rt_send_buffer_size') | length > 0) else omit }}"
-  RT_PREALLOCATE_TYPE: "{{ lookup('role_var', '_rt_preallocate_type') if (lookup('role_var', '_rt_preallocate_type') | length > 0) else omit }}"
-  RT_DHT_PORT: "{{ (lookup('role_var', '_docker_port_dht') | string) if (lookup('role_var', '_docker_port_dht') | int) != 6881 else omit }}"
-  RT_INC_PORT: "{{ (lookup('role_var', '_docker_port_inc') | string) if (lookup('role_var', '_docker_port_inc') | int) != 50000 else omit }}"
+  WAN_IP: "{{ lookup('role_var', '_wan_ip', role='rutorrent') if (lookup('role_var', '_wan_ip', role='rutorrent') | length > 0) else omit }}"
+  WAN_IP_CMD: "{{ lookup('role_var', '_wan_ip_cmd', role='rutorrent') if (lookup('role_var', '_wan_ip_cmd', role='rutorrent') | length > 0) else omit }}"
+  MEMORY_LIMIT: "{{ lookup('role_var', '_memory_limit', role='rutorrent') if (lookup('role_var', '_memory_limit', role='rutorrent') | length > 0) else omit }}"
+  UPLOAD_MAX_SIZE: "{{ lookup('role_var', '_upload_max_size', role='rutorrent') if (lookup('role_var', '_upload_max_size', role='rutorrent') | length > 0) else omit }}"
+  CLEAR_ENV: "{{ lookup('role_var', '_clear_env', role='rutorrent') if (lookup('role_var', '_clear_env', role='rutorrent') | length > 0) else omit }}"
+  OPCACHE_MEM_SIZE: "{{ lookup('role_var', '_opcache_mem_size', role='rutorrent') if (lookup('role_var', '_opcache_mem_size', role='rutorrent') | length > 0) else omit }}"
+  MAX_FILE_UPLOADS: "{{ lookup('role_var', '_max_file_uploads', role='rutorrent') if (lookup('role_var', '_max_file_uploads', role='rutorrent') | length > 0) else omit }}"
+  REAL_IP_FROM: "{{ lookup('role_var', '_real_ip_from', role='rutorrent') if (lookup('role_var', '_real_ip_from', role='rutorrent') | length > 0) else omit }}"
+  REAL_IP_HEADER: "{{ lookup('role_var', '_real_ip_header', role='rutorrent') if (lookup('role_var', '_real_ip_header', role='rutorrent') | length > 0) else omit }}"
+  LOG_IP_VAR: "{{ lookup('role_var', '_log_ip_var', role='rutorrent') if (lookup('role_var', '_log_ip_var', role='rutorrent') | length > 0) else omit }}"
+  LOG_ACCESS: "{{ lookup('role_var', '_log_access', role='rutorrent') if (lookup('role_var', '_log_access', role='rutorrent') | length > 0) else omit }}"
+  XMLRPC_SIZE_LIMIT: "{{ lookup('role_var', '_xmlrpc_size_limit', role='rutorrent') if (lookup('role_var', '_xmlrpc_size_limit', role='rutorrent') | length > 0) else omit }}"
+  RT_LOG_LEVEL: "{{ lookup('role_var', '_rt_log_level', role='rutorrent') if (lookup('role_var', '_rt_log_level', role='rutorrent') | length > 0) else omit }}"
+  RT_LOG_EXECUTE: "{{ lookup('role_var', '_rt_log_execute', role='rutorrent') if (lookup('role_var', '_rt_log_execute', role='rutorrent') | length > 0) else omit }}"
+  RT_LOG_XMLRPC: "{{ lookup('role_var', '_rt_log_xmlrpc', role='rutorrent') if (lookup('role_var', '_rt_log_xmlrpc', role='rutorrent') | length > 0) else omit }}"
+  RT_SESSION_SAVE_SECONDS: "{{ lookup('role_var', '_rt_session_save_seconds', role='rutorrent') if (lookup('role_var', '_rt_session_save_seconds', role='rutorrent') | length > 0) else omit }}"
+  RT_TRACKER_DELAY_SCRAPE: "{{ lookup('role_var', '_rt_tracker_delay_scrape', role='rutorrent') if (lookup('role_var', '_rt_tracker_delay_scrape', role='rutorrent') | length > 0) else omit }}"
+  RT_RECEIVE_BUFFER_SIZE: "{{ lookup('role_var', '_rt_receive_buffer_size', role='rutorrent') if (lookup('role_var', '_rt_receive_buffer_size', role='rutorrent') | length > 0) else omit }}"
+  RT_SEND_BUFFER_SIZE: "{{ lookup('role_var', '_rt_send_buffer_size', role='rutorrent') if (lookup('role_var', '_rt_send_buffer_size', role='rutorrent') | length > 0) else omit }}"
+  RT_PREALLOCATE_TYPE: "{{ lookup('role_var', '_rt_preallocate_type', role='rutorrent') if (lookup('role_var', '_rt_preallocate_type', role='rutorrent') | length > 0) else omit }}"
+  RT_DHT_PORT: "{{ (lookup('role_var', '_docker_port_dht', role='rutorrent') | string) if (lookup('role_var', '_docker_port_dht', role='rutorrent') | int) != 6881 else omit }}"
+  RT_INC_PORT: "{{ (lookup('role_var', '_docker_port_inc', role='rutorrent') | string) if (lookup('role_var', '_docker_port_inc', role='rutorrent') | int) != 50000 else omit }}"
   RU_REMOVE_CORE_PLUGINS: "{{ rutorrent_role_trim_plugins if (rutorrent_role_trim_plugins | length > 0) else omit }}"
-  RU_HTTP_USER_AGENT: "{{ lookup('role_var', '_ru_http_user_agent') if (lookup('role_var', '_ru_http_user_agent') | length > 0) else omit }}"
-  RU_HTTP_TIME_OUT: "{{ lookup('role_var', '_ru_http_time_out') if (lookup('role_var', '_ru_http_time_out') | length > 0) else omit }}"
-  RU_HTTP_USE_GZIP: "{{ lookup('role_var', '_ru_http_use_gzip') if (lookup('role_var', '_ru_http_use_gzip') | length > 0) else omit }}"
-  RU_RPC_TIME_OUT: "{{ lookup('role_var', '_ru_rpc_time_out') if (lookup('role_var', '_ru_rpc_time_out') | length > 0) else omit }}"
-  RU_LOG_RPC_CALLS: "{{ lookup('role_var', '_ru_log_rpc_calls') if (lookup('role_var', '_ru_log_rpc_calls') | length > 0) else omit }}"
-  RU_LOG_RPC_FAULTS: "{{ lookup('role_var', '_ru_log_rpc_faults') if (lookup('role_var', '_ru_log_rpc_faults') | length > 0) else omit }}"
-  RU_PHP_USE_GZIP: "{{ lookup('role_var', '_ru_php_use_gzip') if (lookup('role_var', '_ru_php_use_gzip') | length > 0) else omit }}"
-  RU_PHP_GZIP_LEVEL: "{{ lookup('role_var', '_ru_php_gzip_level') if (lookup('role_var', '_ru_php_gzip_level') | length > 0) else omit }}"
-  RU_SCHEDULE_RAND: "{{ lookup('role_var', '_ru_schedule_rand') if (lookup('role_var', '_ru_schedule_rand') | length > 0) else omit }}"
-  RU_LOG_FILE: "{{ lookup('role_var', '_ru_log_file') if (lookup('role_var', '_ru_log_file') | length > 0) else omit }}"
-  RU_DO_DIAGNOSTIC: "{{ lookup('role_var', '_ru_do_diagnostic') if (lookup('role_var', '_ru_do_diagnostic') | length > 0) else omit }}"
-  RU_CACHED_PLUGIN_LOADING: "{{ lookup('role_var', '_ru_cached_plugin_loading') if (lookup('role_var', '_ru_cached_plugin_loading') | length > 0) else omit }}"
-  RU_SAVE_UPLOADED_TORRENTS: "{{ lookup('role_var', '_ru_save_uploaded_torrents') if (lookup('role_var', '_ru_save_uploaded_torrents') | length > 0) else omit }}"
-  RU_OVERWRITE_UPLOADED_TORRENTS: "{{ lookup('role_var', '_ru_overwrite_uploaded_torrents') if (lookup('role_var', '_ru_overwrite_uploaded_torrents') | length > 0) else omit }}"
-  RU_FORBID_USER_SETTINGS: "{{ lookup('role_var', '_ru_forbid_user_settings') if (lookup('role_var', '_ru_forbid_user_settings') | length > 0) else omit }}"
-  RU_LOCALE: "{{ lookup('role_var', '_ru_locale') if (lookup('role_var', '_ru_locale') | length > 0) else omit }}"
+  RU_HTTP_USER_AGENT: "{{ lookup('role_var', '_ru_http_user_agent', role='rutorrent') if (lookup('role_var', '_ru_http_user_agent', role='rutorrent') | length > 0) else omit }}"
+  RU_HTTP_TIME_OUT: "{{ lookup('role_var', '_ru_http_time_out', role='rutorrent') if (lookup('role_var', '_ru_http_time_out', role='rutorrent') | length > 0) else omit }}"
+  RU_HTTP_USE_GZIP: "{{ lookup('role_var', '_ru_http_use_gzip', role='rutorrent') if (lookup('role_var', '_ru_http_use_gzip', role='rutorrent') | length > 0) else omit }}"
+  RU_RPC_TIME_OUT: "{{ lookup('role_var', '_ru_rpc_time_out', role='rutorrent') if (lookup('role_var', '_ru_rpc_time_out', role='rutorrent') | length > 0) else omit }}"
+  RU_LOG_RPC_CALLS: "{{ lookup('role_var', '_ru_log_rpc_calls', role='rutorrent') if (lookup('role_var', '_ru_log_rpc_calls', role='rutorrent') | length > 0) else omit }}"
+  RU_LOG_RPC_FAULTS: "{{ lookup('role_var', '_ru_log_rpc_faults', role='rutorrent') if (lookup('role_var', '_ru_log_rpc_faults', role='rutorrent') | length > 0) else omit }}"
+  RU_PHP_USE_GZIP: "{{ lookup('role_var', '_ru_php_use_gzip', role='rutorrent') if (lookup('role_var', '_ru_php_use_gzip', role='rutorrent') | length > 0) else omit }}"
+  RU_PHP_GZIP_LEVEL: "{{ lookup('role_var', '_ru_php_gzip_level', role='rutorrent') if (lookup('role_var', '_ru_php_gzip_level', role='rutorrent') | length > 0) else omit }}"
+  RU_SCHEDULE_RAND: "{{ lookup('role_var', '_ru_schedule_rand', role='rutorrent') if (lookup('role_var', '_ru_schedule_rand', role='rutorrent') | length > 0) else omit }}"
+  RU_LOG_FILE: "{{ lookup('role_var', '_ru_log_file', role='rutorrent') if (lookup('role_var', '_ru_log_file', role='rutorrent') | length > 0) else omit }}"
+  RU_DO_DIAGNOSTIC: "{{ lookup('role_var', '_ru_do_diagnostic', role='rutorrent') if (lookup('role_var', '_ru_do_diagnostic', role='rutorrent') | length > 0) else omit }}"
+  RU_CACHED_PLUGIN_LOADING: "{{ lookup('role_var', '_ru_cached_plugin_loading', role='rutorrent') if (lookup('role_var', '_ru_cached_plugin_loading', role='rutorrent') | length > 0) else omit }}"
+  RU_SAVE_UPLOADED_TORRENTS: "{{ lookup('role_var', '_ru_save_uploaded_torrents', role='rutorrent') if (lookup('role_var', '_ru_save_uploaded_torrents', role='rutorrent') | length > 0) else omit }}"
+  RU_OVERWRITE_UPLOADED_TORRENTS: "{{ lookup('role_var', '_ru_overwrite_uploaded_torrents', role='rutorrent') if (lookup('role_var', '_ru_overwrite_uploaded_torrents', role='rutorrent') | length > 0) else omit }}"
+  RU_FORBID_USER_SETTINGS: "{{ lookup('role_var', '_ru_forbid_user_settings', role='rutorrent') if (lookup('role_var', '_ru_forbid_user_settings', role='rutorrent') | length > 0) else omit }}"
+  RU_LOCALE: "{{ lookup('role_var', '_ru_locale', role='rutorrent') if (lookup('role_var', '_ru_locale', role='rutorrent') | length > 0) else omit }}"
 rutorrent_role_docker_envs_custom: {}
-rutorrent_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default')
-                                | combine(lookup('role_var', '_docker_envs_custom')) }}"
+rutorrent_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='rutorrent')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='rutorrent')) }}"
 
 # Volumes
 rutorrent_role_docker_volumes_download: false
@@ -230,43 +229,43 @@ rutorrent_role_docker_volumes_default:
   - "{{ rutorrent_role_paths_downloads_location }}:/downloads"
   - "{{ rutorrent_role_paths_location }}/passwd:/passwd"
 rutorrent_role_docker_volumes_custom: []
-rutorrent_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default')
-                                   + lookup('role_var', '_docker_volumes_custom') }}"
+rutorrent_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='rutorrent')
+                                   + lookup('role_var', '_docker_volumes_custom', role='rutorrent') }}"
 
 # Labels
 rutorrent_role_docker_labels_default:
   - '{ "traefik.http.middlewares.{{ traefik_router }}-auth.basicauth.usersfile": "/etc/traefik/auth" }'
 rutorrent_role_docker_labels_api:
   - '{ "traefik.http.routers.{{ traefik_router }}-api-http.service": "{{ traefik_router }}-api" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-api-http.loadbalancer.server.port": "{{ lookup("role_var", "_web_api_port") }}" }'
+  - '{ "traefik.http.services.{{ traefik_router }}-api-http.loadbalancer.server.port": "{{ lookup("role_var", "_web_api_port", role="rutorrent") }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-api.service": "{{ traefik_router }}-api" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-api.loadbalancer.server.port": "{{ lookup("role_var", "_web_api_port") }}" }'
+  - '{ "traefik.http.services.{{ traefik_router }}-api.loadbalancer.server.port": "{{ lookup("role_var", "_web_api_port", role="rutorrent") }}" }'
 rutorrent_role_docker_labels_webdav:
   - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.entrypoints": "{{ traefik_entrypoint_web }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.service": "{{ traefik_router }}-dav" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.rule": "Host(`{{ lookup("role_var", "_webdav_host") }}`)" }'
+  - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.rule": "Host(`{{ lookup("role_var", "_webdav_host", role="rutorrent") }}`)" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.priority": "20" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.middlewares": "{{ traefik_default_middleware_http_api }}" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-dav-http.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port") }}" }'
+  - '{ "traefik.http.services.{{ traefik_router }}-dav-http.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port", role="rutorrent") }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav.entrypoints": "{{ traefik_entrypoint_websecure }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav.service": "{{ traefik_router }}-dav" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-dav.rule": "Host(`{{ lookup("role_var", "_webdav_host") }}`)" }'
+  - '{ "traefik.http.routers.{{ traefik_router }}-dav.rule": "Host(`{{ lookup("role_var", "_webdav_host", role="rutorrent") }}`)" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav.priority": "20" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-dav.tls.certresolver": "{{ lookup("role_var", "_traefik_webdav_certresolver") }}" }'
+  - '{ "traefik.http.routers.{{ traefik_router }}-dav.tls.certresolver": "{{ lookup("role_var", "_traefik_webdav_certresolver", role="rutorrent") }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav.tls.domains[0].main": "{{ traefik_domain }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav.tls.domains[0].sans": "{{ "*." + traefik_domain }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav.tls.options": "securetls@file" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-dav.middlewares": "{{ lookup("role_var", "_traefik_api_middleware") }}" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-dav.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port") }}" }'
+  - '{ "traefik.http.routers.{{ traefik_router }}-dav.middlewares": "{{ lookup("role_var", "_traefik_api_middleware", role="rutorrent") }}" }'
+  - '{ "traefik.http.services.{{ traefik_router }}-dav.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port", role="rutorrent") }}" }'
 rutorrent_role_docker_labels_custom: {}
-rutorrent_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default')
-                                  | combine(lookup('role_var', '_docker_labels_api')
-                                           if (lookup('role_var', '_traefik_api_enabled', default=true) | bool)
+rutorrent_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='rutorrent')
+                                  | combine(lookup('role_var', '_docker_labels_api', role='rutorrent')
+                                           if (lookup('role_var', '_traefik_api_enabled', default=true, role='rutorrent') | bool)
                                            else {},
-                                            lookup('role_var', '_docker_labels_webdav')
-                                           if (lookup('role_var', '_traefik_webdav_enabled', default=true) | bool)
+                                            lookup('role_var', '_docker_labels_webdav', role='rutorrent')
+                                           if (lookup('role_var', '_traefik_webdav_enabled', default=true, role='rutorrent') | bool)
                                            else {},
-                                            lookup('role_var', '_docker_labels_custom')) }}"
+                                            lookup('role_var', '_docker_labels_custom', role='rutorrent')) }}"
 
 # Hostname
 rutorrent_role_docker_hostname: "{{ rutorrent_name }}"
@@ -276,8 +275,8 @@ rutorrent_role_docker_networks_alias: "{{ rutorrent_name }}"
 rutorrent_role_docker_networks_default: []
 rutorrent_role_docker_networks_custom: []
 rutorrent_role_docker_networks: "{{ docker_networks_common
-                                    + lookup('role_var', '_docker_networks_default')
-                                    + lookup('role_var', '_docker_networks_custom') }}"
+                                    + lookup('role_var', '_docker_networks_default', role='rutorrent')
+                                    + lookup('role_var', '_docker_networks_custom', role='rutorrent') }}"
 
 # Restart Policy
 rutorrent_role_docker_restart_policy: unless-stopped
