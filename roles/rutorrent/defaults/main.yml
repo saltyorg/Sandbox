@@ -235,11 +235,6 @@ rutorrent_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default',
 # Labels
 rutorrent_role_docker_labels_default:
   - '{ "traefik.http.middlewares.{{ traefik_router }}-auth.basicauth.usersfile": "/etc/traefik/auth" }'
-rutorrent_role_docker_labels_api:
-  - '{ "traefik.http.routers.{{ traefik_router }}-api-http.service": "{{ traefik_router }}-api" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-api-http.loadbalancer.server.port": "{{ lookup("role_var", "_web_api_port", role="rutorrent") }}" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-api.service": "{{ traefik_router }}-api" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-api.loadbalancer.server.port": "{{ lookup("role_var", "_web_api_port", role="rutorrent") }}" }'
 rutorrent_role_docker_labels_webdav:
   - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.entrypoints": "{{ traefik_entrypoint_web }}" }'
   - '{ "traefik.http.routers.{{ traefik_router }}-dav-http.service": "{{ traefik_router }}-dav" }'
@@ -259,10 +254,7 @@ rutorrent_role_docker_labels_webdav:
   - '{ "traefik.http.services.{{ traefik_router }}-dav.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port", role="rutorrent") }}" }'
 rutorrent_role_docker_labels_custom: {}
 rutorrent_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='rutorrent')
-                                  | combine(lookup('role_var', '_docker_labels_api', role='rutorrent')
-                                           if (lookup('role_var', '_traefik_api_enabled', default=true, role='rutorrent') | bool)
-                                           else {},
-                                            lookup('role_var', '_docker_labels_webdav', role='rutorrent')
+                                  | combine(lookup('role_var', '_docker_labels_webdav', role='rutorrent')
                                            if (lookup('role_var', '_traefik_webdav_enabled', default=true, role='rutorrent') | bool)
                                            else {},
                                             lookup('role_var', '_docker_labels_custom', role='rutorrent')) }}"
