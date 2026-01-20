@@ -56,5 +56,5 @@
 - name: Create admin user
   community.docker.docker_container_exec:
     container: "{{ pufferpanel_name }}"
-    command: "/pufferpanel/pufferpanel user add --admin --name {{ user.name }} --email {{ user.email }} --password {{ user.pass }}"
+    command: "/pufferpanel/bin/pufferpanel user add --admin --name {{ user.name }} --email {{ user.email }} --password {{ user.pass }}"
   when: (not pufferpanel_config.stat.exists)
