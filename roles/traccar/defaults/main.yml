@@ -1,0 +1,147 @@
+##########################################################################
+# Title:         Sandbox: Traccar | Default Variables                   #
+# Author(s):     codex                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+traccar_name: traccar
+
+################################
+# Settings
+################################
+
+traccar_role_postgres_deploy: true
+traccar_role_postgres_name: "{{ traccar_name }}-postgres"
+# If empty it will fallback to timescaledb role default
+traccar_role_postgres_user: ""
+# If empty it will fallback to timescaledb role default
+traccar_role_postgres_password: ""
+traccar_role_postgres_docker_env_db: "{{ traccar_name }}"
+traccar_role_postgres_docker_image_tag: "pg18-all-amd64"
+traccar_role_postgres_docker_image_repo: "timescale/timescaledb-ha"
+traccar_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='traccar') }} -U {{ lookup('role_var', '_postgres_user', role='traccar') if (lookup('role_var', '_postgres_user', role='traccar') | length > 0) else lookup('role_var', '_docker_env_user', role='timescaledb') }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
+traccar_role_postgres_paths_folder: "{{ traccar_name }}"
+traccar_role_postgres_paths_location: "{{ server_appdata_path }}/{{ traccar_role_postgres_paths_folder }}/postgres"
+traccar_role_postgres_docker_envs:
+  TIMESCALEDB_TELEMETRY: "off"
+
+################################
+# Paths
+################################
+
+traccar_role_paths_folder: "{{ traccar_name }}"
+traccar_role_paths_location: "{{ server_appdata_path }}/{{ traccar_role_paths_folder }}"
+traccar_role_paths_folders_list:
+  - "{{ traccar_role_paths_location }}"
+  - "{{ traccar_role_paths_location }}/logs"
+
+################################
+# Web
+################################
+
+traccar_role_web_subdomain: "{{ traccar_name }}"
+traccar_role_web_domain: "{{ user.domain }}"
+traccar_role_web_port: "8082"
+traccar_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='traccar') + '.' + lookup('role_var', '_web_domain', role='traccar')
+                       if (lookup('role_var', '_web_subdomain', role='traccar') | length > 0)
+                       else lookup('role_var', '_web_domain', role='traccar')) }}"
+
+################################
+# DNS
+################################
+
+traccar_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='traccar') }}"
+traccar_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='traccar') }}"
+traccar_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+traccar_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+traccar_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+traccar_role_traefik_middleware_custom: ""
+traccar_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+traccar_role_traefik_enabled: true
+traccar_role_traefik_api_enabled: false
+traccar_role_traefik_api_endpoint: "PathPrefix(`/api`)"
+
+################################
+# Docker
+################################
+
+# Container
+traccar_role_docker_container: "{{ traccar_name }}"
+
+# Image
+traccar_role_docker_image_pull: true
+traccar_role_docker_image_repo: "traccar/traccar"
+traccar_role_docker_image_tag: "latest"
+traccar_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='traccar') }}:{{ lookup('role_var', '_docker_image_tag', role='traccar') }}"
+
+# Ports
+traccar_role_device_ports_range: "5000-5300"
+traccar_role_docker_ports_default:
+  - "{{ lookup('role_var', '_web_port', role='traccar') }}:{{ lookup('role_var', '_web_port', role='traccar') }}"
+  - "{{ lookup('role_var', '_device_ports_range', role='traccar') }}:{{ lookup('role_var', '_device_ports_range', role='traccar') }}/tcp"
+  - "{{ lookup('role_var', '_device_ports_range', role='traccar') }}:{{ lookup('role_var', '_device_ports_range', role='traccar') }}/udp"
+traccar_role_docker_ports_custom: []
+traccar_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='traccar')
+                               + lookup('role_var', '_docker_ports_custom', role='traccar') }}"
+
+# Envs
+traccar_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  CONFIG_USE_ENVIRONMENT_VARIABLES: "true"
+  DATABASE_DRIVER: "org.postgresql.Driver"
+  DATABASE_URL: "jdbc:postgresql://{{ lookup('role_var', '_postgres_name', role='traccar') }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='traccar') }}"
+  DATABASE_USER: "{{ lookup('role_var', '_postgres_user', role='traccar')
+                  if (lookup('role_var', '_postgres_user', role='traccar') | length > 0)
+                  else lookup('role_var', '_docker_env_user', role='timescaledb') }}"
+  DATABASE_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='traccar')
+                      if (lookup('role_var', '_postgres_password', role='traccar') | length > 0)
+                      else lookup('role_var', '_docker_env_password', role='timescaledb') }}"
+traccar_role_docker_envs_custom: {}
+traccar_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='traccar')
+                              | combine(lookup('role_var', '_docker_envs_custom', role='traccar')) }}"
+
+# Volumes
+traccar_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='traccar') }}/logs:/opt/traccar/logs"
+traccar_role_docker_volumes_custom: []
+traccar_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='traccar')
+                                 + lookup('role_var', '_docker_volumes_custom', role='traccar') }}"
+
+# Hostname
+traccar_role_docker_hostname: "{{ traccar_name }}"
+
+# Networks
+traccar_role_docker_networks_alias: "{{ traccar_name }}"
+traccar_role_docker_networks_default: []
+traccar_role_docker_networks_custom: []
+traccar_role_docker_networks: "{{ docker_networks_common
+                                  + lookup('role_var', '_docker_networks_default', role='traccar')
+                                  + lookup('role_var', '_docker_networks_custom', role='traccar') }}"
+
+# Restart Policy
+traccar_role_docker_restart_policy: unless-stopped
+
+# State
+traccar_role_docker_state: started
+
+# Dependencies
+traccar_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='traccar') }}"
+traccar_role_depends_on_delay: "0"
+traccar_role_depends_on_healthchecks: "false"

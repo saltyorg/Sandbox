@@ -164,6 +164,7 @@
     - { role: threadfin, tags: ['threadfin'] }
     - { role: tika, tags: ['tika'] }
     - { role: tqm, tags: ['tqm'] }
+    - { role: traccar, tags: ['traccar'] }
     - { role: trackarr, tags: ['trackarr'] }
     - { role: traefik_robotstxt, tags: ['traefik-robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
