@@ -81,6 +81,14 @@ threadfin_role_docker_volumes_custom: []
 threadfin_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='threadfin')
                                    + lookup('role_var', '_docker_volumes_custom', role='threadfin') }}"
 
+# Mounts
+threadfin_role_docker_mounts_default:
+  - target: /tmp/threadfin
+    type: tmpfs
+threadfin_role_docker_mounts_custom: []
+threadfin_role_docker_mounts: "{{ lookup('role_var', '_docker_mounts_default', role='threadfin')
+                                  + lookup('role_var', '_docker_mounts_custom', role='threadfin') }}"
+
 # Hostname
 threadfin_role_docker_hostname: "{{ threadfin_name }}"
 
@@ -97,6 +105,9 @@ threadfin_role_docker_restart_policy: unless-stopped
 
 # State
 threadfin_role_docker_state: started
+
+# Init
+threadfin_role_docker_init: true
 
 # User
 threadfin_role_docker_user: "{{ uid }}:{{ gid }}"
