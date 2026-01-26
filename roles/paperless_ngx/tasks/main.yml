@@ -37,6 +37,8 @@
     postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='paperless_ngx') }}"
     postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='paperless_ngx') }}"
     postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='paperless_ngx') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='paperless_ngx') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='paperless_ngx') }}"
     postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='paperless_ngx') }}"
   when: lookup('role_var', '_postgres_deploy', role='paperless_ngx')
 

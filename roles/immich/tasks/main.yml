@@ -36,6 +36,8 @@
     postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='immich') }}"
     postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='immich') }}"
     postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='immich') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='immich') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='immich') }}"
     postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='immich') }}"
     postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='immich') }}"
     postgres_role_docker_envs_custom: "{{ lookup('role_var', '_postgres_docker_envs_custom', role='immich') }}"

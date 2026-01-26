@@ -23,8 +23,8 @@
     postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='joplin') }}"
     postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='joplin') }}"
     postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='joplin') }}"
-    postgres_role_docker_env_user: "{{ lookup('role_var', '_postgres_user', role='joplin') }}"
-    postgres_role_docker_env_password: "{{ lookup('role_var', '_postgres_password', role='joplin') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='joplin') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='joplin') }}"
   when: lookup('role_var', '_postgres_deploy', role='joplin')
 
 - name: Add DNS record
