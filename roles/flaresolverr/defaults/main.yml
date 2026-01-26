@@ -14,6 +14,15 @@
 flaresolverr_name: flaresolverr
 
 ################################
+# Paths
+################################
+
+flaresolverr_role_paths_folder: "{{ flaresolverr_name }}"
+flaresolverr_role_paths_location: "{{ server_appdata_path }}/{{ flaresolverr_role_paths_folder }}"
+flaresolverr_role_paths_folders_list:
+  - "{{ flaresolverr_role_paths_location }}"
+
+################################
 # Docker
 ################################
 
@@ -35,6 +44,13 @@ flaresolverr_role_docker_envs_default:
 flaresolverr_role_docker_envs_custom: {}
 flaresolverr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='flaresolverr')
                                    | combine(lookup('role_var', '_docker_envs_custom', role='flaresolverr')) }}"
+
+# Volumes
+flaresolverr_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='flaresolverr') }}:/config"
+flaresolverr_role_docker_volumes_custom: []
+flaresolverr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='flaresolverr')
+                                     + lookup('role_var', '_docker_volumes_custom', role='flaresolverr') }}"
 
 # Hostname
 flaresolverr_role_docker_hostname: "{{ flaresolverr_name }}"
