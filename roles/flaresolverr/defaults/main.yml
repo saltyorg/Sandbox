@@ -50,7 +50,7 @@ flaresolverr_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='flaresolverr') }}:/config"
 flaresolverr_role_docker_volumes_custom: []
 flaresolverr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='flaresolverr')
-                                     + lookup('role_var', '_docker_volumes_custom', role='flaresolverr') }}"
+                                      + lookup('role_var', '_docker_volumes_custom', role='flaresolverr') }}"
 
 # Hostname
 flaresolverr_role_docker_hostname: "{{ flaresolverr_name }}"
