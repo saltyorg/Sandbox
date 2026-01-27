@@ -1,0 +1,47 @@
+##########################################################################
+# Title:            Sandbox: Homarr | Legacy                             #
+# Author(s):        CHAIR/Raneydazed                                     #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Legacy | Check for legacy Homarr config
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ homarr_name }}/default.json"
+  register: homarr_legacy_default_json
+
+- name: Legacy | Check for Homarr v1 database
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ homarr_name }}/db"
+  register: homarr_v1_db
+
+- name: Legacy | Check legacy destination folder
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/{{ homarr_name }}-legacy"
+  register: homarr_legacy_destination
+
+- name: Legacy | Determine if migration is needed
+  ansible.builtin.set_fact:
+    homarr_legacy_migration_needed: "{{ homarr_legacy_default_json.stat.exists and not homarr_v1_db.stat.exists }}"
+
+- name: Legacy | Fail if legacy destination exists
+  ansible.builtin.fail:
+    msg: "Legacy Homarr migration detected but destination {{ server_appdata_path }}/{{ homarr_name }}-legacy already exists. Resolve manually and rerun."
+  when: homarr_legacy_migration_needed and homarr_legacy_destination.stat.exists
+
+- name: Legacy | Migrate legacy Homarr folder
+  migrate_folder:
+    legacy_path: "{{ server_appdata_path }}/{{ homarr_name }}"
+    new_path: "{{ server_appdata_path }}/{{ homarr_name }}-legacy"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0775'
+    recurse: false
+  when: homarr_legacy_migration_needed and not homarr_legacy_destination.stat.exists
+
+- name: Legacy | Migration notice
+  ansible.builtin.debug:
+    msg: "Legacy Homarr data moved to {{ server_appdata_path }}/{{ homarr_name }}-legacy. Use the homarr_legacy role for config export."
+  when: homarr_legacy_migration_needed and not homarr_legacy_destination.stat.exists

@@ -2,6 +2,7 @@
 # Title:            Sandbox: homarr | Default Variables                  #
 # Author(s):        CHAIR/Raneydazed                                     #
 # URL:              https://github.com/saltyorg/Sandbox                  #
+# URL:              https://homarr.dev                                   #
 # --                                                                     #
 ##########################################################################
 #                   GNU General Public License v3.0                      #
@@ -29,7 +30,6 @@ homarr_role_paths_folder: "{{ homarr_name }}"
 homarr_role_paths_location: "{{ server_appdata_path }}/{{ homarr_role_paths_folder }}"
 homarr_role_paths_folders_list:
   - "{{ homarr_role_paths_location }}"
-  - "{{ homarr_role_paths_location }}/icons"
 
 ################################
 # Web
@@ -71,25 +71,24 @@ homarr_role_docker_container: "{{ homarr_name }}"
 
 # Image
 homarr_role_docker_image_pull: true
-homarr_role_docker_image_repo: "ghcr.io/ajnart/homarr"
+homarr_role_docker_image_repo: "ghcr.io/homarr-labs/homarr"
 homarr_role_docker_image_tag: "latest"
 homarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='homarr') }}:{{ lookup('role_var', '_docker_image_tag', role='homarr') }}"
 
 # Envs
 homarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-  BASE_URL: "{{ lookup('role_var', '_web_subdomain', role='homarr') + '.' + lookup('role_var', '_web_domain', role='homarr') }}"
-  PASSWORD: "{{ user.pass }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  SECRET_ENCRYPTION_KEY: "{{ homarr_saltbox_facts.facts.secret_key }}"
   DOCKER_HOST: "tcp://{{ homarr_name }}-docker-socket-proxy:2375"
-  NODE_TLS_REJECT_UNAUTHORIZED: "0"
 homarr_role_docker_envs_custom: {}
 homarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='homarr')
                              | combine(lookup('role_var', '_docker_envs_custom', role='homarr')) }}"
 
 # Volumes
 homarr_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='homarr') }}:/app/data/configs"
-  - "{{ lookup('role_var', '_paths_location', role='homarr') }}/icons:/app/public/icons"
+  - "{{ lookup('role_var', '_paths_location', role='homarr') }}:/appdata"
 homarr_role_docker_volumes_custom: []
 homarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='homarr')
                                 + lookup('role_var', '_docker_volumes_custom', role='homarr') }}"
@@ -110,6 +109,9 @@ homarr_role_docker_restart_policy: unless-stopped
 
 # State
 homarr_role_docker_state: started
+
+# Init
+homarr_role_docker_init: true
 
 # Dependencies
 homarr_role_depends_on: "{{ homarr_name }}-docker-socket-proxy"

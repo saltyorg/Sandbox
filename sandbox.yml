@@ -73,6 +73,7 @@
     - { role: heimdall, tags: ['heimdall'] }
     - { role: hoarder, tags: ['hoarder'] }
     - { role: homarr, tags: ['homarr'] }
+    - { role: homarr_legacy, tags: ['homarr-legacy'] }
     - { role: homeassistant, tags: ['homeassistant'] }
     - { role: homebox, tags: ['homebox'] }
     - { role: homepage, tags: ['homepage'] }

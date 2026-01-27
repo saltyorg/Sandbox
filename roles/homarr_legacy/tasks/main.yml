@@ -1,8 +1,7 @@
 ##########################################################################
-# Title:            Sandbox: Homarr                                      #
-# Author(s):        salty                                                #
+# Title:            Sandbox: Homarr (Legacy)                             #
+# Author(s):        CHAIR/Raneydazed                                     #
 # URL:              https://github.com/saltyorg/Sandbox                  #
-# URL:              https://homarr.dev                                   #
 # --                                                                     #
 ##########################################################################
 #                   GNU General Public License v3.0                      #
@@ -12,8 +11,8 @@
   ansible.builtin.include_role:
     name: docker_socket_proxy
   vars:
-    docker_socket_proxy_name: "{{ homarr_name }}-docker-socket-proxy"
-    docker_socket_proxy_role_docker_envs_custom: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='homarr') }}"
+    docker_socket_proxy_name: "{{ homarr_legacy_name }}-docker-socket-proxy"
+    docker_socket_proxy_role_docker_envs_custom: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='homarr_legacy') }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
@@ -25,22 +24,8 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Import Legacy tasks
-  ansible.builtin.import_tasks: "subtasks/legacy.yml"
-
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: Homarr Saltbox Facts
-  saltbox_facts:
-    role: "homarr"
-    instance: "homarr"
-    keys:
-      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['abcdef', 'digits'], length=32) }}"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    base_path: "{{ server_appdata_path }}"
-  register: homarr_saltbox_facts
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
