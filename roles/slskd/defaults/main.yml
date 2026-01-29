@@ -17,143 +17,104 @@ slskd_name: slskd
 # Paths
 ################################
 
-slskd_paths_folder: "{{ slskd_name }}"
-slskd_paths_location: "{{ server_appdata_path }}/{{ slskd_paths_folder }}"
-slskd_paths_downloads_location: "{{ downloads_root_path }}/{{ slskd_paths_folder }}"
-slskd_paths_folders_list:
-  - "{{ slskd_paths_location }}"
-  - "{{ slskd_paths_downloads_location }}"
-  - "{{ slskd_paths_downloads_location }}/completed"
-  - "{{ slskd_paths_downloads_location }}/incomplete"
-slskd_paths_recursive: true
+slskd_role_paths_folder: "{{ slskd_name }}"
+slskd_role_paths_location: "{{ server_appdata_path }}/{{ slskd_role_paths_folder }}"
+slskd_role_paths_downloads_location: "{{ downloads_root_path }}/{{ slskd_role_paths_folder }}"
+slskd_role_paths_folders_list:
+  - "{{ slskd_role_paths_location }}"
+  - "{{ slskd_role_paths_downloads_location }}"
+  - "{{ slskd_role_paths_downloads_location }}/completed"
+  - "{{ slskd_role_paths_downloads_location }}/incomplete"
+slskd_role_paths_recursive: true
 
 ################################
 # Web
 ################################
 
-slskd_web_subdomain: "{{ slskd_name }}"
-slskd_web_domain: "{{ user.domain }}"
-slskd_web_port: "5030"
-slskd_web_url: "{{ 'https://' + (slskd_web_subdomain + '.' + slskd_web_domain
-                         if (slskd_web_subdomain | length > 0)
-                         else slskd_web_domain) }}"
+slskd_role_web_subdomain: "{{ slskd_name }}"
+slskd_role_web_domain: "{{ user.domain }}"
+slskd_role_web_port: "5030"
+slskd_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='audiobookshelf') + '.' + lookup('role_var', '_web_domain', role='audiobookshelf')
+                        if (lookup('role_var', '_web_subdomain', role='audiobookshelf') | length > 0)
+                        else lookup('role_var', '_web_domain', role='audiobookshelf')) }}"
 
 ################################
 # DNS
 ################################
 
-slskd_dns_record: "{{ lookup('vars', slskd_name + '_web_subdomain', default=slskd_web_subdomain) }}"
-slskd_dns_zone: "{{ lookup('vars', slskd_name + '_web_domain', default=slskd_web_domain) }}"
-slskd_dns_proxy: "{{ dns.proxied }}"
+slskd_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='slskd') }}"
+slskd_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='slskd') }}"
+slskd_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik
 ################################
 
-slskd_traefik_sso_middleware: ""
-slskd_traefik_middleware_default: "{{ traefik_default_middleware }}"
-slskd_traefik_middleware_custom: ""
-slskd_traefik_certresolver: "{{ traefik_default_certresolver }}"
-slskd_traefik_enabled: true
+slskd_role_traefik_sso_middleware: ""
+slskd_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+slskd_role_traefik_middleware_custom: ""
+slskd_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+slskd_role_traefik_enabled: true
 
 ################################
 # Docker
 ################################
 
 # Container
-slskd_docker_container: "{{ slskd_name }}"
+slskd_role_docker_container: "{{ slskd_role_name }}"
 
 # Image
-slskd_docker_image_pull: true
-slskd_docker_image_repo: "ghcr.io/slskd/slskd"
-slskd_docker_image_tag: "latest"
-slskd_docker_image: "{{ lookup('vars', slskd_name + '_docker_image_repo', default=slskd_docker_image_repo)
-                                 + ':' + lookup('vars', slskd_name + '_docker_image_tag', default=slskd_docker_image_tag) }}"
+slskd_role_docker_image_pull: true
+slskd_role_docker_image_repo: "ghcr.io/slskd/slskd"
+slskd_role_docker_image_tag: "latest"
+slskd_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='slskd') }}:{{ lookup('role_var', '_docker_image_tag', role='slskd') }}"
 
 # Ports
-slskd_docker_ports_defaults:
+slskd_role_docker_ports_defaults:
   - "5030:5030"
   - "50300:50300"
-slskd_docker_ports_custom: []
-slskd_docker_ports: "{{ lookup('vars', slskd_name + '_docker_ports_defaults', default=slskd_docker_ports_defaults)
-                                 + lookup('vars', slskd_name + '_docker_ports_custom', default=slskd_docker_ports_custom) }}"
+slskd_role_docker_ports_custom: []
+slskd_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='slskd')
+                              + lookup('role_var', '_docker_ports_custom', role='slskd') }}"
 
 # Envs
-slskd_docker_envs_default:
+slskd_role_docker_envs_default:
   SLSKD_REMOTE_CONFIGURATION: "true"
-  SLSKD_DOWNLOADS_DIR: "{{ slskd_paths_downloads_location }}/completed"
-  SLSKD_INCOMPLETE_DIR: "{{ slskd_paths_downloads_location }}/incomplete"
+  SLSKD_DOWNLOADS_DIR: "{{ slskd_role_paths_downloads_location }}/completed"
+  SLSKD_INCOMPLETE_DIR: "{{ slskd_role_paths_downloads_location }}/incomplete"
   SLSKD_SHARED_DIR: "/mnt/unionfs/Media/Music"
   SLSKD_USERNAME: "{{ user.name }}"
   SLSKD_PASSWORD: "{{ user.pass }}"
   TZ: "{{ tz }}"
-slskd_docker_envs_custom: {}
-slskd_docker_envs: "{{ lookup('vars', slskd_name + '_docker_envs_default', default=slskd_docker_envs_default)
-                                | combine(lookup('vars', slskd_name + '_docker_envs_custom', default=slskd_docker_envs_custom)) }}"
-
-# Commands
-slskd_docker_commands_default: []
-slskd_docker_commands_custom: []
-slskd_docker_commands: "{{ lookup('vars', slskd_name + '_docker_commands_default', default=slskd_docker_commands_default)
-                                    + lookup('vars', slskd_name + '_docker_commands_custom', default=slskd_docker_commands_custom) }}"
+slskd_role_docker_envs_custom: {}
+slskd_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='slskd')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='slskd')) }}"
 
 # Volumes
-slskd_docker_volumes_default:
-  - "{{ slskd_paths_location }}:/app"
-  - "{{ slskd_paths_downloads_location }}/completed:/app/downloads"
-  - "{{ slskd_paths_downloads_location }}/incomplete:/app/incomplete"
-slskd_docker_volumes_custom: []
-slskd_docker_volumes: "{{ lookup('vars', slskd_name + '_docker_volumes_default', default=slskd_docker_volumes_default)
-                                   + lookup('vars', slskd_name + '_docker_volumes_custom', default=slskd_docker_volumes_custom) }}"
-
-# Devices
-slskd_docker_devices_default: []
-slskd_docker_devices_custom: []
-slskd_docker_devices: "{{ lookup('vars', slskd_name + '_docker_devices_default', default=slskd_docker_devices_default)
-                                   + lookup('vars', slskd_name + '_docker_devices_custom', default=slskd_docker_devices_custom) }}"
-
-# Hosts
-slskd_docker_hosts_default: {}
-slskd_docker_hosts_custom: {}
-slskd_docker_hosts: "{{ docker_hosts_common
-                                 | combine(lookup('vars', slskd_name + '_docker_hosts_default', default=slskd_docker_hosts_default))
-                                 | combine(lookup('vars', slskd_name + '_docker_hosts_custom', default=slskd_docker_hosts_custom)) }}"
-
-# Labels
-slskd_docker_labels_default: {}
-slskd_docker_labels_custom: {}
-slskd_docker_labels: "{{ docker_labels_common
-                                  | combine(lookup('vars', slskd_name + '_docker_labels_default', default=slskd_docker_labels_default))
-                                  | combine(lookup('vars', slskd_name + '_docker_labels_custom', default=slskd_docker_labels_custom)) }}"
+slskd_role_docker_volumes_default:
+  - "{{ slskd_role_paths_location }}:/app"
+  - "{{ slskd_role_paths_downloads_location }}/completed:/app/downloads"
+  - "{{ slskd_role_paths_downloads_location }}/incomplete:/app/incomplete"
+slskd_role_docker_volumes_custom: []
+slskd_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='slskd')
+                               + lookup('role_var', '_docker_volumes_custom', role='slskd') }}"
 
 # Hostname
-slskd_docker_hostname: "{{ slskd_name }}"
+slskd_role_docker_hostname: "{{ slskd_name }}"
 
 # Networks
-slskd_docker_networks_alias: "{{ slskd_name }}"
-slskd_docker_networks_default: []
-slskd_docker_networks_custom: []
-slskd_docker_networks: "{{ docker_networks_common
-                                    + lookup('vars', slskd_name + '_docker_networks_default', default=slskd_docker_networks_default)
-                                    + lookup('vars', slskd_name + '_docker_networks_custom', default=slskd_docker_networks_custom) }}"
-
-# Capabilities
-slskd_docker_capabilities_default: []
-slskd_docker_capabilities_custom: []
-slskd_docker_capabilities: "{{ lookup('vars', slskd_name + '_docker_capabilities_default', default=slskd_docker_capabilities_default)
-                                        + lookup('vars', slskd_name + '_docker_capabilities_custom', default=slskd_docker_capabilities_custom) }}"
-
-# Security Opts
-slskd_docker_security_opts_default: []
-slskd_docker_security_opts_custom: []
-slskd_docker_security_opts: "{{ lookup('vars', slskd_name + '_docker_security_opts_default', default=slskd_docker_security_opts_default)
-                                         + lookup('vars', slskd_name + '_docker_security_opts_custom', default=slskd_docker_security_opts_custom) }}"
+slskd_role_docker_networks_alias: "{{ slskd_name }}"
+slskd_role_docker_networks_default: []
+slskd_role_docker_networks_custom: []
+slskd_role_docker_networks: "{{ docker_networks_common
+                                + lookup('role_var', '_docker_networks_default', role='slskd')
+                                + lookup('role_var', '_docker_networks_custom', role='slskd') }}"
 
 # Restart Policy
-slskd_docker_restart_policy: unless-stopped
+slskd_role_docker_restart_policy: unless-stopped
 
 # State
-slskd_docker_state: started
+slskd_role_docker_state: started
 
 # User
-slskd_docker_user: "{{ uid }}:{{ gid }}"
+slskd_role_docker_user: "{{ uid }}:{{ gid }}"
