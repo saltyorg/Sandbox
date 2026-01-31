@@ -1,0 +1,126 @@
+##########################################################################
+# Title:            Sandbox: booklore | Default Variables                #
+# Author(s):        BeansIsFat                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+booklore_name: booklore
+
+################################
+# Paths
+################################
+
+booklore_role_paths_folder: "{{ booklore_name }}"
+booklore_role_paths_location: "{{ server_appdata_path }}/{{ booklore_role_paths_folder }}"
+booklore_role_paths_folders_list:
+  - "{{ booklore_role_paths_location }}"
+  - "{{ booklore_role_paths_location }}/data"
+  - "{{ booklore_role_paths_location }}/bookdrop"
+  - "/mnt/local/Media/Books"
+
+################################
+# Web
+################################
+
+booklore_role_web_subdomain: "{{ booklore_name }}"
+booklore_role_web_domain: "{{ user.domain }}"
+booklore_role_web_port: "6060"
+booklore_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='booklore') + '.' + lookup('role_var', '_web_domain', role='booklore')
+              if (lookup('role_var', '_web_subdomain', role='booklore') | length > 0)
+              else lookup('role_var', '_web_domain', role='booklore')) }}"
+
+################################
+# DNS
+################################
+
+booklore_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='booklore') }}"
+booklore_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='booklore') }}"
+booklore_role_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+booklore_role_traefik_sso_middleware: ""
+booklore_role_traefik_middleware_default: "{{ traefik_default_middleware }},kobo-sync-headers"
+booklore_role_traefik_middleware_custom: ""
+booklore_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+booklore_role_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+booklore_role_docker_container: "{{ booklore_name }}"
+
+# Image
+booklore_role_docker_image_pull: true
+booklore_role_docker_image_tag: "latest"
+booklore_role_docker_image_repo: "booklore/booklore"
+booklore_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='booklore') }}:{{ lookup('role_var', '_docker_image_tag', role='booklore') }}"
+
+# Envs
+booklore_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  DATABASE_URL: "jdbc:mariadb://{{ booklore_name }}-mariadb:3306/{{ booklore_name }}"
+  DATABASE_USERNAME: "root"
+  DATABASE_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
+  USER_ID: "{{ uid }}"
+  GROUP_ID: "{{ gid }}"
+booklore_role_docker_envs_custom: {}
+booklore_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='booklore')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='booklore')) }}"
+
+# Volumes
+booklore_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='booklore') }}/data:/app/data"
+  - "{{ lookup('role_var', '_paths_location', role='booklore') }}/bookdrop:/bookdrop"
+  - "/mnt/unionfs/Media/Books:/books"
+booklore_role_docker_volumes_custom: []
+booklore_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='booklore')
+                                  + lookup('role_var', '_docker_volumes_custom', role='booklore') }}"
+
+# Labels
+booklore_role_docker_labels_default:
+  traefik.http.middlewares.kobo-sync-headers.headers.customrequestheaders.X-Scheme: "https"
+booklore_role_docker_labels_custom: {}
+booklore_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='booklore')
+                                 | combine(lookup('role_var', '_docker_labels_custom', role='booklore')) }}"
+
+# Hostname
+booklore_role_docker_hostname: "{{ booklore_name }}"
+
+# Networks
+booklore_role_docker_networks_alias: "{{ booklore_name }}"
+booklore_role_docker_networks_default: []
+booklore_role_docker_networks_custom: []
+booklore_role_docker_networks: "{{ docker_networks_common
+                                   + lookup('role_var', '_docker_networks_default', role='booklore')
+                                   + lookup('role_var', '_docker_networks_custom', role='booklore') }}"
+
+# Restart Policy
+booklore_role_docker_restart_policy: unless-stopped
+
+# State
+booklore_role_docker_state: started
+
+# Healthcheck
+booklore_role_docker_healthcheck:
+  test: wget -q -O - http://{{ booklore_name }}:6060/api/v1/healthcheck
+  interval: 60s
+  retries: 5
+  start_period: 60s
+  timeout: 10s
+
+# Dependencies
+booklore_role_depends_on: "{{ booklore_name }}-mariadb"
+booklore_role_depends_on_delay: "0"
+booklore_role_depends_on_healthchecks: "true"
