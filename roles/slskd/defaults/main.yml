@@ -25,7 +25,6 @@ slskd_role_paths_folders_list:
   - "{{ slskd_role_paths_downloads_location }}"
   - "{{ slskd_role_paths_downloads_location }}/completed"
   - "{{ slskd_role_paths_downloads_location }}/incomplete"
-slskd_role_paths_recursive: true
 
 ################################
 # Web
