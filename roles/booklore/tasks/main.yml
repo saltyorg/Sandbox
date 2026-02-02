@@ -14,17 +14,11 @@
   ansible.builtin.include_role:
     name: mariadb
   vars:
-    mariadb_instances: ["{{ booklore_name }}-mariadb"]
-    mariadb_paths_folder: "{{ booklore_name }}"
-    mariadb_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='booklore') }}/mariadb"
-
-- name: MariaDB | Create booklore database
-  community.mysql.mysql_db:
-    name: "booklore"
-    login_host: "{{ booklore_name }}-mariadb"
-    login_user: "root"
-    login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
-    state: present
+    mariadb_instances: ["{{ lookup('role_var', '_mariadb_name', role='booklore') }}"]
+    mariadb_role_paths_folder: "{{ lookup('role_var', '_mariadb_paths_folder', role='booklore') }}"
+    mariadb_role_paths_location: "{{ lookup('role_var', '_mariadb_paths_location', role='booklore') }}"
+    mariadb_role_docker_image_tag: "{{ lookup('role_var', '_mariadb_docker_image_tag', role='booklore') }}"
+    mariadb_role_docker_env_db: "{{ lookup('role_var', '_mariadb_docker_env_db', role='booklore') }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
