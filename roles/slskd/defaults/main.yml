@@ -34,9 +34,9 @@ slskd_role_paths_recursive: true
 slskd_role_web_subdomain: "{{ slskd_name }}"
 slskd_role_web_domain: "{{ user.domain }}"
 slskd_role_web_port: "5030"
-slskd_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='audiobookshelf') + '.' + lookup('role_var', '_web_domain', role='audiobookshelf')
-                        if (lookup('role_var', '_web_subdomain', role='audiobookshelf') | length > 0)
-                        else lookup('role_var', '_web_domain', role='audiobookshelf')) }}"
+slskd_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='homeassistant') + '.' + lookup('role_var', '_web_domain', role='homeassistant')
+                        if (lookup('role_var', '_web_subdomain', role='homeassistant') | length > 0)
+                        else lookup('role_var', '_web_domain', role='homeassistant')) }}"
 
 ################################
 # DNS
