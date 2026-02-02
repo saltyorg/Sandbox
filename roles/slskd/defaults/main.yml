@@ -70,7 +70,7 @@ slskd_role_docker_image_tag: "latest"
 slskd_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='slskd') }}:{{ lookup('role_var', '_docker_image_tag', role='slskd') }}"
 
 # Ports
-slskd_role_docker_ports_defaults:
+slskd_role_docker_ports_default:
   - "5030:5030"
   - "50300:50300"
 slskd_role_docker_ports_custom: []
