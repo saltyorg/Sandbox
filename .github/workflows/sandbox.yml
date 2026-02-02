@@ -30,7 +30,6 @@ jobs:
         with:
           repository: saltyorg/Saltbox
           path: saltbox
-          ref: role-refactor  # Remove branch once we move to master
 
       - name: Create Directories
         run: sudo mkdir -p /srv/git
