@@ -19,7 +19,7 @@ booklore_name: booklore
 
 booklore_role_mariadb_name: "{{ booklore_name }}-mariadb"
 booklore_role_mariadb_paths_folder: "{{ booklore_name }}"
-booklore_role_mariadb_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='mariadb') }}/mariadb"
+booklore_role_mariadb_paths_location: "{{ server_appdata_path }}/{{ booklore_role_mariadb_paths_folder }}/mariadb"
 booklore_role_mariadb_docker_image_tag: "11.4"
 booklore_role_mariadb_docker_env_db: "{{ booklore_name }}-mariadb"
 
@@ -79,7 +79,7 @@ booklore_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='b
 # Envs
 booklore_role_docker_envs_default:
   TZ: "{{ tz }}"
-  DATABASE_URL: "jdbc:mariadb://{{ booklore_name }}-mariadb:3306/{{ booklore_role_mariadb_docker_env_db }}"
+  DATABASE_URL: "jdbc:mariadb://{{ booklore_name }}-mariadb:3306/{{ lookup('role_var', '_mariadb_docker_env_db', role='booklore') }}"
   DATABASE_USERNAME: "root"
   DATABASE_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   USER_ID: "{{ uid }}"
