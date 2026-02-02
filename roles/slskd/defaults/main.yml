@@ -61,7 +61,7 @@ slskd_role_traefik_enabled: true
 ################################
 
 # Container
-slskd_role_docker_container: "{{ slskd_role_name }}"
+slskd_role_docker_container: "{{ slskd_name }}"
 
 # Image
 slskd_role_docker_image_pull: true
