@@ -20,3 +20,8 @@
 
 # Visual Studio
 /.vs
+
+# Docs
+/*.md
+!README.md
+!LICENSE.md
