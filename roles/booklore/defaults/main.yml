@@ -23,7 +23,6 @@ booklore_role_paths_folders_list:
   - "{{ booklore_role_paths_location }}"
   - "{{ booklore_role_paths_location }}/data"
   - "{{ booklore_role_paths_location }}/bookdrop"
-  - "/mnt/local/Media/Books"
 
 ################################
 # Web
@@ -83,7 +82,6 @@ booklore_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='
 booklore_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='booklore') }}/data:/app/data"
   - "{{ lookup('role_var', '_paths_location', role='booklore') }}/bookdrop:/bookdrop"
-  - "/mnt/unionfs/Media/Books:/books"
 booklore_role_docker_volumes_custom: []
 booklore_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='booklore')
                                   + lookup('role_var', '_docker_volumes_custom', role='booklore') }}"
