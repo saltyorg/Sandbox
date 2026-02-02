@@ -71,7 +71,6 @@ slskd_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='slsk
 
 # Ports
 slskd_role_docker_ports_default:
-  - "5030:5030"
   - "50300:50300"
 slskd_role_docker_ports_custom: []
 slskd_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='slskd')
