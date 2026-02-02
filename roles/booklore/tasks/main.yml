@@ -7,15 +7,8 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Check if db folder exists
-  ansible.builtin.stat:
-    path: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='booklore') }}/mariadb"
-  register: stat_booklore_db_folder
-
-- name: Remove legacy MariaDB Docker container
+- name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-  vars:
-    var_prefix: "{{ booklore_name }}_mariadb"
 
 - name: MariaDB Role
   ansible.builtin.include_role:
@@ -39,9 +32,6 @@
     dns_record: "{{ lookup('role_var', '_dns_record') }}"
     dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
