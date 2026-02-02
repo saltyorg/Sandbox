@@ -1,0 +1,14 @@
+directories:
+  incomplete: /mnt/unionfs/downloads/slskd/incomplete
+  downloads: /mnt/unionfs/downloads/slskd/completed
+shares:
+  directories:
+    - '{{ slskd_shared_dir }}'
+web:
+  authentication:
+    api_keys:
+      my_api_key:
+        key: {{ slskd_api_key }}
+soulseek:
+  username: {{ slskd_slsk_username }}
+  password: {{ slskd_slsk_password }}
