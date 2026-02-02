@@ -75,7 +75,7 @@ slskd_role_docker_ports_defaults:
   - "50300:50300"
 slskd_role_docker_ports_custom: []
 slskd_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='slskd')
-                              + lookup('role_var', '_docker_ports_custom', role='slskd') }}"
+                             + lookup('role_var', '_docker_ports_custom', role='slskd') }}"
 
 # Envs
 slskd_role_docker_envs_default:
