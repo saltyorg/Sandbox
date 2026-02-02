@@ -33,8 +33,8 @@ booklore_role_web_subdomain: "{{ booklore_name }}"
 booklore_role_web_domain: "{{ user.domain }}"
 booklore_role_web_port: "6060"
 booklore_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='booklore') + '.' + lookup('role_var', '_web_domain', role='booklore')
-              if (lookup('role_var', '_web_subdomain', role='booklore') | length > 0)
-              else lookup('role_var', '_web_domain', role='booklore')) }}"
+                        if (lookup('role_var', '_web_subdomain', role='booklore') | length > 0)
+                        else lookup('role_var', '_web_domain', role='booklore')) }}"
 
 ################################
 # DNS
