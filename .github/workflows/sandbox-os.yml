@@ -102,7 +102,7 @@ jobs:
           /usr/local/bin/sb version
 
       - name: Install Dependencies
-        run: /usr/local/bin/sb setup -v -b role-refactor && /srv/ansible/venv/bin/ansible --version # Remove branch flag once we move to master
+        run: /usr/local/bin/sb setup -v && /srv/ansible/venv/bin/ansible --version
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
