@@ -114,7 +114,7 @@ booklore_role_docker_state: started
 
 # Healthcheck
 booklore_role_docker_healthcheck:
-  test: wget -q -O - http://{{ booklore_name }}:6060/api/v1/healthcheck
+  test: wget -q -O - http://localhost:6060/api/v1/healthcheck
   interval: 60s
   retries: 5
   start_period: 60s
@@ -123,4 +123,4 @@ booklore_role_docker_healthcheck:
 # Dependencies
 booklore_role_depends_on: "{{ booklore_name }}-mariadb"
 booklore_role_depends_on_delay: "0"
-booklore_role_depends_on_healthchecks: "true"
+booklore_role_depends_on_healthchecks: "false"
