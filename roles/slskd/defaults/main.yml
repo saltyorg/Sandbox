@@ -19,6 +19,7 @@ slskd_name: slskd
 
 slskd_role_paths_folder: "{{ slskd_name }}"
 slskd_role_paths_location: "{{ server_appdata_path }}/{{ slskd_role_paths_folder }}"
+slskd_role_paths_config_location: "{{ slskd_role_paths_location }}/slskd.yml"
 slskd_role_paths_downloads_location: "{{ downloads_root_path }}/{{ slskd_role_paths_folder }}"
 slskd_role_paths_folders_list:
   - "{{ slskd_role_paths_location }}"
