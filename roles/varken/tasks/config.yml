@@ -7,10 +7,6 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-# Get Public IP Address
-- name: Get IP Address
-  community.general.ipinfoio_facts:
-
 # Tautulli Tasks
 - name: "Check if tautulli exists"
   ansible.builtin.stat:

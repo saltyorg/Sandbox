@@ -19,7 +19,7 @@ password =
 
 [tautulli-1]
 url = {{ lookup('role_var', '_web_subdomain', role='tautulli') }}.{{ lookup('role_var', '_web_domain', role='tautulli') }}
-fallback_ip = {{ ip }}
+fallback_ip = {{ ip_address_public }}
 apikey = {{ lookup('role_var', '_tautulli_api_key', role='varken') }}
 ssl = false
 verify_ssl = false
