@@ -27,5 +27,14 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
+- name: Get Docker minimum API version
+  ansible.builtin.command: docker version
+  register: dockwatch_docker_version
+  changed_when: false
+
+- name: Set Docker minimum API version
+  ansible.builtin.set_fact:
+    dockwatch_docker_api_min_version: "{{ dockwatch_docker_version.stdout | regex_search('minimum version ([0-9.]+)', '\\1') }}"
+
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
