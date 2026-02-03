@@ -20,10 +20,6 @@
     base_path: "{{ server_appdata_path }}"
   register: tandoor_saltbox_facts
 
-- name: Remove legacy setting
-  ansible.builtin.shell: "yyq -i 'del(.tandoor)' {{ playbook_dir }}/settings.yml"
-  when: tandoor is defined
-
 - name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
