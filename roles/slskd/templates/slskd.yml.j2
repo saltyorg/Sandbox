@@ -1,6 +1,6 @@
 directories:
-  incomplete: /mnt/unionfs/downloads/slskd/incomplete
-  downloads: /mnt/unionfs/downloads/slskd/completed
+  incomplete: {{ slskd_role_paths_downloads_location }}/incomplete
+  downloads: {{ slskd_role_paths_downloads_location }}/completed
 shares:
   directories:
     - '{{ slskd_shared_dir }}'
