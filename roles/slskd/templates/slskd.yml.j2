@@ -3,12 +3,14 @@ directories:
   downloads: {{ slskd_role_paths_downloads_location }}/completed
 shares:
   directories:
-    - '{{ slskd_shared_dir }}'
+    - '/mnt/unionfs/Media/Music'
 web:
   authentication:
+    username: {{ user.name }}
+    password: {{ user.pass }}
     api_keys:
       my_api_key:
-        key: {{ slskd_api_key }}
+        key: 
 soulseek:
-  username: {{ slskd_slsk_username }}
-  password: {{ slskd_slsk_password }}
+  username: 
+  password: 
