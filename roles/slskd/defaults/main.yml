@@ -50,11 +50,13 @@ slskd_role_dns_proxy: "{{ dns_proxied }}"
 # Traefik
 ################################
 
-slskd_role_traefik_sso_middleware: ""
+slskd_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 slskd_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
-slskd_role_traefik_middleware_custom: ""
 slskd_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+slskd_role_traefik_middleware_custom: ""
 slskd_role_traefik_enabled: true
+slskd_role_traefik_api_enabled: false
+slskd_role_traefik_api_endpoint: ""
 
 ################################
 # Docker
