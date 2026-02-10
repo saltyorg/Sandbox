@@ -1,0 +1,103 @@
+##########################################################################
+# Title:         Sandbox: Shelfmark | Default Variables                  #
+# Author(s):     keldian                                                 #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+shelfmark_instances: ["shelfmark"]
+
+################################
+# Paths
+################################
+
+shelfmark_role_paths_folder: "{{ shelfmark_name }}"
+shelfmark_role_paths_location: "{{ server_appdata_path }}/{{ shelfmark_role_paths_folder }}"
+shelfmark_role_paths_downloads_location: "{{ downloads_root_path }}/{{ shelfmark_role_paths_folder }}"
+shelfmark_role_paths_folders_list:
+  - "{{ shelfmark_role_paths_location }}"
+  - "{{ shelfmark_role_paths_downloads_location }}"
+
+################################
+# Web
+################################
+
+shelfmark_role_web_subdomain: "{{ shelfmark_name }}"
+shelfmark_role_web_domain: "{{ user.domain }}"
+shelfmark_role_web_port: "8084"
+shelfmark_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='shelfmark') + '.' + lookup('role_var', '_web_domain', role='shelfmark')
+                         if (lookup('role_var', '_web_subdomain', role='shelfmark') | length > 0)
+                         else lookup('role_var', '_web_domain', role='shelfmark')) }}"
+
+################################
+# DNS
+################################
+
+shelfmark_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='shelfmark') }}"
+shelfmark_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='shelfmark') }}"
+shelfmark_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+shelfmark_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+shelfmark_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+shelfmark_role_traefik_middleware_custom: ""
+shelfmark_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+shelfmark_role_traefik_enabled: true
+shelfmark_role_traefik_api_enabled: true
+shelfmark_role_traefik_api_endpoint: "PathPrefix(`/api`)"
+
+################################
+# Docker
+################################
+
+# Container
+shelfmark_role_docker_container: "{{ shelfmark_name }}"
+
+# Image
+shelfmark_role_docker_image_pull: true
+shelfmark_role_docker_image_repo: "ghcr.io/calibrain/shelfmark"
+shelfmark_role_docker_image_tag: "latest"
+shelfmark_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='shelfmark') }}:{{ lookup('role_var', '_docker_image_tag', role='shelfmark') }}"
+
+# Envs
+shelfmark_role_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  INGEST_DIR: "{{ shelfmark_role_paths_downloads_location }}"
+shelfmark_role_docker_envs_custom: {}
+shelfmark_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='shelfmark')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='shelfmark')) }}"
+
+# Volumes
+shelfmark_role_docker_volumes_default:
+  - "{{ shelfmark_role_paths_location }}:/config"
+shelfmark_role_docker_volumes_custom: []
+shelfmark_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='shelfmark')
+                                   + lookup('role_var', '_docker_volumes_custom', role='shelfmark') }}"
+
+# Hostname
+shelfmark_role_docker_hostname: "{{ shelfmark_name }}"
+
+# Networks
+shelfmark_role_docker_networks_alias: "{{ shelfmark_name }}"
+shelfmark_role_docker_networks_default: []
+shelfmark_role_docker_networks_custom: []
+shelfmark_role_docker_networks: "{{ docker_networks_common
+                                    + lookup('role_var', '_docker_networks_default', role='shelfmark')
+                                    + lookup('role_var', '_docker_networks_custom', role='shelfmark') }}"
+
+# Restart Policy
+shelfmark_role_docker_restart_policy: unless-stopped
+
+# State
+shelfmark_role_docker_state: started

@@ -25,6 +25,7 @@
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
     - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
+    - { role: booklore, tags: ['booklore'] }
     - { role: bookstack, tags: ['bookstack'] }
     - { role: calibre, tags: ['calibre'] }
     - { role: calibre_web, tags: ['calibre-web'] }
@@ -150,6 +151,7 @@
     - { role: rutorrent, tags: ['rutorrent'] }
     - { role: sabthrottle, tags: ['sabthrottle'] }
     - { role: semaphoreui, tags: ['semaphoreui'] }
+    - { role: shelfmark, tags: ['shelfmark'] }
     - { role: slskd, tags: ['slskd'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sqlitebrowser, tags: ['sqlitebrowser'] }

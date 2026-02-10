@@ -7,7 +7,7 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-- name: Fail if settings.yml values are empty
+- name: Fail if config values are empty
   ansible.builtin.fail:
     msg: "You must configure your_spotify_role_public_key and your_spotify_role_secret_key using the inventory"
   when: (not continuous_integration) and (lookup('role_var', '_public_key', role='your_spotify') | length == 0) and (lookup('role_var', '_secret_key', role='your_spotify') | length == 0)

@@ -36,7 +36,7 @@
     role: "homarr"
     instance: "homarr"
     keys:
-      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['abcdef', 'digits'], length=32) }}"
+      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['abcdef', 'digits'], length=64) }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     base_path: "{{ server_appdata_path }}"

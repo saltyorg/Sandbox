@@ -96,6 +96,9 @@ dockwatch_role_docker_envs_default:
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
   DOCKER_HOST: "{{ dockwatch_name }}-docker-socket-proxy:2375"
+  DOCKER_API_VERSION: "{{ dockwatch_docker_api_min_version[0]
+                       if (dockwatch_docker_api_min_version is not none)
+                       else omit }}"
 dockwatch_role_docker_envs_custom: {}
 dockwatch_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='dockwatch')
                                 | combine(lookup('role_var', '_docker_envs_custom', role='dockwatch')) }}"
