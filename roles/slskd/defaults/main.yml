@@ -1,0 +1,113 @@
+##########################################################################
+# Title:            Sandbox: slskd   | Default Variables                 #
+# Author(s):        PokePango                                            #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+slskd_name: slskd
+
+################################
+# Paths
+################################
+
+slskd_role_paths_folder: "{{ slskd_name }}"
+slskd_role_paths_location: "{{ server_appdata_path }}/{{ slskd_role_paths_folder }}"
+slskd_role_paths_config_location: "{{ slskd_role_paths_location }}/slskd.yml"
+slskd_role_paths_downloads_location: "{{ downloads_root_path }}/{{ slskd_role_paths_folder }}"
+slskd_role_paths_folders_list:
+  - "{{ slskd_role_paths_location }}"
+  - "{{ slskd_role_paths_downloads_location }}"
+  - "{{ slskd_role_paths_downloads_location }}/completed"
+  - "{{ slskd_role_paths_downloads_location }}/incomplete"
+
+################################
+# Web
+################################
+
+slskd_role_web_subdomain: "{{ slskd_name }}"
+slskd_role_web_domain: "{{ user.domain }}"
+slskd_role_web_port: "5030"
+slskd_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='slskd') + '.' + lookup('role_var', '_web_domain', role='slskd')
+                     if (lookup('role_var', '_web_subdomain', role='slskd') | length > 0)
+                     else lookup('role_var', '_web_domain', role='slskd')) }}"
+
+################################
+# DNS
+################################
+
+slskd_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='slskd') }}"
+slskd_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='slskd') }}"
+slskd_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+slskd_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+slskd_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+slskd_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+slskd_role_traefik_middleware_custom: ""
+slskd_role_traefik_enabled: true
+slskd_role_traefik_api_enabled: false
+slskd_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+slskd_role_docker_container: "{{ slskd_name }}"
+
+# Image
+slskd_role_docker_image_pull: true
+slskd_role_docker_image_repo: "ghcr.io/slskd/slskd"
+slskd_role_docker_image_tag: "latest"
+slskd_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='slskd') }}:{{ lookup('role_var', '_docker_image_tag', role='slskd') }}"
+
+# Ports
+slskd_role_docker_ports_default:
+  - "50300:50300"
+slskd_role_docker_ports_custom: []
+slskd_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='slskd')
+                             + lookup('role_var', '_docker_ports_custom', role='slskd') }}"
+
+# Envs
+slskd_role_docker_envs_default:
+  TZ: "{{ tz }}"
+slskd_role_docker_envs_custom: {}
+slskd_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='slskd')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='slskd')) }}"
+
+# Volumes
+slskd_role_docker_volumes_default:
+  - "{{ slskd_role_paths_location }}:/app"
+slskd_role_docker_volumes_custom: []
+slskd_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='slskd')
+                               + lookup('role_var', '_docker_volumes_custom', role='slskd') }}"
+
+# Hostname
+slskd_role_docker_hostname: "{{ slskd_name }}"
+
+# Networks
+slskd_role_docker_networks_alias: "{{ slskd_name }}"
+slskd_role_docker_networks_default: []
+slskd_role_docker_networks_custom: []
+slskd_role_docker_networks: "{{ docker_networks_common
+                                + lookup('role_var', '_docker_networks_default', role='slskd')
+                                + lookup('role_var', '_docker_networks_custom', role='slskd') }}"
+
+# Restart Policy
+slskd_role_docker_restart_policy: unless-stopped
+
+# State
+slskd_role_docker_state: started
+
+# User
+slskd_role_docker_user: "{{ uid }}:{{ gid }}"

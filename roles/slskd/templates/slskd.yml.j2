@@ -1,0 +1,16 @@
+remote_configuration: true
+directories:
+  incomplete: {{ slskd_role_paths_downloads_location }}/incomplete
+  downloads: {{ slskd_role_paths_downloads_location }}/completed
+shares:
+  directories:
+    - '/mnt/unionfs/Media/Music'
+web:
+  authentication:
+    disabled: true
+    api_keys:
+      my_api_key:
+        key: 
+soulseek:
+  username: 
+  password: 
