@@ -17,6 +17,14 @@ booklore_name: booklore
 # Settings
 ################################
 
+# Name of a subdirectory to be created in /mnt/unionfs/Media/
+# Opt out with a falsy value (e.g. "")
+booklore_role_media_subfolder: "Books"
+
+# Name of the Bookdrop subdirectory
+# Will be placed in the downloads root: usually /mnt/unionfs/downloads/
+booklore_role_bookdrop_subfolder: "bookdrop"
+
 booklore_role_mariadb_name: "{{ booklore_name }}-mariadb"
 booklore_role_mariadb_paths_folder: "{{ booklore_name }}"
 booklore_role_mariadb_paths_location: "{{ server_appdata_path }}/{{ booklore_role_mariadb_paths_folder }}/mariadb"
@@ -29,10 +37,12 @@ booklore_role_mariadb_docker_env_db: "{{ booklore_name }}-mariadb"
 
 booklore_role_paths_folder: "{{ booklore_name }}"
 booklore_role_paths_location: "{{ server_appdata_path }}/{{ booklore_role_paths_folder }}"
+booklore_role_paths_media_location: "{{ server_local_folder_path }}/Media/{{ lookup('role_var', '_media_subfolder', role='booklore', default='') }}"
+booklore_role_paths_bookdrop_location: "{{ downloads_root_path }}/{{ lookup('role_var', '_bookdrop_subfolder', role='booklore', default='bookdrop') }}"
 booklore_role_paths_folders_list:
-  - "{{ booklore_role_paths_location }}"
   - "{{ booklore_role_paths_location }}/data"
-  - "{{ booklore_role_paths_location }}/bookdrop"
+  - "{{ booklore_role_paths_media_location }}"
+  - "{{ booklore_role_paths_bookdrop_location }}"
 
 ################################
 # Web
@@ -79,19 +89,19 @@ booklore_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='b
 # Envs
 booklore_role_docker_envs_default:
   TZ: "{{ tz }}"
+  USER_ID: "{{ uid }}"
+  GROUP_ID: "{{ gid }}"
   DATABASE_URL: "jdbc:mariadb://{{ booklore_name }}-mariadb:3306/{{ lookup('role_var', '_mariadb_docker_env_db', role='booklore') }}"
   DATABASE_USERNAME: "root"
   DATABASE_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
-  USER_ID: "{{ uid }}"
-  GROUP_ID: "{{ gid }}"
+  APP_BOOKDROP_FOLDER: "{{ booklore_role_paths_bookdrop_location }}"
 booklore_role_docker_envs_custom: {}
 booklore_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='booklore')
                                | combine(lookup('role_var', '_docker_envs_custom', role='booklore')) }}"
 
 # Volumes
 booklore_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='booklore') }}/data:/app/data"
-  - "{{ lookup('role_var', '_paths_location', role='booklore') }}/bookdrop:/bookdrop"
+  - "{{ booklore_role_paths_location }}/data:/app/data"
 booklore_role_docker_volumes_custom: []
 booklore_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='booklore')
                                   + lookup('role_var', '_docker_volumes_custom', role='booklore') }}"
