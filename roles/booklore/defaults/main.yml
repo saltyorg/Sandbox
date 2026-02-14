@@ -127,6 +127,9 @@ booklore_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 booklore_role_docker_restart_policy: unless-stopped
 
+# Stop Timeout
+booklore_role_docker_stop_timeout: 10
+
 # State
 booklore_role_docker_state: started
 
