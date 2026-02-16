@@ -87,7 +87,7 @@ slskd_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='sls
 
 # Volumes
 slskd_role_docker_volumes_default:
-  - "{{ slskd_role_paths_location }}:/app"
+  - "{{ lookup('role_var', '_paths_location', role='slskd') }}:/app"
 slskd_role_docker_volumes_custom: []
 slskd_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='slskd')
                                + lookup('role_var', '_docker_volumes_custom', role='slskd') }}"

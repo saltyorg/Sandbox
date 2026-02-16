@@ -20,16 +20,16 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Check if `{{ slskd_role_paths_config_location }}` exists
+- name: Check if `{{ lookup('role_var', '_paths_config_location', role='slskd') }}` exists
   ansible.builtin.stat:
-    path: "{{ slskd_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='slskd') }}"
   register: slskd_role_config
 
-- name: Settings | New `{{ slskd_role_paths_config_location }}` tasks
+- name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='slskd') }}` tasks
   when: not slskd_role_config.stat.exists
   ansible.builtin.template:
     src: slskd.yml.j2
-    dest: "{{ slskd_role_paths_config_location }}"
+    dest: "{{ lookup('role_var', '_paths_config_location', role='slskd') }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
