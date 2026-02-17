@@ -180,4 +180,3 @@ jobs:
 
             await process(issueStaleLabel, false);
             await process(prStaleLabel, true);
-
