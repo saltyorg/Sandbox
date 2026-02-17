@@ -28,3 +28,157 @@ jobs:
           stale-pr-label: 'no-pr-activity'
           exempt-pr-labels: 'work-in-progress,no-stale'
           operations-per-run: 1000
+
+      - name: Reopen closed issues by stale if someone commented after closure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo  = context.repo.repo;
+
+            // Must match your stale config
+            const issueStaleLabel = 'no-issue-activity';
+            const prStaleLabel    = 'no-pr-activity';
+            const exemptLabels    = new Set(['work-in-progress', 'no-stale']);
+
+            const closeIssueMessage = 'This issue was closed because it has been stalled for 5 days with no activity.';
+            const closePrMessage    = 'This PR was closed because it has been stalled for 10 days with no activity.';
+
+            // Only scan recently-updated closed items to keep runtime down
+            const lookbackDays = 60;
+            const sinceDate = new Date(Date.now() - lookbackDays*24*60*60*1000);
+            const sinceYMD = sinceDate.toISOString().slice(0,10); // YYYY-MM-DD
+
+            // How close in time the "close message" must be to closed_at to count as "closed by stale"
+            const closeMessageWindowMinutes = 30;
+
+            function normalizeLabels(labels) {
+              return labels.map(l => (typeof l === 'string' ? { name: l } : l));
+            }
+
+            function hasExemptLabel(labels) {
+              return labels.some(l => exemptLabels.has(l.name));
+            }
+
+            function isBotUser(u) {
+              const login = (u?.login || '').toLowerCase();
+              return u?.type === 'Bot' || login.endsWith('[bot]') || login === 'github-actions';
+            }
+
+            async function searchClosedWithLabel(label) {
+              const q = [
+                `repo:${owner}/${repo}`,
+                `is:closed`,
+                `label:"${label}"`,
+                `updated:>=${sinceYMD}`
+              ].join(' ');
+
+              const items = [];
+              for await (const resp of github.paginate.iterator(
+                github.rest.search.issuesAndPullRequests,
+                { q, per_page: 100 }
+              )) {
+                items.push(...resp.data);
+              }
+              return items;
+            }
+
+            async function listCommentsNewestFirst(number) {
+              const comments = [];
+              for await (const resp of github.paginate.iterator(
+                github.rest.issues.listComments,
+                { owner, repo, issue_number: number, per_page: 100, direction: 'desc', sort: 'created' }
+              )) {
+                comments.push(...resp.data);
+              }
+              return comments; // newest -> oldest
+            }
+
+            function withinMinutes(aISO, bISO, minutes) {
+              const a = new Date(aISO).getTime();
+              const b = new Date(bISO).getTime();
+              return Math.abs(a - b) <= minutes * 60 * 1000;
+            }
+
+            function bodyMatchesCloseMessage(body, closeMessage) {
+              // Exact match is best; allow minor whitespace differences
+              return (body || '').trim() === closeMessage.trim();
+            }
+
+            async function wasClosedByStale(number, closedAt, closeMessage) {
+              // We consider it "closed by stale" if there is a bot comment with the closeMessage
+              // created within closeMessageWindowMinutes of closed_at.
+              const comments = await listCommentsNewestFirst(number);
+
+              for (const c of comments) {
+                if (!c?.created_at) continue;
+
+                // Comments are newest-first; once we’re older than the window, we can stop scanning.
+                const created = new Date(c.created_at).getTime();
+                const closed  = new Date(closedAt).getTime();
+
+                if (created < (closed - closeMessageWindowMinutes * 60 * 1000)) {
+                  break;
+                }
+
+                if (isBotUser(c.user) &&
+                    withinMinutes(c.created_at, closedAt, closeMessageWindowMinutes) &&
+                    bodyMatchesCloseMessage(c.body, closeMessage)) {
+                  return true;
+                }
+              }
+
+              return false;
+            }
+
+            async function hasHumanCommentAfterClosure(number, closedAt) {
+              const closedTime = new Date(closedAt).getTime();
+              const comments = await listCommentsNewestFirst(number);
+
+              // newest-first; find any non-bot comment after closed_at
+              for (const c of comments) {
+                const t = new Date(c.created_at).getTime();
+                if (t <= closedTime) return false; // we've reached pre-close comments
+                if (!isBotUser(c.user)) return true;
+              }
+              return false;
+            }
+
+            async function reopenAndClear(number, staleLabel) {
+              await github.rest.issues.update({
+                owner, repo, issue_number: number, state: 'open'
+              });
+
+              try {
+                await github.rest.issues.removeLabel({
+                  owner, repo, issue_number: number, name: staleLabel
+                });
+              } catch (e) {
+                if (e.status !== 404) throw e;
+              }
+            }
+
+            async function process(label, closeMessage, isPR) {
+              const items = await searchClosedWithLabel(label);
+
+              for (const item of items) {
+                if (!!item.pull_request !== isPR) continue;
+
+                const labels = normalizeLabels(item.labels);
+                if (hasExemptLabel(labels)) continue;
+                if (!item.closed_at) continue;
+
+                // Only reopen if it was actually closed by stale
+                const closedByStale = await wasClosedByStale(item.number, item.closed_at, closeMessage);
+                if (!closedByStale) continue;
+
+                const commentedAfter = await hasHumanCommentAfterClosure(item.number, item.closed_at);
+                if (!commentedAfter) continue;
+
+                core.info(`Reopening ${isPR ? 'PR' : 'issue'} #${item.number}: closed by stale + new human comment after closure`);
+                await reopenAndClear(item.number, label);
+              }
+            }
+
+            await process(issueStaleLabel, closeIssueMessage, false);
+            await process(prStaleLabel,    closePrMessage,    true);
