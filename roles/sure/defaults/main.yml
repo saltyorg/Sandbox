@@ -1,0 +1,231 @@
+##########################################################################
+# Title:         Sandbox: Sure | Default Variables                       #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+sure_name: sure
+
+################################
+# Settings
+################################
+
+# Valid options: open, closed, invite_only
+sure_role_onboarding_state: "open"
+# Valid options: "true", "false"
+sure_role_rails_force_ssl: "false"
+# Valid options: "true", "false"
+sure_role_rails_assume_ssl: "true"
+sure_role_sidekiq_web_username: "{{ user.name }}"
+sure_role_sidekiq_web_password: "{{ user.pass }}"
+sure_role_openai_access_token: ""
+sure_role_openai_model: ""
+sure_role_openai_uri_base: ""
+sure_role_langfuse_host: "https://cloud.langfuse.com"
+sure_role_langfuse_public_key: ""
+sure_role_langfuse_secret_key: ""
+sure_role_twelve_data_api_key: ""
+# Valid options: twelve_data, yahoo_finance
+sure_role_exchange_rate_provider: "yahoo_finance"
+# Valid options: twelve_data, yahoo_finance
+sure_role_securities_provider: "yahoo_finance"
+sure_role_smtp_address: ""
+sure_role_smtp_port: ""
+sure_role_smtp_username: ""
+sure_role_smtp_password: ""
+# Valid options: "true", "false"
+sure_role_smtp_tls_enabled: "true"
+sure_role_email_sender: ""
+
+################################
+# Redis
+################################
+
+sure_role_redis_name: "{{ sure_name }}-redis"
+sure_role_redis_docker_image_tag: "8-alpine"
+sure_role_redis_paths_folder: "{{ sure_name }}"
+sure_role_redis_paths_location: "{{ server_appdata_path }}/{{ sure_role_redis_paths_folder }}/redis"
+
+################################
+# Postgres
+################################
+
+sure_role_postgres_deploy: true
+sure_role_postgres_name: "{{ sure_name }}-postgres"
+# If empty it will fallback to postgres role default
+sure_role_postgres_user: ""
+# If empty it will fallback to postgres role default
+sure_role_postgres_password: ""
+sure_role_postgres_docker_env_db: "{{ sure_name }}_production"
+sure_role_postgres_docker_image_tag: "16"
+sure_role_postgres_docker_image_repo: "postgres"
+sure_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='sure') }} -U {{ lookup('role_var', '_postgres_user', role='sure') if (lookup('role_var', '_postgres_user', role='sure') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
+sure_role_postgres_paths_folder: "{{ sure_name }}"
+sure_role_postgres_paths_location: "{{ server_appdata_path }}/{{ sure_role_postgres_paths_folder }}/postgres"
+
+################################
+# Paths
+################################
+
+sure_role_paths_folder: "{{ sure_name }}"
+sure_role_paths_location: "{{ server_appdata_path }}/{{ sure_role_paths_folder }}"
+sure_role_paths_folders_list:
+  - "{{ sure_role_paths_location }}"
+  - "{{ sure_role_paths_location }}/storage"
+
+################################
+# Web
+################################
+
+sure_role_web_subdomain: "{{ sure_name }}"
+sure_role_web_domain: "{{ user.domain }}"
+sure_role_web_port: "3000"
+sure_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='sure') + '.' + lookup('role_var', '_web_domain', role='sure')
+                    if (lookup('role_var', '_web_subdomain', role='sure') | length > 0)
+                    else lookup('role_var', '_web_domain', role='sure')) }}"
+sure_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='sure') + '.' + lookup('role_var', '_web_domain', role='sure')
+                     if (lookup('role_var', '_web_subdomain', role='sure') | length > 0)
+                     else lookup('role_var', '_web_domain', role='sure')) }}"
+
+################################
+# DNS
+################################
+
+sure_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='sure') }}"
+sure_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='sure') }}"
+sure_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+sure_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+sure_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+sure_role_traefik_middleware_custom: ""
+sure_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+sure_role_traefik_enabled: true
+sure_role_traefik_api_enabled: false
+sure_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+sure_role_docker_container: "{{ sure_name }}"
+
+# Image
+sure_role_docker_image_pull: true
+sure_role_docker_image_repo: "ghcr.io/we-promise/sure"
+# Valid options in Sure docs: latest, stable
+sure_role_docker_image_tag: "stable"
+sure_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='sure') }}:{{ lookup('role_var', '_docker_image_tag', role='sure') }}"
+
+# Envs
+sure_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  PORT: "{{ lookup('role_var', '_web_port', role='sure') }}"
+  SELF_HOSTED: "true"
+  ONBOARDING_STATE: "{{ lookup('role_var', '_onboarding_state', role='sure') }}"
+  SECRET_KEY_BASE: "{{ sure_saltbox_facts.facts.secret_key }}"
+  RAILS_FORCE_SSL: "{{ lookup('role_var', '_rails_force_ssl', role='sure') }}"
+  RAILS_ASSUME_SSL: "{{ lookup('role_var', '_rails_assume_ssl', role='sure') }}"
+  APP_DOMAIN: "{{ lookup('role_var', '_web_host', role='sure') }}"
+  DB_HOST: "{{ lookup('role_var', '_postgres_name', role='sure') }}"
+  DB_PORT: "5432"
+  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='sure')
+                  if (lookup('role_var', '_postgres_user', role='sure') | length > 0)
+                  else lookup('role_var', '_docker_env_user', role='postgres') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='sure')
+                      if (lookup('role_var', '_postgres_password', role='sure') | length > 0)
+                      else lookup('role_var', '_docker_env_password', role='postgres') }}"
+  POSTGRES_DB: "{{ lookup('role_var', '_postgres_docker_env_db', role='sure') }}"
+  REDIS_URL: "redis://{{ lookup('role_var', '_redis_name', role='sure') }}:6379/1"
+  SIDEKIQ_WEB_USERNAME: "{{ lookup('role_var', '_sidekiq_web_username', role='sure') }}"
+  SIDEKIQ_WEB_PASSWORD: "{{ lookup('role_var', '_sidekiq_web_password', role='sure') }}"
+  OPENAI_ACCESS_TOKEN: "{{ lookup('role_var', '_openai_access_token', role='sure')
+                        if (lookup('role_var', '_openai_access_token', role='sure') | length > 0)
+                        else omit }}"
+  OPENAI_MODEL: "{{ lookup('role_var', '_openai_model', role='sure')
+                 if (lookup('role_var', '_openai_model', role='sure') | length > 0)
+                 else omit }}"
+  OPENAI_URI_BASE: "{{ lookup('role_var', '_openai_uri_base', role='sure')
+                    if (lookup('role_var', '_openai_uri_base', role='sure') | length > 0)
+                    else omit }}"
+  LANGFUSE_HOST: "{{ lookup('role_var', '_langfuse_host', role='sure') }}"
+  LANGFUSE_PUBLIC_KEY: "{{ lookup('role_var', '_langfuse_public_key', role='sure')
+                        if (lookup('role_var', '_langfuse_public_key', role='sure') | length > 0)
+                        else omit }}"
+  LANGFUSE_SECRET_KEY: "{{ lookup('role_var', '_langfuse_secret_key', role='sure')
+                        if (lookup('role_var', '_langfuse_secret_key', role='sure') | length > 0)
+                        else omit }}"
+  TWELVE_DATA_API_KEY: "{{ lookup('role_var', '_twelve_data_api_key', role='sure')
+                        if (lookup('role_var', '_twelve_data_api_key', role='sure') | length > 0)
+                        else omit }}"
+  EXCHANGE_RATE_PROVIDER: "{{ lookup('role_var', '_exchange_rate_provider', role='sure') }}"
+  SECURITIES_PROVIDER: "{{ lookup('role_var', '_securities_provider', role='sure') }}"
+  SMTP_ADDRESS: "{{ lookup('role_var', '_smtp_address', role='sure')
+                 if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
+                 else omit }}"
+  SMTP_PORT: "{{ lookup('role_var', '_smtp_port', role='sure')
+              if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
+              else omit }}"
+  SMTP_USERNAME: "{{ lookup('role_var', '_smtp_username', role='sure')
+                  if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
+                  else omit }}"
+  SMTP_PASSWORD: "{{ lookup('role_var', '_smtp_password', role='sure')
+                  if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
+                  else omit }}"
+  SMTP_TLS_ENABLED: "{{ lookup('role_var', '_smtp_tls_enabled', role='sure')
+                     if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
+                     else omit }}"
+  EMAIL_SENDER: "{{ lookup('role_var', '_email_sender', role='sure')
+                 if (lookup('role_var', '_email_sender', role='sure') | length > 0)
+                 else omit }}"
+sure_role_docker_envs_custom: {}
+sure_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='sure')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='sure')) }}"
+
+# Volumes
+sure_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='sure') }}/storage:/rails/storage"
+sure_role_docker_volumes_custom: []
+sure_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='sure')
+                              + lookup('role_var', '_docker_volumes_custom', role='sure') }}"
+
+# Hostname
+sure_role_docker_hostname: "{{ sure_name }}"
+
+# Networks
+sure_role_docker_networks_alias: "{{ sure_name }}"
+sure_role_docker_networks_default: []
+sure_role_docker_networks_custom: []
+sure_role_docker_networks: "{{ docker_networks_common
+                               + lookup('role_var', '_docker_networks_default', role='sure')
+                               + lookup('role_var', '_docker_networks_custom', role='sure') }}"
+
+# Restart Policy
+sure_role_docker_restart_policy: unless-stopped
+
+# State
+sure_role_docker_state: started
+
+################################
+# Dependencies
+################################
+
+sure_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='sure') }},{{ lookup('role_var', '_redis_name', role='sure') }}"
+sure_role_depends_on_delay: "0"
+sure_role_depends_on_healthchecks: "false"

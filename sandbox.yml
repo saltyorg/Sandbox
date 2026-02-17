@@ -157,6 +157,7 @@
     - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
+    - { role: sure, tags: ['sure'] }
     - { role: suwayomi, tags: ['suwayomi'] }
     - { role: syncthing, tags: ['syncthing'] }
     - { role: tandoor, tags: ['tandoor'] }
@@ -201,3 +202,4 @@
     - { role: lgsm, tags: ['lgsm'] }
     - { role: main_tag, tags: ['roles', 'sandbox-roles'] }
     - { role: plex_auto_languages, tags: ['plex-auto-languages'] }
+    - { role: sure_worker, tags: ['never'] }

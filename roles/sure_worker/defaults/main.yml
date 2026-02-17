@@ -1,0 +1,73 @@
+##########################################################################
+# Title:         Sandbox: Sure Worker | Default Variables                #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+sure_worker_name: "sure-worker"
+
+################################
+# Docker
+################################
+
+# Container
+sure_worker_role_docker_container: "{{ sure_worker_name }}"
+
+# Image
+sure_worker_role_docker_image_pull: true
+sure_worker_role_docker_image_repo: "{{ lookup('role_var', '_docker_image_repo', role='sure') }}"
+sure_worker_role_docker_image_tag: "{{ lookup('role_var', '_docker_image_tag', role='sure') }}"
+sure_worker_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='sure_worker') }}:{{ lookup('role_var', '_docker_image_tag', role='sure_worker') }}"
+
+# Envs
+sure_worker_role_docker_envs_default: "{{ lookup('role_var', '_docker_envs', role='sure') }}"
+sure_worker_role_docker_envs_custom: {}
+sure_worker_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='sure_worker')
+                                  | combine(lookup('role_var', '_docker_envs_custom', role='sure_worker')) }}"
+
+# Commands
+sure_worker_role_docker_commands_default:
+  - "bundle"
+  - "exec"
+  - "sidekiq"
+sure_worker_role_docker_commands_custom: []
+sure_worker_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='sure_worker')
+                                      + lookup('role_var', '_docker_commands_custom', role='sure_worker') }}"
+
+# Volumes
+sure_worker_role_docker_volumes_default: "{{ lookup('role_var', '_docker_volumes', role='sure') }}"
+sure_worker_role_docker_volumes_custom: []
+sure_worker_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='sure_worker')
+                                     + lookup('role_var', '_docker_volumes_custom', role='sure_worker') }}"
+
+# Hostname
+sure_worker_role_docker_hostname: "{{ sure_worker_name }}"
+
+# Networks
+sure_worker_role_docker_networks_alias: "{{ sure_worker_name }}"
+sure_worker_role_docker_networks_default: []
+sure_worker_role_docker_networks_custom: []
+sure_worker_role_docker_networks: "{{ docker_networks_common
+                                      + lookup('role_var', '_docker_networks_default', role='sure_worker')
+                                      + lookup('role_var', '_docker_networks_custom', role='sure_worker') }}"
+
+# Restart Policy
+sure_worker_role_docker_restart_policy: "{{ lookup('role_var', '_docker_restart_policy', role='sure') }}"
+
+# State
+sure_worker_role_docker_state: started
+
+################################
+# Dependencies
+################################
+
+sure_worker_role_depends_on: "{{ lookup('role_var', '_depends_on', role='sure') }}"
+sure_worker_role_depends_on_delay: "0"
+sure_worker_role_depends_on_healthchecks: "false"

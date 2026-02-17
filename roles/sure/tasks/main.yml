@@ -1,0 +1,63 @@
+#########################################################################
+# Title:            Sandbox: Sure                                       #
+# Author(s):        salty                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Save Sure Saltbox facts"
+  saltbox_facts:
+    role: "sure"
+    instance: "sure"
+    keys:
+      secret_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=128) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: sure_saltbox_facts
+
+- name: Redis Role
+  ansible.builtin.include_role:
+    name: redis
+  vars:
+    redis_instances: ["{{ lookup('role_var', '_redis_name', role='sure') }}"]
+    redis_role_docker_image_tag: "{{ lookup('role_var', '_redis_docker_image_tag', role='sure') }}"
+    redis_role_paths_folder: "{{ lookup('role_var', '_redis_paths_folder', role='sure') }}"
+    redis_role_paths_location: "{{ lookup('role_var', '_redis_paths_location', role='sure') }}"
+
+- name: "Import Postgres Role"
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='sure') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='sure') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='sure') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='sure') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='sure') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='sure') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='sure') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='sure') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='sure') }}"
+  when: lookup('role_var', '_postgres_deploy', role='sure')
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: "Import Sure Worker Role"
+  ansible.builtin.include_role:
+    name: sure_worker
