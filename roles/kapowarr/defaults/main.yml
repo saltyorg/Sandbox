@@ -1,0 +1,104 @@
+#########################################################################
+# Title:         Sandbox: Kapowarr | Default Variables                  #
+# Author(s):     salty                                                  #
+# URL:           https://github.com/saltyorg/Sandbox                    #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+kapowarr_name: kapowarr
+
+################################
+# Paths
+################################
+
+kapowarr_role_paths_folder: "{{ kapowarr_name }}"
+kapowarr_role_paths_location: "{{ server_appdata_path }}/{{ kapowarr_role_paths_folder }}"
+kapowarr_role_paths_downloads_location: "{{ downloads_root_path }}/{{ kapowarr_name }}"
+kapowarr_role_paths_folders_list:
+  - "{{ kapowarr_role_paths_location }}"
+  - "{{ kapowarr_role_paths_downloads_location }}"
+
+################################
+# Web
+################################
+
+kapowarr_role_web_subdomain: "{{ kapowarr_name }}"
+kapowarr_role_web_domain: "{{ user.domain }}"
+kapowarr_role_web_port: "5656"
+kapowarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='kapowarr') + '.' + lookup('role_var', '_web_domain', role='kapowarr')
+                        if (lookup('role_var', '_web_subdomain', role='kapowarr') | length > 0)
+                        else lookup('role_var', '_web_domain', role='kapowarr')) }}"
+
+################################
+# DNS
+################################
+
+kapowarr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='kapowarr') }}"
+kapowarr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='kapowarr') }}"
+kapowarr_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+kapowarr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+kapowarr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+kapowarr_role_traefik_middleware_custom: ""
+kapowarr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+kapowarr_role_traefik_enabled: true
+kapowarr_role_traefik_api_enabled: false
+kapowarr_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+kapowarr_role_docker_container: "{{ kapowarr_name }}"
+
+# Image
+kapowarr_role_docker_image_pull: true
+kapowarr_role_docker_image_repo: "mrcas/kapowarr"
+kapowarr_role_docker_image_tag: "latest"
+kapowarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='kapowarr') }}:{{ lookup('role_var', '_docker_image_tag', role='kapowarr') }}"
+
+# Envs
+kapowarr_role_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  UMASK: "022"
+  TZ: "{{ tz }}"
+kapowarr_role_docker_envs_custom: {}
+kapowarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='kapowarr')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='kapowarr')) }}"
+
+# Volumes
+kapowarr_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='kapowarr') }}:/app/db"
+  - "{{ lookup('role_var', '_paths_downloads_location', role='kapowarr') }}:/app/temp_downloads"
+kapowarr_role_docker_volumes_custom: []
+kapowarr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='kapowarr')
+                                  + lookup('role_var', '_docker_volumes_custom', role='kapowarr') }}"
+
+# Hostname
+kapowarr_role_docker_hostname: "{{ kapowarr_name }}"
+
+# Networks
+kapowarr_role_docker_networks_alias: "{{ kapowarr_name }}"
+kapowarr_role_docker_networks_default: []
+kapowarr_role_docker_networks_custom: []
+kapowarr_role_docker_networks: "{{ docker_networks_common
+                                   + lookup('role_var', '_docker_networks_default', role='kapowarr')
+                                   + lookup('role_var', '_docker_networks_custom', role='kapowarr') }}"
+
+# Restart Policy
+kapowarr_role_docker_restart_policy: unless-stopped
+
+# State
+kapowarr_role_docker_state: started
