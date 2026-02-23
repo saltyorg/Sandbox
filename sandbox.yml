@@ -103,6 +103,7 @@
     - { role: makemkv, tags: ['makemkv'] }
     - { role: mealie, tags: ['mealie'] }
     - { role: medusa, tags: ['medusa'] }
+    - { role: metube, tags: ['metube'] }
     - { role: meilisearch, tags: ['meilisearch'] }
     - { role: minecraft, tags: ['minecraft'] }
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
