@@ -31,6 +31,7 @@
     - { role: calibre_web, tags: ['calibre-web'] }
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
+    - { role: cleanuparr, tags: ['cleanuparr'] }
     - { role: chrome, tags: ['chrome'] }
     - { role: cockpit, tags: ['cockpit'] }
     - { role: codex, tags: ['codex'] }
