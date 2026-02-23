@@ -1,0 +1,221 @@
+##########################################################################
+# Title:            Sandbox: Koito | Default Variables                   #
+# Author(s):        salty                                                #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+koito_name: koito
+
+################################
+# Settings
+################################
+
+koito_role_postgres_deploy: true
+koito_role_postgres_name: "{{ koito_name }}-postgres"
+# If empty it will fallback to postgres role default
+koito_role_postgres_user: ""
+# If empty it will fallback to postgres role default
+koito_role_postgres_password: ""
+koito_role_postgres_docker_env_db: "koitodb"
+koito_role_postgres_docker_image_tag: "16"
+koito_role_postgres_docker_image_repo: "postgres"
+koito_role_postgres_docker_healthcheck:
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='koito') }} -U {{ lookup('role_var', '_postgres_user', role='koito') if (lookup('role_var', '_postgres_user', role='koito') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"]
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
+koito_role_postgres_paths_folder: "{{ koito_name }}"
+koito_role_postgres_paths_location: "{{ server_appdata_path }}/{{ koito_role_postgres_paths_folder }}/postgres"
+
+koito_role_default_username: "{{ user.name }}"
+koito_role_default_password: "{{ user.pass }}"
+koito_role_database_url: ""
+koito_role_default_theme: "yuu"
+koito_role_login_gate: "false"
+koito_role_bind_addr: ""
+koito_role_enable_structured_logging: "false"
+koito_role_enable_full_image_cache: "false"
+koito_role_log_level: "info"
+koito_role_musicbrainz_url: "https://musicbrainz.org"
+koito_role_musicbrainz_rate_limit: "1"
+koito_role_enable_lbz_relay: "false"
+koito_role_lbz_relay_url: ""
+koito_role_lbz_relay_token: ""
+koito_role_force_tz: ""
+koito_role_disable_deezer: "false"
+koito_role_disable_cover_art_archive: "false"
+koito_role_disable_musicbrainz: "false"
+koito_role_subsonic_url: ""
+koito_role_subsonic_params: ""
+koito_role_lastfm_api_key: ""
+koito_role_skip_import: "false"
+koito_role_disable_rate_limit: "false"
+koito_role_throttle_imports_ms: "0"
+koito_role_import_before_unix: ""
+koito_role_import_after_unix: ""
+koito_role_fetch_images_during_import: "false"
+koito_role_cors_allowed_origins: ""
+
+################################
+# Paths
+################################
+
+koito_role_paths_folder: "{{ koito_name }}"
+koito_role_paths_location: "{{ server_appdata_path }}/{{ koito_role_paths_folder }}"
+koito_role_paths_location_data: "{{ koito_role_paths_location }}/data"
+koito_role_paths_folders_list:
+  - "{{ koito_role_paths_location }}"
+  - "{{ koito_role_paths_location_data }}"
+
+################################
+# Web
+################################
+
+koito_role_web_subdomain: "{{ koito_name }}"
+koito_role_web_domain: "{{ user.domain }}"
+koito_role_web_port: "4110"
+koito_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='koito') + '.' + lookup('role_var', '_web_domain', role='koito')
+                      if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
+                      else lookup('role_var', '_web_domain', role='koito')) }}"
+koito_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='koito') + '.' + lookup('role_var', '_web_domain', role='koito')
+                       if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
+                       else lookup('role_var', '_web_domain', role='koito')) }}"
+koito_role_allowed_hosts: "{{ lookup('role_var', '_web_host', role='koito') }}"
+
+################################
+# DNS
+################################
+
+koito_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='koito') }}"
+koito_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='koito') }}"
+koito_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+koito_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+koito_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+koito_role_traefik_middleware_custom: ""
+koito_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+koito_role_traefik_enabled: true
+koito_role_traefik_api_enabled: true
+koito_role_traefik_api_endpoint: "PathPrefix(`/apis`)"
+
+################################
+# Docker
+################################
+
+# Container
+koito_role_docker_container: "{{ koito_name }}"
+
+# Image
+koito_role_docker_image_pull: true
+koito_role_docker_image_repo: "gabehf/koito"
+koito_role_docker_image_tag: "latest"
+koito_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='koito') }}:{{ lookup('role_var', '_docker_image_tag', role='koito') }}"
+
+# Envs
+koito_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  KOITO_DATABASE_URL: "{{ lookup('role_var', '_database_url', role='koito')
+                       if (lookup('role_var', '_database_url', role='koito') | length > 0)
+                       else 'postgres://' + (lookup('role_var', '_postgres_user', role='koito')
+                       if (lookup('role_var', '_postgres_user', role='koito') | length > 0)
+                       else lookup('role_var', '_docker_env_user', role='postgres')) + ':' + (lookup('role_var', '_postgres_password', role='koito')
+                       if (lookup('role_var', '_postgres_password', role='koito') | length > 0)
+                       else lookup('role_var', '_docker_env_password', role='postgres')) + '@' + lookup('role_var', '_postgres_name', role='koito') + ':5432/' + lookup('role_var', '_postgres_docker_env_db', role='koito') }}"
+  KOITO_ALLOWED_HOSTS: "{{ lookup('role_var', '_allowed_hosts', role='koito') }}"
+  KOITO_DEFAULT_USERNAME: "{{ lookup('role_var', '_default_username', role='koito') }}"
+  KOITO_DEFAULT_PASSWORD: "{{ lookup('role_var', '_default_password', role='koito') }}"
+  KOITO_DEFAULT_THEME: "{{ lookup('role_var', '_default_theme', role='koito') }}"
+  KOITO_LOGIN_GATE: "{{ lookup('role_var', '_login_gate', role='koito') }}"
+  KOITO_BIND_ADDR: "{{ lookup('role_var', '_bind_addr', role='koito')
+                    if (lookup('role_var', '_bind_addr', role='koito') | length > 0)
+                    else omit }}"
+  KOITO_LISTEN_PORT: "{{ lookup('role_var', '_web_port', role='koito') }}"
+  KOITO_ENABLE_STRUCTURED_LOGGING: "{{ lookup('role_var', '_enable_structured_logging', role='koito') }}"
+  KOITO_ENABLE_FULL_IMAGE_CACHE: "{{ lookup('role_var', '_enable_full_image_cache', role='koito') }}"
+  KOITO_LOG_LEVEL: "{{ lookup('role_var', '_log_level', role='koito') }}"
+  KOITO_MUSICBRAINZ_URL: "{{ lookup('role_var', '_musicbrainz_url', role='koito') }}"
+  KOITO_MUSICBRAINZ_RATE_LIMIT: "{{ lookup('role_var', '_musicbrainz_rate_limit', role='koito') }}"
+  KOITO_ENABLE_LBZ_RELAY: "{{ lookup('role_var', '_enable_lbz_relay', role='koito') }}"
+  KOITO_LBZ_RELAY_URL: "{{ lookup('role_var', '_lbz_relay_url', role='koito')
+                        if (lookup('role_var', '_enable_lbz_relay', role='koito') == 'true')
+                        else omit }}"
+  KOITO_LBZ_RELAY_TOKEN: "{{ lookup('role_var', '_lbz_relay_token', role='koito')
+                          if (lookup('role_var', '_enable_lbz_relay', role='koito') == 'true')
+                          else omit }}"
+  KOITO_FORCE_TZ: "{{ lookup('role_var', '_force_tz', role='koito')
+                    if (lookup('role_var', '_force_tz', role='koito') | length > 0)
+                    else omit }}"
+  KOITO_DISABLE_DEEZER: "{{ lookup('role_var', '_disable_deezer', role='koito') }}"
+  KOITO_DISABLE_COVER_ART_ARCHIVE: "{{ lookup('role_var', '_disable_cover_art_archive', role='koito') }}"
+  KOITO_DISABLE_MUSICBRAINZ: "{{ lookup('role_var', '_disable_musicbrainz', role='koito') }}"
+  KOITO_SUBSONIC_URL: "{{ lookup('role_var', '_subsonic_url', role='koito')
+                        if (lookup('role_var', '_subsonic_url', role='koito') | length > 0)
+                        else omit }}"
+  KOITO_SUBSONIC_PARAMS: "{{ lookup('role_var', '_subsonic_params', role='koito')
+                           if (lookup('role_var', '_subsonic_params', role='koito') | length > 0)
+                           else omit }}"
+  KOITO_LASTFM_API_KEY: "{{ lookup('role_var', '_lastfm_api_key', role='koito')
+                          if (lookup('role_var', '_lastfm_api_key', role='koito') | length > 0)
+                          else omit }}"
+  KOITO_SKIP_IMPORT: "{{ lookup('role_var', '_skip_import', role='koito') }}"
+  KOITO_DISABLE_RATE_LIMIT: "{{ lookup('role_var', '_disable_rate_limit', role='koito') }}"
+  KOITO_THROTTLE_IMPORTS_MS: "{{ lookup('role_var', '_throttle_imports_ms', role='koito') }}"
+  KOITO_IMPORT_BEFORE_UNIX: "{{ lookup('role_var', '_import_before_unix', role='koito')
+                             if (lookup('role_var', '_import_before_unix', role='koito') | length > 0)
+                             else omit }}"
+  KOITO_IMPORT_AFTER_UNIX: "{{ lookup('role_var', '_import_after_unix', role='koito')
+                            if (lookup('role_var', '_import_after_unix', role='koito') | length > 0)
+                            else omit }}"
+  KOITO_FETCH_IMAGES_DURING_IMPORT: "{{ lookup('role_var', '_fetch_images_during_import', role='koito') }}"
+  KOITO_CORS_ALLOWED_ORIGINS: "{{ lookup('role_var', '_cors_allowed_origins', role='koito')
+                               if (lookup('role_var', '_cors_allowed_origins', role='koito') | length > 0)
+                               else omit }}"
+koito_role_docker_envs_custom: {}
+koito_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='koito')
+                            | combine(lookup('role_var', '_docker_envs_custom', role='koito')) }}"
+
+# Volumes
+koito_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location_data', role='koito') }}:/etc/koito"
+koito_role_docker_volumes_custom: []
+koito_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='koito')
+                               + lookup('role_var', '_docker_volumes_custom', role='koito') }}"
+
+# Hostname
+koito_role_docker_hostname: "{{ koito_name }}"
+
+# Networks
+koito_role_docker_networks_alias: "{{ koito_name }}"
+koito_role_docker_networks_default: []
+koito_role_docker_networks_custom: []
+koito_role_docker_networks: "{{ docker_networks_common
+                                + lookup('role_var', '_docker_networks_default', role='koito')
+                                + lookup('role_var', '_docker_networks_custom', role='koito') }}"
+
+# Restart Policy
+koito_role_docker_restart_policy: unless-stopped
+
+# State
+koito_role_docker_state: started
+
+# User
+koito_role_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+koito_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='koito')
+                        if lookup('role_var', '_postgres_deploy', role='koito')
+                        else '' }}"
+koito_role_depends_on_delay: "0"
+koito_role_depends_on_healthchecks: "false"

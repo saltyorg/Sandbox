@@ -1,0 +1,63 @@
+#########################################################################
+# Title:            Sandbox: Koito                                      #
+# Author(s):        salty                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Validate allowed hosts
+  ansible.builtin.fail:
+    msg: "koito_role_allowed_hosts must not be empty."
+  when: (lookup('role_var', '_allowed_hosts', role='koito') | trim | length == 0)
+
+- name: Validate database URL when internal Postgres is disabled
+  ansible.builtin.fail:
+    msg: "Set koito_role_database_url when koito_role_postgres_deploy is false."
+  when:
+    - not lookup('role_var', '_postgres_deploy', role='koito')
+    - (lookup('role_var', '_database_url', role='koito') | trim | length == 0)
+
+- name: Validate ListenBrainz relay configuration
+  ansible.builtin.fail:
+    msg: "koito_role_lbz_relay_url and koito_role_lbz_relay_token are required when koito_role_enable_lbz_relay is true."
+  when:
+    - (lookup('role_var', '_enable_lbz_relay', role='koito') == 'true')
+    - (lookup('role_var', '_lbz_relay_url', role='koito') | trim | length == 0) or (lookup('role_var', '_lbz_relay_token', role='koito') | trim | length == 0)
+
+- name: Validate Subsonic configuration
+  ansible.builtin.fail:
+    msg: "koito_role_subsonic_url and koito_role_subsonic_params must be set together."
+  when: (lookup('role_var', '_subsonic_url', role='koito') | trim | length > 0) != (lookup('role_var', '_subsonic_params', role='koito') | trim | length > 0)
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: "Import Postgres Role"
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='koito') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='koito') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='koito') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='koito') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='koito') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='koito') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='koito') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='koito') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='koito') }}"
+  when: lookup('role_var', '_postgres_deploy', role='koito')
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
