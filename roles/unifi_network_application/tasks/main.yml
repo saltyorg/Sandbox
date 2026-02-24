@@ -47,7 +47,7 @@
       - "{{ unifi_network_application_name }}-mongo"
     mongodb_role_paths_location: "{{ server_appdata_path }}/{{ unifi_network_application_name }}"
     mongodb_role_docker_image_tag: "4.4"
-    mongodb_role_docker_volumes_custom:
+    mongodb_role_docker_volumes:
       - "{{ unifi_network_application_role_paths_location }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
 
 - name: Create Docker container
