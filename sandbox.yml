@@ -200,6 +200,7 @@
     - { role: yacht, tags: ['yacht'] }
     - { role: your_spotify, tags: ['your-spotify'] }
     - { role: ytdl_sub, tags: ['ytdl-sub'] }
+    - { role: zigbee2mqtt, tags: ['zigbee2mqtt'] }
     - { role: znc, tags: ['znc'] }
     # Apps End
     # No CI
