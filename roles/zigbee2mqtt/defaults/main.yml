@@ -17,7 +17,7 @@ zigbee2mqtt_name: zigbee2mqtt
 # Paths
 ################################
 
-zigbee2mqtt_role_paths_folder: "{{ zigbee2mqtt_role_name }}"
+zigbee2mqtt_role_paths_folder: "{{ zigbee2mqtt_name }}"
 zigbee2mqtt_role_paths_location: "{{ server_appdata_path }}/{{ zigbee2mqtt_role_paths_folder }}"
 zigbee2mqtt_role_config_location: "{{ zigbee2mqtt_role_paths_location }}/configuration.yaml"
 zigbee2mqtt_role_mqtt_config_location: "{{ server_appdata_path }}/mqtt/config/mosquitto.conf"
