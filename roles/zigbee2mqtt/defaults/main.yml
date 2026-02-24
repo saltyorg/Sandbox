@@ -28,20 +28,20 @@ zigbee2mqtt_role_paths_folders_list:
 # Web
 ################################
 
-zigbee2mqtt_role_web_subdomain: "{{ zigbee2mqtt_role_name }}"
+zigbee2mqtt_role_web_subdomain: "{{ zigbee2mqtt_name }}"
 zigbee2mqtt_role_web_domain: "{{ user.domain }}"
 zigbee2mqtt_role_web_port: "8080"
-zigbee2mqtt_role_web_url: "{{ 'https://' + (zigbee2mqtt_role_web_subdomain + '.' + zigbee2mqtt_role_web_domain
-                      if (zigbee2mqtt_role_web_subdomain | length > 0)
-                      else zigbee2mqtt_role_web_domain) }}"
+zigbee2mqtt_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='zigbee2mqtt') + '.' + lookup('role_var', '_web_domain', role='zigbee2mqtt')
+                           if (lookup('role_var', '_web_subdomain', role='zigbee2mqtt') | length > 0)
+                           else lookup('role_var', '_web_domain', role='zigbee2mqtt')) }}"
 
 ################################
 # DNS
 ################################
 
-zigbee2mqtt_role_dns_record: "{{ zigbee2mqtt_role_web_subdomain }}"
-zigbee2mqtt_role_dns_zone: "{{ zigbee2mqtt_role_web_domain }}"
-zigbee2mqtt_role_dns_proxy: "{{ dns.proxied }}"
+zigbee2mqtt_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='zigbee2mqtt') }}"
+zigbee2mqtt_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='zigbee2mqtt') }}"
+zigbee2mqtt_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
 # Traefik
@@ -60,34 +60,35 @@ zigbee2mqtt_role_traefik_api_endpoint: ""
 ################################
 
 # Container
-zigbee2mqtt_role_docker_container: "{{ zigbee2mqtt_role_name }}"
+zigbee2mqtt_role_docker_container: "{{ zigbee2mqtt_name }}"
 
 # Image
 zigbee2mqtt_role_docker_image_pull: true
+zigbee2mqtt_role_docker_image_repo: "ghcr.io/koenkk/zigbee2mqtt"
 zigbee2mqtt_role_docker_image_tag: "latest"
-zigbee2mqtt_role_docker_image: "koenkk/zigbee2mqtt_role:{{ zigbee2mqtt_role_docker_image_tag }}"
+zigbee2mqtt_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='zigbee2mqtt') }}:{{ lookup('role_var', '_docker_image_tag', role='zigbee2mqtt') }}"
 
 # Ports
 zigbee2mqtt_role_docker_ports_defaults:
   - "{{ zigbee2mqtt_role_web_port }}"
 zigbee2mqtt_role_docker_ports_custom: []
 zigbee2mqtt_role_docker_ports: "{{ zigbee2mqtt_role_docker_ports_defaults
-                              + zigbee2mqtt_role_docker_ports_custom
-                           if (not reverse_proxy_is_enabled)
-                           else zigbee2mqtt_role_docker_ports_custom }}"
+                                   + zigbee2mqtt_role_docker_ports_custom
+                                if (not reverse_proxy_is_enabled)
+                                else zigbee2mqtt_role_docker_ports_custom }}"
 
 # Envs
 zigbee2mqtt_role_docker_envs_default:
   TZ: "{{ tz }}"
 zigbee2mqtt_role_docker_envs_custom: {}
 zigbee2mqtt_role_docker_envs: "{{ zigbee2mqtt_role_docker_envs_default
-                             | combine(zigbee2mqtt_role_docker_envs_custom) }}"
+                                  | combine(zigbee2mqtt_role_docker_envs_custom) }}"
 
 # Commands
 zigbee2mqtt_role_docker_commands_default: []
 zigbee2mqtt_role_docker_commands_custom: []
 zigbee2mqtt_role_docker_commands: "{{ zigbee2mqtt_role_docker_commands_default
-                                 + zigbee2mqtt_role_docker_commands_custom }}"
+                                      + zigbee2mqtt_role_docker_commands_custom }}"
 
 # Volumes
 zigbee2mqtt_role_docker_volumes_default:
