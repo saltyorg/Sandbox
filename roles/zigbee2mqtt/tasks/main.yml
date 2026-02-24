@@ -24,7 +24,7 @@
 
 - name: "Fail when 'mosquitto.conf' is not present"
   ansible.builtin.fail:
-    msg: "You need to install MQTT. https://docs.saltbox.dev/sandbox/apps/mqtt/. Zigbee2mqtt_role requires MQTT to function."
+    msg: "You need to install MQTT. https://docs.saltbox.dev/sandbox/apps/mqtt/. Zigbee2mqtt requires MQTT to function."
   when: (not mqtt_config.stat.exists) and (not continuous_integration)
 
 - name: Check if `{{ zigbee2mqtt_role_config_location | basename }}` exists
