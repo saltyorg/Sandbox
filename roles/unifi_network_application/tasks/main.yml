@@ -33,7 +33,7 @@
 
 - name: "Unifi | Import init-mongo.sh"
   ansible.builtin.template:
-    src: init-mongo.js.j2
+    src: init-mongo.sh.j2
     dest: '{{ unifi_network_application_role_paths_location }}/init-mongo.sh'
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
