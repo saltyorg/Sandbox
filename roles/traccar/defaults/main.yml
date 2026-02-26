@@ -148,3 +148,6 @@ traccar_role_docker_stop_timeout: 10
 traccar_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='traccar') }}"
 traccar_role_depends_on_delay: "0"
 traccar_role_depends_on_healthchecks: "false"
+
+# CI
+traccar_docker_create_timeout: 300
