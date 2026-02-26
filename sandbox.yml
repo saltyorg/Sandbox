@@ -49,7 +49,6 @@
     - { role: elasticsearch, tags: ['elasticsearch'] }
     - { role: embystat, tags: ['embystat'] }
     - { role: epms, tags: ['epms'] }
-    - { role: esphome, tags: ['esphome'] }
     - { role: factorio, tags: ['factorio'] }
     - { role: filebot, tags: ['filebot'] }
     - { role: filebrowser, tags: ['filebrowser'] }
