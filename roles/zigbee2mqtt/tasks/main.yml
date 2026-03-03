@@ -1,0 +1,105 @@
+#########################################################################
+# Title:            Sandbox: Zigbee2mqtt                                #
+# Author(s):        CHAIR/Raneydazed                                    #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('vars', role_name + '_dns_record') }}"
+    dns_zone: "{{ lookup('vars', role_name + '_dns_zone') }}"
+    dns_proxy: "{{ lookup('vars', role_name + '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Check if `{{ zigbee2mqtt_role_mqtt_config_location }}` exists
+  ansible.builtin.stat:
+    path: "{{ zigbee2mqtt_role_mqtt_config_location }}"
+  register: mqtt_config
+
+- name: "Fail when 'mosquitto.conf' is not present"
+  ansible.builtin.fail:
+    msg: "You need to install MQTT. https://docs.saltbox.dev/sandbox/apps/mqtt/. Zigbee2mqtt requires MQTT to function."
+  when: (not mqtt_config.stat.exists) and (not continuous_integration)
+
+- name: Gather USB facts
+  community.general.usb_facts:
+  register: usb_facts
+  become: true
+
+- name: Fail if no USB facts gathered (no access)
+  ansible.builtin.fail:
+    msg: "Could not gather USB facts; ensure Python and sysfs access (try with become: true)."
+  when: usb_facts is not defined or ansible_facts.usb_devices is not defined
+
+- name: Find USB device in /dev/serial/by-id/
+  ansible.builtin.find:
+    paths: /dev/serial/by-id
+    patterns: "*usb*"
+    file_type: link
+  register: usb_serial_links
+  when: ansible_facts.usb_devices is defined and ansible_facts.usb_devices | length > 0
+
+- name: Resolve first USB device symlink to actual device path
+  ansible.builtin.command:
+    cmd: readlink -f "{{ usb_serial_links.files[0].path }}"
+  register: resolved_usb_device
+  changed_when: false
+  when:
+    - usb_serial_links is defined
+    - usb_serial_links.files is defined
+    - usb_serial_links.files | length > 0
+
+- name: Set USB device path from resolved symlink
+  ansible.builtin.set_fact:
+    zigbee_usb_port: "{{ resolved_usb_device.stdout }}"
+  when:
+    - resolved_usb_device is defined
+    - resolved_usb_device.stdout is defined
+    - resolved_usb_device.stdout != ''
+
+- name: Fallback to /dev/ttyUSB0 if symlink resolution failed
+  when: zigbee_usb_port is not defined
+  block:
+    - name: Check if /dev/ttyUSB0 exists
+      ansible.builtin.stat:
+        path: /dev/ttyUSB0
+      register: ttyusb0_stat
+
+    - name: Set USB device path to /dev/ttyUSB0
+      ansible.builtin.set_fact:
+        zigbee_usb_port: "/dev/ttyUSB0"
+      when: ttyusb0_stat.stat.exists
+
+- name: Fail when no USB device path could be resolved
+  ansible.builtin.fail:
+    msg: "No USB device found. Plug in a supported USB adapter (e.g., Zigbee adapter)."
+  when:
+    - zigbee_usb_port is not defined
+    - not continuous_integration
+
+- name: Check if `{{ zigbee2mqtt_role_config_location | basename }}` exists
+  ansible.builtin.stat:
+    path: "{{ zigbee2mqtt_role_config_location }}"
+  register: zigbee2mqtt_role_config
+
+- name: Import 'configuration.yaml'
+  ansible.builtin.template:
+    src: configuration.yaml.j2
+    dest: "{{ zigbee2mqtt_role_config_location }}"
+    mode: "664"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    force: true
+  when: not zigbee2mqtt_role_config.stat.exists
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
