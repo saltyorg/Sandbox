@@ -59,7 +59,7 @@
     - usb_serial_links.files | length > 0
 
 - name: Set USB device path from resolved symlink
-  set_fact:
+  ansible.builtin.set_fact:
     zigbee_usb_port: "{{ resolved_usb_device.stdout }}"
   when:
     - resolved_usb_device is defined
@@ -67,6 +67,7 @@
     - resolved_usb_device.stdout != ''
 
 - name: Fallback to /dev/ttyUSB0 if symlink resolution failed
+  when: zigbee_usb_port is not defined
   block:
     - name: Check if /dev/ttyUSB0 exists
       ansible.builtin.stat:
@@ -74,11 +75,9 @@
       register: ttyusb0_stat
 
     - name: Set USB device path to /dev/ttyUSB0
-      set_fact:
+      ansible.builtin.set_fact:
         zigbee_usb_port: "/dev/ttyUSB0"
       when: ttyusb0_stat.stat.exists
-
-  when: zigbee_usb_port is not defined
 
 - name: Fail when no USB device path could be resolved
   ansible.builtin.fail:
