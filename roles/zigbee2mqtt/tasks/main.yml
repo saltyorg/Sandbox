@@ -30,6 +30,63 @@
     msg: "You need to install MQTT. https://docs.saltbox.dev/sandbox/apps/mqtt/. Zigbee2mqtt requires MQTT to function."
   when: (not mqtt_config.stat.exists) and (not continuous_integration)
 
+- name: Gather USB facts
+  community.general.usb_facts:
+  register: usb_facts
+  become: true
+
+- name: Fail if no USB facts gathered (no access)
+  ansible.builtin.fail:
+    msg: "Could not gather USB facts; ensure Python and sysfs access (try with become: true)."
+  when: usb_facts is not defined or ansible_facts.usb_devices is not defined
+
+- name: Find USB device in /dev/serial/by-id/
+  ansible.builtin.find:
+    paths: /dev/serial/by-id
+    patterns: "*usb*"
+    file_type: link
+  register: usb_serial_links
+  when: ansible_facts.usb_devices is defined and ansible_facts.usb_devices | length > 0
+
+- name: Resolve first USB device symlink to actual device path
+  ansible.builtin.command:
+    cmd: readlink -f "{{ usb_serial_links.files[0].path }}"
+  register: resolved_usb_device
+  changed_when: false
+  when:
+    - usb_serial_links is defined
+    - usb_serial_links.files is defined
+    - usb_serial_links.files | length > 0
+
+- name: Set USB device path from resolved symlink
+  set_fact:
+    zigbee_usb_port: "{{ resolved_usb_device.stdout }}"
+  when:
+    - resolved_usb_device is defined
+    - resolved_usb_device.stdout is defined
+    - resolved_usb_device.stdout != ''
+
+- name: Fallback to /dev/ttyUSB0 if symlink resolution failed
+  block:
+    - name: Check if /dev/ttyUSB0 exists
+      ansible.builtin.stat:
+        path: /dev/ttyUSB0
+      register: ttyusb0_stat
+
+    - name: Set USB device path to /dev/ttyUSB0
+      set_fact:
+        zigbee_usb_port: "/dev/ttyUSB0"
+      when: ttyusb0_stat.stat.exists
+
+  when: zigbee_usb_port is not defined
+
+- name: Fail when no USB device path could be resolved
+  ansible.builtin.fail:
+    msg: "No USB device found. Plug in a supported USB adapter (e.g., Zigbee adapter)."
+  when:
+    - zigbee_usb_port is not defined
+    - not continuous_integration
+
 - name: Check if `{{ zigbee2mqtt_role_config_location | basename }}` exists
   ansible.builtin.stat:
     path: "{{ zigbee2mqtt_role_config_location }}"

@@ -24,8 +24,8 @@ mqtt:
 
 # Serial settings
 serial:
-  # Location of your zigbee adapter. Change as necessary.
-  port: /dev/ttyUSB0
+  # Location of your zigbee adapter. Automatically detected by the role.
+  port: {{ zigbee_usb_port }}
 
 # Advanced settings
 advanced:
