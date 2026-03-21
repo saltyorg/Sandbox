@@ -1,0 +1,147 @@
+##########################################################################
+# Title:            Sandbox: Grimmory | Default Variables                #
+# Author(s):        BeansIsFat                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+grimmory_name: grimmory
+
+################################
+# Settings
+################################
+
+# Name of a subdirectory to be created in /mnt/unionfs/Media/
+# Opt out with a falsy value (e.g. "")
+grimmory_role_media_subfolder: "Books"
+
+# Name of the Bookdrop subdirectory
+# Will be placed in the downloads root: usually /mnt/unionfs/downloads/
+grimmory_role_bookdrop_subfolder: "bookdrop"
+
+grimmory_role_mariadb_name: "{{ grimmory_name }}-mariadb"
+grimmory_role_mariadb_paths_folder: "{{ grimmory_name }}"
+grimmory_role_mariadb_paths_location: "{{ server_appdata_path }}/{{ grimmory_role_mariadb_paths_folder }}/mariadb"
+grimmory_role_mariadb_docker_image_tag: "11.4"
+grimmory_role_mariadb_docker_env_db: "{{ grimmory_name }}-mariadb"
+
+################################
+# Paths
+################################
+
+grimmory_role_paths_folder: "{{ grimmory_name }}"
+grimmory_role_paths_location: "{{ server_appdata_path }}/{{ grimmory_role_paths_folder }}"
+grimmory_role_paths_media_location: "{{ server_local_folder_path }}/Media/{{ grimmory_role_media_subfolder }}"
+grimmory_role_paths_bookdrop_location: "{{ downloads_root_path }}/{{ grimmory_role_bookdrop_subfolder }}"
+grimmory_role_paths_folders_list:
+  - "{{ grimmory_role_paths_location }}/data"
+  - "{{ grimmory_role_paths_media_location }}"
+  - "{{ grimmory_role_paths_bookdrop_location }}"
+
+################################
+# Web
+################################
+
+grimmory_role_web_subdomain: "{{ grimmory_name }}"
+grimmory_role_web_domain: "{{ user.domain }}"
+grimmory_role_web_port: "6060"
+grimmory_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='grimmory') + '.' + lookup('role_var', '_web_domain', role='grimmory')
+                        if (lookup('role_var', '_web_subdomain', role='grimmory') | length > 0)
+                        else lookup('role_var', '_web_domain', role='grimmory')) }}"
+
+################################
+# DNS
+################################
+
+grimmory_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='grimmory') }}"
+grimmory_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='grimmory') }}"
+grimmory_role_dns_proxy: "{{ dns.proxied }}"
+
+################################
+# Traefik
+################################
+
+grimmory_role_traefik_sso_middleware: ""
+grimmory_role_traefik_middleware_default: "{{ traefik_default_middleware }},grimmory-kobo-sync-headers"
+grimmory_role_traefik_middleware_custom: ""
+grimmory_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+grimmory_role_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+grimmory_role_docker_container: "{{ grimmory_name }}"
+
+# Image
+grimmory_role_docker_image_pull: true
+grimmory_role_docker_image_tag: "latest"
+grimmory_role_docker_image_repo: "grimmory/grimmory"
+grimmory_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='grimmory') }}:{{ lookup('role_var', '_docker_image_tag', role='grimmory') }}"
+
+# Envs
+grimmory_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  USER_ID: "{{ uid }}"
+  GROUP_ID: "{{ gid }}"
+  DATABASE_URL: "jdbc:mariadb://{{ grimmory_name }}-mariadb:3306/{{ lookup('role_var', '_mariadb_docker_env_db', role='grimmory') }}"
+  DATABASE_USERNAME: "root"
+  DATABASE_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
+  APP_BOOKDROP_FOLDER: "{{ lookup('role_var', '_paths_bookdrop_location', role='grimmory') }}"
+grimmory_role_docker_envs_custom: {}
+grimmory_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='grimmory')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='grimmory')) }}"
+
+# Volumes
+grimmory_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='grimmory') }}/data:/app/data"
+grimmory_role_docker_volumes_custom: []
+grimmory_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='grimmory')
+                                  + lookup('role_var', '_docker_volumes_custom', role='grimmory') }}"
+
+# Labels
+grimmory_role_docker_labels_default:
+  traefik.http.middlewares.grimmory-kobo-sync-headers.headers.customrequestheaders.X-Scheme: "https"
+grimmory_role_docker_labels_custom: {}
+grimmory_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='grimmory')
+                                 | combine(lookup('role_var', '_docker_labels_custom', role='grimmory')) }}"
+
+# Hostname
+grimmory_role_docker_hostname: "{{ grimmory_name }}"
+
+# Networks
+grimmory_role_docker_networks_alias: "{{ grimmory_name }}"
+grimmory_role_docker_networks_default: []
+grimmory_role_docker_networks_custom: []
+grimmory_role_docker_networks: "{{ docker_networks_common
+                                   + lookup('role_var', '_docker_networks_default', role='grimmory')
+                                   + lookup('role_var', '_docker_networks_custom', role='grimmory') }}"
+
+# Restart Policy
+grimmory_role_docker_restart_policy: unless-stopped
+
+# Stop Timeout
+grimmory_role_docker_stop_timeout: 10
+
+# State
+grimmory_role_docker_state: started
+
+# Healthcheck
+grimmory_role_docker_healthcheck:
+  test: wget -q -O - http://localhost:6060/api/v1/healthcheck
+  interval: 60s
+  retries: 5
+  start_period: 60s
+  timeout: 10s
+
+# Dependencies
+grimmory_role_depends_on: "{{ grimmory_name }}-mariadb"
+grimmory_role_depends_on_delay: "0"
+grimmory_role_depends_on_healthchecks: "false"
