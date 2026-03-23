@@ -11,27 +11,10 @@ Roles may get moved to the main repo if they become officially maintained.
 
 - [Saltbox](https://github.com/saltyorg/Saltbox/)
 
-### Install
-
-Install Sandbox using the Saltbox installer.
-```
-sb install sandbox
-```
-
 ### Documentation
 
-- [Sandbox](https://docs.saltbox.dev/sandbox/basics/)
+- [Sandbox](https://docs.saltbox.dev/reference/modules/sandbox)
 
-### Roles
-
-List of roles can be found by running
-```
-cd /opt/sandbox && sudo ansible-playbook sandbox.yml --list-tags 2>&1 | grep "TASK TAGS" | cut -d":" -f2 | awk '{sub(/\[/, "")sub(/\]/, "")}1' | sed -e 's/,//g' | xargs -n 1 | sort -u
-```
-or
-```
-sb list
-```
 ### Contributors
 
 <table>
