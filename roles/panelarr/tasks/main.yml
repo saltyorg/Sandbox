@@ -1,0 +1,31 @@
+##########################################################################
+# Title:            Sandbox: Panelarr                                    #
+# Author(s):        thug-drama                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Docker Socket Proxy Role
+  ansible.builtin.include_role:
+    name: docker_socket_proxy
+  vars:
+    docker_socket_proxy_name: "{{ panelarr_name }}-docker-socket-proxy"
+    docker_socket_proxy_role_docker_envs_custom: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='panelarr') }}"
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
