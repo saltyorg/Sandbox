@@ -62,7 +62,7 @@ maintainerr_role_docker_container: "{{ maintainerr_name }}"
 
 # Image
 maintainerr_role_docker_image_pull: true
-maintainerr_role_docker_image_repo: "jorenn92/maintainerr"
+maintainerr_role_docker_image_repo: "maintainerr/maintainerr"
 maintainerr_role_docker_image_tag: "latest"
 maintainerr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='maintainerr') }}:{{ lookup('role_var', '_docker_image_tag', role='maintainerr') }}"
 
