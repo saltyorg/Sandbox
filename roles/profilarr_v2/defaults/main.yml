@@ -62,7 +62,7 @@ profilarr_v2_role_docker_container: "{{ profilarr_v2_name }}"
 
 # Image
 profilarr_v2_role_docker_image_pull: true
-profilarr_v2_role_docker_image_repo: "ghcr.io/dictionarry-hub/profilarr-v2"
+profilarr_v2_role_docker_image_repo: "ghcr.io/dictionarry-hub/profilarr"
 profilarr_v2_role_docker_image_tag: "latest"
 profilarr_v2_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='profilarr_v2') }}:{{ lookup('role_var', '_docker_image_tag', role='profilarr_v2') }}"
 
