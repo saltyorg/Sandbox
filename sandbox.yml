@@ -139,6 +139,7 @@
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
     - { role: profilarr, tags: ['profilarr'] }
+    - { role: profilarr-v2, tags: ['profilarr-v2'] }
     - { role: puddletag, tags: ['puddletag'] }
     - { role: pufferpanel, tags: ['pufferpanel'] }
     - { role: pyload, tags: ['pyload'] }
