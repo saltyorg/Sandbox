@@ -71,7 +71,7 @@ profilarr_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  ORIGIN: "{{ profilarr_v2_role_web_url }}"
+  ORIGIN: "{{ profilarr_role_web_url }}"
 profilarr_role_docker_envs_custom: {}
 profilarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='profilarr')
                                 | combine(lookup('role_var', '_docker_envs_custom', role='profilarr')) }}"
