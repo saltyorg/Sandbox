@@ -7,6 +7,48 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+#########################################################################
+# Check for existing Profilarr container                                #
+#########################################################################
+
+- name: Check for existing Profilarr container
+  community.docker.docker_container_info:
+    name: profilarr
+  register: profilarr_container
+  failed_when: false
+
+- name: Set existing Profilarr facts
+  ansible.builtin.set_fact:
+    profilarr_container_exists: "{{ profilarr_container.exists | default(false) }}"
+    profilarr_existing_image: "{{ profilarr_container.container.Config.Image | default('') }}"
+    profilarr_existing_version: "{{ profilarr_container.container.Config.Labels['org.opencontainers.image.version'] | default('') }}"
+    profilarr_existing_description: "{{ profilarr_container.container.Config.Labels['org.opencontainers.image.description'] | default('') }}"
+
+- name: Detect existing Profilarr v1
+  ansible.builtin.set_fact:
+    profilarr_existing_is_v1: >-
+      {{
+        profilarr_container_exists
+        and (
+          profilarr_existing_image is search('santiagosayshey/profilarr')
+          or profilarr_existing_version == 'beta'
+          or profilarr_existing_description == 'Profilarr - Profile manager for *arr apps'
+        )
+      }}
+
+- name: Stop if Profilarr v1 is installed
+  ansible.builtin.fail:
+    msg: |
+      Existing Profilarr v1 container detected.
+
+      Profilarr v2 requires a fresh setup.
+      There is no migration path from v1 to v2.
+
+      Please remove or back up the existing v1 container/config before installing v2.
+  when: profilarr_existing_is_v1
+
+#########################################################################
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
