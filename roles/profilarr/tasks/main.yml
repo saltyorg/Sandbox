@@ -69,7 +69,7 @@
     - name: Generate Profilarr v1 backup path
       ansible.builtin.set_fact:
         profilarr_v1_backup_path: >-
-          /opt/profilarr_v1_{{ ansible_date_time.iso8601_basic_short }}
+          /opt/profilarr_v1_{{ ansible_facts['date_time']['iso8601_basic_short'] }}
 
     - name: Stop and remove existing Profilarr v1 container
       community.docker.docker_container:
