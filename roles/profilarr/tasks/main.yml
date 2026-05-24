@@ -8,7 +8,7 @@
 #########################################################################
 ---
 #########################################################################
-# Check for existing Profilarr container                                #
+# Check for existing Profilarr container and migrate to v2              #
 #########################################################################
 
 - name: Check for existing Profilarr container
@@ -36,16 +36,59 @@
         )
       }}
 
-- name: Stop if Profilarr v1 is installed
-  ansible.builtin.fail:
-    msg: |
+- name: Confirm Profilarr v1 replacement
+  ansible.builtin.pause:
+    prompt: |
       Existing Profilarr v1 container detected.
 
       Profilarr v2 requires a fresh setup.
       There is no migration path from v1 to v2.
 
-      Please remove or back up the existing v1 container/config before installing v2.
+      If you continue, this playbook will:
+        1. Stop and remove the existing profilarr container
+        2. Back up /opt/profilarr to a timestamped directory
+        3. Continue installing Profilarr v2
+
+      Type 'yes' to continue, or anything else to abort
+  register: profilarr_v1_confirm
   when: profilarr_existing_is_v1
+
+- name: Abort Profilarr v2 install if user declines v1 replacement
+  ansible.builtin.fail:
+    msg: "Profilarr v2 install aborted by user."
+  when:
+    - profilarr_existing_is_v1
+    - profilarr_v1_confirm.user_input | lower != 'yes'
+
+- name: Migrate existing Profilarr v1 aside
+  when:
+    - profilarr_existing_is_v1
+    - profilarr_v1_confirm.user_input | lower == 'yes'
+  block:
+
+    - name: Generate Profilarr v1 backup path
+      ansible.builtin.set_fact:
+        profilarr_v1_backup_path: >-
+          /opt/profilarr_v1_{{ ansible_date_time.iso8601_basic_short }}
+
+    - name: Stop and remove existing Profilarr v1 container
+      community.docker.docker_container:
+        name: profilarr
+        state: absent
+
+    - name: Check whether Profilarr config directory exists
+      ansible.builtin.stat:
+        path: /opt/profilarr
+      register: profilarr_v1_config_dir
+
+    - name: Back up existing Profilarr v1 config directory
+      ansible.builtin.command:
+        cmd: mv /opt/profilarr {{ profilarr_v1_backup_path }}
+      when: profilarr_v1_config_dir.stat.exists
+
+    - name: Show backup location
+      ansible.builtin.debug:
+        msg: "Existing Profilarr v1 config backed up to {{ profilarr_v1_backup_path }}"
 
 #########################################################################
 
