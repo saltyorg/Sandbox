@@ -7,90 +7,28 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-#########################################################################
-# Check for existing Profilarr container and migrate to v2              #
-#########################################################################
+- name: Check for existing Profilarr v1 installation
+  ansible.builtin.stat:
+    path: "{{ profilarr_role_paths_location }}/profilarr.db"
+  register: profilarr_v1_installation_check
 
-- name: Check for existing Profilarr container
-  community.docker.docker_container_info:
-    name: profilarr
-  register: profilarr_container
-  failed_when: false
-
-- name: Set existing Profilarr facts
-  ansible.builtin.set_fact:
-    profilarr_container_exists: "{{ profilarr_container.exists | default(false) }}"
-    profilarr_existing_image: "{{ profilarr_container.container.Config.Image | default('') }}"
-    profilarr_existing_version: "{{ profilarr_container.container.Config.Labels['org.opencontainers.image.version'] | default('') }}"
-    profilarr_existing_description: "{{ profilarr_container.container.Config.Labels['org.opencontainers.image.description'] | default('') }}"
-
-- name: Detect existing Profilarr v1
-  ansible.builtin.set_fact:
-    profilarr_existing_is_v1: >-
-      {{
-        profilarr_container_exists
-        and (
-          profilarr_existing_image is search('santiagosayshey/profilarr')
-          or profilarr_existing_version == 'beta'
-          or profilarr_existing_description == 'Profilarr - Profile manager for *arr apps'
-        )
-      }}
-
-- name: Confirm Profilarr v1 replacement
-  ansible.builtin.pause:
-    prompt: |
-      Existing Profilarr v1 container detected.
-
-      Profilarr v2 requires a fresh setup.
-      There is no migration path from v1 to v2.
-
-      If you continue, this playbook will:
-        1. Stop and remove the existing profilarr container
-        2. Back up /opt/profilarr to a timestamped directory
-        3. Continue installing Profilarr v2
-
-      Type 'yes' to continue, or anything else to abort
-  register: profilarr_v1_confirm
-  when: profilarr_existing_is_v1
-
-- name: Abort Profilarr v2 install if user declines v1 replacement
+- name: Abort if Profilarr v1 installation exists
   ansible.builtin.fail:
-    msg: "Profilarr v2 install aborted by user."
-  when:
-    - profilarr_existing_is_v1
-    - profilarr_v1_confirm.user_input | lower != 'yes'
+    msg: |
+      Existing Profilarr v1 installation detected.
 
-- name: Migrate existing Profilarr v1 aside
-  when:
-    - profilarr_existing_is_v1
-    - profilarr_v1_confirm.user_input | lower == 'yes'
-  block:
+      Profilarr v2 requires a fresh installation.
+      Migration from v1 to v2 is not supported.
 
-    - name: Generate Profilarr v1 backup path
-      ansible.builtin.set_fact:
-        profilarr_v1_backup_path: >-
-          /opt/profilarr_v1_{{ ansible_facts['date_time']['iso8601_basic_short'] }}
+      Before continuing:
+        1. Back up /opt/profilarr
+        2. Remove the existing /opt/profilarr directory
+        3. Rerun the role to install Profilarr v2
 
-    - name: Stop and remove existing Profilarr v1 container
-      community.docker.docker_container:
-        name: profilarr
-        state: absent
+      For more information, see:
+        https://v2.dictionarry.dev/?section=before-you-start  
 
-    - name: Check whether Profilarr config directory exists
-      ansible.builtin.stat:
-        path: /opt/profilarr
-      register: profilarr_v1_config_dir
-
-    - name: Back up existing Profilarr v1 config directory
-      ansible.builtin.command:
-        cmd: mv /opt/profilarr {{ profilarr_v1_backup_path }}
-      when: profilarr_v1_config_dir.stat.exists
-
-    - name: Show backup location
-      ansible.builtin.debug:
-        msg: "Existing Profilarr v1 config backed up to {{ profilarr_v1_backup_path }}"
-
-#########################################################################
+  when: profilarr_v1_installation_check.stat.exists
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
