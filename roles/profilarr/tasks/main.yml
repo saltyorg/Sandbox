@@ -16,17 +16,10 @@
   ansible.builtin.fail:
     msg: |
       Existing Profilarr v1 installation detected.
-
       Profilarr v2 requires a fresh installation.
-      Migration from v1 to v2 is not supported.
 
-      Before continuing:
-        1. Back up /opt/profilarr
-        2. Remove the existing /opt/profilarr directory
-        3. Rerun the role to install Profilarr v2
-
-      For more information, see:
-        https://v2.dictionarry.dev/?section=before-you-start  
+      For further instructions, see:
+        https://docs.saltbox.dev/sandbox/apps/profilarr
 
   when: profilarr_v1_installation_check.stat.exists
 
