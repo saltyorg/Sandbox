@@ -7,6 +7,22 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Check for existing Profilarr v1 installation
+  ansible.builtin.stat:
+    path: "{{ profilarr_role_paths_location }}/profilarr.db"
+  register: profilarr_v1_installation_check
+
+- name: Abort if Profilarr v1 installation exists
+  ansible.builtin.fail:
+    msg: |
+      Existing Profilarr v1 installation detected.
+      Profilarr v2 requires a fresh installation.
+
+      For further instructions, see:
+        https://docs.saltbox.dev/sandbox/apps/profilarr
+
+  when: profilarr_v1_installation_check.stat.exists
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
