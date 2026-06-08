@@ -34,26 +34,27 @@ plextraktsync_role_docker_container: "{{ plextraktsync_name }}"
 # Image
 plextraktsync_role_docker_image_pull: true
 plextraktsync_role_docker_image_tag: "latest"
-plextraktsync_role_docker_image_repo: "ghcr.io/taxel/plextraktsync"
+plextraktsync_role_docker_image_repo: "lscr.io/linuxserver-labs/plextraktsync"
 plextraktsync_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='plextraktsync') }}:{{ lookup('role_var', '_docker_image_tag', role='plextraktsync') }}"
 
 # Envs
 plextraktsync_role_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
 plextraktsync_role_docker_envs_custom: {}
 plextraktsync_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='plextraktsync')
                                     | combine(lookup('role_var', '_docker_envs_custom', role='plextraktsync')) }}"
 
 # Commands
-plextraktsync_role_docker_commands_default:
-  - watch
+plextraktsync_role_docker_commands_default: []
 plextraktsync_role_docker_commands_custom: []
 plextraktsync_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='plextraktsync')
                                         + lookup('role_var', '_docker_commands_custom', role='plextraktsync') }}"
 
 # Volumes
 plextraktsync_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='plextraktsync') }}:/app/config"
+  - "{{ lookup('role_var', '_paths_location', role='plextraktsync') }}:/config"
 plextraktsync_role_docker_volumes_custom: []
 plextraktsync_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='plextraktsync')
                                        + lookup('role_var', '_docker_volumes_custom', role='plextraktsync') }}"
