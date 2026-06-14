@@ -91,7 +91,6 @@
     - { role: kavita, tags: ['kavita'] }
     - { role: kcptun_client, tags: ['kcptun-client'] }
     - { role: kcptun_server, tags: ['kcptun-server'] }
-    - { role: kitana, tags: ['kitana'] }
     - { role: koel, tags: ['koel'] }
     - { role: koito, tags: ['koito'] }
     - { role: kometa, tags: ['kometa'] }
