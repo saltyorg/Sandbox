@@ -48,7 +48,6 @@
     - { role: duplicati, tags: ['duplicati'] }
     - { role: elasticsearch, tags: ['elasticsearch'] }
     - { role: embystat, tags: ['embystat'] }
-    - { role: epms, tags: ['epms'] }
     - { role: factorio, tags: ['factorio'] }
     - { role: filebot, tags: ['filebot'] }
     - { role: filebrowser, tags: ['filebrowser'] }
