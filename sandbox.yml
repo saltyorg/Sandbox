@@ -190,7 +190,6 @@
     - { role: wordpress, tags: ['wordpress'] }
     - { role: wrapperr, tags: ['wrapperr'] }
     - { role: xbackbone, tags: ['xbackbone'] }
-    - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
     - { role: your_spotify, tags: ['your-spotify'] }
     - { role: ytdl_sub, tags: ['ytdl-sub'] }
