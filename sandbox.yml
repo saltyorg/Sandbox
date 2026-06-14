@@ -134,7 +134,6 @@
     - { role: plex_dupefinder, tags: ['plex-dupefinder'] }
     - { role: plex_meta_manager, tags: ['plex-meta-manager', 'pmm-kometa-migration'] }
     - { role: plex_patrol, tags: ['plex-patrol'] }
-    - { role: plex_utills, tags: ['plex-utills'] }
     - { role: plexshare, tags: ['plexshare'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
