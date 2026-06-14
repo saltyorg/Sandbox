@@ -23,7 +23,6 @@
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
-    - { role: barcodebuddy, tags: ['barcodebuddy'] }
     - { role: beets, tags: ['beets'] }
     - { role: booklore, tags: ['booklore'] }
     - { role: bookstack, tags: ['bookstack'] }
