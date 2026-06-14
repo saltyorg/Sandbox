@@ -106,7 +106,6 @@
     - { role: minecraft, tags: ['minecraft'] }
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
     - { role: miniflux, tags: ['miniflux'] }
-    - { role: monitorr, tags: ['monitorr'] }
     - { role: mqtt, tags: ['mqtt'] }
     - { role: mylar3, tags: ['mylar3'] }
     - { role: n8n, tags: ['n8n'] }
