@@ -58,7 +58,6 @@
     - { role: forgejo, tags: ['forgejo'] }
     - { role: freshrss, tags: ['freshrss'] }
     - { role: foundry, tags: ['foundry'] }
-    - { role: funkwhale, tags: ['funkwhale'] }
     - { role: goaccess, tags: ['goaccess'] }
     - { role: gitea, tags: ['gitea'] }
     - { role: glances_web, tags: ['glances-web'] }
