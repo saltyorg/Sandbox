@@ -61,7 +61,6 @@
     - { role: freshrss, tags: ['freshrss'] }
     - { role: foundry, tags: ['foundry'] }
     - { role: funkwhale, tags: ['funkwhale'] }
-    - { role: gaps, tags: ['gaps'] }
     - { role: goaccess, tags: ['goaccess'] }
     - { role: gitea, tags: ['gitea'] }
     - { role: glances_web, tags: ['glances-web'] }
