@@ -117,6 +117,3 @@ minecraft_role_docker_restart_policy: unless-stopped
 
 # Stop Timeout
 minecraft_role_docker_stop_timeout: 900
-
-# State
-minecraft_role_docker_state: started

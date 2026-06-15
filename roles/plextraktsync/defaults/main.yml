@@ -72,6 +72,3 @@ plextraktsync_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 plextraktsync_role_docker_restart_policy: unless-stopped
-
-# State
-plextraktsync_role_docker_state: started

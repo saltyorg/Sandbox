@@ -103,9 +103,6 @@ threadfin_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 threadfin_role_docker_restart_policy: unless-stopped
 
-# State
-threadfin_role_docker_state: started
-
 # Init
 threadfin_role_docker_init: true
 

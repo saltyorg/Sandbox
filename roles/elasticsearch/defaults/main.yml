@@ -77,8 +77,5 @@ elasticsearch_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 elasticsearch_role_docker_restart_policy: unless-stopped
 
-# State
-elasticsearch_role_docker_state: started
-
 # User
 elasticsearch_role_docker_user: "{{ uid }}"

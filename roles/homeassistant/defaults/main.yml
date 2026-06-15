@@ -102,8 +102,5 @@ homeassistant_role_docker_network_mode: "host"
 # Restart Policy
 homeassistant_role_docker_restart_policy: unless-stopped
 
-# State
-homeassistant_role_docker_state: started
-
 # Privileged
 homeassistant_role_docker_privileged: true

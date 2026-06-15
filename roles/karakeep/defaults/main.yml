@@ -111,6 +111,3 @@ karakeep_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 karakeep_role_docker_restart_policy: unless-stopped
-
-# State
-karakeep_role_docker_state: started

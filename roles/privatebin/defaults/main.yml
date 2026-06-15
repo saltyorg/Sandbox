@@ -109,8 +109,5 @@ privatebin_role_docker_read_only: true
 # Restart Policy
 privatebin_role_docker_restart_policy: unless-stopped
 
-# State
-privatebin_role_docker_state: started
-
 # User
 privatebin_role_docker_user: "{{ uid }}:{{ gid }}"

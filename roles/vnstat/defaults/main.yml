@@ -96,8 +96,5 @@ vnstat_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 vnstat_role_docker_restart_policy: unless-stopped
 
-# State
-vnstat_role_docker_state: started
-
 # Force Kill
 vnstat_role_docker_force_kill: true

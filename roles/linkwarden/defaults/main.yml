@@ -119,9 +119,6 @@ linkwarden_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 linkwarden_role_docker_restart_policy: unless-stopped
 
-# State
-linkwarden_role_docker_state: started
-
 # Dependencies
 linkwarden_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='linkwarden') }}"
 linkwarden_role_depends_on_delay: "0"

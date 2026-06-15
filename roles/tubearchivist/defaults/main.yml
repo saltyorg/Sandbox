@@ -121,9 +121,6 @@ tubearchivist_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 tubearchivist_role_docker_restart_policy: unless-stopped
 
-# State
-tubearchivist_role_docker_state: started
-
 # Dependencies
 tubearchivist_role_depends_on: "{{ tubearchivist_name }}-elasticsearch,{{ tubearchivist_name }}-redis"
 tubearchivist_role_depends_on_delay: "0"

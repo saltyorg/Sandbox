@@ -116,9 +116,6 @@ notifiarr_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 notifiarr_role_docker_restart_policy: unless-stopped
 
-# State
-notifiarr_role_docker_state: started
-
 # User
 notifiarr_role_docker_user: "{{ uid }}:{{ gid }}"
 

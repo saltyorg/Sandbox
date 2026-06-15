@@ -88,9 +88,6 @@ dashy_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 dashy_role_docker_restart_policy: unless-stopped
 
-# State
-dashy_role_docker_state: started
-
 # Healthcheck
 dashy_role_docker_healthcheck:
   test: ["CMD", "yarn", "health-check"]

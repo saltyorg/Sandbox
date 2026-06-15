@@ -111,9 +111,6 @@ homepage_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 homepage_role_docker_restart_policy: unless-stopped
 
-# State
-homepage_role_docker_state: started
-
 # User
 homepage_role_docker_user: "{{ uid }}:{{ gid }}"
 

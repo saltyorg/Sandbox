@@ -64,9 +64,6 @@ plex_auto_languages_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 plex_auto_languages_role_docker_restart_policy: unless-stopped
 
-# State
-plex_auto_languages_role_docker_state: started
-
 # Stop Timeout
 plex_auto_languages_role_docker_stop_timeout: 10
 

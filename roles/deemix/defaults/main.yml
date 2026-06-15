@@ -97,6 +97,3 @@ deemix_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 deemix_role_docker_restart_policy: unless-stopped
-
-# State
-deemix_role_docker_state: started

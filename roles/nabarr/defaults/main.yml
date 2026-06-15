@@ -66,6 +66,3 @@ nabarr_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 nabarr_role_docker_restart_policy: unless-stopped
-
-# State
-nabarr_role_docker_state: started

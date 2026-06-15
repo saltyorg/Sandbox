@@ -98,6 +98,3 @@ medusa_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 medusa_role_docker_restart_policy: unless-stopped
-
-# State
-medusa_role_docker_state: started

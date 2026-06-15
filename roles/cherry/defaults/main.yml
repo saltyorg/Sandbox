@@ -98,9 +98,6 @@ cherry_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 cherry_role_docker_restart_policy: unless-stopped
 
-# State
-cherry_role_docker_state: started
-
 # Healthcheck
 cherry_role_docker_healthcheck:
   test: ["NONE"]

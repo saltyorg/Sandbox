@@ -124,9 +124,6 @@ dockwatch_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 dockwatch_role_docker_restart_policy: unless-stopped
 
-# State
-dockwatch_role_docker_state: started
-
 # Dependencies
 dockwatch_role_depends_on: "{{ dockwatch_name }}-docker-socket-proxy"
 dockwatch_role_depends_on_delay: "0"

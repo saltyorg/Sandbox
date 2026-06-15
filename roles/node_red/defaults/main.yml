@@ -94,8 +94,5 @@ node_red_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 node_red_role_docker_restart_policy: unless-stopped
 
-# State
-node_red_role_docker_state: started
-
 # User
 node_red_role_docker_user: "{{ uid }}:{{ gid }}"

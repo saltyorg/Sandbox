@@ -137,9 +137,6 @@ immich_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 immich_role_docker_restart_policy: unless-stopped
 
-# State
-immich_role_docker_state: started
-
 # Dependencies
 immich_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='immich') }},{{ immich_name }}-redis"
 immich_role_depends_on_delay: "0"

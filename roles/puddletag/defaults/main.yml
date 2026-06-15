@@ -98,6 +98,3 @@ puddletag_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 puddletag_role_docker_restart_policy: unless-stopped
-
-# State
-puddletag_role_docker_state: started

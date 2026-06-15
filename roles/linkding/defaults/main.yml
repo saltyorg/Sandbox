@@ -104,6 +104,3 @@ linkding_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 linkding_role_docker_restart_policy: unless-stopped
-
-# State
-linkding_role_docker_state: started

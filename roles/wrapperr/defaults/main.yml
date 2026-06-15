@@ -86,6 +86,3 @@ wrapperr_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 wrapperr_role_docker_restart_policy: unless-stopped
-
-# State
-wrapperr_role_docker_state: started

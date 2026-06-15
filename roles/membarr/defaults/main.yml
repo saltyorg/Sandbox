@@ -72,8 +72,5 @@ membarr_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 membarr_role_docker_restart_policy: unless-stopped
 
-# State
-membarr_role_docker_state: started
-
 # User
 membarr_role_docker_user: "{{ uid }}:{{ gid }}"

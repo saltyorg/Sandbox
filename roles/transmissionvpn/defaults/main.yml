@@ -130,9 +130,6 @@ transmissionvpn_role_docker_capabilities: "{{ transmissionvpn_role_docker_capabi
 # Restart Policy
 transmissionvpn_role_docker_restart_policy: unless-stopped
 
-# State
-transmissionvpn_role_docker_state: started
-
 # Sysctls
 transmissionvpn_role_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"

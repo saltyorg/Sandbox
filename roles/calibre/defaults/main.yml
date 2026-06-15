@@ -144,6 +144,3 @@ calibre_role_docker_security_opts: "{{ lookup('role_var', '_docker_security_opts
 
 # Restart Policy
 calibre_role_docker_restart_policy: unless-stopped
-
-# State
-calibre_role_docker_state: started

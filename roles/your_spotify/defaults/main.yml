@@ -92,9 +92,6 @@ your_spotify_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 your_spotify_role_docker_restart_policy: unless-stopped
 
-# State
-your_spotify_role_docker_state: started
-
 # Dependencies
 your_spotify_role_depends_on: "your-spotify-db"
 your_spotify_role_depends_on_delay: "0"

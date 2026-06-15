@@ -161,6 +161,3 @@ wireguard_role_docker_sysctls: "{{ lookup('role_var', '_docker_sysctls_ipv4', ro
 
 # Restart Policy
 wireguard_role_docker_restart_policy: unless-stopped
-
-# State
-wireguard_role_docker_state: started

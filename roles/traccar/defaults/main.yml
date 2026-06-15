@@ -138,9 +138,6 @@ traccar_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 traccar_role_docker_restart_policy: unless-stopped
 
-# State
-traccar_role_docker_state: started
-
 # Stop Timeout
 traccar_role_docker_stop_timeout: 10
 

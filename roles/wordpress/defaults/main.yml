@@ -99,9 +99,6 @@ wordpress_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 wordpress_role_docker_restart_policy: unless-stopped
 
-# State
-wordpress_role_docker_state: started
-
 # User
 wordpress_role_docker_user: "{{ uid }}:{{ gid }}"
 

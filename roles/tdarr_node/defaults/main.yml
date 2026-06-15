@@ -82,6 +82,3 @@ tdarr_node_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 tdarr_node_role_docker_restart_policy: unless-stopped
-
-# State
-tdarr_node_role_docker_state: started

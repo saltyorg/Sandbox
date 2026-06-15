@@ -96,6 +96,3 @@ codex_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 codex_role_docker_restart_policy: unless-stopped
-
-# State
-codex_role_docker_state: started

@@ -119,9 +119,6 @@ wikijs_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 wikijs_role_docker_restart_policy: unless-stopped
 
-# State
-wikijs_role_docker_state: started
-
 # Dependencies
 wikijs_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='wikijs') }}"
 wikijs_role_depends_on_delay: "0"

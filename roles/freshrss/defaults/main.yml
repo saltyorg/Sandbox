@@ -95,6 +95,3 @@ freshrss_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 freshrss_role_docker_restart_policy: unless-stopped
-
-# State
-freshrss_role_docker_state: started

@@ -110,8 +110,5 @@ airdcpp_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 airdcpp_role_docker_restart_policy: unless-stopped
 
-# State
-airdcpp_role_docker_state: started
-
 # User
 airdcpp_role_docker_user: "{{ uid }}:{{ gid }}"

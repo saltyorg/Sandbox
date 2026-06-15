@@ -150,6 +150,3 @@ rflood_role_docker_restart_policy: unless-stopped
 
 # Stop Timeout
 rflood_role_docker_stop_timeout: 900
-
-# State
-rflood_role_docker_state: started

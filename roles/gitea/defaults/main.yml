@@ -108,9 +108,6 @@ gitea_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 gitea_role_docker_restart_policy: unless-stopped
 
-# State
-gitea_role_docker_state: started
-
 # Dependencies
 gitea_role_depends_on: "mariadb"
 gitea_role_depends_on_delay: "0"

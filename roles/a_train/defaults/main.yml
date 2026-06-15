@@ -72,8 +72,5 @@ a_train_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 a_train_role_docker_restart_policy: unless-stopped
 
-# State
-a_train_role_docker_state: started
-
 # User
 a_train_role_docker_user: "{{ uid }}:{{ gid }}"

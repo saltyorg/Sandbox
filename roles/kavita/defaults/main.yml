@@ -93,6 +93,3 @@ kavita_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 kavita_role_docker_restart_policy: unless-stopped
-
-# State
-kavita_role_docker_state: started

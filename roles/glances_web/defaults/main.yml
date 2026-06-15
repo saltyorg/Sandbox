@@ -102,9 +102,6 @@ glances_web_role_docker_network_mode: "host"
 # Restart Policy
 glances_web_role_docker_restart_policy: unless-stopped
 
-# State
-glances_web_role_docker_state: started
-
 # Force Kill
 glances_web_role_docker_force_kill: true
 

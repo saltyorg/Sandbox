@@ -107,6 +107,3 @@ jdownloader2_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 jdownloader2_role_docker_restart_policy: unless-stopped
-
-# State
-jdownloader2_role_docker_state: started

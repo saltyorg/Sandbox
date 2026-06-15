@@ -97,6 +97,3 @@ mealie_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 mealie_role_docker_restart_policy: unless-stopped
-
-# State
-mealie_role_docker_state: started

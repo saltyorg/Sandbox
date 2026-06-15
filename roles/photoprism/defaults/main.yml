@@ -137,9 +137,6 @@ photoprism_role_docker_working_dir: "/photoprism"
 # Restart Policy
 photoprism_role_docker_restart_policy: unless-stopped
 
-# State
-photoprism_role_docker_state: started
-
 # User
 photoprism_role_docker_user: "{{ uid }}:{{ gid }}"
 

@@ -111,8 +111,5 @@ watchstate_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 watchstate_role_docker_restart_policy: unless-stopped
 
-# State
-watchstate_role_docker_state: started
-
 # User
 watchstate_role_docker_user: "{{ uid }}:{{ gid }}"

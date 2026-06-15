@@ -150,9 +150,6 @@ paperless_ngx_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 paperless_ngx_role_docker_restart_policy: unless-stopped
 
-# State
-paperless_ngx_role_docker_state: started
-
 # Dependencies
 paperless_ngx_role_depends_on: "{{ paperless_ngx_role_postgres_name }},{{ paperless_ngx_name }}-redis"
 paperless_ngx_role_depends_on_delay: "0"

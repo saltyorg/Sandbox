@@ -103,8 +103,5 @@ healthchecks_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 healthchecks_role_docker_restart_policy: unless-stopped
 
-# State
-healthchecks_role_docker_state: started
-
 # Force Kill
 healthchecks_role_docker_force_kill: true

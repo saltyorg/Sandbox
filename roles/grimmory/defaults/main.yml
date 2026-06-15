@@ -130,9 +130,6 @@ grimmory_role_docker_restart_policy: unless-stopped
 # Stop Timeout
 grimmory_role_docker_stop_timeout: 10
 
-# State
-grimmory_role_docker_state: started
-
 # Healthcheck
 grimmory_role_docker_healthcheck:
   test: wget -q -O - http://localhost:6060/api/v1/healthcheck

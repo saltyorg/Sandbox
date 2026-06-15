@@ -94,8 +94,5 @@ maintainerr_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 maintainerr_role_docker_restart_policy: unless-stopped
 
-# State
-maintainerr_role_docker_state: started
-
 # User
 maintainerr_role_docker_user: "{{ uid }}:{{ gid }}"

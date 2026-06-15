@@ -83,6 +83,3 @@ phpmyadmin_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 phpmyadmin_role_docker_restart_policy: unless-stopped
-
-# State
-phpmyadmin_role_docker_state: started

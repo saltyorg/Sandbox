@@ -69,8 +69,5 @@ mqtt_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 mqtt_role_docker_restart_policy: unless-stopped
 
-# State
-mqtt_role_docker_state: started
-
 # User
 mqtt_role_docker_user: "{{ uid }}:{{ gid }}"

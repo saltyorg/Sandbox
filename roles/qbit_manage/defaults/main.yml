@@ -145,6 +145,3 @@ qbit_manage_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 qbit_manage_role_docker_restart_policy: on-failure
 qbit_manage_role_docker_restart_retries: 3
-
-# State
-qbit_manage_role_docker_state: started

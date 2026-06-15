@@ -114,9 +114,6 @@ invoiceninjav5_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 invoiceninjav5_role_docker_restart_policy: unless-stopped
 
-# State
-invoiceninjav5_role_docker_state: started
-
 # Dependencies
 invoiceninjav5_role_depends_on: "invoiceninja-nginx,mariadb"
 invoiceninjav5_role_depends_on_delay: "0"

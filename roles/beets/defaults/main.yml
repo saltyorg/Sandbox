@@ -95,6 +95,3 @@ beets_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 beets_role_docker_restart_policy: unless-stopped
-
-# State
-beets_role_docker_state: started

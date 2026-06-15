@@ -97,8 +97,5 @@ sshwifty_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 sshwifty_role_docker_restart_policy: unless-stopped
 
-# State
-sshwifty_role_docker_state: started
-
 # User
 sshwifty_role_docker_user: "{{ uid }}:{{ gid }}"

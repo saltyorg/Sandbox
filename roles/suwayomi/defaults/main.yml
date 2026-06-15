@@ -97,8 +97,5 @@ suwayomi_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 suwayomi_role_docker_restart_policy: unless-stopped
 
-# State
-suwayomi_role_docker_state: started
-
 # User
 suwayomi_role_docker_user: "{{ uid }}:{{ gid }}"

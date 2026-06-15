@@ -105,6 +105,3 @@ firefox_role_docker_capabilities: "{{ lookup('role_var', '_docker_capabilities_d
 
 # Restart Policy
 firefox_role_docker_restart_policy: unless-stopped
-
-# State
-firefox_role_docker_state: started

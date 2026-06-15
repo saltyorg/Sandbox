@@ -118,9 +118,6 @@ rocketchat_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 rocketchat_role_docker_restart_policy: unless-stopped
 
-# State
-rocketchat_role_docker_state: started
-
 # Dependencies
 rocketchat_role_depends_on: "rocketchat_db"
 rocketchat_role_depends_on_delay: "0"

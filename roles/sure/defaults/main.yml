@@ -219,9 +219,6 @@ sure_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 sure_role_docker_restart_policy: unless-stopped
 
-# State
-sure_role_docker_state: started
-
 ################################
 # Dependencies
 ################################

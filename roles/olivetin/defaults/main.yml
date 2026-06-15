@@ -98,8 +98,5 @@ olivetin_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 olivetin_role_docker_restart_policy: unless-stopped
 
-# State
-olivetin_role_docker_state: started
-
 # User
 olivetin_role_docker_user: "0:0"

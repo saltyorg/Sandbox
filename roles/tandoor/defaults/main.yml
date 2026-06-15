@@ -137,9 +137,6 @@ tandoor_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 tandoor_role_docker_restart_policy: unless-stopped
 
-# State
-tandoor_role_docker_state: started
-
 # Dependencies
 tandoor_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='tandoor') }}"
 tandoor_role_depends_on_delay: "0"

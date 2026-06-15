@@ -106,8 +106,5 @@ slskd_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 slskd_role_docker_restart_policy: unless-stopped
 
-# State
-slskd_role_docker_state: started
-
 # User
 slskd_role_docker_user: "{{ uid }}:{{ gid }}"

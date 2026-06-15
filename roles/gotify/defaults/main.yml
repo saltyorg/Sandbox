@@ -97,6 +97,3 @@ gotify_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 gotify_role_docker_restart_policy: unless-stopped
-
-# State
-gotify_role_docker_state: started

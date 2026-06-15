@@ -138,9 +138,6 @@ delugevpn_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 delugevpn_role_docker_restart_policy: unless-stopped
 
-# State
-delugevpn_role_docker_state: started
-
 # Sysctls
 delugevpn_role_docker_sysctls:
   net.ipv4.conf.all.src_valid_mark: "1"

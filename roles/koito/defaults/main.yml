@@ -207,9 +207,6 @@ koito_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 koito_role_docker_restart_policy: unless-stopped
 
-# State
-koito_role_docker_state: started
-
 # User
 koito_role_docker_user: "{{ uid }}:{{ gid }}"
 
