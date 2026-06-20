@@ -28,7 +28,9 @@ xbackbone_role_paths_folders_list:
 
 xbackbone_role_web_subdomain: "{{ xbackbone_name }}"
 xbackbone_role_web_domain: "{{ user.domain }}"
-xbackbone_role_web_port: "80"
+xbackbone_role_web_port: "443"
+xbackbone_role_web_scheme: "https"
+xbackbone_role_web_serverstransport: "skipverify@file"
 xbackbone_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='xbackbone') + '.' + lookup('role_var', '_web_domain', role='xbackbone')
                          if (lookup('role_var', '_web_subdomain', role='xbackbone') | length > 0)
                          else lookup('role_var', '_web_domain', role='xbackbone')) }}"
