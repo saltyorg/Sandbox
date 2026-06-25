@@ -19,6 +19,11 @@
     path: "{{ wireguard_role_paths_location }}/wg-easy.db"
   register: wireguard_db
 
+- name: Validate password length
+  ansible.builtin.fail:
+    msg: "Your password, defined in accounts.yml, needs to be at least 12 characters to work in this role."
+  when: (not wireguard_db.stat.exists) and (user.pass | length < 12)
+
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
