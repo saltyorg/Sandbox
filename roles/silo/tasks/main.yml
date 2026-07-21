@@ -16,7 +16,6 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     base_path: "{{ server_appdata_path }}"
-  no_log: true
   register: silo_saltbox_facts
 
 - name: Redis Role
