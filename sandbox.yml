@@ -144,6 +144,7 @@
     - { role: sabthrottle, tags: ['sabthrottle'] }
     - { role: semaphoreui, tags: ['semaphoreui'] }
     - { role: shelfmark, tags: ['shelfmark'] }
+    - { role: silo, tags: ['silo'] }
     - { role: slskd, tags: ['slskd'] }
     - { role: speedtest, tags: ['speedtest'] }
     - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
