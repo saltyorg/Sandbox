@@ -132,7 +132,6 @@ silo_role_docker_volumes_default:
   - "{{ silo_role_paths_location }}/audiobook-covers:/var/lib/silo/audiobook-covers"
   - "{{ silo_role_paths_location }}/catalog-seeds:/catalog-seeds:ro"
   - "/proc/meminfo:/host/proc/meminfo:ro"
-  - "/dev/shm:/dev/shm"
 silo_role_docker_volumes_custom: []
 silo_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='silo')
                               + lookup('role_var', '_docker_volumes_custom', role='silo') }}"
