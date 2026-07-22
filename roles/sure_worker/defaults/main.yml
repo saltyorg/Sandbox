@@ -61,10 +61,7 @@ sure_worker_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 sure_worker_role_docker_restart_policy: "{{ lookup('role_var', '_docker_restart_policy', role='sure') }}"
 
-################################
 # Dependencies
-################################
-
 sure_worker_role_depends_on: "{{ lookup('role_var', '_depends_on', role='sure') }}"
 sure_worker_role_depends_on_delay: "0"
 sure_worker_role_depends_on_healthchecks: "false"

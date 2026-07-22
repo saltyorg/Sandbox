@@ -219,10 +219,7 @@ sure_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 sure_role_docker_restart_policy: unless-stopped
 
-################################
 # Dependencies
-################################
-
 sure_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='sure') }},{{ lookup('role_var', '_redis_name', role='sure') }}"
 sure_role_depends_on_delay: "0"
 sure_role_depends_on_healthchecks: "false"
