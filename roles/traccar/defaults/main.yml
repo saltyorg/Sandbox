@@ -147,4 +147,4 @@ traccar_role_depends_on_delay: "0"
 traccar_role_depends_on_healthchecks: "false"
 
 # CI
-traccar_docker_create_timeout: 300
+traccar_role_docker_create_timeout: 300
