@@ -76,7 +76,7 @@ forgejo_role_docker_envs_default:
   USER_GID: "{{ gid }}"
   FORGEJO__database__DB_TYPE: "mysql"
   FORGEJO__database__HOST: "mariadb:3306"
-  FORGEJO__database__USER: "root"
+  FORGEJO__database__USER: "{{ lookup('role_var', '_docker_env_user', role='mariadb') }}"
   FORGEJO__database__PASSWD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   FORGEJO__database__NAME: "forgejo"
   FORGEJO__server__DISABLE_SSH: "true"
