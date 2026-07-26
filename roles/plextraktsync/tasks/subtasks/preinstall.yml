@@ -7,26 +7,24 @@
 #                   GNU General Public License v3.0                   #
 #######################################################################
 ---
-- name: Plex tasks
+- name: Plex Auth Token tasks
+  ansible.builtin.include_role:
+    name: plex_auth_token
   when: plex_account_is_enabled
-  block:
-    - name: Plex Auth Token tasks
-      ansible.builtin.include_role:
-        name: plex_auth_token
 
-    - name: Detect {{ plex_role_paths_config_location | basename }}
-      ansible.builtin.stat:
-        path: "{{ plex_role_paths_config_location }}"
-      register: plextraktsync_preferences_xml
+- name: Detect {{ plex_role_paths_config_location | basename }}
+  ansible.builtin.stat:
+    path: "{{ plex_role_paths_config_location }}"
+  register: plextraktsync_preferences_xml
 
-    - name: Get data from {{ plex_role_paths_config_location | basename }}
-      community.general.xml:
-        path: "{{ plex_role_paths_config_location }}"
-        xpath: /Preferences
-        content: attribute
-      ignore_errors: true
-      register: plextraktsync_preferences_xml_resp
-      when: plextraktsync_preferences_xml.stat.exists
+- name: Get data from {{ plex_role_paths_config_location | basename }}
+  community.general.xml:
+    path: "{{ plex_role_paths_config_location }}"
+    xpath: /Preferences
+    content: attribute
+  ignore_errors: true
+  register: plextraktsync_preferences_xml_resp
+  when: plextraktsync_preferences_xml.stat.exists
 
 - name: Set safe fallback for Plex preferences
   ansible.builtin.set_fact:
