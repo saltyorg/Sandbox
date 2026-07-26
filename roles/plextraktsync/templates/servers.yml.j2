@@ -1,0 +1,7 @@
+servers:
+  {{ plextraktsync_plex_prefs.FriendlyName | escape | default('default') }}:
+    token: {{ plex_auth_token | default('') }}
+    urls:
+    - {{ 'http://' + plex_role_docker_networks_alias + ':' + plex_role_web_port }}
+    - {{ plex_role_web_url }}
+    id: {{ plextraktsync_plex_prefs.ProcessedMachineIdentifier | default('') }}

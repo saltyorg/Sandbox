@@ -1,0 +1,43 @@
+#######################################################################
+# Title:            Sandbox: PlexTraktSync | Tasks | Pre-Install      #
+# Author(s):        keldian                                           #
+# URL:              https://github.com/saltyorg/Sandbox               #
+# --                                                                  #
+#######################################################################
+#                   GNU General Public License v3.0                   #
+#######################################################################
+---
+- name: Plex Auth Token tasks
+  ansible.builtin.include_role:
+    name: plex_auth_token
+  when: plex_account_is_enabled
+
+- name: Detect {{ plex_role_paths_config_location | basename }}
+  ansible.builtin.stat:
+    path: "{{ plex_role_paths_config_location }}"
+  register: plextraktsync_preferences_xml
+
+- name: Get data from {{ plex_role_paths_config_location | basename }}
+  community.general.xml:
+    path: "{{ plex_role_paths_config_location }}"
+    xpath: /Preferences
+    content: attribute
+  ignore_errors: true
+  register: plextraktsync_preferences_xml_resp
+  when: plextraktsync_preferences_xml.stat.exists
+
+- name: Set safe fallback for Plex preferences
+  ansible.builtin.set_fact:
+    plextraktsync_plex_prefs: "{{ plextraktsync_preferences_xml_resp.matches[0].Preferences | default({}) }}"
+
+- name: Create {{ plextraktsync_role_paths_config_location | basename }}
+  ansible.builtin.template:
+    src: "{{ plextraktsync_role_paths_config_location | basename }}.j2"
+    dest: "{{ plextraktsync_role_paths_config_location }}"
+    mode: "0644"
+
+- name: Create env file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ plextraktsync_role_paths_location }}/.env"
+    mode: "0644"

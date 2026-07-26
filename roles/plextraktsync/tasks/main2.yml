@@ -1,0 +1,26 @@
+#######################################################################
+# Title:         Sandbox: PlexTraktSync | Tasks                       #
+# Author(s):     keldian                                              #
+# URL:           https://github.com/saltyorg/Sandbox                  #
+# --                                                                  #
+#######################################################################
+#                   GNU General Public License v3.0                   #
+#######################################################################
+---
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Detect {{ plextraktsync_role_paths_config_location | basename }}
+  ansible.builtin.stat:
+    path: "{{ plextraktsync_role_paths_config_location }}"
+  register: plextraktsync_config
+
+- name: Pre-Install Tasks
+  ansible.builtin.include_tasks: "subtasks/preinstall.yml"
+  when: not plextraktsync_config.stat.exists
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

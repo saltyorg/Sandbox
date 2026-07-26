@@ -11,7 +11,7 @@
 # Basics
 ################################
 
-plextraktsync_name: plextraktsync
+plextraktsync_instances: ['plextraktsync']
 
 ################################
 # Paths
@@ -19,8 +19,7 @@ plextraktsync_name: plextraktsync
 
 plextraktsync_role_paths_folder: "{{ plextraktsync_name }}"
 plextraktsync_role_paths_location: "{{ server_appdata_path }}/{{ plextraktsync_role_paths_folder }}"
-plextraktsync_role_paths_env: "{{ plextraktsync_role_paths_location }}/.env"
-plextraktsync_role_paths_log: "{{ plextraktsync_role_paths_location }}/plextraktsync.log"
+plextraktsync_role_paths_config_location: "{{ plextraktsync_role_paths_location }}/servers.yml"
 plextraktsync_role_paths_folders_list:
   - "{{ plextraktsync_role_paths_location }}"
 
@@ -39,9 +38,9 @@ plextraktsync_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', ro
 
 # Envs
 plextraktsync_role_docker_envs_default:
+  TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  TZ: "{{ tz }}"
 plextraktsync_role_docker_envs_custom: {}
 plextraktsync_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='plextraktsync')
                                     | combine(lookup('role_var', '_docker_envs_custom', role='plextraktsync')) }}"
