@@ -56,3 +56,6 @@ influxdb_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 influxdb_role_docker_restart_policy: unless-stopped
+
+# User
+influxdb_role_docker_user: "{{ uid }}:{{ gid }}"
