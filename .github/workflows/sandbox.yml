@@ -194,3 +194,22 @@ jobs:
           done
 
           echo "=== Container inspection completed ==="
+
+      - name: Print all Docker container logs
+        if: always()
+        run: |
+          ALL_CONTAINERS=$(docker ps -a -q 2>/dev/null || true)
+
+          if [ -z "$ALL_CONTAINERS" ]; then
+            echo "No containers found on this system"
+            exit 0
+          fi
+
+          for container_id in $ALL_CONTAINERS; do
+            CONTAINER_NAME=$(docker inspect --format='{{.Name}}' "$container_id" 2>/dev/null | sed 's/^\///' || true)
+            CONTAINER_NAME=${CONTAINER_NAME:-$container_id}
+
+            echo "::group::Container logs: $CONTAINER_NAME ($container_id)"
+            docker logs --timestamps "$container_id" 2>&1 || true
+            echo "::endgroup::"
+          done
