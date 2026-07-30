@@ -27,7 +27,7 @@ crafty_role_paths_folders_list:
   - "{{ crafty_role_paths_location }}/servers"
   - "{{ crafty_role_paths_location }}/config"
   - "{{ crafty_role_paths_location }}/import"
-crafty_role_paths_recurse: true
+crafty_role_paths_recursive: true
 
 ################################
 # Web
