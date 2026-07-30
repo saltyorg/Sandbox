@@ -144,3 +144,6 @@ n8n_role_depends_on_healthchecks: "false"
 
 # User
 n8n_role_docker_user: "{{ uid }}:{{ gid }}"
+
+# Create Docker Container Timeout
+n8n_docker_create_timeout: 300
