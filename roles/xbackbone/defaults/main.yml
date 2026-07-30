@@ -14,11 +14,19 @@
 xbackbone_name: xbackbone
 
 ################################
+# Settings
+################################
+
+xbackbone_role_admin_email: "{{ user.email }}"
+xbackbone_role_admin_password: "{{ user.pass }}"
+
+################################
 # Paths
 ################################
 
 xbackbone_role_paths_folder: "{{ xbackbone_name }}"
 xbackbone_role_paths_location: "{{ server_appdata_path }}/{{ xbackbone_role_paths_folder }}"
+xbackbone_role_paths_config_location: "{{ xbackbone_role_paths_location }}/www/xbackbone/config.php"
 xbackbone_role_paths_folders_list:
   - "{{ xbackbone_role_paths_location }}"
 

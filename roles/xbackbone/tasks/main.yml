@@ -20,5 +20,53 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
+- name: Check if xBackBone config exists
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_config_location') }}"
+  register: xbackbone_config
+
+- name: Fix xBackBone base URL scheme
+  ansible.builtin.replace:
+    path: "{{ lookup('role_var', '_paths_config_location') }}"
+    regexp: "('base_url'\\s*=>\\s*')http://"
+    replace: "\\1https://"
+  when: xbackbone_config.stat.exists
+
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: New install setup
+  when: (not xbackbone_config.stat.exists) and (not continuous_integration)
+  block:
+    - name: Wait for xBackBone installer
+      ansible.builtin.uri:
+        url: "{{ lookup('role_var', '_web_url') }}/install/"
+        method: GET
+        status_code: 200
+      register: xbackbone_installer
+      until: xbackbone_installer.status == 200
+      retries: 30
+      delay: 2
+
+    - name: Complete xBackBone setup
+      ansible.builtin.uri:
+        url: "{{ lookup('role_var', '_web_url') }}/install/"
+        method: POST
+        body_format: form-urlencoded
+        body:
+          base_url: "{{ lookup('role_var', '_web_url') }}"
+          connection: sqlite
+          dsn: /app/www/public/resources/database/xbackbone.db
+          storage_driver: local
+          storage_path: /app/www/public/storage
+          email: "{{ lookup('role_var', '_admin_email') }}"
+          password: "{{ lookup('role_var', '_admin_password') }}"
+        follow_redirects: none
+        status_code: 302
+      no_log: true
+
+    - name: Wait for xBackBone config
+      ansible.builtin.wait_for:
+        path: "{{ lookup('role_var', '_paths_config_location') }}"
+        state: present
+        timeout: 30
