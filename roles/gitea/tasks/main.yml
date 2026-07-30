@@ -24,7 +24,7 @@
     name: mariadb
 
 - name: MariaDB | Create gitea database
-  community.mysql.mysql_db:
+  ansible.mysql.mysql_db:
     name: "gitea"
     login_host: "mariadb"
     login_user: "root"

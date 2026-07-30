@@ -25,7 +25,7 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
 - name: MariaDB | Create wordpress database
-  community.mysql.mysql_db:
+  ansible.mysql.mysql_db:
     name: "{{ wordpress_name }}"
     login_host: "mariadb"
     login_user: "root"

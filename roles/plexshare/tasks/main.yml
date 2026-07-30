@@ -28,7 +28,7 @@
     mariadb_role_paths_location: "{{ server_appdata_path }}/{{ plexshare_role_paths_folder }}/mariadb"
 
 - name: MariaDB | Create plexshare database
-  community.mysql.mysql_db:
+  ansible.mysql.mysql_db:
     name: "plexshare"
     login_host: "{{ plexshare_name }}-mariadb"
     login_user: "root"

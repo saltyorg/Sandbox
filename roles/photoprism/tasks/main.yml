@@ -13,7 +13,7 @@
     name: mariadb
 
 - name: MariaDB | Create photoprism database
-  community.mysql.mysql_db:
+  ansible.mysql.mysql_db:
     name: "photoprisms"
     login_host: "mariadb"
     login_user: "root"
