@@ -24,7 +24,7 @@ n8n_role_postgres_user: ""
 # If empty it will fallback to postgres role default
 n8n_role_postgres_password: ""
 n8n_role_postgres_docker_env_db: "{{ n8n_name }}"
-n8n_role_postgres_docker_image_tag: "14-alpine"
+n8n_role_postgres_docker_image_tag: "16-alpine"
 n8n_role_postgres_docker_image_repo: "postgres"
 n8n_role_postgres_docker_healthcheck:
   test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='n8n') }} -U {{ lookup('role_var', '_postgres_user', role='n8n') if (lookup('role_var', '_postgres_user', role='n8n') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"]
