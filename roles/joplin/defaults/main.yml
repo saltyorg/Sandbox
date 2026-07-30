@@ -22,7 +22,7 @@ joplin_role_postgres_name: "{{ joplin_name }}-postgres"
 joplin_role_postgres_user: "joplin"
 joplin_role_postgres_password: "joplin"
 joplin_role_postgres_docker_env_db: "joplin"
-joplin_role_postgres_docker_image_tag: "13"
+joplin_role_postgres_docker_image_tag: "16"
 joplin_role_postgres_docker_image_repo: "postgres"
 joplin_role_postgres_docker_healthcheck:
   test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='joplin') }} -U {{ lookup('role_var', '_postgres_user', role='joplin') }}"]
