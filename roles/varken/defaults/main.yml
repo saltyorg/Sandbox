@@ -12,3 +12,4 @@ varken_role_radarr_config: "{{ lookup('role_var', '_paths_location', role='radar
 varken_role_sonarr_config: "{{ lookup('role_var', '_paths_location', role='sonarr') }}/config.xml"
 varken_role_tautulli_config: "{{ lookup('role_var', '_paths_location', role='tautulli') }}/config.ini"
 varken_role_tautulli_api_key: "{{ lookup('ini', 'api_key section=General file=' ~ lookup('role_var', '_tautulli_config', role='varken')) if varken_tautulli_config_stat.stat.exists else '' }}"
+varken_role_maxmind_license_key: ""

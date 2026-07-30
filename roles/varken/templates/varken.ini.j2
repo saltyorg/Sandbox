@@ -8,14 +8,21 @@
 [global]
 sonarr_server_ids = 1
 radarr_server_ids = 1
+lidarr_server_ids = false
 tautulli_server_ids = 1
 ombi_server_ids = 1
+overseerr_server_ids = false
+unifi_server_ids = false
+maxmind_license_key = {{ lookup('role_var', '_maxmind_license_key', role='varken') }}
 
 [influxdb]
 url = influxdb
 port = 8086
+ssl = false
+verify_ssl = false
 username =
 password =
+org = -
 
 [tautulli-1]
 url = {{ lookup('role_var', '_web_subdomain', role='tautulli') }}.{{ lookup('role_var', '_web_domain', role='tautulli') }}
@@ -23,6 +30,8 @@ fallback_ip = {{ ip_address_public }}
 apikey = {{ lookup('role_var', '_tautulli_api_key', role='varken') }}
 ssl = false
 verify_ssl = false
+get_libraries = false
+get_libraries_run_days = 30
 get_activity = true
 get_activity_run_seconds = 30
 get_stats = true
@@ -59,3 +68,5 @@ get_request_type_counts = true
 request_type_run_seconds = 300
 get_request_total_counts = true
 request_total_run_seconds = 300
+get_issue_status_counts = false
+issue_status_run_seconds = 300

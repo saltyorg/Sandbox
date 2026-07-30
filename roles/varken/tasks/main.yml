@@ -56,6 +56,13 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
 
+- name: Set appdata ownership
+  ansible.builtin.file:
+    path: "{{ server_appdata_path }}/varken"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    recurse: true
+
 - name: Check if varken config exists
   ansible.builtin.stat:
     path: "{{ server_appdata_path }}/varken/varken.ini"
@@ -74,9 +81,8 @@
     container_default_behavior: compatibility
     default_host_ip: ""
     env:
-      PUID: "{{ uid }}"
-      PGID: "{{ gid }}"
       TZ: "{{ tz }}"
+    user: "{{ uid }}:{{ gid }}"
     volumes:
       - "{{ server_appdata_path }}/varken:/config"
     labels:
