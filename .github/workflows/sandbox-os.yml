@@ -27,7 +27,7 @@ jobs:
       - name: Symlink cloned repository to /srv/git/saltbox
         run: ln -s $GITHUB_WORKSPACE/saltbox /srv/git/saltbox
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.14'
           cache: 'pip'
@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.14'
 
