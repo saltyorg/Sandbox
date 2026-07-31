@@ -187,6 +187,7 @@
     - { role: znc, tags: ['znc'] }
     # Apps End
     # No CI
+    - { role: koito_migrate, tags: ['never', 'koito-migrate'] }
     - { role: lgsm, tags: ['lgsm'] }
     - { role: main_tag, tags: ['roles', 'sandbox-roles'] }
     - { role: plex_auto_languages, tags: ['plex-auto-languages'] }

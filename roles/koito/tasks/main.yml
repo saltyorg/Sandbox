@@ -7,17 +7,47 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Validate allowed hosts
-  ansible.builtin.fail:
-    msg: "koito_role_allowed_hosts must not be empty."
-  when: (lookup('role_var', '_allowed_hosts', role='koito') | trim | length == 0)
+- name: Check for Koito SQLite database
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location_data', role='koito') }}/koito.db"
+  register: koito_sqlite_database
 
-- name: Validate database URL when internal Postgres is disabled
+- name: Check Koito SQLite migration
+  ansible.builtin.command:
+    argv:
+      - sqlite3
+      - -readonly
+      - "{{ lookup('role_var', '_paths_location_data', role='koito') }}/koito.db"
+      - "PRAGMA quick_check; SELECT COUNT(*) FROM users;"
+  register: koito_sqlite_check
+  changed_when: false
+  failed_when: false
+  when: koito_sqlite_database.stat.exists
+
+- name: Set Koito migration status
+  ansible.builtin.set_fact:
+    koito_migration_complete: "{{ koito_sqlite_database.stat.exists and (koito_sqlite_check.rc | default(1) == 0) and (koito_sqlite_check.stdout_lines | default([]) | first | default('') == 'ok') and (koito_sqlite_check.stdout_lines | default([]) | last | default('0') | int > 0) }}"
+
+- name: Check for legacy Koito PostgreSQL data
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='koito') }}/postgres"
+  register: koito_postgres_data
+
+- name: Validate Koito migration state
   ansible.builtin.fail:
-    msg: "Set koito_role_database_url when koito_role_postgres_deploy is false."
+    msg: "A legacy Koito PostgreSQL database was found, but a complete SQLite migration was not. Run 'sb install sandbox-koito-migrate' before installing Koito."
   when:
-    - not lookup('role_var', '_postgres_deploy', role='koito')
-    - (lookup('role_var', '_database_url', role='koito') | trim | length == 0)
+    - koito_postgres_data.stat.exists
+    - not koito_migration_complete
+    - not (koito_migration_running | default(false))
+
+- name: Validate existing Koito SQLite database
+  ansible.builtin.fail:
+    msg: "The existing Koito SQLite database failed its integrity or user checks. Restore a valid database before installing Koito."
+  when:
+    - koito_sqlite_database.stat.exists
+    - not koito_migration_complete
+    - not (koito_migration_running | default(false))
 
 - name: Validate ListenBrainz relay configuration
   ansible.builtin.fail:
@@ -34,20 +64,13 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: "Import Postgres Role"
-  ansible.builtin.include_role:
-    name: postgres
+- name: Remove legacy Koito PostgreSQL container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='koito') }}"]
-    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='koito') }}"
-    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='koito') }}"
-    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='koito') }}"
-    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='koito') }}"
-    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='koito') }}"
-    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='koito') }}"
-    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='koito') }}"
-    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='koito') }}"
-  when: lookup('role_var', '_postgres_deploy', role='koito')
+    container_name: "{{ koito_role_postgres_name | default(koito_name + '-postgres') }}"
+  when:
+    - koito_migration_complete
+    - not (koito_migration_running | default(false))
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
