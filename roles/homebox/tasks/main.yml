@@ -6,8 +6,26 @@
 #########################################################################
 #                   GNU General Public License v3.0                     #
 #########################################################################
-# Repository: https://github.com/hay-kot/homebox
 ---
+- name: Save Homebox Saltbox facts
+  saltbox_facts:
+    role: "homebox"
+    instance: "homebox"
+    keys:
+      api_key_pepper: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=64) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: homebox_saltbox_facts
+  no_log: true
+
+- name: Validate Homebox API key pepper
+  ansible.builtin.assert:
+    that:
+      - lookup('role_var', '_auth_api_key_pepper') | length >= 32
+    fail_msg: "homebox_role_auth_api_key_pepper must be at least 32 characters."
+    quiet: true
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:

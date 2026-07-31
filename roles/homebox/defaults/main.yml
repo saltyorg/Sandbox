@@ -14,6 +14,12 @@
 homebox_name: homebox
 
 ################################
+# Settings
+################################
+
+homebox_role_auth_api_key_pepper: "{{ homebox_saltbox_facts.facts.api_key_pepper }}"
+
+################################
 # Paths
 ################################
 
@@ -73,6 +79,7 @@ homebox_role_docker_envs_default:
   PGID: "{{ gid }}"
   HBOX_LOG_LEVEL: "info"
   HBOX_SWAGGER_SCHEMA: "https"
+  HBOX_AUTH_API_KEY_PEPPER: "{{ lookup('role_var', '_auth_api_key_pepper', role='homebox') }}"
 homebox_role_docker_envs_custom: {}
 homebox_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='homebox')
                               | combine(lookup('role_var', '_docker_envs_custom', role='homebox')) }}"
