@@ -14,6 +14,13 @@
 openobserve_name: openobserve
 
 ################################
+# Settings
+################################
+
+openobserve_role_root_user_email: "{{ user.email }}"
+openobserve_role_root_user_password: "{{ user.pass }}"
+
+################################
 # Paths
 ################################
 
@@ -71,8 +78,9 @@ openobserve_role_docker_envs_default:
   TZ: "{{ tz }}"
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  ZO_ROOT_USER_EMAIL: "{{ user.email }}"
-  ZO_ROOT_USER_PASSWORD: "{{ user.pass }}"
+  ZO_DATA_DIR: "/data"
+  ZO_ROOT_USER_EMAIL: "{{ lookup('role_var', '_root_user_email', role='openobserve') }}"
+  ZO_ROOT_USER_PASSWORD: "{{ lookup('role_var', '_root_user_password', role='openobserve') }}"
 openobserve_role_docker_envs_custom: {}
 openobserve_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='openobserve')
                                   | combine(lookup('role_var', '_docker_envs_custom', role='openobserve')) }}"

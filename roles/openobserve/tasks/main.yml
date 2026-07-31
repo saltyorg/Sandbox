@@ -7,6 +7,24 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Generate OpenObserve root user password for CI
+  ansible.builtin.set_fact:
+    openobserve_role_root_user_password: "{{ lookup('community.general.random_string', length=32, min_lower=1, min_upper=1, min_numeric=1, min_special=1) }}"
+  when: continuous_integration
+  no_log: true
+
+- name: Validate OpenObserve root user password
+  ansible.builtin.assert:
+    that:
+      - lookup('role_var', '_root_user_password') | length >= 8
+      - lookup('role_var', '_root_user_password') | length <= 128
+      - lookup('role_var', '_root_user_password') is search('[a-z]')
+      - lookup('role_var', '_root_user_password') is search('[A-Z]')
+      - lookup('role_var', '_root_user_password') is search('[0-9]')
+      - lookup('role_var', '_root_user_password') is search('[^A-Za-z0-9]')
+    fail_msg: "OpenObserve requires a password of 8-128 characters containing lowercase, uppercase, digit, and special characters. Set openobserve_role_root_user_password to a compliant password if you do not want to change user.pass globally."
+    quiet: true
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
