@@ -121,4 +121,4 @@ joplin_role_depends_on_delay: "0"
 joplin_role_depends_on_healthchecks: "false"
 
 # Create Docker Container Timeout
-joplin_docker_create_timeout: 600
+joplin_role_docker_create_timeout: 600
