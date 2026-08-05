@@ -1,5 +1,5 @@
 ##########################################################################
-# Title:            Sandbox: Silo | Default Variables                   #
+# Title:            Sandbox: Silo | Default Variables                    #
 # Author(s):        After-Shock                                          #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
@@ -12,6 +12,15 @@
 ################################
 
 silo_name: silo
+
+################################
+# Settings
+################################
+
+# Toggle Jellyfin-compatible endpoint
+silo_role_jf_enabled: false
+# Toggle Audiobookshelf-compatible endpoint
+silo_role_abs_enabled: false
 
 ################################
 # Postgres
@@ -71,6 +80,22 @@ silo_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='
                     if (lookup('role_var', '_web_subdomain', role='silo') | length > 0)
                     else lookup('role_var', '_web_domain', role='silo')) }}"
 
+silo_role_web_jf_subdomain: "{{ silo_name }}jf"
+silo_role_web_jf_domain: "{{ user.domain }}"
+silo_role_web_jf_port: "8096"
+silo_role_web_jf_host: "{{ (lookup('role_var', '_web_jf_subdomain', role='silo') + '.' + lookup('role_var', '_web_jf_domain', role='silo'))
+                        if (lookup('role_var', '_web_jf_subdomain', role='silo') | length > 0)
+                        else lookup('role_var', '_web_jf_domain', role='silo') }}"
+silo_role_web_jf_url: "https://{{ lookup('role_var', '_web_jf_host', role='silo') }}"
+
+silo_role_web_abs_subdomain: "{{ silo_name }}abs"
+silo_role_web_abs_domain: "{{ user.domain }}"
+silo_role_web_abs_port: "13378"
+silo_role_web_abs_host: "{{ (lookup('role_var', '_web_abs_subdomain', role='silo') + '.' + lookup('role_var', '_web_abs_domain', role='silo'))
+                         if (lookup('role_var', '_web_abs_subdomain', role='silo') | length > 0)
+                         else lookup('role_var', '_web_abs_domain', role='silo') }}"
+silo_role_web_abs_url: "https://{{ lookup('role_var', '_web_abs_host', role='silo') }}"
+
 ################################
 # DNS
 ################################
@@ -78,6 +103,14 @@ silo_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='
 silo_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='silo') }}"
 silo_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='silo') }}"
 silo_role_dns_proxy: "{{ dns_proxied }}"
+
+silo_role_jf_dns_record: "{{ lookup('role_var', '_web_jf_subdomain', role='silo') }}"
+silo_role_jf_dns_zone: "{{ lookup('role_var', '_web_jf_domain', role='silo') }}"
+silo_role_jf_dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='silo') }}"
+
+silo_role_abs_dns_record: "{{ lookup('role_var', '_web_abs_subdomain', role='silo') }}"
+silo_role_abs_dns_zone: "{{ lookup('role_var', '_web_abs_domain', role='silo') }}"
+silo_role_abs_dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='silo') }}"
 
 ################################
 # Traefik
@@ -135,6 +168,50 @@ silo_role_docker_volumes_default:
 silo_role_docker_volumes_custom: []
 silo_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='silo')
                               + lookup('role_var', '_docker_volumes_custom', role='silo') }}"
+
+# Labels
+silo_role_docker_labels_jf_template:
+  - '{ "traefik.http.routers.{{ silo_name }}-jf-http.entrypoints": "{{ traefik_entrypoint_web }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf-http.service": "{{ silo_name }}-jf" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf-http.rule": "Host(`{{ lookup("role_var", "_web_jf_host", role="silo") }}`)" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf-http.middlewares": "{{ traefik_default_middleware_http }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf-http.priority": "20" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.entrypoints": "{{ traefik_entrypoint_websecure }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.service": "{{ silo_name }}-jf" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.rule": "Host(`{{ lookup("role_var", "_web_jf_host", role="silo") }}`)" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.tls.options": "securetls@file" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.tls.certresolver": "{{ lookup("role_var", "_traefik_certresolver", role="silo") }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.middlewares": "{{ lookup("role_var", "_traefik_middleware_default", role="silo") }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-jf.priority": "20" }'
+  - '{ "traefik.http.services.{{ silo_name }}-jf.loadbalancer.server.port": "{{ lookup("role_var", "_web_jf_port", role="silo") }}" }'
+
+silo_role_docker_labels_jf: "{{ (silo_role_docker_labels_jf_template | map('from_json') | combine)
+                             if (lookup('role_var', '_jf_enabled', role='silo') | bool)
+                             else {} }}"
+
+silo_role_docker_labels_abs_template:
+  - '{ "traefik.http.routers.{{ silo_name }}-abs-http.entrypoints": "{{ traefik_entrypoint_web }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs-http.service": "{{ silo_name }}-abs" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs-http.rule": "Host(`{{ lookup("role_var", "_web_abs_host", role="silo") }}`)" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs-http.middlewares": "{{ traefik_default_middleware_http }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs-http.priority": "20" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.entrypoints": "{{ traefik_entrypoint_websecure }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.service": "{{ silo_name }}-abs" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.rule": "Host(`{{ lookup("role_var", "_web_abs_host", role="silo") }}`)" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.tls.options": "securetls@file" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.tls.certresolver": "{{ lookup("role_var", "_traefik_certresolver", role="silo") }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.middlewares": "{{ lookup("role_var", "_traefik_middleware_default", role="silo") }}" }'
+  - '{ "traefik.http.routers.{{ silo_name }}-abs.priority": "20" }'
+  - '{ "traefik.http.services.{{ silo_name }}-abs.loadbalancer.server.port": "{{ lookup("role_var", "_web_abs_port", role="silo") }}" }'
+
+silo_role_docker_labels_abs: "{{ (silo_role_docker_labels_abs_template | map('from_json') | combine)
+                              if (lookup('role_var', '_abs_enabled', role='silo') | bool)
+                              else {} }}"
+
+silo_role_docker_labels_custom: {}
+silo_role_docker_labels: "{{ lookup('role_var', '_docker_labels_jf', role='silo')
+                             | combine(lookup('role_var', '_docker_labels_abs', role='silo'))
+                             | combine(lookup('role_var', '_docker_labels_custom', role='silo')) }}"
 
 # Hostname
 silo_role_docker_hostname: "{{ silo_name }}"

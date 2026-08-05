@@ -50,6 +50,22 @@
     dns_zone: "{{ lookup('role_var', '_dns_zone', role='silo') }}"
     dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='silo') }}"
 
+- name: Add DNS record (Jellyfin-compatible endpoint)
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_jf_dns_record', role='silo') }}"
+    dns_zone: "{{ lookup('role_var', '_jf_dns_zone', role='silo') }}"
+    dns_proxy: "{{ lookup('role_var', '_jf_dns_proxy', role='silo') }}"
+  when: lookup('role_var', '_jf_enabled', role='silo') | bool
+
+- name: Add DNS record (Audiobookshelf-compatible endpoint)
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_abs_dns_record', role='silo') }}"
+    dns_zone: "{{ lookup('role_var', '_abs_dns_zone', role='silo') }}"
+    dns_proxy: "{{ lookup('role_var', '_abs_dns_proxy', role='silo') }}"
+  when: lookup('role_var', '_abs_enabled', role='silo') | bool
+
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
