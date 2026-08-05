@@ -143,8 +143,8 @@ silo_role_jf_docker_labels_template:
   - '{ "traefik.http.services.{{ silo_name }}-jf.loadbalancer.server.port": "{{ lookup("role_var", "_jf_web_port", role="silo") }}" }'
 
 silo_role_jf_docker_labels: "{{ (silo_role_jf_docker_labels_template | map('from_json') | combine)
-                                if (lookup('role_var', '_jf_enabled', role='silo') | bool)
-                                else {} }}"
+                             if (lookup('role_var', '_jf_enabled', role='silo') | bool)
+                             else {} }}"
 
 # Audiobookshelf-compatible endpoint router/service labels (only rendered when silo_role_abs_enabled is true)
 silo_role_abs_docker_labels_template:
@@ -163,8 +163,8 @@ silo_role_abs_docker_labels_template:
   - '{ "traefik.http.services.{{ silo_name }}-abs.loadbalancer.server.port": "{{ lookup("role_var", "_abs_web_port", role="silo") }}" }'
 
 silo_role_abs_docker_labels: "{{ (silo_role_abs_docker_labels_template | map('from_json') | combine)
-                                  if (lookup('role_var', '_abs_enabled', role='silo') | bool)
-                                  else {} }}"
+                              if (lookup('role_var', '_abs_enabled', role='silo') | bool)
+                              else {} }}"
 
 silo_role_docker_labels_custom: {}
 silo_role_docker_labels: "{{ lookup('role_var', '_jf_docker_labels', role='silo')
