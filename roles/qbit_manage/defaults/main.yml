@@ -52,9 +52,9 @@ qbit_manage_role_paths_folders_list:
 qbit_manage_role_web_subdomain: "{{ qbit_manage_name }}"
 qbit_manage_role_web_domain: "{{ user.domain }}"
 qbit_manage_role_web_port: "8080"
-qbit_manage_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='qbit_manage') + '.' + lookup('role_var', '_web_domain', role='qbit_manage')
-                           if (lookup('role_var', '_web_subdomain', role='qbit_manage') | length > 0)
-                           else lookup('role_var', '_web_domain', role='qbit_manage')) }}"
+qbit_manage_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='qbit_manage') + '.' + lookup('role_var', '_web_domain', role='qbit_manage')
+                                   if (lookup('role_var', '_web_subdomain', role='qbit_manage') | length > 0)
+                                   else lookup('role_var', '_web_domain', role='qbit_manage') }}"
 
 ################################
 # DNS

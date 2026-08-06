@@ -38,9 +38,9 @@ homarr_role_paths_folders_list:
 homarr_role_web_subdomain: "{{ homarr_name }}"
 homarr_role_web_domain: "{{ user.domain }}"
 homarr_role_web_port: "7575"
-homarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='homarr') + '.' + lookup('role_var', '_web_domain', role='homarr')
-                      if (lookup('role_var', '_web_subdomain', role='homarr') | length > 0)
-                      else lookup('role_var', '_web_domain', role='homarr')) }}"
+homarr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='homarr') + '.' + lookup('role_var', '_web_domain', role='homarr')
+                              if (lookup('role_var', '_web_subdomain', role='homarr') | length > 0)
+                              else lookup('role_var', '_web_domain', role='homarr') }}"
 
 ################################
 # DNS

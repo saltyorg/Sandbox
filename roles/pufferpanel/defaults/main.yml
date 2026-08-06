@@ -31,9 +31,9 @@ pufferpanel_role_paths_folders_list:
 pufferpanel_role_web_subdomain: "{{ pufferpanel_name }}"
 pufferpanel_role_web_domain: "{{ user.domain }}"
 pufferpanel_role_web_port: "8080"
-pufferpanel_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='pufferpanel') + '.' + lookup('role_var', '_web_domain', role='pufferpanel')
-                           if (lookup('role_var', '_web_subdomain', role='pufferpanel') | length > 0)
-                           else lookup('role_var', '_web_domain', role='pufferpanel')) }}"
+pufferpanel_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='pufferpanel') + '.' + lookup('role_var', '_web_domain', role='pufferpanel')
+                                   if (lookup('role_var', '_web_subdomain', role='pufferpanel') | length > 0)
+                                   else lookup('role_var', '_web_domain', role='pufferpanel') }}"
 
 ################################
 # DNS

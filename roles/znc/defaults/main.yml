@@ -29,9 +29,9 @@ znc_role_paths_folders_list:
 znc_role_web_subdomain: "{{ znc_name }}"
 znc_role_web_domain: "{{ user.domain }}"
 znc_role_web_port: "6501"
-znc_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='znc') + '.' + lookup('role_var', '_web_domain', role='znc')
-                   if (lookup('role_var', '_web_subdomain', role='znc') | length > 0)
-                   else lookup('role_var', '_web_domain', role='znc')) }}"
+znc_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='znc') + '.' + lookup('role_var', '_web_domain', role='znc')
+                           if (lookup('role_var', '_web_subdomain', role='znc') | length > 0)
+                           else lookup('role_var', '_web_domain', role='znc') }}"
 
 ################################
 # DNS

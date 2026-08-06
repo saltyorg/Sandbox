@@ -30,16 +30,16 @@ calibre_role_paths_folders_list:
 calibre_role_web_subdomain: "{{ calibre_name }}"
 calibre_role_web_domain: "{{ user.domain }}"
 calibre_role_web_port: "8080"
-calibre_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='calibre') + '.' + lookup('role_var', '_web_domain', role='calibre')
-                       if (lookup('role_var', '_web_subdomain', role='calibre') | length > 0)
-                       else lookup('role_var', '_web_domain', role='calibre')) }}"
+calibre_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='calibre') + '.' + lookup('role_var', '_web_domain', role='calibre')
+                               if (lookup('role_var', '_web_subdomain', role='calibre') | length > 0)
+                               else lookup('role_var', '_web_domain', role='calibre') }}"
 
 calibre_role_web2_subdomain: "{{ calibre_name }}books"
 calibre_role_web2_domain: "{{ user.domain }}"
 calibre_role_web2_port: "8081"
-calibre_role_web2_role_web_url: "{{ 'https://' + (lookup('role_var', '_web2_subdomain', role='calibre') + '.' + lookup('role_var', '_web2_domain', role='calibre')
-                                 if (lookup('role_var', '_web2_subdomain', role='calibre') | length > 0)
-                                 else lookup('role_var', '_web2_domain', role='calibre')) }}"
+calibre_role_web2_role_web_url: "https://{{ lookup('role_var', '_web2_subdomain', role='calibre') + '.' + lookup('role_var', '_web2_domain', role='calibre')
+                                         if (lookup('role_var', '_web2_subdomain', role='calibre') | length > 0)
+                                         else lookup('role_var', '_web2_domain', role='calibre') }}"
 
 ################################
 # DNS
@@ -64,13 +64,13 @@ calibre_role_traefik_enabled: true
 calibre_role_books_traefik_sso_middleware: ""
 calibre_role_books_traefik_middleware_default: "{{ traefik_default_middleware
                                                    + (',' + lookup('role_var', '_books_traefik_sso_middleware', role='calibre')
-                                                     if (lookup('role_var', '_books_traefik_sso_middleware', role='calibre') | length > 0)
-                                                     else '') }}"
+                                                      if (lookup('role_var', '_books_traefik_sso_middleware', role='calibre') | length > 0)
+                                                      else '') }}"
 calibre_role_books_traefik_middleware_custom: ""
 calibre_role_books_traefik_middleware: "{{ lookup('role_var', '_books_traefik_middleware_default', role='calibre')
                                            + (',' + lookup('role_var', '_books_traefik_middleware_custom', role='calibre')
-                                             if (not lookup('role_var', '_books_traefik_middleware_custom', role='calibre').startswith(',') and lookup('role_var', '_books_traefik_middleware_custom', role='calibre') | length > 0)
-                                             else lookup('role_var', '_books_traefik_middleware_custom', role='calibre')) }}"
+                                              if (not lookup('role_var', '_books_traefik_middleware_custom', role='calibre').startswith(',') and lookup('role_var', '_books_traefik_middleware_custom', role='calibre') | length > 0)
+                                              else lookup('role_var', '_books_traefik_middleware_custom', role='calibre')) }}"
 
 ################################
 # Docker

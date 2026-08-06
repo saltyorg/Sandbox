@@ -29,9 +29,9 @@ thelounge_role_paths_folders_list:
 thelounge_role_web_subdomain: "{{ thelounge_name }}"
 thelounge_role_web_domain: "{{ user.domain }}"
 thelounge_role_web_port: "9000"
-thelounge_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='thelounge') + '.' + lookup('role_var', '_web_domain', role='thelounge')
-                         if (lookup('role_var', '_web_subdomain', role='thelounge') | length > 0)
-                         else lookup('role_var', '_web_domain', role='thelounge')) }}"
+thelounge_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='thelounge') + '.' + lookup('role_var', '_web_domain', role='thelounge')
+                                 if (lookup('role_var', '_web_subdomain', role='thelounge') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='thelounge') }}"
 
 ################################
 # DNS

@@ -46,9 +46,9 @@ dashdot_role_paths_folders_list:
 dashdot_role_web_subdomain: "{{ dashdot_name }}"
 dashdot_role_web_domain: "{{ user.domain }}"
 dashdot_role_web_port: "3001"
-dashdot_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='dashdot') + '.' + lookup('role_var', '_web_domain', role='dashdot')
-                       if (lookup('role_var', '_web_subdomain', role='dashdot') | length > 0)
-                       else lookup('role_var', '_web_domain', role='dashdot')) }}"
+dashdot_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='dashdot') + '.' + lookup('role_var', '_web_domain', role='dashdot')
+                               if (lookup('role_var', '_web_subdomain', role='dashdot') | length > 0)
+                               else lookup('role_var', '_web_domain', role='dashdot') }}"
 
 ################################
 # DNS

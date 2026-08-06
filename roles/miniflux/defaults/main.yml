@@ -21,6 +21,11 @@ miniflux_role_admin_username: "{{ user.name }}"
 miniflux_role_admin_password: "{{ user.pass }}"
 miniflux_role_create_admin: "1"
 miniflux_role_run_migrations: "1"
+
+################################
+# Postgres
+################################
+
 miniflux_role_postgres_deploy: true
 miniflux_role_postgres_name: "{{ miniflux_name }}-postgres"
 # If empty it will fallback to postgres role default
@@ -30,8 +35,19 @@ miniflux_role_postgres_password: ""
 miniflux_role_postgres_docker_env_db: "miniflux"
 miniflux_role_postgres_docker_image_tag: "14-alpine"
 miniflux_role_postgres_docker_image_repo: "postgres"
+# Skip docs
+miniflux_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='miniflux')
+                                     if (lookup('role_var', '_postgres_user', role='miniflux') | length > 0)
+                                     else lookup('role_var', '_docker_env_user', role='postgres') }}"
+# Skip docs
+miniflux_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='miniflux')
+                                         if (lookup('role_var', '_postgres_password', role='miniflux') | length > 0)
+                                         else lookup('role_var', '_docker_env_password', role='postgres') }}"
+# Skip docs
+miniflux_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='miniflux') }}:{{ lookup('role_var', '_postgres_password_lookup', role='miniflux') }}"
+miniflux_role_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='miniflux') }}@{{ lookup('role_var', '_postgres_name', role='miniflux') }}/{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}?sslmode=disable"
 miniflux_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }} -U {{ lookup('role_var', '_postgres_user', role='miniflux') if (lookup('role_var', '_postgres_user', role='miniflux') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"]
+  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }} -U {{ lookup('role_var', '_postgres_user_lookup', role='miniflux') }}"]
   start_period: 20s
   interval: 30s
   retries: 5
@@ -55,9 +71,9 @@ miniflux_role_paths_folders_list:
 miniflux_role_web_subdomain: "{{ miniflux_name }}"
 miniflux_role_web_domain: "{{ user.domain }}"
 miniflux_role_web_port: "8080"
-miniflux_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='miniflux') + '.' + lookup('role_var', '_web_domain', role='miniflux')
-                        if (lookup('role_var', '_web_subdomain', role='miniflux') | length > 0)
-                        else lookup('role_var', '_web_domain', role='miniflux')) }}"
+miniflux_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='miniflux') + '.' + lookup('role_var', '_web_domain', role='miniflux')
+                                if (lookup('role_var', '_web_subdomain', role='miniflux') | length > 0)
+                                else lookup('role_var', '_web_domain', role='miniflux') }}"
 
 ################################
 # DNS
@@ -94,11 +110,7 @@ miniflux_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='m
 
 # Envs
 miniflux_role_docker_envs_default:
-  DATABASE_URL: "postgres://{{ lookup('role_var', '_postgres_user', role='miniflux')
-                        if (lookup('role_var', '_postgres_user', role='miniflux') | length > 0)
-                        else lookup('role_var', '_docker_env_user', role='postgres') }}:{{ lookup('role_var', '_postgres_password', role='miniflux')
-                        if (lookup('role_var', '_postgres_password', role='miniflux') | length > 0)
-                        else lookup('role_var', '_docker_env_password', role='postgres') }}@{{ lookup('role_var', '_postgres_name', role='miniflux') }}/{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}?sslmode=disable"
+  DATABASE_URL: "{{ lookup('role_var', '_database_url', role='miniflux') }}"
   RUN_MIGRATIONS: "{{ lookup('role_var', '_run_migrations', role='miniflux') }}"
   CREATE_ADMIN: "{{ lookup('role_var', '_create_admin', role='miniflux') }}"
   ADMIN_USERNAME: "{{ lookup('role_var', '_admin_username', role='miniflux') }}"
@@ -129,6 +141,6 @@ miniflux_role_docker_networks: "{{ docker_networks_common
 miniflux_role_docker_restart_policy: unless-stopped
 
 # Dependencies
-minuflux_role_depends_on: "{{ minuflux_role_postgres_name }}"
-minuflux_role_depends_on_delay: "0"
-minuflux_role_depends_on_healthchecks: "false"
+miniflux_role_depends_on: "{{ miniflux_role_postgres_name }}"
+miniflux_role_depends_on_delay: "0"
+miniflux_role_depends_on_healthchecks: "false"

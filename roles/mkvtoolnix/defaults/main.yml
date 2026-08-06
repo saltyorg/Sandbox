@@ -29,9 +29,9 @@ mkvtoolnix_role_paths_folders_list:
 mkvtoolnix_role_web_subdomain: "{{ mkvtoolnix_name }}"
 mkvtoolnix_role_web_domain: "{{ user.domain }}"
 mkvtoolnix_role_web_port: "5800"
-mkvtoolnix_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='mkvtoolnix') + '.' + lookup('role_var', '_web_domain', role='mkvtoolnix')
-                          if (lookup('role_var', '_web_subdomain', role='mkvtoolnix') | length > 0)
-                          else lookup('role_var', '_web_domain', role='mkvtoolnix')) }}"
+mkvtoolnix_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='mkvtoolnix') + '.' + lookup('role_var', '_web_domain', role='mkvtoolnix')
+                                  if (lookup('role_var', '_web_subdomain', role='mkvtoolnix') | length > 0)
+                                  else lookup('role_var', '_web_domain', role='mkvtoolnix') }}"
 
 ################################
 # DNS

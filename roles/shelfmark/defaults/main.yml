@@ -31,9 +31,9 @@ shelfmark_role_paths_folders_list:
 shelfmark_role_web_subdomain: "{{ shelfmark_name }}"
 shelfmark_role_web_domain: "{{ user.domain }}"
 shelfmark_role_web_port: "8084"
-shelfmark_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='shelfmark') + '.' + lookup('role_var', '_web_domain', role='shelfmark')
-                         if (lookup('role_var', '_web_subdomain', role='shelfmark') | length > 0)
-                         else lookup('role_var', '_web_domain', role='shelfmark')) }}"
+shelfmark_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='shelfmark') + '.' + lookup('role_var', '_web_domain', role='shelfmark')
+                                 if (lookup('role_var', '_web_subdomain', role='shelfmark') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='shelfmark') }}"
 
 ################################
 # DNS

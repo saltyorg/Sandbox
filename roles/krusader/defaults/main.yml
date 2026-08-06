@@ -38,9 +38,9 @@ krusader_role_paths_folders_list:
 krusader_role_web_subdomain: "{{ krusader_name }}"
 krusader_role_web_domain: "{{ user.domain }}"
 krusader_role_web_port: "6080"
-krusader_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='krusader') + '.' + lookup('role_var', '_web_domain', role='krusader')
-                        if (lookup('role_var', '_web_subdomain', role='krusader') | length > 0)
-                        else lookup('role_var', '_web_domain', role='krusader')) }}"
+krusader_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='krusader') + '.' + lookup('role_var', '_web_domain', role='krusader')
+                                if (lookup('role_var', '_web_subdomain', role='krusader') | length > 0)
+                                else lookup('role_var', '_web_domain', role='krusader') }}"
 
 ################################
 # DNS

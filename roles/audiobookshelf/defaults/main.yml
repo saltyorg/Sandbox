@@ -34,9 +34,9 @@ audiobookshelf_role_paths_recursive: true
 audiobookshelf_role_web_subdomain: "{{ audiobookshelf_name }}"
 audiobookshelf_role_web_domain: "{{ user.domain }}"
 audiobookshelf_role_web_port: "80"
-audiobookshelf_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='audiobookshelf') + '.' + lookup('role_var', '_web_domain', role='audiobookshelf')
-                              if (lookup('role_var', '_web_subdomain', role='audiobookshelf') | length > 0)
-                              else lookup('role_var', '_web_domain', role='audiobookshelf')) }}"
+audiobookshelf_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='audiobookshelf') + '.' + lookup('role_var', '_web_domain', role='audiobookshelf')
+                                      if (lookup('role_var', '_web_subdomain', role='audiobookshelf') | length > 0)
+                                      else lookup('role_var', '_web_domain', role='audiobookshelf') }}"
 
 ################################
 # DNS

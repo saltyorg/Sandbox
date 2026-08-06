@@ -29,9 +29,9 @@ trilium_role_paths_folders_list:
 trilium_role_web_subdomain: "{{ trilium_name }}"
 trilium_role_web_domain: "{{ user.domain }}"
 trilium_role_web_port: "8080"
-trilium_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='trilium') + '.' + lookup('role_var', '_web_domain', role='trilium')
-                       if (lookup('role_var', '_web_subdomain', role='trilium') | length > 0)
-                       else lookup('role_var', '_web_domain', role='trilium')) }}"
+trilium_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='trilium') + '.' + lookup('role_var', '_web_domain', role='trilium')
+                               if (lookup('role_var', '_web_subdomain', role='trilium') | length > 0)
+                               else lookup('role_var', '_web_domain', role='trilium') }}"
 
 ################################
 # DNS

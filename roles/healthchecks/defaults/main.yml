@@ -30,9 +30,9 @@ healthchecks_role_paths_folders_list:
 healthchecks_role_web_subdomain: "{{ healthchecks_name }}"
 healthchecks_role_web_domain: "{{ user.domain }}"
 healthchecks_role_web_port: "8000"
-healthchecks_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='healthchecks') + '.' + lookup('role_var', '_web_domain', role='healthchecks')
-                            if (lookup('role_var', '_web_subdomain', role='healthchecks') | length > 0)
-                            else lookup('role_var', '_web_domain', role='healthchecks')) }}"
+healthchecks_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='healthchecks') + '.' + lookup('role_var', '_web_domain', role='healthchecks')
+                                    if (lookup('role_var', '_web_subdomain', role='healthchecks') | length > 0)
+                                    else lookup('role_var', '_web_domain', role='healthchecks') }}"
 
 ################################
 # DNS

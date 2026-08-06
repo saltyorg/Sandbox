@@ -56,9 +56,9 @@ paperless_ngx_role_paths_folders_list:
 paperless_ngx_role_web_subdomain: "{{ paperless_ngx_name }}"
 paperless_ngx_role_web_domain: "{{ user.domain }}"
 paperless_ngx_role_web_port: "8000"
-paperless_ngx_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='paperless_ngx') + '.' + lookup('role_var', '_web_domain', role='paperless_ngx')
-                             if (lookup('role_var', '_web_subdomain', role='paperless_ngx') | length > 0)
-                             else lookup('role_var', '_web_domain', role='paperless_ngx')) }}"
+paperless_ngx_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='paperless_ngx') + '.' + lookup('role_var', '_web_domain', role='paperless_ngx')
+                                     if (lookup('role_var', '_web_subdomain', role='paperless_ngx') | length > 0)
+                                     else lookup('role_var', '_web_domain', role='paperless_ngx') }}"
 
 ################################
 # DNS

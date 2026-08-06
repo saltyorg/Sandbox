@@ -34,9 +34,9 @@ stash_role_paths_folders_list:
 stash_role_web_subdomain: "{{ stash_name }}"
 stash_role_web_domain: "{{ user.domain }}"
 stash_role_web_port: "9999"
-stash_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='stash') + '.' + lookup('role_var', '_web_domain', role='stash')
-                     if (lookup('role_var', '_web_subdomain', role='stash') | length > 0)
-                     else lookup('role_var', '_web_domain', role='stash')) }}"
+stash_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='stash') + '.' + lookup('role_var', '_web_domain', role='stash')
+                             if (lookup('role_var', '_web_subdomain', role='stash') | length > 0)
+                             else lookup('role_var', '_web_domain', role='stash') }}"
 
 ################################
 # DNS

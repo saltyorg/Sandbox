@@ -31,9 +31,9 @@ actualbudget_role_paths_folders_list:
 actualbudget_role_web_subdomain: "{{ actualbudget_name }}"
 actualbudget_role_web_domain: "{{ user.domain }}"
 actualbudget_role_web_port: "5006"
-actualbudget_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='actualbudget') + '.' + lookup('role_var', '_web_domain', role='actualbudget')
-                            if (lookup('role_var', '_web_subdomain', role='actualbudget') | length > 0)
-                            else lookup('role_var', '_web_domain', role='actualbudget')) }}"
+actualbudget_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='actualbudget') + '.' + lookup('role_var', '_web_domain', role='actualbudget')
+                                    if (lookup('role_var', '_web_subdomain', role='actualbudget') | length > 0)
+                                    else lookup('role_var', '_web_domain', role='actualbudget') }}"
 
 ################################
 # DNS

@@ -43,9 +43,9 @@ ytdl_sub_role_paths_folders_list:
 ytdl_sub_role_web_subdomain: "{{ ytdl_sub_name }}"
 ytdl_sub_role_web_domain: "{{ user.domain }}"
 ytdl_sub_role_web_port: "8080"
-ytdl_sub_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='ytdl_sub') + '.' + lookup('role_var', '_web_domain', role='ytdl_sub')
-                        if (lookup('role_var', '_web_subdomain', role='ytdl_sub') | length > 0)
-                        else lookup('role_var', '_web_domain', role='ytdl_sub')) }}"
+ytdl_sub_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='ytdl_sub') + '.' + lookup('role_var', '_web_domain', role='ytdl_sub')
+                                if (lookup('role_var', '_web_subdomain', role='ytdl_sub') | length > 0)
+                                else lookup('role_var', '_web_domain', role='ytdl_sub') }}"
 
 ################################
 # DNS

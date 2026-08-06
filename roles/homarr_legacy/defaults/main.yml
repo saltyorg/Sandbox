@@ -38,9 +38,9 @@ homarr_legacy_role_paths_folders_list:
 homarr_legacy_role_web_subdomain: "{{ homarr_legacy_name }}"
 homarr_legacy_role_web_domain: "{{ user.domain }}"
 homarr_legacy_role_web_port: "7575"
-homarr_legacy_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='homarr_legacy') + '.' + lookup('role_var', '_web_domain', role='homarr_legacy')
-                             if (lookup('role_var', '_web_subdomain', role='homarr_legacy') | length > 0)
-                             else lookup('role_var', '_web_domain', role='homarr_legacy')) }}"
+homarr_legacy_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='homarr_legacy') + '.' + lookup('role_var', '_web_domain', role='homarr_legacy')
+                                     if (lookup('role_var', '_web_subdomain', role='homarr_legacy') | length > 0)
+                                     else lookup('role_var', '_web_domain', role='homarr_legacy') }}"
 
 ################################
 # DNS

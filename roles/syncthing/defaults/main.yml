@@ -29,9 +29,9 @@ syncthing_role_paths_folders_list:
 syncthing_role_web_subdomain: "{{ syncthing_name }}"
 syncthing_role_web_domain: "{{ user.domain }}"
 syncthing_role_web_port: "8384"
-syncthing_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='syncthing') + '.' + lookup('role_var', '_web_domain', role='syncthing')
-                         if (lookup('role_var', '_web_subdomain', role='syncthing') | length > 0)
-                         else lookup('role_var', '_web_domain', role='syncthing')) }}"
+syncthing_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='syncthing') + '.' + lookup('role_var', '_web_domain', role='syncthing')
+                                 if (lookup('role_var', '_web_subdomain', role='syncthing') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='syncthing') }}"
 
 ################################
 # DNS

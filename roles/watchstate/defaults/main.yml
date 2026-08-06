@@ -37,9 +37,9 @@ watchstate_role_paths_folders_list:
 watchstate_role_web_subdomain: "{{ watchstate_name }}"
 watchstate_role_web_domain: "{{ user.domain }}"
 watchstate_role_web_port: "8080"
-watchstate_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='watchstate') + '.' + lookup('role_var', '_web_domain', role='watchstate')
-                          if (lookup('role_var', '_web_subdomain', role='watchstate') | length > 0)
-                          else lookup('role_var', '_web_domain', role='watchstate')) }}"
+watchstate_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='watchstate') + '.' + lookup('role_var', '_web_domain', role='watchstate')
+                                  if (lookup('role_var', '_web_subdomain', role='watchstate') | length > 0)
+                                  else lookup('role_var', '_web_domain', role='watchstate') }}"
 
 ################################
 # DNS

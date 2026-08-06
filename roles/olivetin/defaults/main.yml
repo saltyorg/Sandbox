@@ -30,9 +30,9 @@ olivetin_role_paths_folders_list:
 olivetin_role_web_subdomain: "{{ olivetin_name }}"
 olivetin_role_web_domain: "{{ user.domain }}"
 olivetin_role_web_port: "1337"
-olivetin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='olivetin') + '.' + lookup('role_var', '_web_domain', role='olivetin')
-                        if (lookup('role_var', '_web_subdomain', role='olivetin') | length > 0)
-                        else lookup('role_var', '_web_domain', role='olivetin')) }}"
+olivetin_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='olivetin') + '.' + lookup('role_var', '_web_domain', role='olivetin')
+                                if (lookup('role_var', '_web_subdomain', role='olivetin') | length > 0)
+                                else lookup('role_var', '_web_domain', role='olivetin') }}"
 
 ################################
 # DNS

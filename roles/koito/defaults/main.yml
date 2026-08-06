@@ -63,12 +63,12 @@ koito_role_paths_folders_list:
 koito_role_web_subdomain: "{{ koito_name }}"
 koito_role_web_domain: "{{ user.domain }}"
 koito_role_web_port: "4110"
-koito_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='koito') + '.' + lookup('role_var', '_web_domain', role='koito')
-                     if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
-                     else lookup('role_var', '_web_domain', role='koito')) }}"
+koito_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='koito') + '.' + lookup('role_var', '_web_domain', role='koito')
+                             if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
+                             else lookup('role_var', '_web_domain', role='koito') }}"
 koito_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='koito') + '.' + lookup('role_var', '_web_domain', role='koito')
-                      if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
-                      else lookup('role_var', '_web_domain', role='koito')) }}"
+                          if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
+                          else lookup('role_var', '_web_domain', role='koito')) }}"
 ################################
 # DNS
 ################################

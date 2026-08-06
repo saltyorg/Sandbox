@@ -29,9 +29,9 @@ puddletag_role_paths_folders_list:
 puddletag_role_web_subdomain: "{{ puddletag_name }}"
 puddletag_role_web_domain: "{{ user.domain }}"
 puddletag_role_web_port: "8080"
-puddletag_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='puddletag') + '.' + lookup('role_var', '_web_domain', role='puddletag')
-                         if (lookup('role_var', '_web_subdomain', role='puddletag') | length > 0)
-                         else lookup('role_var', '_web_domain', role='puddletag')) }}"
+puddletag_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='puddletag') + '.' + lookup('role_var', '_web_domain', role='puddletag')
+                                 if (lookup('role_var', '_web_subdomain', role='puddletag') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='puddletag') }}"
 
 ################################
 # DNS

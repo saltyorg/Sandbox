@@ -29,9 +29,9 @@ wizarr_role_paths_folders_list:
 wizarr_role_web_subdomain: "{{ wizarr_name }}"
 wizarr_role_web_domain: "{{ user.domain }}"
 wizarr_role_web_port: "5690"
-wizarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wizarr') + '.' + lookup('role_var', '_web_domain', role='wizarr')
-                      if (lookup('role_var', '_web_subdomain', role='wizarr') | length > 0)
-                      else lookup('role_var', '_web_domain', role='wizarr')) }}"
+wizarr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='wizarr') + '.' + lookup('role_var', '_web_domain', role='wizarr')
+                              if (lookup('role_var', '_web_subdomain', role='wizarr') | length > 0)
+                              else lookup('role_var', '_web_domain', role='wizarr') }}"
 
 ################################
 # DNS

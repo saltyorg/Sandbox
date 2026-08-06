@@ -22,7 +22,7 @@ rocketchat_mongodb_role_docker_commands:
   - "mongod --oplogSize 128 --replSet rs0"
 rocketchat_mongodb_role_docker_volumes_custom:
   - "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
-rockatchat_mongodb_role_paths_location: "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/mongo"
+rocketchat_mongodb_role_paths_location: "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/mongo"
 
 ################################
 # Paths
@@ -41,9 +41,9 @@ rocketchat_role_paths_config_location: "{{ rocketchat_role_paths_location }}/env
 rocketchat_role_web_subdomain: "{{ rocketchat_name }}"
 rocketchat_role_web_domain: "{{ user.domain }}"
 rocketchat_role_web_port: "3000"
-rocketchat_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='rocketchat') + '.' + lookup('role_var', '_web_domain', role='rocketchat')
-                          if (lookup('role_var', '_web_subdomain', role='rocketchat') | length > 0)
-                          else lookup('role_var', '_web_domain', role='rocketchat')) }}"
+rocketchat_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='rocketchat') + '.' + lookup('role_var', '_web_domain', role='rocketchat')
+                                  if (lookup('role_var', '_web_subdomain', role='rocketchat') | length > 0)
+                                  else lookup('role_var', '_web_domain', role='rocketchat') }}"
 
 ################################
 # DNS

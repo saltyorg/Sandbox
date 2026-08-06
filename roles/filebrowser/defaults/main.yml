@@ -35,9 +35,9 @@ filebrowser_role_paths_db_folder: "{{ filebrowser_role_paths_location }}/databas
 filebrowser_role_web_subdomain: "{{ filebrowser_name }}"
 filebrowser_role_web_domain: "{{ user.domain }}"
 filebrowser_role_web_port: "80"
-filebrowser_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='filebrowser') + '.' + lookup('role_var', '_web_domain', role='filebrowser')
-                           if (lookup('role_var', '_web_subdomain', role='filebrowser') | length > 0)
-                           else lookup('role_var', '_web_domain', role='filebrowser')) }}"
+filebrowser_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='filebrowser') + '.' + lookup('role_var', '_web_domain', role='filebrowser')
+                                   if (lookup('role_var', '_web_subdomain', role='filebrowser') | length > 0)
+                                   else lookup('role_var', '_web_domain', role='filebrowser') }}"
 
 ################################
 # DNS

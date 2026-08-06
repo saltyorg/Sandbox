@@ -31,9 +31,9 @@ influxdb2_role_paths_folders_list:
 influxdb2_role_web_subdomain: "{{ influxdb2_name }}"
 influxdb2_role_web_domain: "{{ user.domain }}"
 influxdb2_role_web_port: "8086"
-influxdb2_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='influxdb2') + '.' + lookup('role_var', '_web_domain', role='influxdb2')
-                         if (lookup('role_var', '_web_subdomain', role='influxdb2') | length > 0)
-                         else lookup('role_var', '_web_domain', role='influxdb2')) }}"
+influxdb2_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='influxdb2') + '.' + lookup('role_var', '_web_domain', role='influxdb2')
+                                 if (lookup('role_var', '_web_subdomain', role='influxdb2') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='influxdb2') }}"
 
 ################################
 # DNS

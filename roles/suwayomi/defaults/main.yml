@@ -31,9 +31,9 @@ suwayomi_role_paths_folders_list:
 suwayomi_role_web_subdomain: "{{ suwayomi_name }}"
 suwayomi_role_web_domain: "{{ user.domain }}"
 suwayomi_role_web_port: "4567"
-suwayomi_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain') + '.' + lookup('role_var', '_web_domain')
-                        if (lookup('role_var', '_web_subdomain') | length > 0)
-                        else lookup('role_var', '_web_domain')) }}"
+suwayomi_role_web_url: "https://{{ lookup('role_var', '_web_subdomain') + '.' + lookup('role_var', '_web_domain')
+                                if (lookup('role_var', '_web_subdomain') | length > 0)
+                                else lookup('role_var', '_web_domain') }}"
 
 ################################
 # DNS

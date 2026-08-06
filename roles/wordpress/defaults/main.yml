@@ -30,9 +30,9 @@ wordpress_role_paths_recursive: true
 wordpress_role_web_subdomain: "{{ wordpress_name }}"
 wordpress_role_web_domain: "{{ user.domain }}"
 wordpress_role_web_port: "80"
-wordpress_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='wordpress') + '.' + lookup('role_var', '_web_domain', role='wordpress')
-                         if (lookup('role_var', '_web_subdomain', role='wordpress') | length > 0)
-                         else lookup('role_var', '_web_domain', role='wordpress')) }}"
+wordpress_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='wordpress') + '.' + lookup('role_var', '_web_domain', role='wordpress')
+                                 if (lookup('role_var', '_web_subdomain', role='wordpress') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='wordpress') }}"
 
 ################################
 # DNS

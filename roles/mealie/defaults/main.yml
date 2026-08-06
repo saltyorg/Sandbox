@@ -29,9 +29,9 @@ mealie_role_paths_folders_list:
 mealie_role_web_subdomain: "{{ mealie_name }}"
 mealie_role_web_domain: "{{ user.domain }}"
 mealie_role_web_port: "9000"
-mealie_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='mealie') + '.' + lookup('role_var', '_web_domain', role='mealie')
-                      if (lookup('role_var', '_web_subdomain', role='mealie') | length > 0)
-                      else lookup('role_var', '_web_domain', role='mealie')) }}"
+mealie_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='mealie') + '.' + lookup('role_var', '_web_domain', role='mealie')
+                              if (lookup('role_var', '_web_subdomain', role='mealie') | length > 0)
+                              else lookup('role_var', '_web_domain', role='mealie') }}"
 
 ################################
 # DNS

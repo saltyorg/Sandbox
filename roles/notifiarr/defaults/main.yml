@@ -42,9 +42,9 @@ notifiarr_role_tautulli_api_key: "{{ lookup('ini', 'api_key section=General file
 notifiarr_role_web_subdomain: "{{ notifiarr_name }}"
 notifiarr_role_web_domain: "{{ user.domain }}"
 notifiarr_role_web_port: "5454"
-notifiarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='notifiarr') + '.' + lookup('role_var', '_web_domain', role='notifiarr')
-                         if (lookup('role_var', '_web_subdomain', role='notifiarr') | length > 0)
-                         else lookup('role_var', '_web_domain', role='notifiarr')) }}"
+notifiarr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='notifiarr') + '.' + lookup('role_var', '_web_domain', role='notifiarr')
+                                 if (lookup('role_var', '_web_subdomain', role='notifiarr') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='notifiarr') }}"
 
 ################################
 # DNS

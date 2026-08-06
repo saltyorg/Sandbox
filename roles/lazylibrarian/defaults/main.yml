@@ -29,9 +29,9 @@ lazylibrarian_role_paths_folders_list:
 lazylibrarian_role_web_subdomain: "{{ lazylibrarian_name }}"
 lazylibrarian_role_web_domain: "{{ user.domain }}"
 lazylibrarian_role_web_port: "5299"
-lazylibrarian_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='lazylibrarian') + '.' + lookup('role_var', '_web_domain', role='lazylibrarian')
-                             if (lookup('role_var', '_web_subdomain', role='lazylibrarian') | length > 0)
-                             else lookup('role_var', '_web_domain', role='lazylibrarian')) }}"
+lazylibrarian_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='lazylibrarian') + '.' + lookup('role_var', '_web_domain', role='lazylibrarian')
+                                     if (lookup('role_var', '_web_subdomain', role='lazylibrarian') | length > 0)
+                                     else lookup('role_var', '_web_domain', role='lazylibrarian') }}"
 
 ################################
 # DNS

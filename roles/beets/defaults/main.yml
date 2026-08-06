@@ -30,9 +30,9 @@ beets_role_paths_folders_list:
 beets_role_web_subdomain: "{{ beets_name }}"
 beets_role_web_domain: "{{ user.domain }}"
 beets_role_web_port: "8337"
-beets_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='beets') + '.' + lookup('role_var', '_web_domain', role='beets')
-                     if (lookup('role_var', '_web_subdomain', role='beets') | length > 0)
-                     else lookup('role_var', '_web_domain', role='beets')) }}"
+beets_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='beets') + '.' + lookup('role_var', '_web_domain', role='beets')
+                             if (lookup('role_var', '_web_subdomain', role='beets') | length > 0)
+                             else lookup('role_var', '_web_domain', role='beets') }}"
 
 ################################
 # DNS

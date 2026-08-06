@@ -30,9 +30,9 @@ fireflyiii_importer_role_paths_folders_list:
 fireflyiii_importer_role_web_subdomain: "{{ fireflyiii_importer_name }}"
 fireflyiii_importer_role_web_domain: "{{ user.domain }}"
 fireflyiii_importer_role_web_port: "8080"
-fireflyiii_importer_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='fireflyiii_importer') + '.' + lookup('role_var', '_web_domain', role='fireflyiii_importer')
-                                   if (lookup('role_var', '_web_subdomain', role='fireflyiii_importer') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='fireflyiii_importer')) }}"
+fireflyiii_importer_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='fireflyiii_importer') + '.' + lookup('role_var', '_web_domain', role='fireflyiii_importer')
+                                           if (lookup('role_var', '_web_subdomain', role='fireflyiii_importer') | length > 0)
+                                           else lookup('role_var', '_web_domain', role='fireflyiii_importer') }}"
 
 ################################
 # DNS

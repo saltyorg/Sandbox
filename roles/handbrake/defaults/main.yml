@@ -37,9 +37,9 @@ handbrake_role_paths_folders_list:
 handbrake_role_web_subdomain: "{{ handbrake_name }}"
 handbrake_role_web_domain: "{{ user.domain }}"
 handbrake_role_web_port: "5800"
-handbrake_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='handbrake') + '.' + lookup('role_var', '_web_domain', role='handbrake')
-                         if (lookup('role_var', '_web_subdomain', role='handbrake') | length > 0)
-                         else lookup('role_var', '_web_domain', role='handbrake')) }}"
+handbrake_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='handbrake') + '.' + lookup('role_var', '_web_domain', role='handbrake')
+                                 if (lookup('role_var', '_web_subdomain', role='handbrake') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='handbrake') }}"
 
 ################################
 # DNS

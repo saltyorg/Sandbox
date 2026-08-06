@@ -30,9 +30,9 @@ filebot_role_paths_config_location: "{{ filebot_role_paths_location }}/config.ym
 filebot_role_web_subdomain: "{{ filebot_name }}"
 filebot_role_web_domain: "{{ user.domain }}"
 filebot_role_web_port: "5800"
-filebot_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='filebot') + '.' + lookup('role_var', '_web_domain', role='filebot')
-                       if (lookup('role_var', '_web_subdomain', role='filebot') | length > 0)
-                       else lookup('role_var', '_web_domain', role='filebot')) }}"
+filebot_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='filebot') + '.' + lookup('role_var', '_web_domain', role='filebot')
+                               if (lookup('role_var', '_web_subdomain', role='filebot') | length > 0)
+                               else lookup('role_var', '_web_domain', role='filebot') }}"
 
 ################################
 # DNS

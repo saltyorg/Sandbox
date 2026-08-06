@@ -31,9 +31,9 @@ kapowarr_role_paths_folders_list:
 kapowarr_role_web_subdomain: "{{ kapowarr_name }}"
 kapowarr_role_web_domain: "{{ user.domain }}"
 kapowarr_role_web_port: "5656"
-kapowarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='kapowarr') + '.' + lookup('role_var', '_web_domain', role='kapowarr')
-                        if (lookup('role_var', '_web_subdomain', role='kapowarr') | length > 0)
-                        else lookup('role_var', '_web_domain', role='kapowarr')) }}"
+kapowarr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='kapowarr') + '.' + lookup('role_var', '_web_domain', role='kapowarr')
+                                if (lookup('role_var', '_web_subdomain', role='kapowarr') | length > 0)
+                                else lookup('role_var', '_web_domain', role='kapowarr') }}"
 
 ################################
 # DNS

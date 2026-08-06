@@ -30,9 +30,9 @@ makemkv_role_paths_folders_list:
 makemkv_role_web_subdomain: "{{ makemkv_name }}"
 makemkv_role_web_domain: "{{ user.domain }}"
 makemkv_role_web_port: "5800"
-makemkv_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='makemkv') + '.' + lookup('role_var', '_web_domain', role='makemkv')
-                       if (lookup('role_var', '_web_subdomain', role='makemkv') | length > 0)
-                       else lookup('role_var', '_web_domain', role='makemkv')) }}"
+makemkv_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='makemkv') + '.' + lookup('role_var', '_web_domain', role='makemkv')
+                               if (lookup('role_var', '_web_subdomain', role='makemkv') | length > 0)
+                               else lookup('role_var', '_web_domain', role='makemkv') }}"
 
 ################################
 # DNS

@@ -30,9 +30,9 @@ dashy_role_paths_config_location: "{{ dashy_role_paths_location }}/conf.yml"
 dashy_role_web_subdomain: "{{ dashy_name }}"
 dashy_role_web_domain: "{{ user.domain }}"
 dashy_role_web_port: "8080"
-dashy_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='dashy') + '.' + lookup('role_var', '_web_domain', role='dashy')
-                     if (lookup('role_var', '_web_subdomain', role='dashy') | length > 0)
-                     else lookup('role_var', '_web_domain', role='dashy')) }}"
+dashy_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='dashy') + '.' + lookup('role_var', '_web_domain', role='dashy')
+                             if (lookup('role_var', '_web_subdomain', role='dashy') | length > 0)
+                             else lookup('role_var', '_web_domain', role='dashy') }}"
 
 ################################
 # DNS

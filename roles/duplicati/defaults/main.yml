@@ -30,9 +30,9 @@ duplicati_role_paths_folders_list:
 duplicati_role_web_subdomain: "{{ duplicati_name }}"
 duplicati_role_web_domain: "{{ user.domain }}"
 duplicati_role_web_port: "8200"
-duplicati_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='duplicati') + '.' + lookup('role_var', '_web_domain', role='duplicati')
-                         if (lookup('role_var', '_web_subdomain', role='duplicati') | length > 0)
-                         else lookup('role_var', '_web_domain', role='duplicati')) }}"
+duplicati_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='duplicati') + '.' + lookup('role_var', '_web_domain', role='duplicati')
+                                 if (lookup('role_var', '_web_subdomain', role='duplicati') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='duplicati') }}"
 
 ################################
 # DNS

@@ -29,9 +29,9 @@ heimdall_role_paths_folders_list:
 heimdall_role_web_subdomain: "{{ heimdall_name }}"
 heimdall_role_web_domain: "{{ user.domain }}"
 heimdall_role_web_port: "80"
-heimdall_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='heimdall') + '.' + lookup('role_var', '_web_domain', role='heimdall')
-                        if (lookup('role_var', '_web_subdomain', role='heimdall') | length > 0)
-                        else lookup('role_var', '_web_domain', role='heimdall')) }}"
+heimdall_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='heimdall') + '.' + lookup('role_var', '_web_domain', role='heimdall')
+                                if (lookup('role_var', '_web_subdomain', role='heimdall') | length > 0)
+                                else lookup('role_var', '_web_domain', role='heimdall') }}"
 
 ################################
 # DNS

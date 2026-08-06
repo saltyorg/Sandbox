@@ -29,9 +29,9 @@ cherry_role_paths_folders_list:
 cherry_role_web_subdomain: "{{ cherry_name }}"
 cherry_role_web_domain: "{{ user.domain }}"
 cherry_role_web_port: "8000"
-cherry_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='cherry') + '.' + lookup('role_var', '_web_domain', role='cherry')
-                      if (lookup('role_var', '_web_subdomain', role='cherry') | length > 0)
-                      else lookup('role_var', '_web_domain', role='cherry')) }}"
+cherry_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='cherry') + '.' + lookup('role_var', '_web_domain', role='cherry')
+                              if (lookup('role_var', '_web_subdomain', role='cherry') | length > 0)
+                              else lookup('role_var', '_web_domain', role='cherry') }}"
 
 ################################
 # DNS

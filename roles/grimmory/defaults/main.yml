@@ -51,9 +51,9 @@ grimmory_role_paths_folders_list:
 grimmory_role_web_subdomain: "{{ grimmory_name }}"
 grimmory_role_web_domain: "{{ user.domain }}"
 grimmory_role_web_port: "6060"
-grimmory_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='grimmory') + '.' + lookup('role_var', '_web_domain', role='grimmory')
-                        if (lookup('role_var', '_web_subdomain', role='grimmory') | length > 0)
-                        else lookup('role_var', '_web_domain', role='grimmory')) }}"
+grimmory_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='grimmory') + '.' + lookup('role_var', '_web_domain', role='grimmory')
+                                if (lookup('role_var', '_web_subdomain', role='grimmory') | length > 0)
+                                else lookup('role_var', '_web_domain', role='grimmory') }}"
 
 ################################
 # DNS

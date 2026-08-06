@@ -67,7 +67,7 @@
     mongodb_role_docker_image_tag: "{{ rocketchat_mongodb_role_docker_image_tag }}"
     mongodb_role_docker_commands: "{{ rocketchat_mongodb_role_docker_commands }}"
     mongodb_role_docker_volumes_custom: "{{ rocketchat_mongodb_role_docker_volumes_custom }}"
-    mongodb_role_paths_location: "{{ rockatchat_mongodb_role_paths_location }}"
+    mongodb_role_paths_location: "{{ rocketchat_mongodb_role_paths_location }}"
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

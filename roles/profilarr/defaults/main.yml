@@ -29,9 +29,9 @@ profilarr_role_paths_folders_list:
 profilarr_role_web_subdomain: "{{ profilarr_name }}"
 profilarr_role_web_domain: "{{ user.domain }}"
 profilarr_role_web_port: "6868"
-profilarr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='profilarr') + '.' + lookup('role_var', '_web_domain', role='profilarr')
-                         if (lookup('role_var', '_web_subdomain', role='profilarr') | length > 0)
-                         else lookup('role_var', '_web_domain', role='profilarr')) }}"
+profilarr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='profilarr') + '.' + lookup('role_var', '_web_domain', role='profilarr')
+                                 if (lookup('role_var', '_web_subdomain', role='profilarr') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='profilarr') }}"
 
 ################################
 # DNS

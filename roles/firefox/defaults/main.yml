@@ -32,9 +32,9 @@ firefox_role_paths_env_file_location: "{{ firefox_role_paths_location }}/.env"
 firefox_role_web_subdomain: "{{ firefox_name }}"
 firefox_role_web_domain: "{{ user.domain }}"
 firefox_role_web_port: "5800"
-firefox_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='firefox') + '.' + lookup('role_var', '_web_domain', role='firefox')
-                       if (lookup('role_var', '_web_subdomain', role='firefox') | length > 0)
-                       else lookup('role_var', '_web_domain', role='firefox')) }}"
+firefox_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='firefox') + '.' + lookup('role_var', '_web_domain', role='firefox')
+                               if (lookup('role_var', '_web_subdomain', role='firefox') | length > 0)
+                               else lookup('role_var', '_web_domain', role='firefox') }}"
 
 ################################
 # VNC

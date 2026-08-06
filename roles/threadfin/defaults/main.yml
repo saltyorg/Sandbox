@@ -29,9 +29,9 @@ threadfin_role_paths_folders_list:
 threadfin_role_web_subdomain: "{{ threadfin_name }}"
 threadfin_role_web_domain: "{{ user.domain }}"
 threadfin_role_web_port: "34400"
-threadfin_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='threadfin') + '.' + lookup('role_var', '_web_domain', role='threadfin')
-                         if (lookup('role_var', '_web_subdomain', role='threadfin') | length > 0)
-                         else lookup('role_var', '_web_domain', role='threadfin')) }}"
+threadfin_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='threadfin') + '.' + lookup('role_var', '_web_domain', role='threadfin')
+                                 if (lookup('role_var', '_web_subdomain', role='threadfin') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='threadfin') }}"
 
 ################################
 # DNS

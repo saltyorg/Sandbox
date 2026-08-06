@@ -29,9 +29,9 @@ maintainerr_role_paths_folders_list:
 maintainerr_role_web_subdomain: "{{ maintainerr_name }}"
 maintainerr_role_web_domain: "{{ user.domain }}"
 maintainerr_role_web_port: "6246"
-maintainerr_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='maintainerr') + '.' + lookup('role_var', '_web_domain', role='maintainerr')
-                           if (lookup('role_var', '_web_subdomain', role='maintainerr') | length > 0)
-                           else lookup('role_var', '_web_domain', role='maintainerr')) }}"
+maintainerr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='maintainerr') + '.' + lookup('role_var', '_web_domain', role='maintainerr')
+                                   if (lookup('role_var', '_web_subdomain', role='maintainerr') | length > 0)
+                                   else lookup('role_var', '_web_domain', role='maintainerr') }}"
 
 ################################
 # DNS

@@ -48,9 +48,9 @@ delugevpn_role_paths_folders_list:
 delugevpn_role_web_subdomain: "{{ delugevpn_name }}"
 delugevpn_role_web_domain: "{{ user.domain }}"
 delugevpn_role_web_port: "8112"
-delugevpn_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='delugevpn') + '.' + lookup('role_var', '_web_domain', role='delugevpn')
-                         if (lookup('role_var', '_web_subdomain', role='delugevpn') | length > 0)
-                         else lookup('role_var', '_web_domain', role='delugevpn')) }}"
+delugevpn_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='delugevpn') + '.' + lookup('role_var', '_web_domain', role='delugevpn')
+                                 if (lookup('role_var', '_web_subdomain', role='delugevpn') | length > 0)
+                                 else lookup('role_var', '_web_domain', role='delugevpn') }}"
 
 ################################
 # DNS
