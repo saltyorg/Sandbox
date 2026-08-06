@@ -58,13 +58,22 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
+        with:
+          path: sandbox
+
+      - name: Checkout Saltbox repository
+        uses: actions/checkout@v7
+        with:
+          repository: saltyorg/Saltbox
+          path: saltbox
 
       - uses: actions/setup-python@v7
         with:
           python-version: '3.14'
 
       - name: Run Defaults Linter
-        run: python3 scripts/saltbox-defaults-linter.py roles/
+        working-directory: ${{ github.workspace }}/sandbox
+        run: python3 ../saltbox/scripts/saltbox-defaults-linter.py roles/
 
   check-entries:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
