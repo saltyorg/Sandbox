@@ -18,6 +18,13 @@ koito_migrate_name: koito-migrate
 ################################
 
 koito_migrate_role_postgres_deploy: "{{ koito_role_postgres_deploy | default(true) }}"
+koito_migrate_role_database_url: "{{ koito_role_database_url | default('') }}"
+koito_migrate_role_docker_envs_custom: {}
+
+################################
+# Postgres
+################################
+
 koito_migrate_role_postgres_name: "{{ koito_role_postgres_name | default(koito_name + '-postgres') }}"
 koito_migrate_role_postgres_user: "{{ koito_role_postgres_user | default('') }}"
 koito_migrate_role_postgres_password: "{{ koito_role_postgres_password | default('') }}"
@@ -30,11 +37,4 @@ koito_migrate_role_postgres_docker_healthcheck:
   interval: 30s
   retries: 5
   timeout: 5s
-koito_migrate_role_database_url: "{{ koito_role_database_url | default('') }}"
-koito_migrate_role_docker_envs_custom: {}
-
-################################
-# Paths
-################################
-
 koito_migrate_role_postgres_paths_location: "{{ lookup('role_var', '_paths_location', role='koito') }}/postgres"

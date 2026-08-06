@@ -19,6 +19,11 @@ immich_name: immich
 
 immich_role_photos_location: "/mnt/unionfs/Media/Photos"
 immich_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 immich_role_postgres_name: "{{ immich_name }}-postgres"
 # If empty it will fallback to postgres role default
 immich_role_postgres_user: ""

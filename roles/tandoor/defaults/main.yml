@@ -18,6 +18,11 @@ tandoor_name: tandoor
 ################################
 
 tandoor_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 tandoor_role_postgres_name: "{{ tandoor_name }}-postgres"
 # If empty it will fallback to postgres role default
 tandoor_role_postgres_user: ""

@@ -18,6 +18,11 @@ semaphoreui_name: semaphoreui
 ################################
 
 semaphoreui_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 semaphoreui_role_postgres_name: "{{ semaphoreui_name }}-postgres"
 semaphoreui_role_postgres_user: "semaphoreui"
 semaphoreui_role_postgres_password: "semaphoreui"

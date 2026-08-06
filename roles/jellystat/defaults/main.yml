@@ -18,6 +18,11 @@ jellystat_name: jellystat
 ################################
 
 jellystat_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 jellystat_role_postgres_name: "{{ jellystat_name }}-postgres"
 # If empty it will fallback to postgres role default
 jellystat_role_postgres_user: ""

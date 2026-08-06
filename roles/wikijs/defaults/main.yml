@@ -18,6 +18,11 @@ wikijs_name: wikijs
 ################################
 
 wikijs_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 wikijs_role_postgres_name: "{{ wikijs_name }}-postgres"
 # If empty it will fallback to postgres role default
 wikijs_role_postgres_user: ""

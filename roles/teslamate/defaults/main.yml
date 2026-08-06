@@ -18,6 +18,11 @@ teslamate_name: teslamate
 teslamate_secret_key: "{{ teslamate_saltbox_facts.facts.secret_key }}"
 
 teslamate_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 teslamate_role_postgres_name: "{{ teslamate_name }}-postgres"
 # If empty it will fallback to postgres role default
 teslamate_role_postgres_user: ""

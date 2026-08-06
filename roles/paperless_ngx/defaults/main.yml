@@ -18,6 +18,11 @@ paperless_ngx_name: paperless
 ################################
 
 paperless_ngx_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 paperless_ngx_role_postgres_name: "{{ paperless_ngx_name }}-postgres"
 # If empty it will fallback to postgres role default
 paperless_ngx_role_postgres_user: ""

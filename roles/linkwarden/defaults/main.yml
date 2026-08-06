@@ -18,6 +18,11 @@ linkwarden_name: linkwarden
 ################################
 
 linkwarden_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 linkwarden_role_postgres_name: "{{ linkwarden_name }}-postgres"
 linkwarden_role_postgres_user: "{{ linkwarden_name }}"
 linkwarden_role_postgres_password: "{{ linkwarden_name }}"

@@ -18,6 +18,11 @@ joplin_name: joplin
 ################################
 
 joplin_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 joplin_role_postgres_name: "{{ joplin_name }}-postgres"
 joplin_role_postgres_user: "joplin"
 joplin_role_postgres_password: "joplin"

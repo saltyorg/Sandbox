@@ -18,6 +18,11 @@ traccar_name: traccar
 ################################
 
 traccar_role_postgres_deploy: true
+
+################################
+# Postgres
+################################
+
 traccar_role_postgres_name: "{{ traccar_name }}-postgres"
 # If empty it will fallback to timescaledb role default
 traccar_role_postgres_user: ""
