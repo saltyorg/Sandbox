@@ -1,0 +1,54 @@
+##########################################################################
+# Title:         Sandbox: n8n Runner | Default Variables                 #
+# Author(s):     salty                                                   #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+n8n_runner_name: "n8n-runner"
+
+################################
+# Docker
+################################
+
+# Container
+n8n_runner_role_docker_container: "{{ n8n_runner_name }}"
+
+# Image
+n8n_runner_role_docker_image_pull: true
+n8n_runner_role_docker_image_repo: "n8nio/runners"
+n8n_runner_role_docker_image_tag: "latest"
+n8n_runner_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='n8n_runner') }}:{{ lookup('role_var', '_docker_image_tag', role='n8n_runner') }}"
+
+# Envs
+n8n_runner_role_docker_envs_default:
+  N8N_RUNNERS_AUTH_TOKEN: "{{ lookup('role_var', '_runners_auth_token', role='n8n') }}"
+  N8N_RUNNERS_TASK_BROKER_URI: "http://{{ lookup('role_var', '_docker_container', role='n8n') }}:5679"
+n8n_runner_role_docker_envs_custom: {}
+n8n_runner_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='n8n_runner')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='n8n_runner')) }}"
+
+# Hostname
+n8n_runner_role_docker_hostname: "{{ n8n_runner_name }}"
+
+# Networks
+n8n_runner_role_docker_networks_alias: "{{ n8n_runner_name }}"
+n8n_runner_role_docker_networks_default: []
+n8n_runner_role_docker_networks_custom: []
+n8n_runner_role_docker_networks: "{{ docker_networks_common
+                                     + lookup('role_var', '_docker_networks_default', role='n8n_runner')
+                                     + lookup('role_var', '_docker_networks_custom', role='n8n_runner') }}"
+
+# Restart Policy
+n8n_runner_role_docker_restart_policy: unless-stopped
+
+# Dependencies
+n8n_runner_role_depends_on: "{{ lookup('role_var', '_docker_container', role='n8n') }}"
+n8n_runner_role_depends_on_delay: "0"
+n8n_runner_role_depends_on_healthchecks: "false"

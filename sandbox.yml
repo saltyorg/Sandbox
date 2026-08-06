@@ -190,5 +190,6 @@
     - { role: koito_migrate, tags: ['never', 'koito-migrate'] }
     - { role: lgsm, tags: ['lgsm'] }
     - { role: main_tag, tags: ['roles', 'sandbox-roles'] }
+    - { role: n8n_runner, tags: ['never'] }
     - { role: plex_auto_languages, tags: ['plex-auto-languages'] }
     - { role: sure_worker, tags: ['never'] }

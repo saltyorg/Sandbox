@@ -7,6 +7,17 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Save n8n Saltbox facts
+  saltbox_facts:
+    role: "n8n"
+    instance: "n8n"
+    keys:
+      runners_auth_token: "{{ lookup('community.general.random_string', length=64, min_lower=1, min_upper=1, min_numeric=1) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: n8n_saltbox_facts
+
 - name: Remove legacy PostgreSQL Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
@@ -57,3 +68,19 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Import n8n Runner Role
+  ansible.builtin.include_role:
+    name: n8n_runner
+  vars:
+    n8n_runner_name: "{{ lookup('role_var', '_runners_name', role='n8n') }}"
+    n8n_runner_role_docker_image_repo: "{{ lookup('role_var', '_runners_docker_image_repo', role='n8n') }}"
+    n8n_runner_role_docker_image_tag: "{{ lookup('role_var', '_runners_docker_image_tag', role='n8n') }}"
+    n8n_runner_role_docker_envs_custom: "{{ lookup('role_var', '_runners_docker_envs_custom', role='n8n') }}"
+  when: lookup('role_var', '_runners_deploy', role='n8n')
+
+- name: Remove n8n Runner Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    container_name: "{{ lookup('role_var', '_runners_name', role='n8n') }}"
+  when: not lookup('role_var', '_runners_deploy', role='n8n')
