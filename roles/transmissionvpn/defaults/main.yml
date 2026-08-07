@@ -124,8 +124,8 @@ transmissionvpn_role_docker_networks: "{{ docker_networks_common
 transmissionvpn_role_docker_capabilities_default:
   - NET_ADMIN
 transmissionvpn_role_docker_capabilities_custom: []
-transmissionvpn_role_docker_capabilities: "{{ transmissionvpn_role_docker_capabilities_default
-                                              + transmissionvpn_role_docker_capabilities_custom }}"
+transmissionvpn_role_docker_capabilities: "{{ lookup('role_var', '_docker_capabilities_default', role='transmissionvpn')
+                                              + lookup('role_var', '_docker_capabilities_custom', role='transmissionvpn') }}"
 
 # Restart Policy
 transmissionvpn_role_docker_restart_policy: unless-stopped

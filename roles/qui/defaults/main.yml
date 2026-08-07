@@ -80,13 +80,6 @@ qui_role_docker_volumes_custom: []
 qui_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='qui')
                              + lookup('role_var', '_docker_volumes_custom', role='qui') }}"
 
-# Hosts
-qui_role_docker_hosts_default: {}
-qui_role_docker_hosts_custom: {}
-qui_role_docker_hosts: "{{ docker_hosts_common
-                           | combine(lookup('role_var', '_docker_hosts_default', role='qui'))
-                           | combine(lookup('role_var', '_docker_hosts_custom', role='qui')) }}"
-
 # Hostname
 qui_role_docker_hostname: "{{ qui_name }}"
 

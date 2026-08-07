@@ -45,12 +45,6 @@ plextraktsync_role_docker_envs_custom: {}
 plextraktsync_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='plextraktsync')
                                     | combine(lookup('role_var', '_docker_envs_custom', role='plextraktsync')) }}"
 
-# Commands
-plextraktsync_role_docker_commands_default: []
-plextraktsync_role_docker_commands_custom: []
-plextraktsync_role_docker_commands: "{{ lookup('role_var', '_docker_commands_default', role='plextraktsync')
-                                        + lookup('role_var', '_docker_commands_custom', role='plextraktsync') }}"
-
 # Volumes
 plextraktsync_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='plextraktsync') }}:/config"

@@ -31,16 +31,16 @@ suwayomi_role_paths_folders_list:
 suwayomi_role_web_subdomain: "{{ suwayomi_name }}"
 suwayomi_role_web_domain: "{{ user.domain }}"
 suwayomi_role_web_port: "4567"
-suwayomi_role_web_url: "https://{{ lookup('role_var', '_web_subdomain') + '.' + lookup('role_var', '_web_domain')
-                                if (lookup('role_var', '_web_subdomain') | length > 0)
-                                else lookup('role_var', '_web_domain') }}"
+suwayomi_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='suwayomi') + '.' + lookup('role_var', '_web_domain', role='suwayomi')
+                                if (lookup('role_var', '_web_subdomain', role='suwayomi') | length > 0)
+                                else lookup('role_var', '_web_domain', role='suwayomi') }}"
 
 ################################
 # DNS
 ################################
 
-suwayomi_role_dns_record: "{{ lookup('role_var', '_web_subdomain') }}"
-suwayomi_role_dns_zone: "{{ lookup('role_var', '_web_domain') }}"
+suwayomi_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='suwayomi') }}"
+suwayomi_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='suwayomi') }}"
 suwayomi_role_dns_proxy: "{{ dns_proxied }}"
 
 ################################
@@ -66,22 +66,22 @@ suwayomi_role_docker_container: "{{ suwayomi_name }}"
 suwayomi_role_docker_image_pull: true
 suwayomi_role_docker_image_repo: "ghcr.io/suwayomi/suwayomi-server"
 suwayomi_role_docker_image_tag: "latest"
-suwayomi_role_docker_image: "{{ lookup('role_var', '_docker_image_repo') }}:{{ lookup('role_var', '_docker_image_tag') }}"
+suwayomi_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='suwayomi') }}:{{ lookup('role_var', '_docker_image_tag', role='suwayomi') }}"
 
 # Envs
 suwayomi_role_docker_envs_default:
   TZ: "{{ tz }}"
 suwayomi_role_docker_envs_custom: {}
-suwayomi_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default')
-                               | combine(lookup('role_var', '_docker_envs_custom')) }}"
+suwayomi_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='suwayomi')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='suwayomi')) }}"
 
 # Volumes
 suwayomi_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location') }}:/home/suwayomi/.local/share/Tachidesk"
+  - "{{ lookup('role_var', '_paths_location', role='suwayomi') }}:/home/suwayomi/.local/share/Tachidesk"
   - "/mnt/unionfs/Media/Comics:/comics"
 suwayomi_role_docker_volumes_custom: []
-suwayomi_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default')
-                                  + lookup('role_var', '_docker_volumes_custom') }}"
+suwayomi_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='suwayomi')
+                                  + lookup('role_var', '_docker_volumes_custom', role='suwayomi') }}"
 
 # Hostname
 suwayomi_role_docker_hostname: "{{ suwayomi_name }}"
@@ -91,8 +91,8 @@ suwayomi_role_docker_networks_alias: "{{ suwayomi_name }}"
 suwayomi_role_docker_networks_default: []
 suwayomi_role_docker_networks_custom: []
 suwayomi_role_docker_networks: "{{ docker_networks_common
-                                   + lookup('role_var', '_docker_networks_default')
-                                   + lookup('role_var', '_docker_networks_custom') }}"
+                                   + lookup('role_var', '_docker_networks_default', role='suwayomi')
+                                   + lookup('role_var', '_docker_networks_custom', role='suwayomi') }}"
 
 # Restart Policy
 suwayomi_role_docker_restart_policy: unless-stopped

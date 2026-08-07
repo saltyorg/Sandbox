@@ -18,6 +18,8 @@ jellystat_name: jellystat
 ################################
 
 jellystat_role_postgres_deploy: true
+jellystat_log_level: "INFO"
+jellystat_emby: false
 
 ################################
 # Postgres
@@ -68,13 +70,6 @@ jellystat_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='j
 jellystat_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='jellystat') }}"
 jellystat_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='jellystat') }}"
 jellystat_role_dns_proxy: "{{ dns_proxied }}"
-
-################################
-# Settings
-################################
-
-jellystat_log_level: "INFO"
-jellystat_emby: false
 
 ################################
 # Traefik
