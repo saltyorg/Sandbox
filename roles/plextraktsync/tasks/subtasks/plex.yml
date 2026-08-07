@@ -1,5 +1,5 @@
 #######################################################################
-# Title:            Sandbox: PlexTraktSync | Tasks | Pre-Install      #
+# Title:            Sandbox: PlexTraktSync | Tasks | Plex             #
 # Author(s):        keldian                                           #
 # URL:              https://github.com/saltyorg/Sandbox               #
 # --                                                                  #
@@ -10,11 +10,6 @@
 - name: Plex Auth Token tasks
   ansible.builtin.include_role:
     name: plex_auth_token
-
-- name: Detect {{ plex_role_paths_config_location | basename }}
-  ansible.builtin.stat:
-    path: "{{ plex_role_paths_config_location }}"
-  register: plextraktsync_preferences_xml
 
 - name: Get data from {{ plex_role_paths_config_location | basename }}
   community.general.xml:
