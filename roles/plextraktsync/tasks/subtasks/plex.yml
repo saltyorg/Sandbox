@@ -10,7 +10,6 @@
 - name: Plex Auth Token tasks
   ansible.builtin.include_role:
     name: plex_auth_token
-  when: plex_account_is_enabled
 
 - name: Detect {{ plex_role_paths_config_location | basename }}
   ansible.builtin.stat:
@@ -24,7 +23,6 @@
     content: attribute
   ignore_errors: true
   register: plextraktsync_preferences_xml_resp
-  when: plextraktsync_preferences_xml.stat.exists
 
 - name: Set safe fallback for Plex preferences
   ansible.builtin.set_fact:

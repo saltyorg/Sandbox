@@ -18,9 +18,9 @@
     path: "{{ plextraktsync_role_paths_config_location }}"
   register: plextraktsync_config
 
-- name: Pre-Install Tasks
-  ansible.builtin.include_tasks: "subtasks/preinstall.yml"
-  when: (not plextraktsync_config.stat.exists) and (not continuous_integration)
+- name: Plex Tasks
+  ansible.builtin.include_tasks: "subtasks/plex.yml"
+  when: (not plextraktsync_config.stat.exists) and plex_account_is_enabled
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
