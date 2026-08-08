@@ -69,6 +69,7 @@ koito_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='koito
 koito_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='koito') + '.' + lookup('role_var', '_web_domain', role='koito')
                           if (lookup('role_var', '_web_subdomain', role='koito') | length > 0)
                           else lookup('role_var', '_web_domain', role='koito')) }}"
+
 ################################
 # DNS
 ################################
