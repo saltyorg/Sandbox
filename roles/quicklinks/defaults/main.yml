@@ -1,0 +1,103 @@
+#########################################################################
+# Title:            Sandbox: QuickLinks                                 #
+# Author(s):        Jordan Farmer                                       #
+# URL:              https://hub.docker.com/r/jordanmfarmer/quicklinks   #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+quicklinks_name: quicklinks
+
+################################
+# Paths
+################################
+
+quicklinks_role_paths_folder: "{{ quicklinks_name }}"
+quicklinks_role_paths_location: "{{ server_appdata_path }}/{{ quicklinks_role_paths_folder }}"
+quicklinks_role_paths_folders_list:
+  - "{{ quicklinks_role_paths_location }}"
+
+################################
+# Web
+################################
+
+quicklinks_role_web_subdomain: "{{ quicklinks_name }}"
+quicklinks_role_web_domain: "{{ user.domain }}"
+quicklinks_role_web_port: "6969"
+quicklinks_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='quicklinks') + '.' + lookup('role_var', '_web_domain', role='quicklinks')
+                                  if (lookup('role_var', '_web_subdomain', role='quicklinks') | length > 0)
+                                  else lookup('role_var', '_web_domain', role='quicklinks') }}"
+
+################################
+# DNS
+################################
+
+quicklinks_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='quicklinks') }}"
+quicklinks_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='quicklinks') }}"
+quicklinks_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+quicklinks_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+quicklinks_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+quicklinks_role_traefik_middleware_custom: ""
+quicklinks_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+quicklinks_role_traefik_enabled: true
+quicklinks_role_traefik_api_enabled: false
+quicklinks_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+quicklinks_role_docker_container: "{{ quicklinks_name }}"
+
+# Image
+quicklinks_role_docker_image_pull: true
+quicklinks_role_docker_image_repo: "jordanmfarmer/quicklinks"
+quicklinks_role_docker_image_tag: "2026.08.09.002"
+quicklinks_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='quicklinks') }}:{{ lookup('role_var', '_docker_image_tag', role='quicklinks') }}"
+
+# Envs
+quicklinks_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  DATA_DIR: "/app/data"
+  ADMIN_USERNAME: "{{ user.name }}"
+  ADMIN_PASSWORD: "{{ user.pass }}"
+  SESSION_SECRET: "{{ user.pass | hash('sha256') }}"
+quicklinks_role_docker_envs_custom: {}
+quicklinks_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='quicklinks')
+                                 | combine(lookup('role_var', '_docker_envs_custom', role='quicklinks')) }}"
+
+# Volumes
+quicklinks_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='quicklinks') }}:/app/data"
+  - "/etc/localtime:/etc/localtime:ro"
+quicklinks_role_docker_volumes_custom: []
+quicklinks_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='quicklinks')
+                                    + lookup('role_var', '_docker_volumes_custom', role='quicklinks') }}"
+
+# Hostname
+quicklinks_role_docker_hostname: "{{ quicklinks_name }}"
+
+# Networks
+quicklinks_role_docker_networks_alias: "{{ quicklinks_name }}"
+quicklinks_role_docker_networks_default: []
+quicklinks_role_docker_networks_custom: []
+quicklinks_role_docker_networks: "{{ docker_networks_common
+                                     + lookup('role_var', '_docker_networks_default', role='quicklinks')
+                                     + lookup('role_var', '_docker_networks_custom', role='quicklinks') }}"
+
+# Restart Policy
+quicklinks_role_docker_restart_policy: unless-stopped
+
+# User
+quicklinks_role_docker_user: "{{ uid }}:{{ gid }}"
