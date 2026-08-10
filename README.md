@@ -15,6 +15,25 @@ Roles may get moved to the main repo if they become officially maintained.
 
 - [Sandbox](https://docs.saltbox.dev/reference/modules/sandbox)
 
+### Contributing
+
+Be aware that Sandbox is not a catch-all space for self-hosted software. Given the large number of existing roles, we are selective about new submissions.
+
+Before opening a pull request for a new role, make sure it meets these criteria:
+
+- The role aligns with Saltbox's purpose: media acquisition, collection, delivery, and server administration.
+- The role addresses a genuine need from Saltbox users. We encourage opening an issue first, or creating a poll in our Discord server, to gauge community interest.
+- The role targets an established project with active maintenance, solid documentation, and broad community adoption.
+- The role is written and understood by a human. Please don't submit a role generated wholesale by AI.
+
+Need guidance on building a role? Feel free to join our Discord's _#development_ channel—we're glad to help.
+
+### Requesting a new app
+
+If you'd like to see a new app added, open an App Request issue in this repository. Check the software against the Contributing criteria above first—a PR for a role that doesn't meet them will be rejected, so it's worth confirming before requesting.
+
+Before opening a new issue, search existing ones to see if the app has already been requested. This repo auto-marks issues stale after 30 days of inactivity and closes them 5 days later. If a matching request exists, even one closed by the stale-bot, comment on it to revive it instead of opening a duplicate.
+
 ### Contributors
 
 <table>
