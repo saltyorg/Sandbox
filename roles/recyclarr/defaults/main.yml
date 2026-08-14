@@ -38,7 +38,7 @@ recyclarr_role_docker_container: "{{ recyclarr_name }}"
 # Image
 recyclarr_role_docker_image_pull: true
 recyclarr_role_docker_image_repo: "ghcr.io/recyclarr/recyclarr"
-recyclarr_role_docker_image_tag: "latest"
+recyclarr_role_docker_image_tag: "8"
 recyclarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='recyclarr') }}:{{ lookup('role_var', '_docker_image_tag', role='recyclarr') }}"
 
 # Envs
