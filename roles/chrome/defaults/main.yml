@@ -31,8 +31,8 @@ chrome_role_docker_container: "{{ chrome_name }}"
 
 # Image
 chrome_role_docker_image_pull: true
-chrome_role_docker_image_repo: "gcr.io/zenika-hub/alpine-chrome"
-chrome_role_docker_image_tag: "124"
+chrome_role_docker_image_repo: "zenika/alpine-chrome"
+chrome_role_docker_image_tag: "latest"
 chrome_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='chrome') }}:{{ lookup('role_var', '_docker_image_tag', role='chrome') }}"
 
 # Envs
