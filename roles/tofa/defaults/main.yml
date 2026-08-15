@@ -1,0 +1,118 @@
+##########################################################################
+# Title:            Sandbox: tofa   | Default Variables                  #
+# Author(s):        gylli251                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+tofa_name: tofa
+
+################################
+# Paths
+################################
+
+tofa_role_paths_folder: "{{ tofa_name }}"
+tofa_role_paths_location: "{{ server_appdata_path }}/{{ tofa_role_paths_folder }}"
+tofa_role_paths_transcodes_location: "{{ transcodes_path }}/{{ tofa_role_paths_folder }}"
+tofa_role_paths_folders_list:
+  - "{{ tofa_role_paths_location }}"
+  - "{{ tofa_role_paths_transcodes_location }}"
+
+################################
+# Web
+################################
+
+tofa_role_web_subdomain: "{{ tofa_name }}"
+tofa_role_web_domain: "{{ user.domain }}"
+tofa_role_web_port: "33333"
+tofa_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='tofa') + '.' + lookup('role_var', '_web_domain', role='tofa')
+                            if (lookup('role_var', '_web_subdomain', role='tofa') | length > 0)
+                            else lookup('role_var', '_web_domain', role='tofa') }}"
+
+################################
+# DNS
+################################
+
+tofa_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='tofa') }}"
+tofa_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='tofa') }}"
+tofa_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+tofa_role_traefik_sso_middleware: ""
+tofa_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+tofa_role_traefik_middleware_custom: ""
+tofa_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tofa_role_traefik_enabled: true
+tofa_role_traefik_api_enabled: false
+tofa_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+tofa_role_docker_container: "{{ tofa_name }}"
+
+# Image
+tofa_role_docker_image_pull: true
+tofa_role_docker_image_repo: "ghcr.io/tofatv/tofa"
+tofa_role_docker_image_tag: "beta"
+tofa_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tofa') }}:{{ lookup('role_var', '_docker_image_tag', role='tofa') }}"
+
+# Envs
+# The container starts as root and drops to PUID:PGID itself, so appdata stays
+# owned by the Saltbox user rather than the image's baked-in uid.
+tofa_role_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  MEDIA_PATH: /mnt/unionfs/Media
+  TZ: "{{ tz }}"
+tofa_role_docker_envs_custom: {}
+tofa_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tofa')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='tofa')) }}"
+
+# Volumes
+# Media is reached through the global /mnt:/mnt:rslave mount (so unionfs
+# remounts propagate), which is why MEDIA_PATH above is a host path.
+# The transcode cache lives at <data>/cache/streams; binding it there is what
+# keeps segment churn on transcodes_path instead of the appdata disk.
+tofa_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='tofa') }}:/data"
+  - "{{ lookup('role_var', '_paths_transcodes_location', role='tofa') }}:/data/cache/streams"
+tofa_role_docker_volumes_custom: []
+tofa_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tofa')
+                              + lookup('role_var', '_docker_volumes_custom', role='tofa') }}"
+
+# Mounts
+tofa_role_docker_mounts_default:
+  - target: /tmp
+    type: tmpfs
+tofa_role_docker_mounts_custom: []
+tofa_role_docker_mounts: "{{ lookup('role_var', '_docker_mounts_default', role='tofa')
+                             + lookup('role_var', '_docker_mounts_custom', role='tofa') }}"
+
+# Hostname
+tofa_role_docker_hostname: "{{ tofa_name }}"
+
+# Init
+tofa_role_docker_init: true
+
+# Networks
+tofa_role_docker_networks_alias: "{{ tofa_name }}"
+tofa_role_docker_networks_default: []
+tofa_role_docker_networks_custom: []
+tofa_role_docker_networks: "{{ docker_networks_common
+                               + lookup('role_var', '_docker_networks_default', role='tofa')
+                               + lookup('role_var', '_docker_networks_custom', role='tofa') }}"
+
+# Restart Policy
+tofa_role_docker_restart_policy: unless-stopped

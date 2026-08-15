@@ -161,6 +161,7 @@
     - { role: thelounge, tags: ['thelounge'] }
     - { role: threadfin, tags: ['threadfin'] }
     - { role: tika, tags: ['tika'] }
+    - { role: tofa, tags: ['tofa'] }
     - { role: tqm, tags: ['tqm'] }
     - { role: traccar, tags: ['traccar'] }
     - { role: traefik_robotstxt, tags: ['traefik-robotstxt'] }
