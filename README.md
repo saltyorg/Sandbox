@@ -30,7 +30,7 @@ Need guidance on building a role? Feel free to join our Discord's _#development_
 
 ### Requesting a new app
 
-If you'd like to see a new app added, open an App Request issue in this repository. Check the software against the Contributing criteria above first—a PR for a role that doesn't meet them will be rejected, so it's worth confirming before requesting.
+If you'd like to see a new app added, open an App Request issue in this repository. Check the software against the Contributing criteria above first—a PR for a role that doesn't meet them may be rejected, so it's worth confirming before requesting.
 
 Before opening a new issue, search existing ones to see if the app has already been requested. This repo auto-marks issues stale after 30 days of inactivity and closes them 5 days later. If a matching request exists, even one closed by the stale-bot, comment on it to revive it instead of opening a duplicate.
 
