@@ -1,0 +1,151 @@
+#########################################################################
+# Title:            Sandbox: Calibre-Web-NextGen | Default Variables   #
+# Author(s):        balogan                                             #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+################################
+# Basics
+################################
+
+calibre_web_nextgen_name: calibre-web-nextgen
+
+################################
+# Settings
+################################
+
+# Name of a subdirectory to be created in /mnt/unionfs/Media/
+# Opt out with a falsy value (e.g. "")
+calibre_web_nextgen_role_media_subfolder: "Books"
+
+# Name of the ingest ("drop zone") subdirectory - files placed here are
+# auto-converted, repaired, metadata-matched, and imported, then deleted.
+# Lives under the role's own appdata folder (not the downloads root) since
+# it's meant to be fed directly by this app and by companion apps such as
+# Shelfmark, not by a download client.
+calibre_web_nextgen_role_ingest_subfolder: "ingest"
+
+################################
+# A note on metadata.db and cloudplow
+################################
+#
+# calibre-web-nextgen keeps its library database, metadata.db, inside the
+# library folder itself, alongside the books - and writes to it in place,
+# which makes SQLite create metadata.db-wal / metadata.db-shm sidecar files
+# next to it the first time it's opened read/write. If your media library
+# sits on a cloud-tiered mount managed by cloudplow, its default excludes
+# only ever cover "*.db" itself, never these sidecars - so cloudplow's
+# periodic upload sweep can strand them on the cloud remote and every
+# subsequent write to the library will fail with "disk I/O error". If that
+# applies to you, add "*.db-wal", "*.db-shm", and "*.db-journal" to the
+# relevant remote's rclone_excludes in cloudplow's config. Note this edit
+# doesn't survive a cloudplow reinstall - Saltbox core generates cloudplow's
+# config from a template with the exclude list hardcoded, with no
+# settings-file variable exposed to extend it.
+#
+# (A local-only bind mount for metadata.db was investigated as a way to make
+# this role immune to the above regardless of cloudplow's config - it isn't
+# used here. calibre-web-nextgen's own locking model, and the fact that book
+# ingest shells out to the actual `calibredb` binary rather than writing
+# through this app's own code, both assume metadata.db lives at one single,
+# directly-accessible path. Splitting that path across a bind-mount shadow
+# fought those assumptions in ways that showed up as real, hard-to-predict
+# failures in testing, so it isn't worth it here - the cloudplow-level fix
+# above is the actual answer.)
+
+################################
+# Paths
+################################
+
+calibre_web_nextgen_role_paths_folder: "{{ calibre_web_nextgen_name }}"
+calibre_web_nextgen_role_paths_location: "{{ server_appdata_path }}/{{ calibre_web_nextgen_role_paths_folder }}"
+calibre_web_nextgen_role_paths_media_location: "/mnt/unionfs/Media/{{ calibre_web_nextgen_role_media_subfolder }}"
+calibre_web_nextgen_role_paths_ingest_location: "{{ calibre_web_nextgen_role_paths_location }}/{{ calibre_web_nextgen_role_ingest_subfolder }}"
+calibre_web_nextgen_role_paths_folders_list:
+  - "{{ calibre_web_nextgen_role_paths_location }}/config"
+  - "{{ calibre_web_nextgen_role_paths_ingest_location }}"
+
+################################
+# Web
+################################
+
+calibre_web_nextgen_role_web_subdomain: "{{ calibre_web_nextgen_name }}"
+calibre_web_nextgen_role_web_domain: "{{ user.domain }}"
+calibre_web_nextgen_role_web_port: "8083"
+calibre_web_nextgen_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='calibre_web_nextgen') + '.' + lookup('role_var', '_web_domain', role='calibre_web_nextgen')
+                                           if (lookup('role_var', '_web_subdomain', role='calibre_web_nextgen') | length > 0)
+                                           else lookup('role_var', '_web_domain', role='calibre_web_nextgen') }}"
+
+################################
+# DNS
+################################
+
+calibre_web_nextgen_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='calibre_web_nextgen') }}"
+calibre_web_nextgen_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='calibre_web_nextgen') }}"
+calibre_web_nextgen_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+calibre_web_nextgen_role_traefik_sso_middleware: ""
+calibre_web_nextgen_role_traefik_middleware_default: "{{ traefik_default_middleware }},calibre-web-nextgen-kobo-sync-headers"
+calibre_web_nextgen_role_traefik_middleware_custom: ""
+calibre_web_nextgen_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+calibre_web_nextgen_role_traefik_enabled: true
+
+################################
+# Docker
+################################
+
+# Container
+calibre_web_nextgen_role_docker_container: "{{ calibre_web_nextgen_name }}"
+
+# Image
+calibre_web_nextgen_role_docker_image_pull: true
+calibre_web_nextgen_role_docker_image_repo: "ghcr.io/new-usemame/calibre-web-nextgen"
+calibre_web_nextgen_role_docker_image_tag: "latest"
+calibre_web_nextgen_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='calibre_web_nextgen') }}:{{ lookup('role_var', '_docker_image_tag', role='calibre_web_nextgen') }}"
+
+# Envs
+calibre_web_nextgen_role_docker_envs_default:
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  TZ: "{{ tz }}"
+  NETWORK_SHARE_MODE: "false"
+calibre_web_nextgen_role_docker_envs_custom: {}
+calibre_web_nextgen_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='calibre_web_nextgen')
+                                          | combine(lookup('role_var', '_docker_envs_custom', role='calibre_web_nextgen')) }}"
+
+# Volumes
+calibre_web_nextgen_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='calibre_web_nextgen') }}/config:/config"
+  - "{{ lookup('role_var', '_paths_media_location', role='calibre_web_nextgen') }}:/calibre-library"
+  - "{{ lookup('role_var', '_paths_ingest_location', role='calibre_web_nextgen') }}:/cwa-book-ingest"
+calibre_web_nextgen_role_docker_volumes_custom: []
+calibre_web_nextgen_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='calibre_web_nextgen')
+                                             + lookup('role_var', '_docker_volumes_custom', role='calibre_web_nextgen') }}"
+
+# Labels
+calibre_web_nextgen_role_docker_labels_default:
+  traefik.http.middlewares.calibre-web-nextgen-kobo-sync-headers.headers.customrequestheaders.X-Scheme: "https"
+calibre_web_nextgen_role_docker_labels_custom: {}
+calibre_web_nextgen_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='calibre_web_nextgen')
+                                            | combine(lookup('role_var', '_docker_labels_custom', role='calibre_web_nextgen')) }}"
+
+# Hostname
+calibre_web_nextgen_role_docker_hostname: "{{ calibre_web_nextgen_name }}"
+
+# Networks
+calibre_web_nextgen_role_docker_networks_alias: "{{ calibre_web_nextgen_name }}"
+calibre_web_nextgen_role_docker_networks_default: []
+calibre_web_nextgen_role_docker_networks_custom: []
+calibre_web_nextgen_role_docker_networks: "{{ docker_networks_common
+                                              + lookup('role_var', '_docker_networks_default', role='calibre_web_nextgen')
+                                              + lookup('role_var', '_docker_networks_custom', role='calibre_web_nextgen') }}"
+
+# Restart Policy
+calibre_web_nextgen_role_docker_restart_policy: unless-stopped

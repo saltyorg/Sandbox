@@ -27,6 +27,7 @@
     - { role: bookstack, tags: ['bookstack'] }
     - { role: calibre, tags: ['calibre'] }
     - { role: calibre_web, tags: ['calibre-web'] }
+    - { role: calibre_web_nextgen, tags: ['calibre-web-nextgen'] }
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
     - { role: cleanuparr, tags: ['cleanuparr'] }
