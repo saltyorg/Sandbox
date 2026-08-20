@@ -25,28 +25,22 @@ calibre_web_nextgen_role_media_subfolder: "Books"
 # Will be placed in the downloads root: usually /mnt/unionfs/downloads/
 calibre_web_nextgen_role_ingest_subfolder: "ingest"
 
-# Hardcover.app API token, used for the Hardcover metadata provider.
-# Get one at https://docs.hardcover.app/api/getting-started/
+# Hardcover.app API token for the Hardcover metadata provider
 calibre_web_nextgen_role_hardcover_token: ""
 
-# Disables WAL mode and switches file watching to polling, for library
-# locations on a network share (NFS/SMB) or another mount with weak file
-# locking. Accepts: true/false
-calibre_web_nextgen_role_network_share_mode: false
-
-# Number of reverse proxies in front of this app, for correct client IP
-# detection (rate limiting, session protection). Accepts: an integer
-calibre_web_nextgen_role_trusted_proxy_count: 1
-
-# ComicVine API key, used for the ComicVine metadata provider. Optional -
-# ComicVine works without one on a shared key, which can hit the rate limit.
-# Get one at https://comicvine.gamespot.com/api/
+# ComicVine API key for the ComicVine metadata provider
 calibre_web_nextgen_role_comicvine_api_key: ""
 
-# Loads user-supplied Calibre plugins (e.g. DeDRM, ACSM Input) from the
-# config volume at startup. Off by default because it runs third-party
-# plugin code inside the container. Accepts: true/false
+# Toggle network share mode, for libraries on NFS/SMB mounts
+# Accepts: true/false
+calibre_web_nextgen_role_network_share_mode: false
+
+# Toggle loading of user-supplied Calibre plugins from the config volume
+# Accepts: true/false
 calibre_web_nextgen_role_calibre_user_plugins: false
+
+# Number of reverse proxies in front of the app
+calibre_web_nextgen_role_trusted_proxy_count: 1
 
 ################################
 # Paths
@@ -90,10 +84,6 @@ calibre_web_nextgen_role_traefik_middleware_custom: ""
 calibre_web_nextgen_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 calibre_web_nextgen_role_traefik_enabled: true
 calibre_web_nextgen_role_traefik_api_enabled: true
-# Device/API sync endpoints, exempted from SSO: OPDS readers, Kobo e-readers
-# and KOReader can't complete an interactive Authelia login. They authenticate
-# to the app itself (basic auth / per-user sync token), so the UI stays behind
-# SSO while these keep working.
 calibre_web_nextgen_role_traefik_api_endpoint: "PathPrefix(`/opds`) || PathPrefix(`/kobo`) || PathPrefix(`/kobo_auth`)
                                                 || PathPrefix(`/api/v3`) || PathPrefix(`/api/UserStorage`) || PathPrefix(`/kosync`)"
 calibre_web_nextgen_role_traefik_api_middleware: "{{ traefik_default_middleware_api }},calibre-web-nextgen-kobo-sync-headers"
@@ -116,11 +106,15 @@ calibre_web_nextgen_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  HARDCOVER_TOKEN: "{{ lookup('role_var', '_hardcover_token', role='calibre_web_nextgen') }}"
   NETWORK_SHARE_MODE: "{{ lookup('role_var', '_network_share_mode', role='calibre_web_nextgen') | string | lower }}"
   TRUSTED_PROXY_COUNT: "{{ lookup('role_var', '_trusted_proxy_count', role='calibre_web_nextgen') }}"
-  COMICVINE_API_KEY: "{{ lookup('role_var', '_comicvine_api_key', role='calibre_web_nextgen') }}"
   CWA_CALIBRE_USER_PLUGINS: "{{ lookup('role_var', '_calibre_user_plugins', role='calibre_web_nextgen') | string | lower }}"
+  HARDCOVER_TOKEN: "{{ lookup('role_var', '_hardcover_token', role='calibre_web_nextgen')
+                    if (lookup('role_var', '_hardcover_token', role='calibre_web_nextgen') | length > 0)
+                    else omit }}"
+  COMICVINE_API_KEY: "{{ lookup('role_var', '_comicvine_api_key', role='calibre_web_nextgen')
+                      if (lookup('role_var', '_comicvine_api_key', role='calibre_web_nextgen') | length > 0)
+                      else omit }}"
 calibre_web_nextgen_role_docker_envs_custom: {}
 calibre_web_nextgen_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='calibre_web_nextgen')
                                           | combine(lookup('role_var', '_docker_envs_custom', role='calibre_web_nextgen')) }}"
