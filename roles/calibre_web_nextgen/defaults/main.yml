@@ -40,7 +40,7 @@ calibre_web_nextgen_role_network_share_mode: false
 calibre_web_nextgen_role_calibre_user_plugins: false
 
 # Number of reverse proxies in front of the app
-calibre_web_nextgen_role_trusted_proxy_count: 1
+calibre_web_nextgen_role_trusted_proxy_count: "1"
 
 ################################
 # Paths
