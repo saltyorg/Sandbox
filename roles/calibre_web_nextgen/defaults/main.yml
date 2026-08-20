@@ -84,11 +84,19 @@ calibre_web_nextgen_role_dns_proxy: "{{ dns_proxied }}"
 # Traefik
 ################################
 
-calibre_web_nextgen_role_traefik_sso_middleware: ""
+calibre_web_nextgen_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 calibre_web_nextgen_role_traefik_middleware_default: "{{ traefik_default_middleware }},calibre-web-nextgen-kobo-sync-headers"
 calibre_web_nextgen_role_traefik_middleware_custom: ""
 calibre_web_nextgen_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 calibre_web_nextgen_role_traefik_enabled: true
+calibre_web_nextgen_role_traefik_api_enabled: true
+# Device/API sync endpoints, exempted from SSO: OPDS readers, Kobo e-readers
+# and KOReader can't complete an interactive Authelia login. They authenticate
+# to the app itself (basic auth / per-user sync token), so the UI stays behind
+# SSO while these keep working.
+calibre_web_nextgen_role_traefik_api_endpoint: "PathPrefix(`/opds`) || PathPrefix(`/kobo`) || PathPrefix(`/kobo_auth`)
+                                                || PathPrefix(`/api/v3`) || PathPrefix(`/api/UserStorage`) || PathPrefix(`/kosync`)"
+calibre_web_nextgen_role_traefik_api_middleware: "{{ traefik_default_middleware_api }},calibre-web-nextgen-kobo-sync-headers"
 
 ################################
 # Docker
