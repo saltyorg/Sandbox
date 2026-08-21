@@ -30,6 +30,9 @@ tdarr_node_external: false
 # Container
 tdarr_node_role_docker_container: "{{ tdarr_node_name }}"
 
+# GPU
+tdarr_node_role_docker_gpu_enabled: true
+
 # Image
 tdarr_node_role_docker_image_pull: true
 tdarr_node_role_docker_image_repo: "haveagitgat/tdarr_node"

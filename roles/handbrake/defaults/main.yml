@@ -68,6 +68,9 @@ handbrake_role_traefik_api_endpoint: ""
 # Container
 handbrake_role_docker_container: "{{ handbrake_name }}"
 
+# GPU
+handbrake_role_docker_gpu_enabled: true
+
 # Image
 handbrake_role_docker_image_pull: true
 handbrake_role_docker_image_repo: "jlesage/handbrake"

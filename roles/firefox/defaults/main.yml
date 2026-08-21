@@ -69,6 +69,9 @@ firefox_role_traefik_api_endpoint: ""
 # Container
 firefox_role_docker_container: "{{ firefox_name }}"
 
+# GPU
+firefox_role_docker_gpu_enabled: true
+
 # Image
 firefox_role_docker_image_pull: true
 firefox_role_docker_image_repo: "jlesage/firefox"

@@ -62,6 +62,9 @@ unmanic_role_traefik_api_endpoint: ""
 # Container
 unmanic_role_docker_container: "{{ unmanic_name }}"
 
+# GPU
+unmanic_role_docker_gpu_enabled: true
+
 # Image
 unmanic_role_docker_image_pull: true
 unmanic_role_docker_image_repo: "josh5/unmanic"
