@@ -75,6 +75,9 @@ tdarr_role_traefik_api_endpoint: ""
 # Container
 tdarr_role_docker_container: "{{ tdarr_name }}"
 
+# GPU
+tdarr_role_docker_gpu_enabled: true
+
 # Image
 tdarr_role_docker_image_pull: true
 tdarr_role_docker_image_repo: "haveagitgat/tdarr"

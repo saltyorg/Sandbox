@@ -65,6 +65,9 @@ stash_role_traefik_api_endpoint: ""
 # Container
 stash_role_docker_container: "{{ stash_name }}"
 
+# GPU
+stash_role_docker_gpu_enabled: true
+
 # Image
 stash_role_docker_image_pull: true
 stash_role_docker_image_repo: "ghcr.io/hotio/stash"

@@ -143,6 +143,9 @@ silo_role_traefik_gzip_enabled: false
 # Container
 silo_role_docker_container: "{{ silo_name }}"
 
+# GPU
+silo_role_docker_gpu_enabled: true
+
 # Image
 silo_role_docker_image_pull: true
 silo_role_docker_image_repo: "ghcr.io/silo-server/silo-server"
@@ -233,11 +236,6 @@ silo_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 silo_role_docker_restart_policy: unless-stopped
-
-# Groups
-silo_role_docker_groups:
-  - "{{ vgid }}"
-  - "{{ rgid }}"
 
 # User
 silo_role_docker_user: "{{ uid }}:{{ gid }}"

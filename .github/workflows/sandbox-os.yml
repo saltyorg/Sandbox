@@ -80,17 +80,19 @@ jobs:
       - uses: actions/checkout@v7
       - id: set-matrix
         run: |
-          ROLES=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | awk -F',' '{ for( i=1; i<=NF; i++ ) print $i }' | awk '{ gsub(/ /,""); print }'| sort -u | awk -vORS=, '{ print $1 }' | sed 's/,$/\n/')
-          echo "matrix={\"roles\":[$ROLES],\"os\":[\"22.04\",\"24.04\"]}" >> $GITHUB_OUTPUT
+          ROLES=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | awk -F',' '{ for( i=1; i<=NF; i++ ) print $i }' | awk '{ gsub(/ /,""); print }'| sort -u | awk -vORS=, '{ print $1 }' | sed 's/,$/\n/' | tr "'" '"')
+          echo "matrix={\"roles\":[$ROLES]}" >> $GITHUB_OUTPUT
 
-  install:
-    name: '${{ matrix.roles }}-${{ matrix.os }}'
-    runs-on: ubuntu-${{ matrix.os }}
+  # Keep one matrix per OS: crossing all roles with both releases exceeds
+  # GitHub Actions' 256-job limit for a single matrix.
+  install-24:
+    name: '${{ matrix.roles }}-24.04'
+    runs-on: ubuntu-24.04
     needs: [ansible-lint, defaults-lint, find-roles]
-    strategy:
+    strategy: &install-strategy
       matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
       fail-fast: false
-    steps:
+    steps: &install-steps
       - uses: actions/checkout@v7
 
       - name: Install sb binary
@@ -211,3 +213,10 @@ jobs:
             docker logs --timestamps "$container_id" 2>&1 || true
             echo "::endgroup::"
           done
+
+  install-26:
+    name: '${{ matrix.roles }}-26.04'
+    runs-on: ubuntu-26.04
+    needs: [ansible-lint, defaults-lint, find-roles]
+    strategy: *install-strategy
+    steps: *install-steps

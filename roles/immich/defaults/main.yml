@@ -93,6 +93,9 @@ immich_role_traefik_api_endpoint: ""
 # Container
 immich_role_docker_container: "{{ immich_name }}"
 
+# GPU
+immich_role_docker_gpu_enabled: true
+
 # Image
 immich_role_docker_image_pull: true
 immich_role_docker_image_repo: "ghcr.io/imagegenius/immich"

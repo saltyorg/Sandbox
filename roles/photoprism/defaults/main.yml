@@ -63,6 +63,9 @@ photoprism_role_traefik_api_endpoint: ""
 # Container
 photoprism_role_docker_container: "{{ photoprism_name }}"
 
+# GPU
+photoprism_role_docker_gpu_enabled: true
+
 # Image
 photoprism_role_docker_image_pull: true
 photoprism_role_docker_image_tag: "latest"

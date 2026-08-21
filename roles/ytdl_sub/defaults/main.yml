@@ -74,6 +74,9 @@ ytdl_sub_role_traefik_api_endpoint: ""
 # Container
 ytdl_sub_role_docker_container: "{{ ytdl_sub_name }}"
 
+# GPU
+ytdl_sub_role_docker_gpu_enabled: true
+
 # Image
 ytdl_sub_role_docker_image_pull: true
 ytdl_sub_role_docker_image_repo: "{{ 'ghcr.io/jmbannon/ytdl-sub-gui' if lookup('role_var', '_image_type', role='ytdl_sub') == 'gui' else 'ghcr.io/jmbannon/ytdl-sub' }}"
