@@ -48,11 +48,11 @@ calibre_web_nextgen_role_trusted_proxy_count: "1"
 
 calibre_web_nextgen_role_paths_folder: "{{ calibre_web_nextgen_name }}"
 calibre_web_nextgen_role_paths_location: "{{ server_appdata_path }}/{{ calibre_web_nextgen_role_paths_folder }}"
-calibre_web_nextgen_role_paths_media_location: "/mnt/unionfs/Media/{{ calibre_web_nextgen_role_media_subfolder }}"
+calibre_web_nextgen_role_paths_media_location: "{{ server_local_folder_path }}/Media/{{ calibre_web_nextgen_role_media_subfolder }}"
 calibre_web_nextgen_role_paths_ingest_location: "{{ downloads_root_path }}/{{ calibre_web_nextgen_role_ingest_subfolder }}"
 calibre_web_nextgen_role_paths_folders_list:
   - "{{ calibre_web_nextgen_role_paths_location }}"
-  - "{{ server_local_folder_path }}/Media/{{ calibre_web_nextgen_role_media_subfolder }}"
+  - "{{ calibre_web_nextgen_role_paths_media_location }}"
   - "{{ calibre_web_nextgen_role_paths_ingest_location }}"
 
 ################################
