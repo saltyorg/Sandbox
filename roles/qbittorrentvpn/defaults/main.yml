@@ -68,6 +68,8 @@ qbittorrentvpn_role_dns_proxy: "{{ dns_proxied }}"
 qbittorrentvpn_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 qbittorrentvpn_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 qbittorrentvpn_role_traefik_middleware_custom: ""
+qbittorrentvpn_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+qbittorrentvpn_role_traefik_middleware_custom_api: ""
 qbittorrentvpn_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 qbittorrentvpn_role_traefik_enabled: true
 qbittorrentvpn_role_traefik_api_enabled: true

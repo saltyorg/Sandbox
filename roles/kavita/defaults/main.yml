@@ -48,6 +48,8 @@ kavita_role_dns_proxy: "{{ dns_proxied }}"
 kavita_role_traefik_sso_middleware: ""
 kavita_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 kavita_role_traefik_middleware_custom: ""
+kavita_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+kavita_role_traefik_middleware_custom_api: ""
 kavita_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 kavita_role_traefik_enabled: true
 kavita_role_traefik_api_enabled: false

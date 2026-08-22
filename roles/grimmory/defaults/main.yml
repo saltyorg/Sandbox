@@ -70,8 +70,12 @@ grimmory_role_dns_proxy: "{{ dns.proxied }}"
 grimmory_role_traefik_sso_middleware: ""
 grimmory_role_traefik_middleware_default: "{{ traefik_default_middleware }},grimmory-kobo-sync-headers"
 grimmory_role_traefik_middleware_custom: ""
+grimmory_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+grimmory_role_traefik_middleware_custom_api: ""
 grimmory_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 grimmory_role_traefik_enabled: true
+grimmory_role_traefik_api_enabled: false
+grimmory_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

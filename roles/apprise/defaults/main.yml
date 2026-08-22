@@ -48,8 +48,12 @@ apprise_role_dns_proxy: "{{ dns_proxied }}"
 apprise_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 apprise_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 apprise_role_traefik_middleware_custom: ""
+apprise_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+apprise_role_traefik_middleware_custom_api: ""
 apprise_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 apprise_role_traefik_enabled: true
+apprise_role_traefik_api_enabled: false
+apprise_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

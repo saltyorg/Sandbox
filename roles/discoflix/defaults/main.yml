@@ -47,6 +47,8 @@ discoflix_role_dns_proxy: "{{ dns_proxied }}"
 
 discoflix_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 discoflix_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+discoflix_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+discoflix_role_traefik_middleware_custom_api: ""
 discoflix_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 discoflix_role_traefik_enabled: true
 discoflix_role_traefik_api_enabled: false

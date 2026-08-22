@@ -54,8 +54,12 @@ minecraft_role_dns_proxy: false
 minecraft_role_traefik_sso_middleware: ""
 minecraft_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 minecraft_role_traefik_middleware_custom: ""
+minecraft_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+minecraft_role_traefik_middleware_custom_api: ""
 minecraft_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 minecraft_role_traefik_enabled: "{{ lookup('role_var', '_dynmap_router_enabled', role='minecraft') }}"
+minecraft_role_traefik_api_enabled: false
+minecraft_role_traefik_api_endpoint: ""
 
 ################################
 # Ports

@@ -55,6 +55,8 @@ openobserve_role_dns_proxy: "{{ dns_proxied }}"
 openobserve_role_traefik_sso_middleware: ""
 openobserve_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 openobserve_role_traefik_middleware_custom: ""
+openobserve_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+openobserve_role_traefik_middleware_custom_api: ""
 openobserve_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 openobserve_role_traefik_enabled: true
 openobserve_role_traefik_api_enabled: false

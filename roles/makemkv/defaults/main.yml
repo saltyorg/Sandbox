@@ -49,6 +49,8 @@ makemkv_role_dns_proxy: "{{ dns_proxied }}"
 makemkv_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 makemkv_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 makemkv_role_traefik_middleware_custom: ""
+makemkv_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+makemkv_role_traefik_middleware_custom_api: ""
 makemkv_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 makemkv_role_traefik_enabled: true
 makemkv_role_traefik_api_enabled: false

@@ -56,6 +56,8 @@ xbackbone_role_dns_proxy: "{{ dns_proxied }}"
 xbackbone_role_traefik_sso_middleware: ""
 xbackbone_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 xbackbone_role_traefik_middleware_custom: ""
+xbackbone_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+xbackbone_role_traefik_middleware_custom_api: ""
 xbackbone_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 xbackbone_role_traefik_enabled: true
 xbackbone_role_traefik_api_enabled: false

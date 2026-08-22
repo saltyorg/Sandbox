@@ -57,6 +57,8 @@ uptime_kuma_role_dns_proxy: "{{ dns_proxied }}"
 uptime_kuma_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 uptime_kuma_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 uptime_kuma_role_traefik_middleware_custom: ""
+uptime_kuma_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+uptime_kuma_role_traefik_middleware_custom_api: ""
 uptime_kuma_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 uptime_kuma_role_traefik_enabled: true
 uptime_kuma_role_traefik_api_enabled: true

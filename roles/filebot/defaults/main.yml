@@ -49,6 +49,8 @@ filebot_role_dns_proxy: "{{ dns_proxied }}"
 filebot_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 filebot_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 filebot_role_traefik_middleware_custom: ""
+filebot_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+filebot_role_traefik_middleware_custom_api: ""
 filebot_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 filebot_role_traefik_enabled: true
 filebot_role_traefik_api_enabled: true

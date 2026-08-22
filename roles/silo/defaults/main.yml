@@ -130,6 +130,8 @@ silo_role_abs_dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='silo') }}"
 silo_role_traefik_sso_middleware: ""
 silo_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 silo_role_traefik_middleware_custom: ""
+silo_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+silo_role_traefik_middleware_custom_api: ""
 silo_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 silo_role_traefik_enabled: true
 silo_role_traefik_api_enabled: false

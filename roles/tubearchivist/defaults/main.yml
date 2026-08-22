@@ -58,6 +58,8 @@ tubearchivist_role_dns_proxy: "{{ dns_proxied }}"
 tubearchivist_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 tubearchivist_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 tubearchivist_role_traefik_middleware_custom: ""
+tubearchivist_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+tubearchivist_role_traefik_middleware_custom_api: ""
 tubearchivist_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 tubearchivist_role_traefik_enabled: true
 tubearchivist_role_traefik_api_enabled: true

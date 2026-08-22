@@ -48,6 +48,8 @@ requestrr_role_dns_proxy: "{{ dns_proxied }}"
 requestrr_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 requestrr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 requestrr_role_traefik_middleware_custom: ""
+requestrr_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+requestrr_role_traefik_middleware_custom_api: ""
 requestrr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 requestrr_role_traefik_enabled: true
 requestrr_role_traefik_api_enabled: false

@@ -48,6 +48,8 @@ pyload_role_dns_proxy: "{{ dns_proxied }}"
 pyload_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 pyload_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 pyload_role_traefik_middleware_custom: ""
+pyload_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+pyload_role_traefik_middleware_custom_api: ""
 pyload_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 pyload_role_traefik_enabled: true
 pyload_role_traefik_api_enabled: false

@@ -71,6 +71,8 @@ qbit_manage_role_dns_proxy: "{{ dns_proxied }}"
 qbit_manage_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 qbit_manage_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 qbit_manage_role_traefik_middleware_custom: ""
+qbit_manage_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+qbit_manage_role_traefik_middleware_custom_api: ""
 qbit_manage_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 qbit_manage_role_traefik_enabled: true
 qbit_manage_role_traefik_api_enabled: true

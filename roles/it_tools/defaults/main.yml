@@ -39,6 +39,8 @@ it_tools_role_dns_proxy: "{{ dns_proxied }}"
 it_tools_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 it_tools_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 it_tools_role_traefik_middleware_custom: ""
+it_tools_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+it_tools_role_traefik_middleware_custom_api: ""
 it_tools_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 it_tools_role_traefik_enabled: true
 it_tools_role_traefik_api_enabled: false

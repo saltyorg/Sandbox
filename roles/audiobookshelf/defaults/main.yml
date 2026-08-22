@@ -53,8 +53,12 @@ audiobookshelf_role_dns_proxy: "{{ dns_proxied }}"
 audiobookshelf_role_traefik_sso_middleware: ""
 audiobookshelf_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 audiobookshelf_role_traefik_middleware_custom: ""
+audiobookshelf_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+audiobookshelf_role_traefik_middleware_custom_api: ""
 audiobookshelf_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 audiobookshelf_role_traefik_enabled: true
+audiobookshelf_role_traefik_api_enabled: false
+audiobookshelf_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

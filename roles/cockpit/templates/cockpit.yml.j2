@@ -17,6 +17,28 @@ http:
       tls:
         options: securetls@file
         certResolver: {{ lookup('role_var', '_traefik_certresolver', role='cockpit') }}
+{% if lookup('role_var', '_traefik_api_enabled', role='cockpit') %}
+    {{ cockpit_name }}-api-http:
+      entryPoints:
+        - "web"
+      rule: "{{ traefik_host_template }} && ({{ lookup('role_var', '_traefik_api_endpoint', role='cockpit') }})"
+      middlewares:
+        {{ traefik_default_middleware_http_api.split(',') | to_nice_yaml | trim | indent(8) }}
+      priority: 30
+      service: "{{ cockpit_name }}"
+
+    {{ cockpit_name }}-api:
+      entryPoints:
+        - "websecure"
+      rule: "{{ traefik_host_template }} && ({{ lookup('role_var', '_traefik_api_endpoint', role='cockpit') }})"
+      middlewares:
+        {{ traefik_middleware_api.split(',') | to_nice_yaml | trim | indent(8) }}
+      priority: 30
+      service: "{{ cockpit_name }}"
+      tls:
+        options: securetls@file
+        certResolver: {{ lookup('role_var', '_traefik_certresolver', role='cockpit') }}
+{% endif %}
 
   services:
     {{ cockpit_name }}:

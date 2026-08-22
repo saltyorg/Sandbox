@@ -59,8 +59,12 @@ calibre_role_dns2_proxy: "{{ dns_proxied }}"
 calibre_role_traefik_sso_middleware: ""
 calibre_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 calibre_role_traefik_middleware_custom: ""
+calibre_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+calibre_role_traefik_middleware_custom_api: ""
 calibre_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 calibre_role_traefik_enabled: true
+calibre_role_traefik_api_enabled: false
+calibre_role_traefik_api_endpoint: ""
 calibre_role_books_traefik_sso_middleware: ""
 calibre_role_books_traefik_middleware_default: "{{ traefik_default_middleware
                                                    + (',' + lookup('role_var', '_books_traefik_sso_middleware', role='calibre')

@@ -56,7 +56,8 @@ krusader_role_dns_proxy: "{{ dns_proxied }}"
 
 krusader_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 krusader_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
-krusader_role_traefik_middleware_api: "{{ traefik_global_middleware }}"
+krusader_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+krusader_role_traefik_middleware_custom_api: ""
 krusader_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 krusader_role_traefik_enabled: true
 krusader_role_traefik_api_enabled: false

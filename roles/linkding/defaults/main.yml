@@ -48,12 +48,13 @@ linkding_role_dns_proxy: "{{ dns_proxied }}"
 linkding_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 linkding_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 linkding_role_traefik_middleware_custom: ""
+linkding_role_traefik_middleware_default_api: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_api }}"
+linkding_role_traefik_middleware_custom_api: ""
 linkding_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 linkding_role_traefik_enabled: true
 linkding_role_traefik_api_enabled: true
 linkding_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 linkding_role_traefik_api_middleware_http: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_http_api }}"
-linkding_role_traefik_api_middleware: "{{ 'dropsecurityheaders@file,' + traefik_default_middleware_api }}"
 
 ################################
 # Docker

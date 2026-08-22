@@ -73,6 +73,8 @@ joplin_role_dns_proxy: "{{ dns_proxied }}"
 joplin_role_traefik_sso_middleware: ""
 joplin_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 joplin_role_traefik_middleware_custom: ""
+joplin_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+joplin_role_traefik_middleware_custom_api: ""
 joplin_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 joplin_role_traefik_enabled: true
 joplin_role_traefik_api_enabled: false

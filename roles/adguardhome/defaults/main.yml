@@ -53,6 +53,8 @@ adguardhome_role_dns_proxy: "{{ dns_proxied }}"
 adguardhome_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 adguardhome_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 adguardhome_role_traefik_middleware_custom: ""
+adguardhome_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+adguardhome_role_traefik_middleware_custom_api: ""
 adguardhome_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 adguardhome_role_traefik_enabled: true
 adguardhome_role_traefik_api_enabled: true

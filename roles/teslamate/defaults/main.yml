@@ -74,6 +74,8 @@ teslamate_role_dns_proxy: "{{ dns_proxied }}"
 teslamate_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 teslamate_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 teslamate_role_traefik_middleware_custom: ""
+teslamate_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+teslamate_role_traefik_middleware_custom_api: ""
 teslamate_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 teslamate_role_traefik_enabled: true
 teslamate_role_traefik_api_enabled: false

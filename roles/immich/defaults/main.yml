@@ -81,6 +81,8 @@ immich_role_dns_proxy: "{{ dns_proxied }}"
 immich_role_traefik_sso_middleware: ""
 immich_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 immich_role_traefik_middleware_custom: ""
+immich_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+immich_role_traefik_middleware_custom_api: ""
 immich_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 immich_role_traefik_enabled: true
 immich_role_traefik_api_enabled: false

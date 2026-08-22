@@ -49,6 +49,8 @@ wordpress_role_dns_proxy: "{{ dns_proxied }}"
 wordpress_role_traefik_sso_middleware: ""
 wordpress_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 wordpress_role_traefik_middleware_custom: ""
+wordpress_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+wordpress_role_traefik_middleware_custom_api: ""
 wordpress_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wordpress_role_traefik_enabled: true
 wordpress_role_traefik_api_enabled: false

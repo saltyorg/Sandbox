@@ -49,6 +49,8 @@ dashy_role_dns_proxy: "{{ dns_proxied }}"
 dashy_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 dashy_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 dashy_role_traefik_middleware_custom: ""
+dashy_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+dashy_role_traefik_middleware_custom_api: ""
 dashy_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 dashy_role_traefik_enabled: true
 dashy_role_traefik_api_enabled: false

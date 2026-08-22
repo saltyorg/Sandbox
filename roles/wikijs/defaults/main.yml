@@ -75,6 +75,8 @@ wikijs_role_dns_proxy: "{{ dns_proxied }}"
 wikijs_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 wikijs_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 wikijs_role_traefik_middleware_custom: ""
+wikijs_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+wikijs_role_traefik_middleware_custom_api: ""
 wikijs_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 wikijs_role_traefik_enabled: true
 wikijs_role_traefik_api_enabled: true

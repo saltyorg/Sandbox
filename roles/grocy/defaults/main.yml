@@ -48,6 +48,8 @@ grocy_role_dns_proxy: "{{ dns_proxied }}"
 grocy_role_traefik_sso_middleware: ""
 grocy_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 grocy_role_traefik_middleware_custom: ""
+grocy_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+grocy_role_traefik_middleware_custom_api: ""
 grocy_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 grocy_role_traefik_enabled: true
 grocy_role_traefik_api_enabled: false

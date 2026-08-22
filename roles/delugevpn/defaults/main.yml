@@ -67,6 +67,8 @@ delugevpn_role_dns_proxy: "{{ dns_proxied }}"
 delugevpn_role_traefik_sso_middleware: ""
 delugevpn_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 delugevpn_role_traefik_middleware_custom: ""
+delugevpn_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+delugevpn_role_traefik_middleware_custom_api: ""
 delugevpn_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 delugevpn_role_traefik_enabled: true
 delugevpn_role_traefik_api_enabled: false

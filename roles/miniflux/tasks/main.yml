@@ -10,7 +10,7 @@
 - name: Remove existing legacy PostgreSQL container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    _var_prefix: "{{ miniflux_name }}-postgres"
+    var_prefix: "{{ miniflux_name }}-postgres"
 
 - name: "Import Postgres Role"
   ansible.builtin.include_role:

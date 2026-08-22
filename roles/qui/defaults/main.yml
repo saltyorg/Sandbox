@@ -48,6 +48,8 @@ qui_role_dns_proxy: "{{ dns_proxied }}"
 qui_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 qui_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 qui_role_traefik_middleware_custom: ""
+qui_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+qui_role_traefik_middleware_custom_api: ""
 qui_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 qui_role_traefik_enabled: true
 qui_role_traefik_api_enabled: true

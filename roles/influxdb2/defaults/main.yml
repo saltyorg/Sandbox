@@ -50,6 +50,8 @@ influxdb2_role_dns_proxy: "{{ dns_proxied }}"
 influxdb2_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 influxdb2_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 influxdb2_role_traefik_middleware_custom: ""
+influxdb2_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+influxdb2_role_traefik_middleware_custom_api: ""
 influxdb2_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 influxdb2_role_traefik_enabled: true
 influxdb2_role_traefik_api_enabled: false

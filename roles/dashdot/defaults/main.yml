@@ -65,6 +65,8 @@ dashdot_role_dns_proxy: "{{ dns_proxied }}"
 dashdot_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 dashdot_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 dashdot_role_traefik_middleware_custom: ""
+dashdot_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+dashdot_role_traefik_middleware_custom_api: ""
 dashdot_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 dashdot_role_traefik_enabled: true
 dashdot_role_traefik_api_enabled: false

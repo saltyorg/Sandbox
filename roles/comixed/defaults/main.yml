@@ -50,8 +50,12 @@ comixed_role_dns_proxy: "{{ dns_proxied }}"
 comixed_role_traefik_sso_middleware: ""
 comixed_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 comixed_role_traefik_middleware_custom: ""
+comixed_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+comixed_role_traefik_middleware_custom_api: ""
 comixed_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 comixed_role_traefik_enabled: true
+comixed_role_traefik_api_enabled: false
+comixed_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

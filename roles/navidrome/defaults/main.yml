@@ -48,6 +48,8 @@ navidrome_role_dns_proxy: "{{ dns_proxied }}"
 navidrome_role_traefik_sso_middleware: ""
 navidrome_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 navidrome_role_traefik_middleware_custom: ""
+navidrome_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+navidrome_role_traefik_middleware_custom_api: ""
 navidrome_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 navidrome_role_traefik_enabled: true
 navidrome_role_traefik_api_enabled: false

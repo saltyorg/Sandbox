@@ -45,6 +45,8 @@ telegraf_role_dns_proxy: false
 telegraf_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 telegraf_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 telegraf_role_traefik_middleware_custom: ""
+telegraf_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+telegraf_role_traefik_middleware_custom_api: ""
 telegraf_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 telegraf_role_traefik_enabled: true
 telegraf_role_traefik_api_enabled: false

@@ -39,7 +39,7 @@
 - name: Remove existing legacy Nginx container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
-    _var_prefix: "invoiceninja_nginx"
+    var_prefix: "invoiceninja_nginx"
 
 - name: "Execute nginx role"
   ansible.builtin.include_role:
@@ -55,6 +55,15 @@
     nginx_role_dns_proxy: "{{ lookup('role_var', '_nginx_dns_proxy', role='invoiceninjav5') }}"
     nginx_instances: ["invoiceninja-nginx"]
     nginx_role_traefik_gzip_enabled: false
+    nginx_role_traefik_sso_middleware: "{{ lookup('role_var', '_nginx_traefik_sso_middleware', role='invoiceninjav5') }}"
+    nginx_role_traefik_middleware_default: "{{ lookup('role_var', '_nginx_traefik_middleware_default', role='invoiceninjav5') }}"
+    nginx_role_traefik_middleware_custom: "{{ lookup('role_var', '_nginx_traefik_middleware_custom', role='invoiceninjav5') }}"
+    nginx_role_traefik_middleware_default_api: "{{ lookup('role_var', '_nginx_traefik_middleware_default_api', role='invoiceninjav5') }}"
+    nginx_role_traefik_middleware_custom_api: "{{ lookup('role_var', '_nginx_traefik_middleware_custom_api', role='invoiceninjav5') }}"
+    nginx_role_traefik_certresolver: "{{ lookup('role_var', '_nginx_traefik_certresolver', role='invoiceninjav5') }}"
+    nginx_role_traefik_enabled: "{{ lookup('role_var', '_nginx_traefik_enabled', role='invoiceninjav5') }}"
+    nginx_role_traefik_api_enabled: "{{ lookup('role_var', '_nginx_traefik_api_enabled', role='invoiceninjav5') }}"
+    nginx_role_traefik_api_endpoint: "{{ lookup('role_var', '_nginx_traefik_api_endpoint', role='invoiceninjav5') }}"
     nginx_role_docker_volumes_default:
       - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro"
       - "{{ lookup('role_var', '_paths_location', role='invoiceninjav5') }}/public:/var/www/app/public:ro"

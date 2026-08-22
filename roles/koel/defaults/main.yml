@@ -52,6 +52,8 @@ koel_role_dns_proxy: "{{ dns_proxied }}"
 koel_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 koel_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 koel_role_traefik_middleware_custom: ""
+koel_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+koel_role_traefik_middleware_custom_api: ""
 koel_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 koel_role_traefik_enabled: true
 koel_role_traefik_api_enabled: true

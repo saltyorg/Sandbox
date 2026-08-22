@@ -46,6 +46,8 @@ vnstat_role_dns_proxy: "{{ dns_proxied }}"
 vnstat_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 vnstat_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 vnstat_role_traefik_middleware_custom: ""
+vnstat_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+vnstat_role_traefik_middleware_custom_api: ""
 vnstat_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 vnstat_role_traefik_enabled: true
 vnstat_role_traefik_api_enabled: false

@@ -70,8 +70,12 @@ booklore_role_dns_proxy: "{{ dns.proxied }}"
 booklore_role_traefik_sso_middleware: ""
 booklore_role_traefik_middleware_default: "{{ traefik_default_middleware }},booklore-kobo-sync-headers"
 booklore_role_traefik_middleware_custom: ""
+booklore_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+booklore_role_traefik_middleware_custom_api: ""
 booklore_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 booklore_role_traefik_enabled: true
+booklore_role_traefik_api_enabled: false
+booklore_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

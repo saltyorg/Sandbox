@@ -62,10 +62,11 @@ rutorrent_role_traefik_middleware_default: "{{ traefik_default_middleware
                                                   if (lookup('role_var', '_themepark_enabled', role='rutorrent') and global_themepark_plugin_enabled)
                                                   else '') }}"
 rutorrent_role_traefik_middleware_custom: ""
+rutorrent_role_traefik_middleware_default_api: "rutorrent-auth,{{ traefik_default_middleware_api }}"
+rutorrent_role_traefik_middleware_custom_api: ""
 rutorrent_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 rutorrent_role_traefik_enabled: true
 rutorrent_role_traefik_api_enabled: true
-rutorrent_role_traefik_api_middleware: "rutorrent-auth,{{ traefik_default_middleware_api }}"
 rutorrent_role_traefik_api_endpoint: "PathPrefix(`/RPC2`)"
 
 ################################

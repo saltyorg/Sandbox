@@ -51,8 +51,12 @@ code_server_role_dns_proxy: "{{ dns_proxied }}"
 code_server_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 code_server_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 code_server_role_traefik_middleware_custom: ""
+code_server_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+code_server_role_traefik_middleware_custom_api: ""
 code_server_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 code_server_role_traefik_enabled: true
+code_server_role_traefik_api_enabled: false
+code_server_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

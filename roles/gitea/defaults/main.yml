@@ -52,6 +52,8 @@ gitea_role_dns_proxy: "{{ dns_proxied }}"
 gitea_role_traefik_sso_middleware: ""
 gitea_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 gitea_role_traefik_middleware_custom: ""
+gitea_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+gitea_role_traefik_middleware_custom_api: ""
 gitea_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 gitea_role_traefik_enabled: true
 gitea_role_traefik_api_enabled: false

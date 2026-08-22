@@ -48,6 +48,8 @@ gotify_role_dns_proxy: "{{ dns_proxied }}"
 gotify_role_traefik_sso_middleware: ""
 gotify_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 gotify_role_traefik_middleware_custom: ""
+gotify_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+gotify_role_traefik_middleware_custom_api: ""
 gotify_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 gotify_role_traefik_enabled: true
 gotify_role_traefik_api_enabled: false

@@ -39,8 +39,12 @@ adminer_role_dns_proxy: "{{ dns_proxied }}"
 adminer_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 adminer_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 adminer_role_traefik_middleware_custom: ""
+adminer_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+adminer_role_traefik_middleware_custom_api: ""
 adminer_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 adminer_role_traefik_enabled: true
+adminer_role_traefik_api_enabled: false
+adminer_role_traefik_api_endpoint: ""
 
 ################################
 # Docker

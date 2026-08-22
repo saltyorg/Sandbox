@@ -49,6 +49,8 @@ healthchecks_role_dns_proxy: "{{ dns_proxied }}"
 healthchecks_role_traefik_sso_middleware: ""
 healthchecks_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 healthchecks_role_traefik_middleware_custom: ""
+healthchecks_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+healthchecks_role_traefik_middleware_custom_api: ""
 healthchecks_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 healthchecks_role_traefik_enabled: true
 healthchecks_role_traefik_api_enabled: false

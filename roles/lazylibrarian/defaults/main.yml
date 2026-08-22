@@ -48,6 +48,8 @@ lazylibrarian_role_dns_proxy: "{{ dns_proxied }}"
 lazylibrarian_role_traefik_sso_middleware: ""
 lazylibrarian_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 lazylibrarian_role_traefik_middleware_custom: ""
+lazylibrarian_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+lazylibrarian_role_traefik_middleware_custom_api: ""
 lazylibrarian_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 lazylibrarian_role_traefik_enabled: true
 lazylibrarian_role_traefik_api_enabled: false

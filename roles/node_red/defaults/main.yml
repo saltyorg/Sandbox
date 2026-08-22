@@ -48,6 +48,8 @@ node_red_role_dns_proxy: "{{ dns_proxied }}"
 node_red_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 node_red_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 node_red_role_traefik_middleware_custom: ""
+node_red_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+node_red_role_traefik_middleware_custom_api: ""
 node_red_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 node_red_role_traefik_enabled: true
 node_red_role_traefik_api_enabled: true

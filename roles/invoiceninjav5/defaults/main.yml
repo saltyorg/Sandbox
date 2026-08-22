@@ -54,6 +54,20 @@ invoiceninjav5_role_nginx_dns_zone: "{{ lookup('role_var', '_nginx_web_domain', 
 invoiceninjav5_role_nginx_dns_proxy: "{{ dns_proxied }}"
 
 ################################
+# Traefik
+################################
+
+invoiceninjav5_role_nginx_traefik_sso_middleware: ""
+invoiceninjav5_role_nginx_traefik_middleware_default: "{{ traefik_default_middleware }}"
+invoiceninjav5_role_nginx_traefik_middleware_custom: ""
+invoiceninjav5_role_nginx_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+invoiceninjav5_role_nginx_traefik_middleware_custom_api: ""
+invoiceninjav5_role_nginx_traefik_certresolver: "{{ traefik_default_certresolver }}"
+invoiceninjav5_role_nginx_traefik_enabled: true
+invoiceninjav5_role_nginx_traefik_api_enabled: false
+invoiceninjav5_role_nginx_traefik_api_endpoint: ""
+
+################################
 # Docker
 ################################
 
