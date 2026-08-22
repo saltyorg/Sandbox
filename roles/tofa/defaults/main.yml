@@ -96,9 +96,7 @@ tofa_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role
                               + lookup('role_var', '_docker_volumes_custom', role='tofa') }}"
 
 # Mounts
-tofa_role_docker_mounts_default:
-  - target: /tmp
-    type: tmpfs
+tofa_role_docker_mounts_default: []
 tofa_role_docker_mounts_custom: []
 tofa_role_docker_mounts: "{{ lookup('role_var', '_docker_mounts_default', role='tofa')
                              + lookup('role_var', '_docker_mounts_custom', role='tofa') }}"
