@@ -41,6 +41,7 @@
     - { role: deemix, tags: ['deemix'] }
     - { role: delugevpn, tags: ['delugevpn'] }
     - { role: discoflix, tags: ['discoflix'] }
+    - { role: dockhand, tags: ['dockhand', 'dockhand-oidc'] }
     - { role: dockwatch, tags: ['dockwatch'] }
     - { role: doplarr, tags: ['doplarr'] }
     - { role: duplicati, tags: ['duplicati'] }

@@ -1,0 +1,11 @@
+identity_providers:
+  oidc:
+    # ... (global OIDC settings)
+    clients:
+      # ... (existing clients)
+      - client_id: '{{ dockhand_name }}'
+        client_secret: '{{ dockhand_oidc_hash_result.container.Output.split()[-1] }}'
+        authorization_policy: '{{ lookup("role_var", "_access_control_policy", role="authelia") }}'
+        token_endpoint_auth_method: 'client_secret_post'
+        redirect_uris:
+          - '{{ lookup('role_var', '_oidc_redirect_uri', role='dockhand') }}'
