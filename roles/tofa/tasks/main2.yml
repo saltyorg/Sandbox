@@ -17,13 +17,23 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
+- name: Initialize or update port range low bound
+  ansible.builtin.set_fact:
+    tofa_port_range_low_bound: "{{ tofa_port_range_low_bound | default(33333) }}"
+  when: lookup('role_var', '_open_main_ports', role='tofa')
+
 - name: Get next available port within the range of '33333-33433'
   find_open_port:
-    low_bound: 33333
+    low_bound: "{{ tofa_port_range_low_bound }}"
     high_bound: 33433
     protocol: tcp
   register: port_lookup_33333
   ignore_errors: true
+  when: lookup('role_var', '_open_main_ports', role='tofa')
+
+- name: Update port range low bound for next iteration
+  ansible.builtin.set_fact:
+    tofa_port_range_low_bound: "{{ (lookup('role_var', '_docker_ports_33333', role='tofa') | int) + 1 }}"
   when: lookup('role_var', '_open_main_ports', role='tofa')
 
 - name: Create directories
