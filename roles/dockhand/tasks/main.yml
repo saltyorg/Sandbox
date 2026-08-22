@@ -18,28 +18,21 @@
     base_path: "{{ server_appdata_path }}"
   register: dockhand_saltbox
 
-- name: Deploy Postgres
+- name: Import Postgres Role
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='dockhand') }}"]
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='dockhand') }}"
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='dockhand') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='dockhand') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='dockhand') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='dockhand') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='dockhand') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='dockhand') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='dockhand') }}"
+    postgres_role_docker_labels: "{{ lookup('role_var', '_postgres_labels', role='dockhand') }}"
   when: lookup('role_var', '_postgres_deploy', role='dockhand')
-  block:
-    - name: Import Postgres Role
-      ansible.builtin.include_role:
-        name: postgres
-      vars:
-        postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='dockhand') }}"]
-        postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='dockhand') }}"
-        postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='dockhand') }}"
-        postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='dockhand') }}"
-        postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='dockhand') }}"
-        postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='dockhand') }}"
-        postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='dockhand') }}"
-        postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='dockhand') }}"
-        postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='dockhand') }}"
-        postgres_role_docker_labels: "{{ lookup('role_var', '_postgres_labels', role='dockhand') }}"
-
-    - name: Parse Postgres identifiers
-      ansible.builtin.set_fact:
-        dockhand_postgres_container: "{{ create_docker_result.container.Name | replace('/', '') }}"
-        dockhand_postgres_host: "{{ create_docker_result.container.NetworkSettings.Networks[docker_networks_name_common].Aliases[0] }}"
 
 - name: Import Docker Socket Proxy Role
   ansible.builtin.include_role:
@@ -48,11 +41,6 @@
     docker_socket_proxy_name: "{{ lookup('role_var', '_docker_socket_proxy_name', role='dockhand') }}"
     docker_socket_proxy_role_docker_envs_custom: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='dockhand') }}"
     docker_socket_proxy_role_docker_labels: "{{ lookup('role_var', '_docker_socket_proxy_labels', role='dockhand') }}"
-
-- name: Parse Docker Socket Proxy identifiers
-  ansible.builtin.set_fact:
-    dockhand_docker_socket_proxy_container: "{{ create_docker_result.container.Name | replace('/', '') }}"
-    dockhand_docker_socket_proxy_host: "{{ create_docker_result.container.NetworkSettings.Networks[docker_networks_name_common].Aliases[0] }}"
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

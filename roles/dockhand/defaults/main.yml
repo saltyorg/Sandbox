@@ -72,7 +72,7 @@ dockhand_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_use
                                          }}:{{ lookup('role_var', '_postgres_password_lookup', role='dockhand') }}"
 # Do not edit or override using the inventory
 dockhand_role_postgres_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='dockhand')
-                                              }}@{{ dockhand_postgres_host | default(lookup('role_var', '_postgres_name', role='dockhand'))
+                                              }}@{{ lookup('role_var', '_postgres_name', role='dockhand')
                                          }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='dockhand') }}"
 dockhand_role_postgres_docker_healthcheck:
   test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='dockhand')
@@ -254,6 +254,8 @@ dockhand_role_docker_networks: "{{ docker_networks_common
 dockhand_role_docker_restart_policy: unless-stopped
 
 # Dependencies
-dockhand_role_depends_on: "{{ dockhand_postgres_container | default(dockhand_docker_socket_proxy_container) }}"
+dockhand_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='dockhand')
+                           if lookup('role_var', '_postgres_deploy', role='dockhand')
+                           else lookup('role_var', '_docker_socket_proxy_name', role='dockhand') }}"
 dockhand_role_depends_on_delay: "0"
 dockhand_role_depends_on_healthchecks: "false"
