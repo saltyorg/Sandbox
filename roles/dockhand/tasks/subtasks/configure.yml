@@ -32,7 +32,7 @@
     body:
       name: "Saltbox"
       connectionType: "direct"
-      host: "{{ dockhand_docker_socket_proxy_host }}"
+      host: "{{ lookup('role_var', '_docker_socket_proxy_name', role='dockhand') }}"
       port: "2375"
       protocol: "http"
   when: dockhand_environments.json | length == 0
