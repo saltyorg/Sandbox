@@ -62,6 +62,9 @@ tofa_role_traefik_api_endpoint: ""
 # Container
 tofa_role_docker_container: "{{ tofa_name }}"
 
+# GPU
+tofa_role_docker_gpu_enabled: true
+
 # Image
 tofa_role_docker_image_pull: true
 tofa_role_docker_image_repo: "ghcr.io/tofatv/tofa"
