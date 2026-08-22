@@ -14,6 +14,17 @@
 tofa_name: tofa
 
 ################################
+# Settings
+################################
+
+# Do not enable globally if deploying multiple instances
+tofa_role_open_main_ports: false
+# Adds the IP specified here to the advertised URLs tofa broadcasts to clients
+# Useful to avoid traffic going through your WAN when hairpin NAT is not available
+# Requires tofa_role_open_main_ports to be enabled
+tofa_role_lan_ip: ""
+
+################################
 # Paths
 ################################
 
@@ -71,16 +82,40 @@ tofa_role_docker_image_repo: "ghcr.io/tofatv/tofa"
 tofa_role_docker_image_tag: "beta"
 tofa_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tofa') }}:{{ lookup('role_var', '_docker_image_tag', role='tofa') }}"
 
+# Ports
+tofa_role_docker_ports_default: []
+# Skip docs
+tofa_role_docker_ports_ui:
+  - "33333:33333"
+tofa_role_docker_ports_custom: []
+tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='tofa')
+                            + lookup('role_var', '_docker_ports_custom', role='tofa')
+                            + (tofa_role_docker_ports_ui
+                               if lookup('role_var', '_open_main_ports', role='tofa')
+                               else []) }}"
+
 # Envs
 # The container starts as root and drops to PUID:PGID itself, so appdata stays
 # owned by the Saltbox user rather than the image's baked-in uid.
+# TOFA_CUSTOM_ACCESS_URLS advertises the Traefik URL to clients as a direct
+# connection candidate; without it a bridge-networked server can only be
+# reached through the tofa relay.
+# ADVERTISED_LAN_IP additionally advertises a direct LAN address; it is only
+# reachable when the port is published, hence the open_main_ports gate.
+tofa_role_docker_envs_lan:
+  ADVERTISED_LAN_IP: "{{ lookup('role_var', '_lan_ip', role='tofa') }}"
 tofa_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   MEDIA_PATH: /mnt/unionfs/Media
   TZ: "{{ tz }}"
+  TOFA_CUSTOM_ACCESS_URLS: "{{ lookup('role_var', '_web_url', role='tofa') }}"
 tofa_role_docker_envs_custom: {}
 tofa_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tofa')
+                           | combine(lookup('role_var', '_docker_envs_lan', role='tofa')
+                                     if ((lookup('role_var', '_lan_ip', role='tofa') | length > 0)
+                                         and lookup('role_var', '_open_main_ports', role='tofa'))
+                                     else {})
                            | combine(lookup('role_var', '_docker_envs_custom', role='tofa')) }}"
 
 # Volumes
