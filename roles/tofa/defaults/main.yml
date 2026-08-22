@@ -102,20 +102,17 @@ tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='to
 # reached through the tofa relay.
 # ADVERTISED_LAN_IP additionally advertises a direct LAN address; it is only
 # reachable when the port is published, hence the open_main_ports gate.
-tofa_role_docker_envs_lan:
-  ADVERTISED_LAN_IP: "{{ lookup('role_var', '_lan_ip', role='tofa') }}"
 tofa_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   MEDIA_PATH: /mnt/unionfs/Media
   TZ: "{{ tz }}"
   TOFA_CUSTOM_ACCESS_URLS: "{{ lookup('role_var', '_web_url', role='tofa') }}"
+  ADVERTISED_LAN_IP: "{{ lookup('role_var', '_lan_ip', role='tofa')
+                      if ((lookup('role_var', '_lan_ip', role='tofa') | length > 0) and lookup('role_var', '_open_main_ports', role='tofa'))
+                      else omit }}"
 tofa_role_docker_envs_custom: {}
 tofa_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tofa')
-                           | combine(lookup('role_var', '_docker_envs_lan', role='tofa')
-                                     if ((lookup('role_var', '_lan_ip', role='tofa') | length > 0)
-                                         and lookup('role_var', '_open_main_ports', role='tofa'))
-                                     else {})
                            | combine(lookup('role_var', '_docker_envs_custom', role='tofa')) }}"
 
 # Volumes
