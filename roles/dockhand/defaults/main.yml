@@ -59,18 +59,18 @@ dockhand_role_postgres_docker_image_tag: "16-alpine"
 dockhand_role_postgres_docker_image_repo: "postgres"
 dockhand_role_postgres_paths_folder: "{{ dockhand_name }}"
 dockhand_role_postgres_paths_location: "{{ server_appdata_path }}/{{ dockhand_role_postgres_paths_folder }}/postgres"
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='dockhand')
                                      if lookup('role_var', '_postgres_user', role='dockhand') | length > 0
                                      else lookup('role_var', '_docker_env_user', role='postgres') }}"
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='dockhand')
                                          if lookup('role_var', '_postgres_password', role='dockhand') | length > 0
                                          else lookup('role_var', '_docker_env_password', role='postgres') }}"
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='dockhand')
                                          }}:{{ lookup('role_var', '_postgres_password_lookup', role='dockhand') }}"
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_postgres_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='dockhand')
                                               }}@{{ dockhand_postgres_host | default(lookup('role_var', '_postgres_name', role='dockhand'))
                                          }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='dockhand') }}"
@@ -87,7 +87,7 @@ dockhand_role_postgres_labels_default:
   dockhand.update: "false"
   dockhand.notify: "false"
 dockhand_role_postgres_labels_custom: {}
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_postgres_labels: "{{ lookup('role_var', '_postgres_labels_default', role='dockhand')
                                    | combine(lookup('role_var', '_postgres_labels_custom', role='dockhand')) }}"
 
@@ -112,23 +112,23 @@ dockhand_role_docker_socket_proxy_envs_cycle:
   ALLOW_STOP: "1"
   ALLOW_RESTARTS: "1"
 dockhand_role_docker_socket_proxy_envs_custom: {}
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_docker_socket_proxy_envs: "{{ lookup('role_var', '_docker_socket_proxy_envs_default', role='dockhand')
                                             | combine(lookup('role_var', '_docker_socket_proxy_envs_cycle', role='dockhand')
-                                                     if lookup('role_var', '_cycle_enable', role='dockhand')
-                                                     else {})
+                                                      if lookup('role_var', '_cycle_enable', role='dockhand')
+                                                      else {})
                                             | combine(lookup('role_var', '_docker_socket_proxy_envs_insight', role='dockhand')
-                                                     if lookup('role_var', '_insight_enable', role='dockhand')
-                                                     else {})
+                                                      if lookup('role_var', '_insight_enable', role='dockhand')
+                                                      else {})
                                             | combine({'EXEC': '1'}
-                                                     if lookup('role_var', '_exec_enable', role='dockhand')
-                                                     else {})
+                                                      if lookup('role_var', '_exec_enable', role='dockhand')
+                                                      else {})
                                             | combine(lookup('role_var', '_docker_socket_proxy_envs_custom', role='dockhand')) }}"
 dockhand_role_docker_socket_proxy_labels_default:
   dockhand.update: "false"
   dockhand.notify: "false"
 dockhand_role_docker_socket_proxy_labels_custom: {}
-# Skip docs
+# Do not edit or override using the inventory
 dockhand_role_docker_socket_proxy_labels: "{{ lookup('role_var', '_docker_socket_proxy_labels_default', role='dockhand')
                                               | combine(lookup('role_var', '_docker_socket_proxy_labels_custom', role='dockhand')) }}"
 
@@ -136,9 +136,11 @@ dockhand_role_docker_socket_proxy_labels: "{{ lookup('role_var', '_docker_socket
 # OIDC
 ################################
 
+# Do not edit or override using the inventory
 dockhand_role_oidc_provider_lookup: "{{ lookup('role_var', '_oidc_provider', role='dockhand')
                                      if lookup('role_var', '_oidc_provider', role='dockhand') | length > 0
                                      else traefik_default_sso_middleware.split('@')[0] }}"
+# Do not edit or override using the inventory
 dockhand_role_oidc_issuer_url_lookup: "{{ lookup('role_var', '_web_url', role=lookup('role_var', '_oidc_provider_lookup', role='dockhand')) }}"
 dockhand_role_oidc_provider_enabled: "{{ lookup('role_var', '_oidc_issuer_url_lookup', role='dockhand') | length > 0 }}"
 dockhand_role_oidc_redirect_uri: "{{ lookup('role_var', '_web_url', role='dockhand') + '/api/auth/oidc/callback' }}"
