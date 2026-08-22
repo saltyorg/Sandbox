@@ -1,0 +1,93 @@
+##########################################################################
+# Title:            Sandbox: Dockhand                                    #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Persist Saltbox facts
+  saltbox_facts:
+    role: "dockhand"
+    instance: "{{ dockhand_name }}"
+    keys:
+      oidc_client_secret: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=72) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: dockhand_saltbox
+
+- name: Deploy Postgres
+  when: lookup('role_var', '_postgres_deploy', role='dockhand')
+  block:
+    - name: Import Postgres Role
+      ansible.builtin.include_role:
+        name: postgres
+      vars:
+        postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='dockhand') }}"]
+        postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='dockhand') }}"
+        postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='dockhand') }}"
+        postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='dockhand') }}"
+        postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='dockhand') }}"
+        postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='dockhand') }}"
+        postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='dockhand') }}"
+        postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='dockhand') }}"
+        postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='dockhand') }}"
+        postgres_role_docker_labels: "{{ lookup('role_var', '_postgres_labels', role='dockhand') }}"
+
+    - name: Parse Postgres identifiers
+      ansible.builtin.set_fact:
+        dockhand_postgres_container: "{{ create_docker_result.container.Name | replace('/', '') }}"
+        dockhand_postgres_host: "{{ create_docker_result.container.NetworkSettings.Networks[docker_networks_name_common].Aliases[0] }}"
+
+- name: Import Docker Socket Proxy Role
+  ansible.builtin.include_role:
+    name: docker_socket_proxy
+  vars:
+    docker_socket_proxy_name: "{{ lookup('role_var', '_docker_socket_proxy_name', role='dockhand') }}"
+    docker_socket_proxy_role_docker_envs_custom: "{{ lookup('role_var', '_docker_socket_proxy_envs', role='dockhand') }}"
+    docker_socket_proxy_role_docker_labels: "{{ lookup('role_var', '_docker_socket_proxy_labels', role='dockhand') }}"
+
+- name: Parse Docker Socket Proxy identifiers
+  ansible.builtin.set_fact:
+    dockhand_docker_socket_proxy_container: "{{ create_docker_result.container.Name | replace('/', '') }}"
+    dockhand_docker_socket_proxy_host: "{{ create_docker_result.container.NetworkSettings.Networks[docker_networks_name_common].Aliases[0] }}"
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Wait for service availability
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/health"
+  register: dockhand_health
+  until: dockhand_health.status == 200
+  retries: 30
+  delay: 2
+
+- name: Get authentication session status
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/auth/session"
+    return_content: true
+  register: dockhand_session
+
+- name: Apply runtime configuration
+  ansible.builtin.include_tasks: "subtasks/configure.yml"
+  when: not dockhand_session.json.authEnabled
+
+- name: Prime for OIDC client registration
+  ansible.builtin.include_tasks: "subtasks/prime_oidc.yml"
+  when: ('dockhand-oidc' in ansible_run_tags)
