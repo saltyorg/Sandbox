@@ -16,11 +16,24 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
+- name: Assign ports
+  port_assignment:
+    base_path: "{{ server_appdata_path }}"
+    namespace: rflood
+    owner: "{{ rflood_name }}"
+    claims:
+      peer:
+        low_bound: "{{ lookup('role_var', '_port_peer_low_bound', role='rflood') }}"
+        high_bound: "{{ lookup('role_var', '_port_peer_high_bound', role='rflood') }}"
+        protocols: ["tcp"]
+      dht:
+        low_bound: "{{ lookup('role_var', '_port_dht_low_bound', role='rflood') }}"
+        high_bound: "{{ lookup('role_var', '_port_dht_high_bound', role='rflood') }}"
+        protocols: ["udp"]
+  register: rflood_port_assignment
+
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: Pre-Install Tasks
-  ansible.builtin.import_tasks: "subtasks/pre-install/main.yml"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

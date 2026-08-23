@@ -64,9 +64,9 @@ minecraft_role_traefik_api_endpoint: ""
 ################################
 # Ports
 ################################
-minecraft_role_docker_ports_25565: "{{ port_lookup_minecraft_tcp.meta.port
-                                    if (port_lookup_minecraft_tcp.meta.port is defined) and (port_lookup_minecraft_tcp.meta.port | trim | length > 0)
-                                    else '25565' }}"
+
+minecraft_role_port_game_low_bound: 25565
+minecraft_role_port_game_high_bound: 25665
 
 ################################
 # Docker
@@ -83,7 +83,7 @@ minecraft_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='
 
 # Ports
 minecraft_role_docker_ports_default:
-  - "{{ lookup('role_var', '_docker_ports_25565', role='minecraft') }}:25565/tcp"
+  - "{{ minecraft_port_assignment.ports.game }}:25565/tcp"
 minecraft_role_docker_ports_custom: []
 minecraft_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='minecraft')
                                  + lookup('role_var', '_docker_ports_custom', role='minecraft') }}"

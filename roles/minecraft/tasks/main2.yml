@@ -16,18 +16,23 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
-- name: Get next available port within the range of '25565-25665'
-  find_open_port:
-    low_bound: 25565
-    high_bound: 25665
-    protocol: tcp
-  register: port_lookup_minecraft_tcp
+- name: Assign port
+  port_assignment:
+    base_path: "{{ server_appdata_path }}"
+    namespace: minecraft
+    owner: "{{ minecraft_name }}"
+    claims:
+      game:
+        low_bound: "{{ lookup('role_var', '_port_game_low_bound', role='minecraft') }}"
+        high_bound: "{{ lookup('role_var', '_port_game_high_bound', role='minecraft') }}"
+        protocols: ["tcp"]
+  register: minecraft_port_assignment
 
 - name: Add SRV record
   community.general.cloudflare_dns:
     account_api_key: "{{ cloudflare.api }}"
     account_email: "{{ cloudflare.email }}"
-    port: "{{ lookup('role_var', '_docker_ports_25565', role='minecraft') }}"
+    port: "{{ minecraft_port_assignment.ports.game }}"
     priority: 1
     proto: tcp
     proxied: false

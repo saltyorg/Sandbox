@@ -63,6 +63,13 @@ transmission_role_traefik_api_enabled: true
 transmission_role_traefik_api_endpoint: "PathPrefix(`/rpc`)"
 
 ################################
+# Ports
+################################
+
+transmission_role_port_peer_low_bound: 51413
+transmission_role_port_peer_high_bound: 51433
+
+################################
 # Docker
 ################################
 
@@ -76,14 +83,9 @@ transmission_role_docker_image_tag: "latest"
 transmission_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='transmission') }}:{{ lookup('role_var', '_docker_image_tag', role='transmission') }}"
 
 # Ports
-# - Internal and External ports need to match for the next set of ports
-# - Lookup available ports and set docker ports accordingly
-transmission_role_docker_ports_51413: "{{ port_lookup_51413.meta.port
-                                       if (port_lookup_51413.meta.port is defined) and (port_lookup_51413.meta.port | trim | length > 0)
-                                       else '51413' }}"
 transmission_role_docker_ports_default:
-  - "{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}:{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}"
-  - "{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}:{{ lookup('role_var', '_docker_ports_51413', role='transmission') }}/udp"
+  - "{{ transmission_port_assignment.ports.peer }}:{{ transmission_port_assignment.ports.peer }}"
+  - "{{ transmission_port_assignment.ports.peer }}:{{ transmission_port_assignment.ports.peer }}/udp"
 transmission_role_docker_ports_custom: []
 transmission_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='transmission')
                                     + lookup('role_var', '_docker_ports_custom', role='transmission') }}"

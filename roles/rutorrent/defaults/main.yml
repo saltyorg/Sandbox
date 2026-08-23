@@ -129,8 +129,8 @@ rutorrent_role_config_existing_installs_rutorrent_rc_settings_default:
   # IP address that is reported to the tracker
   - { option: "network.local_address.set", value: "{{ ip_address_public }}" }
   # Ports
-  - { option: "network.port_range.set", value: "{{ rutorrent_role_docker_ports_51413 }}-{{ rutorrent_role_docker_ports_51413 }}" }
-  - { option: "dht.port.set", value: "{{ rutorrent_role_docker_ports_6881 }}" }
+  - { option: "network.port_range.set", value: "{{ rutorrent_port_assignment.ports.peer }}-{{ rutorrent_port_assignment.ports.peer }}" }
+  - { option: "dht.port.set", value: "{{ rutorrent_port_assignment.ports.dht }}" }
   # Enable / Disable Public Trackers
   - { option: "dht.mode.set", value: "{{ lookup('role_var', '_config_public_trackers', role='rutorrent') | ternary('on', 'disable') }}" }
   - { option: "trackers.use_udp.set", value: "{{ lookup('role_var', '_config_public_trackers', role='rutorrent') | ternary('yes', 'no') }}" }
@@ -151,6 +151,15 @@ rutorrent_role_themepark_domain: "{{ global_themepark_domain }}"
 rutorrent_role_themepark_addons: []
 
 ################################
+# Ports
+################################
+
+rutorrent_role_port_peer_low_bound: 51413
+rutorrent_role_port_peer_high_bound: 51423
+rutorrent_role_port_dht_low_bound: 6881
+rutorrent_role_port_dht_high_bound: 6891
+
+################################
 # Docker
 ################################
 
@@ -164,17 +173,10 @@ rutorrent_role_docker_image_repo: "kudeta/ru-rtorrent"
 rutorrent_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='rutorrent') }}:{{ lookup('role_var', '_docker_image_tag', role='rutorrent') }}"
 
 # Ports
-rutorrent_role_docker_ports_51413: "{{ port_lookup_51413.meta.port
-                                    if (port_lookup_51413.meta.port is defined) and (port_lookup_51413.meta.port | trim | length > 0)
-                                    else '51413' }}"
-rutorrent_role_docker_ports_6881: "{{ port_lookup_6881.meta.port
-                                   if (port_lookup_6881.meta.port is defined) and (port_lookup_6881.meta.port | trim | length > 0)
-                                   else '6881' }}"
-
 rutorrent_role_docker_ports_default:
-  - "{{ lookup('role_var', '_docker_ports_51413', role='rutorrent') }}:{{ lookup('role_var', '_docker_ports_51413', role='rutorrent') }}"
-  - "{{ lookup('role_var', '_docker_ports_51413', role='rutorrent') }}:{{ lookup('role_var', '_docker_ports_51413', role='rutorrent') }}/udp"
-  - "{{ lookup('role_var', '_docker_ports_6881', role='rutorrent') }}:{{ lookup('role_var', '_docker_ports_6881', role='rutorrent') }}/udp"
+  - "{{ rutorrent_port_assignment.ports.peer }}:{{ rutorrent_port_assignment.ports.peer }}"
+  - "{{ rutorrent_port_assignment.ports.peer }}:{{ rutorrent_port_assignment.ports.peer }}/udp"
+  - "{{ rutorrent_port_assignment.ports.dht }}:{{ rutorrent_port_assignment.ports.dht }}/udp"
 rutorrent_role_docker_ports_custom: []
 rutorrent_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='rutorrent')
                                  + lookup('role_var', '_docker_ports_custom', role='rutorrent') }}"

@@ -17,12 +17,20 @@
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
+- name: Assign port
+  port_assignment:
+    base_path: "{{ server_appdata_path }}"
+    namespace: transmission
+    owner: "{{ transmission_name }}"
+    claims:
+      peer:
+        low_bound: "{{ lookup('role_var', '_port_peer_low_bound', role='transmission') }}"
+        high_bound: "{{ lookup('role_var', '_port_peer_high_bound', role='transmission') }}"
+        protocols: ["tcp", "udp"]
+  register: transmission_port_assignment
+
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: Pre-Install Tasks
-  ansible.builtin.import_tasks: "subtasks/pre-install/main.yml"
-  when: not continuous_integration
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
