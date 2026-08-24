@@ -29,9 +29,7 @@ deemix_role_paths_folders_list:
 deemix_role_web_subdomain: "{{ deemix_name }}"
 deemix_role_web_domain: "{{ user.domain }}"
 deemix_role_web_port: "6595"
-deemix_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='deemix') + '.' + lookup('role_var', '_web_domain', role='deemix')
-                              if (lookup('role_var', '_web_subdomain', role='deemix') | length > 0)
-                              else lookup('role_var', '_web_domain', role='deemix') }}"
+deemix_role_web_url: "{{ lookup('role_web', role='deemix', scheme='https') }}"
 
 ################################
 # DNS

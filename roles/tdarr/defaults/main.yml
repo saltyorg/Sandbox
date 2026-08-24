@@ -44,9 +44,7 @@ tdarr_role_paths_folders_list:
 tdarr_role_web_subdomain: "{{ tdarr_name }}"
 tdarr_role_web_domain: "{{ user.domain }}"
 tdarr_role_web_port: "8265"
-tdarr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='tdarr') + '.' + lookup('role_var', '_web_domain', role='tdarr')
-                             if (lookup('role_var', '_web_subdomain', role='tdarr') | length > 0)
-                             else lookup('role_var', '_web_domain', role='tdarr') }}"
+tdarr_role_web_url: "{{ lookup('role_web', role='tdarr', scheme='https') }}"
 
 ################################
 # DNS

@@ -39,9 +39,7 @@ tubearchivist_role_paths_folders_list:
 tubearchivist_role_web_subdomain: "{{ tubearchivist_name }}"
 tubearchivist_role_web_domain: "{{ user.domain }}"
 tubearchivist_role_web_port: "8000"
-tubearchivist_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='tubearchivist') + '.' + lookup('role_var', '_web_domain', role='tubearchivist')
-                                     if (lookup('role_var', '_web_subdomain', role='tubearchivist') | length > 0)
-                                     else lookup('role_var', '_web_domain', role='tubearchivist') }}"
+tubearchivist_role_web_url: "{{ lookup('role_web', role='tubearchivist', scheme='https') }}"
 
 ################################
 # DNS
@@ -90,7 +88,7 @@ tubearchivist_role_docker_envs_default:
   REDIS_HOST: "{{ tubearchivist_name }}-redis"
   HOST_UID: "{{ uid }}"
   HOST_GID: "{{ gid }}"
-  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ lookup('role_var', '_web_subdomain', role='tubearchivist') + '.' + lookup('role_var', '_web_domain', role='tubearchivist') }} {{ lookup('role_var', '_web_url', role='tubearchivist') }}"
+  TA_HOST: "localhost 127.0.0.1 {{ tubearchivist_name }} {{ lookup('role_web', role='tubearchivist') }} {{ lookup('role_var', '_web_url', role='tubearchivist') }}"
   TA_ENABLE_AUTH_PROXY: "{{ 'true' if (lookup('role_var', '_traefik_sso_middleware', role='tubearchivist') | length > 0) else omit }}"
   TA_AUTH_PROXY_USERNAME_HEADER: "{{ lookup('role_var', '_docker_envs_http_header', role='tubearchivist') if (lookup('role_var', '_traefik_sso_middleware', role='tubearchivist') | length > 0) else omit }}"
   TA_USERNAME: "{{ user.name }}"

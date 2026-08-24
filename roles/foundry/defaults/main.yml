@@ -39,9 +39,7 @@ foundry_role_paths_folders_list:
 foundry_role_web_subdomain: "{{ foundry_name }}"
 foundry_role_web_domain: "{{ user.domain }}"
 foundry_role_web_port: "30000"
-foundry_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='foundry') + '.' + lookup('role_var', '_web_domain', role='foundry')
-                               if (lookup('role_var', '_web_subdomain', role='foundry') | length > 0)
-                               else lookup('role_var', '_web_domain', role='foundry') }}"
+foundry_role_web_url: "{{ lookup('role_web', role='foundry', scheme='https') }}"
 
 ################################
 # DNS

@@ -29,9 +29,7 @@ goaccess_role_paths_folders_list:
 goaccess_role_web_subdomain: "{{ goaccess_name }}"
 goaccess_role_web_domain: "{{ user.domain }}"
 goaccess_role_web_port: "7889"
-goaccess_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='goaccess') + '.' + lookup('role_var', '_web_domain', role='goaccess')
-                                if (lookup('role_var', '_web_subdomain', role='goaccess') | length > 0)
-                                else lookup('role_var', '_web_domain', role='goaccess') }}"
+goaccess_role_web_url: "{{ lookup('role_web', role='goaccess', scheme='https') }}"
 
 ################################
 # DNS

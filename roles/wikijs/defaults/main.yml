@@ -62,9 +62,7 @@ wikijs_role_paths_folders_list:
 wikijs_role_web_subdomain: "{{ wikijs_name }}"
 wikijs_role_web_domain: "{{ user.domain }}"
 wikijs_role_web_port: "3000"
-wikijs_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='wikijs') + '.' + lookup('role_var', '_web_domain', role='wikijs')
-                              if (lookup('role_var', '_web_subdomain', role='wikijs') | length > 0)
-                              else lookup('role_var', '_web_domain', role='wikijs') }}"
+wikijs_role_web_url: "{{ lookup('role_web', role='wikijs', scheme='https') }}"
 
 ################################
 # DNS

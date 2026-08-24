@@ -30,9 +30,7 @@ reposilite_role_paths_folders_list:
 reposilite_role_web_subdomain: "{{ reposilite_name }}"
 reposilite_role_web_domain: "{{ user.domain }}"
 reposilite_role_web_port: "8080"
-reposilite_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='reposilite') + '.' + lookup('role_var', '_web_domain', role='reposilite')
-                                  if (lookup('role_var', '_web_subdomain', role='reposilite') | length > 0)
-                                  else lookup('role_var', '_web_domain', role='reposilite') }}"
+reposilite_role_web_url: "{{ lookup('role_web', role='reposilite', scheme='https') }}"
 
 ################################
 # DNS

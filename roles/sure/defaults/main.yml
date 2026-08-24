@@ -98,12 +98,8 @@ sure_role_paths_folders_list:
 sure_role_web_subdomain: "{{ sure_name }}"
 sure_role_web_domain: "{{ user.domain }}"
 sure_role_web_port: "3000"
-sure_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='sure') + '.' + lookup('role_var', '_web_domain', role='sure')
-                            if (lookup('role_var', '_web_subdomain', role='sure') | length > 0)
-                            else lookup('role_var', '_web_domain', role='sure') }}"
-sure_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='sure') + '.' + lookup('role_var', '_web_domain', role='sure')
-                         if (lookup('role_var', '_web_subdomain', role='sure') | length > 0)
-                         else lookup('role_var', '_web_domain', role='sure')) }}"
+sure_role_web_url: "{{ lookup('role_web', role='sure', scheme='https') }}"
+sure_role_web_host: "{{ lookup('role_web', role='sure') }}"
 
 ################################
 # DNS

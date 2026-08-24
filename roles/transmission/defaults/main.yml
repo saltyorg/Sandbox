@@ -36,9 +36,7 @@ transmission_role_paths_setttings_location: "{{ transmission_role_paths_location
 transmission_role_web_subdomain: "{{ transmission_name }}"
 transmission_role_web_domain: "{{ user.domain }}"
 transmission_role_web_port: "9091"
-transmission_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='transmission') + '.' + lookup('role_var', '_web_domain', role='transmission')
-                                    if (lookup('role_var', '_web_subdomain', role='transmission') | length > 0)
-                                    else lookup('role_var', '_web_domain', role='transmission') }}"
+transmission_role_web_url: "{{ lookup('role_web', role='transmission', scheme='https') }}"
 
 ################################
 # DNS

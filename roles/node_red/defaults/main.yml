@@ -29,9 +29,7 @@ node_red_role_paths_folders_list:
 node_red_role_web_subdomain: "{{ node_red_name }}"
 node_red_role_web_domain: "{{ user.domain }}"
 node_red_role_web_port: "1880"
-node_red_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='node_red') + '.' + lookup('role_var', '_web_domain', role='node_red')
-                                if (lookup('role_var', '_web_subdomain', role='node_red') | length > 0)
-                                else lookup('role_var', '_web_domain', role='node_red') }}"
+node_red_role_web_url: "{{ lookup('role_web', role='node_red', scheme='https') }}"
 
 ################################
 # DNS

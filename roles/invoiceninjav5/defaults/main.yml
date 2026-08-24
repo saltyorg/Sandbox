@@ -41,9 +41,7 @@ invoiceninjav5_role_paths_group: "1500"
 invoiceninjav5_role_nginx_web_subdomain: "invoiceninja"
 invoiceninjav5_role_nginx_web_domain: "{{ user.domain }}"
 invoiceninjav5_role_nginx_web_port: "80"
-invoiceninjav5_role_nginx_web_url: "{{ 'https://' + (lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') + '.' + lookup('role_var', '_nginx_web_domain', role='invoiceninjav5')
-                                                     if (lookup('role_var', '_nginx_web_subdomain', role='invoiceninjav5') | length > 0)
-                                                     else lookup('role_var', '_nginx_web_domain', role='invoiceninjav5')) }}"
+invoiceninjav5_role_nginx_web_url: "{{ lookup('role_web', role='invoiceninjav5', endpoint='nginx_web', scheme='https') }}"
 
 ################################
 # DNS

@@ -27,9 +27,7 @@ vnstat_rate_unit: "1" # Used traffic rate unit, 0: bytes, 1: bits
 vnstat_role_web_subdomain: "{{ vnstat_name }}"
 vnstat_role_web_domain: "{{ user.domain }}"
 vnstat_role_web_port: "8685"
-vnstat_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='vnstat') + '.' + lookup('role_var', '_web_domain', role='vnstat')
-                              if (lookup('role_var', '_web_subdomain', role='vnstat') | length > 0)
-                              else lookup('role_var', '_web_domain', role='vnstat') }}"
+vnstat_role_web_url: "{{ lookup('role_web', role='vnstat', scheme='https') }}"
 
 ################################
 # DNS

@@ -29,9 +29,7 @@ linkding_role_paths_folders_list:
 linkding_role_web_subdomain: "{{ linkding_name }}"
 linkding_role_web_domain: "{{ user.domain }}"
 linkding_role_web_port: "9090"
-linkding_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='linkding') + '.' + lookup('role_var', '_web_domain', role='linkding')
-                                if (lookup('role_var', '_web_subdomain', role='linkding') | length > 0)
-                                else lookup('role_var', '_web_domain', role='linkding') }}"
+linkding_role_web_url: "{{ lookup('role_web', role='linkding', scheme='https') }}"
 
 ################################
 # DNS

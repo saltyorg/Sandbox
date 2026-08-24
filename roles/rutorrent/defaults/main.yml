@@ -40,9 +40,7 @@ rutorrent_role_paths_folders_list:
 rutorrent_role_web_subdomain: "{{ rutorrent_name }}"
 rutorrent_role_web_domain: "{{ user.domain }}"
 rutorrent_role_web_port: "80"
-rutorrent_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='rutorrent') + '.' + lookup('role_var', '_web_domain', role='rutorrent')
-                                 if (lookup('role_var', '_web_subdomain', role='rutorrent') | length > 0)
-                                 else lookup('role_var', '_web_domain', role='rutorrent') }}"
+rutorrent_role_web_url: "{{ lookup('role_web', role='rutorrent', scheme='https') }}"
 
 ################################
 # DNS

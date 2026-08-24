@@ -29,9 +29,7 @@ cleanuparr_role_paths_folders_list:
 cleanuparr_role_web_subdomain: "{{ cleanuparr_name }}"
 cleanuparr_role_web_domain: "{{ user.domain }}"
 cleanuparr_role_web_port: "11011"
-cleanuparr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='cleanuparr') + '.' + lookup('role_var', '_web_domain', role='cleanuparr')
-                                  if (lookup('role_var', '_web_subdomain', role='cleanuparr') | length > 0)
-                                  else lookup('role_var', '_web_domain', role='cleanuparr') }}"
+cleanuparr_role_web_url: "{{ lookup('role_web', role='cleanuparr', scheme='https') }}"
 
 ################################
 # DNS

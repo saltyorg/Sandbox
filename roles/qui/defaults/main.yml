@@ -29,9 +29,7 @@ qui_role_paths_folders_list:
 qui_role_web_subdomain: "{{ qui_name }}"
 qui_role_web_domain: "{{ user.domain }}"
 qui_role_web_port: "7476"
-qui_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='qui') + '.' + lookup('role_var', '_web_domain', role='qui')
-                           if (lookup('role_var', '_web_subdomain', role='qui') | length > 0)
-                           else lookup('role_var', '_web_domain', role='qui') }}"
+qui_role_web_url: "{{ lookup('role_web', role='qui', scheme='https') }}"
 
 ################################
 # DNS

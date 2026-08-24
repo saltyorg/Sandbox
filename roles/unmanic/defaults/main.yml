@@ -31,9 +31,7 @@ unmanic_role_paths_folders_list:
 unmanic_role_web_subdomain: "{{ unmanic_name }}"
 unmanic_role_web_domain: "{{ user.domain }}"
 unmanic_role_web_port: "8888"
-unmanic_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='unmanic') + '.' + lookup('role_var', '_web_domain', role='unmanic')
-                               if (lookup('role_var', '_web_subdomain', role='unmanic') | length > 0)
-                               else lookup('role_var', '_web_domain', role='unmanic') }}"
+unmanic_role_web_url: "{{ lookup('role_web', role='unmanic', scheme='https') }}"
 
 ################################
 # DNS

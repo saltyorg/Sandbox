@@ -45,12 +45,8 @@ wireguard_role_paths_folders_list:
 wireguard_role_web_subdomain: "{{ wireguard_name }}"
 wireguard_role_web_domain: "{{ user.domain }}"
 wireguard_role_web_port: "51821"
-wireguard_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='wireguard') + '.' + lookup('role_var', '_web_domain', role='wireguard')
-                                 if (lookup('role_var', '_web_subdomain', role='wireguard') | length > 0)
-                                 else lookup('role_var', '_web_domain', role='wireguard') }}"
-wireguard_role_web_host: "{{ (lookup('role_var', '_web_subdomain', role='wireguard') + '.' + lookup('role_var', '_web_domain', role='wireguard')
-                              if (lookup('role_var', '_web_subdomain', role='wireguard') | length > 0)
-                              else lookup('role_var', '_web_domain', role='wireguard')) }}"
+wireguard_role_web_url: "{{ lookup('role_web', role='wireguard', scheme='https') }}"
+wireguard_role_web_host: "{{ lookup('role_web', role='wireguard') }}"
 
 ################################
 # DNS

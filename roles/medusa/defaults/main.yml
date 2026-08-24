@@ -29,9 +29,7 @@ medusa_role_paths_folders_list:
 medusa_role_web_subdomain: "{{ medusa_name }}"
 medusa_role_web_domain: "{{ user.domain }}"
 medusa_role_web_port: "8081"
-medusa_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='medusa') + '.' + lookup('role_var', '_web_domain', role='medusa')
-                              if (lookup('role_var', '_web_subdomain', role='medusa') | length > 0)
-                              else lookup('role_var', '_web_domain', role='medusa') }}"
+medusa_role_web_url: "{{ lookup('role_web', role='medusa', scheme='https') }}"
 
 ################################
 # DNS

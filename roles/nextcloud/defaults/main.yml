@@ -37,9 +37,7 @@ nextcloud_role_paths_folders_list:
 nextcloud_role_web_subdomain: "{{ nextcloud_name }}"
 nextcloud_role_web_domain: "{{ user.domain }}"
 nextcloud_role_web_port: "80"
-nextcloud_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud')
-                                 if (lookup('role_var', '_web_subdomain', role='nextcloud') | length > 0)
-                                 else lookup('role_var', '_web_domain', role='nextcloud') }}"
+nextcloud_role_web_url: "{{ lookup('role_web', role='nextcloud', scheme='https') }}"
 
 ################################
 # DNS
@@ -81,13 +79,13 @@ nextcloud_role_docker_envs_default:
   TZ: "{{ tz }}"
   NEXTCLOUD_ADMIN_USER: "{{ user.name }}"
   NEXTCLOUD_ADMIN_PASSWORD: "{{ user.pass }}"
-  NEXTCLOUD_TRUSTED_DOMAINS: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud') }}"
+  NEXTCLOUD_TRUSTED_DOMAINS: "{{ lookup('role_web', role='nextcloud') }}"
   NEXTCLOUD_DATA_DIR: "{{ lookup('role_var', '_data_directory', role='nextcloud') }}"
   MYSQL_DATABASE: "nextcloud"
   MYSQL_USER: "root"
   MYSQL_PASSWORD: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
   MYSQL_HOST: "mariadb"
-  OVERWRITEHOST: "{{ lookup('role_var', '_web_subdomain', role='nextcloud') + '.' + lookup('role_var', '_web_domain', role='nextcloud') }}"
+  OVERWRITEHOST: "{{ lookup('role_web', role='nextcloud') }}"
   OVERWRITEPROTOCOL: "https"
   OVERWRITECLIURL: "{{ lookup('role_var', '_web_url', role='nextcloud') }}"
   PHP_MEMORY_LIMIT: "{{ lookup('role_var', '_php_memory_limit', role='nextcloud') }}"

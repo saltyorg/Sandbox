@@ -38,9 +38,7 @@ uptime_kuma_role_paths_recursive: true
 uptime_kuma_role_web_subdomain: "{{ uptime_kuma_name }}"
 uptime_kuma_role_web_domain: "{{ user.domain }}"
 uptime_kuma_role_web_port: "3001"
-uptime_kuma_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='uptime_kuma') + '.' + lookup('role_var', '_web_domain', role='uptime_kuma')
-                                   if (lookup('role_var', '_web_subdomain', role='uptime_kuma') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='uptime_kuma') }}"
+uptime_kuma_role_web_url: "{{ lookup('role_web', role='uptime_kuma', scheme='https') }}"
 
 ################################
 # DNS

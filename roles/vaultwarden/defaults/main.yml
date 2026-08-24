@@ -30,9 +30,7 @@ vaultwarden_role_paths_config_location: "{{ vaultwarden_role_paths_location }}/e
 vaultwarden_role_web_subdomain: "{{ vaultwarden_name }}"
 vaultwarden_role_web_domain: "{{ user.domain }}"
 vaultwarden_role_web_port: "6423"
-vaultwarden_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='vaultwarden') + '.' + lookup('role_var', '_web_domain', role='vaultwarden')
-                                   if (lookup('role_var', '_web_subdomain', role='vaultwarden') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='vaultwarden') }}"
+vaultwarden_role_web_url: "{{ lookup('role_web', role='vaultwarden', scheme='https') }}"
 
 ################################
 # DNS

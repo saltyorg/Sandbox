@@ -73,9 +73,7 @@ miniflux_role_paths_folders_list:
 miniflux_role_web_subdomain: "{{ miniflux_name }}"
 miniflux_role_web_domain: "{{ user.domain }}"
 miniflux_role_web_port: "8080"
-miniflux_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='miniflux') + '.' + lookup('role_var', '_web_domain', role='miniflux')
-                                if (lookup('role_var', '_web_subdomain', role='miniflux') | length > 0)
-                                else lookup('role_var', '_web_domain', role='miniflux') }}"
+miniflux_role_web_url: "{{ lookup('role_web', role='miniflux', scheme='https') }}"
 
 ################################
 # DNS

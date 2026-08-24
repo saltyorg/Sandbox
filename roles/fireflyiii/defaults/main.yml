@@ -40,9 +40,7 @@ fireflyiii_role_paths_folders_list:
 fireflyiii_role_web_subdomain: "{{ fireflyiii_name }}"
 fireflyiii_role_web_domain: "{{ user.domain }}"
 fireflyiii_role_web_port: "8080"
-fireflyiii_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='fireflyiii') + '.' + lookup('role_var', '_web_domain', role='fireflyiii')
-                                  if (lookup('role_var', '_web_subdomain', role='fireflyiii') | length > 0)
-                                  else lookup('role_var', '_web_domain', role='fireflyiii') }}"
+fireflyiii_role_web_url: "{{ lookup('role_web', role='fireflyiii', scheme='https') }}"
 
 ################################
 # DNS

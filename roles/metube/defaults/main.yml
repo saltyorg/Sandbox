@@ -31,9 +31,7 @@ metube_role_paths_folders_list:
 metube_role_web_subdomain: "{{ metube_name }}"
 metube_role_web_domain: "{{ user.domain }}"
 metube_role_web_port: "8081"
-metube_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='metube') + '.' + lookup('role_var', '_web_domain', role='metube')
-                              if (lookup('role_var', '_web_subdomain', role='metube') | length > 0)
-                              else lookup('role_var', '_web_domain', role='metube') }}"
+metube_role_web_url: "{{ lookup('role_web', role='metube', scheme='https') }}"
 
 ################################
 # DNS

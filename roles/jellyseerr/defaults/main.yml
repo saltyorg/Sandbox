@@ -35,9 +35,7 @@ jellyseerr_role_paths_folders_list:
 jellyseerr_role_web_subdomain: "{{ jellyseerr_name }}"
 jellyseerr_role_web_domain: "{{ user.domain }}"
 jellyseerr_role_web_port: "5055"
-jellyseerr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='jellyseerr') + '.' + lookup('role_var', '_web_domain', role='jellyseerr')
-                                  if (lookup('role_var', '_web_subdomain', role='jellyseerr') | length > 0)
-                                  else lookup('role_var', '_web_domain', role='jellyseerr') }}"
+jellyseerr_role_web_url: "{{ lookup('role_web', role='jellyseerr', scheme='https') }}"
 
 ################################
 # DNS

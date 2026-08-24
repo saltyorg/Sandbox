@@ -29,9 +29,7 @@ discoflix_role_paths_folders_list:
 discoflix_role_web_subdomain: "{{ discoflix_name }}"
 discoflix_role_web_domain: "{{ user.domain }}"
 discoflix_role_web_port: "5454"
-discoflix_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='discoflix') + '.' + lookup('role_var', '_web_domain', role='discoflix')
-                                 if (lookup('role_var', '_web_subdomain', role='discoflix') | length > 0)
-                                 else lookup('role_var', '_web_domain', role='discoflix') }}"
+discoflix_role_web_url: "{{ lookup('role_web', role='discoflix', scheme='https') }}"
 
 ################################
 # DNS

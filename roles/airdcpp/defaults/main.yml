@@ -35,9 +35,7 @@ airdcpp_role_paths_folders_list:
 airdcpp_role_web_subdomain: "{{ airdcpp_name }}"
 airdcpp_role_web_domain: "{{ user.domain }}"
 airdcpp_role_web_port: "5600"
-airdcpp_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='airdcpp') + '.' + lookup('role_var', '_web_domain', role='airdcpp')
-                               if (lookup('role_var', '_web_subdomain', role='airdcpp') | length > 0)
-                               else lookup('role_var', '_web_domain', role='airdcpp') }}"
+airdcpp_role_web_url: "{{ lookup('role_web', role='airdcpp', scheme='https') }}"
 
 ################################
 # DNS

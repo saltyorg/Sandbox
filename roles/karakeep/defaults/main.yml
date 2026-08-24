@@ -38,9 +38,7 @@ karakeep_role_paths_folders_list:
 karakeep_role_web_subdomain: "{{ karakeep_name }}"
 karakeep_role_web_domain: "{{ user.domain }}"
 karakeep_role_web_port: "3000"
-karakeep_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='karakeep') + '.' + lookup('role_var', '_web_domain', role='karakeep')
-                                if (lookup('role_var', '_web_subdomain', role='karakeep') | length > 0)
-                                else lookup('role_var', '_web_domain', role='karakeep') }}"
+karakeep_role_web_url: "{{ lookup('role_web', role='karakeep', scheme='https') }}"
 
 ################################
 # DNS

@@ -35,9 +35,7 @@ homebox_role_paths_folders_list:
 homebox_role_web_subdomain: "{{ homebox_name }}"
 homebox_role_web_domain: "{{ user.domain }}"
 homebox_role_web_port: "7745"
-homebox_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='homebox') + '.' + lookup('role_var', '_web_domain', role='homebox')
-                               if (lookup('role_var', '_web_subdomain', role='homebox') | length > 0)
-                               else lookup('role_var', '_web_domain', role='homebox') }}"
+homebox_role_web_url: "{{ lookup('role_web', role='homebox', scheme='https') }}"
 
 ################################
 # DNS

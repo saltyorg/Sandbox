@@ -69,12 +69,8 @@ n8n_role_paths_folders_list:
 n8n_role_web_subdomain: "{{ n8n_name }}"
 n8n_role_web_domain: "{{ user.domain }}"
 n8n_role_web_port: "5678"
-n8n_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='n8n') + '.' + lookup('role_var', '_web_domain', role='n8n')
-                           if (lookup('role_var', '_web_subdomain', role='n8n') | length > 0)
-                           else lookup('role_var', '_web_domain', role='n8n') }}"
-n8n_role_web_host: "{{ lookup('role_var', '_web_subdomain', role='n8n') + '.' + lookup('role_var', '_web_domain', role='n8n')
-                    if (lookup('role_var', '_web_subdomain', role='n8n') | length > 0)
-                    else lookup('role_var', '_web_domain', role='n8n') }}"
+n8n_role_web_url: "{{ lookup('role_web', role='n8n', scheme='https') }}"
+n8n_role_web_host: "{{ lookup('role_web', role='n8n') }}"
 
 ################################
 # DNS

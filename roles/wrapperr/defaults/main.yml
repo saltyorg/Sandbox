@@ -29,9 +29,7 @@ wrapperr_role_paths_folders_list:
 wrapperr_role_web_subdomain: "{{ wrapperr_name }}"
 wrapperr_role_web_domain: "{{ user.domain }}"
 wrapperr_role_web_port: "8282"
-wrapperr_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='wrapperr') + '.' + lookup('role_var', '_web_domain', role='wrapperr')
-                                if (lookup('role_var', '_web_subdomain', role='wrapperr') | length > 0)
-                                else lookup('role_var', '_web_domain', role='wrapperr') }}"
+wrapperr_role_web_url: "{{ lookup('role_web', role='wrapperr', scheme='https') }}"
 
 ################################
 # DNS

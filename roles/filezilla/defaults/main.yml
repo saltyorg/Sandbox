@@ -30,9 +30,7 @@ filezilla_role_paths_folders_list:
 filezilla_role_web_subdomain: "{{ filezilla_name }}"
 filezilla_role_web_domain: "{{ user.domain }}"
 filezilla_role_web_port: "5800"
-filezilla_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='filezilla') + '.' + lookup('role_var', '_web_domain', role='filezilla')
-                                 if (lookup('role_var', '_web_subdomain', role='filezilla') | length > 0)
-                                 else lookup('role_var', '_web_domain', role='filezilla') }}"
+filezilla_role_web_url: "{{ lookup('role_web', role='filezilla', scheme='https') }}"
 
 ################################
 # DNS

@@ -30,9 +30,7 @@ komga_role_paths_folders_list:
 komga_role_web_subdomain: "{{ komga_name }}"
 komga_role_web_domain: "{{ user.domain }}"
 komga_role_web_port: "25600"
-komga_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='komga') + '.' + lookup('role_var', '_web_domain', role='komga')
-                             if (lookup('role_var', '_web_subdomain', role='komga') | length > 0)
-                             else lookup('role_var', '_web_domain', role='komga') }}"
+komga_role_web_url: "{{ lookup('role_web', role='komga', scheme='https') }}"
 
 ################################
 # DNS

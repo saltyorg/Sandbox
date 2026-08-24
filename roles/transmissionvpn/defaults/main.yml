@@ -46,9 +46,7 @@ transmissionvpn_role_paths_folders_list:
 transmissionvpn_role_web_subdomain: "{{ transmissionvpn_name }}"
 transmissionvpn_role_web_domain: "{{ user.domain }}"
 transmissionvpn_role_web_port: "9091"
-transmissionvpn_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='transmissionvpn') + '.' + lookup('role_var', '_web_domain', role='transmissionvpn')
-                                       if (lookup('role_var', '_web_subdomain', role='transmissionvpn') | length > 0)
-                                       else lookup('role_var', '_web_domain', role='transmissionvpn') }}"
+transmissionvpn_role_web_url: "{{ lookup('role_web', role='transmissionvpn', scheme='https') }}"
 
 ################################
 # DNS

@@ -29,9 +29,7 @@ grocy_role_paths_folders_list:
 grocy_role_web_subdomain: "{{ grocy_name }}"
 grocy_role_web_domain: "{{ user.domain }}"
 grocy_role_web_port: "80"
-grocy_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='grocy') + '.' + lookup('role_var', '_web_domain', role='grocy')
-                             if (lookup('role_var', '_web_subdomain', role='grocy') | length > 0)
-                             else lookup('role_var', '_web_domain', role='grocy') }}"
+grocy_role_web_url: "{{ lookup('role_web', role='grocy', scheme='https') }}"
 
 ################################
 # DNS

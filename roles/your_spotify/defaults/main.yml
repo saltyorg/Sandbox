@@ -27,9 +27,7 @@ your_spotify_role_secret_key: ""
 your_spotify_role_web_subdomain: "spotify"
 your_spotify_role_web_domain: "{{ user.domain }}"
 your_spotify_role_web_port: "80"
-your_spotify_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='your_spotify') + '.' + lookup('role_var', '_web_domain', role='your_spotify')
-                                    if (lookup('role_var', '_web_subdomain', role='your_spotify') | length > 0)
-                                    else lookup('role_var', '_web_domain', role='your_spotify') }}"
+your_spotify_role_web_url: "{{ lookup('role_web', role='your_spotify', scheme='https') }}"
 
 ################################
 # DNS

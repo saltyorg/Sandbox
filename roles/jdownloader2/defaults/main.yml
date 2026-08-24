@@ -34,9 +34,7 @@ jdownloader2_role_paths_folders_list:
 jdownloader2_role_web_subdomain: "{{ jdownloader2_name }}"
 jdownloader2_role_web_domain: "{{ user.domain }}"
 jdownloader2_role_web_port: "5800"
-jdownloader2_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='jdownloader2') + '.' + lookup('role_var', '_web_domain', role='jdownloader2')
-                                    if (lookup('role_var', '_web_subdomain', role='jdownloader2') | length > 0)
-                                    else lookup('role_var', '_web_domain', role='jdownloader2') }}"
+jdownloader2_role_web_url: "{{ lookup('role_web', role='jdownloader2', scheme='https') }}"
 
 ################################
 # DNS

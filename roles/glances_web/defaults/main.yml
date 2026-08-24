@@ -38,9 +38,7 @@ glances_web_role_paths_config_location: "{{ glances_web_role_paths_location }}/c
 glances_web_role_web_subdomain: "{{ glances_web_name }}"
 glances_web_role_web_domain: "{{ user.domain }}"
 glances_web_role_web_port: "61208"
-glances_web_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='glances_web') + '.' + lookup('role_var', '_web_domain', role='glances_web')
-                                   if (lookup('role_var', '_web_subdomain', role='glances_web') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='glances_web') }}"
+glances_web_role_web_url: "{{ lookup('role_web', role='glances_web', scheme='https') }}"
 
 ################################
 # DNS

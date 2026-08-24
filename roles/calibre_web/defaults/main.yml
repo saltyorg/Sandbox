@@ -30,9 +30,7 @@ calibre_web_role_paths_folders_list:
 calibre_web_role_web_subdomain: "{{ calibre_web_name }}"
 calibre_web_role_web_domain: "{{ user.domain }}"
 calibre_web_role_web_port: "8083"
-calibre_web_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='calibre_web') + '.' + lookup('role_var', '_web_domain', role='calibre_web')
-                                   if (lookup('role_var', '_web_subdomain', role='calibre_web') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='calibre_web') }}"
+calibre_web_role_web_url: "{{ lookup('role_web', role='calibre_web', scheme='https') }}"
 
 ################################
 # DNS

@@ -65,9 +65,7 @@ jellystat_role_paths_folders_list:
 jellystat_role_web_subdomain: "{{ jellystat_name }}"
 jellystat_role_web_domain: "{{ user.domain }}"
 jellystat_role_web_port: "3000"
-jellystat_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='jellystat') + '.' + lookup('role_var', '_web_domain', role='jellystat')
-                                 if (lookup('role_var', '_web_subdomain', role='jellystat') | length > 0)
-                                 else lookup('role_var', '_web_domain', role='jellystat') }}"
+jellystat_role_web_url: "{{ lookup('role_web', role='jellystat', scheme='https') }}"
 
 ################################
 # DNS

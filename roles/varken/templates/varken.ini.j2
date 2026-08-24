@@ -25,7 +25,7 @@ password =
 org = -
 
 [tautulli-1]
-url = {{ lookup('role_var', '_web_subdomain', role='tautulli') }}.{{ lookup('role_var', '_web_domain', role='tautulli') }}
+url = {{ lookup('role_web', role='tautulli') }}
 fallback_ip = {{ ip_address_public }}
 apikey = {{ lookup('role_var', '_tautulli_api_key', role='varken') }}
 ssl = false
@@ -38,7 +38,7 @@ get_stats = true
 get_stats_run_seconds = 3600
 
 [sonarr-1]
-url = {{ lookup('role_var', '_web_subdomain', role='sonarr') }}.{{ lookup('role_var', '_web_domain', role='sonarr') }}
+url = {{ lookup('role_web', role='sonarr') }}
 apikey = {{ sonarr_api_key }}
 ssl = false
 verify_ssl = false
@@ -50,7 +50,7 @@ queue = true
 queue_run_seconds = 300
 
 [radarr-1]
-url = {{ lookup('role_var', '_web_subdomain', role='radarr') }}.{{ lookup('role_var', '_web_domain', role='radarr') }}
+url = {{ lookup('role_web', role='radarr') }}
 apikey = {{ radarr_api_key }}
 ssl = false
 verify_ssl = false
@@ -60,7 +60,7 @@ get_missing = true
 get_missing_run_seconds = 300
 
 [ombi-1]
-url = {{ lookup('role_var', '_web_subdomain', role='ombi') }}.{{ lookup('role_var', '_web_domain', role='ombi') }}
+url = {{ lookup('role_web', role='ombi') }}
 apikey = {{ ombi_api_key }}
 ssl = false
 verify_ssl = false

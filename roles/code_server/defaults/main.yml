@@ -32,9 +32,7 @@ code_server_role_paths_folders_list:
 code_server_role_web_subdomain: "{{ code_server_name }}"
 code_server_role_web_domain: "{{ user.domain }}"
 code_server_role_web_port: "8080"
-code_server_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='code_server') + '.' + lookup('role_var', '_web_domain', role='code_server')
-                                   if (lookup('role_var', '_web_subdomain', role='code_server') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='code_server') }}"
+code_server_role_web_url: "{{ lookup('role_web', role='code_server', scheme='https') }}"
 
 ################################
 # DNS

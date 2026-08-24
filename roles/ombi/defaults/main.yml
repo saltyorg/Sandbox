@@ -29,9 +29,7 @@ ombi_role_paths_folders_list:
 ombi_role_web_subdomain: "{{ ombi_name }}"
 ombi_role_web_domain: "{{ user.domain }}"
 ombi_role_web_port: "3579"
-ombi_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='ombi') + '.' + lookup('role_var', '_web_domain', role='ombi')
-                            if (lookup('role_var', '_web_subdomain', role='ombi') | length > 0)
-                            else lookup('role_var', '_web_domain', role='ombi') }}"
+ombi_role_web_url: "{{ lookup('role_web', role='ombi', scheme='https') }}"
 
 ################################
 # DNS

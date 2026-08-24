@@ -89,24 +89,18 @@ silo_role_paths_folders_list:
 silo_role_web_subdomain: "{{ silo_name }}"
 silo_role_web_domain: "{{ user.domain }}"
 silo_role_web_port: "8080"
-silo_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='silo') + '.' + lookup('role_var', '_web_domain', role='silo')
-                            if (lookup('role_var', '_web_subdomain', role='silo') | length > 0)
-                            else lookup('role_var', '_web_domain', role='silo') }}"
+silo_role_web_url: "{{ lookup('role_web', role='silo', scheme='https') }}"
 
 silo_role_web_jf_subdomain: "{{ silo_name }}jf"
 silo_role_web_jf_domain: "{{ user.domain }}"
 silo_role_web_jf_port: "8096"
-silo_role_web_jf_host: "{{ (lookup('role_var', '_web_jf_subdomain', role='silo') + '.' + lookup('role_var', '_web_jf_domain', role='silo'))
-                        if (lookup('role_var', '_web_jf_subdomain', role='silo') | length > 0)
-                        else lookup('role_var', '_web_jf_domain', role='silo') }}"
+silo_role_web_jf_host: "{{ lookup('role_web', role='silo', endpoint='web_jf') }}"
 silo_role_web_jf_url: "https://{{ lookup('role_var', '_web_jf_host', role='silo') }}"
 
 silo_role_web_abs_subdomain: "{{ silo_name }}abs"
 silo_role_web_abs_domain: "{{ user.domain }}"
 silo_role_web_abs_port: "13378"
-silo_role_web_abs_host: "{{ (lookup('role_var', '_web_abs_subdomain', role='silo') + '.' + lookup('role_var', '_web_abs_domain', role='silo'))
-                         if (lookup('role_var', '_web_abs_subdomain', role='silo') | length > 0)
-                         else lookup('role_var', '_web_abs_domain', role='silo') }}"
+silo_role_web_abs_host: "{{ lookup('role_web', role='silo', endpoint='web_abs') }}"
 silo_role_web_abs_url: "https://{{ lookup('role_var', '_web_abs_host', role='silo') }}"
 
 ################################

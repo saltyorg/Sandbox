@@ -38,15 +38,12 @@ crafty_role_web_domain: "{{ user.domain }}"
 crafty_role_web_port: "8443"
 crafty_role_web_scheme: "https"
 crafty_role_web_serverstransport: "skipverify@file"
-crafty_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='crafty') + '.' + lookup('role_var', '_web_domain', role='crafty')
-                              if (lookup('role_var', '_web_subdomain', role='crafty') | length > 0)
-                              else lookup('role_var', '_web_domain', role='crafty') }}"
+crafty_role_web_url: "{{ lookup('role_web', role='crafty', scheme='https') }}"
 
 crafty_role_dynmap_web_subdomain: "{{ crafty_name }}-map"
 crafty_role_dynmap_web_domain: "{{ user.domain }}"
 crafty_role_dynmap_web_port: "8123"
-crafty_role_dynmap_host: "{{ lookup('role_var', '_dynmap_web_subdomain', role='crafty')
-                             + '.' + lookup('role_var', '_dynmap_web_domain', role='crafty') }}"
+crafty_role_dynmap_host: "{{ lookup('role_web', role='crafty', endpoint='dynmap_web') }}"
 
 ################################
 # DNS

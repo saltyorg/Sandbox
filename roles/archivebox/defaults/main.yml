@@ -29,9 +29,7 @@ archivebox_role_paths_folders_list:
 archivebox_role_web_subdomain: "{{ archivebox_name }}"
 archivebox_role_web_domain: "{{ user.domain }}"
 archivebox_role_web_port: "8000"
-archivebox_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='archivebox') + '.' + lookup('role_var', '_web_domain', role='archivebox')
-                                  if (lookup('role_var', '_web_subdomain', role='archivebox') | length > 0)
-                                  else lookup('role_var', '_web_domain', role='archivebox') }}"
+archivebox_role_web_url: "{{ lookup('role_web', role='archivebox', scheme='https') }}"
 
 ################################
 # DNS

@@ -32,9 +32,7 @@ photoprism_role_paths_folders_list:
 photoprism_role_web_subdomain: "{{ photoprism_name }}"
 photoprism_role_web_domain: "{{ user.domain }}"
 photoprism_role_web_port: "2342"
-photoprism_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='photoprism') + '.' + lookup('role_var', '_web_domain', role='photoprism')
-                                  if (lookup('role_var', '_web_subdomain', role='photoprism') | length > 0)
-                                  else lookup('role_var', '_web_domain', role='photoprism') }}"
+photoprism_role_web_url: "{{ lookup('role_web', role='photoprism', scheme='https') }}"
 
 ################################
 # DNS

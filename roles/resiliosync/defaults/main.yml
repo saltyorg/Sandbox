@@ -35,9 +35,7 @@ resiliosync_role_paths_folders_list:
 resiliosync_role_web_subdomain: "{{ resiliosync_name }}"
 resiliosync_role_web_domain: "{{ user.domain }}"
 resiliosync_role_web_port: "8888"
-resiliosync_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='resiliosync') + '.' + lookup('role_var', '_web_domain', role='resiliosync')
-                                   if (lookup('role_var', '_web_subdomain', role='resiliosync') | length > 0)
-                                   else lookup('role_var', '_web_domain', role='resiliosync') }}"
+resiliosync_role_web_url: "{{ lookup('role_web', role='resiliosync', scheme='https') }}"
 
 ################################
 # DNS

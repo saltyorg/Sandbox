@@ -40,9 +40,7 @@ unifi_network_application_role_web_domain: "{{ user.domain }}"
 unifi_network_application_role_web_port: "8443"
 unifi_network_application_role_web_scheme: "https"
 unifi_network_application_role_web_serverstransport: "skipverify@file"
-unifi_network_application_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='unifi_network_application') + '.' + lookup('role_var', '_web_domain', role='unifi_network_application')
-                                                 if (lookup('role_var', '_web_subdomain', role='unifi_network_application') | length > 0)
-                                                 else lookup('role_var', '_web_domain', role='unifi_network_application') }}"
+unifi_network_application_role_web_url: "{{ lookup('role_web', role='unifi_network_application', scheme='https') }}"
 
 ################################
 # DNS

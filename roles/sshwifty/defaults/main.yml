@@ -31,9 +31,7 @@ sshwifty_role_paths_config_location: "{{ sshwifty_role_paths_location }}/config/
 sshwifty_role_web_subdomain: "{{ sshwifty_name }}"
 sshwifty_role_web_domain: "{{ user.domain }}"
 sshwifty_role_web_port: "8182"
-sshwifty_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='sshwifty') + '.' + lookup('role_var', '_web_domain', role='sshwifty')
-                                if (lookup('role_var', '_web_subdomain', role='sshwifty') | length > 0)
-                                else lookup('role_var', '_web_domain', role='sshwifty') }}"
+sshwifty_role_web_url: "{{ lookup('role_web', role='sshwifty', scheme='https') }}"
 
 ################################
 # DNS
