@@ -30,7 +30,13 @@ semaphoreui_role_postgres_docker_env_db: "semaphoreui"
 semaphoreui_role_postgres_docker_image_tag: "15"
 semaphoreui_role_postgres_docker_image_repo: "postgres"
 semaphoreui_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='semaphoreui') }} -U {{ lookup('role_var', '_postgres_user', role='semaphoreui') }}"]
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='semaphoreui') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user', role='semaphoreui') }}"
   start_period: 20s
   interval: 30s
   retries: 5

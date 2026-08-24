@@ -44,7 +44,13 @@ silo_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password',
 silo_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='silo') }}:{{ lookup('role_var', '_postgres_password_lookup', role='silo') }}"
 silo_role_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='silo') }}@{{ lookup('role_var', '_postgres_name', role='silo') }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='silo') }}?sslmode=disable"
 silo_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='silo') }} -U {{ lookup('role_var', '_postgres_user_lookup', role='silo') }}"]
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='silo') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user_lookup', role='silo') }}"
   start_period: 20s
   interval: 30s
   retries: 5

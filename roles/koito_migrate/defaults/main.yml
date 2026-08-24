@@ -32,7 +32,13 @@ koito_migrate_role_postgres_docker_env_db: "{{ koito_role_postgres_docker_env_db
 koito_migrate_role_postgres_docker_image_tag: "{{ koito_role_postgres_docker_image_tag | default('16') }}"
 koito_migrate_role_postgres_docker_image_repo: "{{ koito_role_postgres_docker_image_repo | default('postgres') }}"
 koito_migrate_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='koito_migrate') }} -U {{ lookup('role_var', '_postgres_user', role='koito_migrate') if (lookup('role_var', '_postgres_user', role='koito_migrate') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"]
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='koito_migrate') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user', role='koito_migrate', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
   start_period: 20s
   interval: 30s
   retries: 5

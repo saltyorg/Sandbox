@@ -32,7 +32,13 @@ paperless_ngx_role_postgres_docker_env_db: "{{ paperless_ngx_name }}"
 paperless_ngx_role_postgres_docker_image_tag: "18-alpine"
 paperless_ngx_role_postgres_docker_image_repo: "postgres"
 paperless_ngx_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='paperless_ngx') }} -U {{ lookup('role_var', '_postgres_user', role='paperless_ngx') if (lookup('role_var', '_postgres_user', role='paperless_ngx') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"]
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='paperless_ngx') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user', role='paperless_ngx', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
   start_period: 20s
   interval: 30s
   retries: 5

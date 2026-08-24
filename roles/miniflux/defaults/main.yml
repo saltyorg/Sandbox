@@ -43,7 +43,13 @@ miniflux_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_passwo
 miniflux_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='miniflux') }}:{{ lookup('role_var', '_postgres_password_lookup', role='miniflux') }}"
 miniflux_role_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='miniflux') }}@{{ lookup('role_var', '_postgres_name', role='miniflux') }}/{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}?sslmode=disable"
 miniflux_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }} -U {{ lookup('role_var', '_postgres_user_lookup', role='miniflux') }}"]
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user_lookup', role='miniflux') }}"
   start_period: 20s
   interval: 30s
   retries: 5

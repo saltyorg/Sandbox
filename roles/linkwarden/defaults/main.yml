@@ -30,7 +30,13 @@ linkwarden_role_postgres_docker_env_db: "{{ linkwarden_name }}"
 linkwarden_role_postgres_docker_image_tag: "16-alpine"
 linkwarden_role_postgres_docker_image_repo: "postgres"
 linkwarden_role_postgres_docker_healthcheck:
-  test: ["CMD-SHELL", "pg_isready -d {{ lookup('role_var', '_postgres_docker_env_db', role='linkwarden') }} -U {{ lookup('role_var', '_postgres_user', role='linkwarden') }}"]
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='linkwarden') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user', role='linkwarden') }}"
   start_period: 20s
   interval: 30s
   retries: 5
