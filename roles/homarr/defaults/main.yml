@@ -19,8 +19,8 @@ homarr_name: homarr
 ################################
 
 homarr_role_docker_socket_proxy_envs:
+  ALLOW_LOGS: "1"
   CONTAINERS: "1"
-  POST: "0"
 
 ################################
 # Paths
