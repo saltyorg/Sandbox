@@ -147,40 +147,22 @@ sure_role_docker_envs_default:
   APP_DOMAIN: "{{ lookup('role_var', '_web_host', role='sure') }}"
   DB_HOST: "{{ lookup('role_var', '_postgres_name', role='sure') }}"
   DB_PORT: "5432"
-  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='sure')
-                  if (lookup('role_var', '_postgres_user', role='sure') | length > 0)
-                  else lookup('role_var', '_docker_env_user', role='postgres') }}"
-  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='sure')
-                      if (lookup('role_var', '_postgres_password', role='sure') | length > 0)
-                      else lookup('role_var', '_docker_env_password', role='postgres') }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='sure', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='sure', default=lookup('role_var', '_docker_env_password', role='postgres'), default_if_empty=true) }}"
   POSTGRES_DB: "{{ lookup('role_var', '_postgres_docker_env_db', role='sure') }}"
   REDIS_URL: "redis://{{ lookup('role_var', '_redis_name', role='sure') }}:6379/1"
   SIDEKIQ_WEB_USERNAME: "{{ lookup('role_var', '_sidekiq_web_username', role='sure') }}"
   SIDEKIQ_WEB_PASSWORD: "{{ lookup('role_var', '_sidekiq_web_password', role='sure') }}"
-  OPENAI_ACCESS_TOKEN: "{{ lookup('role_var', '_openai_access_token', role='sure')
-                        if (lookup('role_var', '_openai_access_token', role='sure') | length > 0)
-                        else omit }}"
-  OPENAI_MODEL: "{{ lookup('role_var', '_openai_model', role='sure')
-                 if (lookup('role_var', '_openai_model', role='sure') | length > 0)
-                 else omit }}"
-  OPENAI_URI_BASE: "{{ lookup('role_var', '_openai_uri_base', role='sure')
-                    if (lookup('role_var', '_openai_uri_base', role='sure') | length > 0)
-                    else omit }}"
+  OPENAI_ACCESS_TOKEN: "{{ lookup('role_var', '_openai_access_token', role='sure', default=omit, default_if_empty=true) }}"
+  OPENAI_MODEL: "{{ lookup('role_var', '_openai_model', role='sure', default=omit, default_if_empty=true) }}"
+  OPENAI_URI_BASE: "{{ lookup('role_var', '_openai_uri_base', role='sure', default=omit, default_if_empty=true) }}"
   LANGFUSE_HOST: "{{ lookup('role_var', '_langfuse_host', role='sure') }}"
-  LANGFUSE_PUBLIC_KEY: "{{ lookup('role_var', '_langfuse_public_key', role='sure')
-                        if (lookup('role_var', '_langfuse_public_key', role='sure') | length > 0)
-                        else omit }}"
-  LANGFUSE_SECRET_KEY: "{{ lookup('role_var', '_langfuse_secret_key', role='sure')
-                        if (lookup('role_var', '_langfuse_secret_key', role='sure') | length > 0)
-                        else omit }}"
-  TWELVE_DATA_API_KEY: "{{ lookup('role_var', '_twelve_data_api_key', role='sure')
-                        if (lookup('role_var', '_twelve_data_api_key', role='sure') | length > 0)
-                        else omit }}"
+  LANGFUSE_PUBLIC_KEY: "{{ lookup('role_var', '_langfuse_public_key', role='sure', default=omit, default_if_empty=true) }}"
+  LANGFUSE_SECRET_KEY: "{{ lookup('role_var', '_langfuse_secret_key', role='sure', default=omit, default_if_empty=true) }}"
+  TWELVE_DATA_API_KEY: "{{ lookup('role_var', '_twelve_data_api_key', role='sure', default=omit, default_if_empty=true) }}"
   EXCHANGE_RATE_PROVIDER: "{{ lookup('role_var', '_exchange_rate_provider', role='sure') }}"
   SECURITIES_PROVIDER: "{{ lookup('role_var', '_securities_provider', role='sure') }}"
-  SMTP_ADDRESS: "{{ lookup('role_var', '_smtp_address', role='sure')
-                 if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
-                 else omit }}"
+  SMTP_ADDRESS: "{{ lookup('role_var', '_smtp_address', role='sure', default=omit, default_if_empty=true) }}"
   SMTP_PORT: "{{ lookup('role_var', '_smtp_port', role='sure')
               if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
               else omit }}"
@@ -193,9 +175,7 @@ sure_role_docker_envs_default:
   SMTP_TLS_ENABLED: "{{ lookup('role_var', '_smtp_tls_enabled', role='sure')
                      if (lookup('role_var', '_smtp_address', role='sure') | length > 0)
                      else omit }}"
-  EMAIL_SENDER: "{{ lookup('role_var', '_email_sender', role='sure')
-                 if (lookup('role_var', '_email_sender', role='sure') | length > 0)
-                 else omit }}"
+  EMAIL_SENDER: "{{ lookup('role_var', '_email_sender', role='sure', default=omit, default_if_empty=true) }}"
 sure_role_docker_envs_custom: {}
 sure_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='sure')
                            | combine(lookup('role_var', '_docker_envs_custom', role='sure')) }}"

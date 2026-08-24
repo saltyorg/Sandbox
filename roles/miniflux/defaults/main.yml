@@ -36,13 +36,9 @@ miniflux_role_postgres_docker_env_db: "miniflux"
 miniflux_role_postgres_docker_image_tag: "14-alpine"
 miniflux_role_postgres_docker_image_repo: "postgres"
 # Skip docs
-miniflux_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='miniflux')
-                                     if (lookup('role_var', '_postgres_user', role='miniflux') | length > 0)
-                                     else lookup('role_var', '_docker_env_user', role='postgres') }}"
+miniflux_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='miniflux', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
 # Skip docs
-miniflux_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='miniflux')
-                                         if (lookup('role_var', '_postgres_password', role='miniflux') | length > 0)
-                                         else lookup('role_var', '_docker_env_password', role='postgres') }}"
+miniflux_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='miniflux', default=lookup('role_var', '_docker_env_password', role='postgres'), default_if_empty=true) }}"
 # Skip docs
 miniflux_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='miniflux') }}:{{ lookup('role_var', '_postgres_password_lookup', role='miniflux') }}"
 miniflux_role_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='miniflux') }}@{{ lookup('role_var', '_postgres_name', role='miniflux') }}/{{ lookup('role_var', '_postgres_docker_env_db', role='miniflux') }}?sslmode=disable"

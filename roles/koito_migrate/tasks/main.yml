@@ -69,12 +69,12 @@
 
     - name: Set Koito database URL
       ansible.builtin.set_fact:
-        koito_migrate_database_url_effective: "{{ lookup('role_var', '_database_url', role='koito_migrate') if (lookup('role_var', '_database_url', role='koito_migrate') | length > 0) else 'postgres://' + (lookup('role_var', '_postgres_user', role='koito_migrate') if (lookup('role_var', '_postgres_user', role='koito_migrate') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres')) + ':' + (lookup('role_var', '_postgres_password', role='koito_migrate') if (lookup('role_var', '_postgres_password', role='koito_migrate') | length > 0) else lookup('role_var', '_docker_env_password', role='postgres')) + '@' + lookup('role_var', '_postgres_name', role='koito_migrate') + ':5432/' + lookup('role_var', '_postgres_docker_env_db', role='koito_migrate') }}"
+        koito_migrate_database_url_effective: "{{ lookup('role_var', '_database_url', role='koito_migrate', default='postgres://' + lookup('role_var', '_postgres_user', role='koito_migrate', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) + ':' + lookup('role_var', '_postgres_password', role='koito_migrate', default=lookup('role_var', '_docker_env_password', role='postgres'), default_if_empty=true) + '@' + lookup('role_var', '_postgres_name', role='koito_migrate') + ':5432/' + lookup('role_var', '_postgres_docker_env_db', role='koito_migrate'), default_if_empty=true) }}"
       no_log: true
 
     - name: Set Koito PostgreSQL user
       ansible.builtin.set_fact:
-        koito_migrate_postgres_user_effective: "{{ lookup('role_var', '_postgres_user', role='koito_migrate') if (lookup('role_var', '_postgres_user', role='koito_migrate') | length > 0) else lookup('role_var', '_docker_env_user', role='postgres') }}"
+        koito_migrate_postgres_user_effective: "{{ lookup('role_var', '_postgres_user', role='koito_migrate', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
       when: lookup('role_var', '_postgres_deploy', role='koito_migrate')
 
     - name: Read Koito PostgreSQL users

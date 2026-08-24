@@ -107,12 +107,8 @@ tandoor_role_docker_envs_default:
   DB_ENGINE: "django.db.backends.postgresql"
   POSTGRES_HOST: "{{ lookup('role_var', '_postgres_name', role='tandoor') }}"
   POSTGRES_PORT: "5432"
-  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='tandoor')
-                  if (lookup('role_var', '_postgres_user', role='tandoor') | length > 0)
-                  else lookup('role_var', '_docker_env_user', role='postgres') }}"
-  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='tandoor')
-                      if (lookup('role_var', '_postgres_password', role='tandoor') | length > 0)
-                      else lookup('role_var', '_docker_env_password', role='postgres') }}"
+  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user', role='tandoor', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password', role='tandoor', default=lookup('role_var', '_docker_env_password', role='postgres'), default_if_empty=true) }}"
   POSTGRES_DB: "{{ lookup('role_var', '_postgres_docker_env_db', role='tandoor') }}"
   DEBUG: "0"
   GUNICORN_MEDIA: "1"
