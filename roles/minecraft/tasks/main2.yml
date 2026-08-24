@@ -30,8 +30,9 @@
 
 - name: Add SRV record
   community.general.cloudflare_dns:
-    account_api_key: "{{ cloudflare.api }}"
-    account_email: "{{ cloudflare.email }}"
+    account_api_key: "{{ cloudflare_api_key | default(omit, true) }}"
+    account_email: "{{ cloudflare_email | default(omit, true) }}"
+    api_token: "{{ cloudflare_scoped_token | default(omit, true) }}"
     port: "{{ minecraft_port_assignment.ports.game }}"
     priority: 1
     proto: tcp
