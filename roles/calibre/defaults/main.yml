@@ -35,7 +35,7 @@ calibre_role_web_url: "{{ lookup('role_web', role='calibre', scheme='https') }}"
 calibre_role_web2_subdomain: "{{ calibre_name }}books"
 calibre_role_web2_domain: "{{ user.domain }}"
 calibre_role_web2_port: "8081"
-calibre_role_web2_role_web_url: "{{ lookup('role_web', role='calibre', endpoint='web2', scheme='https') }}"
+calibre_role_web2_url: "{{ lookup('role_web', role='calibre', endpoint='web2', scheme='https') }}"
 
 ################################
 # DNS

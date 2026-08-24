@@ -43,7 +43,7 @@ crafty_role_web_url: "{{ lookup('role_web', role='crafty', scheme='https') }}"
 crafty_role_dynmap_web_subdomain: "{{ crafty_name }}-map"
 crafty_role_dynmap_web_domain: "{{ user.domain }}"
 crafty_role_dynmap_web_port: "8123"
-crafty_role_dynmap_host: "{{ lookup('role_web', role='crafty', endpoint='dynmap_web') }}"
+crafty_role_dynmap_web_host: "{{ lookup('role_web', role='crafty', endpoint='dynmap_web') }}"
 
 ################################
 # DNS
@@ -113,12 +113,12 @@ crafty_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', ro
 crafty_role_docker_labels_default:
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.entrypoints": "web" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.service": "{{ crafty_name }}-map" }'
-  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.rule": "Host(`{{ lookup("role_var", "_dynmap_host", role="crafty") }}`)" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map-http.rule": "Host(`{{ lookup("role_var", "_dynmap_web_host", role="crafty") }}`)" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.middlewares": "{{ traefik_default_middleware_http }}" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map-http.priority": "20" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.entrypoints": "websecure" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.service": "{{ crafty_name }}-map" }'
-  - '{ "traefik.http.routers.{{ crafty_name }}-map.rule": "Host(`{{ lookup("role_var", "_dynmap_host", role="crafty") }}`)" }'
+  - '{ "traefik.http.routers.{{ crafty_name }}-map.rule": "Host(`{{ lookup("role_var", "_dynmap_web_host", role="crafty") }}`)" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.options": "securetls@file" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.tls.certresolver": "{{ lookup("role_var", "_traefik_certresolver", role="crafty") }}" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.middlewares": "{{ traefik_default_middleware }}" }'
