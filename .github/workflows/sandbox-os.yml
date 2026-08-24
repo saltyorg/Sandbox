@@ -40,7 +40,7 @@ jobs:
         working-directory: ${{ github.workspace }}/sandbox
         run: ansible-lint
 
-  defaults-lint:
+  saltbox-lint:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
@@ -58,9 +58,9 @@ jobs:
         with:
           python-version: '3.14'
 
-      - name: Run Defaults Linter
+      - name: Run Saltbox Linter
         working-directory: ${{ github.workspace }}/sandbox
-        run: python3 ../saltbox/scripts/saltbox-defaults-linter.py roles/
+        run: python3 ../saltbox/scripts/saltbox-linter.py .
 
   check-entries:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
@@ -88,7 +88,7 @@ jobs:
   install-24:
     name: '${{ matrix.roles }}-24.04'
     runs-on: ubuntu-24.04
-    needs: [ansible-lint, defaults-lint, find-roles]
+    needs: [ansible-lint, saltbox-lint, find-roles]
     strategy: &install-strategy
       matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
       fail-fast: false
@@ -217,6 +217,6 @@ jobs:
   install-26:
     name: '${{ matrix.roles }}-26.04'
     runs-on: ubuntu-26.04
-    needs: [ansible-lint, defaults-lint, find-roles]
+    needs: [ansible-lint, saltbox-lint, find-roles]
     strategy: *install-strategy
     steps: *install-steps
