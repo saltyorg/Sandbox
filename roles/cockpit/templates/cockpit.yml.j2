@@ -17,6 +17,10 @@ http:
       tls:
         options: securetls@file
         certResolver: {{ lookup('role_var', '_traefik_certresolver', role='cockpit') }}
+{% if traefik_router_certificate_domains %}
+        domains:
+{{ traefik_router_certificate_domains | to_nice_yaml(indent=2) | trim | indent(10, true) }}
+{% endif %}
 {% if lookup('role_var', '_traefik_api_enabled', role='cockpit') %}
     {{ cockpit_name }}-api-http:
       entryPoints:
@@ -38,6 +42,10 @@ http:
       tls:
         options: securetls@file
         certResolver: {{ lookup('role_var', '_traefik_certresolver', role='cockpit') }}
+{% if traefik_router_certificate_domains %}
+        domains:
+{{ traefik_router_certificate_domains | to_nice_yaml(indent=2) | trim | indent(10, true) }}
+{% endif %}
 {% endif %}
 
   services:

@@ -120,8 +120,16 @@ calibre_role_docker_labels_default:
   - '{ "traefik.http.routers.{{ lookup("role_var", "_web2_subdomain", role="calibre") }}.tls.certresolver": "{{ lookup("role_var", "_traefik_certresolver", role="calibre") }}" }'
   - '{ "traefik.http.routers.{{ lookup("role_var", "_web2_subdomain", role="calibre") }}.priority": "20" }'
   - '{ "traefik.http.services.{{ lookup("role_var", "_web2_subdomain", role="calibre") }}.loadbalancer.server.port": "{{ lookup("role_var", "_web2_port", role="calibre") }}" }'
+calibre_role_docker_labels_books_certificate_domains: "{{ lookup('role_var', '_web2_domain', role='calibre')
+                                                          | traefik_certificate_domains([],
+                                                                                        [],
+                                                                                        lookup('role_var', '_traefik_wildcard_enabled', role='calibre', default=(not traefik_http)),
+                                                                                        traefik_certificate_authoritative_zones) }}"
+calibre_role_docker_labels_books_certificates: "{{ calibre_role_docker_labels_books_certificate_domains
+                                                   | traefik_certificate_labels(lookup('role_var', '_web2_subdomain', role='calibre')) }}"
 calibre_role_docker_labels_custom: {}
 calibre_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='calibre')
+                                | combine(calibre_role_docker_labels_books_certificates)
                                 | combine(lookup('role_var', '_docker_labels_custom', role='calibre')) }}"
 
 # Hostname

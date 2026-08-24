@@ -53,7 +53,7 @@ crafty_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='crafty') 
 crafty_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='crafty') }}"
 crafty_role_dns_proxy: "{{ dns_proxied }}"
 crafty_role_dynmap_dns_record: "{{ lookup('role_var', '_dynmap_web_subdomain', role='crafty') }}"
-crafty_role_dynmap_dns_zone: "{{ lookup('role_var', '_web_domain', role='crafty') }}"
+crafty_role_dynmap_dns_zone: "{{ lookup('role_var', '_dynmap_web_domain', role='crafty') }}"
 crafty_role_dynmap_dns_proxy: "{{ dns_proxied }}"
 
 ################################
@@ -124,8 +124,16 @@ crafty_role_docker_labels_default:
   - '{ "traefik.http.routers.{{ crafty_name }}-map.middlewares": "{{ traefik_default_middleware }}" }'
   - '{ "traefik.http.routers.{{ crafty_name }}-map.priority": "20" }'
   - '{ "traefik.http.services.{{ crafty_name }}-map.loadbalancer.server.port": "{{ lookup("role_var", "_dynmap_web_port", role="crafty") }}" }'
+crafty_role_docker_labels_dynmap_certificate_domains: "{{ lookup('role_var', '_dynmap_web_domain', role='crafty')
+                                                          | traefik_certificate_domains([],
+                                                                                        [],
+                                                                                        lookup('role_var', '_traefik_wildcard_enabled', role='crafty', default=(not traefik_http)),
+                                                                                        traefik_certificate_authoritative_zones) }}"
+crafty_role_docker_labels_dynmap_certificates: "{{ crafty_role_docker_labels_dynmap_certificate_domains
+                                                   | traefik_certificate_labels(crafty_name + '-map') }}"
 crafty_role_docker_labels_custom: {}
 crafty_role_docker_labels: "{{ lookup('role_var', '_docker_labels_default', role='crafty')
+                               | combine(crafty_role_docker_labels_dynmap_certificates)
                                | combine(lookup('role_var', '_docker_labels_custom', role='crafty')) }}"
 
 # Hostname

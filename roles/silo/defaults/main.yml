@@ -192,8 +192,16 @@ silo_role_docker_labels_jf_template:
   - '{ "traefik.http.routers.{{ silo_name }}-jf.middlewares": "{{ lookup("role_var", "_traefik_middleware_default", role="silo") }}" }'
   - '{ "traefik.http.routers.{{ silo_name }}-jf.priority": "20" }'
   - '{ "traefik.http.services.{{ silo_name }}-jf.loadbalancer.server.port": "{{ lookup("role_var", "_web_jf_port", role="silo") }}" }'
+silo_role_docker_labels_jf_certificate_domains: "{{ lookup('role_var', '_web_jf_domain', role='silo')
+                                                    | traefik_certificate_domains([],
+                                                                                  [],
+                                                                                  lookup('role_var', '_traefik_wildcard_enabled', role='silo', default=(not traefik_http)),
+                                                                                  traefik_certificate_authoritative_zones) }}"
+silo_role_docker_labels_jf_certificates: "{{ silo_role_docker_labels_jf_certificate_domains
+                                             | traefik_certificate_labels(silo_name + '-jf') }}"
 
-silo_role_docker_labels_jf: "{{ (silo_role_docker_labels_jf_template | map('from_json') | combine)
+silo_role_docker_labels_jf: "{{ ((silo_role_docker_labels_jf_template | map('from_json') | combine)
+                                 | combine(silo_role_docker_labels_jf_certificates))
                              if (lookup('role_var', '_jf_enabled', role='silo') | bool)
                              else {} }}"
 
@@ -211,8 +219,16 @@ silo_role_docker_labels_abs_template:
   - '{ "traefik.http.routers.{{ silo_name }}-abs.middlewares": "{{ lookup("role_var", "_traefik_middleware_default", role="silo") }}" }'
   - '{ "traefik.http.routers.{{ silo_name }}-abs.priority": "20" }'
   - '{ "traefik.http.services.{{ silo_name }}-abs.loadbalancer.server.port": "{{ lookup("role_var", "_web_abs_port", role="silo") }}" }'
+silo_role_docker_labels_abs_certificate_domains: "{{ lookup('role_var', '_web_abs_domain', role='silo')
+                                                     | traefik_certificate_domains([],
+                                                                                   [],
+                                                                                   lookup('role_var', '_traefik_wildcard_enabled', role='silo', default=(not traefik_http)),
+                                                                                   traefik_certificate_authoritative_zones) }}"
+silo_role_docker_labels_abs_certificates: "{{ silo_role_docker_labels_abs_certificate_domains
+                                              | traefik_certificate_labels(silo_name + '-abs') }}"
 
-silo_role_docker_labels_abs: "{{ (silo_role_docker_labels_abs_template | map('from_json') | combine)
+silo_role_docker_labels_abs: "{{ ((silo_role_docker_labels_abs_template | map('from_json') | combine)
+                                  | combine(silo_role_docker_labels_abs_certificates))
                               if (lookup('role_var', '_abs_enabled', role='silo') | bool)
                               else {} }}"
 
