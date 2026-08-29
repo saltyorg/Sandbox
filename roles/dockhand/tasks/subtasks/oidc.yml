@@ -1,5 +1,5 @@
 ##########################################################################
-# Title:            Sandbox: Dockhand | OIDC Priming Tasks               #
+# Title:            Sandbox: Dockhand | OIDC Tasks                       #
 # Author(s):        keldian                                              #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
@@ -7,21 +7,17 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
+- name: Get Authelia container state
+  community.docker.docker_container_info:
+    name: "{{ lookup('role_var', '_docker_container', role='authelia') }}"
+  register: dockhand_authelia_container_info
+
 - name: Hash OIDC client secret
-  community.docker.docker_container:
-    name: "{{ lookup('community.general.random_string', special=false) }}"
-    image: "{{ lookup('role_var', '_docker_image', role='authelia') }}"
-    command:
-      - authelia
-      - crypto
-      - hash
-      - generate
-      - pbkdf2
-      - --password
-      - "{{ dockhand_saltbox.facts.oidc_client_secret }}"
-    detach: false
-    cleanup: true
+  community.docker.docker_container_exec:
+    container: "{{ dockhand_authelia_container_info.container.Name | replace('/', '') }}"
+    command: "authelia crypto hash generate pbkdf2 --password {{ dockhand_saltbox.facts.oidc_client_secret }}"
   register: dockhand_oidc_hash_result
+  when: dockhand_authelia_container_info.container.State.Running
 
 - name: Generate Authelia OIDC client configuration snippet
   ansible.builtin.template:
