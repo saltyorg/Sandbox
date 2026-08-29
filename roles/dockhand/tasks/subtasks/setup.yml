@@ -54,12 +54,14 @@
     body_format: json
     body: "{{ dockhand_dockerhub | combine({'username': dockerhub.user, 'password': dockerhub.token}) }}"
     return_content: true
+  no_log: true
   when:
     - dockhand_dockerhub | length > 0
     - not dockhand_dockerhub.hasCredentials
 
 - name: Prime for authentication
   when: ('dockhand-oidc' in ansible_run_tags)
+  no_log: true
   block:
     - name: Create admin user
       ansible.builtin.uri:
