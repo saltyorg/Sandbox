@@ -60,7 +60,7 @@
 
 - name: Wait for service availability
   ansible.builtin.uri:
-    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/health"
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/health"
   register: dockhand_health
   until: dockhand_health.status == 200
   retries: 30
@@ -68,14 +68,14 @@
 
 - name: Get authentication session status
   ansible.builtin.uri:
-    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/auth/session"
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/auth/session"
     return_content: true
   register: dockhand_session
 
-- name: Apply runtime configuration
-  ansible.builtin.include_tasks: "subtasks/configure.yml"
+- name: Apply setup tasks
+  ansible.builtin.include_tasks: "subtasks/setup.yml"
   when: not dockhand_session.json.authEnabled
 
 - name: Prime for OIDC client registration
-  ansible.builtin.include_tasks: "subtasks/prime_oidc.yml"
+  ansible.builtin.include_tasks: "subtasks/oidc.yml"
   when: ('dockhand-oidc' in ansible_run_tags)

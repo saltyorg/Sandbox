@@ -169,8 +169,7 @@ dockhand_role_web_subdomain: "{{ dockhand_name }}"
 dockhand_role_web_domain: "{{ user.domain }}"
 dockhand_role_web_port: "3000"
 dockhand_role_web_url: "{{ lookup('role_web', role='dockhand', scheme='https') }}"
-dockhand_role_web_service_url: "http://{{ lookup('role_var', '_docker_networks_alias', role='dockhand')
-                                          + ':' + lookup('role_var', '_web_port', role='dockhand') }}"
+dockhand_role_web_host: "{{ lookup('role_web', role='dockhand') }}"
 
 ################################
 # DNS
@@ -195,6 +194,12 @@ dockhand_role_traefik_api_enabled: true
 dockhand_role_traefik_api_endpoint: "PathPrefix(/api)"
 
 ################################
+# Setup
+################################
+
+dockhand_role_host: "http://{{ lookup('role_var', '_docker_networks_alias', role='dockhand') }}:{{ lookup('role_var', '_web_port', role='dockhand') }}"
+
+################################
 # Docker
 ################################
 
@@ -212,14 +217,13 @@ dockhand_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  DATABASE_URL: "{{ lookup('role_var', '_database_url_lookup', role='dockhand')
+  DATABASE_URL: "{{ lookup('role_var', '_postgres_database_url_lookup', role='dockhand')
                  if lookup('role_var', '_postgres_deploy', role='dockhand')
                  else omit }}"
   SKIP_DF_COLLECTION: "{{ lookup('role_var', '_skip_df_collection', role='dockhand', default=omit, default_if_empty=true) }}"
   DISABLE_LOCAL_LOGIN: "{{ lookup('role_var', '_disable_local_login', role='dockhand', default=omit, default_if_empty=true) }}"
   DISABLE_WHATS_NEW: "{{ lookup('role_var', '_disable_whats_new', role='dockhand', default=omit, default_if_empty=true) }}"
-  DNS_RESULT_ORDER: "{{ lookup('role_var', '_dns_result_order', role='dockhand', default_if_empty=true,
-                        default='verbatim'
+  DNS_RESULT_ORDER: "{{ lookup('role_var', '_dns_result_order', role='dockhand', default_if_empty=true, default='verbatim'
                                if (dns_ipv4_enabled and dns_ipv6_enabled)
                                else 'ipv6first'
                                if dns_ipv6_enabled
