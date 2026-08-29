@@ -1,5 +1,5 @@
 ##########################################################################
-# Title:            Sandbox: Dockhand | Configuration tasks              #
+# Title:            Sandbox: Dockhand | Setup Tasks                      #
 # Author(s):        keldian                                              #
 # URL:              https://github.com/saltyorg/Sandbox                  #
 # --                                                                     #
@@ -19,13 +19,13 @@
 
 - name: Get existing environments
   ansible.builtin.uri:
-    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/environments"
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/environments"
     return_content: true
   register: dockhand_environments
 
 - name: Create Saltbox environment
   ansible.builtin.uri:
-    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/environments"
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/environments"
     method: POST
     return_content: true
     body_format: json
@@ -39,7 +39,7 @@
 
 - name: Get existing registries
   ansible.builtin.uri:
-    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/registries"
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/registries"
     return_content: true
   register: dockhand_registries
 
@@ -49,7 +49,7 @@
 
 - name: Update Docker Hub registry
   ansible.builtin.uri:
-    url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/registries/{{ dockhand_dockerhub.id }}"
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/registries/{{ dockhand_dockerhub.id }}"
     method: PUT
     body_format: json
     body: "{{ dockhand_dockerhub | combine({'username': dockerhub.user, 'password': dockerhub.token}) }}"
@@ -63,7 +63,7 @@
   block:
     - name: Create admin user
       ansible.builtin.uri:
-        url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/users"
+        url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/users"
         method: POST
         status_code: 201
         return_content: true
@@ -74,7 +74,7 @@
 
     - name: Create OIDC provider
       ansible.builtin.uri:
-        url: "{{ lookup('role_var', '_web_service_url', role='dockhand') }}/api/auth/oidc"
+        url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/auth/oidc"
         method: POST
         status_code: 201
         return_content: true
