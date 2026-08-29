@@ -17,6 +17,7 @@
     container: "{{ dockhand_authelia_container_info.container.Name | replace('/', '') }}"
     command: "authelia crypto hash generate pbkdf2 --password {{ dockhand_saltbox.facts.oidc_client_secret }}"
   register: dockhand_oidc_hash_result
+  no_log: true
   when: dockhand_authelia_container_info.container.State.Running
 
 - name: Generate Authelia OIDC client configuration snippet
