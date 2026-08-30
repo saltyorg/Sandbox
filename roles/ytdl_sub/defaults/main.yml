@@ -79,7 +79,9 @@ ytdl_sub_role_docker_gpu_enabled: true
 
 # Image
 ytdl_sub_role_docker_image_pull: true
-ytdl_sub_role_docker_image_repo: "{{ 'ghcr.io/jmbannon/ytdl-sub-gui' if lookup('role_var', '_image_type', role='ytdl_sub') == 'gui' else 'ghcr.io/jmbannon/ytdl-sub' }}"
+ytdl_sub_role_docker_image_repo: "{{ 'ghcr.io/jmbannon/ytdl-sub-gui'
+                                  if lookup('role_var', '_image_type', role='ytdl_sub') == 'gui'
+                                  else 'ghcr.io/jmbannon/ytdl-sub' }}"
 ytdl_sub_role_docker_image_tag: "{{ 'latest' if lookup('role_var', '_image_type', role='ytdl_sub') == 'gui' else 'ubuntu-latest' }}"
 ytdl_sub_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='ytdl_sub') }}:{{ lookup('role_var', '_docker_image_tag', role='ytdl_sub') }}"
 
