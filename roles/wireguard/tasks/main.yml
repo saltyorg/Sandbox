@@ -16,7 +16,7 @@
 
 - name: Check if wg-easy database exists
   ansible.builtin.stat:
-    path: "{{ wireguard_role_paths_location }}/wg-easy.db"
+    path: "{{ lookup('role_var', '_paths_location', role='wireguard') }}/wg-easy.db"
   register: wireguard_db
 
 - name: Validate password length

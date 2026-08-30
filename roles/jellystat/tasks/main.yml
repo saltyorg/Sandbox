@@ -26,7 +26,12 @@
   register: jwt_file
 
 - name: Generate JWT Token Secret
-  ansible.builtin.shell: openssl rand -base64 32
+  ansible.builtin.command:
+    argv:
+      - "openssl"
+      - "rand"
+      - "-base64"
+      - "32"
   register: jwt_secret
   when: not jwt_file.stat.exists
 
@@ -40,7 +45,10 @@
   when: not jwt_file.stat.exists
 
 - name: Read JWT Token Secret from file
-  ansible.builtin.shell: cat "{{ lookup('role_var', '_paths_jwt_secret_file', role='jellystat') }}"
+  ansible.builtin.command:
+    argv:
+      - "cat"
+      - "{{ lookup('role_var', '_paths_jwt_secret_file', role='jellystat') }}"
   register: jwt_token
   changed_when: false
 

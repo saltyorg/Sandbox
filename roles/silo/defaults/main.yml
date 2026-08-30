@@ -167,11 +167,11 @@ silo_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='silo
 
 # Volumes
 silo_role_docker_volumes_default:
-  - "{{ silo_role_paths_location }}/plugins:/var/lib/silo/plugins"
-  - "{{ silo_role_paths_location }}/compat:/var/lib/silo/compat"
-  - "{{ silo_role_paths_transcodes_location }}:/tmp/silo-transcode"
-  - "{{ silo_role_paths_location }}/audiobook-covers:/var/lib/silo/audiobook-covers"
-  - "{{ silo_role_paths_location }}/catalog-seeds:/catalog-seeds:ro"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/plugins:/var/lib/silo/plugins"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/compat:/var/lib/silo/compat"
+  - "{{ lookup('role_var', '_paths_transcodes_location', role='silo') }}:/tmp/silo-transcode"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/audiobook-covers:/var/lib/silo/audiobook-covers"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/catalog-seeds:/catalog-seeds:ro"
   - "/proc/meminfo:/host/proc/meminfo:ro"
 silo_role_docker_volumes_custom: []
 silo_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='silo')

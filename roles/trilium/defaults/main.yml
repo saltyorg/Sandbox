@@ -78,7 +78,7 @@ trilium_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='t
 
 # Volumes
 trilium_role_docker_volumes_default:
-  - "{{ trilium_role_paths_location }}:/home/node/trilium-data"
+  - "{{ lookup('role_var', '_paths_location', role='trilium') }}:/home/node/trilium-data"
 trilium_role_docker_volumes_custom: []
 trilium_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='trilium')
                                  + lookup('role_var', '_docker_volumes_custom', role='trilium') }}"

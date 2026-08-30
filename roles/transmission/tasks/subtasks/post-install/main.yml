@@ -9,7 +9,7 @@
 ---
 - name: Post-Install | Wait for config files to be created
   ansible.builtin.wait_for:
-    path: "{{ transmission_role_paths_setttings_location }}"
+    path: "{{ lookup('role_var', '_paths_setttings_location', role='transmission') }}"
     state: present
 
 - name: Post-Install | Wait for 10 seconds

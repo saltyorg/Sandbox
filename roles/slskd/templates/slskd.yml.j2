@@ -1,7 +1,7 @@
 remote_configuration: true
 directories:
-  incomplete: {{ slskd_role_paths_downloads_location }}/incomplete
-  downloads: {{ slskd_role_paths_downloads_location }}/completed
+  incomplete: {{ lookup('role_var', '_paths_downloads_location', role='slskd') }}/incomplete
+  downloads: {{ lookup('role_var', '_paths_downloads_location', role='slskd') }}/completed
 shares:
   directories:
     - '/mnt/unionfs/Media/Music'

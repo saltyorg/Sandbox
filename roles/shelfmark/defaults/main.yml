@@ -73,14 +73,14 @@ shelfmark_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   TZ: "{{ tz }}"
-  INGEST_DIR: "{{ shelfmark_role_paths_downloads_location }}"
+  INGEST_DIR: "{{ lookup('role_var', '_paths_downloads_location', role='shelfmark') }}"
 shelfmark_role_docker_envs_custom: {}
 shelfmark_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='shelfmark')
                                 | combine(lookup('role_var', '_docker_envs_custom', role='shelfmark')) }}"
 
 # Volumes
 shelfmark_role_docker_volumes_default:
-  - "{{ shelfmark_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='shelfmark') }}:/config"
 shelfmark_role_docker_volumes_custom: []
 shelfmark_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='shelfmark')
                                    + lookup('role_var', '_docker_volumes_custom', role='shelfmark') }}"

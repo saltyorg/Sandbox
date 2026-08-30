@@ -22,13 +22,13 @@
 
 - name: Check if config exists
   ansible.builtin.stat:
-    path: "{{ telegraf_role_paths_location }}/{{ telegraf_name }}/telegraf.conf"
+    path: "{{ lookup('role_var', '_paths_location', role='telegraf') }}/{{ telegraf_name }}/telegraf.conf"
   register: telegraf_conf
 
 - name: Import telegraf config if needed
   ansible.builtin.copy:
     src: "telegraf.conf"
-    dest: "{{ telegraf_role_paths_location }}/{{ telegraf_name }}/telegraf.conf"
+    dest: "{{ lookup('role_var', '_paths_location', role='telegraf') }}/{{ telegraf_name }}/telegraf.conf"
     owner: "{{ uid }}"
     group: "{{ gid }}"
     mode: "0664"
