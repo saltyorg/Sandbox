@@ -7,6 +7,14 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Validate MaxMind license key
+  ansible.builtin.assert:
+    that:
+      - lookup('role_var', '_maxmind_license_key', role='varken') | trim | length > 0
+    fail_msg: "Varken requires a MaxMind license key. Set varken_role_maxmind_license_key in the inventory before installing Varken."
+    quiet: true
+  when: (not continuous_integration)
+
 - name: Set Default Tautulli instance
   ansible.builtin.set_fact:
     tautulli_name: "{{ tautulli_instances[0] }}"
@@ -27,6 +35,16 @@
     radarr_name: "{{ radarr_instances[0] }}"
   when: (not radarr_name is defined)
 
+- name: Stop and remove any existing containers
+  community.docker.docker_container:
+    name: "{{ item }}"
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+    state: absent
+  loop:
+    - varken
+    - telegraf
+
 - name: InfluxDB Role
   ansible.builtin.include_role:
     name: influxdb
@@ -40,13 +58,6 @@
 - name: Grafana Role
   ansible.builtin.include_role:
     name: grafana
-
-- name: Stop and remove any existing containers
-  community.docker.docker_container:
-    name: varken
-    container_default_behavior: compatibility
-    tls_hostname: localhost
-    state: absent
 
 - name: Create required directories
   ansible.builtin.file:

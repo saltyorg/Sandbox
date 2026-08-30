@@ -60,13 +60,19 @@
   register: varken_ombi_config_stat
 
 - name: Get Ombi API key
-  ansible.builtin.shell: sqlite3 "{{ lookup('role_var', '_ombi_db', role='varken') }}" "SELECT Content,SettingsName FROM GlobalSettings WHERE SettingsName = 'OmbiSettings';" | sed 's/|[^|]*$//' | jq -r .ApiKey  # noqa 204 jinja[invalid]
-  register: ombi_api_key
+  ansible.builtin.command:
+    expand_argument_vars: false
+    argv:
+      - "sqlite3"
+      - "{{ lookup('role_var', '_ombi_db', role='varken') }}"
+      - "SELECT json_extract(Content, '$.ApiKey') FROM GlobalSettings WHERE SettingsName = 'OmbiSettings' LIMIT 1;"
+  register: ombi_api_key_query
+  changed_when: false
   when: varken_ombi_config_stat.stat.exists
 
 - name: Set 'ombi_api_key'
   ansible.builtin.set_fact:
-    ombi_api_key: "{{ ombi_api_key.stdout
+    ombi_api_key: "{{ ombi_api_key_query.stdout
                    if varken_ombi_config_stat.stat.exists
                    else '' }}"
 
