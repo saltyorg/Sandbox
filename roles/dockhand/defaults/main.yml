@@ -39,10 +39,12 @@ dockhand_role_export_metrics: ""
 dockhand_role_insight_enable: true
 # Enable Docker socket container lifecycle access
 dockhand_role_cycle_enable: true
+# Enable Docker socket ALLOW_LOGS
+dockhand_role_logs_enable: true
 # Enable Docker socket EXEC access
 dockhand_role_exec_enable: false
-# Enable Docker socket ALLOW_ARCHIVE and ALLOW_LOGS
-dockhand_role_backups_enable: false
+# Enable Docker socket ALLOW_ARCHIVE
+dockhand_role_archive_enable: false
 # OIDC provider name
 # If empty will fall back to your default SSO middleware provider
 dockhand_role_oidc_provider: ""
@@ -133,12 +135,15 @@ dockhand_role_docker_socket_proxy_envs_default:
   ALLOW_RESTARTS: "{{ '1'
                    if lookup('role_var', '_cycle_enable', role='dockhand')
                    else omit }}"
-  ALLOW_ARCHIVE: "{{ '1'
-                  if lookup('role_var', '_backups_enable', role='dockhand')
-                  else omit }}"
   ALLOW_LOGS: "{{ '1'
-               if lookup('role_var', '_backups_enable', role='dockhand')
+               if lookup('role_var', '_logs_enable', role='dockhand')
                else omit }}"
+  EXEC: "{{ '1'
+         if lookup('role_var', '_exec_enable', role='dockhand')
+         else omit }}"
+  ALLOW_ARCHIVE: "{{ '1'
+                  if lookup('role_var', '_archive_enable', role='dockhand')
+                  else omit }}"
 dockhand_role_docker_socket_proxy_envs_custom: {}
 # Do not edit or override using the inventory
 dockhand_role_docker_socket_proxy_envs: "{{ lookup('role_var', '_docker_socket_proxy_envs_default', role='dockhand')
