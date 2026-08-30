@@ -34,7 +34,32 @@
         mode: "0664"
 
     - name: Settings | Migrate JSON database path
-      ansible.builtin.shell: jq '.database = "/database/filebrowser.db"' {{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json | sponge {{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json
+      block:
+        - name: Settings | Read migrated settings.json
+          ansible.builtin.slurp:
+            src: "{{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json"
+          register: filebrowser_settings_content
+          no_log: true
+
+        - name: Settings | Parse migrated settings.json
+          ansible.builtin.set_fact:
+            filebrowser_settings_data: "{{ filebrowser_settings_content.content | b64decode | from_json }}"
+          no_log: true
+
+        - name: Settings | Update migrated database path
+          ansible.builtin.set_fact:
+            filebrowser_settings_updated: "{{ filebrowser_settings_data
+                                              | combine({'database': '/database/filebrowser.db'}) }}"
+          no_log: true
+
+        - name: Settings | Write migrated settings.json
+          ansible.builtin.copy:
+            content: "{{ filebrowser_settings_updated | to_nice_json(indent=2) }}\n"
+            dest: "{{ lookup('role_var', '_paths_config_folder', role='filebrowser') }}/settings.json"
+            owner: "{{ user.name }}"
+            group: "{{ user.name }}"
+            mode: "0664"
+          no_log: true
 
     - name: Settings | Remove legacy filebrowser.json
       ansible.builtin.file:
