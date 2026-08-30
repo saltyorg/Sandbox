@@ -13,9 +13,9 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Detect {{ plextraktsync_role_paths_config_location | basename }}
+- name: Detect {{ lookup('role_var', '_paths_config_location', role='plextraktsync') | basename }}
   ansible.builtin.stat:
-    path: "{{ plextraktsync_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='plextraktsync') }}"
   register: plextraktsync_config
 
 - name: Plex Tasks

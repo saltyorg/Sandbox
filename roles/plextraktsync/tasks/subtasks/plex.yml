@@ -11,9 +11,9 @@
   ansible.builtin.include_role:
     name: plex_auth_token
 
-- name: Get data from {{ plex_role_paths_config_location | basename }}
+- name: Get data from {{ lookup('role_var', '_paths_config_location', role='plex') | basename }}
   community.general.xml:
-    path: "{{ plex_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='plex') }}"
     xpath: /Preferences
     content: attribute
   ignore_errors: true
@@ -23,14 +23,14 @@
   ansible.builtin.set_fact:
     plextraktsync_plex_prefs: "{{ plextraktsync_preferences_xml_resp.matches[0].Preferences | default({}) }}"
 
-- name: Create {{ plextraktsync_role_paths_config_location | basename }}
+- name: Create {{ lookup('role_var', '_paths_config_location', role='plextraktsync') | basename }}
   ansible.builtin.template:
-    src: "{{ plextraktsync_role_paths_config_location | basename }}.j2"
-    dest: "{{ plextraktsync_role_paths_config_location }}"
+    src: "{{ lookup('role_var', '_paths_config_location', role='plextraktsync') | basename }}.j2"
+    dest: "{{ lookup('role_var', '_paths_config_location', role='plextraktsync') }}"
     mode: "0644"
 
 - name: Create env file
   ansible.builtin.template:
     src: env.j2
-    dest: "{{ plextraktsync_role_paths_location }}/.env"
+    dest: "{{ lookup('role_var', '_paths_location', role='plextraktsync') }}/.env"
     mode: "0644"
