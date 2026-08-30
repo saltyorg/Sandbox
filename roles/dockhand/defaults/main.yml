@@ -35,6 +35,15 @@ dockhand_role_dns_result_order: ""
 # Expose Prometheus metrics at /metrics
 # Valid values: "true", "false"
 dockhand_role_export_metrics: ""
+# Trust `X-Forwarded-For` / `X-Real-IP` for the client IP
+# Valid values: "true", "false"
+dockhand_role_trust_forwarded_headers: "true"
+# Skip CPU/memory metrics collection entirely
+# Valid values: "true", "false"
+dockhand_role_disable_metrics: ""
+# Skip container-event collection (start/stop/health/OOM)
+# Valid values: "true", "false"
+dockhand_role_disable_events: ""
 # Enable Docker socket INFO and SYSTEM access
 dockhand_role_insight_enable: true
 # Enable Docker socket container lifecycle access
@@ -252,6 +261,9 @@ dockhand_role_docker_envs_default:
                                else omit,
                                default_if_empty=true) }}"
   EXPORT_METRICS: "{{ lookup('role_var', '_export_metrics', role='dockhand', default=omit, default_if_empty=true) }}"
+  TRUST_FORWARDED_HEADERS: "{{ lookup('role_var', '_trust_forwarded_headers', role='dockhand', default=omit, default_if_empty=true) }}"
+  DISABLE_METRICS: "{{ lookup('role_var', '_disable_metrics', role='dockhand', default=omit, default_if_empty=true) }}"
+  DISABLE_EVENTS: "{{ lookup('role_var', '_disable_events', role='dockhand', default=omit, default_if_empty=true) }}"
 dockhand_role_docker_envs_custom: {}
 dockhand_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='dockhand')
                                | combine(lookup('role_var', '_docker_envs_custom', role='dockhand')) }}"
