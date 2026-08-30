@@ -17,6 +17,9 @@
   vars:
     container_name: "{{ koel_name }}_mariadb"
 
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
@@ -39,7 +42,12 @@
   register: stat_vars_ini
 
 - name: "Generate Secret Key for sessions"
-  ansible.builtin.shell: "openssl rand -base64 32"
+  ansible.builtin.command:
+    argv:
+      - "openssl"
+      - "rand"
+      - "-base64"
+      - "32"
   register: generate_koel_secret_key
   when: not stat_vars_ini.stat.exists
 
@@ -65,9 +73,6 @@
     dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
@@ -89,12 +94,29 @@
   when: not stat_koel_db_folder.stat.exists
 
 - name: Generate Admin password hash
-  ansible.builtin.shell: "htpasswd -bnBC 12 '' '{{ user.pass }}' | tr -d ':\n'"
-  register: koel_admin_password_hash
+  ansible.builtin.command:
+    expand_argument_vars: false
+    argv:
+      - "htpasswd"
+      - "-bnBC"
+      - "12"
+      - ""
+      - "{{ user.pass }}"
+  register: koel_admin_password_hash_command
   when: not stat_koel_db_folder.stat.exists
+  no_log: true
+
+- name: Extract Admin password hash
+  ansible.builtin.set_fact:
+    koel_admin_password_hash: "{{ koel_admin_password_hash_command.stdout | regex_replace('^:', '') | trim }}"
+  when: not stat_koel_db_folder.stat.exists
+  no_log: true
 
 - name: Generate Admin password hash
-  ansible.builtin.shell: "date '+%F %H:%M:%S'"
+  ansible.builtin.command:
+    argv:
+      - "date"
+      - "+%F %H:%M:%S"
   register: koel_date
   when: not stat_koel_db_folder.stat.exists
 
@@ -104,5 +126,6 @@
     login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
     login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
-    query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash.stdout }}", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
+    query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash }}", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
   when: not stat_koel_db_folder.stat.exists
+  no_log: true
