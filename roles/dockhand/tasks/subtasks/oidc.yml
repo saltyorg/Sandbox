@@ -7,18 +7,13 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-- name: Get Authelia container state
-  community.docker.docker_container_info:
-    name: "{{ lookup('role_var', '_docker_container', role='authelia') }}"
-  register: dockhand_authelia_container_info
-
 - name: Hash OIDC client secret
   community.docker.docker_container_exec:
-    container: "{{ dockhand_authelia_container_info.container.Name | replace('/', '') }}"
+    container: "{{ lookup('role_var', '_docker_container', role='authelia') }}"
     command: "authelia crypto hash generate pbkdf2 --password {{ dockhand_saltbox.facts.oidc_client_secret }}"
   register: dockhand_oidc_hash_result
+  ignore_errors: true
   no_log: true
-  when: dockhand_authelia_container_info.container.State.Running
 
 - name: Generate Authelia OIDC client configuration snippet
   ansible.builtin.template:

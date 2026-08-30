@@ -191,7 +191,7 @@ dockhand_role_traefik_middleware_custom_api: ""
 dockhand_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 dockhand_role_traefik_enabled: true
 dockhand_role_traefik_api_enabled: true
-dockhand_role_traefik_api_endpoint: "PathPrefix(/api)"
+dockhand_role_traefik_api_endpoint: "PathPrefix(`/api`)"
 
 ################################
 # Setup
