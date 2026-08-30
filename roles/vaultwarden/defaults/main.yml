@@ -29,7 +29,7 @@ vaultwarden_role_paths_config_location: "{{ vaultwarden_role_paths_location }}/e
 
 vaultwarden_role_web_subdomain: "{{ vaultwarden_name }}"
 vaultwarden_role_web_domain: "{{ user.domain }}"
-vaultwarden_role_web_port: "6423"
+vaultwarden_role_web_port: "80"
 vaultwarden_role_web_url: "{{ lookup('role_web', role='vaultwarden', scheme='https') }}"
 
 ################################

@@ -20,31 +20,76 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: "Check if '{{ vaultwarden_role_paths_config_location | basename }}' exists"
+- name: "Check if '{{ lookup('role_var', '_paths_config_location', role='vaultwarden') | basename }}' exists"
   ansible.builtin.stat:
-    path: "{{ vaultwarden_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='vaultwarden') }}"
   register: vaultwarden_env
 
 - name: Remove env folder if it exists
   ansible.builtin.file:
-    path: "{{ vaultwarden_role_paths_config_location }}"
+    path: "{{ lookup('role_var', '_paths_config_location', role='vaultwarden') }}"
     state: absent
   when: (vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir
 
-- name: New `{{ vaultwarden_role_paths_config_location | basename }}` tasks
+- name: New `{{ lookup('role_var', '_paths_config_location', role='vaultwarden') | basename }}` tasks
   when: not vaultwarden_env.stat.exists or ((vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir)
   block:
     - name: "Generate Admin token"
-      ansible.builtin.shell: /usr/bin/openssl rand -base64 48
-      register: admin_token
+      ansible.builtin.command:
+        argv:
+          - "/usr/bin/openssl"
+          - "rand"
+          - "-base64"
+          - "48"
+      register: vaultwarden_admin_token
+      no_log: true
 
-    - name: "Import '{{ vaultwarden_role_paths_config_location | basename }}' if it doesnt exist"
+    - name: Hash Admin token using the Vaultwarden image
+      ansible.builtin.expect:
+        command: >-
+          /usr/bin/docker run
+          --pull={{ 'always' if lookup('role_var', '_docker_image_pull', role='vaultwarden') else 'missing' }}
+          --rm --network none --interactive --tty --entrypoint /vaultwarden
+          {{ lookup('role_var', '_docker_image', role='vaultwarden') | quote }} hash
+        responses:
+          "(?i)password:": "{{ vaultwarden_admin_token.stdout }}"
+        echo: false
+        timeout: 300
+      register: vaultwarden_admin_token_hash_command
+      changed_when: false
+      no_log: true
+
+    - name: Extract Vaultwarden Admin token hash
+      ansible.builtin.set_fact:
+        vaultwarden_admin_token_hash: >-
+          {{ vaultwarden_admin_token_hash_command.stdout
+          | regex_search("ADMIN_TOKEN='([^']+)'", '\1')
+          | first }}
+      no_log: true
+
+    - name: Validate Vaultwarden Admin token hash
+      ansible.builtin.assert:
+        that:
+          - vaultwarden_admin_token_hash is match('^\$argon2id\$v=19\$m=[0-9]+,t=[0-9]+,p=[0-9]+\$')
+        fail_msg: Vaultwarden did not return a valid Argon2id PHC Admin token hash.
+        quiet: true
+
+    - name: "Import '{{ lookup('role_var', '_paths_config_location', role='vaultwarden') | basename }}' if it doesnt exist"
       ansible.builtin.template:
         src: vaultwarden_env.j2
-        dest: "{{ vaultwarden_role_paths_config_location }}"
+        dest: "{{ lookup('role_var', '_paths_config_location', role='vaultwarden') }}"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
+      no_log: true
+
+    - name: Display Vaultwarden Admin token
+      ansible.builtin.debug:
+        msg:
+          - "Vaultwarden admin URL: {{ lookup('role_var', '_web_url', role='vaultwarden') }}/admin"
+          - "Vaultwarden admin token: {{ vaultwarden_admin_token.stdout }}"
+          - "Store this token now. It is shown only during the initial installation and is not stored in plain text."
+      when: (not continuous_integration)
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
