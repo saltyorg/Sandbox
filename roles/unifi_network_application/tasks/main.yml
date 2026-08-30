@@ -27,14 +27,14 @@
 
 - name: "Unifi | Remove init-mongo.js"
   ansible.builtin.file:
-    path: '{{ unifi_network_application_role_paths_location }}/init-mongo.js'
+    path: "{{ lookup('role_var', '_paths_location', role='unifi_network_application') }}/init-mongo.js"
     state: absent
     force: true
 
 - name: "Unifi | Import init-mongo.sh"
   ansible.builtin.template:
     src: init-mongo.sh.j2
-    dest: '{{ unifi_network_application_role_paths_location }}/init-mongo.sh'
+    dest: "{{ lookup('role_var', '_paths_location', role='unifi_network_application') }}/init-mongo.sh"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
@@ -52,7 +52,7 @@
     mongodb_instances:
       - "{{ unifi_network_application_name }}-mongo"
     mongodb_role_paths_location: "{{ server_appdata_path }}/{{ unifi_network_application_name }}"
-    mongodb_role_docker_image_tag: "4.4"
+    mongodb_role_docker_image_tag: "{{ unifi_network_application_mongodb_role_docker_image_tag }}"
     mongodb_role_docker_envs_custom:
       MONGO_INITDB_ROOT_USERNAME: "{{ unifi_network_application_mongo_user }}"
       MONGO_INITDB_ROOT_PASSWORD: "{{ unifi_network_application_mongo_pass }}"
@@ -61,7 +61,7 @@
       MONGO_DBNAME: "{{ unifi_network_application_mongo_dbname }}"
       MONGO_AUTHSOURCE: "admin"
     mongodb_role_docker_volumes_custom:
-      - "{{ unifi_network_application_role_paths_location }}/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro"
+      - "{{ lookup('role_var', '_paths_location', role='unifi_network_application') }}/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

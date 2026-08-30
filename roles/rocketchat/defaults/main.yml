@@ -17,7 +17,7 @@ rocketchat_name: rocketchat
 # Settings
 ################################
 
-rocketchat_mongodb_role_docker_image_tag: "6"
+rocketchat_mongodb_role_docker_image_tag: "8.2"
 rocketchat_mongodb_role_docker_commands:
   - "mongod --oplogSize 128 --replSet rs0"
 rocketchat_mongodb_role_docker_volumes_custom:

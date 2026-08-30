@@ -19,7 +19,7 @@
 
 - name: Create upload directory
   ansible.builtin.file:
-    path: "{{ rocketchat_role_paths_location }}/uploads"
+    path: "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/uploads"
     state: directory
     owner: "65533"
     group: "65533"
@@ -28,11 +28,14 @@
 - name: "RocketChat | Import init-mongo.js"
   ansible.builtin.template:
     src: init-mongo.js
-    dest: '{{ rocketchat_role_paths_location }}/init-mongo.js'
+    dest: "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/init-mongo.js"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
     force: true
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Remove legacy rocketchat_db Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -46,13 +49,13 @@
 
 - name: Check if new mongodb folder exists
   ansible.builtin.stat:
-    path: "{{ rocketchat_role_paths_location }}/mongo"
+    path: "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/mongo"
   register: rocketchat_db_new_folder
 
 - name: Migrate mongodb directory
   migrate_folder:
     legacy_path: "{{ server_appdata_path }}/rocketchat_db"
-    new_path: "{{ rocketchat_role_paths_location }}/mongo"
+    new_path: "{{ lookup('role_var', '_paths_location', role='rocketchat') }}/mongo"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0775'
@@ -67,10 +70,7 @@
     mongodb_role_docker_image_tag: "{{ rocketchat_mongodb_role_docker_image_tag }}"
     mongodb_role_docker_commands: "{{ rocketchat_mongodb_role_docker_commands }}"
     mongodb_role_docker_volumes_custom: "{{ rocketchat_mongodb_role_docker_volumes_custom }}"
-    mongodb_role_paths_location: "{{ rocketchat_mongodb_role_paths_location }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+    mongodb_role_paths_location: "{{ lookup('role_var', '_paths_location', role='rocketchat_mongodb') }}"
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

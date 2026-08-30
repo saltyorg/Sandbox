@@ -19,6 +19,7 @@ your_spotify_name: your-spotify
 
 your_spotify_role_public_key: ""
 your_spotify_role_secret_key: ""
+your_spotify_mongodb_role_docker_image_tag: "8.0"
 
 ################################
 # Web

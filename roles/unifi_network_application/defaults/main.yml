@@ -21,6 +21,7 @@ unifi_network_application_mongo_user: "unifi"
 unifi_network_application_mongo_pass: "password4321"
 unifi_network_application_mongo_port: "27017"
 unifi_network_application_mongo_dbname: "unifi"
+unifi_network_application_mongodb_role_docker_image_tag: "8.0"
 
 ################################
 # Paths
@@ -103,7 +104,7 @@ unifi_network_application_role_docker_envs: "{{ lookup('role_var', '_docker_envs
 
 # Volumes
 unifi_network_application_role_docker_volumes_default:
-  - "{{ unifi_network_application_role_paths_location }}:/config"
+  - "{{ lookup('role_var', '_paths_location', role='unifi_network_application') }}:/config"
 unifi_network_application_role_docker_volumes_custom: []
 unifi_network_application_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='unifi_network_application')
                                                    + lookup('role_var', '_docker_volumes_custom', role='unifi_network_application') }}"
