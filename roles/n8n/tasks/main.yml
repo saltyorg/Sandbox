@@ -18,6 +18,14 @@
     base_path: "{{ server_appdata_path }}"
   register: n8n_saltbox_facts
 
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Remove n8n Runner Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    container_name: "{{ lookup('role_var', '_runners_name', role='n8n') }}"
+
 - name: Remove legacy PostgreSQL Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
@@ -25,7 +33,7 @@
 
 - name: Check legacy path
   ansible.builtin.stat:
-    path: "{{ n8n_role_paths_location }}/app"
+    path: "{{ lookup('role_var', '_paths_location', role='n8n') }}/app"
   register: stat_n8n_legacy_path
 
 - name: "Import Postgres Role"
@@ -50,13 +58,10 @@
     dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
 
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
 - name: Migrate n8n legacy directory
   migrate_folder:
-    legacy_path: "{{ n8n_role_paths_location }}/app"
-    new_path: "{{ n8n_role_paths_location }}/data/.n8n"
+    legacy_path: "{{ lookup('role_var', '_paths_location', role='n8n') }}/app"
+    new_path: "{{ lookup('role_var', '_paths_location', role='n8n') }}/data/.n8n"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0775'
@@ -78,9 +83,3 @@
     n8n_runner_role_docker_image_tag: "{{ lookup('role_var', '_runners_docker_image_tag', role='n8n') }}"
     n8n_runner_role_docker_envs_custom: "{{ lookup('role_var', '_runners_docker_envs_custom', role='n8n') }}"
   when: lookup('role_var', '_runners_deploy', role='n8n')
-
-- name: Remove n8n Runner Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-  vars:
-    container_name: "{{ lookup('role_var', '_runners_name', role='n8n') }}"
-  when: not lookup('role_var', '_runners_deploy', role='n8n')

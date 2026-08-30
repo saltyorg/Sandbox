@@ -16,8 +16,11 @@
 
 - name: Check for previous install
   ansible.builtin.stat:
-    path: "{{ gitea_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='gitea') }}"
   register: gitea_install_stat
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: MariaDB Role
   ansible.builtin.include_role:
@@ -30,9 +33,6 @@
     login_user: "root"
     login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     state: present
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

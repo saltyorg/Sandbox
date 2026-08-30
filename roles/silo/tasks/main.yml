@@ -18,6 +18,9 @@
     base_path: "{{ server_appdata_path }}"
   register: silo_saltbox_facts
 
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
 - name: Redis Role
   ansible.builtin.include_role:
     name: redis
@@ -65,9 +68,6 @@
     dns_zone: "{{ lookup('role_var', '_abs_dns_zone', role='silo') }}"
     dns_proxy: "{{ lookup('role_var', '_abs_dns_proxy', role='silo') }}"
   when: lookup('role_var', '_abs_enabled', role='silo') | bool
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

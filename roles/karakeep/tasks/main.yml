@@ -27,7 +27,7 @@
 - name: Migrate karakeep directory
   migrate_folder:
     legacy_path: "{{ server_appdata_path }}/hoarder"
-    new_path: "{{ karakeep_role_paths_location }}"
+    new_path: "{{ lookup('role_var', '_paths_location', role='karakeep') }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0775'
@@ -86,6 +86,9 @@
   ansible.builtin.include_role:
     name: chrome
 
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
 - name: Meilisearch role
   ansible.builtin.include_role:
     name: meilisearch
@@ -96,9 +99,6 @@
     dns_record: "{{ lookup('role_var', '_dns_record') }}"
     dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

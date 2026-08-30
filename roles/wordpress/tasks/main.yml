@@ -7,6 +7,19 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: Remove existing WordPress containers
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    wordpress_name: "{{ wordpress_role }}"
+  with_items: "{{ wordpress_instances }}"
+  loop_control:
+    loop_var: wordpress_role
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+  when: wordpress_instances | length > 0
+
 - name: "Execute Wordpress roles"
   ansible.builtin.include_tasks: main2.yml
   vars:

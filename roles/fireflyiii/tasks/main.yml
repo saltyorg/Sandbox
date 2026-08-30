@@ -38,6 +38,9 @@
     base_path: "{{ server_appdata_path }}"
   register: fireflyiii_appkey_saltbox_facts
 
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
@@ -48,9 +51,6 @@
     mariadb_role_docker_image_tag: "{{ lookup('role_var', '_mariadb_docker_image_tag', role='fireflyiii') }}"
     mariadb_role_docker_env_db: "{{ lookup('role_var', '_mariadb_docker_env_db', role='fireflyiii') }}"
     mariadb_role_docker_env_password: "{{ lookup('role_var', '_mariadb_docker_env_password', role='fireflyiii') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

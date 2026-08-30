@@ -20,6 +20,9 @@
     base_path: "{{ server_appdata_path }}"
   register: tandoor_saltbox_facts
 
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
 - name: "Import Postgres Role"
   ansible.builtin.include_role:
     name: postgres
@@ -41,9 +44,6 @@
     dns_record: "{{ lookup('role_var', '_dns_record') }}"
     dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
     dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

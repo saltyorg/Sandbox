@@ -51,6 +51,11 @@
         - not lookup('role_var', '_postgres_deploy', role='koito_migrate')
         - lookup('role_var', '_database_url', role='koito_migrate') | trim | length == 0
 
+    - name: Remove existing Koito Docker container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+      vars:
+        container_name: "{{ koito_name }}"
+
     - name: Import PostgreSQL role
       ansible.builtin.include_role:
         name: postgres
@@ -112,7 +117,9 @@
         name: koito
       vars:
         koito_migration_running: true
-        koito_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='koito_migrate') if lookup('role_var', '_postgres_deploy', role='koito_migrate') else '' }}"
+        koito_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='koito_migrate')
+                                if lookup('role_var', '_postgres_deploy', role='koito_migrate')
+                                else '' }}"
         koito_role_depends_on_delay: "0"
         koito_role_depends_on_healthchecks: "false"
         koito_role_docker_image_tag: "v0.2.1"
