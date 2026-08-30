@@ -14,6 +14,19 @@
 wizarr_instances: ["wizarr"]
 
 ################################
+# Migration
+################################
+
+# Skip docs
+wizarr_role_migration_docker_container: "{{ wizarr_name }}-migration"
+# Skip docs
+wizarr_role_migration_docker_image: "ghcr.io/wizarrrr/wizarr@sha256:4e02cbd3d79d8b0b521e27c4b630e148caac78ea50f6872b54dbcb52727e4be0"
+# Skip docs
+wizarr_role_migration_alembic_revision: "56b33a2ca88e"
+# Skip docs
+wizarr_role_migration_health_timeout: 300
+
+################################
 # Paths
 ################################
 

@@ -7,26 +7,31 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Migration | Check if `{{ wizarr_role_paths_location }}` exists
+- name: Migration | Check if `{{ lookup('role_var', '_paths_location', role='wizarr') }}` exists
   ansible.builtin.stat:
-    path: "{{ wizarr_role_paths_location }}"
+    path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}"
   register: wizarr_role_paths_location_stat
 
-- name: Migration | Check if `{{ wizarr_role_paths_location }}/database` exists
+- name: Migration | Check if `{{ lookup('role_var', '_paths_location', role='wizarr') }}/database` exists
   ansible.builtin.stat:
-    path: "{{ wizarr_role_paths_location }}/database"
+    path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database"
   register: wizarr_role_paths_database_stat
 
-- name: Migration | Check if `{{ wizarr_role_paths_location }}/database.db` exists
+- name: Migration | Check if `{{ lookup('role_var', '_paths_location', role='wizarr') }}/database.db` exists
   ansible.builtin.stat:
-    path: "{{ wizarr_role_paths_location }}/database"
+    path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database.db"
   register: wizarr_role_paths_database_file_stat
 
 - name: Migration | Backup old database directory
   when: wizarr_role_paths_location_stat.stat.exists and wizarr_role_paths_database_file_stat.stat.exists and (not wizarr_role_paths_database_stat.stat.exists)
   block:
     - name: Migration | Check database version
-      ansible.builtin.shell: sqlite3 -readonly "{{ wizarr_role_paths_location }}/database.db" "SELECT value FROM settings WHERE key='version'"
+      ansible.builtin.command:
+        argv:
+          - "sqlite3"
+          - "-readonly"
+          - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database.db"
+          - "SELECT value FROM settings WHERE key='version'"
       register: wizarr_role_database_version
 
     - name: Migration | Fail if database version is not 4.2.0
@@ -36,8 +41,8 @@
 
     - name: Migration | Migrate old user data to temp folder
       migrate_folder:
-        legacy_path: "{{ wizarr_role_paths_location }}"
-        new_path: "{{ wizarr_role_paths_location }}_backup"
+        legacy_path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}"
+        new_path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}_backup"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: '0775'
@@ -45,9 +50,126 @@
 
     - name: Migration | Migrate old user data to new location
       migrate_folder:
-        legacy_path: "{{ wizarr_role_paths_location }}_backup"
-        new_path: "{{ wizarr_role_paths_location }}/database"
+        legacy_path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}_backup"
+        new_path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database"
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: '0775'
         recurse: true
+
+
+- name: Migration | Check if imported database exists
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database/database.db"
+  register: wizarr_role_migration_database_stat
+
+- name: Migration | Read database revision before legacy import
+  ansible.builtin.command:
+    argv:
+      - "sqlite3"
+      - "-readonly"
+      - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database/database.db"
+      - "SELECT version_num FROM alembic_version"
+  register: wizarr_role_migration_revision_before
+  changed_when: false
+  failed_when: false
+  when: wizarr_role_migration_database_stat.stat.exists
+
+- name: Migration | Read nested legacy database version
+  ansible.builtin.command:
+    argv:
+      - "sqlite3"
+      - "-readonly"
+      - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database/database.db"
+      - "SELECT value FROM settings WHERE key='version'"
+  register: wizarr_role_migration_legacy_version
+  changed_when: false
+  failed_when: false
+  when:
+    - wizarr_role_migration_database_stat.stat.exists
+    - (wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0)
+
+- name: Migration | Fail if unversioned database is not supported legacy data
+  ansible.builtin.fail:
+    msg: "Wizarr only supports migration from a legacy database version of 4.2.0"
+  when:
+    - wizarr_role_migration_database_stat.stat.exists
+    - (wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0)
+    - (wizarr_role_migration_legacy_version.rc != 0) or (wizarr_role_migration_legacy_version.stdout != '4.2.0')
+
+- name: Migration | Set legacy import state
+  ansible.builtin.set_fact:
+    wizarr_role_migration_bridge_required: "{{ wizarr_role_migration_database_stat.stat.exists
+                                                and ((wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0))
+                                                and (wizarr_role_migration_legacy_version.rc == 0)
+                                                and (wizarr_role_migration_legacy_version.stdout == '4.2.0') }}"
+
+- name: Migration | Remove stale migration container
+  community.docker.docker_container:
+    name: "{{ lookup('role_var', '_migration_docker_container', role='wizarr') }}"
+    state: absent
+  when: wizarr_role_migration_database_stat.stat.exists
+
+- name: Migration | Import legacy database with Wizarr migration image
+  community.docker.docker_container:
+    name: "{{ lookup('role_var', '_migration_docker_container', role='wizarr') }}"
+    image: "{{ lookup('role_var', '_migration_docker_image', role='wizarr') }}"
+    pull: true
+    user: "0:0"
+    env:
+      TZ: "{{ tz }}"
+    volumes:
+      - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database:/data/database"
+    restart_policy: "no"
+    state: healthy
+    healthy_wait_timeout: "{{ lookup('role_var', '_migration_health_timeout', role='wizarr') }}"
+  when: wizarr_role_migration_bridge_required
+
+- name: Migration | Read database revision after legacy import
+  ansible.builtin.command:
+    argv:
+      - "sqlite3"
+      - "-readonly"
+      - "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database/database.db"
+      - "SELECT version_num FROM alembic_version"
+  register: wizarr_role_migration_revision_after
+  changed_when: false
+  when: wizarr_role_migration_database_stat.stat.exists
+
+- name: Migration | Validate imported database revision
+  ansible.builtin.assert:
+    that:
+      - wizarr_role_migration_revision_after.stdout == lookup('role_var', '_migration_alembic_revision', role='wizarr')
+    fail_msg: "Wizarr legacy database import did not reach the expected migration revision"
+  when: wizarr_role_migration_bridge_required
+
+- name: Migration | Set completed legacy import state
+  ansible.builtin.set_fact:
+    wizarr_role_migration_bridge_completed: "{{ wizarr_role_migration_database_stat.stat.exists
+                                                 and (wizarr_role_migration_revision_after.stdout == lookup('role_var', '_migration_alembic_revision', role='wizarr')) }}"
+
+- name: Migration | Find retained legacy database backup
+  ansible.builtin.find:
+    paths: "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database"
+    patterns: "database.*.old"
+    file_type: file
+    recurse: false
+  register: wizarr_role_migration_legacy_database
+  failed_when: wizarr_role_migration_legacy_database.matched < 1
+  when: wizarr_role_migration_bridge_completed
+
+- name: Migration | Remove migration container
+  community.docker.docker_container:
+    name: "{{ lookup('role_var', '_migration_docker_container', role='wizarr') }}"
+    state: absent
+  when: wizarr_role_migration_bridge_completed
+
+- name: Migration | Reset imported data ownership
+  ansible.builtin.file:
+    path: "{{ lookup('role_var', '_paths_location', role='wizarr') }}/database"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0775"
+    recurse: true
+  when: wizarr_role_migration_bridge_completed
