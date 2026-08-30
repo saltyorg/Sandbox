@@ -9,7 +9,12 @@
 # Repository: https://github.com/haishanh/cherry
 ---
 - name: "Generate Secret Key for JWT"
-  ansible.builtin.shell: "openssl rand -base64 45"
+  ansible.builtin.command:
+    argv:
+      - "openssl"
+      - "rand"
+      - "-base64"
+      - "45"
   register: cherry_secret_key
 
 - name: Add DNS record

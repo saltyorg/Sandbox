@@ -21,8 +21,11 @@
         state: absent
 
     - name: Legacy | Move opt folder 'myjdownloader' to 'jdownloader2'
-      ansible.builtin.shell: |
-        mv {{ server_appdata_path }}/myjdownloader "{{ lookup('role_var', '_paths_location', role='jdownloader2') }}"
+      ansible.builtin.command:
+        argv:
+          - "mv"
+          - "{{ server_appdata_path }}/myjdownloader"
+          - "{{ lookup('role_var', '_paths_location', role='jdownloader2') }}"
 
     - name: Legacy | Set permissions on 'jdownloader2'
       ansible.builtin.file:

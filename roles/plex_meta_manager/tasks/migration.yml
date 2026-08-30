@@ -32,17 +32,29 @@
   when: (opt_pmm.stat.exists or (opt_pmm_name is defined and opt_pmm_name.stat is defined and opt_pmm_name.stat.exists))
   block:
     - name: Relocate '{{ server_appdata_path }}/kometa' to '{{ server_appdata_path }}/kometa_bak'
-      ansible.builtin.shell: "mv {{ server_appdata_path }}/kometa {{ server_appdata_path }}/kometa_bak"
+      ansible.builtin.command:
+        argv:
+          - "mv"
+          - "{{ server_appdata_path }}/kometa"
+          - "{{ server_appdata_path }}/kometa_bak"
       register: kometa_relocate
       when: opt_kometa.stat.exists
 
     - name: Relocate '{{ server_appdata_path }}/plex-meta-manager' to '{{ server_appdata_path }}/kometa'
-      ansible.builtin.shell: "mv {{ server_appdata_path }}/plex-meta-manager {{ server_appdata_path }}/kometa"
+      ansible.builtin.command:
+        argv:
+          - "mv"
+          - "{{ server_appdata_path }}/plex-meta-manager"
+          - "{{ server_appdata_path }}/kometa"
       register: pmm_relocate
       when: opt_pmm.stat.exists
 
     - name: Relocate '{{ server_appdata_path }}/{{ plex_meta_manager_name }}' to '{{ server_appdata_path }}/kometa'
-      ansible.builtin.shell: "mv {{ server_appdata_path }}/{{ plex_meta_manager_name }} {{ server_appdata_path }}/kometa"
+      ansible.builtin.command:
+        argv:
+          - "mv"
+          - "{{ server_appdata_path }}/{{ plex_meta_manager_name }}"
+          - "{{ server_appdata_path }}/kometa"
       register: pmm_name_relocate
       when: opt_pmm_name is defined and opt_pmm_name.stat is defined and opt_pmm_name.stat.exists
 

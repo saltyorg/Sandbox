@@ -9,7 +9,7 @@
 ---
 - name: Auth | Check if 'config.yml' exists
   ansible.builtin.stat:
-    path: "{{ stash_role_paths_location }}/config/config.yml"
+    path: "{{ lookup('role_var', '_paths_location', role='stash') }}/config/config.yml"
   register: stash_config
 
 - name: Auth | Print Message
@@ -20,7 +20,7 @@
 
 - name: Auth | Wait for 'config.yml' to be created
   ansible.builtin.wait_for:
-    path: "{{ stash_role_paths_location }}/config/config.yml"
+    path: "{{ lookup('role_var', '_paths_location', role='stash') }}/config/config.yml"
     state: present
     timeout: 600
 
@@ -28,14 +28,22 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/stop_docker_container.yml"
 
 - name: Allow public access without auth
-  ansible.builtin.shell: |
-    yyq -i '.dangerous_allow_public_without_auth = "true"' {{ stash_role_paths_location }}/config/config.yml
+  ansible.builtin.command:
+    argv:
+      - "yyq"
+      - "-i"
+      - '.dangerous_allow_public_without_auth = "true"'
+      - "{{ lookup('role_var', '_paths_location', role='stash') }}/config/config.yml"
   become: true
   become_user: "{{ user.name }}"
 
 - name: Remove tripwire
-  ansible.builtin.shell: |
-    yyq -i 'del(.security_tripwire_accessed_from_public_internet)' {{ stash_role_paths_location }}/config/config.yml
+  ansible.builtin.command:
+    argv:
+      - "yyq"
+      - "-i"
+      - "del(.security_tripwire_accessed_from_public_internet)"
+      - "{{ lookup('role_var', '_paths_location', role='stash') }}/config/config.yml"
   become: true
   become_user: "{{ user.name }}"
 

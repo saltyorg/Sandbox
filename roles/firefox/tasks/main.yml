@@ -38,4 +38,16 @@
     port: "{{ lookup('role_var', '_web_port', role='firefox') }}"
 
 - name: Remove empty subdirectories of `{{ lookup('role_var', '_paths_location', role='firefox') }}`
-  ansible.builtin.shell: find "{{ lookup('role_var', '_paths_location', role='firefox') }}" -maxdepth 1 -type d -empty -exec rmdir {} +
+  ansible.builtin.command:
+    argv:
+      - "find"
+      - "{{ lookup('role_var', '_paths_location', role='firefox') }}"
+      - "-maxdepth"
+      - "1"
+      - "-type"
+      - "d"
+      - "-empty"
+      - "-exec"
+      - "rmdir"
+      - "{}"
+      - "+"
