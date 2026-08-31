@@ -142,9 +142,6 @@ jobs:
       - name: Install Saltbox Preinstall
         run: cd /srv/git/saltbox && sudo /srv/ansible/venv/bin/ansible-playbook saltbox.yml --tags "preinstall" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
-      - name: Run saltbox.fact
-        run: /srv/git/saltbox/ansible_facts.d/saltbox.fact
-
       - name: Install Saltbox Core
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --tags "core" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
