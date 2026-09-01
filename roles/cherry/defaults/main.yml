@@ -100,4 +100,5 @@ cherry_role_docker_restart_policy: unless-stopped
 
 # Healthcheck
 cherry_role_docker_healthcheck:
-  test: ["NONE"]
+  test:
+    - "NONE"
