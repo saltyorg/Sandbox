@@ -19,6 +19,9 @@ tqm_name: tqm
 
 tqm_role_download_client: "qbt"
 
+# Direct GitHub API URL used to resolve the latest TQM release metadata.
+tqm_role_releases_url: "https://api.github.com/repos/autobrr/tqm/releases/latest"
+
 ################################
 # Paths
 ################################

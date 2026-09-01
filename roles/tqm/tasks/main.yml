@@ -32,14 +32,19 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
-- name: Set variable for output of tqm releases
-  ansible.builtin.uri:
-    url: "{{ svm }}https://api.github.com/repos/autobrr/tqm/releases/latest"
-  register: tqm_releases
+- name: Get latest TQM release metadata
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/git/github_api_request.yml"
+  vars:
+    github_api_url: "{{ lookup('role_var', '_releases_url', role='tqm') }}"
+    github_api_result_var: tqm_release_api
 
 - name: Get the url for latest amd64 tqm binary archive
   ansible.builtin.set_fact:
-    tqm_latest: "{{ tqm_releases.json.assets | selectattr('name', 'search', '_linux_amd64.tar.gz') | map(attribute='browser_download_url') | join('') }}"
+    tqm_latest: "{{ ((tqm_release_api.content | from_json).assets
+                     | selectattr('name', 'search', '_linux_amd64.tar.gz')
+                     | map(attribute='browser_download_url')
+                     | join('')) }}"
+  changed_when: false
 
 - name: Ensure that temp directory does not exist
   ansible.builtin.file:
