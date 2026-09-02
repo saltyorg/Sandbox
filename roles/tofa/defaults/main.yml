@@ -110,7 +110,7 @@ tofa_role_docker_envs_default:
   MEDIA_PATH: "{{ lookup('role_var', '_media_path', role='tofa') }}"
   TZ: "{{ tz }}"
   TOFA_CUSTOM_ACCESS_URLS: "{{ lookup('role_var', '_web_url', role='tofa') }}"
-  TOFA_PORT: "{{ lookup('role_var', '_web_port', role='tofa') }}"
+  TOFA_PORT: "{{ lookup('role_var', '_web_port', role='tofa') | string }}"
   ADVERTISED_LAN_IP: "{{ lookup('role_var', '_lan_ip', role='tofa')
                       if ((lookup('role_var', '_lan_ip', role='tofa') | length > 0) and lookup('role_var', '_open_main_ports', role='tofa'))
                       else omit }}"
