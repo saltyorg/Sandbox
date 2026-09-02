@@ -41,10 +41,8 @@ tofa_role_paths_folders_list:
 
 tofa_role_web_subdomain: "{{ tofa_name }}"
 tofa_role_web_domain: "{{ user.domain }}"
-tofa_role_web_port: "{{ lookup('role_var', '_docker_ports_33333', role='tofa') }}"
-tofa_role_web_url: "https://{{ lookup('role_var', '_web_subdomain', role='tofa') + '.' + lookup('role_var', '_web_domain', role='tofa')
-                            if (lookup('role_var', '_web_subdomain', role='tofa') | length > 0)
-                            else lookup('role_var', '_web_domain', role='tofa') }}"
+tofa_role_web_port: "{{ tofa_port_assignment.ports.web }}"
+tofa_role_web_url: "{{ lookup('role_web', role='tofa', scheme='https') }}"
 
 ################################
 # DNS
@@ -61,10 +59,19 @@ tofa_role_dns_proxy: "{{ dns_proxied }}"
 tofa_role_traefik_sso_middleware: ""
 tofa_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 tofa_role_traefik_middleware_custom: ""
+tofa_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+tofa_role_traefik_middleware_custom_api: ""
 tofa_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 tofa_role_traefik_enabled: true
 tofa_role_traefik_api_enabled: false
 tofa_role_traefik_api_endpoint: ""
+
+################################
+# Ports
+################################
+
+tofa_role_port_web_low_bound: 33333
+tofa_role_port_web_high_bound: 33433
 
 ################################
 # Docker
@@ -83,13 +90,10 @@ tofa_role_docker_image_tag: "beta"
 tofa_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tofa') }}:{{ lookup('role_var', '_docker_image_tag', role='tofa') }}"
 
 # Ports
-tofa_role_docker_ports_33333: "{{ port_lookup_33333.meta.port
-                               if (port_lookup_33333.meta.port is defined) and (port_lookup_33333.meta.port | trim | length > 0)
-                               else '33333' }}"
 tofa_role_docker_ports_default: []
 # Skip docs
 tofa_role_docker_ports_ui:
-  - "{{ lookup('role_var', '_docker_ports_33333', role='tofa') }}:{{ lookup('role_var', '_docker_ports_33333', role='tofa') }}"
+  - "{{ lookup('role_var', '_web_port', role='tofa') }}:{{ lookup('role_var', '_web_port', role='tofa') }}"
 tofa_role_docker_ports_custom: []
 tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='tofa')
                             + lookup('role_var', '_docker_ports_custom', role='tofa')
@@ -98,20 +102,13 @@ tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='to
                                else []) }}"
 
 # Envs
-# The container starts as root and drops to PUID:PGID itself, so appdata stays
-# owned by the Saltbox user rather than the image's baked-in uid.
-# TOFA_CUSTOM_ACCESS_URLS advertises the Traefik URL to clients as a direct
-# connection candidate; without it a bridge-networked server can only be
-# reached through the tofa relay.
-# ADVERTISED_LAN_IP additionally advertises a direct LAN address; it is only
-# reachable when the port is published, hence the open_main_ports gate.
 tofa_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   MEDIA_PATH: /mnt/unionfs/Media
   TZ: "{{ tz }}"
   TOFA_CUSTOM_ACCESS_URLS: "{{ lookup('role_var', '_web_url', role='tofa') }}"
-  TOFA_PORT: "{{ lookup('role_var', '_docker_ports_33333', role='tofa') }}"
+  TOFA_PORT: "{{ lookup('role_var', '_web_port', role='tofa') }}"
   ADVERTISED_LAN_IP: "{{ lookup('role_var', '_lan_ip', role='tofa')
                       if ((lookup('role_var', '_lan_ip', role='tofa') | length > 0) and lookup('role_var', '_open_main_ports', role='tofa'))
                       else omit }}"
@@ -120,22 +117,12 @@ tofa_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tofa
                            | combine(lookup('role_var', '_docker_envs_custom', role='tofa')) }}"
 
 # Volumes
-# Media is reached through the global /mnt:/mnt:rslave mount (so unionfs
-# remounts propagate), which is why MEDIA_PATH above is a host path.
-# The transcode cache lives at <data>/cache/streams; binding it there is what
-# keeps segment churn on transcodes_path instead of the appdata disk.
 tofa_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='tofa') }}:/data"
   - "{{ lookup('role_var', '_paths_transcodes_location', role='tofa') }}:/data/cache/streams"
 tofa_role_docker_volumes_custom: []
 tofa_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tofa')
                               + lookup('role_var', '_docker_volumes_custom', role='tofa') }}"
-
-# Mounts
-tofa_role_docker_mounts_default: []
-tofa_role_docker_mounts_custom: []
-tofa_role_docker_mounts: "{{ lookup('role_var', '_docker_mounts_default', role='tofa')
-                             + lookup('role_var', '_docker_mounts_custom', role='tofa') }}"
 
 # Hostname
 tofa_role_docker_hostname: "{{ tofa_name }}"
