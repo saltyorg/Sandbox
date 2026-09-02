@@ -23,6 +23,8 @@ tofa_role_open_main_ports: false
 # Useful to avoid traffic going through your WAN when hairpin NAT is not available
 # Requires tofa_role_open_main_ports to be enabled
 tofa_role_lan_ip: ""
+# Defines MEDIA_PATH ENV value
+tofa_role_media_path: "/mnt/unionfs/Media"
 
 ################################
 # Paths
@@ -97,7 +99,7 @@ tofa_role_docker_ports_ui:
 tofa_role_docker_ports_custom: []
 tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='tofa')
                             + lookup('role_var', '_docker_ports_custom', role='tofa')
-                            + (tofa_role_docker_ports_ui
+                            + (lookup('role_var', '_docker_ports_ui', role='tofa')
                                if lookup('role_var', '_open_main_ports', role='tofa')
                                else []) }}"
 
@@ -105,7 +107,7 @@ tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='to
 tofa_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
-  MEDIA_PATH: /mnt/unionfs/Media
+  MEDIA_PATH: "{{ lookup('role_var', '_media_path', role='tofa') }}"
   TZ: "{{ tz }}"
   TOFA_CUSTOM_ACCESS_URLS: "{{ lookup('role_var', '_web_url', role='tofa') }}"
   TOFA_PORT: "{{ lookup('role_var', '_web_port', role='tofa') }}"
