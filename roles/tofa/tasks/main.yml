@@ -1,0 +1,16 @@
+##########################################################################
+# Title:            Sandbox: tofa                                        #
+# Author(s):        gylli251                                             #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: "Execute tofa roles"
+  ansible.builtin.include_tasks: main2.yml
+  vars:
+    tofa_name: "{{ instance }}"
+  with_items: "{{ tofa_instances }}"
+  loop_control:
+    loop_var: instance
