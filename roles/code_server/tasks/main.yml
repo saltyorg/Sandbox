@@ -8,7 +8,7 @@
 #########################################################################
 ---
 - name: Import Legacy task
-  ansible.builtin.import_tasks: "subtasks/legacy.yml"
+  ansible.builtin.include_tasks: "subtasks/legacy.yml"
   when: code_server_migrate_coder is defined
 
 - name: Add DNS record

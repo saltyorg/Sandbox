@@ -80,7 +80,7 @@
   register: varken_config_stat
 
 - name: Import config tasks
-  ansible.builtin.import_tasks: config.yml
+  ansible.builtin.include_tasks: config.yml
   when: (not varken_config_stat.stat.exists)
 
 - name: Create and start varken container
