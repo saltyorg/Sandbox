@@ -17,13 +17,13 @@ tofa_instances: ["tofa"]
 # Settings
 ################################
 
-# Safe with multiple instances; each instance is assigned its own port
+# Publish local network service ports
 tofa_role_open_main_ports: false
-# Adds the IP specified here to the advertised URLs tofa broadcasts to clients
+# Comma-separated list of access URLs (or IP addresses) to advertise to clients
 # Useful to avoid traffic going through your WAN when hairpin NAT is not available
 # Requires tofa_role_open_main_ports to be enabled
 tofa_role_lan_ip: ""
-# Defines MEDIA_PATH ENV value
+# Media directory path
 tofa_role_media_path: "/mnt/unionfs/Media"
 
 ################################
