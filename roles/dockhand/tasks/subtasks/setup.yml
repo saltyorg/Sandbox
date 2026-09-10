@@ -1,0 +1,92 @@
+##########################################################################
+# Title:            Sandbox: Dockhand | Setup Tasks                      #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Abort when exposed
+  when: not (lookup('role_var', '_traefik_sso_middleware', role='dockhand') is search('(authelia|authentik)@docker'))
+  block:
+    - name: Remove exposed container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+    - name: Halt deployment
+      ansible.builtin.fail:
+        msg: No authentication mechanism detected. Container removed to avoid exposure; run cancelled.
+
+- name: Get existing environments
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/environments"
+    return_content: true
+  register: dockhand_environments
+
+- name: Create Saltbox environment
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/environments"
+    method: POST
+    return_content: true
+    body_format: json
+    body:
+      name: "Saltbox"
+      connectionType: "direct"
+      host: "{{ lookup('role_var', '_docker_socket_proxy_name', role='dockhand') }}"
+      port: "2375"
+      protocol: "http"
+  when: dockhand_environments.json | length == 0
+
+- name: Get existing registries
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/registries"
+    return_content: true
+  register: dockhand_registries
+
+- name: Select Docker Hub registry
+  ansible.builtin.set_fact:
+    dockhand_dockerhub: "{{ (dockhand_registries.json | selectattr('name', 'equalto', 'Docker Hub') | first) | default({}) }}"
+
+- name: Update Docker Hub registry
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/registries/{{ dockhand_dockerhub.id }}"
+    method: PUT
+    body_format: json
+    body: "{{ dockhand_dockerhub | combine({'username': dockerhub.user, 'password': dockerhub.token}) }}"
+    return_content: true
+  no_log: true
+  when:
+    - dockhand_dockerhub | length > 0
+    - not dockhand_dockerhub.hasCredentials
+
+- name: Prime for authentication
+  when: ('dockhand-oidc' in ansible_run_tags)
+  no_log: true
+  block:
+    - name: Create admin user
+      ansible.builtin.uri:
+        url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/users"
+        method: POST
+        status_code: 201
+        return_content: true
+        body_format: json
+        body:
+          username: "{{ user.name }}"
+          password: "{{ user.pass }}"
+
+    - name: Create OIDC provider
+      ansible.builtin.uri:
+        url: "{{ lookup('role_var', '_host', role='dockhand') }}/api/auth/oidc"
+        method: POST
+        status_code: 201
+        return_content: true
+        body_format: json
+        body:
+          name: "{{ lookup('role_var', '_oidc_provider_lookup', role='dockhand') | capitalize }}"
+          enabled: "{{ lookup('role_var', '_oidc_provider_enabled', role='dockhand') }}"
+          issuerUrl: "{{ lookup('role_var', '_oidc_issuer_url_lookup', role='dockhand')
+                      if lookup('role_var', '_oidc_provider_enabled', role='dockhand')
+                      else 'change me' }}"
+          clientId: "{{ dockhand_name }}"
+          clientSecret: "{{ dockhand_saltbox.facts.oidc_client_secret }}"
+          redirectUri: "{{ lookup('role_var', '_oidc_redirect_uri', role='dockhand') }}"
