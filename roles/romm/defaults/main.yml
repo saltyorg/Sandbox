@@ -52,9 +52,7 @@ romm_role_web_subdomain: "{{ romm_name }}"
 romm_role_web_domain: "{{ user.domain }}"
 romm_role_web_port: "8080"
 romm_role_web_scheme: "http"
-romm_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='romm') + '.' + lookup('role_var', '_web_domain', role='romm')
-                     if (lookup('role_var', '_web_subdomain', role='romm') | length > 0)
-                     else lookup('role_var', '_web_domain', role='romm')) }}"
+romm_role_web_url: "{{ lookup('role_web', role='romm', scheme='https') }}"
 
 ################################
 # DNS
@@ -71,6 +69,8 @@ romm_role_dns_proxy: "{{ dns_proxied }}"
 romm_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 romm_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 romm_role_traefik_middleware_custom: ""
+romm_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+romm_role_traefik_middleware_custom_api: ""
 romm_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
 romm_role_traefik_enabled: true
 romm_role_traefik_api_enabled: false
@@ -153,7 +153,13 @@ romm_role_docker_restart_policy: unless-stopped
 
 # Healthcheck
 romm_role_docker_healthcheck:
-  test: wget -q -O /dev/null http://localhost:8080/ || exit 1
+  test:
+    - "CMD"
+    - "wget"
+    - "-q"
+    - "-O"
+    - "/dev/null"
+    - "http://localhost:8080/"
   interval: 60s
   retries: 5
   start_period: 60s
