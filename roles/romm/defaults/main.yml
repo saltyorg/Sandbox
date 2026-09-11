@@ -100,16 +100,19 @@ romm_role_docker_envs_default:
   ROMM_AUTH_SECRET_KEY: "{{ romm_auth_secret_saltbox_facts.facts.secret_key }}"
   ROMM_DB_DRIVER: "mariadb"
   ROMM_LOG_LEVEL: "INFO"
-  SCREENSCRAPER_USER: ""
-  SCREENSCRAPER_PASSWORD: ""
-  RETROACHIEVEMENTS_API_KEY: ""
-  STEAMGRIDDB_API_KEY: ""
   HASHEOUS_API_ENABLED: "true"
 romm_role_docker_envs_custom: {}
-# Optional API keys for metadata providers (set in host_vars):
-#   SCREENSCRAPER_USER / SCREENSCRAPER_PASSWORD (Screenscraper)
-#   RETROACHIEVEMENTS_API_KEY (RetroAchievements)
-#   STEAMGRIDDB_API_KEY (SteamGridDB)
+# Optional metadata provider vars; Hasheous is enabled by default.
+# Add the ones you use in romm_role_docker_envs_custom:
+#   MOBYGAMES_API_KEY                        - MobyGames
+#   IGDB_CLIENT_ID / IGDB_CLIENT_SECRET      - IGDB
+#   SCREENSCRAPER_USER / SCREENSCRAPER_PASSWORD - ScreenScraper
+#   RETROACHIEVEMENTS_API_KEY                - RetroAchievements
+#   STEAMGRIDDB_API_KEY                      - SteamGridDB
+#   LAUNCHBOX_API_ENABLED, ENABLE_SCHEDULED_UPDATE_LAUNCHBOX_METADATA - LaunchBox
+#   PLAYMATCH_API_ENABLED, PLAYMATCH_API_URL - Playmatch
+#   FLASHPOINT_API_ENABLED                   - Flashpoint
+#   HLTB_API_ENABLED                         - HowLongToBeat
 # Docs: https://docs.romm.app/latest/getting-started/metadata-providers/
 romm_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='romm')
                            | combine(lookup('role_var', '_docker_envs_custom', role='romm')) }}"
