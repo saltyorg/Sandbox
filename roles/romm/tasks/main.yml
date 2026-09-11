@@ -1,0 +1,60 @@
+##########################################################################
+# Title:            Sandbox: RomM                                        #
+# Author(s):        crashman79                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                    #
+##########################################################################
+#                   GNU General Public License v3.0                     #
+##########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
+
+- name: "Save RomM MariaDB Password Saltbox facts"
+  saltbox_facts:
+    role: "romm"
+    instance: "romm_db_password"
+    keys:
+      secret_key: "{{ lookup('password', '/dev/null chars=ascii_letters,digits length=32') }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+    base_path: "{{ server_appdata_path }}"
+  register: romm_db_password_saltbox_facts
+
+- name: "Save RomM Auth Secret Saltbox facts"
+  saltbox_facts:
+    role: "romm"
+    instance: "romm_auth_secret"
+    keys:
+      secret_key: "{{ lookup('password', '/dev/null chars=hexdigits length=64') }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+    base_path: "{{ server_appdata_path }}"
+  register: romm_auth_secret_saltbox_facts
+
+- name: MariaDB Role
+  ansible.builtin.include_role:
+    name: mariadb
+  vars:
+    mariadb_instances: ["{{ lookup('role_var', '_mariadb_name', role='romm') }}"]
+    mariadb_role_paths_folder: "{{ lookup('role_var', '_mariadb_paths_folder', role='romm') }}"
+    mariadb_role_paths_location: "{{ lookup('role_var', '_mariadb_paths_location', role='romm') }}"
+    mariadb_role_docker_image_tag: "{{ lookup('role_var', '_mariadb_docker_image_tag', role='romm') }}"
+    mariadb_role_docker_env_user: "{{ lookup('role_var', '_mariadb_docker_env_user', role='romm') }}"
+    mariadb_role_docker_env_db: "{{ lookup('role_var', '_mariadb_docker_env_db', role='romm') }}"
+    mariadb_role_docker_env_password: "{{ lookup('role_var', '_mariadb_docker_env_password', role='romm') }}"
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

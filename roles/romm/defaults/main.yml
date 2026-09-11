@@ -1,0 +1,165 @@
+##########################################################################
+# Title:            Sandbox: RomM | Default Variables                    #
+# Author(s):        crashman79                                           #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                    #
+##########################################################################
+#                   GNU General Public License v3.0                     #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+romm_name: romm
+
+################################
+# Settings
+################################
+
+romm_role_mariadb_name: "{{ romm_name }}-mariadb"
+romm_role_mariadb_paths_folder: "{{ romm_name }}"
+romm_role_mariadb_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_mariadb_paths_folder', role='romm') }}/mariadb"
+romm_role_mariadb_docker_image_tag: "lts"
+romm_role_mariadb_docker_env_user: "romm"
+romm_role_mariadb_docker_env_db: "romm"
+romm_role_mariadb_docker_env_password: "{{ romm_db_password_saltbox_facts.facts.secret_key }}"
+
+################################
+# Paths
+################################
+
+romm_role_paths_folder: "{{ romm_name }}"
+romm_role_paths_location: "{{ server_appdata_path }}/{{ romm_role_paths_folder }}"
+romm_role_library_folder: "{{ server_local_folder_path }}/Media/Games"
+romm_role_paths_folders_list_appdata:
+  - "{{ romm_role_paths_location }}"
+  - "{{ romm_role_paths_location }}/assets"
+  - "{{ romm_role_paths_location }}/config"
+  - "{{ romm_role_paths_location }}/redis-data"
+  - "{{ romm_role_paths_location }}/resources"
+# Create the library root and chown it to the saltbox user
+# Set false when the library is on a mount the role must not chgrp
+romm_role_library_folder_create: true
+romm_role_paths_folders_list: "{{ romm_role_paths_folders_list_appdata
+                                  + ([romm_role_library_folder] if romm_role_library_folder_create | bool else []) }}"
+
+################################
+# Web
+################################
+
+romm_role_web_subdomain: "{{ romm_name }}"
+romm_role_web_domain: "{{ user.domain }}"
+romm_role_web_port: "8080"
+romm_role_web_scheme: "http"
+romm_role_web_url: "{{ 'https://' + (lookup('role_var', '_web_subdomain', role='romm') + '.' + lookup('role_var', '_web_domain', role='romm')
+                     if (lookup('role_var', '_web_subdomain', role='romm') | length > 0)
+                     else lookup('role_var', '_web_domain', role='romm')) }}"
+
+################################
+# DNS
+################################
+
+romm_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='romm') }}"
+romm_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='romm') }}"
+romm_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+romm_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
+romm_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+romm_role_traefik_middleware_custom: ""
+romm_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+romm_role_traefik_enabled: true
+romm_role_traefik_api_enabled: false
+romm_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+romm_role_docker_container: "{{ romm_name }}"
+
+# Image
+romm_role_docker_image_pull: true
+romm_role_docker_image_repo: "rommapp/romm"
+romm_role_docker_image_tag: "latest"
+romm_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='romm') }}:{{ lookup('role_var', '_docker_image_tag', role='romm') }}"
+
+# Envs
+romm_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  DB_HOST: "{{ romm_name }}-mariadb"
+  DB_PORT: "3306"
+  DB_NAME: "romm"
+  DB_USER: "romm"
+  DB_PASSWD: "{{ romm_db_password_saltbox_facts.facts.secret_key }}"
+  ROMM_AUTH_SECRET_KEY: "{{ romm_auth_secret_saltbox_facts.facts.secret_key }}"
+  ROMM_DB_DRIVER: "mariadb"
+  ROMM_LOG_LEVEL: "INFO"
+  SCREENSCRAPER_USER: ""
+  SCREENSCRAPER_PASSWORD: ""
+  RETROACHIEVEMENTS_API_KEY: ""
+  STEAMGRIDDB_API_KEY: ""
+  HASHEOUS_API_ENABLED: "true"
+romm_role_docker_envs_custom: {}
+# Optional API keys for metadata providers (set in host_vars):
+#   SCREENSCRAPER_USER / SCREENSCRAPER_PASSWORD (Screenscraper)
+#   RETROACHIEVEMENTS_API_KEY (RetroAchievements)
+#   STEAMGRIDDB_API_KEY (SteamGridDB)
+# Docs: https://docs.romm.app/latest/getting-started/metadata-providers/
+romm_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='romm')
+                           | combine(lookup('role_var', '_docker_envs_custom', role='romm')) }}"
+
+# Volumes
+romm_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='romm') }}/resources:/romm/resources"
+  - "{{ lookup('role_var', '_paths_location', role='romm') }}/redis-data:/redis-data"
+  - "{{ lookup('role_var', '_paths_location', role='romm') }}/assets:/romm/assets"
+  - "{{ lookup('role_var', '_paths_location', role='romm') }}/config:/romm/config"
+romm_role_docker_volumes_custom: []
+romm_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='romm')
+                              + lookup('role_var', '_docker_volumes_custom', role='romm') }}"
+
+# Mounts
+# Library is a bind mount of romm_role_library_folder
+romm_role_docker_mounts_default:
+  - type: bind
+    source: "{{ romm_role_library_folder }}"
+    target: "/romm/library"
+romm_role_docker_mounts_custom: []
+romm_role_docker_mounts: "{{ lookup('role_var', '_docker_mounts_default', role='romm')
+                             + lookup('role_var', '_docker_mounts_custom', role='romm') }}"
+
+# Hostname
+romm_role_docker_hostname: "{{ romm_name }}"
+
+# Networks
+romm_role_docker_networks_alias: "{{ romm_name }}"
+romm_role_docker_networks_default: []
+romm_role_docker_networks_custom: []
+romm_role_docker_networks: "{{ docker_networks_common
+                               + lookup('role_var', '_docker_networks_default', role='romm')
+                               + lookup('role_var', '_docker_networks_custom', role='romm') }}"
+
+# Restart Policy
+romm_role_docker_restart_policy: unless-stopped
+
+# Healthcheck
+romm_role_docker_healthcheck:
+  test: wget -q -O /dev/null http://localhost:8080/ || exit 1
+  interval: 60s
+  retries: 5
+  start_period: 60s
+  timeout: 10s
+
+# User
+romm_role_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+romm_role_depends_on: "{{ romm_name }}-mariadb"
+romm_role_depends_on_delay: "0"
+romm_role_depends_on_healthchecks: "true"
