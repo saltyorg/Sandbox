@@ -1,27 +1,27 @@
-# Description
+## Description
 
-For new roles please include:
+For a new role, please include:
 
-- [ ] Official full name of the app:
-- [ ] Summary of what the app is:
-
-    > a/an/the ...
-
-- [ ] Link to Docker Compose sample:
-- [ ] Link to homepage:
-- [ ] Link to releases page:
-- [ ] Link to documentation:
-- [ ] Link to primary community space (Discord server, GitHub Discussions, forum...):
-- [ ] This role does not require Saltbox-specific configuration instructions (the upstream documentation is sufficient)
-- [x] I have decided to ignore these checkboxes and don't want this merged after all.
+- Link to homepage:
+- Link to Docker Compose sample:
 
 It would be greatly appreciated if you create a sandbox documentation page yourself and do a PR into the [docs repo](https://github.com/saltyorg/docs). You, as the person creating the role, have presumably used the thing and are presumably familiar with any setup steps required. Anyone else here would need to research that.
 
-- [ ] I will create documentation after the role is merged.
+- [ ] I have submitted, or will submit, a docs PR.
+      
+    If not, please also fill out:
 
-For existing roles, please include a summary of the change and which issue is fixed if any. Please also include relevant motivation and context. List any dependencies that are required for this change.
+    - Official full name of the app:
+    - Summary of what the app is:
+        > a/an/the ...
+    - Link to the app's documentation:
+    - Link to Docker tags page (or releases page if non-Docker role):
+    - Link to primary community space (Discord server, GitHub Discussions, forum...):
+    - [ ] This role does not require Saltbox-specific configuration instructions (the upstream documentation is sufficient)
 
-# How Has This Been Tested?
+For an existing role, please include a summary of the change and which issue is fixed if any. Please also include relevant motivation and context. List any dependencies that are required for this change.
+
+## How Has This Been Tested?
 
 Please describe the tests that you ran to verify your changes. Please also note any relevant details for your test configuration. You can use the checkboxes below or delete them as you wish.
 
