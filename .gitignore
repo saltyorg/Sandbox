@@ -5,11 +5,15 @@
 *.pyc
 
 # VSCode
-.vscode/
+/.vscode/
+
+# Agents
+/.worktrees/
+/.claude/
 
 # Ansible
 /*.retry
-/.ansible/*
+/.ansible
 /tests/
 
 # Sandbox

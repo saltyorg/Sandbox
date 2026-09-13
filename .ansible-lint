@@ -1,9 +1,9 @@
 exclude_paths:
-  - .github/
-  - .idea/
-  - .vscode/
-  - bin/
-  - defaults/
+  - /.github/
+  - /.idea/
+  - /.vscode/
+  - /bin/
+  - /defaults/
 
 offline: false
 
