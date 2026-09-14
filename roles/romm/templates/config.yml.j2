@@ -1,0 +1,11 @@
+exclude:
+  platforms: []
+  roms:
+    single_file:
+      extensions: {{ romm_role_config_exclude_file_extensions | to_json }}
+      names: {{ romm_role_config_exclude_file_names | to_json }}
+    multi_file:
+      names: {{ romm_role_config_exclude_folder_names | to_json }}
+      parts:
+        extensions: []
+        names: []

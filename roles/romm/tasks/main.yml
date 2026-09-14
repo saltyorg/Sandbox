@@ -55,5 +55,19 @@
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
 
+- name: Check if RomM config.yml exists
+  ansible.builtin.stat:
+    path: "{{ romm_role_paths_location }}/config/config.yml"
+  register: romm_config
+
+- name: "Create RomM config.yml"
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ romm_role_paths_location }}/config/config.yml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0664"
+  when: not romm_config.stat.exists
+
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

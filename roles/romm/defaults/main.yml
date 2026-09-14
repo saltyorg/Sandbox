@@ -45,6 +45,40 @@ romm_role_paths_folders_list: "{{ romm_role_paths_folders_list_appdata
                                   + ([romm_role_library_folder] if romm_role_library_folder_create | bool else []) }}"
 
 ################################
+# Config
+################################
+
+# RomM reads exclusions from /romm/config/config.yml.
+# The role writes this file ONCE (it will not overwrite an existing config.yml,
+# since RomM's UI also edits that file). Delete config.yml to regenerate it.
+# Docs: https://docs.romm.app/latest/reference/configuration-file/#exclude
+romm_role_config_exclude_file_extensions:
+  - xml       # e.g. gamelist.xml
+  - txt
+  - cfg
+  - srm       # emulator save RAM
+  - state     # save states
+  - old       # backups
+  - nv
+  - nvmem
+  - nvmem2
+  - rtc
+  - brm
+  # NOTE: do NOT add .md (Mega Drive ROMs), .sf7 (SF-7000 ROM/BIOS),
+  # or .m3u (RomM multi-disc playlists) here.
+romm_role_config_exclude_file_names:
+  - "._*"       # AppleDouble
+  - ".DS_Store" # macOS
+  - "*.sample.*"
+romm_role_config_exclude_folder_names:
+  - images    # scraper media folders
+  - image
+  - snaps
+  - marquees
+  - videos
+  - manuals
+
+################################
 # Web
 ################################
 
