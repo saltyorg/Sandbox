@@ -89,9 +89,6 @@ silo_role_paths_folders_list:
 silo_role_web_subdomain: "{{ silo_name }}"
 silo_role_web_domain: "{{ user.domain }}"
 silo_role_web_port: "8080"
-# After setup, set Silo's server.public_url in its admin settings to this URL
-# (the browser-facing origin, not a compatibility endpoint or container URL).
-# API v2 no longer reads SILO_PUBLIC_URL; the setting is stored by Silo.
 silo_role_web_url: "{{ lookup('role_web', role='silo', scheme='https') }}"
 
 silo_role_web_jf_subdomain: "{{ silo_name }}jf"
