@@ -153,7 +153,6 @@ silo_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='silo'
 # Envs
 silo_role_docker_envs_default:
   HOME: "/tmp"
-  SILO_PUBLIC_URL: "{{ lookup('role_var', '_web_url', role='silo') }}"
   MODE: "integrated"
   SECRET_KEY: "{{ silo_saltbox_facts.facts.secret_key }}"
   DATABASE_URL: "{{ lookup('role_var', '_database_url', role='silo') }}"
