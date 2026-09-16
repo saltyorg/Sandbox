@@ -1,0 +1,73 @@
+#########################################################################
+# Title:            Sandbox: Tracearr                                   #
+# Author(s):        salty                                               #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Save Tracearr Saltbox facts"
+  saltbox_facts:
+    role: "tracearr"
+    instance: "tracearr"
+    keys:
+      jwt_secret: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=64) }}"
+      cookie_secret: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=64) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: tracearr_saltbox_facts
+  no_log: true
+
+- name: Validate Tracearr secrets
+  ansible.builtin.assert:
+    that:
+      - lookup('role_var', '_jwt_secret', role='tracearr') | length > 0
+      - lookup('role_var', '_cookie_secret', role='tracearr') | length > 0
+    fail_msg: "tracearr_role_jwt_secret and tracearr_role_cookie_secret must not be empty."
+    quiet: true
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Redis Role
+  ansible.builtin.include_role:
+    name: redis
+  vars:
+    redis_instances: ["{{ lookup('role_var', '_redis_name', role='tracearr') }}"]
+    redis_role_docker_image_tag: "{{ lookup('role_var', '_redis_docker_image_tag', role='tracearr') }}"
+    redis_role_docker_commands: "{{ lookup('role_var', '_redis_docker_commands', role='tracearr') }}"
+    redis_role_paths_folder: "{{ lookup('role_var', '_redis_paths_folder', role='tracearr') }}"
+    redis_role_paths_location: "{{ lookup('role_var', '_redis_paths_location', role='tracearr') }}"
+
+- name: "Import TimescaleDB Role"
+  ansible.builtin.include_role:
+    name: timescaledb
+  vars:
+    timescaledb_instances: ["{{ lookup('role_var', '_postgres_name', role='tracearr') }}"]
+    timescaledb_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='tracearr') }}"
+    timescaledb_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='tracearr') }}"
+    timescaledb_role_docker_commands: "{{ lookup('role_var', '_postgres_docker_commands', role='tracearr') }}"
+    timescaledb_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='tracearr') }}"
+    timescaledb_role_docker_ulimits: "{{ lookup('role_var', '_postgres_docker_ulimits', role='tracearr') }}"
+    timescaledb_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='tracearr') }}"
+    timescaledb_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='tracearr') }}"
+    timescaledb_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='tracearr') }}"
+    timescaledb_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='tracearr') }}"
+    timescaledb_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='tracearr') }}"
+    timescaledb_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='tracearr') }}"
+  when: lookup('role_var', '_postgres_deploy', role='tracearr')
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record', role='tracearr') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone', role='tracearr') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='tracearr') }}"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
