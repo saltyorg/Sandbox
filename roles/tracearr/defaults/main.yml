@@ -17,9 +17,16 @@ tracearr_name: tracearr
 # Settings
 ################################
 
-# Changing this signs everyone out and makes stored notification credentials unreadable
-tracearr_role_jwt_secret: "{{ tracearr_saltbox_facts.facts.jwt_secret }}"
-tracearr_role_cookie_secret: "{{ tracearr_saltbox_facts.facts.cookie_secret }}"
+# Logging verbosity
+# Valid values: "debug", "info", "warn", "error"
+tracearr_role_log_level: ""
+# OIDC login is enabled only when the issuer URL, client ID and client secret are all set
+# Redirect URI: https://<tracearr domain>/api/v1/auth/oauth2/callback/oidc
+tracearr_role_oidc_issuer_url: ""
+tracearr_role_oidc_client_id: ""
+tracearr_role_oidc_client_secret: ""
+# Label for the SSO login button
+tracearr_role_oidc_provider_name: ""
 
 ################################
 # Postgres
@@ -142,10 +149,15 @@ tracearr_role_docker_envs_default:
   TZ: "{{ tz }}"
   DATABASE_URL: "{{ lookup('role_var', '_database_url', role='tracearr') }}"
   REDIS_URL: "redis://{{ lookup('role_var', '_redis_name', role='tracearr') }}:6379"
-  JWT_SECRET: "{{ lookup('role_var', '_jwt_secret', role='tracearr') }}"
-  COOKIE_SECRET: "{{ lookup('role_var', '_cookie_secret', role='tracearr') }}"
+  JWT_SECRET: "{{ tracearr_saltbox_facts.facts.jwt_secret }}"
+  COOKIE_SECRET: "{{ tracearr_saltbox_facts.facts.cookie_secret }}"
   TRUST_PROXY: "true"
   BACKUP_DIR: "/data/backup"
+  LOG_LEVEL: "{{ lookup('role_var', '_log_level', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_ISSUER_URL: "{{ lookup('role_var', '_oidc_issuer_url', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_CLIENT_ID: "{{ lookup('role_var', '_oidc_client_id', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_CLIENT_SECRET: "{{ lookup('role_var', '_oidc_client_secret', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_PROVIDER_NAME: "{{ lookup('role_var', '_oidc_provider_name', role='tracearr', default=omit, default_if_empty=true) }}"
 tracearr_role_docker_envs_custom: {}
 tracearr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tracearr')
                                | combine(lookup('role_var', '_docker_envs_custom', role='tracearr')) }}"

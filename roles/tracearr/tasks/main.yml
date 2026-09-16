@@ -18,15 +18,6 @@
     group: "{{ user.name }}"
     base_path: "{{ server_appdata_path }}"
   register: tracearr_saltbox_facts
-  no_log: true
-
-- name: Validate Tracearr secrets
-  ansible.builtin.assert:
-    that:
-      - lookup('role_var', '_jwt_secret', role='tracearr') | length > 0
-      - lookup('role_var', '_cookie_secret', role='tracearr') | length > 0
-    fail_msg: "tracearr_role_jwt_secret and tracearr_role_cookie_secret must not be empty."
-    quiet: true
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
