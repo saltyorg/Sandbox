@@ -191,3 +191,6 @@ tracearr_role_docker_user: "{{ uid }}:{{ gid }}"
 tracearr_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='tracearr') }},{{ lookup('role_var', '_redis_name', role='tracearr') }}"
 tracearr_role_depends_on_delay: "0"
 tracearr_role_depends_on_healthchecks: "false"
+
+# CI
+tracearr_role_docker_create_timeout: 300
