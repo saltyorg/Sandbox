@@ -20,8 +20,6 @@ tracearr_name: tracearr
 # Logging verbosity
 # Valid values: "debug", "info", "warn", "error"
 tracearr_role_log_level: ""
-# OIDC login is enabled only when the issuer URL, client ID and client secret are all set
-# Redirect URI: https://<tracearr domain>/api/v1/auth/oauth2/callback/oidc
 tracearr_role_oidc_issuer_url: ""
 tracearr_role_oidc_client_id: ""
 tracearr_role_oidc_client_secret: ""
