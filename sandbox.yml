@@ -165,6 +165,7 @@
     - { role: tofa, tags: ['tofa'] }
     - { role: tqm, tags: ['tqm'] }
     - { role: traccar, tags: ['traccar'] }
+    - { role: tracearr, tags: ['tracearr', 'tracearr-claim'] }
     - { role: traefik_robotstxt, tags: ['traefik-robotstxt'] }
     - { role: transmission, tags: ['transmission'] }
     - { role: transmissionvpn, tags: ['transmissionvpn'] }

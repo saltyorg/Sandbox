@@ -1,0 +1,205 @@
+##########################################################################
+# Title:         Sandbox: Tracearr | Default Variables                   #
+# Author(s):     connorgallopo                                           #
+# URL:           https://github.com/saltyorg/Sandbox                     #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+tracearr_name: tracearr
+
+################################
+# Settings
+################################
+
+# JWT signing secret. Defaults to a persisted generated value.
+# Keep it stable across reinstalls; overrides must be 64 hexadecimal characters.
+tracearr_role_jwt_secret: "{{ tracearr_saltbox_facts.facts.jwt_secret }}"
+# Cookie signing secret. Defaults to a persisted generated value.
+# Keep it stable across reinstalls; overrides must be 64 hexadecimal characters.
+tracearr_role_cookie_secret: "{{ tracearr_saltbox_facts.facts.cookie_secret }}"
+# Protects first-time setup. Defaults to a persisted generated claim code.
+# Retrieve it with the tracearr-claim tag; overrides must be non-empty strings.
+tracearr_role_claim_code: "{{ tracearr_saltbox_facts.facts.claim_code }}"
+
+# Logging verbosity
+# Valid values: "debug", "info", "warn", "error"
+tracearr_role_log_level: ""
+tracearr_role_oidc_issuer_url: ""
+tracearr_role_oidc_client_id: ""
+tracearr_role_oidc_client_secret: ""
+# Label for the SSO login button
+tracearr_role_oidc_provider_name: ""
+
+################################
+# Postgres
+################################
+
+tracearr_role_postgres_deploy: true
+tracearr_role_postgres_name: "{{ tracearr_name }}-postgres"
+# If empty it will fall back to the timescaledb role default.
+tracearr_role_postgres_user: ""
+# If empty it will fall back to the timescaledb role default.
+tracearr_role_postgres_password: ""
+tracearr_role_postgres_docker_env_db: "{{ tracearr_name }}"
+tracearr_role_postgres_docker_image_repo: "timescale/timescaledb-ha"
+tracearr_role_postgres_docker_image_tag: "pg18.4-ts2.29.1"
+tracearr_role_postgres_docker_commands:
+  - "postgres"
+  - "-c"
+  - "timescaledb.license=timescale"
+  - "-c"
+  - "timescaledb.telemetry_level=off"
+  - "-c"
+  - "max_locks_per_transaction=4096"
+  - "-c"
+  - "max_connections=150"
+tracearr_role_postgres_docker_shm_size: "512M"
+tracearr_role_postgres_docker_ulimits:
+  - "nofile:65536:65536"
+# Skip docs
+tracearr_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='tracearr', default=lookup('role_var', '_docker_env_user', role='timescaledb'), default_if_empty=true) }}"
+# Skip docs
+tracearr_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='tracearr', default=lookup('role_var', '_docker_env_password', role='timescaledb'), default_if_empty=true) }}"
+# Skip docs
+tracearr_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='tracearr') }}:{{ lookup('role_var', '_postgres_password_lookup', role='tracearr') }}"
+tracearr_role_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='tracearr') }}@{{ lookup('role_var', '_postgres_name', role='tracearr') }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='tracearr') }}"
+tracearr_role_postgres_docker_healthcheck:
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='tracearr') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user_lookup', role='tracearr') }}"
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
+tracearr_role_postgres_paths_folder: "{{ tracearr_name }}"
+tracearr_role_postgres_paths_location: "{{ server_appdata_path }}/{{ tracearr_role_postgres_paths_folder }}/postgres"
+
+################################
+# Redis
+################################
+
+tracearr_role_redis_name: "{{ tracearr_name }}-redis"
+tracearr_role_redis_docker_image_tag: "8-alpine"
+tracearr_role_redis_docker_commands:
+  - "redis-server"
+  - "--appendonly"
+  - "yes"
+tracearr_role_redis_paths_folder: "{{ tracearr_name }}"
+tracearr_role_redis_paths_location: "{{ server_appdata_path }}/{{ tracearr_role_redis_paths_folder }}/redis"
+
+################################
+# Paths
+################################
+
+tracearr_role_paths_folder: "{{ tracearr_name }}"
+tracearr_role_paths_location: "{{ server_appdata_path }}/{{ tracearr_role_paths_folder }}"
+tracearr_role_paths_folders_list:
+  - "{{ tracearr_role_paths_location }}"
+  - "{{ tracearr_role_paths_location }}/backup"
+  - "{{ tracearr_role_paths_location }}/image-cache"
+
+################################
+# Web
+################################
+
+tracearr_role_web_subdomain: "{{ tracearr_name }}"
+tracearr_role_web_domain: "{{ user.domain }}"
+tracearr_role_web_port: "3000"
+tracearr_role_web_url: "{{ lookup('role_web', role='tracearr', scheme='https') }}"
+
+################################
+# DNS
+################################
+
+tracearr_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='tracearr') }}"
+tracearr_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='tracearr') }}"
+tracearr_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+tracearr_role_traefik_sso_middleware: ""
+tracearr_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+tracearr_role_traefik_middleware_custom: ""
+tracearr_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+tracearr_role_traefik_middleware_custom_api: ""
+tracearr_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+tracearr_role_traefik_enabled: true
+tracearr_role_traefik_api_enabled: false
+tracearr_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+tracearr_role_docker_container: "{{ tracearr_name }}"
+
+# Image
+tracearr_role_docker_image_pull: true
+tracearr_role_docker_image_repo: "ghcr.io/connorgallopo/tracearr"
+tracearr_role_docker_image_tag: "latest"
+tracearr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='tracearr') }}:{{ lookup('role_var', '_docker_image_tag', role='tracearr') }}"
+
+# Envs
+tracearr_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  DATABASE_URL: "{{ lookup('role_var', '_database_url', role='tracearr') }}"
+  REDIS_URL: "redis://{{ lookup('role_var', '_redis_name', role='tracearr') }}:6379"
+  JWT_SECRET: "{{ lookup('role_var', '_jwt_secret', role='tracearr') }}"
+  COOKIE_SECRET: "{{ lookup('role_var', '_cookie_secret', role='tracearr') }}"
+  CLAIM_CODE: "{{ lookup('role_var', '_claim_code', role='tracearr') }}"
+  TRUST_PROXY: "true"
+  BACKUP_DIR: "/data/backup"
+  LOG_LEVEL: "{{ lookup('role_var', '_log_level', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_ISSUER_URL: "{{ lookup('role_var', '_oidc_issuer_url', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_CLIENT_ID: "{{ lookup('role_var', '_oidc_client_id', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_CLIENT_SECRET: "{{ lookup('role_var', '_oidc_client_secret', role='tracearr', default=omit, default_if_empty=true) }}"
+  OIDC_PROVIDER_NAME: "{{ lookup('role_var', '_oidc_provider_name', role='tracearr', default=omit, default_if_empty=true) }}"
+tracearr_role_docker_envs_custom: {}
+tracearr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='tracearr')
+                               | combine(lookup('role_var', '_docker_envs_custom', role='tracearr')) }}"
+
+# Volumes
+tracearr_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='tracearr') }}/backup:/data/backup"
+  - "{{ lookup('role_var', '_paths_location', role='tracearr') }}/image-cache:/app/data/image-cache"
+tracearr_role_docker_volumes_custom: []
+tracearr_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='tracearr')
+                                  + lookup('role_var', '_docker_volumes_custom', role='tracearr') }}"
+
+# Hostname
+tracearr_role_docker_hostname: "{{ tracearr_name }}"
+
+# Networks
+tracearr_role_docker_networks_alias: "{{ tracearr_name }}"
+tracearr_role_docker_networks_default: []
+tracearr_role_docker_networks_custom: []
+tracearr_role_docker_networks: "{{ docker_networks_common
+                                   + lookup('role_var', '_docker_networks_default', role='tracearr')
+                                   + lookup('role_var', '_docker_networks_custom', role='tracearr') }}"
+
+# Restart Policy
+tracearr_role_docker_restart_policy: unless-stopped
+
+# User
+tracearr_role_docker_user: "{{ uid }}:{{ gid }}"
+
+# Dependencies
+tracearr_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='tracearr') }},{{ lookup('role_var', '_redis_name', role='tracearr') }}"
+tracearr_role_depends_on_delay: "0"
+tracearr_role_depends_on_healthchecks: "false"
+
+# CI
+tracearr_role_docker_create_timeout: 300

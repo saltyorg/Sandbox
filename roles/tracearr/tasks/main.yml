@@ -1,0 +1,16 @@
+#########################################################################
+# Title:            Sandbox: Tracearr                                   #
+# Author(s):        connorgallopo                                       #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Display saved claim code
+  ansible.builtin.include_tasks: claim.yml
+  when: ('tracearr-claim' in ansible_run_tags)
+
+- name: Install Tracearr
+  ansible.builtin.include_tasks: install.yml
+  when: ('tracearr-claim' not in ansible_run_tags)
