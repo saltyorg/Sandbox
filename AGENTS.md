@@ -33,6 +33,9 @@ working in this checkout.
   `sandbox.yml` with their install tags by default. Use `No CI` only when a
   role cannot participate in the install matrix or is not runnable by itself;
   non-runnable companion roles use `never`.
+- Keep auxiliary tags on the application's single role entry. Exclude
+  display-only tags through the CI `ignored_tags` configuration rather than
+  registering the same role again under `No CI`.
 - When a role supports multiple instances, declare `<role>_instances`, keep the
   instance loop in `tasks/main.yml`, and put per-instance work in
   `tasks/main2.yml`. Set `<role>_name` from the loop item and use `instance` as
@@ -49,7 +52,8 @@ working in this checkout.
 - Prefer simple, predictable defaults; leave optional values empty rather than inventing new behavior.
 - Add plain-language comments for non-obvious user-facing settings and their
   constrained values. Describe the setting's purpose instead of restating an
-  upstream environment-variable name.
+  upstream environment-variable name. Use the documentation directives below
+  when a comment should apply to multiple variables.
 - Keep configurable API endpoints, release-metadata endpoints, and reusable
   download bases in role defaults and resolve them through `role_var`. A fixed
   one-off upstream asset may remain in a task when no override is intended.
@@ -127,6 +131,53 @@ working in this checkout.
   inventory overrides. Preserve the stronger directive when it already exists,
   and never stack the two comments.
 
+## Documentation generation
+
+- Docs automation reads top-level variables from `defaults/main.yml`, after
+  the `---` marker when present. Standard hash-delimited sections determine
+  the rendered grouping and order; files without sections use `General`.
+  `Paths` and metadata sections are omitted. `Web`, `DNS`, `Traefik`, and
+  `Docker` sections also control which global override families are shown.
+- Use `# <Name> - Sub-section Start` and `# <Name> - Sub-section End` to group
+  related variables. These markers are case-sensitive; close each subsection
+  before starting another.
+
+| Comment or directive | Scope and effect |
+| --- | --- |
+| `# Ordinary comment` | Describes only the next variable; consecutive lines form one comment block. |
+| `# [GLOBAL] text` | Adds shared text to subsequent variables until a new section or subsection end. Multiple lines accumulate. |
+| `# [NOGLOBAL] text` | Suppresses shared text for the next variable and uses its local comment block instead; later variables still inherit the shared text. |
+| `# Skip docs` | Excludes the next variable from generated documentation. |
+| `# Do not edit or override using the inventory` | Also excludes the next variable; retain the stronger inventory restriction described above. |
+
+- `[GLOBAL]` and `[NOGLOBAL]` are case-sensitive. Put `[NOGLOBAL]` at the
+  beginning of the variable's local comment block. Ordinary local comments
+  otherwise follow the inherited global text. Blank lines do not clear pending
+  comments or global scope.
+- For exclusion directives, follow the exact spelling and placement required
+  above for `_lookup` variables. Prefer `# Skip docs` for documentation-only
+  exclusion; preserve existing inventory prohibitions and never stack both.
+- In `Docker`, associated comments become headings; explanatory example
+  comments come from `docker_overrides.variables.*.description` in the docs
+  configuration.
+- An `_instances` variable enables instance-aware output. `_default` or
+  `_custom` variables hide their corresponding aggregate variable. Shared
+  Docker options absent from the role appear in Docker+ when enabled by the
+  docs configuration; hidden Docker sections also hide Docker+.
+- Page frontmatter supports `disabled`, `checks`, `sections`, `inventory`,
+  `app_links`, and `project_description` under `saltbox_automation`.
+  `inventory.show_sections` and `inventory.hide_sections` filter sections
+  case-insensitively, with hiding taking precedence; they cannot restore
+  parser-excluded sections. `inventory.example_overrides` supplies separate
+  YAML examples without changing defaults or inferred types.
+- When editing page controls or generator configuration, consult the complete
+  [frontmatter reference](https://github.com/saltyorg/docs-automation#document-frontmatter)
+  and [configuration reference](https://github.com/saltyorg/docs-automation#configuration).
+  The [role-authoring reference](https://github.com/saltyorg/docs-automation#role-defaults-authoring)
+  documents source directives and discovery. Preview affected roles with
+  `sb-docs generate <role>` using the configured docs generator, and inspect
+  each variable's rendered comments, visibility, and examples.
+
 ## Task file patterns
 
 - Use `ansible.builtin.include_tasks` and `ansible.builtin.include_role` for
@@ -147,6 +198,12 @@ working in this checkout.
 - For simple web installers with deterministic defaults, prefer completing the upstream installer with `ansible.builtin.uri` on fresh non-CI installs, protect submitted credentials with `no_log`, and verify the generated config; correct existing configs separately.
 - Validate required settings with `ansible.builtin.fail` in the main role that imports other roles (do not put required-variable fails in sub-roles).
 - Persist generated secrets that must remain stable across runs with `saltbox_facts`; expose a role setting defaulted to the registered fact and validate the resolved setting before container creation.
+- Load persisted role facts through `saltbox_facts` rather than parsing its
+  INI storage directly. For retrieval, omit `keys` so missing values are not
+  inserted as empty placeholders.
+- Place prompts for copying generated setup credentials after application
+  deployment. Include the application URL and instructions explaining where
+  and how to use the credential, both in prompts and in display-only tags.
 - In assertions, prefer boolean Jinja tests such as `is search(...)` or `is match(...)` over filters such as `regex_search` that return strings or `none`.
 - When validating API keys derived from `get_info`, fail if the value is empty or equals the default `"not installed"` string.
 - For multi‑service apps, include the backend/DB role first, then frontend.
@@ -175,10 +232,11 @@ working in this checkout.
 - Treat `.github/workflows/sandbox.yml` and the Saltbox linter as the current
   sources of truth for mechanically enforced checks; do not reproduce their
   complete rule sets here.
-- Before handoff, run `ansible-lint`, the Saltbox linter against this checkout,
-  and `git diff --check`. Run `./scripts/check_missing_entries.sh` when changing
-  roles or `sandbox.yml`. Follow `.github/workflows/sandbox.yml` for the current
-  Saltbox checkout and dependency setup.
+- Before handoff, run `ansible-lint`, the Go-based Saltbox linter with
+  `saltbox-lint check .`, and `git diff --check`. The Python linter is not a
+  substitute for the Go linter. Run `./scripts/check_missing_entries.sh` when
+  changing roles or `sandbox.yml`. Follow `.github/workflows/sandbox.yml` for
+  the current Saltbox checkout and dependency setup.
 - Run installation or behavior tests only on an explicitly designated
   disposable or test Saltbox host. Report static validation separately from
   live role validation, and state any coverage that could not be performed.
