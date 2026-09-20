@@ -1,0 +1,40 @@
+#########################################################################
+# Title:            Sandbox: Tracearr                                   #
+# Author(s):        connorgallopo                                       #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: Check for saved Tracearr facts
+  ansible.builtin.stat:
+    path: "{{ server_appdata_path }}/saltbox/tracearr.ini"
+  register: tracearr_claim_facts_file
+
+- name: Fail if Tracearr facts have not been saved
+  ansible.builtin.fail:
+    msg: "No Tracearr claim code has been saved. Run the tracearr tag first."
+  when: (not tracearr_claim_facts_file.stat.exists)
+
+- name: Load Tracearr Saltbox facts
+  saltbox_facts:
+    role: "tracearr"
+    instance: "tracearr"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: tracearr_saltbox_facts
+  no_log: true
+
+- name: Fail if no claim code has been saved
+  ansible.builtin.fail:
+    msg: "No Tracearr claim code has been saved. Run the tracearr tag first."
+  when: (tracearr_saltbox_facts.facts.claim_code | default('') | length == 0)
+
+- name: Print Tracearr claim code
+  ansible.builtin.debug:
+    msg:
+      - "Open {{ lookup('role_var', '_web_url', role='tracearr') }} to complete first-time setup."
+      - "Tracearr claim code: {{ lookup('role_var', '_claim_code', role='tracearr') }}"
+      - "Enter this code when prompted, then create your administrator account."
