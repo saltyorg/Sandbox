@@ -18,7 +18,7 @@
 - name: MariaDB Role
   ansible.builtin.include_role:
     name: mariadb
-  when: wordpress_instances | length > 0
+  when: (wordpress_instances | length > 0)
 
 - name: "Execute Wordpress roles"
   ansible.builtin.include_tasks: main2.yml

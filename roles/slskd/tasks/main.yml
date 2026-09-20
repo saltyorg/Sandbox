@@ -26,7 +26,7 @@
   register: slskd_role_config
 
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='slskd') }}` tasks
-  when: not slskd_role_config.stat.exists
+  when: (not slskd_role_config.stat.exists)
   ansible.builtin.template:
     src: slskd.yml.j2
     dest: "{{ lookup('role_var', '_paths_config_location', role='slskd') }}"

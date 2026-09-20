@@ -29,27 +29,27 @@
     koito_migrate_complete: "{{ koito_migrate_sqlite_database.stat.exists and (koito_migrate_sqlite_check.rc | default(1) == 0) and (koito_migrate_sqlite_check.stdout_lines | default([]) | first | default('') == 'ok') and (koito_migrate_sqlite_check.stdout_lines | default([]) | last | default('0') | int > 0) }}"
 
 - name: Migrate Koito PostgreSQL database
-  when: not koito_migrate_complete
+  when: (not koito_migrate_complete)
   block:
     - name: Check for legacy Koito PostgreSQL data
       ansible.builtin.stat:
         path: "{{ lookup('role_var', '_postgres_paths_location', role='koito_migrate') }}"
       register: koito_migrate_postgres_data
-      when: lookup('role_var', '_postgres_deploy', role='koito_migrate')
+      when: (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
 
     - name: Validate legacy Koito PostgreSQL data
       ansible.builtin.fail:
         msg: "No legacy Koito PostgreSQL data was found. Run 'sb install sandbox-koito' for a new installation."
       when:
-        - lookup('role_var', '_postgres_deploy', role='koito_migrate')
-        - not koito_migrate_postgres_data.stat.exists
+        - (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
+        - (not koito_migrate_postgres_data.stat.exists)
 
     - name: Validate external Koito PostgreSQL database
       ansible.builtin.fail:
         msg: "Set koito_migrate_role_database_url when the internal PostgreSQL deployment is disabled."
       when:
-        - not lookup('role_var', '_postgres_deploy', role='koito_migrate')
-        - lookup('role_var', '_database_url', role='koito_migrate') | trim | length == 0
+        - (not (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool))
+        - (lookup('role_var', '_database_url', role='koito_migrate') | trim | length == 0)
 
     - name: Remove existing Koito Docker container
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -70,7 +70,7 @@
         postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='koito_migrate') }}"
         postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='koito_migrate') }}"
         postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='koito_migrate') }}"
-      when: lookup('role_var', '_postgres_deploy', role='koito_migrate')
+      when: (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
 
     - name: Set Koito database URL
       ansible.builtin.set_fact:
@@ -80,7 +80,7 @@
     - name: Set Koito PostgreSQL user
       ansible.builtin.set_fact:
         koito_migrate_postgres_user_effective: "{{ lookup('role_var', '_postgres_user', role='koito_migrate', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
-      when: lookup('role_var', '_postgres_deploy', role='koito_migrate')
+      when: (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
 
     - name: Read Koito PostgreSQL users
       community.docker.docker_container_exec:
@@ -98,14 +98,14 @@
           - "SELECT id, username, role::text, encode(password, 'hex') FROM users ORDER BY id"
       register: koito_migrate_postgres_users
       changed_when: false
-      when: lookup('role_var', '_postgres_deploy', role='koito_migrate')
+      when: (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
 
     - name: Validate Koito PostgreSQL users
       ansible.builtin.fail:
         msg: "The legacy Koito PostgreSQL database does not contain any users."
       when:
-        - lookup('role_var', '_postgres_deploy', role='koito_migrate')
-        - koito_migrate_postgres_users.stdout | trim | length == 0
+        - (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
+        - (koito_migrate_postgres_users.stdout | trim | length == 0)
 
     - name: Set Koito migration bridge environment
       ansible.builtin.set_fact:
@@ -118,7 +118,7 @@
       vars:
         koito_migration_running: true
         koito_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='koito_migrate')
-                                if lookup('role_var', '_postgres_deploy', role='koito_migrate')
+                                if (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
                                 else '' }}"
         koito_role_depends_on_delay: "0"
         koito_role_depends_on_healthchecks: "false"
@@ -168,8 +168,8 @@
       ansible.builtin.fail:
         msg: "The migrated Koito SQLite users do not match PostgreSQL."
       when:
-        - lookup('role_var', '_postgres_deploy', role='koito_migrate')
-        - koito_migrate_sqlite_user_rows.stdout | trim != koito_migrate_postgres_users.stdout | trim
+        - (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
+        - (koito_migrate_sqlite_user_rows.stdout | trim != koito_migrate_postgres_users.stdout | trim)
 
     - name: Remove Koito v0.2.1 migration bridge
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -180,7 +180,7 @@
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
       vars:
         container_name: "{{ lookup('role_var', '_postgres_name', role='koito_migrate') }}"
-      when: lookup('role_var', '_postgres_deploy', role='koito_migrate')
+      when: (lookup('role_var', '_postgres_deploy', role='koito_migrate') | bool)
 
 - name: Deploy current Koito
   ansible.builtin.include_role:

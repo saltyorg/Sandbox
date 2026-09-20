@@ -29,10 +29,12 @@
   ansible.builtin.file:
     path: "{{ lookup('role_var', '_paths_config_location', role='vaultwarden') }}"
     state: absent
-  when: (vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir
+  when:
+    - (vaultwarden_env.stat.isdir is defined)
+    - vaultwarden_env.stat.isdir
 
 - name: New `{{ lookup('role_var', '_paths_config_location', role='vaultwarden') | basename }}` tasks
-  when: not vaultwarden_env.stat.exists or ((vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir)
+  when: (not vaultwarden_env.stat.exists or ((vaultwarden_env.stat.isdir is defined) and vaultwarden_env.stat.isdir))
   block:
     - name: "Generate Admin token"
       ansible.builtin.command:

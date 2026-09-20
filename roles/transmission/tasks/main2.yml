@@ -37,4 +37,4 @@
 
 - name: Post-Install Tasks
   ansible.builtin.include_tasks: "subtasks/post-install/main.yml"
-  when: not continuous_integration
+  when: (not (continuous_integration | bool))

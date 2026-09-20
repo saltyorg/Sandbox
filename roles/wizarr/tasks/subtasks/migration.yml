@@ -23,7 +23,10 @@
   register: wizarr_role_paths_database_file_stat
 
 - name: Migration | Backup old database directory
-  when: wizarr_role_paths_location_stat.stat.exists and wizarr_role_paths_database_file_stat.stat.exists and (not wizarr_role_paths_database_stat.stat.exists)
+  when:
+    - wizarr_role_paths_location_stat.stat.exists
+    - wizarr_role_paths_database_file_stat.stat.exists
+    - (not wizarr_role_paths_database_stat.stat.exists)
   block:
     - name: Migration | Check database version
       ansible.builtin.command:
@@ -37,7 +40,7 @@
     - name: Migration | Fail if database version is not 4.2.0
       ansible.builtin.fail:
         msg: "Wizarr, in their infinite wisdom, only supports migration from a legacy database version of 4.2.0"
-      when: not (wizarr_role_database_version.stdout == "4.2.0")
+      when: (not (wizarr_role_database_version.stdout == "4.2.0"))
 
     - name: Migration | Migrate old user data to temp folder
       migrate_folder:
@@ -87,15 +90,15 @@
   failed_when: false
   when:
     - wizarr_role_migration_database_stat.stat.exists
-    - (wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0)
+    - ((wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0))
 
 - name: Migration | Fail if unversioned database is not supported legacy data
   ansible.builtin.fail:
     msg: "Wizarr only supports migration from a legacy database version of 4.2.0"
   when:
     - wizarr_role_migration_database_stat.stat.exists
-    - (wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0)
-    - (wizarr_role_migration_legacy_version.rc != 0) or (wizarr_role_migration_legacy_version.stdout != '4.2.0')
+    - ((wizarr_role_migration_revision_before.rc != 0) or (wizarr_role_migration_revision_before.stdout | length == 0))
+    - ((wizarr_role_migration_legacy_version.rc != 0) or (wizarr_role_migration_legacy_version.stdout != '4.2.0'))
 
 - name: Migration | Set legacy import state
   ansible.builtin.set_fact:

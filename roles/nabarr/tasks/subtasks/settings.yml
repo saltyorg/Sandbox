@@ -13,7 +13,7 @@
   register: nabarr_config
 
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='nabarr') | basename }}` tasks
-  when: not nabarr_config.stat.exists
+  when: (not nabarr_config.stat.exists)
   block:
     - name: Settings | Import default `{{ lookup('role_var', '_paths_location', role='nabarr') | basename }}`
       ansible.builtin.copy:

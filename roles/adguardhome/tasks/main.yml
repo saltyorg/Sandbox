@@ -26,7 +26,7 @@
   register: adguardhome_config
 
 - name: "Settings | New AdGuardHome.yaml tasks"
-  when: not adguardhome_config.stat.exists
+  when: (not adguardhome_config.stat.exists)
   block:
     - name: "Settings | Import AdGuardHome.yaml.j2"
       ansible.builtin.template:

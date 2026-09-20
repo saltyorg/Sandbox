@@ -8,7 +8,7 @@
 ##########################################################################
 ---
 - name: Abort when exposed
-  when: not (lookup('role_var', '_traefik_sso_middleware', role='dockhand') is search('(authelia|authentik)@docker'))
+  when: (not (lookup('role_var', '_traefik_sso_middleware', role='dockhand') is search('(authelia|authentik)@docker')))
   block:
     - name: Remove exposed container
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -35,7 +35,7 @@
       host: "{{ lookup('role_var', '_docker_socket_proxy_name', role='dockhand') }}"
       port: "2375"
       protocol: "http"
-  when: dockhand_environments.json | length == 0
+  when: (dockhand_environments.json | length == 0)
 
 - name: Get existing registries
   ansible.builtin.uri:
@@ -56,8 +56,8 @@
     return_content: true
   no_log: true
   when:
-    - dockhand_dockerhub | length > 0
-    - not dockhand_dockerhub.hasCredentials
+    - (dockhand_dockerhub | length > 0)
+    - (not dockhand_dockerhub.hasCredentials)
 
 - name: Prime for authentication
   when: ('dockhand-oidc' in ansible_run_tags)

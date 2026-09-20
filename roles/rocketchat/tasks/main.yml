@@ -60,7 +60,9 @@
     group: "{{ user.name }}"
     mode: '0775'
     recurse: false
-  when: rocketchat_db_legacy_folder.stat.exists and not rocketchat_db_new_folder.stat.exists
+  when:
+    - rocketchat_db_legacy_folder.stat.exists
+    - (not rocketchat_db_new_folder.stat.exists)
 
 - name: MongoDB Role
   ansible.builtin.include_role:

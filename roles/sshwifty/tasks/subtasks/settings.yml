@@ -13,7 +13,7 @@
   register: sshwifty_config
 
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='sshwifty') | basename }}` tasks
-  when: not sshwifty_config.stat.exists
+  when: (not sshwifty_config.stat.exists)
   block:
     - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='sshwifty') | basename }}`
       ansible.builtin.template:

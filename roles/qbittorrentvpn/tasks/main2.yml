@@ -29,4 +29,6 @@
 
 - name: Post-Install Tasks
   ansible.builtin.include_tasks: "subtasks/post-install/main.yml"
-  when: (not continuous_integration) and (not qbittorrentvpn_role_paths_conf_stat.stat.exists)
+  when:
+    - (not (continuous_integration | bool))
+    - (not qbittorrentvpn_role_paths_conf_stat.stat.exists)

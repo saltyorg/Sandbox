@@ -15,4 +15,4 @@
 - name: "Saltbox | Fail when 'saltbox' folder does not exist"
   ansible.builtin.fail:
     msg: "Saltbox installation is required before running the Sandbox roles."
-  when: not saltbox_path.stat.exists
+  when: (not saltbox_path.stat.exists)

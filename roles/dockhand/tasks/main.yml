@@ -74,7 +74,7 @@
 
 - name: Apply setup tasks
   ansible.builtin.include_tasks: "subtasks/setup.yml"
-  when: not dockhand_session.json.authEnabled
+  when: (not dockhand_session.json.authEnabled)
 
 - name: Prime for OIDC client registration
   ansible.builtin.include_tasks: "subtasks/oidc.yml"

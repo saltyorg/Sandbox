@@ -40,7 +40,9 @@
     group: "{{ user.name }}"
     mode: '0775'
     recurse: false
-  when: pufferpanel_legacy_folder.stat.exists and (not pufferpanel_data_folder.stat.exists)
+  when:
+    - pufferpanel_legacy_folder.stat.exists
+    - (not pufferpanel_data_folder.stat.exists)
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"

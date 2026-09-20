@@ -10,7 +10,7 @@
 - name: Report Plex Account Status
   ansible.builtin.fail:
     msg: Requires Plex Account credentials to be entered in accounts.yml
-  when: not plex_account_is_enabled
+  when: (not plex_account_is_enabled)
 
 - name: Run tasks if Plex Account is enabled
   when: plex_account_is_enabled
@@ -27,7 +27,7 @@
     - name: Import Plex Auth Token role
       ansible.builtin.include_role:
         name: plex_auth_token
-      when: not plex_auto_languages_config.stat.exists
+      when: (not plex_auto_languages_config.stat.exists)
 
     - name: Create directories
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
@@ -39,7 +39,7 @@
         owner: "{{ user.name }}"
         group: "{{ user.name }}"
         mode: "0664"
-      when: not plex_auto_languages_config.stat.exists
+      when: (not plex_auto_languages_config.stat.exists)
 
     - name: Remove existing Docker container
       ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"

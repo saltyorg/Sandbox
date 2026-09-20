@@ -38,7 +38,7 @@
     group: "{{ user.name }}"
     mode: "0664"
     force: true
-  when: not webserver_xml.stat.exists
+  when: (not webserver_xml.stat.exists)
 
 - name: Import default 'DCPlusPlus.xml'
   ansible.builtin.copy:
@@ -48,7 +48,7 @@
     group: "{{ user.name }}"
     mode: "0664"
     force: true
-  when: not dcplusplus_xml.stat.exists
+  when: (not dcplusplus_xml.stat.exists)
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

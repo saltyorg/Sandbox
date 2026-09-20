@@ -32,7 +32,9 @@
     group: "{{ user.name }}"
     mode: '0775'
     recurse: false
-  when: karakeep_legacy_folder.stat.exists and not karakeep_new_folder.stat.exists
+  when:
+    - karakeep_legacy_folder.stat.exists
+    - (not karakeep_new_folder.stat.exists)
 
 - name: Check if '{{ server_appdata_path }}/saltbox/hoarder.ini' folder exists
   ansible.builtin.stat:

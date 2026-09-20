@@ -16,6 +16,7 @@ delugevpn_name: delugevpn
 ################################
 # Settings
 ################################
+
 # https://github.com/binhex/arch-delugevpn for options
 delugevpn_role_log_level_daemon: info
 delugevpn_role_log_level_web: info

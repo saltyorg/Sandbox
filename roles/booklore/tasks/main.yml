@@ -10,4 +10,4 @@
 - name: "Fail with deprecation warning"
   ansible.builtin.fail:
     msg: "The 'booklore' role is deprecated in favor of the 'grimmory' role. See https://docs.saltbox.dev/sandbox/apps/grimmory for more information."
-  when: not continuous_integration
+  when: (not continuous_integration)

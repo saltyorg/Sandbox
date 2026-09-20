@@ -9,7 +9,7 @@
 #########################################################################
 ---
 - name: Settings | New `{{ lookup('role_var', '_paths_location', role='homepage') | basename }}` tasks
-  when: not homepage_role_web_config.stat.exists
+  when: (not homepage_role_web_config.stat.exists)
   block:
     - name: Settings | Import bookmarks.yaml`
       ansible.builtin.copy:

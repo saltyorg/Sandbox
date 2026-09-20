@@ -38,28 +38,28 @@
     msg: "A legacy Koito PostgreSQL database was found, but a complete SQLite migration was not. Run 'sb install sandbox-koito-migrate' before installing Koito."
   when:
     - koito_postgres_data.stat.exists
-    - not koito_migration_complete
-    - not (koito_migration_running | default(false))
+    - (not koito_migration_complete)
+    - (not (koito_migration_running | default(false)))
 
 - name: Validate existing Koito SQLite database
   ansible.builtin.fail:
     msg: "The existing Koito SQLite database failed its integrity or user checks. Restore a valid database before installing Koito."
   when:
     - koito_sqlite_database.stat.exists
-    - not koito_migration_complete
-    - not (koito_migration_running | default(false))
+    - (not koito_migration_complete)
+    - (not (koito_migration_running | default(false)))
 
 - name: Validate ListenBrainz relay configuration
   ansible.builtin.fail:
     msg: "koito_role_lbz_relay_url and koito_role_lbz_relay_token are required when koito_role_enable_lbz_relay is true."
   when:
     - (lookup('role_var', '_enable_lbz_relay', role='koito') == 'true')
-    - (lookup('role_var', '_lbz_relay_url', role='koito') | trim | length == 0) or (lookup('role_var', '_lbz_relay_token', role='koito') | trim | length == 0)
+    - ((lookup('role_var', '_lbz_relay_url', role='koito') | trim | length == 0) or (lookup('role_var', '_lbz_relay_token', role='koito') | trim | length == 0))
 
 - name: Validate Subsonic configuration
   ansible.builtin.fail:
     msg: "koito_role_subsonic_url and koito_role_subsonic_params must be set together."
-  when: (lookup('role_var', '_subsonic_url', role='koito') | trim | length > 0) != (lookup('role_var', '_subsonic_params', role='koito') | trim | length > 0)
+  when: ((lookup('role_var', '_subsonic_url', role='koito') | trim | length > 0) != (lookup('role_var', '_subsonic_params', role='koito') | trim | length > 0))
 
 - name: Create directories
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
@@ -70,7 +70,7 @@
     container_name: "{{ koito_role_postgres_name | default(koito_name + '-postgres') }}"
   when:
     - koito_migration_complete
-    - not (koito_migration_running | default(false))
+    - (not (koito_migration_running | default(false)))
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

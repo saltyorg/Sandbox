@@ -25,4 +25,6 @@
 
 - name: "Set auth entries in config"
   ansible.builtin.include_tasks: "subtasks/auth.yml"
-  when: (stash_role_traefik_sso_middleware | length > 0) and (not continuous_integration)
+  when:
+    - (stash_role_traefik_sso_middleware | length > 0)
+    - (not (continuous_integration | bool))

@@ -90,12 +90,16 @@
 - name: "Fail when 'config.yml' is not present"
   ansible.builtin.fail:
     msg: "You need to setup your config file. https://docs.saltbox.dev/sandbox/apps/tqm/"
-  when: (not tqm_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not tqm_config.stat.exists)
+    - (not (continuous_integration | bool))
 
 - name: Fail if 'download_client' has not been set
   ansible.builtin.fail:
     msg: "You need to set 'tqm_role_download_client' (options: deluge, qbt)."
-  when: (lookup('role_var', '_download_client', role='tqm') | default("client") | ternary('true', 'false') == 'false') and (not continuous_integration)
+  when:
+    - (lookup('role_var', '_download_client', role='tqm') | default("client") | ternary('true', 'false') == 'false')
+    - (not (continuous_integration | bool))
 
 - name: Import 'tqm_service'
   ansible.builtin.template:
@@ -112,7 +116,7 @@
     _service_enabled: true
     _service_daemon_reload: true
     _service_reenable: true
-  when: (not continuous_integration)
+  when: (not (continuous_integration | bool))
 
 - name: Import 'tqm_timer'
   ansible.builtin.template:
@@ -129,4 +133,4 @@
     _service_enabled: true
     _service_daemon_reload: true
     _service_reenable: true
-  when: (not continuous_integration)
+  when: (not (continuous_integration | bool))

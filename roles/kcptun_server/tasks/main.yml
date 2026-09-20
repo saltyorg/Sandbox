@@ -38,7 +38,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-  when: not kcptun_config.stat.exists
+  when: (not kcptun_config.stat.exists)
 
 - name: Create and start container
   community.docker.docker_container:

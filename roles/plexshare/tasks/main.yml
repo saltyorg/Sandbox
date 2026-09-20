@@ -37,7 +37,7 @@
     login_user: "root"
     login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     state: present
-  when: not stat_plexshare_db_folder.stat.exists
+  when: (not stat_plexshare_db_folder.stat.exists)
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

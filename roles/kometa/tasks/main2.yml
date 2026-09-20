@@ -11,7 +11,7 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
   vars:
     container_name: "plex-meta-manager"
-  when: kometa_name == 'kometa'
+  when: (kometa_name == 'kometa')
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
@@ -38,7 +38,9 @@
 - name: "Fail when 'config.yml' is not present"
   ansible.builtin.fail:
     msg: "You need to setup your config file. https://kometa.wiki/en/latest/config/overview/"
-  when: (not kometa_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not kometa_config.stat.exists)
+    - (not (continuous_integration | bool))
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"

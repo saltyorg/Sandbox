@@ -49,7 +49,7 @@
       - "-base64"
       - "32"
   register: generate_koel_secret_key
-  when: not stat_vars_ini.stat.exists
+  when: (not stat_vars_ini.stat.exists)
 
 - name: "Add Secret Key to '{{ lookup('role_var', '_paths_location', role='koel') }}/vars.ini'"
   community.general.ini_file:
@@ -60,7 +60,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-  when: not stat_vars_ini.stat.exists
+  when: (not stat_vars_ini.stat.exists)
 
 - name: "Set koel_secret_key variable"
   ansible.builtin.set_fact:
@@ -91,7 +91,7 @@
   register: koel_init
   until: "koel_init is not failed"
   retries: 5
-  when: not stat_koel_db_folder.stat.exists
+  when: (not stat_koel_db_folder.stat.exists)
 
 - name: Generate Admin password hash
   ansible.builtin.command:
@@ -103,13 +103,13 @@
       - ""
       - "{{ user.pass }}"
   register: koel_admin_password_hash_command
-  when: not stat_koel_db_folder.stat.exists
+  when: (not stat_koel_db_folder.stat.exists)
   no_log: true
 
 - name: Extract Admin password hash
   ansible.builtin.set_fact:
     koel_admin_password_hash: "{{ koel_admin_password_hash_command.stdout | regex_replace('^:', '') | trim }}"
-  when: not stat_koel_db_folder.stat.exists
+  when: (not stat_koel_db_folder.stat.exists)
   no_log: true
 
 - name: Generate Admin password hash
@@ -118,7 +118,7 @@
       - "date"
       - "+%F %H:%M:%S"
   register: koel_date
-  when: not stat_koel_db_folder.stat.exists
+  when: (not stat_koel_db_folder.stat.exists)
 
 - name: Edit Admin user
   ansible.mysql.mysql_query:
@@ -127,5 +127,5 @@
     login_user: "root"
     login_password: "{{ lookup('role_var', '_docker_env_password', role='mariadb') }}"
     query: 'UPDATE `users` SET `id` = "1", `name` = "{{ user.name }}", `email` = "{{ user.email }}", `password` = "{{ koel_admin_password_hash }}", `preferences` = NULL, `remember_token` = NULL, `created_at` = "{{ koel_date.stdout }}", `updated_at` = "{{ koel_date.stdout }}" WHERE ((`id` = "1"));'
-  when: not stat_koel_db_folder.stat.exists
+  when: (not stat_koel_db_folder.stat.exists)
   no_log: true

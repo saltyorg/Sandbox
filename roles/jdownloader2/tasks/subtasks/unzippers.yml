@@ -27,7 +27,7 @@
         group: "{{ user.name }}"
         mode: "0775"
         force: false
-      when: not sevenzip_1509.stat.exists
+      when: (not sevenzip_1509.stat.exists)
 
     - name: unzippers | Import 7zip 1509Linux
       ansible.builtin.copy:
@@ -37,4 +37,4 @@
         group: "{{ user.name }}"
         mode: "0775"
         force: false
-      when: not sevenzip_1509linux.stat.exists
+      when: (not sevenzip_1509linux.stat.exists)

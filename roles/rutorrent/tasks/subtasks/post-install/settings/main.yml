@@ -9,7 +9,9 @@
 ---
 - name: Post-Install | Settings | Update settings For New Installs
   ansible.builtin.include_tasks: "new_installs.yml"
-  when: (not continuous_integration) and (not rutorrent_role_paths_rtorrent_rc_location_stat.stat.exists)
+  when:
+    - (not (continuous_integration | bool))
+    - (not rutorrent_role_paths_rtorrent_rc_location_stat.stat.exists)
 
 - name: Post-Install | Settings | Create directory
   ansible.builtin.file:

@@ -36,7 +36,9 @@
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
 
 - name: New install setup
-  when: (not xbackbone_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not xbackbone_config.stat.exists)
+    - (not (continuous_integration | bool))
   block:
     - name: Wait for xBackBone installer
       ansible.builtin.uri:

@@ -33,7 +33,7 @@
       - "-base64"
       - "32"
   register: jwt_secret
-  when: not jwt_file.stat.exists
+  when: (not jwt_file.stat.exists)
 
 - name: Store JWT Token Secret in a file
   ansible.builtin.copy:
@@ -42,7 +42,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-  when: not jwt_file.stat.exists
+  when: (not jwt_file.stat.exists)
 
 - name: Read JWT Token Secret from file
   ansible.builtin.command:

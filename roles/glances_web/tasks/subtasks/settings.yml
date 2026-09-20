@@ -11,7 +11,7 @@
   register: glances_web_role_config
 
 - name: Settings | New `{{ lookup('role_var', '_paths_config_location', role='glances_web') | basename }}` tasks
-  when: not glances_web_role_config.stat.exists
+  when: (not glances_web_role_config.stat.exists)
   block:
     - name: Settings | Import default `{{ lookup('role_var', '_paths_config_location', role='glances_web') | basename }}`
       ansible.builtin.copy:

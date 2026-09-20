@@ -37,4 +37,6 @@
 - name: Package | Display 'cockpit' version
   ansible.builtin.debug:
     msg: "Cockpit version {{ cockpit_version.stdout.split()[1] }} installed."
-  when: (cockpit_version is defined) and (cockpit_version.stdout is defined)
+  when:
+    - (cockpit_version is defined)
+    - (cockpit_version.stdout is defined)

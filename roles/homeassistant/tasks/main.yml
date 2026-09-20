@@ -31,7 +31,7 @@
   register: homeassistant_config
 
 - name: Settings | New `{{ lookup('role_var', '_paths_conf', role='homeassistant') | basename }}` tasks
-  when: not homeassistant_config.stat.exists
+  when: (not homeassistant_config.stat.exists)
   block:
     - name: "Create '{{ lookup('role_var', '_paths_conf', role='homeassistant') | basename }}' if it doesnt exist"
       ansible.builtin.template:

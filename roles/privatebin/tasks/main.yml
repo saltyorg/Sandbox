@@ -34,7 +34,7 @@
     validate_certs: false
     mode: "0664"
     force: true
-  when: not conf_php.stat.exists
+  when: (not conf_php.stat.exists)
 
 - name: Create a volume with options
   community.docker.docker_volume:

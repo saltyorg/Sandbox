@@ -29,7 +29,9 @@
 - name: Legacy | Fail if legacy destination exists
   ansible.builtin.fail:
     msg: "Legacy Homarr migration detected but destination {{ server_appdata_path }}/{{ homarr_name }}-legacy already exists. Resolve manually and rerun."
-  when: homarr_legacy_migration_needed and homarr_legacy_destination.stat.exists
+  when:
+    - homarr_legacy_migration_needed
+    - homarr_legacy_destination.stat.exists
 
 - name: Legacy | Migrate legacy Homarr folder
   migrate_folder:
@@ -39,9 +41,13 @@
     group: "{{ user.name }}"
     mode: '0775'
     recurse: false
-  when: homarr_legacy_migration_needed and not homarr_legacy_destination.stat.exists
+  when:
+    - homarr_legacy_migration_needed
+    - (not homarr_legacy_destination.stat.exists)
 
 - name: Legacy | Migration notice
   ansible.builtin.debug:
     msg: "Legacy Homarr data moved to {{ server_appdata_path }}/{{ homarr_name }}-legacy. Use the homarr_legacy role for config export."
-  when: homarr_legacy_migration_needed and not homarr_legacy_destination.stat.exists
+  when:
+    - homarr_legacy_migration_needed
+    - (not homarr_legacy_destination.stat.exists)

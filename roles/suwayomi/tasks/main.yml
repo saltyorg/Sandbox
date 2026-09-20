@@ -33,11 +33,15 @@
     path: "{{ lookup('role_var', '_paths_config_location') }}"
     state: present
     timeout: 60
-  when: (not suwayomi_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not suwayomi_config.stat.exists)
+    - (not (continuous_integration | bool))
 
 - name: Stop Docker container for config modification
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/stop_docker_container.yml"
-  when: (not suwayomi_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not suwayomi_config.stat.exists)
+    - (not (continuous_integration | bool))
 
 - name: Set downloads path in config
   ansible.builtin.lineinfile:
@@ -47,8 +51,12 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0664"
-  when: (not suwayomi_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not suwayomi_config.stat.exists)
+    - (not (continuous_integration | bool))
 
 - name: Start Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/start_docker_container.yml"
-  when: (not suwayomi_config.stat.exists) and (not continuous_integration)
+  when:
+    - (not suwayomi_config.stat.exists)
+    - (not (continuous_integration | bool))
