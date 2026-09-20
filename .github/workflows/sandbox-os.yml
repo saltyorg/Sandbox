@@ -78,10 +78,17 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Install matrix dependencies
+        run: python -m pip install ruamel.yaml==0.19.1
+
       - id: set-matrix
         run: |
-          ROLES=$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | awk -F',' '{ for( i=1; i<=NF; i++ ) print $i }' | awk '{ gsub(/ /,""); print }'| sort -u | awk -vORS=, '{ print $1 }' | sed 's/,$/\n/' | tr "'" '"')
-          echo "matrix={\"roles\":[$ROLES]}" >> $GITHUB_OUTPUT
+          matrix=$(python .github/scripts/ci-role-matrix.py)
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   # Keep one matrix per OS: crossing all roles with both releases exceeds
   # GitHub Actions' 256-job limit for a single matrix.
