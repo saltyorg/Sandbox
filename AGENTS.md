@@ -22,9 +22,10 @@ working in this checkout.
   every literal Ansible tag uses lowercase kebab-case. Role names and install
   tags do not need to be identical.
 - Start Ansible source YAML under `defaults/`, `tasks/`, `handlers/`, and
-  `vars/` with the repository's standard title, `Author(s): salty`, repository
-  URL, GPL, and YAML-document header. Static YAML payloads under `files/` and
-  templates are outside this source-header rule.
+  `vars/` with the repository's standard title, author attribution, repository
+  URL, GPL, and YAML-document header. Preserve existing contributor attribution
+  when modifying roles. Static YAML payloads under `files/` and templates are
+  outside this source-header rule.
 - New active application roles contain `defaults/main.yml` and
   `tasks/main.yml`. Add templates, files, or task subtasks only when the role
   uses them.
