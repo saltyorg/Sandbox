@@ -7,6 +7,15 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
+- name: "Notify deprecation"
+  ansible.builtin.debug:
+    msg:
+      - "Role disabled due to breaking changes in the Docker image."
+      - "Implementation is being reevaluated but ruTorrent will return in due course."
+
+- name: "End role"
+  ansible.builtin.meta: end_role
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
