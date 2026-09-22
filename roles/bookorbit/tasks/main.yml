@@ -1,0 +1,117 @@
+#########################################################################
+# Title:            Sandbox: BookOrbit                                  #
+# Author(s):        JohnClementine                                      #
+# URL:              https://github.com/saltyorg/Sandbox                 #
+# --                                                                    #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Save BookOrbit Saltbox facts"
+  saltbox_facts:
+    role: "bookorbit"
+    instance: "bookorbit"
+    keys:
+      jwt_secret: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=64) }}"
+      setup_bootstrap_token: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=32) }}"
+      book_request_encryption_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=64) }}"
+      email_encryption_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=64) }}"
+      migration_encryption_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['hexdigits'], length=64) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: bookorbit_saltbox_facts
+
+- name: Validate JWT secret
+  ansible.builtin.fail:
+    msg: "Set bookorbit_role_jwt_secret to a string of at least 16 characters."
+  when: ((lookup('role_var', '_jwt_secret', role='bookorbit') is not string) or (lookup('role_var', '_jwt_secret', role='bookorbit') | length < 16))
+
+- name: Validate setup bootstrap token
+  ansible.builtin.fail:
+    msg: "Set bookorbit_role_setup_bootstrap_token to a non-empty string."
+  when: ((lookup('role_var', '_setup_bootstrap_token', role='bookorbit') is not string) or (lookup('role_var', '_setup_bootstrap_token', role='bookorbit') | trim | length == 0))
+
+- name: Validate encryption keys
+  ansible.builtin.fail:
+    msg: "Set bookorbit_role{{ item }} to a 64-character hexadecimal string."
+  when: ((lookup('role_var', item, role='bookorbit') is not string) or (lookup('role_var', item, role='bookorbit') is not match('^[0-9a-fA-F]{64}\\Z')))
+  loop:
+    - "_book_request_encryption_key"
+    - "_email_encryption_key"
+    - "_migration_encryption_key"
+
+- name: Validate administrator username
+  ansible.builtin.fail:
+    msg: "BookOrbit requires a username between 3 and 100 characters. Set bookorbit_role_admin_username in the inventory."
+  when: ((lookup('role_var', '_admin_username', role='bookorbit') | length < 3) or (lookup('role_var', '_admin_username', role='bookorbit') | length > 100))
+
+- name: Validate administrator password
+  ansible.builtin.fail:
+    msg: >-
+      BookOrbit requires a password of at least 8 characters with an uppercase letter,
+      a lowercase letter, and a digit. Set bookorbit_role_admin_password in the inventory.
+  when: (lookup('role_var', '_admin_password', role='bookorbit') is not match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}'))
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: "Import Postgres Role"
+  ansible.builtin.include_role:
+    name: postgres
+  vars:
+    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='bookorbit') }}"]
+    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='bookorbit') }}"
+    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='bookorbit') }}"
+    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='bookorbit') }}"
+    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='bookorbit') }}"
+    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='bookorbit') }}"
+    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='bookorbit') }}"
+    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='bookorbit') }}"
+    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='bookorbit') }}"
+  when: lookup('role_var', '_postgres_deploy', role='bookorbit')
+
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record', role='bookorbit') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone', role='bookorbit') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='bookorbit') }}"
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Wait for service availability
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_web_local_url', role='bookorbit') }}/api/v1/health"
+  register: bookorbit_health
+  until: (bookorbit_health.status == 200)
+  retries: 60
+  delay: 5
+
+- name: Get setup status
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_web_local_url', role='bookorbit') }}/api/v1/auth/setup-status"
+    return_content: true
+  register: bookorbit_setup_status
+
+- name: Create administrator account
+  ansible.builtin.uri:
+    url: "{{ lookup('role_var', '_web_local_url', role='bookorbit') }}/api/v1/auth/setup"
+    method: POST
+    status_code: 201
+    body_format: json
+    headers:
+      x-setup-token: "{{ lookup('role_var', '_setup_bootstrap_token', role='bookorbit') }}"
+    body:
+      username: "{{ lookup('role_var', '_admin_username', role='bookorbit') }}"
+      name: "{{ lookup('role_var', '_admin_username', role='bookorbit') }}"
+      email: "{{ lookup('role_var', '_admin_email', role='bookorbit') }}"
+      password: "{{ lookup('role_var', '_admin_password', role='bookorbit') }}"
+  no_log: true
+  when:
+    - bookorbit_setup_status.json.needsSetup
+    - (not continuous_integration)
