@@ -6,7 +6,7 @@ on:
 jobs:
   ansible-lint:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -42,7 +42,7 @@ jobs:
 
   saltbox-lint:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -64,7 +64,7 @@ jobs:
 
   check-entries:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
 
@@ -73,7 +73,7 @@ jobs:
 
   find-roles:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -94,7 +94,7 @@ jobs:
   # GitHub Actions' 256-job limit for a single matrix.
   install-24:
     name: '${{ matrix.roles }}-24.04'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [ansible-lint, saltbox-lint, find-roles]
     strategy: &install-strategy
       matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
