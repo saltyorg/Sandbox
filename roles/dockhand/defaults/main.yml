@@ -68,7 +68,7 @@ dockhand_role_postgres_user: ""
 # If empty it will fall back to postgres role default
 dockhand_role_postgres_password: ""
 dockhand_role_postgres_docker_env_db: "{{ dockhand_name }}"
-dockhand_role_postgres_docker_image_tag: "16-alpine"
+dockhand_role_postgres_docker_image_tag: "16"
 dockhand_role_postgres_docker_image_repo: "postgres"
 dockhand_role_postgres_paths_folder: "{{ dockhand_name }}"
 dockhand_role_postgres_paths_location: "{{ server_appdata_path }}/{{ dockhand_role_postgres_paths_folder }}/postgres"
