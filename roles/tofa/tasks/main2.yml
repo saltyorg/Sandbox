@@ -7,6 +7,73 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
+- name: Check for existing Tofa appdata
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='tofa') }}"
+  register: tofa_appdata
+
+- name: Check for existing Tofa configuration
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='tofa') }}/config.toml"
+  register: tofa_config
+
+- name: Read existing Tofa configuration
+  ansible.builtin.slurp:
+    src: "{{ lookup('role_var', '_paths_location', role='tofa') }}/config.toml"
+  register: tofa_existing_config
+  when: tofa_config.stat.exists
+  no_log: true
+
+- name: Preserve the signing key from Tofa configuration
+  ansible.builtin.set_fact:
+    tofa_existing_signing_key: "{{ (tofa_existing_config.content | b64decode | community.general.from_toml).get('session_signing_key', '')
+                                if tofa_config.stat.exists
+                                else '' }}"
+  no_log: true
+
+- name: Save the existing Tofa session signing key
+  saltbox_facts:
+    role: tofa
+    instance: "{{ tofa_name }}"
+    keys:
+      session_signing_key: "{{ tofa_existing_signing_key }}"
+    overwrite: true
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  when: (tofa_existing_signing_key | length > 0)
+  no_log: true
+
+- name: Save Tofa Saltbox facts
+  saltbox_facts:
+    role: tofa
+    instance: "{{ tofa_name }}"
+    keys:
+      setup_access_token: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['0123456789abcdef'], length=64) }}"
+      session_signing_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['0123456789abcdef'], length=64) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: tofa_saltbox_facts
+  no_log: true
+
+- name: Validate Tofa setup token
+  ansible.builtin.fail:
+    msg: "Set tofa_role_setup_access_token to an empty string or a 64-character lowercase hexadecimal string."
+  when: ((lookup('role_var', '_setup_access_token', role='tofa') is not string)
+         or (lookup('role_var', '_setup_access_token', role='tofa') is not match('^([0-9a-f]{64})?$')))
+
+- name: Validate Tofa session signing key
+  ansible.builtin.fail:
+    msg: "Set tofa_role_session_signing_key to a secret string of at least 32 characters."
+  when: ((lookup('role_var', '_session_signing_key', role='tofa') is not string)
+         or (lookup('role_var', '_session_signing_key', role='tofa') | length < 32))
+
+- name: Validate Tofa PostgreSQL URL
+  ansible.builtin.fail:
+    msg: "Set tofa_role_postgres_url to a connection URL string, or leave it empty to use embedded PostgreSQL."
+  when: (lookup('role_var', '_postgres_url', role='tofa') is not string)
+
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
   vars:
@@ -34,3 +101,14 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Prompt user to copy the Tofa setup link
+  ansible.builtin.pause:
+    prompt: |
+      Open {{ lookup('role_var', '_web_url', role='tofa') }}/setup?setup_token={{ lookup('role_var', '_setup_access_token', role='tofa') }}
+      Sign in to your Tofa account at this link to complete setup.
+      Press enter after copying the setup link.
+  when:
+    - (not tofa_appdata.stat.exists)
+    - (lookup('role_var', '_setup_access_token', role='tofa') | length > 0)
+    - (not continuous_integration)

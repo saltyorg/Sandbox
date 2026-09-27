@@ -25,6 +25,19 @@ tofa_role_open_main_ports: false
 tofa_role_lan_ip: ""
 # Media directory path
 tofa_role_media_path: "/mnt/unionfs/Media"
+# Protects first-time setup. Generated and saved per instance on new installs.
+tofa_role_setup_access_token: "{{ tofa_saltbox_facts.facts.setup_access_token }}"
+# Preserved from an existing installation, or generated once for a new instance.
+tofa_role_session_signing_key: "{{ tofa_saltbox_facts.facts.session_signing_key }}"
+
+################################
+# Postgres
+################################
+
+# Leave empty to use embedded PostgreSQL. Set a connection URL to use a database
+# you manage; provisioning and data migration must be handled separately.
+# Example: "postgres://username:password@postgres:5432/tofa"
+tofa_role_postgres_url: ""
 
 ################################
 # Paths
@@ -107,10 +120,14 @@ tofa_role_docker_ports: "{{ lookup('role_var', '_docker_ports_default', role='to
 tofa_role_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
+  TOFA_DATA_DIR: "/data"
+  DATABASE_URL: "{{ lookup('role_var', '_postgres_url', role='tofa', default=omit, default_if_empty=true) }}"
+  SESSION_SIGNING_KEY: "{{ lookup('role_var', '_session_signing_key', role='tofa') }}"
   MEDIA_PATH: "{{ lookup('role_var', '_media_path', role='tofa') }}"
   TZ: "{{ tz }}"
   TOFA_CUSTOM_ACCESS_URLS: "{{ lookup('role_var', '_web_url', role='tofa') }}"
   TOFA_PORT: "{{ lookup('role_var', '_web_port', role='tofa') | string }}"
+  SETUP_ACCESS_TOKEN: "{{ lookup('role_var', '_setup_access_token', role='tofa') }}"
   ADVERTISED_LAN_IP: "{{ lookup('role_var', '_lan_ip', role='tofa')
                       if ((lookup('role_var', '_lan_ip', role='tofa') | length > 0) and lookup('role_var', '_open_main_ports', role='tofa'))
                       else omit }}"
