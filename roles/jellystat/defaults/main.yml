@@ -31,7 +31,7 @@ jellystat_role_postgres_user: ""
 # If empty it will fallback to postgres role default
 jellystat_role_postgres_password: ""
 jellystat_role_postgres_docker_env_db: "jfstat"
-jellystat_role_postgres_docker_image_tag: "15.2-alpine"
+jellystat_role_postgres_docker_image_tag: "15.2"
 jellystat_role_postgres_docker_image_repo: "postgres"
 jellystat_role_postgres_docker_healthcheck:
   test:
