@@ -29,7 +29,7 @@ wikijs_role_postgres_user: ""
 # If empty it will fallback to postgres role default
 wikijs_role_postgres_password: ""
 wikijs_role_postgres_docker_env_db: "{{ wikijs_name }}"
-wikijs_role_postgres_docker_image_tag: "15-alpine"
+wikijs_role_postgres_docker_image_tag: "15"
 wikijs_role_postgres_docker_image_repo: "postgres"
 wikijs_role_postgres_docker_healthcheck:
   test:
