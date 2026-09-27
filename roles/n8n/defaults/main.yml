@@ -35,7 +35,7 @@ n8n_role_postgres_user: ""
 # If empty it will fallback to postgres role default
 n8n_role_postgres_password: ""
 n8n_role_postgres_docker_env_db: "{{ n8n_name }}"
-n8n_role_postgres_docker_image_tag: "16-alpine"
+n8n_role_postgres_docker_image_tag: "16"
 n8n_role_postgres_docker_image_repo: "postgres"
 n8n_role_postgres_docker_healthcheck:
   test:
