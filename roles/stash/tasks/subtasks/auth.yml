@@ -27,12 +27,13 @@
 - name: Stop Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/stop_docker_container.yml"
 
+# Keep the legacy flag for releases that do not use public_whitelist.
 - name: Allow public access without auth
   ansible.builtin.command:
     argv:
       - "yyq"
       - "-i"
-      - '.dangerous_allow_public_without_auth = "true"'
+      - '.dangerous_allow_public_without_auth = "true" | .public_whitelist = ["0.0.0.0/0", "::/0"]'
       - "{{ lookup('role_var', '_paths_location', role='stash') }}/config/config.yml"
   become: true
   become_user: "{{ user.name }}"
