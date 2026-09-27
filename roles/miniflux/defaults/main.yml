@@ -33,7 +33,7 @@ miniflux_role_postgres_user: ""
 # If empty it will fallback to postgres role default
 miniflux_role_postgres_password: ""
 miniflux_role_postgres_docker_env_db: "miniflux"
-miniflux_role_postgres_docker_image_tag: "14-alpine"
+miniflux_role_postgres_docker_image_tag: "14"
 miniflux_role_postgres_docker_image_repo: "postgres"
 # Skip docs
 miniflux_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='miniflux', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
