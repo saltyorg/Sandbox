@@ -79,7 +79,7 @@ silo_role_paths_folders_list:
   - "{{ silo_role_paths_location }}/plugins"
   - "{{ silo_role_paths_location }}/compat"
   - "{{ silo_role_paths_transcodes_location }}"
-  - "{{ silo_role_paths_location }}/audiobook-covers"
+  - "{{ silo_role_paths_location }}/artwork"
   - "{{ silo_role_paths_location }}/catalog-seeds"
 
 ################################
@@ -153,7 +153,6 @@ silo_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='silo'
 # Envs
 silo_role_docker_envs_default:
   HOME: "/tmp"
-  SILO_PUBLIC_URL: "{{ lookup('role_var', '_web_url', role='silo') }}"
   MODE: "integrated"
   SECRET_KEY: "{{ silo_saltbox_facts.facts.secret_key }}"
   DATABASE_URL: "{{ lookup('role_var', '_database_url', role='silo') }}"
@@ -170,9 +169,11 @@ silo_role_docker_volumes_default:
   - "{{ lookup('role_var', '_paths_location', role='silo') }}/plugins:/var/lib/silo/plugins"
   - "{{ lookup('role_var', '_paths_location', role='silo') }}/compat:/var/lib/silo/compat"
   - "{{ lookup('role_var', '_paths_transcodes_location', role='silo') }}:/tmp/silo-transcode"
-  - "{{ lookup('role_var', '_paths_location', role='silo') }}/audiobook-covers:/var/lib/silo/audiobook-covers"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/artwork:/var/lib/silo/artwork"
   - "{{ lookup('role_var', '_paths_location', role='silo') }}/catalog-seeds:/catalog-seeds:ro"
   - "/proc/meminfo:/host/proc/meminfo:ro"
+  - "/proc/stat:/host/proc/stat:ro"
+  - "/proc/loadavg:/host/proc/loadavg:ro"
 silo_role_docker_volumes_custom: []
 silo_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='silo')
                               + lookup('role_var', '_docker_volumes_custom', role='silo') }}"
