@@ -48,7 +48,6 @@
     - { role: elasticsearch, tags: ['elasticsearch'] }
     - { role: factorio, tags: ['factorio'] }
     - { role: filebot, tags: ['filebot'] }
-    - { role: filebrowser, tags: ['filebrowser'] }
     - { role: filezilla, tags: ['filezilla'] }
     - { role: fireflyiii, tags: ['fireflyiii'] }
     - { role: fireflyiii_importer, tags: ['fireflyiii-importer'] }
