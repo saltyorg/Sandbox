@@ -146,9 +146,6 @@ tofa_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role
 # Hostname
 tofa_role_docker_hostname: "{{ tofa_name }}"
 
-# Init
-tofa_role_docker_init: true
-
 # Networks
 tofa_role_docker_networks_alias: "{{ tofa_name }}"
 tofa_role_docker_networks_default: []
@@ -159,3 +156,9 @@ tofa_role_docker_networks: "{{ docker_networks_common
 
 # Restart Policy
 tofa_role_docker_restart_policy: unless-stopped
+
+# Init
+tofa_role_docker_init: true
+
+# Shared Memory
+tofa_role_docker_shm_size: "512M"
