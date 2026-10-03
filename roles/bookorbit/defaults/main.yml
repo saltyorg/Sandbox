@@ -1,0 +1,179 @@
+##########################################################################
+# Title:            Sandbox: BookOrbit | Default Variables               #
+# Author(s):        JohnClementine                                       #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+bookorbit_name: bookorbit
+
+################################
+# Settings
+################################
+
+# Initial administrator account created on a fresh install.
+# BookOrbit requires a username of at least 3 characters.
+bookorbit_role_admin_username: "{{ user.name }}"
+bookorbit_role_admin_email: "{{ user.email }}"
+# BookOrbit requires at least 8 characters with an uppercase letter, a lowercase letter, and a digit.
+# Override this when the global password does not meet those rules.
+bookorbit_role_admin_password: "{{ user.pass }}"
+
+# Signs login tokens. Defaults to a persisted generated value.
+# Keep it stable across reinstalls; overrides must be at least 16 characters.
+bookorbit_role_jwt_secret: "{{ bookorbit_saltbox_facts.facts.jwt_secret }}"
+# Protects the first-run setup endpoint. Defaults to a persisted generated value.
+bookorbit_role_setup_bootstrap_token: "{{ bookorbit_saltbox_facts.facts.setup_bootstrap_token }}"
+# [GLOBAL] Defaults to a persisted generated value.
+# [GLOBAL] Keep it stable across reinstalls; overrides must be 64 hexadecimal characters.
+# Encrypts stored download client and indexer credentials.
+bookorbit_role_book_request_encryption_key: "{{ bookorbit_saltbox_facts.facts.book_request_encryption_key }}"
+# Encrypts stored SMTP provider credentials.
+bookorbit_role_email_encryption_key: "{{ bookorbit_saltbox_facts.facts.email_encryption_key }}"
+# Encrypts stored migration source credentials.
+bookorbit_role_migration_encryption_key: "{{ bookorbit_saltbox_facts.facts.migration_encryption_key }}"
+
+################################
+# Postgres
+################################
+
+bookorbit_role_postgres_deploy: true
+bookorbit_role_postgres_name: "{{ bookorbit_name }}-postgres"
+# If empty it will fall back to the postgres role default.
+bookorbit_role_postgres_user: ""
+# If empty it will fall back to the postgres role default.
+bookorbit_role_postgres_password: ""
+bookorbit_role_postgres_docker_env_db: "{{ bookorbit_name }}"
+# BookOrbit requires the pgvector extension.
+bookorbit_role_postgres_docker_image_repo: "pgvector/pgvector"
+bookorbit_role_postgres_docker_image_tag: "pg18"
+# Skip docs
+bookorbit_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='bookorbit', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
+# Skip docs
+bookorbit_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='bookorbit', default=lookup('role_var', '_docker_env_password', role='postgres'), default_if_empty=true) }}"
+bookorbit_role_postgres_docker_healthcheck:
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='bookorbit') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user_lookup', role='bookorbit') }}"
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
+bookorbit_role_postgres_paths_folder: "{{ bookorbit_name }}"
+bookorbit_role_postgres_paths_location: "{{ server_appdata_path }}/{{ bookorbit_role_postgres_paths_folder }}/postgres"
+
+################################
+# Paths
+################################
+
+bookorbit_role_paths_folder: "{{ bookorbit_name }}"
+bookorbit_role_paths_location: "{{ server_appdata_path }}/{{ bookorbit_role_paths_folder }}"
+bookorbit_role_paths_folders_list:
+  - "{{ bookorbit_role_paths_location }}"
+  - "{{ bookorbit_role_paths_location }}/data"
+
+################################
+# Web
+################################
+
+bookorbit_role_web_subdomain: "{{ bookorbit_name }}"
+bookorbit_role_web_domain: "{{ user.domain }}"
+bookorbit_role_web_port: "3000"
+bookorbit_role_web_url: "{{ lookup('role_web', role='bookorbit', scheme='https') }}"
+# Internal address used by the role to complete first-run setup
+bookorbit_role_web_local_url: "http://{{ lookup('role_var', '_docker_networks_alias', role='bookorbit') }}:{{ lookup('role_var', '_web_port', role='bookorbit') }}"
+
+################################
+# DNS
+################################
+
+bookorbit_role_dns_record: "{{ lookup('role_var', '_web_subdomain', role='bookorbit') }}"
+bookorbit_role_dns_zone: "{{ lookup('role_var', '_web_domain', role='bookorbit') }}"
+bookorbit_role_dns_proxy: "{{ dns_proxied }}"
+
+################################
+# Traefik
+################################
+
+bookorbit_role_traefik_sso_middleware: ""
+bookorbit_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
+bookorbit_role_traefik_middleware_custom: ""
+bookorbit_role_traefik_middleware_default_api: "{{ traefik_default_middleware_api }}"
+bookorbit_role_traefik_middleware_custom_api: ""
+bookorbit_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
+bookorbit_role_traefik_enabled: true
+bookorbit_role_traefik_api_enabled: false
+bookorbit_role_traefik_api_endpoint: ""
+
+################################
+# Docker
+################################
+
+# Container
+bookorbit_role_docker_container: "{{ bookorbit_name }}"
+
+# Image
+bookorbit_role_docker_image_pull: true
+bookorbit_role_docker_image_repo: "ghcr.io/bookorbit/bookorbit"
+bookorbit_role_docker_image_tag: "latest"
+bookorbit_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='bookorbit') }}:{{ lookup('role_var', '_docker_image_tag', role='bookorbit') }}"
+
+# Envs
+bookorbit_role_docker_envs_default:
+  TZ: "{{ tz }}"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
+  APP_URL: "{{ lookup('role_var', '_web_url', role='bookorbit') }}"
+  APP_DATA_PATH: "/data"
+  POSTGRES_HOST: "{{ lookup('role_var', '_postgres_name', role='bookorbit') }}"
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: "{{ lookup('role_var', '_postgres_user_lookup', role='bookorbit') }}"
+  POSTGRES_PASSWORD: "{{ lookup('role_var', '_postgres_password_lookup', role='bookorbit') }}"
+  POSTGRES_DB: "{{ lookup('role_var', '_postgres_docker_env_db', role='bookorbit') }}"
+  JWT_SECRET: "{{ lookup('role_var', '_jwt_secret', role='bookorbit') }}"
+  SETUP_BOOTSTRAP_TOKEN: "{{ lookup('role_var', '_setup_bootstrap_token', role='bookorbit') }}"
+  BOOK_REQUEST_ENCRYPTION_KEY: "{{ lookup('role_var', '_book_request_encryption_key', role='bookorbit') }}"
+  EMAIL_ENCRYPTION_KEY: "{{ lookup('role_var', '_email_encryption_key', role='bookorbit') }}"
+  MIGRATION_ENCRYPTION_KEY: "{{ lookup('role_var', '_migration_encryption_key', role='bookorbit') }}"
+bookorbit_role_docker_envs_custom: {}
+bookorbit_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='bookorbit')
+                                | combine(lookup('role_var', '_docker_envs_custom', role='bookorbit')) }}"
+
+# Volumes
+bookorbit_role_docker_volumes_default:
+  - "{{ lookup('role_var', '_paths_location', role='bookorbit') }}/data:/data"
+bookorbit_role_docker_volumes_custom: []
+bookorbit_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default', role='bookorbit')
+                                   + lookup('role_var', '_docker_volumes_custom', role='bookorbit') }}"
+
+# Hostname
+bookorbit_role_docker_hostname: "{{ bookorbit_name }}"
+
+# Networks
+bookorbit_role_docker_networks_alias: "{{ bookorbit_name }}"
+bookorbit_role_docker_networks_default: []
+bookorbit_role_docker_networks_custom: []
+bookorbit_role_docker_networks: "{{ docker_networks_common
+                                    + lookup('role_var', '_docker_networks_default', role='bookorbit')
+                                    + lookup('role_var', '_docker_networks_custom', role='bookorbit') }}"
+
+# Restart Policy
+bookorbit_role_docker_restart_policy: unless-stopped
+
+# Stop Timeout
+bookorbit_role_docker_stop_timeout: 30
+
+# Dependencies
+bookorbit_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='bookorbit') }}"
+bookorbit_role_depends_on_delay: "0"
+bookorbit_role_depends_on_healthchecks: "false"
