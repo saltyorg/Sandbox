@@ -27,12 +27,7 @@
   ansible.builtin.wait_for:
     timeout: 30
 
-- name: Reset directory permissions
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0775"
-    recurse: true
-  with_items: "{{ lookup('role_var', '_paths_folders_list', role='filezilla') }}"
+- name: Reset directory ownership
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/chown.yml"
+  vars:
+    chown_paths: "{{ lookup('role_var', '_paths_folders_list', role='filezilla') }}"

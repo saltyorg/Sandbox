@@ -36,9 +36,7 @@
       no_log: true
 
 - name: Post-Install | Settings | Set '{{ lookup('role_var', '_paths_location', role='transmission') }}' ownership recursively
-  ansible.builtin.file:
-    path: "{{ lookup('role_var', '_paths_location', role='transmission') }}"
-    state: directory
-    recurse: true
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/chown.yml"
+  vars:
+    chown_paths:
+      - "{{ lookup('role_var', '_paths_location', role='transmission') }}"

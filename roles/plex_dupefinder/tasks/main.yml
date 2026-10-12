@@ -18,9 +18,14 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0775"
-    recurse: true
   with_items:
     - "{{ server_appdata_path }}/plex_dupefinder"
+
+- name: Set plex_dupefinder ownership recursively
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/chown.yml"
+  vars:
+    chown_paths:
+      - "{{ server_appdata_path }}/plex_dupefinder"
 
 - name: Clone plex_dupefinder
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/git/clone_git_repo.yml"

@@ -68,11 +68,10 @@
     group: "{{ user.name }}"
 
 - name: Set appdata ownership
-  ansible.builtin.file:
-    path: "{{ server_appdata_path }}/varken"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    recurse: true
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/chown.yml"
+  vars:
+    chown_paths:
+      - "{{ server_appdata_path }}/varken"
 
 - name: Check if varken config exists
   ansible.builtin.stat:

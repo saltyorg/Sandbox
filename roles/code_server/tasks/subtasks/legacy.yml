@@ -45,10 +45,8 @@
       - "{{ server_appdata_path }}/coder"
       - "{{ lookup('role_var', '_paths_location', role='code_server') }}"
 
-- name: Legacy | Set permissions on 'code_server'
-  ansible.builtin.file:
-    path: "{{ lookup('role_var', '_paths_location', role='code_server') }}"
-    state: directory
-    recurse: true
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
+- name: Legacy | Set ownership on 'code_server'
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/chown.yml"
+  vars:
+    chown_paths:
+      - "{{ lookup('role_var', '_paths_location', role='code_server') }}"
