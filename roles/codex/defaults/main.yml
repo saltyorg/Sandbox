@@ -63,7 +63,7 @@ codex_role_docker_container: "{{ codex_name }}"
 
 # Image
 codex_role_docker_image_pull: true
-codex_role_docker_image_repo: "docker.io/ajslater/codex"
+codex_role_docker_image_repo: "ghcr.io/ajslater/codex"
 codex_role_docker_image_tag: "latest"
 codex_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='codex') }}:{{ lookup('role_var', '_docker_image_tag', role='codex') }}"
 
