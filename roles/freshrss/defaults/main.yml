@@ -18,9 +18,9 @@ freshrss_name: freshrss
 ################################
 
 freshrss_role_paths_folder: "{{ freshrss_name }}"
-freshrss_role_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='freshrss') }}"
+freshrss_role_paths_location: "{{ server_appdata_path }}/{{ freshrss_role_paths_folder }}"
 freshrss_role_paths_folders_list:
-  - "{{ lookup('role_var', '_paths_location', role='freshrss') }}"
+  - "{{ freshrss_role_paths_location }}"
 
 ################################
 # Web
