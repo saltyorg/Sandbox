@@ -59,7 +59,7 @@ immich_role_paths_location: "{{ server_appdata_path }}/{{ immich_role_paths_fold
 immich_role_paths_folders_list:
   - "{{ immich_role_paths_location }}"
   - "{{ immich_role_paths_location }}/machine-learning"
-  - "{{ lookup('role_var', '_photos_location', role='immich') }}"
+  - "{{ immich_role_photos_location }}"
 
 ################################
 # Web
