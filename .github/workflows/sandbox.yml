@@ -61,19 +61,11 @@ jobs:
         with:
           path: sandbox
 
-      - name: Checkout Saltbox repository
-        uses: actions/checkout@v7
-        with:
-          repository: saltyorg/Saltbox
-          path: saltbox
-
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.14'
-
       - name: Run Saltbox Linter
-        working-directory: ${{ github.workspace }}/sandbox
-        run: python3 ../saltbox/scripts/saltbox-linter.py .
+        uses: saltyorg/github-actions/saltbox-lint@v1.4.1
+        with:
+          version: v0.2.3
+          working-directory: sandbox
 
   check-entries:
     if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')

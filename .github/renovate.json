@@ -98,6 +98,19 @@
             ]
         }
     ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "description": "Saltbox Go linter release",
+            "managerFilePatterns": [".github/workflows/sandbox.yml", ".github/workflows/sandbox-os.yml"],
+            "matchStrings": [
+                "uses: saltyorg/github-actions/saltbox-lint@[^\\s]+\\s+with:\\s+version:\\s+(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
+            ],
+            "depNameTemplate": "saltyorg/saltbox-lint",
+            "datasourceTemplate": "github-releases",
+            "versioningTemplate": "semver"
+        }
+    ],
     "rebaseWhen": "conflicted",
     "vulnerabilityAlerts": {
         "enabled": true,
