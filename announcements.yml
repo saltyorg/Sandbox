@@ -1,0 +1,13 @@
+---
+announcements:
+  - date: "2026-10-18"
+    title: "Breaking Changes"
+    required_folder: "/opt/rutorrent"
+    message: |
+      ## Rutorrent role update
+
+      The rutorrent role has been redesigned to work with the crazy-max/docker-rtorrent-rutorrent image, which uses a different layout for its application data than the previous image (kudeta/ru-rtorrent).
+
+      There is no automatic migration. The role now stores its data in `/opt/rtorrent-rutorrent` (by default), so your existing `/opt/rutorrent` folder is left untouched. For the app to pick up where it left off, you must handle migration by moving the relevant parts to where the new container expects them.
+
+      For further assistance, join us in Discord.

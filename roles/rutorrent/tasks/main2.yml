@@ -1,0 +1,93 @@
+##########################################################################
+# Title:            Sandbox: ruTorrent                                   #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Add DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_dns_record', role='rutorrent') }}"
+    dns_zone: "{{ lookup('role_var', '_dns_zone', role='rutorrent') }}"
+    dns_proxy: "{{ lookup('role_var', '_dns_proxy', role='rutorrent') }}"
+
+- name: Add WebDAV DNS record
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+  vars:
+    dns_record: "{{ lookup('role_var', '_webdav_dns_record', role='rutorrent') }}"
+    dns_zone: "{{ lookup('role_var', '_webdav_dns_zone', role='rutorrent') }}"
+    dns_proxy: "{{ lookup('role_var', '_webdav_dns_proxy', role='rutorrent') }}"
+  when: (lookup('role_var', '_webdav_enable', role='rutorrent') | bool)
+
+- name: Remove existing Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+
+- name: Assign ports
+  port_assignment:
+    base_path: "{{ server_appdata_path }}"
+    namespace: rutorrent
+    owner: "{{ rutorrent_name }}"
+    claims:
+      peer:
+        low_bound: "{{ lookup('role_var', '_port_peer_low_bound', role='rutorrent') }}"
+        high_bound: "{{ lookup('role_var', '_port_peer_high_bound', role='rutorrent') }}"
+        protocols: ["tcp"]
+      dht:
+        enabled: "{{ lookup('role_var', '_public_trackers_enable', role='rutorrent') | bool }}"
+        low_bound: "{{ lookup('role_var', '_port_dht_low_bound', role='rutorrent') }}"
+        high_bound: "{{ lookup('role_var', '_port_dht_high_bound', role='rutorrent') }}"
+        protocols: ["udp"]
+  register: rutorrent_port_assignment
+
+- name: Create directories
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
+
+- name: Import rTorrent configuration file
+  ansible.builtin.template:
+    src: "rtorrent.rc.j2"
+    dest: "{{ lookup('role_var', '_paths_location', role='rutorrent') }}/rtorrent/.rtorrent.rc"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+    force: false
+
+- name: Update managed settings in rTorrent configuration file
+  community.general.ini_file:
+    path: "{{ lookup('role_var', '_paths_location', role='rutorrent') }}/rtorrent/.rtorrent.rc"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: "0644"
+  loop:
+    - { option: "dht.mode.set", value: "{{ (rutorrent_port_assignment.ports.dht is defined) | ternary('auto', 'disable') }}" }
+    - { option: "protocol.pex.set", value: "{{ lookup('role_var', '_public_trackers_enable', role='rutorrent') | bool | ternary('yes', 'no') }}" }
+    - { option: "trackers.use_udp.set", value: "{{ lookup('role_var', '_public_trackers_enable', role='rutorrent') | bool | ternary('yes', 'no') }}" }
+  when: (lookup('role_var', '_manage_rt_config_enable', role='rutorrent') | bool)
+
+- name: Import Diskspace plugin configuration file
+  ansible.builtin.copy:
+    src: "diskspace.php"
+    dest: "{{ lookup('role_var', '_paths_location', role='rutorrent') }}/rutorrent/plugins-conf/diskspace.php"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+    force: false
+
+- name: Deploy extra plugins and themes
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/git/clone_git_repo.yml"
+  vars:
+    git_repo_url: "{{ repo.url }}"
+    git_repo_dest: "{{ lookup('role_var', '_paths_location', role='rutorrent') }}/rutorrent/{{ repo.type }}/{{ repo.name }}"
+    git_repo_version: "{{ repo.version | default('HEAD') }}"
+    git_repo_become: true
+    git_repo_become_user: "{{ user.name }}"
+    git_repo_fail_on_error: false
+  loop: "{{ (lookup('role_var', '_plugin_repos', role='rutorrent') | map('combine', {'type': 'plugins'}) | list)
+            + (lookup('role_var', '_theme_repos', role='rutorrent') | map('combine', {'type': 'themes'}) | list) }}"
+  loop_control:
+    loop_var: repo
+
+- name: Create Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
