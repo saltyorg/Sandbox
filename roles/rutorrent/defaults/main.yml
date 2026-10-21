@@ -183,7 +183,7 @@ rutorrent_role_webdav_dns_proxy: "{{ dns_proxied }}"
 rutorrent_role_traefik_sso_middleware: "{{ traefik_default_sso_middleware }}"
 rutorrent_role_traefik_middleware_default: "{{ traefik_default_middleware }}"
 rutorrent_role_traefik_middleware_custom: ""
-rutorrent_role_traefik_middleware_basicauth: "{{ traefik_router }}-auth,{{ traefik_default_middleware_api }}"
+rutorrent_role_traefik_middleware_basicauth: "{{ rutorrent_name }}-auth,{{ traefik_default_middleware_api }}"
 rutorrent_role_traefik_middleware_default_api: "{{ lookup('role_var', '_traefik_middleware_basicauth', role='rutorrent') }}"
 rutorrent_role_traefik_middleware_custom_api: ""
 rutorrent_role_traefik_certresolver: "{{ traefik_default_certresolver }}"
@@ -300,21 +300,21 @@ rutorrent_role_docker_volumes: "{{ lookup('role_var', '_docker_volumes_default',
 
 # Labels
 rutorrent_role_docker_labels_default:
-  - '{ "traefik.http.middlewares.{{ traefik_router }}-auth.basicauth.usersfile": "/etc/traefik/auth" }'
+  - '{ "traefik.http.middlewares.{{ rutorrent_name }}-auth.basicauth.usersfile": "/etc/traefik/auth" }'
 rutorrent_role_docker_labels_webdav_template:
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav-http.entrypoints": "{{ traefik_entrypoint_web }}" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav-http.service": "{{ traefik_router }}-webdav" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav-http.rule": "Host(`{{ lookup("role_var", "_webdav_host", role="rutorrent") }}`)" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav-http.middlewares": "{{ traefik_default_middleware_http_api }}" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav-http.priority": "20" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.entrypoints": "{{ traefik_entrypoint_websecure }}" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.service": "{{ traefik_router }}-webdav" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.rule": "Host(`{{ lookup("role_var", "_webdav_host", role="rutorrent") }}`)" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.tls.options": "securetls@file" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.tls.certresolver": "{{ rutorrent_role_docker_labels_webdav_certificate_plan_lookup.certresolver }}" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.middlewares": "{{ lookup("role_var", "_traefik_middleware_webdav", role="rutorrent") }}" }'
-  - '{ "traefik.http.routers.{{ traefik_router }}-webdav.priority": "20" }'
-  - '{ "traefik.http.services.{{ traefik_router }}-webdav.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port", role="rutorrent") }}" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav-http.entrypoints": "{{ traefik_entrypoint_web }}" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav-http.service": "{{ rutorrent_name }}-webdav" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav-http.rule": "Host(`{{ lookup("role_var", "_webdav_host", role="rutorrent") }}`)" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav-http.middlewares": "{{ traefik_default_middleware_http_api }}" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav-http.priority": "20" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.entrypoints": "{{ traefik_entrypoint_websecure }}" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.service": "{{ rutorrent_name }}-webdav" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.rule": "Host(`{{ lookup("role_var", "_webdav_host", role="rutorrent") }}`)" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.tls.options": "securetls@file" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.tls.certresolver": "{{ rutorrent_role_docker_labels_webdav_certificate_plan_lookup.certresolver }}" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.middlewares": "{{ lookup("role_var", "_traefik_middleware_webdav", role="rutorrent") }}" }'
+  - '{ "traefik.http.routers.{{ rutorrent_name }}-webdav.priority": "20" }'
+  - '{ "traefik.http.services.{{ rutorrent_name }}-webdav.loadbalancer.server.port": "{{ lookup("role_var", "_webdav_port", role="rutorrent") }}" }'
 # Skip docs
 rutorrent_role_docker_labels_webdav_certificate_plan_lookup: "{{ lookup('role_var', '_webdav_domain', role='rutorrent')
                                                                  | traefik_certificate_plan([],
