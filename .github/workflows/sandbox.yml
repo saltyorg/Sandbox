@@ -42,7 +42,7 @@ jobs:
 
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.14'
+          python-version: '3.15'
           cache: 'pip'
           cache-dependency-path: 'saltbox/requirements/requirements-saltbox.txt'
 
@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.14'
+          python-version: '3.15'
 
       - name: Install matrix dependencies
         run: python -m pip install ruamel.yaml==0.19.1
