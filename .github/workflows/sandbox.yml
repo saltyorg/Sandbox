@@ -62,7 +62,7 @@ jobs:
           path: sandbox
 
       - name: Run Saltbox Linter
-        uses: saltyorg/github-actions/saltbox-lint@v1.4.1
+        uses: saltyorg/github-actions/saltbox-lint@v1.4.3
         with:
           version: v0.2.4
           working-directory: sandbox
