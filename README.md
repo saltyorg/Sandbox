@@ -266,13 +266,6 @@ Before opening a new issue, search existing ones to see if the app has already b
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/notlimahrelyt>
-            <img src=https://avatars.githubusercontent.com/u/5624324?v=4 width="100;"  alt=Tyler Hamilton/>
-            <br />
-            <sub style="font-size:14px"><b>Tyler Hamilton</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/gylli251>
             <img src=https://avatars.githubusercontent.com/u/10378013?v=4 width="100;"  alt=X/>
             <br />
@@ -300,8 +293,6 @@ Before opening a new issue, search existing ones to see if the app has already b
             <sub style="font-size:14px"><b>azerial</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/benslen>
             <img src=https://avatars.githubusercontent.com/u/127471645?v=4 width="100;"  alt=Ben/>
@@ -309,6 +300,8 @@ Before opening a new issue, search existing ones to see if the app has already b
             <sub style="font-size:14px"><b>Ben</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/burnshroom>
             <img src=https://avatars.githubusercontent.com/u/123109?v=4 width="100;"  alt=burnshroom/>
@@ -344,8 +337,6 @@ Before opening a new issue, search existing ones to see if the app has already b
             <sub style="font-size:14px"><b>Mark de Ruiter</b></sub>
         </a>
     </td>
-</tr>
-<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/plinders>
             <img src=https://avatars.githubusercontent.com/u/10002620?v=4 width="100;"  alt=plinders/>
@@ -353,6 +344,8 @@ Before opening a new issue, search existing ones to see if the app has already b
             <sub style="font-size:14px"><b>plinders</b></sub>
         </a>
     </td>
+</tr>
+<tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/crowquillx>
             <img src=https://avatars.githubusercontent.com/u/58858875?v=4 width="100;"  alt=tan/>
@@ -365,6 +358,13 @@ Before opening a new issue, search existing ones to see if the app has already b
             <img src=https://avatars.githubusercontent.com/u/99356862?v=4 width="100;"  alt=~tipdec-siblyn/>
             <br />
             <sub style="font-size:14px"><b>~tipdec-siblyn</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/notlimahrelyt>
+            <img src=https://avatars.githubusercontent.com/u/5624324?v=4 width="100;"  alt=Tyler Hamilton/>
+            <br />
+            <sub style="font-size:14px"><b>Tyler Hamilton</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
