@@ -24,6 +24,7 @@
     - { role: audiobookshelf, tags: ['audiobookshelf'] }
     - { role: beets, tags: ['beets'] }
     - { role: booklore, tags: ['booklore'] }
+    - { role: bookorbit, tags: ['bookorbit'] }
     - { role: bookstack, tags: ['bookstack'] }
     - { role: calibre, tags: ['calibre'] }
     - { role: calibre_web, tags: ['calibre-web'] }
