@@ -70,7 +70,7 @@ xbackbone_role_docker_container: "{{ xbackbone_name }}"
 
 # Image
 xbackbone_role_docker_image_pull: true
-xbackbone_role_docker_image_repo: "lscr.io/linuxserver/xbackbone"
+xbackbone_role_docker_image_repo: "linuxserver/xbackbone"
 xbackbone_role_docker_image_tag: "latest"
 xbackbone_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='xbackbone') }}:{{ lookup('role_var', '_docker_image_tag', role='xbackbone') }}"
 

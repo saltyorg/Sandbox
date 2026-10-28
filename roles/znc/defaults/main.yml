@@ -62,7 +62,7 @@ znc_role_docker_container: "{{ znc_name }}"
 
 # Image
 znc_role_docker_image_pull: true
-znc_role_docker_image_repo: "lscr.io/linuxserver/znc"
+znc_role_docker_image_repo: "linuxserver/znc"
 znc_role_docker_image_tag: "latest"
 znc_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='znc') }}:{{ lookup('role_var', '_docker_image_tag', role='znc') }}"
 

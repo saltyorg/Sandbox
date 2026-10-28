@@ -62,7 +62,7 @@ bookstack_role_docker_container: "{{ bookstack_name }}"
 
 # Image
 bookstack_role_docker_image_pull: true
-bookstack_role_docker_image_repo: "lscr.io/linuxserver/bookstack"
+bookstack_role_docker_image_repo: "linuxserver/bookstack"
 bookstack_role_docker_image_tag: "latest"
 bookstack_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='bookstack') }}:{{ lookup('role_var', '_docker_image_tag', role='bookstack') }}"
 

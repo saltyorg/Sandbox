@@ -71,7 +71,7 @@ speedtest_role_docker_container: "{{ speedtest_name }}"
 
 # Image
 speedtest_role_docker_image_pull: true
-speedtest_role_docker_image_repo: "lscr.io/linuxserver/librespeed"
+speedtest_role_docker_image_repo: "linuxserver/librespeed"
 speedtest_role_docker_image_tag: "latest"
 speedtest_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='speedtest') }}:{{ lookup('role_var', '_docker_image_tag', role='speedtest') }}"
 

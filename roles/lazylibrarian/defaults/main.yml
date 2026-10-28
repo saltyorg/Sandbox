@@ -63,7 +63,7 @@ lazylibrarian_role_docker_container: "{{ lazylibrarian_name }}"
 # Image
 lazylibrarian_role_docker_image_pull: true
 lazylibrarian_role_docker_image_tag: "latest"
-lazylibrarian_role_docker_image_repo: "lscr.io/linuxserver/lazylibrarian"
+lazylibrarian_role_docker_image_repo: "linuxserver/lazylibrarian"
 lazylibrarian_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='lazylibrarian') }}:{{ lookup('role_var', '_docker_image_tag', role='lazylibrarian') }}"
 
 # Envs

@@ -76,7 +76,7 @@ transmission_role_docker_container: "{{ transmission_name }}"
 
 # Image
 transmission_role_docker_image_pull: true
-transmission_role_docker_image_repo: "lscr.io/linuxserver/transmission"
+transmission_role_docker_image_repo: "linuxserver/transmission"
 transmission_role_docker_image_tag: "latest"
 transmission_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='transmission') }}:{{ lookup('role_var', '_docker_image_tag', role='transmission') }}"
 

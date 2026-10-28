@@ -61,7 +61,7 @@ your_spotify_role_docker_container: "{{ your_spotify_name }}"
 
 # Image
 your_spotify_role_docker_image_pull: true
-your_spotify_role_docker_image_repo: "lscr.io/linuxserver/your_spotify"
+your_spotify_role_docker_image_repo: "linuxserver/your_spotify"
 your_spotify_role_docker_image_tag: "latest"
 your_spotify_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='your_spotify') }}:{{ lookup('role_var', '_docker_image_tag', role='your_spotify') }}"
 

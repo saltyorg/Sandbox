@@ -62,7 +62,7 @@ airsonic_role_docker_container: "{{ airsonic_name }}"
 
 # Image
 airsonic_role_docker_image_pull: true
-airsonic_role_docker_image_repo: "lscr.io/linuxserver/airsonic-advanced"
+airsonic_role_docker_image_repo: "linuxserver/airsonic-advanced"
 airsonic_role_docker_image_tag: "latest"
 airsonic_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='airsonic') }}:{{ lookup('role_var', '_docker_image_tag', role='airsonic') }}"
 

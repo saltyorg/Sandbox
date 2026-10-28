@@ -75,7 +75,7 @@ unifi_network_application_role_docker_container: "{{ unifi_network_application_n
 # Image
 unifi_network_application_role_docker_image_pull: true
 unifi_network_application_role_docker_image_tag: "latest"
-unifi_network_application_role_docker_image_repo: "lscr.io/linuxserver/unifi-network-application"
+unifi_network_application_role_docker_image_repo: "linuxserver/unifi-network-application"
 unifi_network_application_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='unifi_network_application') }}:{{ lookup('role_var', '_docker_image_tag', role='unifi_network_application') }}"
 
 # Ports

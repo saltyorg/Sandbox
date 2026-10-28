@@ -63,7 +63,7 @@ homeassistant_role_docker_container: "{{ homeassistant_name }}"
 
 # Image
 homeassistant_role_docker_image_pull: true
-homeassistant_role_docker_image_repo: "lscr.io/linuxserver/homeassistant"
+homeassistant_role_docker_image_repo: "linuxserver/homeassistant"
 homeassistant_role_docker_image_tag: "latest"
 homeassistant_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='homeassistant') }}:{{ lookup('role_var', '_docker_image_tag', role='homeassistant') }}"
 

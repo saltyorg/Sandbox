@@ -63,7 +63,7 @@ beets_role_docker_container: "{{ beets_name }}"
 
 # Image
 beets_role_docker_image_pull: true
-beets_role_docker_image_repo: "lscr.io/linuxserver/beets"
+beets_role_docker_image_repo: "linuxserver/beets"
 beets_role_docker_image_tag: "latest"
 beets_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='beets') }}:{{ lookup('role_var', '_docker_image_tag', role='beets') }}"
 

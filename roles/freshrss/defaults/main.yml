@@ -62,7 +62,7 @@ freshrss_role_docker_container: "{{ freshrss_name }}"
 
 # Image
 freshrss_role_docker_image_pull: true
-freshrss_role_docker_image_repo: "lscr.io/linuxserver/freshrss"
+freshrss_role_docker_image_repo: "linuxserver/freshrss"
 freshrss_role_docker_image_tag: "amd64-latest"
 freshrss_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='freshrss') }}:{{ lookup('role_var', '_docker_image_tag', role='freshrss') }}"
 

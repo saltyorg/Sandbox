@@ -63,7 +63,7 @@ sqlitebrowser_role_docker_container: "{{ sqlitebrowser_name }}"
 
 # Image
 sqlitebrowser_role_docker_image_pull: true
-sqlitebrowser_role_docker_image_repo: "lscr.io/linuxserver/sqlitebrowser"
+sqlitebrowser_role_docker_image_repo: "linuxserver/sqlitebrowser"
 sqlitebrowser_role_docker_image_tag: "latest"
 sqlitebrowser_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='sqlitebrowser') }}:{{ lookup('role_var', '_docker_image_tag', role='sqlitebrowser') }}"
 

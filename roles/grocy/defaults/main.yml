@@ -62,7 +62,7 @@ grocy_role_docker_container: "{{ grocy_name }}"
 
 # Image
 grocy_role_docker_image_pull: true
-grocy_role_docker_image_repo: "lscr.io/linuxserver/grocy"
+grocy_role_docker_image_repo: "linuxserver/grocy"
 grocy_role_docker_image_tag: "latest"
 grocy_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='grocy') }}:{{ lookup('role_var', '_docker_image_tag', role='grocy') }}"
 

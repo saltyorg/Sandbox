@@ -63,7 +63,7 @@ medusa_role_docker_container: "{{ medusa_name }}"
 # Image
 medusa_role_docker_image_pull: true
 medusa_role_docker_image_tag: "latest"
-medusa_role_docker_image_repo: "lscr.io/linuxserver/medusa"
+medusa_role_docker_image_repo: "linuxserver/medusa"
 medusa_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='medusa') }}:{{ lookup('role_var', '_docker_image_tag', role='medusa') }}"
 
 # Envs

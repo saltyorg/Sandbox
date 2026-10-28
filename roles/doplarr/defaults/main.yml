@@ -43,7 +43,7 @@ doplarr_role_docker_container: "{{ doplarr_name }}"
 
 # Image
 doplarr_role_docker_image_pull: true
-doplarr_role_docker_image_repo: "lscr.io/linuxserver/doplarr"
+doplarr_role_docker_image_repo: "linuxserver/doplarr"
 doplarr_role_docker_image_tag: "latest"
 doplarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='doplarr') }}:{{ lookup('role_var', '_docker_image_tag', role='doplarr') }}"
 

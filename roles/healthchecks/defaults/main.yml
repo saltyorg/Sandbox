@@ -63,7 +63,7 @@ healthchecks_role_docker_container: "{{ healthchecks_name }}"
 
 # Image
 healthchecks_role_docker_image_pull: true
-healthchecks_role_docker_image_repo: "lscr.io/linuxserver/healthchecks"
+healthchecks_role_docker_image_repo: "linuxserver/healthchecks"
 healthchecks_role_docker_image_tag: "latest"
 healthchecks_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='healthchecks') }}:{{ lookup('role_var', '_docker_image_tag', role='healthchecks') }}"
 

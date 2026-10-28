@@ -72,7 +72,7 @@ calibre_web_role_docker_container: "{{ calibre_web_name }}"
 
 # Image
 calibre_web_role_docker_image_pull: true
-calibre_web_role_docker_image_repo: "lscr.io/linuxserver/calibre-web"
+calibre_web_role_docker_image_repo: "linuxserver/calibre-web"
 calibre_web_role_docker_image_tag: "latest"
 calibre_web_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='calibre_web') }}:{{ lookup('role_var', '_docker_image_tag', role='calibre_web') }}"
 

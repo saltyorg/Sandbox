@@ -62,7 +62,7 @@ pyload_role_docker_container: "{{ pyload_name }}"
 
 # Image
 pyload_role_docker_image_pull: true
-pyload_role_docker_image_repo: "lscr.io/linuxserver/pyload-ng"
+pyload_role_docker_image_repo: "linuxserver/pyload-ng"
 pyload_role_docker_image_tag: "latest"
 pyload_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='pyload') }}:{{ lookup('role_var', '_docker_image_tag', role='pyload') }}"
 

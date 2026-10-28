@@ -64,7 +64,7 @@ mylar3_role_docker_container: "{{ mylar3_name }}"
 # Image
 mylar3_role_docker_image_pull: true
 mylar3_role_docker_image_tag: "latest"
-mylar3_role_docker_image_repo: "lscr.io/linuxserver/mylar3"
+mylar3_role_docker_image_repo: "linuxserver/mylar3"
 mylar3_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='mylar3') }}:{{ lookup('role_var', '_docker_image_tag', role='mylar3') }}"
 
 # Envs
