@@ -96,8 +96,46 @@
                 "dependencies",
                 "github-actions"
             ]
+        },
+        {
+            "description": "Automerge CI-gated minor/patch updates",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchPackageNames": [
+                "actions/**",
+                "jaxxstorm/action-install-gh-release",
+                "saltyorg/github-actions"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "automerge": true
+        },
+        {
+            "description": "Automerge CI-gated Saltbox tools",
+            "matchPackageNames": [
+                "saltyorg/saltbox-lint"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "automerge": true
+        },
+        {
+            "description": "Let third-party actions settle before automerge",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchPackageNames": [
+                "jaxxstorm/action-install-gh-release"
+            ],
+            "minimumReleaseAge": "3 days"
         }
     ],
+    "platformAutomerge": false,
     "customManagers": [
         {
             "customType": "regex",
