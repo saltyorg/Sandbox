@@ -1,6 +1,6 @@
 ---
 announcements:
-  - date: "2026-10-18"
+  - date: "2026-11-01"
     title: "Breaking Changes"
     required_folder: "/opt/rutorrent"
     message: |
