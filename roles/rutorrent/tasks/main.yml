@@ -1,61 +1,16 @@
-#########################################################################
-# Title:         Saltbox: ruTorrent Role                                #
-# Author(s):     desimaniac, l3uddz, salty                              #
-# URL:           https://github.com/saltyorg/Saltbox                    #
-# --                                                                    #
-#########################################################################
-#                   GNU General Public License v3.0                     #
-#########################################################################
+##########################################################################
+# Title:            Sandbox: ruTorrent                                   #
+# Author(s):        keldian                                              #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
 ---
-- name: "Notify deprecation"
-  ansible.builtin.debug:
-    msg:
-      - "Role disabled due to breaking changes in the Docker image."
-      - "Implementation is being reevaluated but ruTorrent will return in due course."
-
-- name: "End role"
-  ansible.builtin.meta: end_role
-
-- name: Add DNS record
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"
+- name: "Execute rutorrent roles"
+  ansible.builtin.include_tasks: main2.yml
   vars:
-    dns_record: "{{ lookup('role_var', '_dns_record') }}"
-    dns_zone: "{{ lookup('role_var', '_dns_zone') }}"
-    dns_proxy: "{{ lookup('role_var', '_dns_proxy') }}"
-
-- name: Remove existing Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
-- name: Assign ports
-  port_assignment:
-    base_path: "{{ server_appdata_path }}"
-    namespace: rutorrent
-    owner: "{{ rutorrent_name }}"
-    claims:
-      peer:
-        low_bound: "{{ lookup('role_var', '_port_peer_low_bound', role='rutorrent') }}"
-        high_bound: "{{ lookup('role_var', '_port_peer_high_bound', role='rutorrent') }}"
-        protocols: ["tcp", "udp"]
-      dht:
-        low_bound: "{{ lookup('role_var', '_port_dht_low_bound', role='rutorrent') }}"
-        high_bound: "{{ lookup('role_var', '_port_dht_high_bound', role='rutorrent') }}"
-        protocols: ["udp"]
-  register: rutorrent_port_assignment
-
-- name: Create directories
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/directories/create_directories.yml"
-
-- name: Check if existing config file exists
-  ansible.builtin.stat:
-    path: "{{ lookup('role_var', '_paths_rtorrent_rc_location', role='rutorrent') }}"
-  register: rutorrent_role_paths_rtorrent_rc_location_stat
-
-- name: Pre-Install Tasks
-  ansible.builtin.include_tasks: "subtasks/pre-install/main.yml"
-  when: (not continuous_integration)
-
-- name: Create Docker container
-  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
-
-- name: Post-Install Tasks
-  ansible.builtin.include_tasks: "subtasks/post-install/main.yml"
+    rutorrent_name: "{{ instance }}"
+  with_items: "{{ rutorrent_instances }}"
+  loop_control:
+    loop_var: instance

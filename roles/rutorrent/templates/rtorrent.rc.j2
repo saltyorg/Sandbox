@@ -1,0 +1,78 @@
+##########################################################################
+#                        rTorrent configuration                          #
+##########################################################################
+
+# ========================================================================
+# Network
+# ========================================================================
+
+# Maximum and minimum number of peers to connect to per torrent
+throttle.min_peers.normal.set = 1
+throttle.max_peers.normal.set = 60
+
+# Same as above but for seeding completed torrents (-1 = same as downloading)
+throttle.min_peers.seed.set = 1
+throttle.max_peers.seed.set = 80
+
+# Number of peers to request from trackers
+trackers.numwant.set = 80
+
+# Tracker-less torrent and UDP tracker support (toggles 'public' tracker connectivity)
+dht.mode.set = disable
+protocol.pex.set = no
+trackers.use_udp.set = no
+
+# Encryption options
+protocol.encryption.set = allow_incoming,try_outgoing,enable_retry,prefer_plaintext
+
+# Network prioritization mode
+network.tos.set = throughput
+
+# ========================================================================
+# Bandwidth
+# ========================================================================
+
+# Global upload and download rate in KiB (0 = unlimited)
+throttle.global_down.max_rate.set_kb = 0
+throttle.global_up.max_rate.set_kb = 0
+
+# Maximum number of simultaneous upload slots per torrent
+throttle.max_uploads.set = 100
+
+# Maximum number of simultaneous upload slots, globally
+throttle.max_uploads.global.set = 250
+
+# ========================================================================
+# System
+# ========================================================================
+
+# umask for all files created by rTorrent
+system.umask.set = 002
+
+# Check hash for finished torrents
+pieces.hash.on_completion.set = no
+
+# ========================================================================
+# Paths
+# ========================================================================
+
+# Override the bootstrap downloads path to preserve hardlinks for *arr apps
+directory.default.set = {{ lookup('role_var', '_paths_downloads_complete_location', role='rutorrent') }}
+
+# ========================================================================
+# Automation
+# ========================================================================
+
+# Watch a directory for new torrents, and stop those that have been deleted
+directory.watch.added = (cat,(cfg.watch)), load.start
+schedule = untied_directory, 5, 5, (cat,"stop_untied=",(cfg.watch),"*.torrent")
+
+# Close torrents when diskspace is low
+schedule = monitor_diskspace, 15, 60, ((close_low_diskspace,1000M))
+
+# Workaround for ruTorrent's seedingtime plugin not always setting added date to new downloads
+method.set_key = event.download.inserted_new,set_addtime,"d.custom.set=addtime,(cat,$system.time=)"
+
+# ========================================================================
+# Custom
+# ========================================================================
