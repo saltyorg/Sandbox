@@ -7,6 +7,13 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
+- name: "Fail with discontinuation notice"
+  ansible.builtin.fail:
+    msg:
+      - "We are dropping Silo due to continued breaking changes upstream that we cannot keep up with."
+      - "See https://docs.saltbox.dev/advanced/your-own-containers for how to run it self-managed."
+  when: (not (continuous_integration | bool))
+
 - name: "Save Silo Saltbox facts"
   saltbox_facts:
     role: "silo"

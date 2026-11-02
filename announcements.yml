@@ -11,3 +11,19 @@ announcements:
       There is no automatic migration. The role now stores its data in `/opt/rtorrent-rutorrent` (by default), so your existing `/opt/rutorrent` folder is left untouched. For the app to pick up where it left off, you must handle migration by moving the relevant parts to where the new container expects them.
 
       For further assistance, join us in Discord.
+
+  - date: "2026-11-02"
+    title: "Removed Role: Silo"
+    required_folder: "/opt/silo"
+    message: |
+      ## Silo discontinuation
+
+      We are dropping Silo due to continued breaking changes upstream that we cannot keep up with.
+
+      The role is effectively disabled and will fail if you run its tag. Your application data is left untouched.
+
+      See https://docs.saltbox.dev/advanced/your-own-containers for how to run it self-managed.
+
+      ### Docker Compose
+
+      If you don't plan to deploy Silo in "omnibus" mode, remember that you will need to include Postgres and Redis in your Compose stack; to avoid conflicts, make sure to give them the same unique names as the role did.
