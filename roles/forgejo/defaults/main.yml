@@ -67,7 +67,7 @@ forgejo_role_docker_container: "{{ forgejo_name }}"
 # Image
 forgejo_role_docker_image_pull: true
 forgejo_role_docker_image_repo: "codeberg.org/forgejo/forgejo"
-forgejo_role_docker_image_tag: "16" # the Codeberg container registry does not provide a "latest" tag
+forgejo_role_docker_image_tag: "17" # the Codeberg container registry does not provide a "latest" tag
 forgejo_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='forgejo') }}:{{ lookup('role_var', '_docker_image_tag', role='forgejo') }}"
 
 # Envs
