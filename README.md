@@ -97,17 +97,17 @@ Before opening a new issue, search existing ones to see if the app has already b
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/TABLE272>
-            <img src=https://avatars.githubusercontent.com/u/11992630?v=4 width="100;"  alt=TABLE272/>
+        <a href=https://github.com/hereisderek>
+            <img src=https://avatars.githubusercontent.com/u/839795?v=4 width="100;"  alt=Derek Zhu/>
             <br />
-            <sub style="font-size:14px"><b>TABLE272</b></sub>
+            <sub style="font-size:14px"><b>Derek Zhu</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/grostim>
-            <img src=https://avatars.githubusercontent.com/u/3714755?v=4 width="100;"  alt=grostim/>
+        <a href=https://github.com/balogan>
+            <img src=https://avatars.githubusercontent.com/u/5386720?v=4 width="100;"  alt=balogan/>
             <br />
-            <sub style="font-size:14px"><b>grostim</b></sub>
+            <sub style="font-size:14px"><b>balogan</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -118,26 +118,19 @@ Before opening a new issue, search existing ones to see if the app has already b
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/balogan>
-            <img src=https://avatars.githubusercontent.com/u/5386720?v=4 width="100;"  alt=balogan/>
+        <a href=https://github.com/grostim>
+            <img src=https://avatars.githubusercontent.com/u/3714755?v=4 width="100;"  alt=grostim/>
             <br />
-            <sub style="font-size:14px"><b>balogan</b></sub>
+            <sub style="font-size:14px"><b>grostim</b></sub>
         </a>
     </td>
 </tr>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/hereisderek>
-            <img src=https://avatars.githubusercontent.com/u/839795?v=4 width="100;"  alt=Derek Zhu/>
+        <a href=https://github.com/TABLE272>
+            <img src=https://avatars.githubusercontent.com/u/11992630?v=4 width="100;"  alt=TABLE272/>
             <br />
-            <sub style="font-size:14px"><b>Derek Zhu</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/TurboCheetah>
-            <img src=https://avatars.githubusercontent.com/u/19479111?v=4 width="100;"  alt=Turbo/>
-            <br />
-            <sub style="font-size:14px"><b>Turbo</b></sub>
+            <sub style="font-size:14px"><b>TABLE272</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -145,6 +138,13 @@ Before opening a new issue, search existing ones to see if the app has already b
             <img src=https://avatars.githubusercontent.com/u/180442845?v=4 width="100;"  alt=maindust/>
             <br />
             <sub style="font-size:14px"><b>maindust</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/TurboCheetah>
+            <img src=https://avatars.githubusercontent.com/u/19479111?v=4 width="100;"  alt=Turbo/>
+            <br />
+            <sub style="font-size:14px"><b>Turbo</b></sub>
         </a>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
