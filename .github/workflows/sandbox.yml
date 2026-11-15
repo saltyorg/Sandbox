@@ -40,14 +40,17 @@ jobs:
       - name: Symlink cloned repository to /srv/git/saltbox
         run: ln -s $GITHUB_WORKSPACE/saltbox /srv/git/saltbox
 
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.14'
-          cache: 'pip'
-          cache-dependency-path: 'saltbox/requirements/requirements-saltbox.txt'
+      # Same pinned uv, Python and locked requirements as Saltbox's own CI.
+      - uses: ./saltbox/.github/actions/setup-saltbox-uv
 
       - name: Install packages
-        run: pip install -r ./saltbox/requirements/requirements-saltbox.txt
+        working-directory: saltbox
+        run: |
+          uv python install --managed-python --no-bin "$(< .python-version)"
+          uv venv --python "$(< .python-version)" --managed-python --no-project .venv
+          uv pip sync --python .venv/bin/python --require-hashes requirements/requirements-saltbox.txt
+          venv_bin=$(readlink -f .venv/bin)
+          echo "$venv_bin" >> "$GITHUB_PATH"
 
       - name: Run ansible linter
         working-directory: ${{ github.workspace }}/sandbox
@@ -83,16 +86,32 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.14'
 
-      - name: Install matrix dependencies
-        run: python -m pip install ruamel.yaml==0.19.1
+      - name: Checkout Saltbox Python environment
+        uses: actions/checkout@v7
+        with:
+          repository: saltyorg/Saltbox
+          path: saltbox
+          sparse-checkout: |
+            /.python-version
+            /.uv-version
+            /.github/actions/setup-saltbox-uv/
+            /requirements/requirements-saltbox.txt
+          sparse-checkout-cone-mode: false
+
+      # Same pinned uv, Python and locked requirements as Saltbox's own CI.
+      - uses: ./saltbox/.github/actions/setup-saltbox-uv
+
+      - name: Install packages
+        working-directory: saltbox
+        run: |
+          uv python install --managed-python --no-bin "$(< .python-version)"
+          uv venv --python "$(< .python-version)" --managed-python --no-project .venv
+          uv pip sync --python .venv/bin/python --require-hashes requirements/requirements-saltbox.txt
 
       - id: set-matrix
         run: |
-          matrix=$(python .github/scripts/ci-role-matrix.py)
+          matrix=$(saltbox/.venv/bin/python .github/scripts/ci-role-matrix.py)
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   install:
