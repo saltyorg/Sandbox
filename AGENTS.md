@@ -344,10 +344,10 @@ working in this checkout.
   sources of truth for mechanically enforced checks; do not reproduce their
   complete rule sets here.
 - Before handoff, run `ansible-lint`, the Go-based Saltbox linter with
-  `saltbox-lint check .`, and `git diff --check`. The Python linter is not a
-  substitute for the Go linter. Run `./scripts/check_missing_entries.sh` when
-  changing roles or `sandbox.yml`. Follow `.github/workflows/sandbox.yml` for
-  the current Saltbox checkout and dependency setup.
+  `saltbox-lint check .`, and `git diff --check`. Run
+  `./scripts/check_missing_entries.sh` when changing roles or `sandbox.yml`.
+  Follow `.github/workflows/sandbox.yml` for the current Saltbox checkout and
+  dependency setup.
 - Run installation or behavior tests only on an explicitly designated
   disposable or test Saltbox host. Report static validation separately from
   live role validation, and state any coverage that could not be performed.
