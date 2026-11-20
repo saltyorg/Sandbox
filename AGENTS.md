@@ -33,6 +33,10 @@ working in this checkout.
   `sandbox.yml` with their install tags by default. Use `No CI` only when a
   role cannot participate in the install matrix or is not runnable by itself;
   non-runnable companion roles use `never`.
+- `scripts/check_missing_entries.py` expects every role directory to be
+  registered between `Apps Start` and `Apps End`. When registering a role
+  outside those markers, add its directory name to `ignored_roles` in
+  `.github/ci-role-matrix.yml`.
 - Keep auxiliary tags on the application's single role entry. Exclude
   display-only tags through the CI `ignored_tags` configuration rather than
   registering the same role again under `No CI`.
@@ -345,7 +349,7 @@ working in this checkout.
   complete rule sets here.
 - Before handoff, run `ansible-lint`, the Go-based Saltbox linter with
   `saltbox-lint check .`, and `git diff --check`. Run
-  `./scripts/check_missing_entries.sh` when changing roles or `sandbox.yml`.
+  `./scripts/check_missing_entries.py` when changing roles or `sandbox.yml`.
   Follow `.github/workflows/sandbox.yml` for the current Saltbox checkout and
   dependency setup.
 - Run installation or behavior tests only on an explicitly designated

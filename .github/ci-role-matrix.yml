@@ -1,2 +1,14 @@
 ignored_tags:
   - "tracearr-claim"
+
+# Role directories that need no entry between "# Apps Start" and "# Apps End"
+# in sandbox.yml. Read by scripts/check_missing_entries.py, which accepts only
+# one "- role_name" entry per line here.
+ignored_roles:
+  - "koito_migrate"
+  - "lgsm"
+  - "main_tag"
+  - "n8n_runner"
+  - "plex_auto_languages"
+  - "sanity_check"
+  - "sure_worker"
