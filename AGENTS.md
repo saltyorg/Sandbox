@@ -324,6 +324,20 @@ working in this checkout.
 - If you do put the backend role in `sandbox.yml` with the same tag as the main
   role, remove the `include_role`.
 
+## Announcements
+
+- `announcements.yml` is append-only. Add an announcement as a new entry at
+  the end of the list, following the format of the existing entries.
+- Never edit, reorder, or remove an entry that already exists on `master`.
+  This covers every field and includes typo, wording, and formatting fixes.
+- `sb update` identifies an announcement by its `date` and `title` and shows
+  it once, on the update that first brings it in. Changing either field
+  announces the old entry again to every user, and any other edit never
+  reaches users who have already seen it.
+- To correct or follow up on a published announcement, add a new entry.
+- Before handoff, confirm that the `announcements.yml` diff against `master`
+  only adds lines after the last existing entry.
+
 ## Validation
 
 - Treat `.github/workflows/sandbox.yml` and the Saltbox linter as the current
