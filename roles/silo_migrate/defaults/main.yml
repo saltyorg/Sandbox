@@ -1,0 +1,51 @@
+##########################################################################
+# Title:            Sandbox: Silo Migrate | Default Variables            #
+# Author(s):        After-Shock                                          #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+################################
+# Basics
+################################
+
+silo_migrate_name: silo-migrate
+
+################################
+# Postgres
+################################
+
+silo_migrate_role_postgres_name: "{{ silo_role_postgres_name | default(silo_name + '-postgres') }}"
+silo_migrate_role_postgres_user: "{{ silo_role_postgres_user | default('') }}"
+silo_migrate_role_postgres_password: "{{ silo_role_postgres_password | default('') }}"
+silo_migrate_role_postgres_docker_env_db: "{{ silo_role_postgres_docker_env_db | default('silo') }}"
+silo_migrate_role_postgres_docker_image_repo: "{{ silo_role_postgres_docker_image_repo | default('pgvector/pgvector') }}"
+silo_migrate_role_postgres_docker_image_tag: "{{ silo_role_postgres_docker_image_tag | default('pg18') }}"
+silo_migrate_role_postgres_docker_shm_size: "{{ silo_role_postgres_docker_shm_size | default('8G') }}"
+silo_migrate_role_postgres_docker_healthcheck:
+  test:
+    - "CMD"
+    - "pg_isready"
+    - "-d"
+    - "{{ lookup('role_var', '_postgres_docker_env_db', role='silo_migrate') }}"
+    - "-U"
+    - "{{ lookup('role_var', '_postgres_user', role='silo_migrate', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
+  start_period: 20s
+  interval: 30s
+  retries: 5
+  timeout: 5s
+silo_migrate_role_postgres_paths_location: "{{ silo_role_postgres_paths_location | default(lookup('role_var', '_paths_location', role='silo') + '/postgres') }}"
+
+################################
+# Redis
+################################
+
+silo_migrate_role_redis_name: "{{ silo_role_redis_name | default(silo_name + '-redis') }}"
+
+################################
+# Validation
+################################
+
+silo_migrate_role_validation_query: "SELECT (SELECT count(*) FROM users), (SELECT count(*) FROM media_items), (SELECT count(*) FROM user_watch_history), (SELECT count(*) FROM user_watch_progress)"

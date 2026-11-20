@@ -1,0 +1,243 @@
+##########################################################################
+# Title:            Sandbox: Silo Migrate                                #
+# Author(s):        After-Shock                                          #
+# URL:              https://github.com/saltyorg/Sandbox                  #
+# --                                                                     #
+##########################################################################
+#                   GNU General Public License v3.0                      #
+##########################################################################
+---
+- name: Check for completed Silo migration
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='silo') }}/config/.compose-cluster-copied"
+  register: silo_migrate_marker
+
+- name: Migrate legacy Silo installation
+  when: (not silo_migrate_marker.stat.exists)
+  block:
+    - name: Check for legacy Silo PostgreSQL data
+      ansible.builtin.stat:
+        path: "{{ lookup('role_var', '_postgres_paths_location', role='silo_migrate') }}/PG_VERSION"
+      register: silo_migrate_postgres_data
+
+    - name: Validate legacy Silo PostgreSQL data
+      ansible.builtin.fail:
+        msg: "No legacy Silo PostgreSQL data was found. Run 'sb install sandbox-silo' for a new installation."
+      when: (not silo_migrate_postgres_data.stat.exists)
+
+    - name: Remove existing Silo Docker container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+      vars:
+        container_name: "{{ silo_name }}"
+
+    - name: Import PostgreSQL role
+      ansible.builtin.include_role:
+        name: postgres
+        public: true
+      vars:
+        postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='silo_migrate') }}"]
+        postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='silo_migrate') }}"
+        postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='silo_migrate') }}"
+        postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='silo_migrate') }}"
+        postgres_role_paths_folder: "{{ silo_name }}"
+        postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='silo_migrate') }}"
+        postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='silo_migrate') }}"
+        postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='silo_migrate') }}"
+        postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='silo_migrate') }}"
+        postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='silo_migrate') }}"
+
+    - name: Set Silo PostgreSQL user
+      ansible.builtin.set_fact:
+        silo_migrate_postgres_user_effective: "{{ lookup('role_var', '_postgres_user', role='silo_migrate', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
+
+    - name: Wait for legacy Silo PostgreSQL
+      community.docker.docker_container_exec:
+        container: "{{ lookup('role_var', '_postgres_name', role='silo_migrate') }}"
+        argv:
+          - pg_isready
+          - -U
+          - "{{ silo_migrate_postgres_user_effective }}"
+          - -d
+          - "{{ lookup('role_var', '_postgres_docker_env_db', role='silo_migrate') }}"
+      register: silo_migrate_postgres_ready
+      changed_when: false
+      failed_when: false
+      retries: 30
+      delay: 5
+      until: silo_migrate_postgres_ready.rc == 0
+
+    - name: Read legacy Silo row counts
+      community.docker.docker_container_exec:
+        container: "{{ lookup('role_var', '_postgres_name', role='silo_migrate') }}"
+        argv:
+          - psql
+          - -U
+          - "{{ silo_migrate_postgres_user_effective }}"
+          - -d
+          - "{{ lookup('role_var', '_postgres_docker_env_db', role='silo_migrate') }}"
+          - -XAt
+          - -v
+          - ON_ERROR_STOP=1
+          - -c
+          - "{{ lookup('role_var', '_validation_query', role='silo_migrate') }}"
+      register: silo_migrate_legacy_counts
+      changed_when: false
+
+    - name: Stop legacy Silo PostgreSQL container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/stop_docker_container.yml"
+      vars:
+        container_name: "{{ lookup('role_var', '_postgres_name', role='silo_migrate') }}"
+
+    - name: Remove legacy Silo Redis container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+      vars:
+        container_name: "{{ lookup('role_var', '_redis_name', role='silo_migrate') }}"
+
+    - name: Run Silo migration
+      community.docker.docker_container:
+        name: "{{ silo_migrate_name }}"
+        image: "{{ lookup('role_var', '_docker_image', role='silo') }}"
+        pull: "{{ 'always' if (lookup('role_var', '_docker_image_pull', role='silo') | bool) else 'missing' }}"
+        entrypoint:
+          - bash
+          - -c
+          - "usermod -o -u {{ uid }} postgres && groupmod -o -g {{ gid }} postgres && exec /etc/silo-omnibus/migrate-compose-stack"
+        env:
+          PUID: "{{ uid | string }}"
+          PGID: "{{ gid | string }}"
+          SILO_DATA_ROOT: "{{ lookup('role_var', '_paths_location', role='silo') }}"
+          POSTGRES_USER: "{{ silo_migrate_postgres_user_effective }}"
+          POSTGRES_DB: "{{ lookup('role_var', '_postgres_docker_env_db', role='silo_migrate') }}"
+        mounts:
+          - type: bind
+            source: "{{ lookup('role_var', '_paths_location', role='silo') }}"
+            target: /silo-data
+          - type: tmpfs
+            target: /silo-data/postgres
+            tmpfs_mode: "0755"
+          - type: bind
+            source: "{{ lookup('role_var', '_postgres_paths_location', role='silo_migrate') }}"
+            target: /silo-data/postgres/data
+            read_only: true
+        network_mode: none
+        detach: false
+        cleanup: true
+        keep_volumes: false
+        output_logs: true
+        container_default_behavior: compatibility
+        tls_hostname: localhost
+      register: silo_migrate_run
+
+    - name: Check migrated Silo PostgreSQL data
+      ansible.builtin.stat:
+        path: "{{ lookup('role_var', '_paths_location', role='silo') }}/config/postgres/data/PG_VERSION"
+      register: silo_migrate_new_postgres_data
+
+    - name: Check Silo migration marker
+      ansible.builtin.stat:
+        path: "{{ lookup('role_var', '_paths_location', role='silo') }}/config/.compose-cluster-copied"
+      register: silo_migrate_new_marker
+
+    - name: Validate Silo migration result
+      ansible.builtin.fail:
+        msg: "The Silo migration did not complete. The legacy data in {{ lookup('role_var', '_paths_location', role='silo') }} is unchanged."
+      when: ((not silo_migrate_new_marker.stat.exists) or (not silo_migrate_new_postgres_data.stat.exists))
+
+- name: Remove existing Silo Docker container
+  ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+  vars:
+    container_name: "{{ silo_name }}"
+
+- name: Set Silo database owner
+  community.docker.docker_container:
+    name: "{{ silo_migrate_name }}"
+    image: "{{ lookup('role_var', '_docker_image', role='silo') }}"
+    pull: "missing"
+    entrypoint:
+      - bash
+      - -c
+      - |
+        set -euo pipefail
+        pgdata=/config/postgres/data
+        usermod -o -u "$(stat -c %u "$pgdata")" postgres
+        groupmod -o -g "$(stat -c %g "$pgdata")" postgres
+        work="$(mktemp -d)"
+        chmod 0755 "$work"
+        install -d -o postgres -g postgres -m 0700 "$work/socket"
+        printf 'local all all trust\n' > "$work/hba.conf"
+        chown postgres:postgres "$work/hba.conf"
+        trap '/command/s6-setuidgid postgres pg_ctl -D "$pgdata" -s -m fast stop >/dev/null 2>&1 || true; cat "$work/socket/server.log" >&2' ERR
+        q() { /command/s6-setuidgid postgres psql -h "$work/socket" -XAtq -v ON_ERROR_STOP=1 "$@"; }
+        /command/s6-setuidgid postgres pg_ctl -D "$pgdata" -s -w -t 600 -l "$work/socket/server.log" \
+          -o "-c listen_addresses='' -c unix_socket_directories='$work/socket' -c hba_file='$work/hba.conf' -c shared_buffers=128MB -c archive_mode=off" start
+        boot="$(q -U silo -d silo -c 'SELECT rolname FROM pg_roles WHERE oid = 10')"
+        if [[ "$boot" != silo ]]; then
+          q -U silo -d silo -c 'DROP ROLE IF EXISTS silo_owner_swap' -c 'CREATE ROLE silo_owner_swap SUPERUSER LOGIN'
+          for db in $(q -U silo_owner_swap -d silo -c "SELECT datname FROM pg_database WHERE datallowconn AND datname <> 'silo'"); do
+            q -U silo_owner_swap -d "$db" -v boot="$boot" <<<'REASSIGN OWNED BY silo TO :"boot"; DROP OWNED BY silo;'
+          done
+          q -U silo_owner_swap -d silo -v boot="$boot" -1 <<<'REASSIGN OWNED BY silo TO :"boot"; DROP OWNED BY silo; DROP ROLE silo; ALTER ROLE :"boot" RENAME TO silo;'
+          echo "renamed PostgreSQL role $boot to silo"
+        fi
+        q -U silo -d silo -c 'DROP ROLE IF EXISTS silo_owner_swap'
+        /command/s6-setuidgid postgres pg_ctl -D "$pgdata" -s -w -m fast stop
+    mounts:
+      - type: bind
+        source: "{{ lookup('role_var', '_paths_location', role='silo') }}/config"
+        target: /config
+    network_mode: none
+    detach: false
+    cleanup: true
+    keep_volumes: false
+    output_logs: true
+    container_default_behavior: compatibility
+    tls_hostname: localhost
+
+- name: Deploy Silo
+  ansible.builtin.include_role:
+    name: silo
+
+- name: Wait for Silo to become healthy
+  community.docker.docker_container_info:
+    name: "{{ silo_name }}"
+  register: silo_migrate_silo_info
+  retries: 90
+  delay: 10
+  until: ((silo_migrate_silo_info.container.State.Health.Status | default('')) == 'healthy')
+  failed_when: false
+
+- name: Validate Silo health
+  ansible.builtin.fail:
+    msg: "Silo did not become healthy. Check 'docker logs {{ silo_name }}'. The legacy data in {{ lookup('role_var', '_paths_location', role='silo') }} is unchanged."
+  when: ((silo_migrate_silo_info.container.State.Health.Status | default('')) != 'healthy')
+
+- name: Validate migrated Silo installation
+  when: (not silo_migrate_marker.stat.exists)
+  block:
+    - name: Read migrated Silo row counts
+      community.docker.docker_container_exec:
+        container: "{{ silo_name }}"
+        user: silo
+        argv:
+          - psql
+          - -h
+          - /run/postgresql
+          - -d
+          - silo
+          - -XAt
+          - -v
+          - ON_ERROR_STOP=1
+          - -c
+          - "{{ lookup('role_var', '_validation_query', role='silo_migrate') }}"
+      register: silo_migrate_new_counts
+      changed_when: false
+
+    - name: Validate migrated Silo row counts
+      ansible.builtin.fail:
+        msg: "Row counts in the migrated Silo database ({{ silo_migrate_new_counts.stdout | trim }}) do not match the legacy database ({{ silo_migrate_legacy_counts.stdout | trim }}). The legacy data in {{ lookup('role_var', '_postgres_paths_location', role='silo_migrate') }} is unchanged."
+      when: ((silo_migrate_new_counts.stdout | trim) != (silo_migrate_legacy_counts.stdout | trim))
+
+    - name: Remove legacy Silo PostgreSQL container
+      ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
+      vars:
+        container_name: "{{ lookup('role_var', '_postgres_name', role='silo_migrate') }}"
