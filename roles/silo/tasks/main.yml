@@ -7,12 +7,27 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
-- name: "Fail with discontinuation notice"
+- name: Check for legacy Silo PostgreSQL data
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='silo') }}/postgres/PG_VERSION"
+  register: silo_legacy_postgres
+
+- name: Check for legacy Silo plugins folder
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='silo') }}/plugins"
+  register: silo_legacy_plugins
+
+- name: Check for completed Silo migration
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='silo') }}/config/.compose-cluster-copied"
+  register: silo_migration_marker
+
+- name: Validate Silo migration state
   ansible.builtin.fail:
-    msg:
-      - "We are dropping Silo due to continued breaking changes upstream that we cannot keep up with."
-      - "See https://docs.saltbox.dev/advanced/your-own-containers for how to run it self-managed."
-  when: (not (continuous_integration | bool))
+    msg: "A legacy multi-container Silo installation was found, but it has not been migrated. Run 'sb install sandbox-silo-migrate' before installing Silo."
+  when:
+    - (silo_legacy_postgres.stat.exists or silo_legacy_plugins.stat.exists)
+    - (not silo_migration_marker.stat.exists)
 
 - name: "Save Silo Saltbox facts"
   saltbox_facts:
@@ -27,31 +42,6 @@
 
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
-
-- name: Redis Role
-  ansible.builtin.include_role:
-    name: redis
-  vars:
-    redis_instances: ["{{ lookup('role_var', '_redis_name', role='silo') }}"]
-    redis_role_docker_image_tag: "{{ lookup('role_var', '_redis_docker_image_tag', role='silo') }}"
-    redis_role_paths_folder: "{{ lookup('role_var', '_redis_paths_folder', role='silo') }}"
-    redis_role_paths_location: "{{ lookup('role_var', '_redis_paths_location', role='silo') }}"
-
-- name: "Import Postgres Role"
-  ansible.builtin.include_role:
-    name: postgres
-  vars:
-    postgres_instances: ["{{ lookup('role_var', '_postgres_name', role='silo') }}"]
-    postgres_role_docker_image_repo: "{{ lookup('role_var', '_postgres_docker_image_repo', role='silo') }}"
-    postgres_role_docker_image_tag: "{{ lookup('role_var', '_postgres_docker_image_tag', role='silo') }}"
-    postgres_role_docker_shm_size: "{{ lookup('role_var', '_postgres_docker_shm_size', role='silo') }}"
-    postgres_role_paths_folder: "{{ lookup('role_var', '_postgres_paths_folder', role='silo') }}"
-    postgres_role_paths_location: "{{ lookup('role_var', '_postgres_paths_location', role='silo') }}"
-    postgres_role_docker_env_db: "{{ lookup('role_var', '_postgres_docker_env_db', role='silo') }}"
-    postgres_role_docker_env_user_include: "{{ lookup('role_var', '_postgres_user', role='silo') }}"
-    postgres_role_docker_env_password_include: "{{ lookup('role_var', '_postgres_password', role='silo') }}"
-    postgres_role_docker_healthcheck: "{{ lookup('role_var', '_postgres_docker_healthcheck', role='silo') }}"
-  when: lookup('role_var', '_postgres_deploy', role='silo')
 
 - name: Add DNS record
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/dns/tasker.yml"

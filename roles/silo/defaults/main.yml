@@ -23,51 +23,6 @@ silo_role_jf_enabled: false
 silo_role_abs_enabled: false
 
 ################################
-# Postgres
-################################
-
-silo_role_postgres_deploy: true
-silo_role_postgres_name: "{{ silo_name }}-postgres"
-# If empty it will fall back to the postgres role default.
-silo_role_postgres_user: ""
-# If empty it will fall back to the postgres role default.
-silo_role_postgres_password: ""
-silo_role_postgres_docker_env_db: "silo"
-silo_role_postgres_docker_image_repo: "pgvector/pgvector"
-silo_role_postgres_docker_image_tag: "pg18"
-silo_role_postgres_docker_shm_size: "8G"
-# Skip docs
-silo_role_postgres_user_lookup: "{{ lookup('role_var', '_postgres_user', role='silo', default=lookup('role_var', '_docker_env_user', role='postgres'), default_if_empty=true) }}"
-# Skip docs
-silo_role_postgres_password_lookup: "{{ lookup('role_var', '_postgres_password', role='silo', default=lookup('role_var', '_docker_env_password', role='postgres'), default_if_empty=true) }}"
-# Skip docs
-silo_role_postgres_credentials_lookup: "{{ lookup('role_var', '_postgres_user_lookup', role='silo') }}:{{ lookup('role_var', '_postgres_password_lookup', role='silo') }}"
-silo_role_database_url: "postgres://{{ lookup('role_var', '_postgres_credentials_lookup', role='silo') }}@{{ lookup('role_var', '_postgres_name', role='silo') }}:5432/{{ lookup('role_var', '_postgres_docker_env_db', role='silo') }}?sslmode=disable"
-silo_role_postgres_docker_healthcheck:
-  test:
-    - "CMD"
-    - "pg_isready"
-    - "-d"
-    - "{{ lookup('role_var', '_postgres_docker_env_db', role='silo') }}"
-    - "-U"
-    - "{{ lookup('role_var', '_postgres_user_lookup', role='silo') }}"
-  start_period: 20s
-  interval: 30s
-  retries: 5
-  timeout: 5s
-silo_role_postgres_paths_folder: "{{ silo_name }}"
-silo_role_postgres_paths_location: "{{ server_appdata_path }}/{{ silo_role_postgres_paths_folder }}/postgres"
-
-################################
-# Redis
-################################
-
-silo_role_redis_name: "{{ silo_name }}-redis"
-silo_role_redis_docker_image_tag: "alpine"
-silo_role_redis_paths_folder: "{{ silo_name }}"
-silo_role_redis_paths_location: "{{ server_appdata_path }}/{{ silo_role_redis_paths_folder }}/redis"
-
-################################
 # Paths
 ################################
 
@@ -76,10 +31,8 @@ silo_role_paths_location: "{{ server_appdata_path }}/{{ silo_role_paths_folder }
 silo_role_paths_transcodes_location: "{{ transcodes_path }}/{{ silo_role_paths_folder }}"
 silo_role_paths_folders_list:
   - "{{ silo_role_paths_location }}"
-  - "{{ silo_role_paths_location }}/plugins"
-  - "{{ silo_role_paths_location }}/compat"
   - "{{ silo_role_paths_transcodes_location }}"
-  - "{{ silo_role_paths_location }}/artwork"
+  - "{{ silo_role_paths_location }}/download-artifacts"
   - "{{ silo_role_paths_location }}/catalog-seeds"
 
 ################################
@@ -152,24 +105,20 @@ silo_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='silo'
 
 # Envs
 silo_role_docker_envs_default:
-  HOME: "/tmp"
-  MODE: "integrated"
-  SECRET_KEY: "{{ silo_saltbox_facts.facts.secret_key }}"
-  DATABASE_URL: "{{ lookup('role_var', '_database_url', role='silo') }}"
-  REDIS_URL: "redis://{{ lookup('role_var', '_redis_name', role='silo') }}:6379"
-  SILO_PLUGIN_CACHE_DIR: "/var/lib/silo/plugins"
-  POSTGRES_TUNE: "auto"
+  PUID: "{{ uid }}"
+  PGID: "{{ gid }}"
   TZ: "{{ tz }}"
+  SECRET_KEY: "{{ silo_saltbox_facts.facts.secret_key }}"
+  ENABLE_REDIS: "true"
 silo_role_docker_envs_custom: {}
 silo_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='silo')
                            | combine(lookup('role_var', '_docker_envs_custom', role='silo')) }}"
 
 # Volumes
 silo_role_docker_volumes_default:
-  - "{{ lookup('role_var', '_paths_location', role='silo') }}/plugins:/var/lib/silo/plugins"
-  - "{{ lookup('role_var', '_paths_location', role='silo') }}/compat:/var/lib/silo/compat"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/config:/config"
   - "{{ lookup('role_var', '_paths_transcodes_location', role='silo') }}:/tmp/silo-transcode"
-  - "{{ lookup('role_var', '_paths_location', role='silo') }}/artwork:/var/lib/silo/artwork"
+  - "{{ lookup('role_var', '_paths_location', role='silo') }}/download-artifacts:/tmp/silo-download-artifacts"
   - "{{ lookup('role_var', '_paths_location', role='silo') }}/catalog-seeds:/catalog-seeds:ro"
   - "/proc/meminfo:/host/proc/meminfo:ro"
   - "/proc/stat:/host/proc/stat:ro"
@@ -256,10 +205,8 @@ silo_role_docker_networks: "{{ docker_networks_common
 # Restart Policy
 silo_role_docker_restart_policy: unless-stopped
 
-# User
-silo_role_docker_user: "{{ uid }}:{{ gid }}"
+# Shared Memory
+silo_role_docker_shm_size: "8G"
 
-# Dependencies
-silo_role_depends_on: "{{ lookup('role_var', '_postgres_name', role='silo') }},{{ lookup('role_var', '_redis_name', role='silo') }}"
-silo_role_depends_on_delay: "0"
-silo_role_depends_on_healthchecks: "false"
+# Stop Timeout
+silo_role_docker_stop_timeout: 120

@@ -12,18 +12,14 @@ announcements:
 
       For further assistance, join us in Discord.
 
-  - date: "2026-11-02"
-    title: "Removed Role: Silo"
+  - date: "2026-11-20"
+    title: "Breaking Changes"
     required_folder: "/opt/silo"
     message: |
-      ## Silo discontinuation
+      ## Silo role update
 
-      We are dropping Silo due to continued breaking changes upstream that we cannot keep up with.
+      The Silo role is available again and now deploys the single-container image, which bundles PostgreSQL and Redis. Its data is stored in `/opt/silo/config` (by default).
 
-      The role is effectively disabled and will fail if you run its tag. Your application data is left untouched.
+      Existing installations must be migrated with `sb install sandbox-silo-migrate`. The regular `sb install sandbox-silo` refuses to run until this is done, so Silo never starts on an empty database. The migration copies the database and links the application folders, so the existing `postgres`, `redis`, `plugins`, `artwork` and `compat` folders in `/opt/silo` are left untouched. Once Silo works, you can delete them.
 
-      See https://docs.saltbox.dev/advanced/your-own-containers for how to run it self-managed.
-
-      ### Docker Compose
-
-      If you don't plan to deploy Silo in "omnibus" mode, remember that you will need to include Postgres and Redis in your Compose stack; to avoid conflicts, make sure to give them the same unique names as the role did.
+      For further assistance, join us in Discord.
