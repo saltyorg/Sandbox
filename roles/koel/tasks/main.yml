@@ -29,7 +29,7 @@
     mariadb_role_paths_location: "{{ server_appdata_path }}/{{ lookup('role_var', '_paths_folder', role='koel') }}/db"
 
 - name: MariaDB | Create koel database
-  ansible.mysql.mysql_db:
+  ansible.mariadb.mariadb_db:
     name: "koel"
     login_host: "{{ koel_name }}-mariadb"
     login_user: "root"
@@ -121,7 +121,7 @@
   when: (not stat_koel_db_folder.stat.exists)
 
 - name: Edit Admin user
-  ansible.mysql.mysql_query:
+  ansible.mariadb.mariadb_query:
     login_db: "koel"
     login_host: "{{ koel_name }}-mariadb"
     login_user: "root"

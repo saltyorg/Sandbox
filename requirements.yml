@@ -2,4 +2,4 @@
 collections:
   - community.general
   - community.docker
-  - ansible.mysql
+  - ansible.mariadb

@@ -15,7 +15,7 @@
     name: mariadb
 
 - name: MariaDB | Create ninja database
-  ansible.mysql.mysql_db:
+  ansible.mariadb.mariadb_db:
     name: "invoiceninjav5db"
     login_host: "mariadb"
     login_user: "root"

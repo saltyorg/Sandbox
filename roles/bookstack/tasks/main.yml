@@ -49,7 +49,7 @@
     name: mariadb
 
 - name: MariaDB | Create bookstackapp database
-  ansible.mysql.mysql_db:
+  ansible.mariadb.mariadb_db:
     name: "bookstackapp"
     login_host: "mariadb"
     login_user: "root"
