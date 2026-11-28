@@ -17,7 +17,9 @@ recyclarr_name: recyclarr
 # Settings
 ################################
 
-recyclarr_role_cron_schedule: "@daily"
+# Key that protects the Recyclarr server and that its command-line client
+# uses to send commands to it. Must be at least 32 characters.
+recyclarr_role_api_key: "{{ recyclarr_saltbox_facts.facts.api_key }}"
 
 ################################
 # Paths
@@ -38,14 +40,13 @@ recyclarr_role_docker_container: "{{ recyclarr_name }}"
 # Image
 recyclarr_role_docker_image_pull: true
 recyclarr_role_docker_image_repo: "ghcr.io/recyclarr/recyclarr"
-recyclarr_role_docker_image_tag: "8"
+recyclarr_role_docker_image_tag: "9"
 recyclarr_role_docker_image: "{{ lookup('role_var', '_docker_image_repo', role='recyclarr') }}:{{ lookup('role_var', '_docker_image_tag', role='recyclarr') }}"
 
 # Envs
 recyclarr_role_docker_envs_default:
   TZ: "{{ tz }}"
-  CRON_SCHEDULE: "{{ lookup('role_var', '_cron_schedule', role='recyclarr') }}"
-  RECYCLARR_CREATE_CONFIG: "true"
+  RECYCLARR_API_KEY: "{{ lookup('role_var', '_api_key', role='recyclarr') }}"
 recyclarr_role_docker_envs_custom: {}
 recyclarr_role_docker_envs: "{{ lookup('role_var', '_docker_envs_default', role='recyclarr')
                                 | combine(lookup('role_var', '_docker_envs_custom', role='recyclarr')) }}"

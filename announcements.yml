@@ -27,3 +27,27 @@ announcements:
       ### Docker Compose
 
       If you don't plan to deploy Silo in "omnibus" mode, remember that you will need to include Postgres and Redis in your Compose stack; to avoid conflicts, make sure to give them the same unique names as the role did.
+
+  - date: "2026-11-28"
+    title: "Breaking Changes: Recyclarr"
+    required_folder: "/opt/recyclarr"
+    message: |
+      ## Recyclarr role update
+
+      The Recyclarr role now deploys Recyclarr 9. Your existing container keeps running version 8 until you next run the role.
+
+      Recyclarr 9 runs as a server that stays up and syncs on its own schedule. The role generates the API key the server requires, so there is nothing to set up for that, but a few things change.
+
+      ### Sync schedule
+
+      The `recyclarr_role_cron_schedule` setting has been removed and is no longer applied. Recyclarr syncs daily at midnight by default, which matches the previous role default. If you used a different schedule, set it as `server.schedule.cron` in `/opt/recyclarr/settings.yml` and restart the container.
+
+      ### Configuration errors
+
+      Recyclarr now checks every configuration file when it starts and refuses to start if any of them has an error, which shows up as the container restarting in a loop. After upgrading, run `docker logs recyclarr` and fix any errors it reports.
+
+      ### Logs
+
+      `docker logs recyclarr` now shows JSON unless you set `server.logging.format` to `text` in `/opt/recyclarr/settings.yml`. Log files have moved from `/opt/recyclarr/logs/cli` to `/opt/recyclarr/logs/server`.
+
+      See https://recyclarr.dev/guide/upgrade-guide/v9.0/ for the full list of changes, including removed commands.

@@ -7,6 +7,25 @@
 #                   GNU General Public License v3.0                      #
 ##########################################################################
 ---
+- name: Save Recyclarr Saltbox facts
+  saltbox_facts:
+    role: "recyclarr"
+    instance: "{{ recyclarr_name }}"
+    keys:
+      api_key: "{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_letters', 'digits'], length=64) }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    base_path: "{{ server_appdata_path }}"
+  register: recyclarr_saltbox_facts
+  no_log: true
+
+- name: Validate Recyclarr API key
+  ansible.builtin.assert:
+    that:
+      - lookup('role_var', '_api_key', role='recyclarr') | length >= 32
+    fail_msg: "recyclarr_role_api_key must be at least 32 characters."
+    quiet: true
+
 - name: Remove existing Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/remove_docker_container.yml"
 
@@ -15,3 +34,41 @@
 
 - name: Create Docker container
   ansible.builtin.include_tasks: "{{ resources_tasks_path }}/docker/create_docker_container.yml"
+
+- name: Check for main configuration file
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='recyclarr') }}/{{ item }}"
+  loop:
+    - "recyclarr.yml"
+    - "recyclarr.yaml"
+  register: recyclarr_config_main
+
+- name: Check for configs folder
+  ansible.builtin.stat:
+    path: "{{ lookup('role_var', '_paths_location', role='recyclarr') }}/configs"
+  register: recyclarr_config_folder
+
+- name: Find configuration files in configs folder
+  ansible.builtin.find:
+    paths: "{{ lookup('role_var', '_paths_location', role='recyclarr') }}/configs"
+    patterns:
+      - "*.yml"
+      - "*.yaml"
+  register: recyclarr_config_split
+  when: recyclarr_config_folder.stat.exists
+
+# Recyclarr no longer creates a starter configuration by itself.
+- name: Create starter configuration
+  community.docker.docker_container_exec:
+    container: "{{ lookup('role_var', '_docker_container', role='recyclarr') }}"
+    argv:
+      - "recyclarr"
+      - "config"
+      - "create"
+  register: recyclarr_config_create
+  until: recyclarr_config_create is succeeded
+  retries: 5
+  delay: 5
+  when:
+    - (recyclarr_config_main.results | selectattr('stat.exists') | list | length == 0)
+    - (recyclarr_config_split.matched | default(0) == 0)
