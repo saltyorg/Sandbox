@@ -12,10 +12,23 @@ jobs:
         with:
           path: sandbox
 
+      # The SALTBOX_BRANCH_MAP repository variable holds a JSON object mapping
+      # Sandbox branches to the Saltbox branch to test against, for example
+      # {"develop": "develop"}. Unmapped branches use master.
+      - &resolve-saltbox-branch
+        name: Resolve Saltbox branch
+        env:
+          SALTBOX_BRANCH_MAP: ${{ vars.SALTBOX_BRANCH_MAP || '{}' }}
+          SANDBOX_BRANCH: ${{ github.ref_name }}
+        run: |
+          saltbox_branch=$(jq -r --arg branch "$SANDBOX_BRANCH" '.[$branch] // "master"' <<< "$SALTBOX_BRANCH_MAP")
+          echo "SALTBOX_BRANCH=$saltbox_branch" >> "$GITHUB_ENV"
+
       - name: Checkout Saltbox repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: saltyorg/Saltbox
+          ref: ${{ env.SALTBOX_BRANCH }}
           path: saltbox
 
       - name: Create Directories
@@ -74,10 +87,13 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      - *resolve-saltbox-branch
+
       - name: Checkout Saltbox Python environment
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: saltyorg/Saltbox
+          ref: ${{ env.SALTBOX_BRANCH }}
           path: saltbox
           sparse-checkout: |
             /.python-version
@@ -129,8 +145,10 @@ jobs:
           sudo mv /opt/hostedtoolcache/saltyorg/sb-go/latest/linux-amd64/sb /usr/local/bin/sb
           /usr/local/bin/sb version
 
+      - *resolve-saltbox-branch
+
       - name: Install Dependencies
-        run: /usr/local/bin/sb setup -v && /srv/ansible/venv/bin/ansible --version
+        run: /usr/local/bin/sb setup -v -b "$SALTBOX_BRANCH" && /srv/ansible/venv/bin/ansible --version
 
       - name: Chown /srv/git
         run: sudo chown -R runner:runner /srv/git
